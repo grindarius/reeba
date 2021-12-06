@@ -1,0 +1,24 @@
+{
+  "name": "reeba",
+  "version": "1.0.0",
+  "description": "Ticket booking, redefined.",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grindarius/reeba.git"
+  },
+  "keywords": [
+    "ticket",
+    "booking",
+    "concert",
+    "shows"
+  ],
+  "author": "Bhattarapong Somwong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/grindarius/reeba/issues"
+  },
+  "homepage": "https://github.com/grindarius/reeba#readme"
+}
