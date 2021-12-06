@@ -67,13 +67,38 @@ Branch ที่ถูกสร้างขึ้น จะอยู่บนเ
 เมื่อกด Commit แล้ว จะพาเรามายังหน้านี้ เราสามารถกด Push เพื่อดัน Code ของเราขึ้นไปบน github.com แต่ว่า ถ้าเกิดว่าเราไม่อยากจะดัน Commit เดียวนี้ขึ้นไป เราสามารถ Commit เก็บไว้เยอะ ๆ แล้วค่อย ๆ Push ขึ้น github.com ครั้งเดียวพร้อมกันได้ (ใม่ควรทำ)
 ![Screenshot 2021-12-06 173644](https://user-images.githubusercontent.com/60266519/144886392-eb22566d-1709-4e78-916b-7e48285a8116.jpg)
 
+### สร้าง Pull Request
 เมื่อเราพร้อมสำหรับการ PR (งานเสร็จแล้ว) กดที่ปุ่ม `Create Pull Request` เพื่อขอคำอนุญาตในการ merge งานเข้าสายหลัก
 ![Screenshot 2021-12-06 173511](https://user-images.githubusercontent.com/60266519/144887210-e8bcbc29-7dfc-4b06-bce4-6609fb6da53c.jpg)
 
 คุณจะถูกพามาที่นี่ เพื่อเขียนคำอธิบายเกี่ยวกับงานที่ได้ทำ โดยที่จะมี Pattern ให้เติมอยู่แล้ว
+![Screenshot 2021-12-06 173724](https://user-images.githubusercontent.com/60266519/144887942-2aff66ac-6df8-4083-b44c-2c32c1d13afa.jpg)
+
 ด้านขวา
 - เลือกคนตรวจงาน (Reviewer) 1 ถึง 2 คน
 - เลือกชื่อคนทำงาน (Assignee) ชื่อเราเอง หากทำมากกว่า 1 คนก็เลือกเพื่อนด้วย
 - บรรทัดที่เขียนว่า
-![Screenshot 2021-12-06 173724](https://user-images.githubusercontent.com/60266519/144887942-2aff66ac-6df8-4083-b44c-2c32c1d13afa.jpg)
+  ```
+  - [ ] All work is complete / ทุกอย่างเรียบร้อยดี
+  - [ ] Issues linked: Resolves #xyz
+  ```
+  จะถูกเรนเดอร์ออกมาเป็น
+  ![image](https://user-images.githubusercontent.com/60266519/144890759-56e15f72-a401-421f-bfd6-cd63ac34ffcb.png)
+  หากต้องการจะติ๊กที่ช่อง ให้พิมพ์ `x` ลงไประหว่าง `[ ]` เป็น `[x]` เพื่อทำการติ๊กว่าเราทำแล้ว
+  ```
+  - [x] All work is complete / ทุกอย่างเรียบร้อยดี
+  - [x] Issues linked: Resolves #xyz
+  ```
+  จะได้
+  ![image](https://user-images.githubusercontent.com/60266519/144890908-e9a9a939-39b6-41c4-bb32-f8d94c7cba8f.png)
+- ลิงค์ PR นี้เข้ากับ issue ที่เราแก้ปัญหา สามารถเอาเลข issue ที่เราแก้ได้จากหน้า issue ของ Repository
+  วิธีที่เราจะลิงค์ได้คือ
+  ![GIF 7-12-2021 0-15-30](https://user-images.githubusercontent.com/60266519/144891407-d7f10684-f64f-430a-97b4-515d75488c5e.gif)
+  
+ก่อนจะกด `Create pull request` ลองกดตรง `Preview` เพื่อดูก่อนว่าดูดีหรือเปล่า
+- ให้เห็นว่าที่ติ๊กเป็นไปตามที่หวัง
+- ให้เห็นว่า Issue ที่ลิงค์ไป ติด และไปยัง Issue ที่ถูกต้อง (วงกลมสีเขียว)
+![image](https://user-images.githubusercontent.com/60266519/144892403-9f9a15c6-423a-4c41-a4ae-1a0368c22002.png)
+
+เมื่อพร้อมแล้วก็กด `Create pull request` ได้เลย
 
