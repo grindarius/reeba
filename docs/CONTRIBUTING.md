@@ -1,1 +1,1 @@
-## Reeba Contributing Guide Nice.
+## Reeba Contributing Guide Nicer.
