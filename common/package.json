@@ -2,14 +2,14 @@
   "name": "@reeba/common",
   "version": "0.0.1",
   "private": true,
-  "description": "Common functions for FINA",
+  "description": "Common functions for ReebA",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/grindarius/fina.git",
+    "url": "https://github.com/grindarius/reeba.git",
     "directory": "common"
   },
-  "author": "Bhattarapong Somwong <numbbutt34685@gmail.com>",
+  "author": "ReebA Team",
   "license": "MIT",
   "scripts": {
     "serve": "node dist/index.js",

@@ -22,7 +22,10 @@
     "functions",
     "common"
   ],
-  "scripts": {},
+  "scripts": {
+    "dev:functions": "cd functions && npm run dev",
+    "dev:hosting": "cd hosting && npm run dev"
+  },
   "author": "ReebA Team",
   "license": "MIT",
   "bugs": {
