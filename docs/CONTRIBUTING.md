@@ -19,7 +19,7 @@
 ทางด้านขวา กดที่ `Projects` แล้วเลือก `ReebA's Backlog` ที่เหลือยังไม่ต้องเลือกอะไร
 ![Screenshot 2021-12-06 172720](https://user-images.githubusercontent.com/60266519/144859582-77dbd9cc-5eb4-4a55-aa9a-89d5d3c09c12.jpg)
 
-เมื่อพิมพ์เสร็จแล้ว กดที่ `Create new issue` เราจะถูกพามาหน้านี้ หมายความว่าเราทำถูกแล้ว
+เมื่อพิมพ์เสร็จแล้ว กดที่ `Create new issue` เราจะถูกพามาหน้านี้ หมายความว่าเราทำถูกแล้ว ให้*จำเลข # เอาไว้ เราต้องใช้ตอน PR*
 ![Screenshot 2021-12-06 172738](https://user-images.githubusercontent.com/60266519/144859950-ead8ec2a-f8bf-4ffc-ac4d-7d7dd6335287.jpg)
 
 ### เลือก Issue ที่จะทำ
@@ -83,13 +83,16 @@ Branch ที่ถูกสร้างขึ้น จะอยู่บนเ
   - [ ] Issues linked: Resolves #xyz
   ```
   จะถูกเรนเดอร์ออกมาเป็น
+  
   ![image](https://user-images.githubusercontent.com/60266519/144890759-56e15f72-a401-421f-bfd6-cd63ac34ffcb.png)
+  
   หากต้องการจะติ๊กที่ช่อง ให้พิมพ์ `x` ลงไประหว่าง `[ ]` เป็น `[x]` เพื่อทำการติ๊กว่าเราทำแล้ว
   ```
   - [x] All work is complete / ทุกอย่างเรียบร้อยดี
   - [x] Issues linked: Resolves #xyz
   ```
   จะได้
+  
   ![image](https://user-images.githubusercontent.com/60266519/144890908-e9a9a939-39b6-41c4-bb32-f8d94c7cba8f.png)
 - ลิงค์ PR นี้เข้ากับ issue ที่เราแก้ปัญหา สามารถเอาเลข issue ที่เราแก้ได้จากหน้า issue ของ Repository
   วิธีที่เราจะลิงค์ได้คือ
@@ -102,3 +105,28 @@ Branch ที่ถูกสร้างขึ้น จะอยู่บนเ
 
 เมื่อพร้อมแล้วก็กด `Create pull request` ได้เลย
 
+PR เสร็จแล้ว อย่าลืมมาย้าย Card ไปที่ช่อง `Review in Progress` ด้วยนะ
+![image](https://user-images.githubusercontent.com/60266519/144892952-3061e394-5eb2-4391-8f7d-5c0242a35998.png)
+
+### ทำการรวมกิ่ง และลบ Branch ออกจากในเครื่อง
+จากนั้นก็รอให้คนรีวิวมาดูงานของเรา ถ้าเกิดว่าคนรีวิวไม่ให้ผ่าน จะขึ้นเป็นสีแดงแบบนี้ เราจะต้องไปแก้งานใหม่ โดยเข้า vscode แก้งานแล้ว commit push ขึ้นมาได้เลย
+![Screenshot 2021-12-06 203951](https://user-images.githubusercontent.com/60266519/144894161-182aece0-a6f7-428f-8a54-2fb6a819b2cb.jpg)
+
+หากขึ้นสีเขียวแบบนี้ แสดงว่างานถูกต้องดี พร้อมที่จะ merge
+![image](https://user-images.githubusercontent.com/60266519/144895157-da02787c-684e-4e11-88f6-788b17cfe78f.png)
+
+หากเรียบร้อยแล้ว ให้กด `Merge pull request` ตามด้วย `Confirm merge` จะขึ้นแบบนี้
+![image](https://user-images.githubusercontent.com/60266519/144895610-54025e1b-e241-4f87-9f93-4084013b4662.png)
+
+จากนั้นให้กด `Delete Branch` ได้เลย เพื่อปิดสายการผลิต แต่การลบกิ่งนั้นจะเป็นเพียงการลบออกจาก github.com เท่านั้น เราต้องลบกิ่งนั้นออกจากเครื่องของเรา เข้าไปที่ Github Desktop จะสังเกตได้ว่า มันจะขึ้นเป็นรูปให้เรา Publish Branch ขึ้นไปใหม่ **อย่า**Publish ขึ้นไปใหม่
+![image](https://user-images.githubusercontent.com/60266519/144896264-3ca361ba-fada-427b-9b40-928a972e6526.png)
+
+ให้เลือกที่กิ่งลงมาแบบนี้ แล้วก็คลิกขวาที่กิ่งที่เราพึ่งปิด PR ไป แล้วเลือก Delete
+
+![image](https://user-images.githubusercontent.com/60266519/144896621-fe2265f3-da18-443b-82da-84e0013d7f9d.png)
+
+เลือก Confirm เป็นอันเสร็จ 1 Cycle ของการทำงาน
+
+![image](https://user-images.githubusercontent.com/60266519/144896937-e838d4d1-607e-4841-a16b-7524d2c3d67a.png)
+
+หากต้องการทำงานต่อไป ก็จะทำเหมือน ๆ กันเป็นรอบ ๆ ไป
