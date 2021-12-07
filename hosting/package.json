@@ -1,6 +1,6 @@
 {
   "name": "@reeba/hosting",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "description": "Frontend of ReebA",
   "repository": {
@@ -18,7 +18,7 @@
   "dependencies": {
     "vue": "^3.0.11",
     "vue-router": "^4.0.11",
-    "@reeba/common": "^0.0.1"
+    "@reeba/common": "^1.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.3.0",

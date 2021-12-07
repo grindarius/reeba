@@ -26,7 +26,8 @@
     "dev:functions": "cd functions && npm run watch",
     "dev:hosting": "cd hosting && npm run dev",
     "build:functions": "cd functions && npm run build",
-    "build:hosting": "cd hosting && npm run build"
+    "build:hosting": "cd hosting && npm run build",
+    "build:common": "cd common && npm run build"
   },
   "author": "ReebA Team",
   "license": "MIT",

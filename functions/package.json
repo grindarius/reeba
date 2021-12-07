@@ -1,6 +1,6 @@
 {
   "name": "@reeba/functions",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "description": "Backend API for ReebA",
   "main": "dist/index",
