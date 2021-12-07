@@ -23,8 +23,10 @@
     "common"
   ],
   "scripts": {
-    "dev:functions": "cd functions && npm run dev",
-    "dev:hosting": "cd hosting && npm run dev"
+    "dev:functions": "cd functions && npm run watch",
+    "dev:hosting": "cd hosting && npm run dev",
+    "build:functions": "cd functions && npm run build",
+    "build:hosting": "cd hosting && npm run build"
   },
   "author": "ReebA Team",
   "license": "MIT",
