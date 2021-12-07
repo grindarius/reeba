@@ -26,7 +26,7 @@ First, check the required versions.
   ```
   into the terminal.
 
-You can download Node.js (here)[https://nodejs.org/en/] (download the LTS version).
+You can download Node.js [here](https://nodejs.org/en/) (download the LTS version).
 
 When Node.js is installed, upgrade `npm` by running
 ```
