@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    // Project
     "declaration": true,
     "declarationMap": true,
     "lib": [
@@ -12,20 +11,16 @@
     "sourceMap": true,
     "target": "ES2015",
     "module": "CommonJS",
-    // Module resolution
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "moduleResolution": "Node",
-    // Linting
     "alwaysStrict": true,
-    "strict": true /* includes: strictNullChecks, strictBindCallApply, strictFunctionTypes, strictPropertyInitialization, noImplicitAny, noImplicitThis */,
+    "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    // Experimental
     "experimentalDecorators": true,
-    // Advanced
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "assumeChangesOnlyAffectDirectDependencies": true,
@@ -35,9 +30,7 @@
     "resolveJsonModule": true,
     "useDefineForClassFields": true,
     "paths": {
-      "@reeba/common/*": [
-        "common/src/*"
-      ]
+      "@reeba/common": ["common/src/index"]
     }
   },
   "exclude": [
