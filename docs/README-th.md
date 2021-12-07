@@ -19,7 +19,7 @@ Ticket booking, Redefined.
   node -v
   ```
   ลงใน Terminal
-- `npm` v7 or higher.
+- `npm` v7 หรือสูงกว่า
   ตรวจสอบได้โดยการพิมพ์
   ```
   npm -v
