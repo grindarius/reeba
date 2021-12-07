@@ -1,3 +1,12 @@
 {
-  "recommendations": ["johnsoncodehk.volar"]
+  "recommendations": [
+    "johnsoncodehk.volar",
+    "dbaeumer.vscode-eslint",
+    "mikestead.dotenv",
+    "cschlosser.doxdocgen",
+    "editorconfig.editorconfig",
+    "ecmel.vscode-html-css",
+    "eg2.vscode-npm-script",
+    "bradlc.vscode-tailwindcss"
+  ]
 }
