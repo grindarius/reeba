@@ -1,6 +1,5 @@
 <template>
   <h1>{{ msg }}</h1>
-
   <p>
     Recommended IDE setup:
     <a href="https://code.visualstudio.com/" target="_blank">VSCode</a>+
@@ -17,13 +16,15 @@
     <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Docs</a>
   </p>
   <h3>count is: {{ count }}</h3>
-  <button type="button" @click="increment">increment</button>
-  <button type="button" @click="decrement" :disabled="isDisabled">decrement</button>
+  <button type="button" class="h-9 ring-2 ring-blue-500 mr-2 p-1" @click="decrement" :disabled="isDisabled">decrement</button>
+  <button type="button" class="h-9 ring-2 ring-blue-500 p-1" @click="increment">increment</button>
   <p>Edit<code>components/hello-world.vue</code> to test hot module replacement.</p>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent } from 'vue'
+
+import { useCounter } from '@/composables'
 
 export default defineComponent({
   name: 'hello-world',
@@ -34,21 +35,11 @@ export default defineComponent({
     }
   },
   setup: () => {
-    const count = ref(0)
+    const { count, increment, decrement } = useCounter()
 
     const isDisabled = computed(() => {
       return count.value === 0
     })
-
-    const increment = () => {
-      count.value += 1
-    }
-
-    const decrement = () => {
-      if (count.value > 0) {
-        count.value -= 1
-      }
-    }
 
     return {
       count,
