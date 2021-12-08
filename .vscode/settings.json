@@ -2,7 +2,13 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.renderFinalNewline": true,
+  "editor.multiCursorModifier": "alt",
+  "files.autoSave": "onFocusChange",
   "eslint.validate": [
-    "typescript"
+    "typescript",
+    "javascript"
   ]
 }
