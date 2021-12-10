@@ -22,6 +22,7 @@ Ticket booking, Redefined.
   ```
   ลงใน Terminal
 
+
 คุณสามารถดาวน์โหลด Node.js ได้[ที่นี่](https://nodejs.org/en/) (ให้โหลดเวอร์ชั่น LTS)
 
 เมื่อติดตั้ง Node.js แล้ว ให้อัพเดตเวอร์ชั่นของ `npm` โดยพิมพ์
