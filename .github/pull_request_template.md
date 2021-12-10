@@ -13,7 +13,7 @@
 
 ## 🛑 Problems / ปัญหา
 
-- Write any discovered & unresolved problems / ปัญหาที่เกิดขึ้น แล้วแก้ไม่ได้
+- Write any discovered & unresolved problems / เขียนปัญหาที่เกิดขึ้น และปัญหาที่แก้ไม่ได้
 
 ## 💡 More ideas / ไอเดีย
 

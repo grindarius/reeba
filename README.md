@@ -4,11 +4,7 @@
 Ticket booking, Redefined.
 
 ## Project structure.
-The project is consists of 3 main directories stayed together as a monorepo.
-
-- `common` for storing types and code used in `functions` and `hosting`
-- `functions` for backend server (Fastify)
-- `hosting` for frontend server (Vue)
+The project is a monorepo, Each monorepo has its own README
 
 ## Prequistics.
 First, check the required versions.
@@ -40,8 +36,8 @@ npm install
 to install dependencies in the project.
 
 Then, open 2 terminals and run these commands from the root of the project.
-| Terminal #1             | Terminal #2           |
-| ----------------------- | --------------------- |
-| `npm run dev:functions` | `npm run dev:hosting` |
+| Terminal #1             | Terminal #2            |
+| ----------------------- | ---------------------- |
+| `npm run dev:backend`   | `npm run dev:frontend` |
 
 You will see the API runs at `http://127.0.0.1:3000` and frontend server runs at `http://localhost:8080`
