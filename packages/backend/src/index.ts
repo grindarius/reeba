@@ -1,6 +1,7 @@
 import fastify, { FastifyInstance } from 'fastify'
 import autoload from 'fastify-autoload'
 import cors from 'fastify-cors'
+import helmet from 'fastify-helmet'
 import path from 'path'
 
 const PORT = 3000
@@ -11,6 +12,7 @@ const createServer = (): FastifyInstance => {
   })
 
   void server.register(cors)
+  void server.register(helmet, { enableCSPNonces: true })
 
   void server.register(autoload, {
     dir: path.join(__dirname, 'routes')

@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig.base.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
@@ -13,7 +13,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@reeba/common": ["../common/src/index.ts"]
+      "@reeba/*": ["../*/src"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "vite.config.ts"]

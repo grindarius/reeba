@@ -1,32 +1,24 @@
 {
-  "name": "@reeba/functions",
+  "name": "@reeba/common",
   "version": "1.0.0",
   "private": true,
-  "description": "Backend API for ReebA",
+  "description": "Common functions for ReebA",
   "main": "dist/index",
   "types": "dist/index",
   "repository": {
     "type": "git",
     "url": "https://github.com/grindarius/reeba.git",
-    "directory": "functions"
+    "directory": "common"
   },
   "author": "ReebA Team",
-  "license": "MIT",
   "scripts": {
-    "dev": "node dist/index.js",
+    "serve": "node dist/index.js",
     "build": "tsc -p ./tsconfig.json",
-    "kill-port": "npx kill-port 3000",
-    "watch": "nodemon",
     "watch:ts": "tsc -w",
     "clean": "npx rimraf dist && npx rimraf node_modules",
     "rebuild": "npm run clean && npm run watch:ts",
     "fix": "eslint **/*.ts --fix"
   },
-  "dependencies": {
-    "@reeba/common": "^1.0.0",
-    "fastify": "^3.24.1",
-    "fastify-autoload": "^3.9.0",
-    "fastify-cors": "^6.0.2",
-    "fastify-helmet": "^5.3.2"
-  }
+  "dependencies": {},
+  "devDependencies": {}
 }

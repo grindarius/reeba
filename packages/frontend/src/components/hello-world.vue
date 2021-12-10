@@ -19,6 +19,7 @@
   <button type="button" class="h-9 ring-2 ring-blue-500 mr-2 p-1" @click="decrement" :disabled="isDisabled">decrement</button>
   <button type="button" class="h-9 ring-2 ring-blue-500 p-1" @click="increment">increment</button>
   <p>Edit<code>components/hello-world.vue</code> to test hot module replacement.</p>
+  <h3>{{ life }}</h3>
 </template>
 
 <script lang="ts">
@@ -35,7 +36,7 @@ export default defineComponent({
     }
   },
   setup: () => {
-    const { count, increment, decrement } = useCounter()
+    const { count, increment, decrement, life } = useCounter()
 
     const isDisabled = computed(() => {
       return count.value === 0
@@ -43,6 +44,7 @@ export default defineComponent({
 
     return {
       count,
+      life,
       isDisabled,
       increment,
       decrement
