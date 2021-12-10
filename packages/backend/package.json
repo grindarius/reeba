@@ -8,7 +8,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/grindarius/reeba.git",
-    "directory": "backend"
+    "directory": "packages/backend"
   },
   "author": "ReebA Team",
   "scripts": {
