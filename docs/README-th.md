@@ -4,11 +4,7 @@
 Ticket booking, Redefined.
 
 ## โครงสร้างโปรเจกต์.
-โปรเจกต์ประกอบด้วย 3 โฟลเดอร์รวมกัน เรียกว่า monorepo
-
-- `common` สำหรับเก็บฟังก์ชั่นและไทป์ที่ใช้ใน `functions` และ `hosting`
-- `functions` สำหรับเซิร์ฟเวอร์ Backend (Fastify)
-- `hosting` สำหรับเซิร์ฟเวอร์ Frontend (Vue)
+โปรเจกต์เป็นการ set up แบบ monorepo โดยแต่ละ Repo จะมี README เป็นของตัวเอง
 
 ## ก่อนเริ่มงาน.
 ขั้นตอนแรก ตรวจสอบเวอร์ชั่นก่อน
@@ -41,8 +37,8 @@ npm install
 เพื่อลง Dependencies ที่จำเป็นในการทำงาน
 
 จากนั้น เปิด Terminal 2 อัน แล้วรันคอมมานด์เหล่านี้จากโฟลเดอร์แรกสุดของโปรเจกต์
-| Terminal #1             | Terminal #2           |
-| ----------------------- | --------------------- |
-| `npm run dev:functions` | `npm run dev:hosting` |
+| Terminal #1             | Terminal #2            |
+| ----------------------- | ---------------------- |
+| `npm run dev:backend`   | `npm run dev:frontend` |
 
 คุณจะเห็น API ทำงานที่ `http://127.0.0.1:3000` และเว็บไซต์ทำงานที่ `http://localhost:8080`
