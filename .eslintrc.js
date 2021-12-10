@@ -51,9 +51,7 @@ module.exports = {
         sourceType: 'module',
         tsconfigRootDir: __dirname,
         project: [
-          './common/tsconfig.json',
-          './functions/tsconfig.json',
-          './hosting/tsconfig.json'
+          './packages/*/tsconfig.json'
         ]
       },
       plugins: [

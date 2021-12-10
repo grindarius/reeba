@@ -18,16 +18,14 @@
   },
   "engineStrict": true,
   "workspaces": [
-    "hosting",
-    "functions",
-    "common"
+    "packages/*"
   ],
   "scripts": {
-    "dev:functions": "cd functions && npm run watch",
-    "dev:hosting": "cd hosting && npm run dev",
-    "build:functions": "cd functions && npm run build",
-    "build:hosting": "cd hosting && npm run build",
-    "build:common": "cd common && npm run build"
+    "dev:backend": "cd packages/backend && npm run watch",
+    "dev:frontend": "cd packages/frontend && npm run dev",
+    "build:backend": "cd packages/backend && npm run build",
+    "build:frontend": "cd packages/frontend && npm run build",
+    "build:common": "cd packages/common && npm run build"
   },
   "author": "ReebA Team",
   "license": "MIT",
