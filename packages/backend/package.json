@@ -8,7 +8,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/grindarius/reeba.git",
-    "directory": "backend"
+    "directory": "packages/backend"
   },
   "author": "ReebA Team",
   "scripts": {
@@ -16,7 +16,7 @@
     "build": "tsc -p ./tsconfig.json",
     "kill-port": "npx kill-port 3000",
     "watch": "nodemon",
-    "watch:ts-node": "ts-node src/index.ts",
+    "serve:ts-node": "ts-node src/index.ts",
     "watch:ts": "tsc -w",
     "clean": "npx rimraf dist && npx rimraf node_modules",
     "rebuild": "npm run clean && npm run watch:ts",
