@@ -24,5 +24,19 @@
       "</template>",
       ""
     ]
+  },
+  "Fastify new route template": {
+    "prefix": "route",
+    "body": [
+      "import { FastifyInstance, FastifyPluginOptions } from 'fastify'",
+      "",
+      "export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {",
+      "  instance.get('/', async () => {",
+      "    $0",
+      "  })",
+      "}",
+      ""
+    ],
+    "description": "Generate new fastify route"
   }
 }
