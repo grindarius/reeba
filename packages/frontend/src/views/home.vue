@@ -1,5 +1,5 @@
 <template>
-  <img class="object-contain mx-auto mt-12" src="@/assets/logo.png" alt="Vue Logo">
+  <img class="object-contain mx-auto mt-12" src="@/assets/reeba-logo.png" alt="Vue Logo">
   <hello-world :msg="message"></hello-world>
 </template>
 

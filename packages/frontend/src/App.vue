@@ -1,4 +1,11 @@
 <template>
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">
+        <img src="@/assets/reeba-logo.png" alt="Reeba logo" width="49" height="49" class="logo-image">
+      </div>
+    </div>
+  </nav>
   <router-view></router-view>
 </template>
 
@@ -10,8 +17,12 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
-#app {
-  @apply text-center;
+<style scoped lang="scss">
+.navbar {
+  @apply h-12 w-full bg-primary text-center flex justify-center;
+}
+
+.logo-image {
+  @apply ml-2;
 }
 </style>
