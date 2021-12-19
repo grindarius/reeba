@@ -2,3 +2,7 @@
 
 GET {{ host }} HTTP/1.1
 Content-Type: application/json
+
+###
+GET {{ host }}/auth/login HTTP/1.1
+Content-Type: application/json
