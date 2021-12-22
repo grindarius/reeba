@@ -21,6 +21,7 @@
     "rebuild": "npm run clean && npm run watch:ts",
     "fix": "eslint **/*.ts --fix"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "@sinclair/typebox": "^0.23.1"
+  }
 }
