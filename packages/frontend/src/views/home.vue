@@ -16,9 +16,7 @@ export default defineComponent({
   setup () {
     const message = ref('Vue 3 + TypeScript setup')
 
-    return {
-      message
-    }
+    return { message }
   }
 })
 </script>
