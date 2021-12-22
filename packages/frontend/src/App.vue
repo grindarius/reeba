@@ -19,7 +19,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .navbar {
-  @apply h-12 w-full bg-primary text-center flex justify-center;
+  @apply h-12 w-full bg-pale-yellow text-center flex justify-center;
 }
 
 .logo-image {
