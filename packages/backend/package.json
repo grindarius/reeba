@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@reeba/common": "*",
+    "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
     "fastify": "^3.24.1",
     "fastify-cors": "^6.0.2",
