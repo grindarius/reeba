@@ -12,3 +12,8 @@ export const RegisterParamsSchema = Type.Object({
   password: Type.String()
 })
 export type RegisterParams = Static<typeof RegisterParamsSchema>
+
+export const RegisterReplySchema = Type.Object({
+  token: Type.String()
+})
+export type RegisterReply = Static<typeof RegisterReplySchema>
