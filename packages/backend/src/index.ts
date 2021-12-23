@@ -39,7 +39,7 @@ const createServer = (): FastifyInstance => {
   void server.register(helmet, { enableCSPNonces: true })
   void server.register(routes)
   void server.register(pg, {
-    connectionString: `postgres://${pgUsername}:${pgPassword}@${pgHostname}:${pgPort}/${pgDBName}`
+    connectionString: `postgres://${pgUsername}:${encodeURIComponent(pgPassword)}@${pgHostname}:${pgPort}/${pgDBName}`
   })
   void server.register(jwt, {
     secret: jwtSecret
