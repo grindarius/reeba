@@ -6,7 +6,6 @@
       "esnext",
       "dom"
     ],
-    "baseUrl": ".",
     "removeComments": false,
     "sourceMap": true,
     "target": "es2015",
