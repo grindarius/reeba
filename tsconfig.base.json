@@ -3,14 +3,14 @@
     "declaration": true,
     "declarationMap": true,
     "lib": [
-      "ESNext",
-      "DOM"
+      "esnext",
+      "dom"
     ],
     "baseUrl": ".",
     "removeComments": false,
     "sourceMap": true,
-    "target": "ES2015",
-    "module": "CommonJS",
+    "target": "es2015",
+    "module": "commonjs",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "moduleResolution": "Node",

@@ -6,6 +6,7 @@
       "dom"
     ],
     "outDir": "./dist",
+    "baseUrl": "."
   },
   "include": [
     "src/**/*.ts"

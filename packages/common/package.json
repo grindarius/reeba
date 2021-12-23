@@ -18,7 +18,6 @@
     "watch:ts": "tsc -w",
     "serve:ts-node": "ts-node src/index.ts",
     "clean": "npx rimraf dist && npx rimraf node_modules",
-    "rebuild": "npm run clean && npm run watch:ts",
     "fix": "eslint **/*.ts --fix"
   },
   "dependencies": {
