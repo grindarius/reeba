@@ -1,6 +1,11 @@
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
-import { LoginParams, LoginParamsSchema, RegisterParams, RegisterParamsSchema } from '@reeba/common'
+import {
+  LoginParams,
+  LoginParamsSchema,
+  RegisterParams,
+  RegisterParamsSchema
+} from '@reeba/common'
 
 const loginSchema: FastifySchema = {
   body: LoginParamsSchema
@@ -14,7 +19,11 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   instance.post<{ Body: RegisterParams }>(
     '/register',
     {
-      schema: registerSchema
+      schema: registerSchema,
+      preValidation: (request, _, done) => {
+        console.log(request.body)
+        done()
+      }
     }, async (request) => {
       const { username, email, password } = request.body
 
