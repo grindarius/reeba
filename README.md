@@ -1,10 +1,11 @@
 [English](README.md) | [Thai](/docs/README-th.md)
 
-# ReebA
-Ticket booking, Redefined.
-
-## Project structure.
-The project is a monorepo, Each monorepo has its own README
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/60266519/147319453-ac26e0ca-eca1-43a9-9aea-79426e3fbf6a.png" alt="ReebA Logo">
+</p>
+<h2 align="center">
+  Ticket booking. Redefined.
+</h2>
 
 ## Prequistics.
 First, check the required versions.
