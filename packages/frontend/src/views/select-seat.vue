@@ -1,24 +1,14 @@
 <template>
   <div class="select-seat-page">
-    <div class="container px-36 py-6">
+    <div class="container py-6">
       <p class="title">Stage zones</p>
       <div class="px-12 py-6 place-self-center w-[40rem]">
-        <div class="seat">
-          <button class="button"><p class="seat-text">A1</p></button>
-          <button class="button"><p class="seat-text">A2</p></button>
-          <button class="button"><p class="seat-text">A3</p></button>
-          <button class="button"><p class="seat-text">A4</p></button>
-          <button class="button"><p class="seat-text">A5</p></button>
-          <button class="button"><p class="seat-text">B1</p></button>
-          <button class="button"><p class="seat-text">B2</p></button>
-          <button class="button"><p class="seat-text">B3</p></button>
-          <button class="button"><p class="seat-text">B4</p></button>
-          <button class="button"><p class="seat-text">B5</p></button>
-          <button class="button"><p class="seat-text">C1</p></button>
-          <button class="button"><p class="seat-text">C2</p></button>
-          <button class="button"><p class="seat-text">C3</p></button>
-          <button class="button"><p class="seat-text">C4</p></button>
-          <button class="button"><p class="seat-text">C5</p></button>
+        <div class="section">
+          <button class="button" v-for="(seat, i) in seats" :key="`section-text-${i}`">
+            <p class="section-text">
+              {{ seat }}
+            </p>
+          </button>
         </div>
       </div>
       <p class="title">Zones</p>
@@ -31,8 +21,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+import { seats } from '@/constants'
+
 export default defineComponent({
-  name: 'select-seat'
+  name: 'select-seat',
+  setup () {
+    return {
+      seats
+    }
+  }
 })
 </script>
 
@@ -49,11 +46,11 @@ export default defineComponent({
   @apply bg-pale-yellow hover:ring text-white font-bold py-2 px-4 rounded h-24 active:bg-yellow-500 focus:outline-none focus:bg-pale-gray;
 }
 
-.seat {
+.section {
   @apply grid grid-cols-5 gap-4;
 }
 
-.seat-text {
+.section-text {
   @apply text-4xl font-sans font-semibold;
 }
 </style>
