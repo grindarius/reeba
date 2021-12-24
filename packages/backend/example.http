@@ -18,6 +18,25 @@ Content-Type: application/json
   "password": "asdfghjkl123"
 }
 
+### This should pass, schema validator doesn't care for additional parameters.
+POST {{ host }}/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "noreply@reeba.com",
+  "password": "asdfghjkl123",
+  "asdf": "ghjkl"
+}
+
+### This should not pass, schema validator cares for missing parameters.
+POST {{ host }}/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "noreply@reeba.com",
+  "asdf": "ghjkl"
+}
+
 ### This should pass
 POST {{ host }}/auth/register HTTP/1.1
 Content-Type: application/json

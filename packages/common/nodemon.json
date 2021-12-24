@@ -6,5 +6,5 @@
   "ignore": [
     "node_modules"
   ],
-  "exec": "npm run serve:ts-node"
+  "exec": "npm run build && npm run serve"
 }
