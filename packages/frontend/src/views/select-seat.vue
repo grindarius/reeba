@@ -1,8 +1,8 @@
 <template>
   <div class="select-seat-page">
-    <div class="container px-36 py-6">
+    <div class="container py-6">
       <p class="title">Stage zones</p>
-      <div class="px-12 py-6 place-self-center w-[40rem]">
+      <div class="zone">
         <div class="seat">
           <button class="button"><p class="seat-text">A1</p></button>
           <button class="button"><p class="seat-text">A2</p></button>
@@ -46,7 +46,11 @@ export default defineComponent({
 }
 
 .button {
-  @apply bg-pale-yellow hover:ring text-white font-bold py-2 px-4 rounded h-24 active:bg-yellow-500 focus:outline-none focus:bg-pale-gray;
+  @apply w-[100px] h-[100px] bg-pale-yellow hover:ring text-white font-bold py-2 px-4 rounded active:bg-yellow-500 focus:outline-none focus:bg-pale-gray;
+}
+
+.zone {
+  @apply px-12 py-6 flex justify-center w-full
 }
 
 .seat {
