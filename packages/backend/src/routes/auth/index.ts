@@ -54,12 +54,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const encryptedPassword = await bcrypt.hash(password, salt)
 
       try {
-        await instance.pg.query<{
-          user_id: string
-          user_name: string
-          user_email: string
-          user_password: string
-        }, [string, string, string, string]>(
+        await instance.pg.query<users, [string, string, string, string]>(
           'INSERT INTO users (user_id, user_name, user_email, user_password) VALUES ($1, $2, $3, $4)',
           [userId, username, email, encryptedPassword]
         )
