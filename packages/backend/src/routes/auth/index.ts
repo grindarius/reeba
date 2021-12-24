@@ -76,7 +76,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/login',
     {
       schema: loginSchema
-    }, async (request, reply) => {
+    }, async (request) => {
       const { email, password } = request.body
 
       try {
@@ -86,8 +86,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         )
 
         if (user.rows.length === 0) {
-          void reply.code(401)
-          throw new Error('Error: No matched users.')
+          throw new Error('Error: email not found.')
         }
 
         const isPasswordValid = await bcrypt.compare(
