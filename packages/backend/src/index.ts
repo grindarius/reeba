@@ -25,14 +25,17 @@ const createServer = (): FastifyInstance => {
   const jwtSecret = process.env.JWT_SECRET
 
   if (
-    pgUsername == null ||
-    pgPassword == null ||
-    pgHostname == null ||
-    pgPort == null ||
-    pgDBName == null ||
-    jwtSecret == null
+    pgUsername == null || pgUsername === '' ||
+    pgPassword == null || pgPassword === '' ||
+    pgHostname == null || pgHostname === '' ||
+    pgPort == null || pgPort === '' ||
+    pgDBName == null || pgDBName === ''
   ) {
     throw new Error('Missing one of postgres related credentials, or jwt secret')
+  }
+
+  if (jwtSecret == null || jwtSecret === '') {
+    throw new Error('Missing jwt secret')
   }
 
   void server.register(cors)
