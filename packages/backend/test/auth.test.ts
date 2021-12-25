@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'
+import dotenv from 'dotenv-flow'
 import { resolve } from 'path'
 import { Client } from 'pg'
 import t from 'tap'
@@ -6,7 +6,7 @@ import t from 'tap'
 import createServer from '../src/app'
 
 dotenv.config({
-  path: resolve(__dirname, '..', '.env')
+  path: resolve(__dirname, '..')
 })
 
 const client = new Client({
@@ -17,7 +17,7 @@ const client = new Client({
   database: process.env.POSTGRES_DBNAME
 })
 
-void t.test('POST /auth/register', async t => {
+void t.test('Registeration process', async t => {
   const app = createServer()
 
   t.teardown(async () => await app.close())

@@ -1,11 +1,11 @@
-import dotenv from 'dotenv'
+import dotenv from 'dotenv-flow'
 import { resolve } from 'path'
 import { exit } from 'process'
 
 import createServer from './app'
 
 dotenv.config({
-  path: resolve(__dirname, '..', '.env')
+  path: resolve(__dirname, '..')
 })
 
 const PORT = process.env.PORT ?? 3000

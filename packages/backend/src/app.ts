@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'
+import dotenv from 'dotenv-flow'
 import fastify, { FastifyInstance } from 'fastify'
 import cors from 'fastify-cors'
 import helmet from 'fastify-helmet'
@@ -9,7 +9,7 @@ import { resolve } from 'path'
 import routes from './routes'
 
 dotenv.config({
-  path: resolve(__dirname, '..', '.env')
+  path: resolve(__dirname, '..')
 })
 
 const createServer = (): FastifyInstance => {
