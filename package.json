@@ -28,7 +28,8 @@
     "build:backend": "cd packages/backend && npm run build",
     "build:frontend": "cd packages/frontend && npm run build",
     "build:common": "cd packages/common && npm run build",
-    "rebuild": "npx rimraf node_modules && lerna run clean"
+    "rebuild": "npx rimraf node_modules && lerna run clean",
+    "build": "lerna run build"
   },
   "author": "ReebA Team",
   "license": "MIT",
