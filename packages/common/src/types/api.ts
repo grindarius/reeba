@@ -18,7 +18,14 @@ export const LoginReplySchema = Type.Object({
 })
 export type LoginReply = Static<typeof LoginReplySchema>
 
-export const RegisterReplySchema = Type.Object({
+export const RegisterSuccessReplySchema = Type.Object({
   token: Type.String()
 })
-export type RegisterReply = Static<typeof RegisterReplySchema>
+export type RegisterReply = Static<typeof RegisterSuccessReplySchema>
+
+export const RegisterBadRequestReplySchema = Type.Object({
+  statusCode: Type.Number(),
+  message: Type.String(),
+  error: Type.String()
+})
+export type RegisterBadRequestReply = Static<typeof RegisterBadRequestReplySchema>
