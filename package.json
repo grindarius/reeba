@@ -29,6 +29,7 @@
     "build:frontend": "cd packages/frontend && npm run build",
     "build:common": "cd packages/common && npm run build",
     "rebuild": "npx rimraf node_modules && lerna run clean",
+    "clean": "lerna run clean",
     "test": "tap --rcfile=.taprc",
     "build": "lerna run build"
   },

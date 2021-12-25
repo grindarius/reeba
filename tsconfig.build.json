@@ -2,8 +2,6 @@
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
-    "composite": true,
-    "incremental": true,
     "lib": [
       "esnext",
       "dom"
