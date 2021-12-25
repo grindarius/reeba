@@ -4,13 +4,13 @@ import cors from 'fastify-cors'
 import helmet from 'fastify-helmet'
 import jwt from 'fastify-jwt'
 import pg from 'fastify-postgres'
-import { exit } from 'process'
+import { resolve } from 'path'
 
 import routes from './routes'
 
-dotenv.config()
-
-const PORT = process.env.FASTIFY_PORT ?? 3000
+dotenv.config({
+  path: resolve(__dirname, '..', '.env')
+})
 
 const createServer = (): FastifyInstance => {
   const server = fastify({
@@ -51,9 +51,4 @@ const createServer = (): FastifyInstance => {
   return server
 }
 
-createServer().listen(Number(PORT)).then((address) => {
-  console.log(`Server is running at ${address}`)
-}).catch((e) => {
-  console.trace(e)
-  exit(1)
-})
+export default createServer
