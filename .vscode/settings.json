@@ -9,6 +9,8 @@
   "files.autoSave": "onFocusChange",
   "files.eol": "\n",
   "files.insertFinalNewline": true,
+  "scss.lint.unknownAtRules": "ignore",
+  "css.lint.unknownAtRules": "ignore",
   "eslint.validate": [
     "typescript",
     "javascript"
