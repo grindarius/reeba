@@ -42,7 +42,7 @@ POST {{ host }}/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "username": "grindarius",
+  "username": "",
   "email": "noreply@reeba.com",
   "password": "asdfghjkl123"
 }

@@ -26,11 +26,69 @@ void t.test('Registeration process', async t => {
     await client.connect()
   } catch (error) {
     t.error(error)
-    t.fail('There should not be an error')
+    t.fail('Error while connecting to database')
   }
 
   await client.query('DELETE FROM users')
-  await client.end()
 
+  void t.test('Missing username should return 400', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/auth/register',
+        payload: {
+          username: '',
+          email: 'authtest@gmail.com',
+          password: 'asdfghjkl123'
+        }
+      })
+
+      t.strictSame(response.statusCode, 400, 'Bad request because of missing username')
+    } catch (error) {
+      t.error(error)
+      t.fail('There should not be an error, but rather bad request')
+    }
+  })
+
+  void t.todo('Missing email should return 400', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/auth/register',
+        payload: {
+          username: 'grindarius',
+          email: '',
+          password: 'asdfghjkl123'
+        }
+      })
+
+      t.strictSame(response.statusCode, 400, 'Bad request because of missing email')
+    } catch (error) {
+      t.error(error)
+      t.fail('There should not be an error, but rather bad request.')
+    }
+  })
+
+  void t.todo('Email is not empty but wrong format', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/auth/register',
+        payload: {
+          username: 'grindarius',
+          email: '',
+          password: 'asdfghjkl123'
+        }
+      })
+
+      t.strictSame(response.statusCode, 400, 'Bad request because of missing email')
+    } catch (error) {
+      t.error(error)
+      t.fail('There should not be an error,')
+    }
+  })
+  void t.todo('Missing password should return 400')
+
+  await client.end()
   t.end()
 })

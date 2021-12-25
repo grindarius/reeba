@@ -32,7 +32,25 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   instance.post<{ Body: RegisterParams }>(
     '/register',
     {
-      schema: registerSchema
+      schema: registerSchema,
+      preValidation: async (request, reply, done) => {
+        const { username, email, password } = request.body
+
+        if (username == null || username === '') {
+          void reply.code(400)
+          throw new Error('Missing \'username\'')
+        }
+        if (email == null || email === '') {
+          void reply.code(400)
+          throw new Error('Missing \'email\'')
+        }
+        if (password == null || password === '') {
+          void reply.code(400)
+          throw new Error('Missing \'password\'')
+        }
+
+        done()
+      }
     }, async (request) => {
       const { username, email, password } = request.body
 
