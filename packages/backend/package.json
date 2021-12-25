@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "description": "Backend API for ReebA",
-  "main": "dist/server.js",
-  "types": "dist/server.d.ts",
+  "main": "dist/src/server.js",
+  "types": "dist/src/server.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/grindarius/reeba.git",
@@ -12,11 +12,11 @@
   },
   "author": "ReebA Team",
   "scripts": {
-    "dev": "node dist/server.js",
-    "build": "tsc -p ./tsconfig.build.json",
+    "dev": "node dist/src/server.js",
+    "build": "tsc -p ./tsconfig.json",
     "kill-port": "npx kill-port 3000",
     "watch": "nodemon",
-    "serve:ts-node": "ts-node src/server.ts",
+    "serve:ts-node": "ts-node src/server.ts -p ./tsconfig.json",
     "watch:ts": "tsc src/server.ts -w",
     "clean": "npx rimraf dist && npx rimraf node_modules",
     "fix": "eslint **/*.ts --fix"
