@@ -24,7 +24,10 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 *.tgz
 
 # dotenv environment variables file
-.env
 .env.local
 .env.test
 .env.*.local
+
+# tap testing results
+coverage
+.nyc-output
