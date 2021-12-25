@@ -1,3 +1,2 @@
 test-regex: .+\.test.ts$
 ts: true
-coverage-report: ['lcov']
