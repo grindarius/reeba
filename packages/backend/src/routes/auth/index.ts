@@ -6,25 +6,27 @@ import {
   LoginParams,
   LoginParamsSchema,
   LoginReplySchema,
+  RegisterBadRequestReplySchema,
   RegisterParams,
   RegisterParamsSchema,
-  RegisterReplySchema
+  RegisterSuccessReplySchema
 } from '@reeba/common'
 
 import { users } from '../../types'
-import { createSignPayload } from '../../utils'
+import { createSignPayload, validateEmail } from '../../utils'
+
+const registerSchema: FastifySchema = {
+  body: RegisterParamsSchema,
+  response: {
+    200: RegisterSuccessReplySchema,
+    400: RegisterBadRequestReplySchema
+  }
+}
 
 const loginSchema: FastifySchema = {
   body: LoginParamsSchema,
   response: {
     200: LoginReplySchema
-  }
-}
-
-const registerSchema: FastifySchema = {
-  body: RegisterParamsSchema,
-  response: {
-    200: RegisterReplySchema
   }
 }
 
@@ -40,10 +42,17 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('Missing \'username\'')
         }
+
         if (email == null || email === '') {
           void reply.code(400)
           throw new Error('Missing \'email\'')
         }
+
+        if (!validateEmail(email)) {
+          void reply.code(400)
+          throw new Error('Invalid \'email\' format')
+        }
+
         if (password == null || password === '') {
           void reply.code(400)
           throw new Error('Missing \'password\'')
