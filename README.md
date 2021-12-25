@@ -68,6 +68,7 @@ If you need to develop backend API. You need more than 1 terminal. Run these com
 | Terminal #1             | Terminal #2            |
 | ----------------------- | ---------------------- |
 | `npm run dev:common`    | `npm run dev:backend`  |
+
 You will see the API runs at `http://localhost:3000`.
 
 ### Full system development.
