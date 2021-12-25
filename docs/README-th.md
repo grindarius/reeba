@@ -69,6 +69,7 @@ npm run build:common && npm run dev:frontend
 | Terminal #1             | Terminal #2            |
 | ----------------------- | ---------------------- |
 | `npm run dev:common`    | `npm run dev:backend`  |
+
 คุณจะสามารถคุยกับ API ได้ที่ `http://localhost:3000`.
 
 ### พัฒนาทั้ง Frontend และ Backend พร้อมกัน
