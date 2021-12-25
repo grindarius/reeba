@@ -59,7 +59,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           [userId, username, email, encryptedPassword]
         )
       } catch (error) {
-        throw new Error(`Eror while inserting new user into the database ${error as string}`)
+        throw new Error(`Error while inserting new user into the database ${error as string}`)
       }
 
       const token = instance.jwt.sign(createSignPayload(userId), {
