@@ -11,11 +11,14 @@
     "target": "es2015",
     "module": "commonjs",
     "allowSyntheticDefaultImports": true,
+    "noEmit": false,
+    "noEmitOnError": true,
     "esModuleInterop": true,
     "moduleResolution": "Node",
     "alwaysStrict": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -27,9 +30,10 @@
     "noErrorTruncation": true,
     "pretty": true,
     "resolveJsonModule": true,
-    "useDefineForClassFields": true,
     "paths": {
-      "@reeba/*": ["./packages/*/src"]
+      "@reeba/*": [
+        "./packages/*/src"
+      ]
     }
   },
   "exclude": [
