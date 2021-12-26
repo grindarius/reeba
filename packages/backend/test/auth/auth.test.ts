@@ -3,10 +3,10 @@ import { resolve } from 'path'
 import { Client } from 'pg'
 import t from 'tap'
 
-import createServer from '../src/app'
+import createServer from '../../src/app'
 
 dotenv.config({
-  path: resolve(__dirname, '..')
+  path: resolve(__dirname, '..', '..')
 })
 
 const client = new Client({
@@ -156,8 +156,7 @@ void t.test('Registeration process', async t => {
         url: '/auth/register',
         payload: {
           username: 'grindarius',
-          email: 'authtest@gmail.com',
-          password: ''
+          email: 'authtest@gmail.com'
         }
       })
 
@@ -169,8 +168,46 @@ void t.test('Registeration process', async t => {
     }
   })
 
-  void t.todo('Successful registration')
-  void t.todo('Duplicate email when same email trying to register')
+  void t.test('Successful registration', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/auth/register',
+        payload: {
+          username: 'grindarius',
+          email: 'authtest@gmail.com',
+          password: 'asdfghjkl123'
+        }
+      })
+
+      t.strictSame(response.statusCode, 200, 'Success code from registration.')
+      t.strictSame(response.json().message, undefined, 'No error message.')
+      t.type(response.json().token, 'string', 'Type of response token.')
+    } catch (error) {
+      t.error(error)
+      t.fail('There should not be an error in a successful registration.')
+    }
+  })
+
+  void t.test('Duplicate registration', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/auth/register',
+        payload: {
+          username: 'grindarius',
+          email: 'authtest@gmail.com',
+          password: 'asdfghjkl123'
+        }
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from redundant email.')
+      t.strictSame(response.json().message, 'Duplicate \'email\'', 'Error message from redundant email.')
+    } catch (error) {
+      t.error(error)
+      t.fail('There should not be an error in a successful registration.')
+    }
+  })
 
   await client.end()
   t.end()
