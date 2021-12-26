@@ -29,6 +29,8 @@
     "build:frontend": "cd packages/frontend && npm run build",
     "build:common": "cd packages/common && npm run build",
     "rebuild": "npx rimraf node_modules && lerna run clean",
+    "clean": "lerna run clean",
+    "test": "tap --rcfile=.taprc",
     "build": "lerna run build"
   },
   "author": "ReebA Team",
@@ -39,6 +41,7 @@
   "homepage": "https://github.com/grindarius/reeba#readme",
   "devDependencies": {
     "@types/node": "^16.11.12",
+    "@types/tap": "^15.0.5",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
     "@vue/eslint-config-standard": "^6.1.0",
@@ -54,6 +57,7 @@
     "eslint-plugin-vue": "^7.16.0",
     "lerna": "^4.0.0",
     "nodemon": "^2.0.15",
+    "tap": "^15.1.5",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.2"
   }

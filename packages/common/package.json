@@ -13,11 +13,11 @@
   "author": "ReebA Team",
   "scripts": {
     "serve": "node dist/index.js",
-    "build": "tsc -p ./tsconfig.json",
+    "build": "tsc -p ./tsconfig.build.json",
     "watch": "nodemon",
     "watch:ts": "tsc -w",
-    "serve:ts-node": "ts-node src/index.ts",
-    "clean": "npx rimraf dist && npx rimraf node_modules",
+    "serve:ts-node": "ts-node src/index.ts -p ./tsconfig.json",
+    "clean": "npx rimraf dist",
     "fix": "eslint **/*.ts --fix"
   },
   "dependencies": {
