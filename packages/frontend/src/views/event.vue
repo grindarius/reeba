@@ -1,6 +1,8 @@
 <template>
-<div class="container mx-auto px-60" >
+<div class="event-page">
+  <div class="event-page-content">
     <img class="object-none object-left-top " src="@/assets/bts-world-tour.jpg">
+  </div>
 </div>
 </template>
 
@@ -13,5 +15,11 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.event-page {
+  @apply flex flex-row justify-center w-full bg-pale-gray;
+}
 
+.event-page-content {
+  @apply container mt-10;
+}
 </style>
