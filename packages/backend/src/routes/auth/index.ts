@@ -9,6 +9,7 @@ import {
   RegisterBadRequestReplySchema,
   RegisterParams,
   RegisterParamsSchema,
+  RegisterSuccessReply,
   RegisterSuccessReplySchema
 } from '@reeba/common'
 
@@ -31,7 +32,7 @@ const loginSchema: FastifySchema = {
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.post<{ Body: RegisterParams }>(
+  instance.post<{ Body: RegisterParams, Reply: RegisterSuccessReply }>(
     '/register',
     {
       schema: registerSchema,
@@ -60,20 +61,19 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
         done()
       }
-    }, async (request) => {
+    }, async (request, reply) => {
       const { username, email, password } = request.body
 
-      try {
-        const possibleDuplicateEmails = await instance.pg.query<users, [string]>(
-          'SELECT * FROM users WHERE user_email = $1',
-          [email]
-        )
+      const possibleDuplicateEmails = await instance.pg.query<users, [string]>(
+        'SELECT * FROM users WHERE user_email = $1',
+        [email]
+      ).catch(error => {
+        throw new Error(`Error while finding email duplicates: ${error as string}`)
+      })
 
-        if (possibleDuplicateEmails.rows.length > 0) {
-          throw new Error('Duplicate email')
-        }
-      } catch (error) {
-        throw new Error(`Error while finding email duplicates ${error as string}`)
+      if (possibleDuplicateEmails.rows.length > 0) {
+        void reply.code(400)
+        throw new Error('Duplicate \'email\'')
       }
 
       const userId = nanoid(25)
