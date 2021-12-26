@@ -6,13 +6,22 @@ import {
   LoginParams,
   LoginParamsSchema,
   LoginReplySchema,
+  RegisterBadRequestReplySchema,
   RegisterParams,
   RegisterParamsSchema,
-  RegisterReplySchema
+  RegisterSuccessReplySchema
 } from '@reeba/common'
 
 import { users } from '../../types'
-import { createSignPayload } from '../../utils'
+import { createSignPayload, validateEmail } from '../../utils'
+
+const registerSchema: FastifySchema = {
+  body: RegisterParamsSchema,
+  response: {
+    200: RegisterSuccessReplySchema,
+    400: RegisterBadRequestReplySchema
+  }
+}
 
 const loginSchema: FastifySchema = {
   body: LoginParamsSchema,
@@ -21,18 +30,36 @@ const loginSchema: FastifySchema = {
   }
 }
 
-const registerSchema: FastifySchema = {
-  body: RegisterParamsSchema,
-  response: {
-    200: RegisterReplySchema
-  }
-}
-
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.post<{ Body: RegisterParams }>(
     '/register',
     {
-      schema: registerSchema
+      schema: registerSchema,
+      preValidation: async (request, reply, done) => {
+        const { username, email, password } = request.body
+
+        if (username == null || username === '') {
+          void reply.code(400)
+          throw new Error('Missing \'username\'')
+        }
+
+        if (email == null || email === '') {
+          void reply.code(400)
+          throw new Error('Missing \'email\'')
+        }
+
+        if (!validateEmail(email)) {
+          void reply.code(400)
+          throw new Error('Invalid \'email\' format')
+        }
+
+        if (password == null || password === '') {
+          void reply.code(400)
+          throw new Error('Missing \'password\'')
+        }
+
+        done()
+      }
     }, async (request) => {
       const { username, email, password } = request.body
 
@@ -59,7 +86,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           [userId, username, email, encryptedPassword]
         )
       } catch (error) {
-        throw new Error(`Eror while inserting new user into the database ${error as string}`)
+        throw new Error(`Error while inserting new user into the database ${error as string}`)
       }
 
       const token = instance.jwt.sign(createSignPayload(userId), {
@@ -76,7 +103,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/login',
     {
       schema: loginSchema
-    }, async (request, reply) => {
+    }, async (request) => {
       const { email, password } = request.body
 
       try {
@@ -86,8 +113,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         )
 
         if (user.rows.length === 0) {
-          void reply.code(401)
-          throw new Error('Error: No matched users.')
+          throw new Error('Error: email not found.')
         }
 
         const isPasswordValid = await bcrypt.compare(

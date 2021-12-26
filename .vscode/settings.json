@@ -8,6 +8,7 @@
   "editor.multiCursorModifier": "alt",
   "files.autoSave": "onFocusChange",
   "files.eol": "\n",
+  "editor.detectIndentation": false,
   "files.insertFinalNewline": true,
   "scss.lint.unknownAtRules": "ignore",
   "css.lint.unknownAtRules": "ignore",
