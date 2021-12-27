@@ -3,14 +3,14 @@ import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 import { nanoid } from 'nanoid'
 
 import {
+  BadRequestReplySchema,
   LoginParams,
   LoginParamsSchema,
   LoginReplySchema,
-  RegisterBadRequestReplySchema,
   RegisterParams,
   RegisterParamsSchema,
-  RegisterSuccessReply,
-  RegisterSuccessReplySchema
+  RegisterReply,
+  RegisterReplySchema
 } from '@reeba/common'
 
 import { users } from '../../types'
@@ -19,44 +19,45 @@ import { createSignPayload, validateEmail } from '../../utils'
 const registerSchema: FastifySchema = {
   body: RegisterParamsSchema,
   response: {
-    200: RegisterSuccessReplySchema,
-    400: RegisterBadRequestReplySchema
+    200: RegisterReplySchema,
+    400: BadRequestReplySchema
   }
 }
 
 const loginSchema: FastifySchema = {
   body: LoginParamsSchema,
   response: {
-    200: LoginReplySchema
+    200: LoginReplySchema,
+    400: BadRequestReplySchema
   }
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.post<{ Body: RegisterParams, Reply: RegisterSuccessReply }>(
+  instance.post<{ Body: RegisterParams, Reply: RegisterReply }>(
     '/register',
     {
       schema: registerSchema,
       preValidation: async (request, reply, done) => {
         const { username, email, password } = request.body
 
-        if (username == null || username === '') {
+        if (username === '') {
           void reply.code(400)
-          throw new Error('Missing \'username\'')
+          throw new Error('body should have required property \'username\'')
         }
 
         if (email == null || email === '') {
           void reply.code(400)
-          throw new Error('Missing \'email\'')
+          throw new Error('body should have required property \'email\'')
         }
 
         if (!validateEmail(email)) {
           void reply.code(400)
-          throw new Error('Invalid \'email\' format')
+          throw new Error('invalid \'email\' format')
         }
 
         if (password == null || password === '') {
           void reply.code(400)
-          throw new Error('Missing \'password\'')
+          throw new Error('body should have required property \'password\'')
         }
 
         done()
@@ -65,15 +66,15 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const { username, email, password } = request.body
 
       const possibleDuplicateEmails = await instance.pg.query<users, [string]>(
-        'SELECT * FROM users WHERE user_email = $1',
+        'select * from users where user_email = $1',
         [email]
       ).catch(error => {
-        throw new Error(`Error while finding email duplicates: ${error as string}`)
+        throw new Error(`error while finding email duplicates: ${error as string}`)
       })
 
       if (possibleDuplicateEmails.rows.length > 0) {
         void reply.code(400)
-        throw new Error('Duplicate \'email\'')
+        throw new Error('duplicate \'email\'')
       }
 
       const userId = nanoid(25)
@@ -82,11 +83,11 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       try {
         await instance.pg.query<users, [string, string, string, string]>(
-          'INSERT INTO users (user_id, user_name, user_email, user_password) VALUES ($1, $2, $3, $4)',
+          'insert into users (user_id, user_name, user_email, user_password) VALUES ($1, $2, $3, $4)',
           [userId, username, email, encryptedPassword]
         )
       } catch (error) {
-        throw new Error(`Error while inserting new user into the database ${error as string}`)
+        throw new Error(`error while inserting new user into the database ${error as string}`)
       }
 
       const token = instance.jwt.sign(createSignPayload(userId), {
@@ -102,18 +103,33 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   instance.post<{ Body: LoginParams }>(
     '/login',
     {
-      schema: loginSchema
+      schema: loginSchema,
+      preValidation: async (request, reply, done) => {
+        const { email, password } = request.body
+
+        if (email === '') {
+          void reply.code(400)
+          throw new Error('body should have required property \'email\'')
+        }
+
+        if (password === '') {
+          void reply.code(400)
+          throw new Error('body should have required property \'password\'')
+        }
+
+        done()
+      }
     }, async (request) => {
       const { email, password } = request.body
 
       try {
         const user = await instance.pg.query<users, [string]>(
-          'SELECT * FROM users WHERE user_email = $1',
+          'select * from users where user_email = $1',
           [email]
         )
 
         if (user.rows.length === 0) {
-          throw new Error('Error: email not found.')
+          throw new Error('email not found')
         }
 
         const isPasswordValid = await bcrypt.compare(
@@ -122,7 +138,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         )
 
         if (!isPasswordValid) {
-          throw new Error('Error: Invalid password.')
+          throw new Error('invalid password')
         }
 
         const token = instance.jwt.sign(createSignPayload(user.rows[0].user_id), {
@@ -133,7 +149,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           token
         }
       } catch (error) {
-        throw new Error(`Error while logging you in: ${error as string}`)
+        throw new Error(`error while logging you in: ${error as string}`)
       }
     }
   )

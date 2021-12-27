@@ -20,16 +20,18 @@ const client = new Client({
 void t.test('Registeration process', async t => {
   const app = createServer()
 
-  t.teardown(async () => await app.close())
+  t.teardown(async () => {
+    await app.close()
+    await client.end()
+  })
 
   try {
     await client.connect()
+    await client.query('delete from "users" where user_email = \'authtest@gmail.com\'')
   } catch (error) {
     t.error(error)
     t.fail('Error while connecting to database')
   }
-
-  await client.query('DELETE FROM users')
 
   void t.test('Missing username (as empty string)', async t => {
     try {
@@ -44,7 +46,7 @@ void t.test('Registeration process', async t => {
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from missing username')
-      t.strictSame(response.json().message, 'Missing \'username\'', 'Error message from missing username')
+      t.strictSame(response.json().message, 'body should have required property \'username\'', 'Error message from missing username')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error, but rather bad request')
@@ -63,7 +65,7 @@ void t.test('Registeration process', async t => {
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from missing username')
-      t.strictSame(response.json().message, 'Missing \'username\'', 'Error message from missing username')
+      t.strictSame(response.json().message, 'body should have required property \'username\'', 'Error message from missing username')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error, but rather bad request')
@@ -83,7 +85,7 @@ void t.test('Registeration process', async t => {
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from missing email')
-      t.strictSame(response.json().message, 'Missing \'email\'', 'Error message from missing email')
+      t.strictSame(response.json().message, 'body should have required property \'email\'', 'Error message from missing email')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error, but rather bad request.')
@@ -102,7 +104,7 @@ void t.test('Registeration process', async t => {
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from missing email')
-      t.strictSame(response.json().message, 'Missing \'email\'', 'Error message from missing email')
+      t.strictSame(response.json().message, 'body should have required property \'email\'', 'Error message from missing email')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error, but rather bad request.')
@@ -122,7 +124,7 @@ void t.test('Registeration process', async t => {
       })
 
       t.strictSame(response.statusCode, 400, 'Error code when email is in wrong format')
-      t.strictSame(response.json().message, 'Invalid \'email\' format', 'Error message when email is in wrong format')
+      t.strictSame(response.json().message, 'invalid \'email\' format', 'Error message when email is in wrong format')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error, but rather a normal request.')
@@ -142,7 +144,7 @@ void t.test('Registeration process', async t => {
       })
 
       t.strictSame(response.statusCode, 400, 'Error code when missing password')
-      t.strictSame(response.json().message, 'Missing \'password\'', 'Error message when missing password')
+      t.strictSame(response.json().message, 'body should have required property \'password\'', 'Error message when missing password')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error, but rather a normal request.')
@@ -161,7 +163,7 @@ void t.test('Registeration process', async t => {
       })
 
       t.strictSame(response.statusCode, 400, 'Error code when missing password')
-      t.strictSame(response.json().message, 'Missing \'password\'', 'Error message when missing password')
+      t.strictSame(response.json().message, 'body should have required property \'password\'', 'Error message when missing password')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error, but rather a normal request.')
@@ -202,13 +204,12 @@ void t.test('Registeration process', async t => {
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from redundant email.')
-      t.strictSame(response.json().message, 'Duplicate \'email\'', 'Error message from redundant email.')
+      t.strictSame(response.json().message, 'duplicate \'email\'', 'Error message from redundant email.')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error in a successful registration.')
     }
   })
 
-  await client.end()
   t.end()
 })
