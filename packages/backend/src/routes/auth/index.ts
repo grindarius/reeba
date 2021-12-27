@@ -37,7 +37,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/register',
     {
       schema: registerSchema,
-      preValidation: async (request, reply, done) => {
+      preValidation: async (request, reply) => {
         const { username, email, password } = request.body
 
         if (username === '') {
@@ -59,8 +59,6 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('body should have required property \'password\'')
         }
-
-        done()
       }
     }, async (request, reply) => {
       const { username, email, password } = request.body
@@ -104,7 +102,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/login',
     {
       schema: loginSchema,
-      preValidation: async (request, reply, done) => {
+      preValidation: async (request, reply) => {
         const { email, password } = request.body
 
         if (email === '') {
@@ -116,8 +114,6 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('body should have required property \'password\'')
         }
-
-        done()
       }
     }, async (request) => {
       const { email, password } = request.body
