@@ -1,17 +1,92 @@
-export const seats: Array<string> = [
-  'A1',
-  'A2',
-  'A3',
-  'A4',
-  'A5',
-  'B1',
-  'B2',
-  'B3',
-  'B4',
-  'B5',
-  'C1',
-  'C2',
-  'C3',
-  'C4',
-  'C5'
+export const zonesData: Array<any> = [
+  {
+    id: 1,
+    zone: 'A1',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  },
+  {
+    id: 2,
+    zone: 'A2',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  },
+  {
+    id: 3,
+    zone: 'A3',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  },
+  {
+    id: 4,
+    zone: 'A4',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  },
+  {
+    id: 5,
+    zone: 'A5',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  },
+  {
+    id: 6,
+    zone: 'B1',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  },
+  {
+    id: 7,
+    zone: 'B2',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  },
+  {
+    id: 8,
+    zone: 'B3',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  },
+  {
+    id: 9,
+    zone: 'B4',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  },
+  {
+    id: 10,
+    zone: 'B5',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  },
+  {
+    id: 11,
+    zone: 'C1',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  },
+  {
+    id: 12,
+    zone: 'C2',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  },
+  {
+    id: 13,
+    zone: 'C3',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  },
+  {
+    id: 14,
+    zone: 'C4',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  },
+  {
+    id: 15,
+    zone: 'C5',
+    price: [2000, 3000, 4000, 5000, 6000],
+    seatPerZone: 10
+  }
 ]

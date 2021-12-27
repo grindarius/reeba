@@ -4,9 +4,9 @@
       <p class="title">Stage zones</p>
       <div class="zone">
         <div class="section">
-          <button class="button" v-for="(seat, i) in seats" :key="`section-text-${i}`">
+          <button class="button" v-for="(zonesData, id) in zonesData" :key="`section-text-${id}`">
             <p class="section-text">
-              {{ seat }}
+              {{ zonesData.zone }}
             </p>
           </button>
         </div>
@@ -21,13 +21,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
-import { seats } from '@/constants'
+import { zonesData } from '@/constants'
 
 export default defineComponent({
   name: 'select-seat',
   setup () {
     return {
-      seats
+      zonesData
     }
   }
 })
@@ -35,15 +35,15 @@ export default defineComponent({
 
 <style lang="scss">
 .select-seat-page {
-  @apply w-full flex justify-center;
+  @apply w-full flex justify-center bg-pale-gray;
 }
 
 .title {
-  @apply text-4xl font-sans font-semibold;
+  @apply text-4xl font-sans font-semibold text-white;
 }
 
 .button {
-  @apply w-[100px] h-[100px] bg-pale-yellow hover:ring text-white font-bold py-2 px-4 rounded active:bg-yellow-500 focus:outline-none focus:bg-pale-gray;
+  @apply w-[100px] h-[100px] bg-pale-yellow hover:ring text-white font-bold py-2 px-4 rounded active:bg-gray-300 focus:outline-none focus:bg-yellow-100;
 }
 
 .zone {
@@ -55,6 +55,6 @@ export default defineComponent({
 }
 
 .section-text {
-  @apply text-4xl font-sans font-semibold;
+  @apply text-4xl font-sans font-semibold text-black;
 }
 </style>
