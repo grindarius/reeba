@@ -13,10 +13,11 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
-    "clean": "npx rimraf dist && npx rimraf node_modules"
+    "clean": "npx rimraf dist"
   },
   "dependencies": {
     "@reeba/common": "^1.0.0",
+    "axios": "^0.24.0",
     "pinia": "^2.0.6",
     "postcss-import": "^14.0.2",
     "vue": "^3.0.11",
