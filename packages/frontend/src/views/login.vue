@@ -1,7 +1,7 @@
 <template>
 <div class="login-page">
   <div class="w-full h-screen flex items-center justify-center">
-    <form class="w-full md:w-1/3 rounded-lg  ">
+    <form class="w-full md:w-1/3 rounded-lg">
       <div class="flex font-bold justify-center scroll-mt-50">
         <img class="h-64 w-64 mb-3" src="@/assets/reeba-logo.png" alt="logo-reeba" />
       </div>
