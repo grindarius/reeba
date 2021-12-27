@@ -4,14 +4,15 @@
       <p class="title">Stage zones</p>
       <div class="zone">
         <div class="section">
-          <button class="button" v-for="(zonesData, id) in zonesData" :key="`section-text-${id}`">
+          <button class="button" v-on:click="changeZone(zonesData.id)" v-for="(zonesData, id) in zonesData" :key="`section-text-${id}`">
             <p class="section-text">
               {{ zonesData.zone }}
             </p>
           </button>
         </div>
       </div>
-      <p class="title">Zones</p>
+      <p class="title" v-if="selectZone == 0">Zones</p>
+      <p class="title" v-else>Zones {{ zonesData[selectZone-1].zone }}</p>
       <div></div>
       <div></div>
     </div>
@@ -19,18 +20,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 import { zonesData } from '@/constants'
 
 export default defineComponent({
   name: 'select-seat',
   setup () {
+    const selectZone = ref(0)
     return {
-      zonesData
+      zonesData,
+      selectZone
+    }
+  },
+  methods: {
+    changeZone (id: number) {
+      this.selectZone = id
     }
   }
 })
+
 </script>
 
 <style lang="scss">
