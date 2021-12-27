@@ -11,8 +11,8 @@
           </button>
         </div>
       </div>
-      <p class="title" v-if="selectZone == 0">Zones</p>
-      <p class="title" v-else>Zones {{ zonesData[selectZone-1].zone }}</p>
+      <p class="title" v-if="selectZone == 0">Select the zone</p>
+      <p class="title" v-else>Zone {{ zonesData[selectZone-1].zone }}</p>
       <div></div>
       <div></div>
     </div>
