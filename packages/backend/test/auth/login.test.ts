@@ -96,7 +96,7 @@ void t.test('Login process', async t => {
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from missing password as missing params')
-      t.strictSame(response.json().message, 'body should have required property \'email\'', 'Error message from missing password as empty string')
+      t.strictSame(response.json().message, 'body should have required property \'password\'', 'Error message from missing password as empty string')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error.')
