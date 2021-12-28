@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+// @ts-expect-error
 import VueMdi from 'vue-mdijs'
 
 import * as mdi from '@mdi/js'
