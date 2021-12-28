@@ -13,8 +13,27 @@
       </div>
       <p class="title" v-if="selectZone == 0">Select the zone</p>
       <p class="title" v-else>Zone {{ zonesData[selectZone-1].zone }}</p>
-      <div></div>
-      <div></div>
+      <div class="min-h-screen" v-if="selectZone == 0"></div>
+      <div class="selected" v-else>
+        <div class="price-rate">
+          <div class="flex columns-1 gap-3 py-3" v-for="(price, id) in zonesData[selectZone].price" :key="`price-rate-${id}`">
+            <div class="price-color"></div>
+            <p class="text-white">
+                {{ price }}
+            </p>
+          </div>
+        </div>
+        <div class="price-rate">
+          <div class="flex w-full py-3 px-8">
+            <div class="bg-white h-10 w-10 basis-1/2">
+            </div>
+            <div class="grow">
+            </div>
+            <div class="bg-white h-10 w-10 basis-1/3">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -52,7 +71,7 @@ export default defineComponent({
 }
 
 .button {
-  @apply w-[100px] h-[100px] bg-pale-yellow hover:ring text-white font-bold py-2 px-4 rounded active:bg-gray-300 focus:outline-none focus:bg-yellow-100;
+  @apply w-[100px] h-[100px] bg-pale-yellow hover:ring text-white font-bold py-2 px-4 rounded active:bg-gray-300 focus:outline-none focus:bg-amber-200;
 }
 
 .zone {
@@ -65,5 +84,17 @@ export default defineComponent({
 
 .section-text {
   @apply text-4xl font-sans font-semibold text-black;
+}
+
+.selected {
+  @apply w-full;
+}
+
+.price-rate {
+  @apply gap-9 columns-1 flex justify-center;
+}
+
+.price-color {
+  @apply rounded-full px-3 py-3 bg-white;
 }
 </style>
