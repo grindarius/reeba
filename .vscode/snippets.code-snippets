@@ -38,5 +38,11 @@
       ""
     ],
     "description": "Generate new fastify route"
+  },
+  "New Vue mdi tag": {
+    "prefix": "mdi",
+    "body": [
+      "<v-mdi name=\"$1\"></v-mdi>"
+    ]
   }
 }
