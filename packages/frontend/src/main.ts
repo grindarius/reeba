@@ -10,4 +10,5 @@ import Router from './router'
 import './globals.scss'
 
 VueMdi.add(mdi)
+
 createApp(App).use(Router).use(VueMdi).mount('#app')
