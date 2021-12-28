@@ -43,7 +43,7 @@
           <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="location-map">Google map link</label>
           <input id="location-map" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="text" placeholder="Hua Mak, Bang Kapi, Bangkok,Thailand">
         </div>
-        <hr class="border border-brand-blue-900 mt-8 mx-3 w-full">
+        <!-- <hr class="border border-white mt-8 w-full"> -->
 
         <!--v-if--><!-- Name -->
         <div class="md:w-1/2 mt-6 pr-3 w-full">
@@ -57,6 +57,61 @@
           <input id="contact-id" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="text" placeholder="LINE, Facebook, Email, Tel">
         </div>
 
+        <hr class="border border-pale-yellow mt-8 w-full">
+
+      <!-- submit -->
+        <!-- <div class="mt-8 py-3 w-full">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>Submit</span>
+          </button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="event-zone">
+    <div class="container mt-12 px-6 lg:px-0">
+      <h3 class="font-medium text-4xl text-white">
+        Event Zones
+      </h3>
+      <div class="flex flex-wrap mt-6 rounded-lg">
+        <!--Rows-->
+        <div class="md:w-1/2 mt-6 pr-3 w-full">
+          <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="contact-name">Zone rows</label>
+          <input id="rows" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="number" placeholder="0">
+        </div>
+
+        <!--Columns-->
+        <div class="md:w-1/2 mt-6 pl-3 w-full">
+          <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="contact-id">Zone columns</label>
+          <input id="columns" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="number" placeholder="0">
+        </div>
+
+        <hr class="border border-pale-yellow mt-8 w-full">
+
+      </div>
+    </div>
+  </div>
+
+  <div class="zone">
+    <div class="container mt-12 px-6 lg:px-0">
+      <h3 class="font-medium text-4xl text-white">
+        Zones
+      </h3>
+      <div class="flex flex-wrap mt-6 rounded-lg">
+        <!--Rows-->
+        <div class="md:w-1/2 mt-6 pr-3 w-full">
+          <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="contact-name">Zone rows</label>
+          <input id="rows" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="number" placeholder="0">
+        </div>
+
+        <!--Columns-->
+        <div class="md:w-1/2 mt-6 pl-3 w-full">
+          <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="contact-id">Zone columns</label>
+          <input id="columns" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="number" placeholder="0">
+        </div>
+
         <div class="mt-8 py-3 w-full">
           <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
           focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
@@ -66,7 +121,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script lang="ts">
@@ -79,6 +133,14 @@ export default defineComponent({
 
 <style lang="scss">
 .create-event-page {
-  @apply bg-pale-gray h-screen w-full flex flex-row justify-center;
+  @apply bg-pale-gray w-full flex flex-row justify-center;
+}
+
+.event-zone {
+  @apply bg-pale-gray w-full flex flex-row justify-center;
+}
+
+.zone {
+  @apply bg-pale-gray w-full flex flex-row justify-center;
 }
 </style>
