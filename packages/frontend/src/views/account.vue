@@ -11,7 +11,8 @@
         </div>
       </div>
       <div class="text-center">
-        <span class="font-semibold text-white text-2xl">Bhattarapong Somwong</span>
+        <span class="font-semibold text-white text-lg">Bhattarapong Somwong</span>
+        <p class="text-sm ">Bhattarapongs@nu.ac.th</p>
       </div>
         <div class="account-settings-menu">
           <ul class="account-settings-menu-wrapper">
@@ -44,9 +45,9 @@
         </div>
       </nav>
       <div class="account-content">
-        <h1 class="text-3xl font-sans text-pale-yellow m-8">
-          02
-        </h1>
+        <h2 class="text-3xl font-sans text-white m-8">
+          My tickets
+        </h2>
       </div>
   </div>
 </div>
