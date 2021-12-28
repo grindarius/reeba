@@ -1,9 +1,15 @@
 <template>
 <div class="event-page">
  <div class="event-page-content">
-   <img class="object-none object-left-top float-left text-5xl " src="@/assets/bts-world-tour.jpg">
-   <p class="indent-8 text-4xl text-white ml-100 mt-10">BTS WORLD TOUR 'LOVE YOURSELF' BANGKOK</p>
-   <v-mdi name="mdi-magnify"></v-mdi>
+   <img class="object-none object-left-top float-left text-5xl rounded-lg " src="@/assets/bts-world-tour.jpg">
+    <p class="indent-10 text-5xl text-white ml-100 mt-10">BTS WORLD TOUR 'LOVE YOURSELF' BANGKOK</p>
+
+     <div class="grid grid-rows-3 grid-flow-col gap-">
+     <v-mdi name="mdi-calendar-blank" size="60" class="ml-10 mt-10" ></v-mdi>
+     <v-mdi name="mdi-currency-usd " size="60" class="ml-10 mt-10" ></v-mdi>
+     <v-mdi name="mdi-map-marker-account" size="60" class="ml-10 mt-10" ></v-mdi>
+     <v-mdi name="mdi-alarm" size="60" class="ml-10 mt-10" ></v-mdi>
+     </div>
  </div>
 </div>
 </template>
@@ -18,10 +24,10 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .event-page {
-  @apply flex flex-row justify-center w-full bg-pale-gray;
+  @apply flex flex-row justify-center w-full bg-pale-gray ;
 }
 
 .event-page-content {
-  @apply container mt-10;
+  @apply container mt-10 ;
 }
 </style>
