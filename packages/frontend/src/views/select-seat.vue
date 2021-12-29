@@ -11,9 +11,9 @@
           </button>
         </div>
       </div>
-      <p class="title" v-if="selectZone == 0">Select the zone</p>
+      <p class="title" v-if="selectZone === 0">Select the zone</p>
       <p class="title" v-else>Zone {{ zonesData[selectZone-1].zone }}</p>
-      <div class="min-h-screen" v-if="selectZone == 0"></div>
+      <div class="min-h-screen" v-if="selectZone === 0"></div>
       <div class="selected" v-else>
         <div class="price-rate">
           <div class="flex columns-1 gap-3 py-3" v-for="(price, id) in zonesData[selectZone].price" :key="`price-rate-${id}`">

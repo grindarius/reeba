@@ -1,4 +1,10 @@
-export const zonesData: Array<any> = [
+interface Zone{
+  id: number
+  zone: string
+  price: Array<number>
+  seatPerZone: number
+}
+export const zonesData: Array<Zone> = [
   {
     id: 1,
     zone: 'A1',
