@@ -4,14 +4,14 @@
     <!-- Start first box here... -->
     <div class="Official-events-box">
       <div class="whole-event-box">
-        <h2 class="text-Main-event-name">
+        <h1 class="text-Main-event-name">
           Official events
-        </h2>
+        </h1>
         <!-- Official Envent start here... -->
-        <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+        <div class="local-events-box-setting">
           <div class="whole-ticket">
             <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-1-Lido.png" alt="Front of men&#039;s Basic Tee in black.">
+              <img class="image-ticket-main-image" src="@/assets/TK-1-Lido.png" alt="image-tickett">
             </div>
             <div class="ticket-text-info">
               <div>
@@ -26,7 +26,7 @@
           </div>
           <div class="whole-ticket">
             <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-2-BTS.png" alt="Front of men&#039;s Basic Tee in black.">
+              <img class="image-ticket-main-image" src="@/assets/TK-2-BTS.png" alt="image-tickett">
             </div>
             <div class="ticket-text-info">
               <div>
@@ -41,7 +41,7 @@
           </div>
           <div class="whole-ticket">
             <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-3-ReMSC.png" alt="Front of men&#039;s Basic Tee in black.">
+              <img class="image-ticket-main-image" src="@/assets/TK-3-ReMSC.png" alt="image-tickett">
             </div>
             <div class="ticket-text-info">
               <div>
@@ -56,7 +56,7 @@
           </div>
           <div class="whole-ticket">
             <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-4-Sculpture Drive Thru.png" alt="Front of men&#039;s Basic Tee in black.">
+              <img class="image-ticket-main-image" src="@/assets/TK-4-Sculpture Drive Thru.png" alt="image-tickett">
             </div>
             <div class="ticket-text-info">
               <div>
@@ -77,17 +77,17 @@
       <!-- Start seconde box here... -->
     <div class="Local-events-box">
       <div class="whole-event-box">
-        <h2 class="text-Main-event-name">
+        <h1 class="text-Main-event-name">
           Local events
-        </h2>
+        </h1>
 
         <!-- Local Enevnt start here... -->
-        <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+        <div class="local-events-box-setting">
 
           <!-- Cofficial Envent start here... -->
           <div class="whole-ticket">
             <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-5-PGBLive.png" alt="Front of men&#039;s Basic Tee in black.">
+              <img class="image-ticket-main-image" src="@/assets/TK-5-PGBLive.png" alt="image-tickett">
             </div>
             <div class="ticket-text-info">
               <div>
@@ -103,7 +103,7 @@
 
           <div class="whole-ticket">
             <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-6-Child in Mob.png" alt="Front of men&#039;s Basic Tee in black.">
+              <img class="image-ticket-main-image" src="@/assets/TK-6-Child in Mob.png" alt="image-tickett">
             </div>
             <div class="ticket-text-info">
               <div>
@@ -119,7 +119,7 @@
 
           <div class="whole-ticket">
             <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-7-Transport  Chang Chui 2.png" alt="Front of men&#039;s Basic Tee in black.">
+              <img class="image-ticket-main-image" src="@/assets/TK-7-Transport  Chang Chui 2.png" alt="image-tickett">
             </div>
             <div class="ticket-text-info">
               <div>
@@ -135,7 +135,7 @@
 
           <div class="whole-ticket">
             <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-8-Hg80 Bar Vouchers.png" alt="Front of men&#039;s Basic Tee in black.">
+              <img class="image-ticket-main-image" src="@/assets/TK-8-Hg80 Bar Vouchers.png" alt="image-tickett">
             </div>
             <div class="ticket-text-info">
               <div>
@@ -182,24 +182,27 @@ export default defineComponent({
   @apply text-4xl font-bold font-sans text-white;
 }
 .whole-event-box {
-  @apply max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8;
+  @apply max-w-2xl mx-auto py-10 px-10 sm:py-12 sm:px-6 lg:max-w-7xl lg:px-8;
+}
+.local-events-box-setting {
+  @apply mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8;
 }
 .whole-ticket {
   /*ease-in duration-300*/
-  @apply rounded-lg shadow-xl cursor-pointer hover:scale-105;
+  @apply hover:scale-105 rounded-lg shadow-xl cursor-pointer;
 }
 .image-ticket-box {
   @apply bg-gray-200 rounded-t-lg overflow-hidden group-hover:opacity-75;
 }
 .image-ticket-main-image {
-  @apply w-full h-full object-center object-cover lg:w-full lg:h-full;
+  @apply object-cover h-96 w-96;
 }
 .ticket-text-info {
   /*mt-4 flex justify-between bg-yellow-400*/
-  @apply flex flex-col indent-[3%] h-20 rounded-b-lg  justify-self-start bg-pale-yellow;
+  @apply object-cover flex flex-col indent-[3%] h-24 rounded-b-lg  justify-self-start bg-pale-yellow;
 }
 .ticket-text-name {
-  @apply truncate mt-0.5 text-sm font-bold text-black;
+  @apply truncate mt-0.5 text-lg font-medium text-black;
 }
 .ticket-text-time{
   @apply truncate mt-1 text-sm font-normal text-white;
