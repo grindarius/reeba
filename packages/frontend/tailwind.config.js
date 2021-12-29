@@ -7,7 +7,9 @@ module.exports = {
     extend: {
       colors: {
         'pale-yellow': '#D5A755',
-        'pale-gray': '#423E41'
+        'pale-gray': '#423E41',
+        'tree-poppy': '#F19A0F',
+        'tree-poppy-darker': '#FFC425'
       }
     }
   },
