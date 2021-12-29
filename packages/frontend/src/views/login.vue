@@ -1,6 +1,6 @@
 <template>
   <div class="login-page">
-    <div class="w-full h-screen flex items-center justify-center">
+    <div class="login-page-content">
       <form class="w-full md:w-1/3 rounded-lg  ">
         <div class="bg-neutral-700 shadow-xl rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
           <div  class="flex font-bold justify-center scroll-mt-50">
@@ -49,5 +49,9 @@ export default defineComponent({
 <style lang="scss">
 .login-page {
   @apply w-full h-screen bg-pale-gray;
+}
+
+.login-page-content {
+  @apply w-full h-screen flex items-center justify-center;
 }
 </style>
