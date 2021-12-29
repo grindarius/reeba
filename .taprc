@@ -1,0 +1,2 @@
+test-regex: .+\.test.ts$
+ts: true
