@@ -1,19 +1,16 @@
 <template>
-<div class="account-page">
-  <div class="container flex flex-row">
-    <nav class="account-table">
-      <div class="account-image-wrapper">
-        <div class="w-10/12">
-          <img
-            src="src/assets/user.png"
-            class="mx-auto w-20 h-20 rounded-full"
-          />
+  <div class="account-page">
+    <div class="container flex flex-row">
+      <nav class="account-table">
+        <div class="account-image-wrapper">
+          <div class="w-10/12">
+            <img src="src/assets/user.png" class="mx-auto w-20 h-20 rounded-full" />
+          </div>
         </div>
-      </div>
-      <div class="text-center">
-        <span class="font-semibold text-white text-lg">Bhattarapong Somwong</span>
-        <p class="text-sm ">Bhattarapongs@nu.ac.th</p>
-      </div>
+        <div class="text-center">
+          <span class="font-semibold text-white text-lg">Bhattarapong Somwong</span>
+          <p class="text-sm">Bhattarapongs@nu.ac.th</p>
+        </div>
         <div class="account-settings-menu">
           <ul class="account-settings-menu-wrapper">
             <li class="account-settings-menu-list">
@@ -49,7 +46,7 @@
         <section class="content-box-size">
           <div class="content-box-inside">
             <div class="content-box-setting-image">
-              <img  class="content-box-picture" src="src/assets/photo.jpg">
+              <img class="content-box-picture" src="src/assets/photo.jpg" />
             </div>
             <div class="content-box-textbox">
               <p class="content-box-frontsize-title">Rajamangala National Stadium</p>
@@ -64,8 +61,8 @@
           </div>
         </section>
       </div>
+    </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">
@@ -77,7 +74,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.account-page{
+.account-page {
   @apply bg-pale-gray w-full h-screen flex flex-row justify-center;
 }
 
@@ -104,34 +101,44 @@ export default defineComponent({
 .account-content {
   @apply grow;
 }
+
 .content-box {
- @apply w-full my-1 border-none
+  @apply w-full my-1 border-none;
 }
+
 .content-box-frontsize-title {
-  @apply text-sm text-gray-900 font-bold
+  @apply text-sm text-gray-900 font-bold;
 }
+
 .content-box-frontsize-main {
-  @apply text-xs text-gray-900 font-normal
+  @apply text-xs text-gray-900 font-normal;
 }
+
 .content-box-frontsize-message {
-  @apply text-xs text-gray-600 font-normal
+  @apply text-xs text-gray-600 font-normal;
 }
+
 .content-box-size {
-  @apply max-w-md mx-10 px-4 sm:px-6 lg:px-2 py-4
+  @apply max-w-md mx-10 px-4 sm:px-6 lg:px-2 py-4;
 }
+
 .content-box-inside {
-  @apply w-full bg-pale-yellow rounded-lg  overflow-hidden flex flex-col md:flex-row
+  @apply w-full bg-pale-yellow rounded-lg  overflow-hidden flex flex-col md:flex-row;
 }
+
 .content-box-picture {
-  @apply object-center object-cover h-full w-full
+  @apply object-center object-cover h-full w-full;
 }
+
 .content-box-setting-image {
-  @apply w-full md:w-2/5 h-60
+  @apply w-full md:w-2/5 h-60;
 }
+
 .content-box-textbox {
-  @apply w-full md:w-3/5 text-left p-6 md:p-4 space-y-2
+  @apply w-full md:w-3/5 text-left p-6 md:p-4 space-y-2;
 }
+
 .content-heading {
-  @apply text-3xl font-bold text-white m-8
+  @apply text-3xl font-bold text-white m-8;
 }
 </style>
