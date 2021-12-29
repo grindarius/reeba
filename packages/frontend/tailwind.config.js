@@ -7,7 +7,9 @@ module.exports = {
     extend: {
       colors: {
         'pale-yellow': '#D5A755',
-        'pale-gray': '#423E41'
+        'pale-gray': '#423E41',
+        'pale-hover': '#F19A0F',
+        'red-disabled': '#8B183C'
       }
     }
   },
