@@ -11,6 +11,9 @@ export default defineConfig({
       { find: '@reeba/common', replacement: resolve(__dirname, '..', 'common', 'src') }
     ]
   },
+  optimizeDeps: {
+    exclude: ['@reeba/common']
+  },
   server: {
     port: 8080,
     open: true
