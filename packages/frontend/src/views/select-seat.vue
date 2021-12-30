@@ -4,7 +4,7 @@
       <p class="title">Stage zones</p>
       <div class="zone">
         <div class="section">
-          <button class="button" v-on:click="changeZone(zonesData.id)" v-for="(zonesData, id) in zonesData" :key="`section-text-${id}`">
+          <button :class="[zonesData.id === selectZone? 'button-active': 'button']" v-on:click="changeZone(zonesData.id)" v-for="(zonesData, id) in zonesData" :key="`section-text-${id}`">
             <p class="section-text">
               {{ zonesData.zone }}
             </p>
@@ -16,7 +16,7 @@
       <div class="min-h-screen" v-if="selectZone === 0"></div>
       <div class="selected" v-else>
         <div class="price-rate">
-          <div class="flex columns-1 gap-3 py-3" v-for="(price, id) in zonesData[selectZone].price" :key="`price-rate-${id}`">
+          <div class="flex columns-1 gap-3 py-3" v-for="(price, id) in zonesData[selectZone-1].price" :key="`price-rate-${id}`">
             <div class="price-color"></div>
             <p class="text-white">
                 {{ price }}
@@ -71,7 +71,11 @@ export default defineComponent({
 }
 
 .button {
-  @apply w-[100px] h-[100px] bg-pale-yellow hover:ring text-white font-bold py-2 px-4 rounded active:bg-gray-300 focus:outline-none focus:bg-amber-200;
+  @apply w-[100px] h-[100px] bg-pale-yellow hover:ring text-white font-bold py-2 px-4 rounded active:bg-gray-300 focus:outline-none;
+}
+
+.button-active {
+  @apply w-[100px] h-[100px] bg-amber-200 hover:ring text-white font-bold py-2 px-4 rounded active:bg-gray-300 focus:outline-none;
 }
 
 .zone {
