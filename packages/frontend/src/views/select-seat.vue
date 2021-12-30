@@ -1,33 +1,44 @@
 <template>
   <div class="select-seat-page">
     <div class="base">
-      <p class="title">Stage zones</p>
+      <h1 class="title">Stage zones</h1>
       <div class="zone">
         <div class="section">
-          <button :class="[zonesData.id === selectZone? 'button-active': 'button']" v-on:click="changeZone(zonesData.id)" v-for="(zonesData, id) in zonesData" :key="`section-text-${id}`">
-            <p class="section-text">
-              {{ zonesData.zone }}
-            </p>
+          <button
+            :class="`${zoneData.id === userSelectedZone ? 'button-active' : 'button'}`"
+            @click="changeZone(zoneData.id)"
+            v-for="(zoneData, id) in zoneData"
+            :key="`section-text-${id}`">
+            <h1 class="section-text">
+              {{ zoneData.zone }}
+            </h1>
           </button>
         </div>
       </div>
-      <p class="title" v-if="selectZone === 0">Select the zone</p>
-      <p class="title" v-else>Zone {{ zonesData[selectZone-1].zone }}</p>
-      <div v-if="selectZone === 0"></div>
+      <h1 class="title" v-if="userSelectedZone === 0">Select the zone</h1>
+      <h1 class="title" v-else>Zone {{ zoneData[userSelectedZone - 1].zone }}</h1>
+      <div v-if="userSelectedZone === 0"></div>
       <div class="selected" v-else>
         <div class="price-list">
-          <div class="price-rate" v-for="(price, id) in zonesData[selectZone-1].price" :key="`price-rate-${id}`">
-            <div class="price-color" :style="{'background-color': zonesData[selectZone-1].priceColor[id]}"></div>
+          <div class="price-rate"
+            v-for="(ticketPrice, id) in zoneData[userSelectedZone - 1].ticketPrices"
+            :key="`price-rate-${id}`">
+            <div class="price-color" :style="{'background-color': zoneData[userSelectedZone-1].ticketPriceColors[id]}"></div>
             <p class="text-white">
-                {{ price }}
+              {{ ticketPrice }}
             </p>
           </div>
         </div>
         <div class="zone-detail">
           <div class="seats">
             <div class="seats-rows" v-for="row in 5" :key="row">
-              <p class="px-1 text-white">{{alphabet[row-1]}}</p>
-              <button class="price-color" v-on:click="changeSeat(row, column)" :style="{'background-color': zonesData[selectZone-1].priceColor[row-1]}" v-for="column in 15" :key="column">
+              <p class="px-1 text-white">{{ alphabet[row - 1] }}</p>
+              <button
+                class="price-color"
+                @click="changeSeat(row, column)"
+                :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}"
+                v-for="column in 15"
+                :key="column">
                 <v-mdi name="mdi-check"></v-mdi>
               </button>
             </div>
@@ -42,19 +53,19 @@
               <tbody>
                 <tr>
                   <td class="px-3">Date</td>
-                  <td class="text-right px-3">6 April 2022 19:00</td>
+                  <td class="text-right px-3">{{ getTimeString }}</td>
                 </tr>
                 <tr>
                   <td class="px-3">Zone</td>
-                  <td class="text-right px-3">{{zonesData[selectZone-1].zone}}</td>
+                  <td class="text-right px-3">{{ zoneData[userSelectedZone - 1].zone }}</td>
                 </tr>
                 <tr>
                   <td class="px-3">Price</td>
-                  <td class="text-right px-3">{{price}}</td>
+                  <td class="text-right px-3">{{ ticketPrice }}</td>
                 </tr>
                 <tr>
                   <td class="px-3">Seat</td>
-                  <td class="text-right px-3">{{seatNumber}}</td>
+                  <td class="text-right px-3">{{ userSelectedSeatNumber }}</td>
                 </tr>
               </tbody>
             </table>
@@ -66,42 +77,51 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
+import { computed, defineComponent, ref } from 'vue'
 
-import { alphabet, zoneColumns, zoneRows, zonesData } from '@/constants'
+import { alphabet, zoneData } from '@/constants'
+
+dayjs.extend(localizedFormat)
 
 export default defineComponent({
   name: 'select-seat',
   setup () {
-    const selectZone = ref(0)
-    const seatNumber = ref('')
-    const price = ref(0)
-    return {
-      zonesData,
-      selectZone,
-      zoneColumns,
-      zoneRows,
-      alphabet,
-      seatNumber,
-      price
+    const userSelectedZone = ref(0)
+    const userSelectedSeatNumber = ref('')
+    const ticketPrice = ref(0)
+
+    const changeZone = (id: number): void => {
+      userSelectedZone.value = id
+      userSelectedSeatNumber.value = ''
+      ticketPrice.value = 0
     }
-  },
-  methods: {
-    changeZone (id: number) {
-      this.selectZone = id
-      this.seatNumber = ''
-      this.price = 0
-    },
-    changeSeat (row: number, column: number) {
-      this.seatNumber = alphabet[row - 1] + column
-      this.price = zonesData[this.selectZone - 1].price[row - 1]
+
+    const changeSeat = (row: number, column: number): void => {
+      userSelectedSeatNumber.value = alphabet[row - 1] + column
+      ticketPrice.value = zoneData[userSelectedZone.value - 1].ticketPrices[row - 1]
+    }
+
+    const getTimeString = computed((): string => {
+      return dayjs().format('LLLL')
+    })
+
+    return {
+      zoneData,
+      userSelectedZone,
+      changeZone,
+      changeSeat,
+      alphabet,
+      userSelectedSeatNumber,
+      ticketPrice,
+      getTimeString
     }
   }
 })
-
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .select-seat-page {
   @apply w-full flex justify-center bg-pale-gray min-h-screen;
 }
@@ -128,7 +148,7 @@ export default defineComponent({
 
 .section {
   @apply grid gap-4;
-  grid-template-columns: repeat(5, minmax(100px, 100px));
+  grid-template-columns: repeat(5, 100px);
 }
 
 .section-text {
@@ -168,7 +188,7 @@ export default defineComponent({
 }
 
 .detail-header {
-  @apply w-[80%] h-14 bg-black rounded-t-lg flex place-content-center;
+  @apply w-4/5 h-14 bg-black rounded-t-lg flex place-content-center;
 }
 
 .detail-header-text {
@@ -176,6 +196,6 @@ export default defineComponent({
 }
 
 .detail-content {
-  @apply table-auto h-48 w-[80%] bg-white rounded-b-lg;
+  @apply table-auto h-48 w-4/5 bg-white rounded-b-lg;
 }
 </style>
