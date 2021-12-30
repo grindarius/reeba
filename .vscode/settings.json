@@ -20,7 +20,7 @@
     "vue": "html"
   },
   "stylelint.enable": true,
-  "stylelint.config": null,
+  "stylelint.validate": ["vue", "scss"],
   "scss.validate": false,
   "css.validate": false,
   "volar.completion.autoImportComponent": true,
