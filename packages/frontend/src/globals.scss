@@ -1,3 +1,11 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+.exec {
+  width: 400px;
+}
+
+.y {
+  grid-template-columns: auto;
+}
