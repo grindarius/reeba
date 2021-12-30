@@ -34,6 +34,29 @@
            <div class="grow">
           </div>
           <div class="seats-details">
+            <div class="detail-header">
+              <p class="detail-header-text">Reservation Description</p>
+            </div>
+            <table class="detail-content">
+              <tbody>
+                <tr>
+                  <td class="px-3">Date</td>
+                  <td class="text-right px-3">6 April 2022 19:00</td>
+                </tr>
+                <tr>
+                  <td class="px-3">Zone</td>
+                  <td class="text-right px-3">C4</td>
+                </tr>
+                <tr>
+                  <td class="px-3">Price</td>
+                  <td class="text-right px-3">3800</td>
+                </tr>
+                <tr>
+                  <td class="px-3">Seat</td>
+                  <td class="text-right px-3">C09</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -130,6 +153,18 @@ export default defineComponent({
 }
 
 .seats-details {
-  @apply bg-white h-10 w-10 basis-1/3;
+  @apply py-12 basis-1/3;
+}
+
+.detail-header {
+  @apply w-full h-14 bg-black rounded-t-lg flex place-content-center;
+}
+
+.detail-header-text {
+  @apply text-white place-self-center;
+}
+
+.detail-content {
+  @apply table-auto h-48 w-full bg-white rounded-b-lg;
 }
 </style>
