@@ -17,7 +17,7 @@
       <div class="selected" v-else>
         <div class="price-list">
           <div class="price-rate" v-for="(price, id) in zonesData[selectZone-1].price" :key="`price-rate-${id}`">
-            <div class="price-color"></div>
+            <div class="price-color" :style="{'background-color': zonesData[selectZone-1].priceColor[id]}"></div>
             <p class="text-white">
                 {{ price }}
             </p>
@@ -26,8 +26,8 @@
         <div class="zone-detail">
           <div class="seats">
             <div class="seats-rows" v-for="x in 5" :key="x">
-              <p class="px-1 text-white">A</p>
-              <button class="price-color" v-for="x in 15" :key="x">
+              <p class="px-1 text-white">{{alphabet[x-1]}}</p>
+              <button class="price-color" :style="{'background-color': zonesData[selectZone-1].priceColor[x-1]}" v-for="y in 15" :key="y">
               </button>
             </div>
           </div>
@@ -67,7 +67,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 
-import { zoneColumns, zoneRows, zonesData } from '@/constants'
+import { alphabet, zoneColumns, zoneRows, zonesData } from '@/constants'
 
 export default defineComponent({
   name: 'select-seat',
@@ -78,7 +78,7 @@ export default defineComponent({
       selectZone,
       zoneColumns,
       zoneRows,
-      '--zoneColumns': zoneColumns
+      alphabet
     }
   },
   methods: {
@@ -137,7 +137,7 @@ export default defineComponent({
 }
 
 .price-color {
-  @apply rounded-full px-3 py-3 bg-white;
+  @apply rounded-full px-3 py-3;
 }
 
 .zone-detail {
@@ -157,7 +157,7 @@ export default defineComponent({
 }
 
 .detail-header {
-  @apply w-full h-14 bg-black rounded-t-lg flex place-content-center;
+  @apply w-[80%] h-14 bg-black rounded-t-lg flex place-content-center;
 }
 
 .detail-header-text {
@@ -165,6 +165,6 @@ export default defineComponent({
 }
 
 .detail-content {
-  @apply table-auto h-48 w-full bg-white rounded-b-lg;
+  @apply table-auto h-48 w-[80%] bg-white rounded-b-lg;
 }
 </style>
