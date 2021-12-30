@@ -25,9 +25,9 @@
         </div>
         <div class="zone-detail">
           <div class="seats">
-            <div class="seats-rows" v-for="x in 5" :key="x">
-              <p class="px-1 text-white">{{alphabet[x-1]}}</p>
-              <button class="price-color" :style="{'background-color': zonesData[selectZone-1].priceColor[x-1]}" v-for="y in 15" :key="y">
+            <div class="seats-rows" v-for="row in 5" :key="row">
+              <p class="px-1 text-white">{{alphabet[row-1]}}</p>
+              <button class="price-color" v-on:click="changeSeat(row, column)" :style="{'background-color': zonesData[selectZone-1].priceColor[row-1]}" v-for="column in 15" :key="column">
               </button>
             </div>
           </div>
@@ -45,15 +45,15 @@
                 </tr>
                 <tr>
                   <td class="px-3">Zone</td>
-                  <td class="text-right px-3">C4</td>
+                  <td class="text-right px-3">{{zonesData[selectZone-1].zone}}</td>
                 </tr>
                 <tr>
                   <td class="px-3">Price</td>
-                  <td class="text-right px-3">3800</td>
+                  <td class="text-right px-3">{{price}}</td>
                 </tr>
                 <tr>
                   <td class="px-3">Seat</td>
-                  <td class="text-right px-3">C09</td>
+                  <td class="text-right px-3">{{seatNumber}}</td>
                 </tr>
               </tbody>
             </table>
@@ -73,17 +73,27 @@ export default defineComponent({
   name: 'select-seat',
   setup () {
     const selectZone = ref(0)
+    const seatNumber = ref('')
+    const price = ref(0)
     return {
       zonesData,
       selectZone,
       zoneColumns,
       zoneRows,
-      alphabet
+      alphabet,
+      seatNumber,
+      price
     }
   },
   methods: {
     changeZone (id: number) {
       this.selectZone = id
+      this.seatNumber = ''
+      this.price = 0
+    },
+    changeSeat (row: number, column: number) {
+      this.seatNumber = alphabet[row - 1] + column
+      this.price = zonesData[this.selectZone - 1].price[row - 1]
     }
   }
 })
