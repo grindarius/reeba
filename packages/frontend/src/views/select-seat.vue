@@ -13,7 +13,7 @@
       </div>
       <p class="title" v-if="selectZone === 0">Select the zone</p>
       <p class="title" v-else>Zone {{ zonesData[selectZone-1].zone }}</p>
-      <div class="min-h-screen" v-if="selectZone === 0"></div>
+      <div v-if="selectZone === 0"></div>
       <div class="selected" v-else>
         <div class="price-rate">
           <div class="flex columns-1 gap-3 py-3" v-for="(price, id) in zonesData[selectZone-1].price" :key="`price-rate-${id}`">
@@ -23,14 +23,17 @@
             </p>
           </div>
         </div>
-        <div class="price-rate">
-          <div class="flex w-full py-3 px-8">
-            <div class="bg-white h-10 w-10 basis-1/2">
+        <div class="flex w-full py-3 px-8">
+          <div class="py-24 basis-1/2">
+            <div class="flex columns-1 gap-2 py-1 justify-center" v-for="x in 5" :key="x">
+              <p class="px-1">A</p>
+              <button class="price-color" v-for="x in 15" :key="x">
+              </button>
             </div>
-            <div class="grow">
-            </div>
-            <div class="bg-white h-10 w-10 basis-1/3">
-            </div>
+          </div>
+           <div class="grow">
+          </div>
+          <div class="bg-white h-10 w-10 basis-1/3">
           </div>
         </div>
       </div>
@@ -66,7 +69,7 @@ export default defineComponent({
 
 <style lang="scss">
 .select-seat-page {
-  @apply w-full flex justify-center bg-pale-gray;
+  @apply w-full flex justify-center bg-pale-gray min-h-screen;
 }
 
 .title {
@@ -82,7 +85,7 @@ export default defineComponent({
 }
 
 .zone {
-  @apply px-12 py-6 flex sm:justify-center w-full
+  @apply px-12 py-6 flex md:justify-center w-full
 }
 
 .section {
