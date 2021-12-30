@@ -41,7 +41,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 
-import { zonesData } from '@/constants'
+import { zoneColumns, zoneRows, zonesData } from '@/constants'
 
 export default defineComponent({
   name: 'select-seat',
@@ -49,7 +49,10 @@ export default defineComponent({
     const selectZone = ref(0)
     return {
       zonesData,
-      selectZone
+      selectZone,
+      zoneColumns,
+      zoneRows,
+      '--zoneColumns': zoneColumns
     }
   },
   methods: {
@@ -79,11 +82,12 @@ export default defineComponent({
 }
 
 .zone {
-  @apply px-12 py-6 flex justify-center w-full
+  @apply px-12 py-6 flex sm:justify-center w-full
 }
 
 .section {
-  @apply grid grid-cols-5 gap-4;
+  @apply grid gap-4;
+  grid-template-columns: repeat(5, minmax(100px, 100px))
 }
 
 .section-text {
