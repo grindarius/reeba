@@ -28,6 +28,7 @@
             <div class="seats-rows" v-for="row in 5" :key="row">
               <p class="px-1 text-white">{{alphabet[row-1]}}</p>
               <button class="price-color" v-on:click="changeSeat(row, column)" :style="{'background-color': zonesData[selectZone-1].priceColor[row-1]}" v-for="column in 15" :key="column">
+                <v-mdi name="mdi-check"></v-mdi>
               </button>
             </div>
           </div>
@@ -122,12 +123,12 @@ export default defineComponent({
 }
 
 .zone {
-  @apply px-12 py-6 flex md:justify-center w-full
+  @apply px-12 py-6 flex md:justify-center w-full;
 }
 
 .section {
   @apply grid gap-4;
-  grid-template-columns: repeat(5, minmax(100px, 100px))
+  grid-template-columns: repeat(5, minmax(100px, 100px));
 }
 
 .section-text {
