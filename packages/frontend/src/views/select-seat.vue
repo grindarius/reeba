@@ -1,6 +1,6 @@
 <template>
   <div class="select-seat-page">
-    <div class="container py-6">
+    <div class="base">
       <p class="title">Stage zones</p>
       <div class="zone">
         <div class="section">
@@ -15,25 +15,25 @@
       <p class="title" v-else>Zone {{ zonesData[selectZone-1].zone }}</p>
       <div v-if="selectZone === 0"></div>
       <div class="selected" v-else>
-        <div class="price-rate">
-          <div class="flex columns-1 gap-3 py-3" v-for="(price, id) in zonesData[selectZone-1].price" :key="`price-rate-${id}`">
+        <div class="price-list">
+          <div class="price-rate" v-for="(price, id) in zonesData[selectZone-1].price" :key="`price-rate-${id}`">
             <div class="price-color"></div>
             <p class="text-white">
                 {{ price }}
             </p>
           </div>
         </div>
-        <div class="flex w-full py-3 px-8">
-          <div class="py-24 basis-1/2">
-            <div class="flex columns-1 gap-2 py-1 justify-center" v-for="x in 5" :key="x">
-              <p class="px-1">A</p>
+        <div class="zone-detail">
+          <div class="seats">
+            <div class="seats-rows" v-for="x in 5" :key="x">
+              <p class="px-1 text-white">A</p>
               <button class="price-color" v-for="x in 15" :key="x">
               </button>
             </div>
           </div>
            <div class="grow">
           </div>
-          <div class="bg-white h-10 w-10 basis-1/3">
+          <div class="seats-details">
           </div>
         </div>
       </div>
@@ -72,6 +72,10 @@ export default defineComponent({
   @apply w-full flex justify-center bg-pale-gray min-h-screen;
 }
 
+.base {
+  @apply container py-6;
+}
+
 .title {
   @apply text-4xl font-sans font-semibold text-white;
 }
@@ -101,11 +105,31 @@ export default defineComponent({
   @apply w-full;
 }
 
-.price-rate {
+.price-list {
   @apply gap-9 columns-1 flex justify-center;
+}
+
+.price-rate {
+  @apply flex columns-1 gap-3 py-3;
 }
 
 .price-color {
   @apply rounded-full px-3 py-3 bg-white;
+}
+
+.zone-detail {
+  @apply flex w-full py-3 px-8;
+}
+
+.seats {
+  @apply py-24 basis-1/2;
+}
+
+.seats-rows {
+  @apply flex columns-1 gap-2 py-1 justify-center;
+}
+
+.seats-details {
+  @apply bg-white h-10 w-10 basis-1/3;
 }
 </style>
