@@ -160,21 +160,14 @@
 
 <script lang="ts">
 
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'home',
-  components: {
-  },
-  setup () {
-    const message = ref('Vue 3 + TypeScript setup')
-
-    return { message }
-  }
+  name: 'home'
 })
 </script>
 
-<style lang="scss">
+<styl scoped lang="scss">
 .home-page {
   @apply bg-pale-gray flex flex-row justify-center;
 }
