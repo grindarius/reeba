@@ -167,7 +167,7 @@ export default defineComponent({
 })
 </script>
 
-<styl scoped lang="scss">
+<style scoped lang="scss">
 .home-page {
   @apply bg-pale-gray flex flex-row justify-center;
 }
