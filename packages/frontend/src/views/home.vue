@@ -18,7 +18,7 @@
                 <h3 class="ticket-text-name">
                     LIDO CONNECT - Movie Program
                 </h3>
-                <p class="ticket-text-time">16 JAN 2022 | 13:00 PM</p>
+                <p class="ticket-text-time">16 JAN 2022 | 13:00 </p>
                 <p class="ticket-text-location">LIDO CONNECT Hall 1</p>
               </div>
               <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
@@ -33,7 +33,7 @@
                 <h3 class="ticket-text-name">
                   BTS World Tour 'Love Yourself' Bangkok
                 </h3>
-                <p class="ticket-text-time">6 - 7 Apr 2021 | 13:00 PM</p>
+                <p class="ticket-text-time">6 - 7 Apr 2021 | 21:00 </p>
                 <p class="ticket-text-location">Rajamangkala National</p>
               </div>
               <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
@@ -48,7 +48,7 @@
                 <h3 class="ticket-text-name">
                     Re-MSC: Reconnecting with Mindful Self-Compassion
                 </h3>
-                <p class="ticket-text-time">25 APR 2022 | 13:00 PM</p>
+                <p class="ticket-text-time">25 APR 2022 | 13:00 </p>
                 <p class="ticket-text-location">Online Event</p>
               </div>
               <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
@@ -63,7 +63,7 @@
                 <h3 class="ticket-text-name">
                   Sculpture Drive Thru
                 </h3>
-                <p class="ticket-text-time">5 MAR 2022 | 13:00 PM</p>
+                <p class="ticket-text-time">5 MAR 2022 | 13:00 </p>
                 <p class="ticket-text-location">Day Day Ari, Ari Samphan Soi 5</p>
               </div>
               <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
@@ -94,7 +94,7 @@
                 <h3 class="ticket-text-name">
                     PGB Live: Next Level Pinoy
                 </h3>
-                <p class="ticket-text-time">10 MAR 2022 | 13:00 PM</p>
+                <p class="ticket-text-time">10 MAR 2022 | 13:00 </p>
                 <p class="ticket-text-location">Virtual Event</p>
               </div>
               <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
@@ -110,7 +110,7 @@
                 <h3 class="ticket-text-name">
                     Child in Mob
                 </h3>
-                <p class="ticket-text-time">9 JUN 2022 | 13:00 PM</p>
+                <p class="ticket-text-time">9 JUN 2022 | 21:00 </p>
                 <p class="ticket-text-location">Charity</p>
               </div>
               <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
@@ -126,7 +126,7 @@
                 <h3 class="ticket-text-name">
                     Transport | Chang Chui 2
                 </h3>
-                <p class="ticket-text-time">19 JAN 2022 | 13:00 PM</p>
+                <p class="ticket-text-time">19 JAN 2022 | 13:00 </p>
                 <p class="ticket-text-location">Chang Chui</p>
               </div>
               <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
@@ -142,7 +142,7 @@
                 <h3 class="ticket-text-name">
                     Hg80 Bar Vouchers
                 </h3>
-                <p class="ticket-text-time">1 DEC 2022 | 13:00 PM</p>
+                <p class="ticket-text-time">1 DEC 2022 | 13:00 </p>
                 <p class="ticket-text-location">Hg80 Bar Bangkok (near Chong Nonsi BTS)</p>
               </div>
               <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
@@ -189,13 +189,14 @@ export default defineComponent({
 }
 .whole-ticket {
   /*ease-in duration-300*/
-  @apply hover:scale-105 rounded-lg shadow-xl cursor-pointer;
+  /*@apply hover:scale-105 rounded-lg shadow-xl cursor-pointer;*/
+  @apply rounded-lg shadow-xl cursor-pointer transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-105 duration-200;
 }
 .image-ticket-box {
   @apply bg-gray-200 rounded-t-lg overflow-hidden group-hover:opacity-75;
 }
 .image-ticket-main-image {
-  @apply object-cover h-96 w-96;
+  @apply object-cover h-96 w-full;
 }
 .ticket-text-info {
   /*mt-4 flex justify-between bg-yellow-400*/
