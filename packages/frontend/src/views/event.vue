@@ -6,7 +6,7 @@
         <img class="object-contain rounded-lg" src="@/assets/bts-world-tour.jpg" alt="image">
       </div>
       <div class="event-summaries">
-        <h1 class="text-4xl font-sans text-white">
+        <h1 class="text-4xl font-sans text-white ">
           BTS WORLD TOUR 'LOVE YOURSELF' BANGKOK
         </h1>
         <div class="event-details">
