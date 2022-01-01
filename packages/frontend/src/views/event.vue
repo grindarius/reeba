@@ -3,7 +3,7 @@
   <div class="event-page-content">
     <div class="event-top-part">
       <div class="poster-image">
-        <img class="object-contain rounded-lg" src="@/assets/bts-world-tour.jpg" alt="image">
+        <img class="object-contain rounded-lg " src="@/assets/bts-world-tour.jpg" alt="image">
       </div>
       <div class="event-summaries">
         <h1 class="text-4xl font-sans text-white ">
@@ -59,7 +59,7 @@
     </div>
     <div class="event-bottom-part">
       <div class="event-description-section">
-        <div class="text-4xl font-sans text-white mb-4">
+        <div class="text-4xl font-sans text-white mb-4 ">
           Description
         </div>
         <p class="text-white font-sans break-words">
@@ -73,7 +73,7 @@
           สำหรับการซื้อบัตร นั่นคือสามารถเลือกได้เพียงโซนที่ต้องการ และทางระบบจะเลือกที่นั่งที่ดีที่สุดที่เหลืออยู่ในโซนนั้นมาให้ และต้องชำระเงินทันทีตามรายละเอียดดังนี้
         </p>
       </div>
-      <div class="event-tickets-section">
+      <div class="event-tickets-section ">
         <div class="text-4xl font-sans text-white mb-4">
           Tickets
         </div>
@@ -129,11 +129,11 @@ export default defineComponent({
 }
 
 .event-top-part {
-  @apply flex flex-row gap-6;
+  @apply flex flex-row gap-6 ;
 }
 
 .event-bottom-part {
-  @apply grid grid-cols-2 gap-6 mt-12;
+  @apply grid grid-cols-2 gap-6 mt-12 ;
 }
 
 .event-page-content {
@@ -149,7 +149,7 @@ export default defineComponent({
 }
 
 .event-details {
-  @apply grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-4 mt-12;
+  @apply grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-4 mt-12 ;
 }
 
 .event-calendar, .event-prices, .event-times, .event-place {
@@ -157,7 +157,7 @@ export default defineComponent({
 }
 
 .event-prices, .event-place {
-  @apply col-span-1 md:col-span-2;
+  @apply col-span-1 md:col-span-2 ;
 }
 
 .detail-header {
