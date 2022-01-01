@@ -149,7 +149,7 @@ export default defineComponent({
 }
 
 .event-details {
-  @apply grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-4 mt-12;
+  @apply grid grid-cols-2 gap-4 mt-12;
 }
 
 .event-calendar, .event-prices, .event-times, .event-place {
@@ -157,7 +157,7 @@ export default defineComponent({
 }
 
 .event-prices, .event-place {
-  @apply col-span-1 md:col-span-2;
+  @apply col-span-2;
 }
 
 .detail-header {
