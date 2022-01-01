@@ -2,154 +2,144 @@
 <div class="home-page">
   <div class="w-full min-h-screen container">
     <!-- Start first box here... -->
-    <div class="Official-events-box">
-      <div class="whole-event-box">
-        <h1 class="text-Main-event-name">
+    <div class="official-events-box">
+      <div class="event-section">
+        <h1 class="text-main-event-name">
           Official events
         </h1>
-        <!-- Official Envent start here... -->
-        <div class="local-events-box-setting">
-          <div class="whole-ticket">
-            <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-1-Lido.png" alt="image-tickett">
+
+        <div class="event-grid-box">
+          <div class="ticket">
+            <div class="ticket-image-box">
+              <img class="ticket-image" src="@/assets/TK-1-Lido.png" alt="image-tickett">
             </div>
-            <div class="ticket-text-info">
+            <div class="ticket-info">
               <div>
-                <h3 class="ticket-text-name">
+                <h3 class="ticket-name">
                     LIDO CONNECT - Movie Program
                 </h3>
-                <p class="ticket-text-time">16 JAN 2022 | 13:00 </p>
-                <p class="ticket-text-location">LIDO CONNECT Hall 1</p>
+                <p class="ticket-time">16 JAN 2022 | 13:00 </p>
+                <p class="ticket-location">LIDO CONNECT Hall 1</p>
               </div>
-              <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
             </div>
           </div>
-          <div class="whole-ticket">
-            <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-2-BTS.png" alt="image-tickett">
+
+          <div class="ticket">
+            <div class="ticket-image-box">
+              <img class="ticket-image" src="@/assets/TK-2-BTS.png" alt="image-tickett">
             </div>
-            <div class="ticket-text-info">
+            <div class="ticket-info">
               <div>
-                <h3 class="ticket-text-name">
+                <h3 class="ticket-name">
                   BTS World Tour 'Love Yourself' Bangkok
                 </h3>
-                <p class="ticket-text-time">6 - 7 Apr 2021 | 21:00 </p>
-                <p class="ticket-text-location">Rajamangkala National</p>
+                <p class="ticket-time">6 - 7 Apr 2021 | 21:00 </p>
+                <p class="ticket-location">Rajamangkala National</p>
               </div>
-              <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
             </div>
           </div>
-          <div class="whole-ticket">
-            <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-3-ReMSC.png" alt="image-tickett">
+
+          <div class="ticket">
+            <div class="ticket-image-box">
+              <img class="ticket-image" src="@/assets/TK-3-ReMSC.png" alt="image-tickett">
             </div>
-            <div class="ticket-text-info">
+            <div class="ticket-info">
               <div>
-                <h3 class="ticket-text-name">
+                <h3 class="ticket-name">
                     Re-MSC: Reconnecting with Mindful Self-Compassion
                 </h3>
-                <p class="ticket-text-time">25 APR 2022 | 13:00 </p>
-                <p class="ticket-text-location">Online Event</p>
+                <p class="ticket-time">25 APR 2022 | 13:00 </p>
+                <p class="ticket-location">Online Event</p>
               </div>
-              <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
             </div>
           </div>
-          <div class="whole-ticket">
-            <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-4-Sculpture Drive Thru.png" alt="image-tickett">
+
+          <div class="ticket">
+            <div class="ticket-image-box">
+              <img class="ticket-image" src="@/assets/TK-4-Sculpture Drive Thru.png" alt="image-tickett">
             </div>
-            <div class="ticket-text-info">
+            <div class="ticket-info">
               <div>
-                <h3 class="ticket-text-name">
+                <h3 class="ticket-name">
                   Sculpture Drive Thru
                 </h3>
-                <p class="ticket-text-time">5 MAR 2022 | 13:00 </p>
-                <p class="ticket-text-location">Day Day Ari, Ari Samphan Soi 5</p>
+                <p class="ticket-time">5 MAR 2022 | 13:00 </p>
+                <p class="ticket-location">Day Day Ari, Ari Samphan Soi 5</p>
               </div>
-              <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
             </div>
           </div>
-        <!-- Official Envent end here... -->
         </div>
       </div>
       <!-- End of first box... -->
     </div>
+
       <!-- Start seconde box here... -->
-    <div class="Local-events-box">
-      <div class="whole-event-box">
-        <h1 class="text-Main-event-name">
+    <div class="local-events-box">
+      <div class="event-section">
+        <h1 class="text-main-event-name">
           Local events
         </h1>
 
-        <!-- Local Enevnt start here... -->
-        <div class="local-events-box-setting">
-
-          <!-- Cofficial Envent start here... -->
-          <div class="whole-ticket">
-            <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-5-PGBLive.png" alt="image-tickett">
+        <div class="event-grid-box">
+          <div class="ticket">
+            <div class="ticket-image-box">
+              <img class="ticket-image" src="@/assets/TK-5-PGBLive.png" alt="image-tickett">
             </div>
-            <div class="ticket-text-info">
+            <div class="ticket-info">
               <div>
-                <h3 class="ticket-text-name">
+                <h3 class="ticket-name">
                     PGB Live: Next Level Pinoy
                 </h3>
-                <p class="ticket-text-time">10 MAR 2022 | 13:00 </p>
-                <p class="ticket-text-location">Virtual Event</p>
+                <p class="ticket-time">10 MAR 2022 | 13:00 </p>
+                <p class="ticket-location">Virtual Event</p>
               </div>
-              <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
             </div>
           </div>
 
-          <div class="whole-ticket">
-            <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-6-Child in Mob.png" alt="image-tickett">
+          <div class="ticket">
+            <div class="ticket-image-box">
+              <img class="ticket-image" src="@/assets/TK-6-Child in Mob.png" alt="image-tickett">
             </div>
-            <div class="ticket-text-info">
+            <div class="ticket-info">
               <div>
-                <h3 class="ticket-text-name">
+                <h3 class="ticket-name">
                     Child in Mob
                 </h3>
-                <p class="ticket-text-time">9 JUN 2022 | 21:00 </p>
-                <p class="ticket-text-location">Charity</p>
+                <p class="ticket-time">9 JUN 2022 | 21:00 </p>
+                <p class="ticket-location">Charity</p>
               </div>
-              <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
             </div>
           </div>
 
-          <div class="whole-ticket">
-            <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-7-Transport  Chang Chui 2.png" alt="image-tickett">
+          <div class="ticket">
+            <div class="ticket-image-box">
+              <img class="ticket-image" src="@/assets/TK-7-Transport  Chang Chui 2.png" alt="image-tickett">
             </div>
-            <div class="ticket-text-info">
+            <div class="ticket-info">
               <div>
-                <h3 class="ticket-text-name">
+                <h3 class="ticket-name">
                     Transport | Chang Chui 2
                 </h3>
-                <p class="ticket-text-time">19 JAN 2022 | 13:00 </p>
-                <p class="ticket-text-location">Chang Chui</p>
+                <p class="ticket-time">19 JAN 2022 | 13:00 </p>
+                <p class="ticket-location">Chang Chui</p>
               </div>
-              <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
             </div>
           </div>
 
-          <div class="whole-ticket">
-            <div class="image-ticket-box">
-              <img class="image-ticket-main-image" src="@/assets/TK-8-Hg80 Bar Vouchers.png" alt="image-tickett">
+          <div class="ticket">
+            <div class="ticket-image-box">
+              <img class="ticket-image" src="@/assets/TK-8-Hg80 Bar Vouchers.png" alt="image-tickett">
             </div>
-            <div class="ticket-text-info">
+            <div class="ticket-info">
               <div>
-                <h3 class="ticket-text-name">
+                <h3 class="ticket-name">
                     Hg80 Bar Vouchers
                 </h3>
-                <p class="ticket-text-time">1 DEC 2022 | 13:00 </p>
-                <p class="ticket-text-location">Hg80 Bar Bangkok (near Chong Nonsi BTS)</p>
+                <p class="ticket-time">1 DEC 2022 | 13:00 </p>
+                <p class="ticket-location">Hg80 Bar Bangkok (near Chong Nonsi BTS)</p>
               </div>
-              <!--p-- class="text-sm font-medium text-gray-900">$35</!--p-->
             </div>
           </div>
-        <!-- Local Envent end here... -->
-
         </div>
       </div>
       <!-- End of seconed box... -->
@@ -171,37 +161,44 @@ export default defineComponent({
 .home-page {
   @apply bg-pale-gray flex flex-row justify-center;
 }
-.text-Main-event-name {
+
+.text-main-event-name {
   @apply text-4xl font-bold font-sans text-white;
 }
-.whole-event-box {
+
+.event-section {
   @apply max-w-2xl mx-auto py-10 px-10 sm:py-12 sm:px-6 lg:max-w-7xl lg:px-8;
 }
-.local-events-box-setting {
+
+.event-grid-box {
   @apply mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8;
 }
-.whole-ticket {
-  /*ease-in duration-300*/
-  /*@apply hover:scale-105 rounded-lg shadow-xl cursor-pointer;*/
+
+.ticket {
   @apply rounded-lg shadow-xl cursor-pointer transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-105 duration-200;
 }
-.image-ticket-box {
+
+.ticket-image-box {
   @apply bg-gray-200 rounded-t-lg overflow-hidden group-hover:opacity-75;
 }
-.image-ticket-main-image {
+
+.ticket-image {
   @apply object-cover h-96 w-full;
 }
-.ticket-text-info {
-  /*mt-4 flex justify-between bg-yellow-400*/
+
+.ticket-info {
   @apply object-cover flex flex-col indent-[3%] h-24 rounded-b-lg  justify-self-start bg-pale-yellow;
 }
-.ticket-text-name {
+
+.ticket-name {
   @apply truncate mt-0.5 text-lg font-medium text-black;
 }
-.ticket-text-time{
+
+.ticket-time {
   @apply truncate mt-1 text-sm font-normal text-white;
 }
-.ticket-text-location{
+
+.ticket-location {
   @apply truncate mt-1 text-sm font-normal text-white;
 }
 </style>
