@@ -5,7 +5,6 @@ module.exports = {
     './index.html',
     './src/**/*.{ts,js,jsx,vue}'
   ],
-  purge: [],
   theme: {
     extend: {
       fontFamily: {
