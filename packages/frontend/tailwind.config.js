@@ -5,11 +5,11 @@ module.exports = {
     './index.html',
     './src/**/*.{ts,js,jsx,vue}'
   ],
-  purge: [],
   theme: {
+    purge: [],
     extend: {
       fontFamily: {
-        sans: ['Inter', ...defaultTheme.fontFamily.sans]
+        sans: ['IBM Plex Sans Thai', ...defaultTheme.fontFamily.sans]
       },
       colors: {
         'pale-yellow': '#D5A755',
