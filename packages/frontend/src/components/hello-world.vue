@@ -14,6 +14,7 @@
   <p>
     <a href="https://vitejs.dev/guide/features.html" target="_blank">Vite Docs</a>|
     <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Docs</a>
+    <a href="#" class="font-sans text-4xl">สวัสดีค้าบบบบ hello</a>
   </p>
   <h3>count is: {{ count }}</h3>
   <button type="button" class="h-9 ring-2 ring-blue-500 mr-2 p-1" @click="decrement" :disabled="isDisabled">decrement</button>
