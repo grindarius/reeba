@@ -187,7 +187,7 @@ export default defineComponent({
 }
 
 .event-info {
-  @apply object-cover flex flex-col indent-[3%] h-24 rounded-b-lg  justify-self-start bg-pale-yellow;
+  @apply pl-2 object-cover flex flex-col h-24 rounded-b-lg  justify-self-start bg-pale-yellow;
 }
 
 .event-name {
