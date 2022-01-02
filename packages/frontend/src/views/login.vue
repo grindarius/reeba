@@ -1,7 +1,7 @@
 <template>
   <div class="login-page">
     <div class="login-page-content">
-      <form class="w-full md:w-1/3 rounded-lg  ">
+      <form class="w-4/5 md:w-3/5 xl:w-1/3 rounded-lg  ">
         <div class="bg-pale-yellow  shadow-transparent rounded-2xl px-8 pt-6 pb-8 mb-4 flex flex-col">
           <div  class="flex font-bold justify-center scroll-mt-50">
             <img class="h-64 w-64 mb-2" src="@/assets/reeba-logo.png" alt="logo-reeba">
