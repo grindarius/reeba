@@ -101,13 +101,13 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .receipt-page {
   @apply flex flex-row justify-center bg-pale-gray w-full min-h-screen;
 }
 
 .receipt-page-content {
-  @apply container my-10 basis-3/5;
+  @apply container my-10;
 }
 
 .receipt-section {
@@ -115,7 +115,7 @@ export default defineComponent({
 }
 
 .receipt-section-header {
-  @apply flex flex-row justify-between mb-6;
+  @apply flex flex-col md:flex-row md:justify-between justify-start mb-6;
 }
 
 .receipt-section-description {
