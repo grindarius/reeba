@@ -22,7 +22,6 @@
           <a class="inline-block align-baseline font-sans text-right text-white hover:underline" href="#">
             Forgot Password?
           </a>
-          <!--sign in-->
           <div class="flex items-center justify-center">
             <button class="bg-pale-gray hover:bg-gray-hover text-white font-sans py-2 px-8 rounded-full" type="button">
               Sign in
