@@ -7,14 +7,12 @@
             <img class="h-64 w-64 mb-2" src="@/assets/reeba-logo.png" alt="logo-reeba">
           </div>
           <h3 class="text-2xl font-bold text-white text-center">Login</h3>
-          <!--email-->
           <div class="mb-4">
             <label class="block text-white text-sm font-sans mb-2" for="email">
               Email
             </label>
             <input class=" shadow-lg shadow-zinc-900 appearance-none border rounded-xl w-full py-2 px-3 text-grey-darker" id="username" type="text" placeholder="Email">
           </div>
-          <!--password-->
           <div class="mb-6">
             <label class="block text-white text-sm font-sans mb-2" for="password">
               Password
