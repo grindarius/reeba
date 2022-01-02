@@ -42,6 +42,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/create-event',
     name: 'Create Event',
     component: Page.CreateEvent
+  },
+  {
+    path: '/upload',
+    name: 'Upload',
+    component: Page.Upload
   }
 ]
 

@@ -6,6 +6,7 @@ import Login from './login.vue'
 import Payment from './payment.vue'
 import Receipt from './receipt.vue'
 import SelectSeat from './select-seat.vue'
+import Upload from './upload.vue'
 
 export {
   Account,
@@ -15,5 +16,6 @@ export {
   Login,
   Payment,
   Receipt,
-  SelectSeat
+  SelectSeat,
+  Upload
 }
