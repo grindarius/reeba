@@ -4,7 +4,9 @@ import cors from 'fastify-cors'
 import helmet from 'fastify-helmet'
 import jwt from 'fastify-jwt'
 import pg from 'fastify-postgres'
+import { IncomingMessage, Server, ServerResponse } from 'http'
 import { resolve } from 'path'
+import { Logger } from 'pino'
 
 import routes from './routes'
 
@@ -13,8 +15,13 @@ dotenv.config({
 })
 
 const createServer = (): FastifyInstance => {
-  const server = fastify({
-    logger: true
+  const server = fastify<Server, IncomingMessage, ServerResponse, Logger>({
+    logger: {
+      prettyPrint: {
+        colorize: true,
+        translateTime: 'SYS:standard'
+      }
+    }
   })
 
   const pgUsername = process.env.POSTGRES_USERNAME
