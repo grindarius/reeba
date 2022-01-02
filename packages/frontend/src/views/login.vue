@@ -26,7 +26,7 @@
           </a>
           <!--sign in-->
           <div class="flex items-center justify-center">
-            <button class="bg-pale-gray hover:bg-gray-700 text-white font-sans py-2 px-8 rounded-full" type="button">
+            <button class="bg-pale-gray hover:bg-gray-hover text-white font-sans py-2 px-8 rounded-full" type="button">
               Sign in
             </button>
           </div>
