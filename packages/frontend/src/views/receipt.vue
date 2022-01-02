@@ -107,7 +107,7 @@ export default defineComponent({
 }
 
 .receipt-page-content {
-  @apply container my-10;
+  @apply container my-10 lg:px-32;
 }
 
 .receipt-section {
@@ -115,7 +115,7 @@ export default defineComponent({
 }
 
 .receipt-section-header {
-  @apply flex flex-col md:flex-row md:justify-between justify-start mb-6;
+  @apply flex flex-col sm:flex-row sm:justify-between justify-start mb-6;
 }
 
 .receipt-section-description {
