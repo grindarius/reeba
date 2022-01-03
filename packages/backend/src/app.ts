@@ -3,6 +3,7 @@ import fastify, { FastifyInstance } from 'fastify'
 import cors from 'fastify-cors'
 import helmet from 'fastify-helmet'
 import jwt from 'fastify-jwt'
+import multipart from 'fastify-multipart'
 import pg from 'fastify-postgres'
 import { IncomingMessage, Server, ServerResponse } from 'http'
 import { resolve } from 'path'
@@ -14,7 +15,7 @@ dotenv.config({
   path: resolve(__dirname, '..')
 })
 
-const createServer = (): FastifyInstance => {
+const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse, Logger> => {
   const server = fastify<Server, IncomingMessage, ServerResponse, Logger>({
     logger: {
       prettyPrint: {
@@ -54,6 +55,7 @@ const createServer = (): FastifyInstance => {
   void server.register(jwt, {
     secret: jwtSecret
   })
+  void server.register(multipart)
 
   return server
 }
