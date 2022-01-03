@@ -23,8 +23,8 @@
           <div class="price-rate"
             v-for="(ticketPrice, id) in zoneData[userSelectedZone - 1].ticketPrices"
             :key="`price-rate-${id}`">
-            <div class="price-color" :style="{'background-color': zoneData[userSelectedZone-1].ticketPriceColors[id]}"></div>
-            <p class="text-white">
+            <div class="price-rate-color" :style="{'background-color': zoneData[userSelectedZone-1].ticketPriceColors[id]}"></div>
+            <p class="ticket-price-text">
               {{ ticketPrice }}
             </p>
           </div>
@@ -32,14 +32,15 @@
         <div class="zone-detail">
           <div class="seats">
             <div class="seats-rows" v-for="row in 5" :key="row">
-              <p class="px-1 text-white">{{ alphabet[row - 1] }}</p>
+              <p class="seats-rows-text">{{ alphabet[row - 1] }}</p>
               <button
                 class="price-color"
                 @click="changeSeat(row, column)"
                 :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}"
                 v-for="column in 15"
                 :key="column">
-                <v-mdi name="mdi-check"></v-mdi>
+                <div class="blank-space" v-if="alphabet[row - 1] + column !== userSelectedSeatNumber"></div>
+                <v-mdi v-else name="mdi-check" size="24" fill="black"></v-mdi>
               </button>
             </div>
           </div>
@@ -52,20 +53,20 @@
             <table class="detail-content">
               <tbody>
                 <tr>
-                  <td class="px-3">Date</td>
-                  <td class="text-right px-3">{{ getTimeString }}</td>
+                  <td class="left-table">Date</td>
+                  <td class="right-table">{{ getTimeString }}</td>
                 </tr>
                 <tr>
-                  <td class="px-3">Zone</td>
-                  <td class="text-right px-3">{{ zoneData[userSelectedZone - 1].zone }}</td>
+                  <td class="left-table">Zone</td>
+                  <td class="right-table">{{ zoneData[userSelectedZone - 1].zone }}</td>
                 </tr>
                 <tr>
-                  <td class="px-3">Price</td>
-                  <td class="text-right px-3">{{ ticketPrice }}</td>
+                  <td class="left-table">Price</td>
+                  <td class="right-table">{{ ticketPrice }}</td>
                 </tr>
                 <tr>
-                  <td class="px-3">Seat</td>
-                  <td class="text-right px-3">{{ userSelectedSeatNumber }}</td>
+                  <td class="left-table">Seat</td>
+                  <td class="right-table">{{ userSelectedSeatNumber }}</td>
                 </tr>
               </tbody>
             </table>
@@ -160,15 +161,19 @@ export default defineComponent({
 }
 
 .price-list {
-  @apply gap-9 columns-1 flex justify-center;
+  @apply gap-12 columns-1 flex justify-center;
 }
 
 .price-rate {
   @apply flex columns-1 gap-3 py-3;
 }
 
+.price-rate-color {
+  @apply rounded-full px-4 py-4;
+}
+
 .price-color {
-  @apply rounded-full px-3 py-3;
+  @apply flex place-self-center rounded-full;
 }
 
 .zone-detail {
@@ -176,7 +181,7 @@ export default defineComponent({
 }
 
 .seats {
-  @apply py-24 basis-1/2;
+  @apply py-20 basis-1/2;
 }
 
 .seats-rows {
@@ -192,10 +197,30 @@ export default defineComponent({
 }
 
 .detail-header-text {
-  @apply text-white place-self-center;
+  @apply text-white place-self-center text-2xl;
 }
 
 .detail-content {
   @apply table-auto h-48 w-4/5 bg-white rounded-b-lg;
+}
+
+.ticket-price-text {
+  @apply text-white place-self-center text-2xl;
+}
+
+.seats-rows-text {
+  @apply px-1 text-white text-lg place-self-center;
+}
+
+.blank-space {
+  @apply px-3 py-3;
+}
+
+.left-table {
+  @apply px-3 font-semibold;
+}
+
+.right-table {
+  @apply text-right px-3 font-medium;
 }
 </style>
