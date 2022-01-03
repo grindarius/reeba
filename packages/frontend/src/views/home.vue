@@ -1,7 +1,6 @@
 <template>
 <div class="home-page">
   <div class="w-full min-h-screen container">
-    <!-- Start first box here... -->
     <div class="official-events-box">
       <div class="event-section">
         <h1 class="text-main-event-name">
@@ -70,10 +69,8 @@
           </div>
         </div>
       </div>
-      <!-- End of first box... -->
     </div>
 
-      <!-- Start seconde box here... -->
     <div class="local-events-box">
       <div class="event-section">
         <h1 class="text-main-event-name">
@@ -142,7 +139,6 @@
           </div>
         </div>
       </div>
-      <!-- End of seconed box... -->
     </div>
   </div>
 </div>
