@@ -4,7 +4,7 @@
       <nav class="account-table">
         <div class="account-image-wrapper">
           <div class="w-10/12">
-            <img src="src/assets/user.png" class="mx-auto w-20 h-20 rounded-full" />
+            <img src="@/assets/user.png" class="mx-auto w-20 h-20 rounded-full" />
           </div>
         </div>
         <div class="text-center">
