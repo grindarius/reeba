@@ -1,20 +1,35 @@
 {
-  "New Vue TypeScript SFC": {
+  "Vue SPA template": {
     "prefix": "spa",
     "body": [
       "<template>",
+      "<div class=\"$1-page\">",
+      "  <div class=\"$1-page-content\">",
+      "    <h1 class=\"text-white text-4xl\">$1</h1>",
+      "  </div>",
+      "</div>",
       "</template>",
       "",
       "<script lang=\"ts\">",
       "import { defineComponent } from 'vue'",
       "",
       "export default defineComponent({",
-      "  name: '$0'",
+      "  name: '$1'",
       "})",
       "</script>",
+      "",
+      "<style scoped lang=\"scss\">",
+      ".$1-page {",
+      "  @apply w-full min-h-screen flex flex-row justify-center bg-pale-gray;",
+      "}",
+      "",
+      ".$1-page-content {",
+      "  @apply mt-6 container;",
+      "}",
+      "</style>",
       ""
     ],
-    "description": "Generates Vue SPA file for TypeScript"
+    "description": "Generate Vue SPA template"
   },
   "New template tag": {
     "prefix": "template",
@@ -38,5 +53,11 @@
       ""
     ],
     "description": "Generate new fastify route"
+  },
+  "v-mdi tag": {
+    "prefix": "v-mdi",
+    "body": [
+      "<v-mdi name=\"mdi-$1\"></v-mdi>"
+    ]
   }
 }
