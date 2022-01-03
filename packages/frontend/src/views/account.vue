@@ -35,6 +35,16 @@
             </li>
             <li class="account-settings-menu-list">
               <a href="#">
+                <span class="ml-2">Organizer tools</span>
+              </a>
+            </li>
+            <li class="account-settings-menu-list">
+              <a href="#">
+                <span class="ml-2">Developer tools</span>
+              </a>
+            </li>
+            <li class="account-settings-menu-list">
+              <a href="#">
                 <span class="ml-2">Logout</span>
               </a>
             </li>
@@ -57,6 +67,18 @@
               <p class="content-box-frontsize-main">Show date</p>
               <p class="content-box-frontsize-message">Wednesday, 6 April 2022</p>
               <p class="content-box-frontsize-message">Thursday, 7 April 2022</p>
+              <div class="flex flex-col">
+                <div class="flex justify-center">
+                  <a
+                    href="#"
+                    class="bg-pale-gray rounded-full font-bold text-xs text-white px-3 py-2 hover:bg-blue-600 mr-1"
+                  >Transfer</a>
+                  <a
+                    href="#"
+                    class="bg-pale-gray rounded-full font-bold text-xs text-white px-3 py-2 hover:bg-blue-600 mr-1"
+                  >Change descriptions</a>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -95,7 +117,7 @@ export default defineComponent({
 }
 
 .account-settings-menu-list {
-  @apply mb-2 px-4 py-4 text-gray-100 flex flex-row hover:border-l-4 border-pale-yellow hover:bg-gray-800 hover:font-bold rounded-lg;
+  @apply py-4 text-gray-100 flex flex-row hover:border-l-4 border-pale-yellow hover:bg-gray-800 hover:font-bold rounded-lg;
 }
 
 .account-content {
@@ -127,11 +149,11 @@ export default defineComponent({
 }
 
 .content-box-picture {
-  @apply object-center object-cover h-full w-full;
+  @apply object-center object-cover h-64 md:h-full w-full;
 }
 
 .content-box-setting-image {
-  @apply w-full md:w-2/5 h-60;
+  @apply md:w-2/5;
 }
 
 .content-box-textbox {
