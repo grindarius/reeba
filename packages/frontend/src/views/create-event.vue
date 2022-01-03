@@ -88,9 +88,147 @@
           <input id="columns" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="number" placeholder="0">
         </div>
 
-        <hr class="border border-pale-yellow mt-8 w-full">
+        <!-- <hr class="border border-pale-gray mt-8 w-full"> -->
 
       </div>
+
+      <!-- Button -->
+      <div class="button">
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>A1</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>A2</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>A3</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>A4</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>A5</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>A6</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Button -->
+      <div class="button">
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>B1</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>B2</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>B3</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>B4</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>B5</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>B6</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Button -->
+      <div class="button">
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>C1</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>C2</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>C3</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>C4</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>C5</span>
+          </button>
+        </div>
+
+        <div class="pr-3">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>B6</span>
+          </button>
+        </div>
+      </div>
+
+      <hr class="border border-pale-yellow mt-8 w-full">
+
     </div>
   </div>
 
@@ -112,13 +250,48 @@
           <input id="columns" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="number" placeholder="0">
         </div>
 
-        <div class="mt-8 py-3 w-full">
+        <!-- <div class="mt-8 py-3 w-full">
+          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+            <span>Submit</span>
+          </button>
+        </div> -->
+      </div>
+
+      <div class="sit">
+        <div class="bg-pale-gray py-6 flex items-center justify-center space-x-6">
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+        </div>
+
+        <div class="bg-pale-gray flex items-center justify-center space-x-6">
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
+        </div>
+      </div>
+
+      <div class="mt-8 py-3 w-full">
           <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
           focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
             <span>Submit</span>
           </button>
         </div>
-      </div>
     </div>
   </div>
 </template>
@@ -142,5 +315,10 @@ export default defineComponent({
 
 .zone {
   @apply bg-pale-gray w-full flex flex-row justify-center;
+}
+
+.button {
+  @apply bg-pale-gray w-full flex flex-row justify-center;
+  padding-top: 10px;
 }
 </style>
