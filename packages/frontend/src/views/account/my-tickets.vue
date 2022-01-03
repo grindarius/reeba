@@ -42,10 +42,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.my-tickets-page {
-  @apply m-6;
-}
-
 .content-box {
   @apply w-full my-1 border-none;
 }
@@ -63,7 +59,7 @@ export default defineComponent({
 }
 
 .content-box-size {
-  @apply max-w-md mx-10 px-4 sm:px-6 lg:px-2 py-4;
+  @apply max-w-md py-4;
 }
 
 .content-box-inside {
@@ -83,6 +79,6 @@ export default defineComponent({
 }
 
 .page-header {
-  @apply text-3xl font-bold text-white m-8;
+  @apply text-4xl font-semibold text-white;
 }
 </style>
