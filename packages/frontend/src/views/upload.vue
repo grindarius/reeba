@@ -26,14 +26,16 @@ export default defineComponent({
     }
 
     const uploadFile = async (): Promise<void> => {
-      const response = await ky(postAvatar.url, {
-        method: postAvatar.method,
-        json: {
-          hello: 'hello'
-        }
-      }).json<{ hello: string }>()
+      if (file.value == null) {
+        const response = await ky(postAvatar.url, {
+          method: postAvatar.method,
+          json: {
+            hello: 'hello'
+          }
+        }).json<{ message: string }>()
 
-      console.log('world', response)
+        console.log(response)
+      }
     }
 
     onMounted(() => {
