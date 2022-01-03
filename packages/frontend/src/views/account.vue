@@ -46,7 +46,7 @@
         <section class="content-box-size">
           <div class="content-box-inside">
             <div class="content-box-setting-image">
-              <img class="content-box-picture" src="src/assets/photo.jpg" />
+              <img class="content-box-picture" src="@/assets/photo.jpg" />
             </div>
             <div class="content-box-textbox">
               <p class="content-box-frontsize-title">Rajamangala National Stadium</p>
