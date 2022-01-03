@@ -161,7 +161,7 @@ export default defineComponent({
 }
 
 .price-list {
-  @apply gap-12 columns-1 flex justify-center;
+  @apply gap-12 columns-1 flex md:justify-center;
 }
 
 .price-rate {
@@ -193,11 +193,11 @@ export default defineComponent({
 }
 
 .detail-header {
-  @apply w-4/5 h-14 bg-black rounded-t-lg flex place-content-center;
+  @apply md:w-4/5 h-14 bg-black rounded-t-lg flex place-content-center;
 }
 
 .detail-header-text {
-  @apply text-white place-self-center text-2xl;
+  @apply text-white place-self-center text-2xl text-center;
 }
 
 .detail-content {
