@@ -299,4 +299,12 @@ export default defineComponent({
   @apply bg-pale-gray w-full flex flex-row justify-center;
   padding-top: 10px;
 }
+
+#event-section-rows::-webkit-inner-spin-button,
+#event-section-rows::-webkit-outer-spin-button,
+#event-section-columns::-webkit-inner-spin-button,
+#event-section-columns::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
 </style>
