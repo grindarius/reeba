@@ -94,9 +94,11 @@ export default defineComponent({
     const ticketPrice = ref(0)
 
     const changeZone = (id: number): void => {
-      userSelectedZone.value = id
-      userSelectedSeatNumber.value = ''
-      ticketPrice.value = 0
+      if (userSelectedZone.value !== id) {
+        userSelectedZone.value = id
+        userSelectedSeatNumber.value = ''
+        ticketPrice.value = 0
+      }
     }
 
     const changeSeat = (row: number, column: number): void => {
@@ -140,7 +142,7 @@ export default defineComponent({
 }
 
 .button-active {
-  @apply w-[100px] h-[100px] bg-yellow-hover hover:ring text-white font-bold py-2 px-4 rounded active:bg-gray-hover focus:outline-none;
+  @apply w-[100px] h-[100px] bg-yellow-hover text-white font-bold py-2 px-4 rounded;
 }
 
 .zone {
