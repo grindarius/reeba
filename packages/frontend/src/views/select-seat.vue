@@ -136,11 +136,11 @@ export default defineComponent({
 }
 
 .button {
-  @apply w-[100px] h-[100px] bg-pale-yellow hover:ring text-white font-bold py-2 px-4 rounded active:bg-gray-300 focus:outline-none;
+  @apply w-[100px] h-[100px] bg-pale-yellow hover:ring text-white font-bold py-2 px-4 rounded active:bg-gray-hover focus:outline-none;
 }
 
 .button-active {
-  @apply w-[100px] h-[100px] bg-amber-200 hover:ring text-white font-bold py-2 px-4 rounded active:bg-gray-300 focus:outline-none;
+  @apply w-[100px] h-[100px] bg-yellow-hover hover:ring text-white font-bold py-2 px-4 rounded active:bg-gray-hover focus:outline-none;
 }
 
 .zone {
@@ -213,7 +213,7 @@ export default defineComponent({
 }
 
 .blank-space {
-  @apply px-3 py-3;
+  @apply px-3 py-3 rounded-full hover:ring;
 }
 
 .left-table {
