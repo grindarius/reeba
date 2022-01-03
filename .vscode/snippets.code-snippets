@@ -20,7 +20,7 @@
       "",
       "<style scoped lang=\"scss\">",
       ".$1-page {",
-      "  @apply w-screen min-h-screen flex flex-row justify-center bg-pale-gray;",
+      "  @apply w-full min-h-screen flex flex-row justify-center bg-pale-gray;",
       "}",
       "",
       ".$1-page-content {",
