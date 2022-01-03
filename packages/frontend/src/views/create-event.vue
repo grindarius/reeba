@@ -5,82 +5,65 @@
         Create event
       </h3>
       <div class="event-descriptions">
-        <div class="flex flex-wrap mt-6 py-4 rounded-lg">
-          <div class="flex w-full">
-            <div class="flex-grow">
-              <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="event-name">Event Name</label>
-              <input id="event-name" class="appearance-none bg-gray-100 block outline-none border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="text" placeholder="Name" maxlength="50">
-            </div>
-            <div class="flex-none font-mono mb-2.5 mt-auto px-3 text-white text-md">0/50</div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-6 mt-6 py-4">
+          <div class="input-box col-span-4">
+            <label for="event-name" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Event name</label>
+            <input type="text" id="event-name" name="event-name" class="appearance-none outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" placeholder="LOVE YOUR SELF">
           </div>
-
-          <div class="mt-6 w-full">
-            <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="event-url">Website</label>
-            <input id="event-url" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="url" placeholder="https://reebAwebsite.com">
+          <div class="input-box col-span-4">
+            <label for="event-website-name" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Website</label>
+            <input type="text" id="event-website-name" name="event-website-name" class="appearance-none outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" placeholder="https://event.reeba.com">
           </div>
-
-          <div class="md:w-1/2 mt-6 w-full pr-3">
-          <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="date">Date</label>
-            <input id="date" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="date">
+          <div class="input-box col-span-4 md:col-span-2">
+            <label for="event-date" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Date</label>
+            <input type="date" id="event-date" name="event-date" class="outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3">
           </div>
-
-          <div class="md:w-2/4 mt-6 w-full pl-3">
-            <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="time-start">Time Start</label>
-            <input id="time-start" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="time">
+          <div class="input-box col-span-4 md:col-span-2">
+            <label for="event-start-time" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Start time</label>
+            <input type="time" id="event-start-time" name="event-start-time" class="outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3">
           </div>
-
-          <div class="md:w-1/4 mt-6 pr-3 w-full">
-            <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="location">Location</label>
-            <input id="location" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="text" placeholder="Rajamangkhala National Stadium">
+          <div class="input-box col-span-4 md:col-span-1">
+            <label for="event-location-name" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Location name</label>
+            <input type="text" id="event-location-name" name="event-location-name" class="appearance-none outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" placeholder="Rajamangkala National Stadium">
           </div>
-
-          <div class="md:w-3/4 mt-6 pl-3 w-full">
-            <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="location-map">Google map link</label>
-            <input id="location-map" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="text" placeholder="Hua Mak, Bang Kapi, Bangkok,Thailand">
+          <div class="input-box col-span-4 md:col-span-3">
+            <label for="event-location-coords" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Location coordinates</label>
+            <input type="text" id="event-location-coords" name="event-location-coords" class="appearance-none outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" placeholder="latitude,longitude">
           </div>
-
-          <div class="md:w-1/2 mt-6 pr-3 w-full">
-            <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="contact-name">Who to contact</label>
-            <input id="contact-name" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="text" placeholder="Bhattarapong Somwong">
+          <div class="input-box col-span-4">
+            <label for="event-contact" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Who to contact</label>
+            <input type="text" id="event-contact" name="event-contact" class="appearance-none outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" placeholder="Ms. Sopaphorn Jamyoo">
           </div>
-
-          <div class="md:w-1/2 mt-6 pl-3 w-full">
-            <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="contact-id">Contact credentials</label>
-            <input id="contact-id" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="text" placeholder="LINE, Facebook, Email, Tel">
+          <div class="input-box col-span-4">
+            <label for="event-contact-credentials" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Credentials</label>
+            <input type="text" id="event-contact-credentials" name="event-contact-credentials" class="appearance-none outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" placeholder="">
           </div>
-
-          <hr class="border border-pale-yellow mt-8 w-full">
+          <hr class="border col-span-4 border-pale-yellow mt-8 w-full">
         </div>
-
       </div>
-      <div class="event-zones">
+      <div class="event-sections">
+        <h3 class="font-medium text-4xl text-white my-6">
+          Event sections
+        </h3>
+        <div class="flex flex-col md:flex-row gap-y-4 gap-x-6">
+          <div class="input-box grow">
+            <label for="event-section-columns" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Section columns</label>
+            <input type="number" id="event-section-columns" name="event-section-columns" class="outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" value="5">
+          </div>
+          <div class="input-box grow">
+            <label for="event-section-rows" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Section roles</label>
+            <input type="number" id="event-section-rows" name="event-section-rows" class="outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" value="5">
+          </div>
+        </div>
+        <div class="event-sections-visualize">
 
+        </div>
       </div>
       <div class="event-seatings">
 
       </div>
   <div class="event-zone">
     <div class="container mt-12 px-6 lg:px-0">
-      <h3 class="font-medium text-4xl text-white">
-        Event Zones
-      </h3>
-      <div class="flex flex-wrap mt-6 rounded-lg">
-        <!--Rows-->
-        <div class="md:w-1/2 mt-6 pr-3 w-full">
-          <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="contact-name">Zone rows</label>
-          <input id="rows" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="number" placeholder="0">
-        </div>
-
-        <!--Columns-->
-        <div class="md:w-1/2 mt-6 pl-3 w-full">
-          <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="contact-id">Zone columns</label>
-          <input id="columns" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="number" placeholder="0">
-        </div>
-
-        <!-- <hr class="border border-pale-gray mt-8 w-full"> -->
-
-      </div>
-
       <!-- Button -->
       <div class="button">
         <div class="pr-3">
