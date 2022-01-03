@@ -14,19 +14,19 @@
         <div class="account-settings-menu">
           <ul class="account-settings-menu-wrapper">
             <li class="account-settings-menu-list">
-              <router-link to="/account">My tickets</router-link>
+              <router-link class="w-full h-full" to="/account">My tickets</router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link to="/account/purchase-history">Purchase history</router-link>
+              <router-link class="w-full h-full" to="/account/purchase-history">Purchase history</router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link to="/account/edit">Edit profile</router-link>
+              <router-link class="w-full h-full" to="/account/edit">Edit profile</router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link to="/account/organizer">Organizer tools</router-link>
+              <router-link class="w-full h-full" to="/account/organizer">Organizer tools</router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link to="/account/developer">Developer tools</router-link>
+              <router-link class="w-full h-full" to="/account/developer">Developer tools</router-link>
             </li>
           </ul>
         </div>
@@ -68,10 +68,10 @@ export default defineComponent({
 }
 
 .account-settings-menu-list {
-  @apply py-4 pl-2 text-gray-100 flex flex-row hover:bg-gray-hover hover:font-bold rounded-lg;
+  @apply py-4 pl-2 text-gray-100 hover:bg-gray-hover hover:font-bold rounded-lg;
 }
 
 .account-content {
-  @apply grow;
+  @apply grow p-12;
 }
 </style>
