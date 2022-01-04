@@ -47,162 +47,30 @@
         </h3>
         <div class="flex flex-col md:flex-row gap-y-4 gap-x-6">
           <div class="input-box grow">
-            <label for="event-section-columns" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Section columns</label>
-            <input type="number" id="event-section-columns" name="event-section-columns" class="outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" value="5">
+            <label for="event-section-rows" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Section rows</label>
+            <input type="number" id="event-section-rows" name="event-section-rows" class="input" step="1" v-model="selectedSectionColumn">
           </div>
           <div class="input-box grow">
-            <label for="event-section-rows" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Section roles</label>
-            <input type="number" id="event-section-rows" name="event-section-rows" class="outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" value="5">
+            <label for="event-section-columns" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Section columns</label>
+            <input type="number" id="event-section-columns" name="event-section-columns" class="input" step="1" v-model="selectedSectionRow">
           </div>
         </div>
         <div class="event-sections-visualize">
-
+          <div class="p-6 grid gap-4 mx-auto my-0" :style="{ 'grid-template-columns': `repeat(${selectedSectionColumn}, 100px)`, 'grid-template-rows': `repeat(${selectedSectionRow}, 100px)` }">
+            <template v-for="(row) in sections" :key="JSON.stringify(row)">
+              <template v-for="(button) in row" :key="button">
+                <button :class="selectedSection === button ? 'button-active' : 'button'" @click="onSelectedSection(button)">
+                  <h1 class="text-4xl font-sans font-semibold text-black">
+                    {{ button }}
+                  </h1>
+                </button>
+              </template>
+            </template>
+          </div>
         </div>
       </div>
       <div class="event-seatings">
-
       </div>
-  <div class="event-zone">
-    <div class="container mt-12 px-6 lg:px-0">
-      <!-- Button -->
-      <div class="button">
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>A1</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>A2</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>A3</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>A4</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>A5</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>A6</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Button -->
-      <div class="button">
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>B1</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>B2</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>B3</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>B4</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>B5</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>B6</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Button -->
-      <div class="button">
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>C1</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>C2</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>C3</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>C4</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>C5</span>
-          </button>
-        </div>
-
-        <div class="pr-3">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>B6</span>
-          </button>
-        </div>
-      </div>
-
-      <hr class="border border-pale-yellow mt-8 w-full">
-
-    </div>
-  </div>
     </div>
   </div>
 
@@ -271,10 +139,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
+
+import { generateEventSections } from '@/utils/array'
 
 export default defineComponent({
-  name: 'create-event'
+  name: 'create-event',
+  setup () {
+    const selectedSection = ref('A1')
+    const selectedSectionRow = ref('5')
+    const selectedSectionColumn = ref('5')
+
+    const sections = computed(() => generateEventSections(Number(selectedSectionRow.value) || 1, Number(selectedSectionColumn.value) || 1))
+
+    const onSelectedSection = (value: string): void => {
+      selectedSection.value = value
+    }
+
+    return {
+      sections,
+      onSelectedSection,
+      selectedSection,
+      selectedSectionRow,
+      selectedSectionColumn
+    }
+  }
 })
 </script>
 
@@ -296,12 +185,19 @@ export default defineComponent({
 }
 
 .button {
-  @apply bg-pale-gray w-full flex flex-row justify-center;
-  padding-top: 10px;
+  @apply w-[100px] h-[100px] bg-pale-yellow hover:ring text-white font-bold py-2 px-4 rounded active:bg-gray-hover focus:outline-none;
+}
+
+.button-active {
+  @apply w-[100px] h-[100px] bg-yellow-hover text-white font-bold py-2 px-4 rounded;
 }
 
 .input {
   @apply outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3;
+}
+
+.event-sections-visualize {
+  @apply mt-3 overflow-x-auto w-full;
 }
 
 input[type=number] {
