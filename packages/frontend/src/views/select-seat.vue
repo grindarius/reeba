@@ -44,8 +44,6 @@
               </button>
             </div>
           </div>
-           <div class="grow">
-          </div>
           <div class="seats-details">
             <div class="detail-header">
               <p class="detail-header-text">Reservation Description</p>
@@ -134,7 +132,7 @@ export default defineComponent({
 }
 
 .title {
-  @apply text-4xl font-sans font-semibold text-white;
+  @apply text-4xl font-sans font-semibold text-white py-2;
 }
 
 .button {
@@ -146,7 +144,7 @@ export default defineComponent({
 }
 
 .zone {
-  @apply px-12 py-6 flex md:justify-center w-full;
+  @apply px-10 py-6 flex md:justify-center w-full;
 }
 
 .section {
@@ -163,7 +161,7 @@ export default defineComponent({
 }
 
 .price-list {
-  @apply gap-12 columns-1 flex md:justify-center;
+  @apply gap-12 columns-1 flex md:justify-center py-6 px-12 md:px-0;
 }
 
 .price-rate {
@@ -179,7 +177,7 @@ export default defineComponent({
 }
 
 .zone-detail {
-  @apply flex w-full py-3 px-8;
+  @apply flex w-full py-3 px-8 flex-col lg:flex-row justify-between;
 }
 
 .seats {
@@ -187,15 +185,15 @@ export default defineComponent({
 }
 
 .seats-rows {
-  @apply flex columns-1 gap-2 py-1 justify-center;
+  @apply flex columns-1 gap-2 py-1 px-10 md:justify-center md:px-0;
 }
 
 .seats-details {
-  @apply py-12 basis-1/3;
+  @apply py-12 basis-1/3 justify-center flex flex-col place-items-center columns-1;
 }
 
 .detail-header {
-  @apply md:w-4/5 h-14 bg-black rounded-t-lg flex place-content-center;
+  @apply w-full md:w-4/5 h-14 bg-black rounded-t-lg flex place-content-center;
 }
 
 .detail-header-text {
@@ -203,7 +201,7 @@ export default defineComponent({
 }
 
 .detail-content {
-  @apply table-auto h-48 w-4/5 bg-white rounded-b-lg;
+  @apply table-auto w-full md:w-4/5 h-48 bg-white rounded-b-lg;
 }
 
 .ticket-price-text {
