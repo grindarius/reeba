@@ -85,12 +85,13 @@
           </div>
         </div>
         <div class="seatings">
-          <div class="grid max-w-min gap-3 mx-auto mt-3 mb-6 overflow-x-auto" :style="selectedZoneStyles">
+          <div class="grid max-w-min mx-auto mt-3 mb-6 gap-2 py-5 overflow-x-auto" :style="selectedZoneStyles">
             <template v-for="row in zones" :key="JSON.stringify(row)">
               <template v-for="seat in row" :key="seat">
                 <button
                   @click="onSeatChange(seat)"
-                  class="p-3 m-3 rounded-full bg-pale-yellow"></button>
+                  class="w-8 h-8 rounded-full bg-pale-yellow">
+                </button>
               </template>
             </template>
           </div>
@@ -129,8 +130,8 @@ export default defineComponent({
     })
     const selectedZoneStyles = computed(() => {
       return {
-        'grid-template-columns': `repeat(${selectedZoneColumn.value || '1'}, 16px)`,
-        'grid-template-rows': `repeat(${selectedZoneRow.value || '1'}, 16px)`
+        'grid-template-columns': `repeat(${selectedZoneColumn.value || '1'}, 32px)`,
+        'grid-template-rows': `repeat(${selectedZoneRow.value || '1'}, 32px)`
       }
     })
 
