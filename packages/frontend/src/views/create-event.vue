@@ -98,7 +98,7 @@
       </div>
       <button
         type="submit"
-        class="bg-pale-yellow outline-none disabled:bg-red-disabled focus:ring-pale-gray hover:bg-yellow-hover justify-center flex flex-row tracking-wide w-full py-2 rounded-lg mb-56">
+        class="bg-pale-yellow outline-none disabled:bg-red-disabled focus:ring-pale-gray hover:bg-yellow-hover justify-center flex flex-row tracking-wide w-full py-2 rounded-lg">
         <span>Submit</span>
       </button>
     </div>
@@ -161,7 +161,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .create-event-page {
-  @apply bg-pale-gray w-full min-h-screen flex flex-row justify-center;
+  @apply bg-pale-gray w-full min-h-screen pb-48 flex flex-row justify-center;
 }
 
 .create-event-page-content {
