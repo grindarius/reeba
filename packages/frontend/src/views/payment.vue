@@ -3,7 +3,7 @@
   <div class="payment-section">
     <div class="payment-card">
       <h1 class="text-4xl font-medium">
-        BTS WORLD TOUR 'LOVE YOUR SELF' BANGKOK
+        BTS WORLD TOUR 'LOVE YOURSELF' BANGKOK
       </h1>
       <div class="payment-details">
         <div class="payment-channels">
@@ -49,22 +49,28 @@
         <div class="receipt">
           <h1 class="text-2xl font-sans mb-6">Payment receipt</h1>
           <div class="payment-small-receipt">
-            <h1 class="text-xl font-sans text-white">Ticket type</h1>
+            <h1 class="text-xl font-sans text-white mb-2">Ticket type</h1>
               <div class="ticket-type">
                 <h1 class="text-white">C4-C09</h1>
-                <h1 class="text-white">THB 6,400</h1>
+                <h1 class="text-white">THB 6,400.00</h1>
               </div>
-              <h1 class="text-s font-sans text-gray-400">(THB 6,400 × 1)</h1>
-              <div class="flex flex-col">
-                <div>01</div>
-                <div>02</div>
-                <div>03</div>
+              <h1 class="text-s font-sans text-gray-400">(THB 6,400.00 × 1)</h1>
+              <div class="subtotal-detail text-white text-l font-sans">
+                <h1>Subtotal</h1>
+                <h1>THB 6,400.00</h1>
               </div>
-              <div class="flex flex-col-reverse">
-                <div>01</div>
-                <div>02</div>
-                <div>03</div>
+              <div class="service-fee-detail text-white font-sans">
+                <h1 class="text-l">Service Fee</h1>
+                <h1 class="text-l">THB 40.00</h1>
               </div>
+              <div class="credit-fee-detail text-white font-sans text-l">
+                <h1>Credit Card Fee (VAT incl.)</h1>
+                <h1>THB 5.00</h1>
+              </div>
+          </div>
+          <div class="total-detail text-black font-sans text-2xl">
+            <h1>Total</h1>
+            <h1 class="text-gray-600">THB 6,445.00</h1>
           </div>
         </div>
       </div>
@@ -128,6 +134,22 @@ export default defineComponent({
 
 .ticket-type {
   @apply flex justify-between
+}
+
+.subtotal-detail {
+  @apply flex mt-2 justify-between
+}
+
+.service-fee-detail {
+  @apply flex mt-2 justify-between
+}
+
+.credit-fee-detail {
+  @apply flex mt-2 justify-between
+}
+
+.total-detail {
+  @apply flex mt-2 justify-between
 }
 
 #card-number-input, #card-name-input, #card-expiration-date-input, #card-cvc-input {
