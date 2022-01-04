@@ -8,35 +8,35 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-6 mt-6 py-4">
           <div class="input-box col-span-4">
             <label for="event-name" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Event name</label>
-            <input type="text" id="event-name" name="event-name" class="appearance-none outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" placeholder="LOVE YOUR SELF">
+            <input type="text" id="event-name" name="event-name" class="appearance-none input" placeholder="LOVE YOUR SELF">
           </div>
           <div class="input-box col-span-4">
             <label for="event-website-name" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Website</label>
-            <input type="text" id="event-website-name" name="event-website-name" class="appearance-none outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" placeholder="https://event.reeba.com">
+            <input type="text" id="event-website-name" name="event-website-name" class="appearance-none input" placeholder="https://event.reeba.com">
           </div>
           <div class="input-box col-span-4 md:col-span-2">
             <label for="event-date" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Date</label>
-            <input type="date" id="event-date" name="event-date" class="outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3">
+            <input type="date" id="event-date" name="event-date" class="input">
           </div>
           <div class="input-box col-span-4 md:col-span-2">
             <label for="event-start-time" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Start time</label>
-            <input type="time" id="event-start-time" name="event-start-time" class="outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3">
+            <input type="time" id="event-start-time" name="event-start-time" class="input">
           </div>
           <div class="input-box col-span-4 md:col-span-1">
             <label for="event-location-name" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Location name</label>
-            <input type="text" id="event-location-name" name="event-location-name" class="appearance-none outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" placeholder="Rajamangkala National Stadium">
+            <input type="text" id="event-location-name" name="event-location-name" class="appearance-none input" placeholder="Rajamangkala National Stadium">
           </div>
           <div class="input-box col-span-4 md:col-span-3">
             <label for="event-location-coords" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Location coordinates</label>
-            <input type="text" id="event-location-coords" name="event-location-coords" class="appearance-none outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" placeholder="latitude,longitude">
+            <input type="text" id="event-location-coords" name="event-location-coords" class="appearance-none input" placeholder="latitude,longitude">
           </div>
           <div class="input-box col-span-4">
             <label for="event-contact" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Who to contact</label>
-            <input type="text" id="event-contact" name="event-contact" class="appearance-none outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" placeholder="Ms. Sopaphorn Jamyoo">
+            <input type="text" id="event-contact" name="event-contact" class="appearance-none input" placeholder="Ms. Sopaphorn Jamyoo">
           </div>
           <div class="input-box col-span-4">
             <label for="event-contact-credentials" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Credentials</label>
-            <input type="text" id="event-contact-credentials" name="event-contact-credentials" class="appearance-none outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3" placeholder="">
+            <input type="text" id="event-contact-credentials" name="event-contact-credentials" class="appearance-none input" placeholder="">
           </div>
           <hr class="border col-span-4 border-pale-yellow mt-8 w-full">
         </div>
@@ -300,11 +300,19 @@ export default defineComponent({
   padding-top: 10px;
 }
 
-#event-section-rows::-webkit-inner-spin-button,
-#event-section-rows::-webkit-outer-spin-button,
-#event-section-columns::-webkit-inner-spin-button,
-#event-section-columns::-webkit-outer-spin-button {
-  appearance: none;
+.input {
+  @apply outline-none ring-pale-gray focus:ring-gray-hover bg-gray-100 focus:bg-white rounded w-full px-4 py-3;
+}
+
+input[type=number] {
   margin: 0;
+
+  &::-webkit-inner-spin-button {
+    appearance: none;
+  }
+
+  &::-webkit-outer-spin-button {
+    appearance: none;
+  }
 }
 </style>
