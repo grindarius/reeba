@@ -36,7 +36,7 @@
           </div>
           <div class="input-box col-span-4">
             <label for="event-contact-credentials" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Credentials</label>
-            <input type="text" id="event-contact-credentials" name="event-contact-credentials" class="appearance-none input" placeholder="">
+            <input type="text" id="event-contact-credentials" name="event-contact-credentials" class="appearance-none input" placeholder="092-3245423">
           </div>
           <hr class="border col-span-4 border-pale-yellow mt-8 w-full">
         </div>
@@ -56,9 +56,9 @@
           </div>
         </div>
         <div class="event-sections-visualize">
-          <div class="p-6 grid gap-4 mx-auto my-0" :style="{ 'grid-template-columns': `repeat(${selectedSectionColumn}, 100px)`, 'grid-template-rows': `repeat(${selectedSectionRow}, 100px)` }">
-            <template v-for="(row) in sections" :key="JSON.stringify(row)">
-              <template v-for="(button) in row" :key="button">
+          <div class="grid max-w-min gap-4 mx-auto my-0" :style="selectedSectionStyles">
+            <template v-for="row in sections" :key="JSON.stringify(row)">
+              <template v-for="button in row" :key="button">
                 <button :class="selectedSection === button ? 'button-active' : 'button'" @click="onSelectedSection(button)">
                   <h1 class="text-4xl font-sans font-semibold text-black">
                     {{ button }}
@@ -68,29 +68,45 @@
             </template>
           </div>
         </div>
+        <hr class="border col-span-4 border-pale-yellow mt-8 w-full">
       </div>
       <div class="event-seatings">
         <h3 class="font-medium text-4xl text-white my-6">
           Zone {{ selectedSection }}
         </h3>
+        <div class="flex flex-col md:flex-row gap-y-4 gap-x-6">
+          <div class="input-box grow">
+            <label for="event-zone-rows" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Zone rows</label>
+            <input type="number" id="event-zone-rows" name="event-zone-rows" class="input" step="1" v-model="selectedZoneRow">
+          </div>
+          <div class="input-box grow">
+            <label for="event-zone-columns" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Zone columns</label>
+            <input type="number" id="event-zone-columns" name="event-zone-columns" class="input" step="1" v-model="selectedZoneColumn">
+          </div>
+        </div>
+        <div class="seatings">
+          <div class="grid max-w-min gap-3 mx-auto mt-3 mb-6" :style="selectedZoneStyles">
+            <template v-for="row in zones" :key="JSON.stringify(row)">
+              <template v-for="seat in row" :key="seat">
+                <button
+                  @click="onSeatChange(seat)"
+                  class="p-3 rounded-full bg-pale-yellow"></button>
+              </template>
+            </template>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-
-  <div class="zone">
-    <div class="container mt-12 px-6 lg:px-0">
-      <div class="mt-8 py-3 w-full">
-        <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-        focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-          <span>Submit</span>
-        </button>
-      </div>
+      <button
+        type="submit"
+        class="bg-pale-yellow outline-none disabled:bg-red-disabled focus:ring-pale-gray hover:bg-yellow-hover justify-center flex flex-row tracking-wide w-full py-2 rounded-lg mb-56">
+        <span>Submit</span>
+      </button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, StyleValue } from 'vue'
 
 import { generateEventSections } from '@/utils/array'
 
@@ -100,11 +116,30 @@ export default defineComponent({
     const selectedSection = ref('A1')
     const selectedSectionRow = ref('5')
     const selectedSectionColumn = ref('5')
+    const selectedZoneRow = ref('5')
+    const selectedZoneColumn = ref('5')
 
     const sections = computed(() => generateEventSections(Number(selectedSectionRow.value) || 1, Number(selectedSectionColumn.value) || 1))
+    const zones = computed(() => generateEventSections(Number(selectedZoneRow.value) || 1, Number(selectedZoneColumn.value || 1)))
+    const selectedSectionStyles = computed<StyleValue>(() => {
+      return {
+        'grid-template-columns': `repeat(${selectedSectionColumn.value || '1'}, 100px)`,
+        'grid-template-rows': `repeat(${selectedSectionRow.value || '1'}, 100px)`
+      }
+    })
+    const selectedZoneStyles = computed(() => {
+      return {
+        'grid-template-columns': `repeat(${selectedZoneColumn.value || '1'}, 16px)`,
+        'grid-template-rows': `repeat(${selectedZoneRow.value || '1'}, 16px)`
+      }
+    })
 
     const onSelectedSection = (value: string): void => {
       selectedSection.value = value
+    }
+
+    const onSeatChange = (value: string): void => {
+      console.log(value)
     }
 
     return {
@@ -112,7 +147,13 @@ export default defineComponent({
       onSelectedSection,
       selectedSection,
       selectedSectionRow,
-      selectedSectionColumn
+      selectedSectionColumn,
+      selectedZoneRow,
+      selectedZoneColumn,
+      selectedSectionStyles,
+      selectedZoneStyles,
+      zones,
+      onSeatChange
     }
   }
 })
@@ -120,7 +161,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .create-event-page {
-  @apply bg-pale-gray w-full flex flex-row justify-center;
+  @apply bg-pale-gray w-full min-h-screen flex flex-row justify-center;
 }
 
 .create-event-page-content {
@@ -148,7 +189,7 @@ export default defineComponent({
 }
 
 .event-sections-visualize {
-  @apply mt-3 overflow-x-auto w-full;
+  @apply mt-3 overflow-x-auto w-full p-3;
 }
 
 input[type=number] {
