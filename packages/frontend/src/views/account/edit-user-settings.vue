@@ -21,7 +21,7 @@
           <input id="password" type="password" class="box-text">
         </div>
         <div>
-          <label class="text-header" for="passwordConfirmation">Password Confirmation</label>
+          <label class="text-header" for="passwordConfirmation">Password Confirm</label>
           <input id="passwordConfirmation" type="password" class="box-text">
         </div>
       </div>
@@ -47,7 +47,7 @@ export default defineComponent({
 }
 
 .text-header {
-  @apply  text-sm text-gray-900 font-bold;
+  @apply  text-sm text-pale-gray font-bold;
 }
 
 .box-text {
@@ -55,7 +55,7 @@ export default defineComponent({
 }
 
 .button-save {
-  @apply px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-hover rounded-md hover:bg-red-disabled;
+  @apply px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pale-gray rounded-md hover:bg-gray-hover;
 }
 
 .setting-bg-content {

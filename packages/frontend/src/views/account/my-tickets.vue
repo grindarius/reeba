@@ -19,11 +19,11 @@
           <div class="flex justify-center">
             <a
               href="#"
-              class="bg-pale-gray rounded-full font-bold text-xs text-white px-3 py-2 hover:bg-blue-600 mr-1"
+              class="button-chang"
             >Transfer</a>
             <a
               href="#"
-              class="bg-pale-gray rounded-full font-bold text-xs text-white px-3 py-2 hover:bg-blue-600 mr-1"
+              class="button-chang"
             >Change descriptions</a>
           </div>
         </div>
@@ -80,5 +80,9 @@ export default defineComponent({
 
 .page-header {
   @apply text-4xl font-semibold text-white;
+}
+
+.button-chang {
+  @apply bg-pale-gray rounded-full font-bold text-xs text-white px-3 py-2 hover:bg-gray-hover mr-1;
 }
 </style>
