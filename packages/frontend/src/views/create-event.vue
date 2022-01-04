@@ -85,12 +85,12 @@
           </div>
         </div>
         <div class="seatings">
-          <div class="grid max-w-min gap-3 mx-auto mt-3 mb-6" :style="selectedZoneStyles">
+          <div class="grid max-w-min gap-3 mx-auto mt-3 mb-6 overflow-x-auto" :style="selectedZoneStyles">
             <template v-for="row in zones" :key="JSON.stringify(row)">
               <template v-for="seat in row" :key="seat">
                 <button
                   @click="onSeatChange(seat)"
-                  class="p-3 rounded-full bg-pale-yellow"></button>
+                  class="p-3 m-3 rounded-full bg-pale-yellow"></button>
               </template>
             </template>
           </div>
@@ -108,7 +108,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref, StyleValue } from 'vue'
 
-import { generateEventSections } from '@/utils/array'
+import { generateEventSections } from '@/utils'
 
 export default defineComponent({
   name: 'create-event',
