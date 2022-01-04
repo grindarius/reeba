@@ -48,11 +48,11 @@
         <div class="flex flex-col md:flex-row gap-y-4 gap-x-6">
           <div class="input-box grow">
             <label for="event-section-rows" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Section rows</label>
-            <input type="number" id="event-section-rows" name="event-section-rows" class="input" step="1" v-model="selectedSectionColumn">
+            <input type="number" id="event-section-rows" name="event-section-rows" class="input" step="1" v-model="selectedSectionRow">
           </div>
           <div class="input-box grow">
             <label for="event-section-columns" class="block font-bold py-2 text-white text-xs tracking-wide uppercase">Section columns</label>
-            <input type="number" id="event-section-columns" name="event-section-columns" class="input" step="1" v-model="selectedSectionRow">
+            <input type="number" id="event-section-columns" name="event-section-columns" class="input" step="1" v-model="selectedSectionColumn">
           </div>
         </div>
         <div class="event-sections-visualize">
@@ -70,70 +70,21 @@
         </div>
       </div>
       <div class="event-seatings">
+        <h3 class="font-medium text-4xl text-white my-6">
+          Zone {{ selectedSection }}
+        </h3>
       </div>
     </div>
   </div>
 
   <div class="zone">
     <div class="container mt-12 px-6 lg:px-0">
-      <h3 class="font-medium text-4xl text-white">
-        Zones
-      </h3>
-      <div class="flex flex-wrap mt-6 rounded-lg">
-        <!--Rows-->
-        <div class="md:w-1/2 mt-6 pr-3 w-full">
-          <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="contact-name">Zone rows</label>
-          <input id="rows" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="number" placeholder="0">
-        </div>
-
-        <!--Columns-->
-        <div class="md:w-1/2 mt-6 pl-3 w-full">
-          <label class="block font-bold py-2 text-white text-xs tracking-wide uppercase" for="contact-id">Zone columns</label>
-          <input id="columns" class="appearance-none bg-gray-100 block border border-gray-200 focus:bg-white focus:border-gray-500 leading-tight px-4 py-3 rounded w-full" type="number" placeholder="0">
-        </div>
-
-        <!-- <div class="mt-8 py-3 w-full">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>Submit</span>
-          </button>
-        </div> -->
-      </div>
-
-      <div class="sit">
-        <div class="bg-pale-gray py-6 flex items-center justify-center space-x-6">
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-        </div>
-
-        <div class="bg-pale-gray flex items-center justify-center space-x-6">
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-          <div class="bg-pale-yellow w-8 h-8 rounded-full"></div>
-        </div>
-      </div>
-
       <div class="mt-8 py-3 w-full">
-          <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
-          focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
-            <span>Submit</span>
-          </button>
-        </div>
+        <button type="submit" class="bg-pale-yellow block border border-transparent disabled:text-gray-900 focus:ring-2
+        focus:ring-pale-gray focus:ring-offset-2 font-semibold hover:bg-amber-200 justify-center mb-2 px-10 py-2 rounded-md shadow-sm text-sm text-pale-gray tracking-wide uppercase w-full">
+          <span>Submit</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
