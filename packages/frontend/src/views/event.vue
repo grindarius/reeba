@@ -141,7 +141,7 @@ export default defineComponent({
 }
 
 .poster-image {
-  @apply rounded-lg;
+  @apply rounded-lg ;
 }
 
 .event-summaries {
