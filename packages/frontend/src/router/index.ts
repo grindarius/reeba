@@ -39,7 +39,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.Receipt
   },
   {
-    path: '/create-event',
+    path: '/create',
     name: 'Create Event',
     component: Page.CreateEvent
   }
