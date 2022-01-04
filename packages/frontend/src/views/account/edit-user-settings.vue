@@ -7,7 +7,7 @@
       <div class="flex justify-center">
         <img class="rounded-full object-cover object-center h-24 w-24" src="@/assets/user.png" alt="Avatar Upload" />
       </div>
-      <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+      <div class="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2">
         <div>
           <label class="text-header" for="username">Username</label>
           <input id="username" type="text" class="box-text">

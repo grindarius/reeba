@@ -29,7 +29,7 @@
             <router-link class="w-full h-full" to="/account/developer">Developer tools</router-link>
           </li>
           <li class="account-settings-menu-list">
-            <router-link class="w-full h-full" to="#">Logout</router-link>
+            <router-link class="w-full h-full" to="/">Logout</router-link>
           </li>
         </ul>
       </div>
