@@ -21,7 +21,7 @@
           <input id="password" type="password" class="box-text">
         </div>
         <div>
-          <label class="text-header" for="passwordConfirmation">Password Confirm</label>
+          <label class="text-header" for="passwordConfirmation">Confirm Password</label>
           <input id="passwordConfirmation" type="password" class="box-text">
         </div>
       </div>
@@ -47,11 +47,11 @@ export default defineComponent({
 }
 
 .text-header {
-  @apply  text-sm text-pale-gray font-bold;
+  @apply  text-base text-pale-gray font-bold;
 }
 
 .box-text {
-  @apply block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring;
+  @apply block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-100 dark:text-black dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring;
 }
 
 .button-save {
@@ -59,6 +59,6 @@ export default defineComponent({
 }
 
 .setting-bg-content {
-  @apply max-w-4xl p-6 mx-auto bg-pale-yellow rounded-md shadow-md  mt-20;
+  @apply w-full p-6 mx-auto bg-pale-yellow rounded-md shadow-md  mt-10;
 }
 </style>
