@@ -1,23 +1,157 @@
 <template>
 <div class="purchase-history-page">
   <h1 class="page-header">Purchase History</h1>
-  <section class="content-box-size">
-    <div class="content-box-inside">
-      <div class="content-box-setting-image">
-        <img class="content-box-picture" src="@/assets/photo.jpg" />
-      </div>
-      <div class="content-box-textbox">
-        <p class="content-box-frontsize-title">Rajamangala National Stadium</p>
-        <p class="content-box-frontsize-main">Seat</p>
-        <p class="content-box-frontsize-message">C4-C09</p>
-        <p class="content-box-frontsize-main">Prices</p>
-        <p class="content-box-frontsize-message">6800 THB</p>
-        <p class="content-box-frontsize-main">Show date</p>
-        <p class="content-box-frontsize-message">Wednesday, 6 April 2022</p>
-        <p class="content-box-frontsize-message">Thursday, 7 April 2022</p>
+<div class="flex flex-col mt-8">
+  <div class="setting-header">
+    <div class="header-box">
+        <table class="min-w-full">
+          <thead>
+            <tr>
+              <th
+                class="box-bg">
+                Name</th>
+              <th
+                class="box-bg">
+                Title</th>
+              <th
+                class="box-bg">
+                Status</th>
+              <th
+                class="box-bg">
+                Price</th>
+            </tr>
+          </thead>
+
+          <tbody class="bg-pale-yellow">
+            <tr>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10">
+                    <img class="h-10 w-10 rounded-full"
+                      src="@/assets/user.png"
+                      alt="">
+                  </div>
+
+                  <div class="ml-4">
+                    <div class="text-sm leading-5 font-medium text-pale-gray">Bhattarapong Somwong
+                    </div>
+                    <div class="text-sm leading-5 text-gray-500">Bhattarapongs@nu.ac.th</div>
+                  </div>
+                </div>
+              </td>
+
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+                <div class="text-sm leading-5 text-pale-gray">BTS World Tour 'Love Yourself'</div>
+                <div class="text-sm leading-5 text-gray-500">Rajamangkala National</div>
+              </td>
+
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+                <span
+                  class="active-setting">Ready to roll</span>
+              </td>
+
+              <td
+                class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray text-sm leading-5 text-pale-gray">
+                1000</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10">
+                    <img class="h-10 w-10 rounded-full"
+                      src="@/assets/user.png"
+                      alt="">
+                  </div>
+
+                  <div class="ml-4">
+                    <div class="text-sm leading-5 font-medium text-pale-gray">Bhattarapong Somwong
+                    </div>
+                    <div class="text-sm leading-5 text-gray-500">Bhattarapongs@nu.ac.th</div>
+                  </div>
+                </div>
+              </td>
+
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+                <div class="text-sm leading-5 text-pale-gray">Re-MSC: Reconnecting with Mi</div>
+                <div class="text-sm leading-5 text-gray-500">Online Event</div>
+              </td>
+
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+                <span
+                  class="active-setting">Ready to roll</span>
+              </td>
+
+              <td
+                class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray text-sm leading-5 text-pale-gray ">
+                1000</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10">
+                    <img class="h-10 w-10 rounded-full"
+                      src="@/assets/user.png"
+                      alt="">
+                  </div>
+
+                  <div class="ml-4">
+                    <div class="text-sm leading-5 font-medium text-pale-gray">Bhattarapong Somwong
+                    </div>
+                    <div class="text-sm leading-5 text-gray-500">Bhattarapongs@nu.ac.th</div>
+                  </div>
+                </div>
+              </td>
+
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+                <div class="text-sm leading-5 text-pale-gray">LIDO CONNECT - Movie Program</div>
+                <div class="text-sm leading-5 text-gray-500">LIDO CONNECT Hall 1</div>
+              </td>
+
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+                <span
+                  class="active-setting">Ready to roll</span>
+              </td>
+
+              <td
+                class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray text-sm leading-5 text-pale-gray">
+                1000</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10">
+                    <img class="h-10 w-10 rounded-full"
+                      src="@/assets/user.png"
+                      alt="">
+                  </div>
+
+                  <div class="ml-4">
+                    <div class="text-sm leading-5 font-medium text-pale-gray">Bhattarapong Somwong
+                    </div>
+                    <div class="text-sm leading-5 text-gray-500">Bhattarapongs@nu.ac.th</div>
+                  </div>
+                </div>
+              </td>
+
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+                <div class="text-sm leading-5 text-pale-gray">Sculpture Drive Thru</div>
+                <div class="text-sm leading-5 text-gray-500">Day Day Ari, Ari Samphan Soi 5</div>
+              </td>
+
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+                <span
+                  class="active-setting">Ready to roll</span>
+              </td>
+
+              <td
+                class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray text-sm leading-5 text-pale-gray">
+                1000</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </section>
+  </div>
 </div>
 </template>
 
@@ -34,36 +168,28 @@ export default defineComponent({
   @apply text-4xl font-semibold text-white;
 }
 
-.content-box-frontsize-title {
-  @apply text-sm text-gray-900 font-bold;
+.box-bg {
+  @apply px-6 py-3 border-b border-pale-gray bg-pale-yellow text-left text-xs leading-4 font-medium text-pale-gray uppercase tracking-wider;
 }
 
-.content-box-frontsize-main {
-  @apply text-xs text-gray-900 font-normal;
+.box-bg-text-header {
+  @apply flex items-center px-5 py-6 shadow-sm rounded-md bg-pale-yellow text-pale-gray;
 }
 
-.content-box-frontsize-message {
-  @apply text-xs text-gray-600 font-normal;
+.box-text-secondary {
+  @apply text-2xl font-semibold text-pale-gray;
 }
 
-.content-box-size {
-  @apply max-w-md py-4;
+.header-box {
+  @apply align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-pale-gray;
 }
 
-.content-box-inside {
-  @apply w-full bg-pale-yellow rounded-lg  overflow-hidden flex flex-col md:flex-row;
+.setting-header {
+  @apply -my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8;
 }
 
-.content-box-picture {
-  @apply object-center object-cover h-64 md:h-full w-full;
-}
-
-.content-box-setting-image {
-  @apply md:w-2/5;
-}
-
-.content-box-textbox {
-  @apply w-full md:w-3/5 text-left p-6 md:p-4 space-y-2;
+.active-setting {
+  @apply px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800;
 }
 
 </style>
