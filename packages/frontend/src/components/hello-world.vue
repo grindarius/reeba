@@ -15,7 +15,7 @@
     <a href="https://vitejs.dev/guide/features.html" target="_blank">Vite Docs</a>|
     <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Docs</a>
   </p>
-  <h3>count is: {{ count }}</h3>
+  <h3 class="font-sans font-semibold text-2xl">count is: {{ count }}</h3>
   <button type="button" class="h-9 ring-2 ring-blue-500 mr-2 p-1" @click="decrement" :disabled="isDisabled">decrement</button>
   <button type="button" class="h-9 ring-2 ring-blue-500 p-1" @click="increment">increment</button>
   <p>Edit<code>components/hello-world.vue</code> to test hot module replacement.</p>

@@ -18,22 +18,23 @@
   "dependencies": {
     "@mdi/js": "^6.5.95",
     "@reeba/common": "^1.0.0",
-    "axios": "^0.24.0",
-    "pinia": "^2.0.6",
+    "dayjs": "^1.10.7",
+    "ky": "^0.28.7",
+    "pinia": "^2.0.9",
     "postcss-import": "^14.0.2",
-    "vue": "^3.0.11",
+
+    "vue": "^3.2.25",
+
     "vue-mdijs": "^0.5.12",
     "vue-router": "^4.0.11"
   },
   "devDependencies": {
-    "@types/ws": "^8.2.2",
-    "@vitejs/plugin-vue": "^1.10.2",
-    "@vue/compiler-sfc": "^3.2.24",
+    "@vitejs/plugin-vue": "^2.0.0",
     "autoprefixer": "^10.4.0",
     "postcss": "^8.4.5",
     "sass": "^1.44.0",
-    "tailwindcss": "^3.0.2",
-    "vite": "^2.7.0",
+    "tailwindcss": "^3.0.8",
+    "vite": "^2.7.8",
     "vue-tsc": "^0.29.8"
   }
 }
