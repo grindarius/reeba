@@ -7,14 +7,14 @@
         <img class="content-box-picture" src="@/assets/photo.jpg" />
       </div>
       <div class="content-box-textbox">
-        <p class="content-box-frontsize-title">Rajamangala National Stadium</p>
-        <p class="content-box-frontsize-main">Seat</p>
-        <p class="content-box-frontsize-message">C4-C09</p>
-        <p class="content-box-frontsize-main">Prices</p>
-        <p class="content-box-frontsize-message">6800 THB</p>
-        <p class="content-box-frontsize-main">Show date</p>
-        <p class="content-box-frontsize-message">Wednesday, 6 April 2022</p>
-        <p class="content-box-frontsize-message">Thursday, 7 April 2022</p>
+        <h1 class="content-box-frontsize-title">Rajamangala National Stadium</h1>
+        <h1 class="content-box-frontsize-main">Seat</h1>
+        <h1 class="content-box-frontsize-message">C4-C09</h1>
+        <h1 class="content-box-frontsize-main">Prices</h1>
+        <h1 class="content-box-frontsize-message">6800 THB</h1>
+        <h1 class="content-box-frontsize-main">Show date</h1>
+        <h1 class="content-box-frontsize-message">Wednesday, 6 April 2022</h1>
+        <h1 class="content-box-frontsize-message">Thursday, 7 April 2022</h1>
         <div class="flex flex-col">
           <div class="flex justify-center">
             <a

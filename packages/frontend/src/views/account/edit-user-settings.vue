@@ -59,6 +59,6 @@ export default defineComponent({
 }
 
 .setting-bg-content {
-  @apply w-full p-6 mx-auto bg-pale-yellow rounded-md shadow-md  mt-10;
+  @apply w-full p-6 mx-auto bg-pale-yellow rounded-md shadow-md mt-10;
 }
 </style>
