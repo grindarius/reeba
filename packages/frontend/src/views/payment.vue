@@ -7,22 +7,22 @@
       </h1>
       <div class="payment-details">
         <div class="payment-channels">
-          <h1 class="text-2xl font-sans mb-6">Payment details</h1>
+          <h1 class="text-2xl font-sans mb-6">Payment Details</h1>
           <div class="payment-selectors">
             <div class="payment-type-selections">
-              <h1 class="text-xl font-sans text-white">Payment types</h1>
+              <h1 class="text-xl font-sans text-white">Payment Types</h1>
               <div class="payment-types">
                 <div class="payment-method">
-                  <v-mdi name="mdi-wallet" fill="#D5A755" size="32"></v-mdi>
-                  <h1 class="text-md font-sans text-white">Credit card</h1>
+                  <v-mdi name="mdi-credit-card" fill="#D5A755" size="32"></v-mdi>
+                  <h1 class="text-md font-sans text-white mt-2">Credit card</h1>
                 </div>
                 <div class="payment-method">
-                  <v-mdi name="mdi-wallet" fill="#D5A755" size="32"></v-mdi>
-                  <h1 class="text-md font-sans text-white">Google Pay</h1>
+                  <v-mdi name="mdi-google" fill="#D5A755" size="32"></v-mdi>
+                  <h1 class="text-md font-sans text-white mt-2">Google Pay</h1>
                 </div>
                 <div class="payment-method">
-                  <v-mdi name="mdi-wallet" fill="#D5A755" size="32"></v-mdi>
-                  <h1 class="text-md font-sans text-white">Paypal</h1>
+                  <v-mdi name="mdi-qrcode-scan" fill="#D5A755" size="32"></v-mdi>
+                  <h1 class="text-md font-sans text-white mt-2">QR Code</h1>
                 </div>
               </div>
             </div>
@@ -31,7 +31,7 @@
               <label for="card-number-input" class="text-sm font-sans text-white inline-block mt-2">Card number</label>
               <input type="text" name="card-number-input" id="card-number-input" placeholder="**** **** **** ****">
               <label for="card-name-input" class="text-sm font-sans text-white inline-block mt-2">Card name</label>
-              <input type="text" name="card-name-input" id="card-name-input" placeholder="Tom Holland">
+              <input type="text" name="card-name-input" id="card-name-input" placeholder="">
               <div class="mt-2 grid grid-cols-2 gap-6">
                 <div class="card-expiration-date-section">
                   <label for="card-expiration-date" class="text-sm font-sans text-white">Expiration date</label>
@@ -47,9 +47,9 @@
           </div>
         </div>
         <div class="receipt">
-          <h1 class="text-2xl font-sans mb-6">Payment receipt</h1>
+          <h1 class="text-2xl font-sans mb-6">Payment Receipt</h1>
           <div class="payment-small-receipt">
-            <h1 class="text-xl font-sans text-white mb-2">Ticket type</h1>
+            <h1 class="text-xl font-sans text-white mb-2">Ticket Type</h1>
               <div class="ticket-type">
                 <h1 class="text-white">C4-C09</h1>
                 <h1 class="text-white">THB 6,400.00</h1>
@@ -68,9 +68,16 @@
                 <h1>THB 5.00</h1>
               </div>
           </div>
-          <div class="total-detail text-black font-sans text-2xl">
+          <div class="total-detail text-black font-sans text-2xl mt-5">
             <h1>Total</h1>
             <h1 class="text-gray-600">THB 6,445.00</h1>
+          </div>
+          <div class="agree-check mt-5">
+            <input type="checkbox" id="agreed" name="agreed" unchecked>
+            <label for="scales"> By checking out, I agree to ReebA's Terms of Service and Event Organizer's Disclaimer. I accept that the items in this order cannot be canceled and payments are non-refundable.</label>
+          <div class="checkout-button">
+            <button class="rounded-full">Pay Now</button>
+          </div>
           </div>
         </div>
       </div>
@@ -133,23 +140,25 @@ export default defineComponent({
 }
 
 .ticket-type {
-  @apply flex justify-between
-}
+  @apply flex justify-between; }
 
 .subtotal-detail {
-  @apply flex mt-2 justify-between
-}
+  @apply flex mt-2 justify-between; }
 
 .service-fee-detail {
-  @apply flex mt-2 justify-between
-}
+  @apply flex mt-2 justify-between; }
 
 .credit-fee-detail {
-  @apply flex mt-2 justify-between
-}
+  @apply flex mt-2 justify-between; }
 
 .total-detail {
-  @apply flex mt-2 justify-between
+  @apply flex mt-2 justify-between; }
+
+.agree-check {
+  @apply mt-2 text-sm; }
+
+.checkout-button {
+  @apply flex mt-6 h-12 rounded-full justify-center bg-pale-yellow hover:bg-yellow-hover font-sans text-white text-2xl;
 }
 
 #card-number-input, #card-name-input, #card-expiration-date-input, #card-cvc-input {
