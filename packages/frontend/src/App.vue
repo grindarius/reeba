@@ -1,23 +1,34 @@
 <template>
   <nav class="navbar">
-    <div class="logo w-14 lg:w-96">
-      <img src="@/assets/reeba-logo.png" alt="Reeba logo" width="56" class="logo-image">
+    <div class="big-navbar">
+      <div class="logo w-12 lg:w-96">
+        <img src="@/assets/reeba-logo.png" alt="Reeba logo" width="48" class="logo-image">
+      </div>
+      <div class="searchbar">
+        <label>
+          <input type="text" name="searchbar" id="searchbar">
+        </label>
+      </div>
+      <div class="buttons">
+        <router-link class="create-event-button" to="/create">
+          Create event
+        </router-link>
+        <router-link class="login-button" to="/login">
+          Login/Sign up
+        </router-link>
+      </div>
+      <div class="buttons-mobile">
+        <v-mdi name="mdi-hamburger" size="40" fill="#423E41"></v-mdi>
+      </div>
     </div>
-    <div class="searchbar">
-      <label>
-        <input type="text" name="searchbar" id="searchbar">
-      </label>
-    </div>
-    <div class="buttons">
-      <router-link class="create-event-button" to="/create">
-        Create event
-      </router-link>
-      <router-link class="login-button" to="/login">
-        Login/Sign up
-      </router-link>
-    </div>
-    <div class="buttons-mobile">
-      <v-mdi name="mdi-hamburger" fill="#423E41"></v-mdi>
+    <div class="small-navbar">
+      <ul>
+        <li>lorem</li>
+        <li>lorem</li>
+        <li>lorem</li>
+        <li>lorem</li>
+        <li>lorem</li>
+      </ul>
     </div>
   </nav>
   <router-view></router-view>
@@ -33,7 +44,15 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .navbar {
-  @apply h-12 w-full bg-pale-yellow text-center flex flex-row justify-between;
+  @apply h-12 w-full bg-pale-yellow text-center;
+}
+
+.big-navbar {
+  @apply flex flex-row justify-between;
+}
+
+.small-navbar {
+  @apply lg:hidden flex items-start;
 }
 
 .logo-image {
@@ -57,7 +76,7 @@ export default defineComponent({
 }
 
 .buttons-mobile {
-  @apply block;
+  @apply flex items-center lg:hidden mr-3;
 }
 
 label {
