@@ -31,7 +31,29 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/account',
     name: 'Account',
-    component: Page.Account
+    component: Page.Account,
+    children: [
+      {
+        path: '',
+        component: Page.MyTickets
+      },
+      {
+        path: 'purchase-history',
+        component: Page.PurchaseHistory
+      },
+      {
+        path: 'edit',
+        component: Page.EditUserSettings
+      },
+      {
+        path: 'organizer',
+        component: Page.OrganizerTools
+      },
+      {
+        path: 'developer',
+        component: Page.DeveloperTools
+      }
+    ]
   },
   {
     path: '/receipt',
@@ -39,9 +61,13 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.Receipt
   },
   {
-    path: '/create-event',
+    path: '/create',
     name: 'Create Event',
     component: Page.CreateEvent
+  },
+  {
+    path: '/:pathMatch(.*)',
+    redirect: '/'
   }
 ]
 

@@ -6,6 +6,7 @@ module.exports = {
     './src/**/*.{ts,js,jsx,vue}'
   ],
   theme: {
+    purge: [],
     extend: {
       fontFamily: {
         sans: ['IBM Plex Sans Thai', ...defaultTheme.fontFamily.sans]

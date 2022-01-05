@@ -1,7 +1,6 @@
 <template>
 <div class="home-page">
   <div class="w-full min-h-screen container">
-    <!-- Start first box here... -->
     <div class="official-events-box">
       <div class="event-section">
         <h1 class="text-main-event-name">
@@ -56,7 +55,7 @@
 
           <div class="event">
             <div class="event-image-box">
-              <img class="event-image" src="@/assets/TK-4-Sculpture Drive Thru.png" alt="event-image">
+              <img class="event-image" src="@/assets/TK-4-sculpture-drive-through.png" alt="event-image">
             </div>
             <div class="event-info">
               <div>
@@ -70,10 +69,8 @@
           </div>
         </div>
       </div>
-      <!-- End of first box... -->
     </div>
 
-      <!-- Start seconde box here... -->
     <div class="local-events-box">
       <div class="event-section">
         <h1 class="text-main-event-name">
@@ -98,7 +95,7 @@
 
           <div class="event">
             <div class="event-image-box">
-              <img class="event-image" src="@/assets/TK-6-Child in Mob.png" alt="event-image">
+              <img class="event-image" src="@/assets/TK-6-child-in-mob.png" alt="event-image">
             </div>
             <div class="event-info">
               <div>
@@ -113,7 +110,7 @@
 
           <div class="event">
             <div class="event-image-box">
-              <img class="event-image" src="@/assets/TK-7-Transport  Chang Chui 2.png" alt="event-image">
+              <img class="event-image" src="@/assets/TK-7-transport-chang-chui-2.png" alt="event-image">
             </div>
             <div class="event-info">
               <div>
@@ -128,7 +125,7 @@
 
           <div class="event">
             <div class="event-image-box">
-              <img class="event-image" src="@/assets/TK-8-Hg80 Bar Vouchers.png" alt="event-image">
+              <img class="event-image" src="@/assets/TK-8-hg80.png" alt="event-image">
             </div>
             <div class="event-info">
               <div>
@@ -142,7 +139,6 @@
           </div>
         </div>
       </div>
-      <!-- End of seconed box... -->
     </div>
   </div>
 </div>
@@ -187,7 +183,7 @@ export default defineComponent({
 }
 
 .event-info {
-  @apply pl-2 object-cover flex flex-col h-24 rounded-b-lg  justify-self-start bg-pale-yellow;
+  @apply pl-2 object-cover flex flex-col h-24 rounded-b-lg justify-self-start bg-pale-yellow;
 }
 
 .event-name {
