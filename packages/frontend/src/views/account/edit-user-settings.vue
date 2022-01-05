@@ -1,7 +1,6 @@
 <template>
 <div class="edit-user-settings-page">
   <h1 class="page-header">Edit Settings</h1>
-
   <section class="setting-bg-content">
     <form>
       <div class="flex justify-center">
