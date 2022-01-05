@@ -19,7 +19,7 @@
               <th class="box-bg">
                 Price
               </th>
-          </tr>
+            </tr>
           </thead>
           <tbody class="bg-pale-yellow">
             <tr>
@@ -53,9 +53,12 @@
                     <img class="h-10 w-10 rounded-full" src="@/assets/user.png" alt="">
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm leading-5 font-medium text-pale-gray">Bhattarapong Somwong
+                    <div class="text-sm leading-5 font-medium text-pale-gray">
+                      Bhattarapong Somwong
                     </div>
-                    <div class="text-sm leading-5 text-gray-500">Bhattarapongs@nu.ac.th</div>
+                    <div class="text-sm leading-5 text-gray-500">
+                      Bhattarapongs@nu.ac.th
+                    </div>
                   </div>
                 </div>
               </td>
@@ -66,7 +69,7 @@
               <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
                 <span class="active-setting">Ready to roll</span>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray text-sm leading-5 text-pale-gray ">
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray text-sm leading-5 text-pale-gray">
                 1000
               </td>
             </tr>
@@ -77,9 +80,12 @@
                     <img class="h-10 w-10 rounded-full" src="@/assets/user.png" alt="">
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm leading-5 font-medium text-pale-gray">Bhattarapong Somwong
+                    <div class="text-sm leading-5 font-medium text-pale-gray">
+                      Bhattarapong Somwong
                     </div>
-                    <div class="text-sm leading-5 text-gray-500">Bhattarapongs@nu.ac.th</div>
+                    <div class="text-sm leading-5 text-gray-500">
+                      Bhattarapongs@nu.ac.th
+                    </div>
                   </div>
                 </div>
               </td>
@@ -162,5 +168,4 @@ export default defineComponent({
 .active-setting {
   @apply px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800;
 }
-
 </style>

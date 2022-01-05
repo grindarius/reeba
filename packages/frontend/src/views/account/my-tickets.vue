@@ -4,7 +4,7 @@
   <section class="content-box-size">
     <div class="content-box-inside">
       <div class="content-box-setting-image">
-        <img class="content-box-picture" src="@/assets/photo.jpg" />
+        <img class="content-box-picture" src="@/assets/photo.jpg">
       </div>
       <div class="content-box-textbox">
         <h1 class="content-box-frontsize-title">Rajamangala National Stadium</h1>
@@ -17,14 +17,12 @@
         <h1 class="content-box-frontsize-message">Thursday, 7 April 2022</h1>
         <div class="flex flex-col">
           <div class="flex justify-center">
-            <a
-              href="#"
-              class="button-chang"
-            >Transfer</a>
-            <a
-              href="#"
-              class="button-chang"
-            >Change descriptions</a>
+            <a href="#" class="button-chang">
+              Transfer
+            </a>
+            <a href="#" class="button-chang">
+              Change descriptions
+            </a>
           </div>
         </div>
       </div>
