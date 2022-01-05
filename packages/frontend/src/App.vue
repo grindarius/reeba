@@ -1,10 +1,12 @@
 <template>
   <nav class="navbar">
-    <div class="logo w-min lg:w-96">
-      <img src="@/assets/reeba-logo.png" alt="Reeba logo" width="49" class="logo-image">
+    <div class="logo w-14 lg:w-96">
+      <img src="@/assets/reeba-logo.png" alt="Reeba logo" width="56" class="logo-image">
     </div>
     <div class="searchbar">
-      <input type="text" name="searchbar" id="searchbar">
+      <label>
+        <input type="text" name="searchbar" id="searchbar">
+      </label>
     </div>
     <div class="buttons">
       <router-link class="create-event-button" to="/create">
@@ -15,36 +17,8 @@
       </router-link>
     </div>
     <div class="buttons-mobile">
+      <v-mdi name="mdi-hamburger" fill="#423E41"></v-mdi>
     </div>
-    <!-- <div class="searchbox">
-      <div class="flex content-center">
-        <div class="hidden relative mr-3 md:mr-0 md:block">
-          <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-          </div>
-          <input type="text" id="email-adress-icon" class="block p-2 pl-10 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
-        </div>
-      </div>
-    </div>
-    <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-      <a href="#" class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
-        Creat new event
-      </a>
-    </div>
-    <div>
-      <a href="#" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
-        Creat new event
-      </a>
-    </div>
-    <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-      <a href="#" class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
-        Sign up
-      </a>
-    </div>
-    <div>
-      <a href="#" class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
-        Sign up
-      </a>
-    </div> -->
   </nav>
   <router-view></router-view>
 </template>
@@ -70,7 +44,7 @@ export default defineComponent({
   @apply flex flex-col justify-center;
 
   & input {
-    @apply hidden lg:block rounded-lg bg-pale-gray shadow-lg w-96 h-7 px-2 outline-none text-white;
+    @apply hidden lg:block rounded-lg bg-pale-gray shadow-lg w-96 h-7 pl-11 pr-2 outline-none text-white;
   }
 }
 
@@ -83,6 +57,17 @@ export default defineComponent({
 }
 
 .buttons-mobile {
-  @apply block lg:hidden;
+  @apply block;
+}
+
+label {
+  @apply relative;
+
+  &:before {
+    @apply absolute left-3 bottom-0 w-5;
+    top: 3px;
+    content: '';
+    background: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20version%3D%221.1%22%20id%3D%22mdi-magnify%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%23D5A755%22%20d%3D%22M9.5%2C3A6.5%2C6.5%200%200%2C1%2016%2C9.5C16%2C11.11%2015.41%2C12.59%2014.44%2C13.73L14.71%2C14H15.5L20.5%2C19L19%2C20.5L14%2C15.5V14.71L13.73%2C14.44C12.59%2C15.41%2011.11%2C16%209.5%2C16A6.5%2C6.5%200%200%2C1%203%2C9.5A6.5%2C6.5%200%200%2C1%209.5%2C3M9.5%2C5C7%2C5%205%2C7%205%2C9.5C5%2C12%207%2C14%209.5%2C14C12%2C14%2014%2C12%2014%2C9.5C14%2C7%2012%2C5%209.5%2C5Z%22%2F%3E%3C%2Fsvg%3E');
+  }
 }
 </style>
