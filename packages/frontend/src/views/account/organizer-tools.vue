@@ -18,7 +18,7 @@
                 Status</th>
               <th
                 class="box-bg">
-                total of tickets</th>
+                total tickets</th>
               <th class="px-6 py-3 border-b border-pale-gray bg-pale-yellow"></th>
             </tr>
           </thead>
