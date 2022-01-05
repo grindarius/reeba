@@ -54,8 +54,6 @@
     ],
     "description": "Generate new fastify route"
   },
-
-
   "v-mdi tag": {
     "prefix": "v-mdi",
     "body": [
