@@ -46,16 +46,16 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
     throw new Error('Missing jwt secret')
   }
 
+  void server.register(multipart)
   void server.register(cors)
   void server.register(helmet, { enableCSPNonces: true })
-  void server.register(routes)
   void server.register(pg, {
     connectionString: `postgres://${pgUsername}:${encodeURIComponent(pgPassword)}@${pgHostname}:${pgPort}/${pgDBName}`
   })
   void server.register(jwt, {
     secret: jwtSecret
   })
-  void server.register(multipart)
+  void server.register(routes)
 
   return server
 }

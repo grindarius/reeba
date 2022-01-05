@@ -2,49 +2,47 @@
 <div class="upload-page">
   <div class="upload-page-content">
     <h1 class="text-white text-4xl">upload</h1>
-    <input type="file" class="text-white text-xl" name="avatar-image-input" id="avatar-image-input" @change="onFileUploaded">
-    <button class="w-16 h-9 bg-pale-yellow text-white rounded-xl" @click="uploadFile">Upload</button>
+    <input type="file" class="text-white text-xl" name="avatar-image-input" id="avatar-image-input" @change="onFileSelected">
+    <button class="w-16 h-9 bg-pale-yellow text-white rounded-xl" @click="uploadFileAsync">Upload (async/await)</button>
   </div>
 </div>
 </template>
 
 <script lang="ts">
 import ky from 'ky'
-import { defineComponent, onMounted, ref } from 'vue'
-
-import { postAvatar } from '@/api/endpoints'
+import { defineComponent, Ref, ref } from 'vue'
 
 export default defineComponent({
   name: 'upload',
   setup () {
-    const file = ref<File | null>(null)
+    const userAvatar: Ref<File | null> = ref(null)
 
-    const onFileUploaded = (event: Event): void => {
-      const inputtedFile = (event.target as HTMLInputElement).files
+    const uploadFileAsync = async (): Promise<void> => {
+      if (userAvatar.value != null) {
+        const body = new FormData()
+        body.append('image', userAvatar.value, userAvatar.value.name)
 
-      file.value = inputtedFile == null ? null : inputtedFile[0]
-    }
+        try {
+          const resp = await ky.post('http://localhost:3000/avatars', {
+            body
+          }).json()
 
-    const uploadFile = async (): Promise<void> => {
-      if (file.value == null) {
-        const response = await ky(postAvatar.url, {
-          method: postAvatar.method,
-          json: {
-            hello: 'hello'
-          }
-        }).json<{ message: string }>()
-
-        console.log(response)
+          console.log(resp)
+        } catch (error) {
+          console.error(error)
+        }
       }
     }
 
-    onMounted(() => {
-      console.log(import.meta.env)
-    })
+    const onFileSelected = (e: Event): void => {
+      console.log((e.target as HTMLInputElement).files)
+      const files = e.target as HTMLInputElement
+      userAvatar.value = files.files == null ? null : files.files[0]
+    }
 
     return {
-      onFileUploaded,
-      uploadFile
+      onFileSelected,
+      uploadFileAsync
     }
   }
 })

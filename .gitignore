@@ -31,3 +31,5 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 # tap testing results
 coverage
 .nyc_output
+
+/packages/backend/uploads
