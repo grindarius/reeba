@@ -3,6 +3,7 @@
 drop type if exists t_user_role;
 create type t_user_role as enum ('user', 'organizer', 'admin');
 
+drop database if exists users;
 create table if not exists users(
   user_id text not null,
   user_name text not null UNIQUE,
