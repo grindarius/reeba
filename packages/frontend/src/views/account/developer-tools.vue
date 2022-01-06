@@ -6,7 +6,7 @@
       <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
         <div class="box-bg-text-header">
           <div class="mx-5">
-            <h4 class="box-text-secondary">0</h4>
+            <h4 class="box-text-secondary">1000</h4>
             <div class="box-total">total users</div>
           </div>
         </div>
@@ -14,7 +14,7 @@
       <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
         <div class="box-bg-text-header">
           <div class="mx-5">
-            <h4 class="box-text-secondary">0</h4>
+            <h4 class="box-text-secondary">230</h4>
           <div class="box-total">total tickets sold</div>
           </div>
         </div>
@@ -22,7 +22,7 @@
       <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/3 xl:mt-0">
         <div class="box-bg-text-header">
           <div class="mx-5">
-            <h4 class="box-text-secondary">0</h4>
+            <h4 class="box-text-secondary">500</h4>
             <div class="box-total">total events created</div>
           </div>
         </div>
