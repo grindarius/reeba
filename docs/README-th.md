@@ -3,9 +3,9 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/60266519/147319453-ac26e0ca-eca1-43a9-9aea-79426e3fbf6a.png" alt="ReebA Logo">
 </p>
-<h2 align="center">
+<h3 align="center">
   Ticket booking. Redefined.
-</h2>
+</h3>
 
 ## ReebA คืออะไร
 ReebA (อ่านว่า รีบ-อะ) เป็นเว็บไซต์เชิงสังคมสำหรับจัดงานคอนเสิร์ตหรือกิจกรรมประเภทใด ๆ โดยที่คุณสามารถสมัครสมาชิกและซื้อตั๋วจากโชว์ใหญ่ ๆ ได้ง่ายดายผ่านเว็บไซต์ของเรา รวมไปถึงการแสดงจากนักแสดงโชว์มือสมัครเล่น ที่สนใจจะแสดงโชว์พร้อมขายตั๋วและเก็บเงิน ครบวงจรในที่เดียว สำหรับผู้ใช้งานก็ยังสามารถซื้อตั๋ว และถ่ายโอนตั๋วให้ผู้ใช้งานคนอื่นได้โดยตรง *โดยไม่ต้องพิมพ์ตั๋วออกมาแม้แต่ใบเดียว*
@@ -83,9 +83,9 @@ npm ci
 
 **คำเตือน: ต้องทำตามคำแนะนำที่ปรากฏอย่างเคร่งครัด มิฉะนั้นคุณอาจได้ database ที่มีปัญหา และยากต่อการแก้ไขอย่างมาก**
 
-1. เปิด Terminal ตัวโปรดของคุณ (แนะนำให้ใช้ [Git Bash](https://git-scm.com/downloads) หรือ `Command Prompt` ใน [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab) ไม่แนะนำ `PowerShell`) ในโฟลเดอร์ `backend`
+- เปิด Terminal ตัวโปรดของคุณ (แนะนำให้ใช้ [Git Bash](https://git-scm.com/downloads) หรือ `Command Prompt` ใน [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab) ไม่แนะนำ `PowerShell`) ในโฟลเดอร์ `backend`
 
-2. รันคอมมานด์
+- รันคอมมานด์
   ```
   psql -U postgres
   ```
@@ -100,7 +100,7 @@ npm ci
   ```
   หมายความว่าคุณได้ทำการล็อกอินเข้ามาแล้ว
 
-3. รันคอมมานด์
+- รันคอมมานด์
   ```
   postres=# CREATE DATABASE "reeba";
   ```
@@ -111,7 +111,7 @@ npm ci
   ```
   นี่หมายความว่าคุณได้ทำการสร้าง database ชื่อ `reeba` เรียบร้อยแล้ว
 
-4. รันคอมมานด์
+- รันคอมมานด์
   ```
   postgres=# \c postgres://postgres@localhost:5432/reeba
   ```
@@ -127,13 +127,13 @@ npm ci
   reeba=# \dt
   ```
 
-5. อัพเดตรายละเอียดภายใน database ด้วยคอมมานด์
+- อัพเดตรายละเอียดภายใน database ด้วยคอมมานด์
   ```
   reeba=# \i database.sql
   ```
   ไม่รู้เหมือนกันว่าทำครั้งแรกมันหน้าตาเป็นยังไง แต่ถ้าคอมมานด์นี้รันผ่าน คิดว่าจะมีคำว่า `CREATE TABLE` เด้งออกมา
 
-6. สร้างไฟล์ชื่อ `.env.local` ในโฟลเดอร์ `backend`
+- สร้างไฟล์ชื่อ `.env.local` ในโฟลเดอร์ `backend`
 
   **ข้อควรระวัง: ไฟล์ `.env.local` จะเก็บรายละเอียดสำคัญส่วนตัว ที่ไม่สามารถเปิดเผยให้ผู้ใช้งานคนอื่น ๆ ได้รู้ได้ เช่นรหัสผ่านของบัญชี `postgres` ของคุณ และที่สำคัญ คือ JWT SECRET หากคีย์ลับนี้หลุดออกไป ผู้ใช้งานของเว็บไซต์เราจะถูกแฮคบัญชีไปทันที ดังนั้นขอให้ระวังมาก ๆ กับส่วนต่อไป**
 
@@ -143,7 +143,7 @@ npm ci
 
   เมื่อไฟล์ถูกสร้างแล้ว คัดลอกรายละเอียดในไฟล์ `.env` ลงในไฟล์ `.env.local`
 
-  เนื้อหาในไฟล์ `.env` เป็นแบบนี้
+  เนื้อหาในไฟล์ `.env.local` จะเป็นแบบนี้
   ```
   FASTIFY_PORT='3000'
   JWT_SECRET=
@@ -154,12 +154,12 @@ npm ci
   POSTGRES_DBNAME='reeba'
   ```
 
-  เติมข้อที่ว่างไปทางด้านขวา หลังเครื่องหมายเท่ากับ
+  เติมข้อที่ว่างไปทางด้านขวา หลังเครื่องหมายเท่ากับ ในไฟล์ `.env.local`
   - `JWT_SECRET`: โปรดอีเมลมาเอา
   - `POSTGRES_USERNAME`: ถ้าคุณล็อกอินเข้า database ด้วยคอมมานด์ `psql -U postgres` ช่องนี้ก็จะเป็น `postgres`
   - `POSTGRES_PASSWORD`: รหัสผ่านของบัญชี `postgres`
 
-  มาถึงตรงนี้ คุณพร้อมสำหรับการพัฒนา ReebA API แล้ว
+  ทุกฟิลด์หลังเครื่องหมายเท่ากับ จะต้องห่อไว้ด้วย singlequote มาถึงตรงนี้ คุณพร้อมสำหรับการพัฒนา ReebA API แล้ว
 
 ### ReebA.com
 รันคอมมานด์นี้จากโฟลเดอร์แรกของโปรเจกต์
@@ -171,13 +171,13 @@ npm run build:common && npm run dev:frontend
 ### ReebA API.
 ขั้นตอนแรก จะต้องทำการเปิด PostgreSQL database server ก่อน
 
-1. เปิด terminal แยก (ที่ไม่ใช่ใน vscode) ในโฟลเดอร์ `backend` แล้วรันคอมมานด์
+- เปิด terminal แยก (ที่ไม่ใช่ใน vscode) ในโฟลเดอร์ `backend` แล้วรันคอมมานด์
   ```
   psql -U postgres
   ```
   แล้วใส่รหัสผ่านของบัญชี `postgres`
 
-2. รันคอมมานด์
+- รันคอมมานด์
   ```
   postgres=# \c postgres://postgres@localhost:5432/reeba
   ```
@@ -199,13 +199,13 @@ npm run build:common && npm run dev:frontend
 ### พัฒนาทั้ง Frontend และ Backend พร้อมกัน
 ขั้นตอนแรก จะต้องทำการเปิด PostgreSQL database server ก่อน
 
-1. เปิด terminal แยก (ที่ไม่ใช่ใน vscode) ในโฟลเดอร์ `backend` แล้วรันคอมมานด์
+- เปิด terminal แยก (ที่ไม่ใช่ใน vscode) ในโฟลเดอร์ `backend` แล้วรันคอมมานด์
   ```
   psql -U postgres
   ```
   แล้วใส่รหัสผ่านของบัญชี `postgres`
 
-2. รันคอมมานด์
+- รันคอมมานด์
   ```
   postgres=# \c postgres://postgres@localhost:5432/reeba
   ```
