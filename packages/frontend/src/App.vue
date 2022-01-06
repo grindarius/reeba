@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar">
-    <div class="big-navbar">
+    <div class="big-navbar mt-2.5">
       <div class="logo w-14 lg:w-96">
         <router-link to="/">
-          <img src="@/assets/reeba-logo.png" alt="Reeba logo" width="48" class="ml-2 cursor-pointer">
+          <img src="@/assets/reeba-logo-2.png" alt="Reeba logo" width="25"  class="ml-2 cursor-pointer">
         </router-link>
       </div>
       <div class="searchbar">
