@@ -40,7 +40,7 @@ Our project consists of
   npm -v
   ```
   into the terminal.
-- PostgreSQL v14.1 *exact*
+- PostgreSQL v14.1 *exact*.
   You can check by typing
   ```
   psql -V postgres
@@ -82,9 +82,9 @@ If top 3 requirements surpassed. You're ready to develop ReebA's database. These
 
 **WARNING: You should follow the instructions exactly or you'll end up with a broken database that's super hard to work with and fix.**
 
-1. Start your favourite terminal (Preferrably [Git Bash](https://git-scm.com/downloads) or `Command Prompt` in [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab), I don't recommend PowerShell) inside `backend` folder.
+- Start your favourite terminal (Preferrably [Git Bash](https://git-scm.com/downloads) or `Command Prompt` in [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab), I don't recommend PowerShell) inside `backend` folder.
 
-2. Run
+- Run
   ```
   psql -U postgres
   ```
@@ -99,7 +99,7 @@ If top 3 requirements surpassed. You're ready to develop ReebA's database. These
   ```
   This means you've successfully logged in.
 
-3. Run
+- Run
   ```
   postres=# CREATE DATABASE "reeba";
   ```
@@ -110,7 +110,7 @@ If top 3 requirements surpassed. You're ready to develop ReebA's database. These
   ```
   This means you've successfully created a database.
 
-4. Run
+- Run
   ```
   postgres=# \c postgres://postgres@localhost:5432/reeba
   ```
@@ -126,13 +126,13 @@ If top 3 requirements surpassed. You're ready to develop ReebA's database. These
   reeba=# \dt
   ```
 
-5. Migrate the database with schema by running
+- Migrate the database with schema by running
   ```
   reeba=# \i database.sql
   ```
   I don't know how would it look like for new users, but if the command success there should be a bunch of `CREATE TABLE` pops out.
 
-6. Create a file called `.env.local` inside `backend` folder.
+- Create a file called `.env.local` inside `backend` folder.
 
   **NOTE, SERIOUS NOTE: THIS FILE CONTAINS CREDENTIALS THAT ARE NOT SAFE TO BE PUSHED TO THE REPOSITORY LIKE YOUR POSTGRES SUPERUSER PASSWORD, AND IMPORTANTLY, JWT SECRET. IF THIS SECRET EVER GETS LEAKED. OUR USERS INSIDE THE DATABASE WILL GET HACKED IN NO TIME. SO PLEASE BE CAREFUL WITH SETTING UP THIS PART.**
 
@@ -142,7 +142,7 @@ If top 3 requirements surpassed. You're ready to develop ReebA's database. These
 
   When the file is created, copy stuffs in `.env` file into `.env.local` file.
 
-  The `.env` file looks like this
+  The `.env.local` file should look like this
   ```
   FASTIFY_PORT='3000'
   JWT_SECRET=
@@ -153,12 +153,12 @@ If top 3 requirements surpassed. You're ready to develop ReebA's database. These
   POSTGRES_DBNAME='reeba'
   ```
 
-  Fill in the missing variables behind the equal sign.
+  Fill in the missing variables behind the equal sign into `.env.local` file.
   - `JWT_SECRET`: Please email me to get the secret.
   - `POSTGRES_USERNAME`: If you log into the database with command `psql -U postgres`, the username would be `'postgres'`.
   - `POSTGRES_PASSWORD`: The password for `postgres` superuser.
 
-  With all these you should be ready to develop the API.
+  All fields should be wrapped in single quotes. With all these you should be ready to develop the API.
 
 ### ReebA.com.
 Run this command from the root of the project
@@ -170,13 +170,13 @@ and you should see the website pop up at `http://localhost:8080`.
 ### ReebA API.
 First of all, you have to start PostgreSQL database server.
 
-1. Open up separate terminal inside `backend` folder. Run
+- Open up separate terminal inside `backend` folder. Run
   ```
   psql -U postgres
   ```
   and put in your `postgres` password.
 
-2. Run
+- Run
   ```
   postgres=# \c postgres://postgres@localhost:5432/reeba
   ```
@@ -198,12 +198,12 @@ You will see the API runs at `http://localhost:3000`.
 ### Full system development.
 First of all, you have to start PostgreSQL database server.
 
-1. Open up separate terminal inside `backend` folder. Run
+- Open up separate terminal inside `backend` folder. Run
   ```
   psql -U postgres
   ```
   and put in your `postgres` password.
-2. Run
+- Run
   ```
   postgres=# \c postgres://postgres@localhost:5432/reeba
   ```
