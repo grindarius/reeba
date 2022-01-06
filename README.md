@@ -3,9 +3,9 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/60266519/147319453-ac26e0ca-eca1-43a9-9aea-79426e3fbf6a.png" alt="ReebA Logo">
 </p>
-<h2 align="center">
+<h3 align="center">
   Ticket booking. Redefined.
-</h2>
+</h3>
 
 ## What is ReebA.
 ReebA (pronounce Reeb-Ah) is a web-based and comminunity-based application for organizing concerts or any events. You can hop in and find tickets from big shows pretty easily with our sites. Along with shows locally from people around you. We also secure your transaction and you can also easily sell or transfer owner of tickets to other users pretty easily *without having to print out the ticket at all*.
