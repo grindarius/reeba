@@ -7,6 +7,7 @@ import {
   BCRYPT_GENSALT_ROUNDS,
   LoginParams,
   LoginParamsSchema,
+  LoginReply,
   LoginReplySchema,
   NANOID_USERID_LENGTH,
   RegisterParams,
@@ -100,7 +101,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     }
   )
 
-  instance.post<{ Body: LoginParams }>(
+  instance.post<{ Body: LoginParams, Reply: LoginReply }>(
     '/login',
     {
       schema: loginSchema,
