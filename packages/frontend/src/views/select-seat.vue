@@ -232,7 +232,6 @@ export default defineComponent({
 }
 
 .submit-button-disable {
-  @apply px-5 py-2 text-xl font-semibold bg-red-disabled text-white rounded-b-lg w-4/5 text-center uppercase;
-  pointer-events: none;
+  @apply px-5 py-2 text-xl font-semibold bg-red-disabled text-white rounded-b-lg w-4/5 text-center uppercase pointer-events-none;
 }
 </style>
