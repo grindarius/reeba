@@ -96,7 +96,7 @@
                 Wednesday, 6 April 2022
               </div>
               <button class="buy-button">
-                Buy
+               <router-link to="/select-seat">Buy</router-link>
               </button>
             </div>
             <div class="show-date">
@@ -104,7 +104,7 @@
                 Thursday, 7 April 2022
               </div>
               <button class="buy-button">
-                Buy
+                <router-link to="/select-seat">Buy</router-link>
               </button>
             </div>
           </div>
@@ -181,6 +181,6 @@ export default defineComponent({
 }
 
 .buy-button {
-  @apply rounded-lg bg-pale-gray text-white px-8 py-2;
+  @apply rounded-lg bg-pale-gray text-white px-8 py-2 hover:bg-gray-hover;
 }
 </style>
