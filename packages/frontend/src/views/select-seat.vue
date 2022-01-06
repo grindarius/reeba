@@ -68,6 +68,9 @@
                 </tr>
               </tbody>
             </table>
+            <router-link to="/payment" :class="`${ticketPrice !== 0 ? 'submit-button-active' : 'submit-button-disable'}`">
+              {{ticketPrice === 0 ? "Select seat first":"Submit"}}
+            </router-link>
           </div>
         </div>
       </div>
@@ -197,11 +200,11 @@ export default defineComponent({
 }
 
 .detail-header-text {
-  @apply text-white place-self-center text-2xl text-center;
+  @apply font-semibold text-white place-self-center text-2xl text-center;
 }
 
 .detail-content {
-  @apply table-auto w-full md:w-4/5 h-48 bg-white rounded-b-lg;
+  @apply table-auto w-full md:w-4/5 h-48 bg-white;
 }
 
 .ticket-price-text {
@@ -222,5 +225,13 @@ export default defineComponent({
 
 .right-table {
   @apply text-right px-3 font-medium;
+}
+
+.submit-button-active {
+  @apply px-5 py-2 text-xl font-semibold bg-pale-yellow rounded-b-lg hover:bg-yellow-hover w-4/5 text-center uppercase;
+}
+
+.submit-button-disable {
+  @apply px-5 py-2 text-xl font-semibold bg-red-disabled text-white rounded-b-lg w-4/5 text-center uppercase pointer-events-none;
 }
 </style>
