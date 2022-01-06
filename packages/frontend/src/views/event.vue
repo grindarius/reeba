@@ -95,17 +95,13 @@
               <div class="show-date-schedule">
                 Wednesday, 6 April 2022
               </div>
-              <button class="buy-button">
-                Buy
-              </button>
+                <router-link to="/select-seat" class="buy-button">Buy</router-link>
             </div>
             <div class="show-date">
               <div class="show-date-schedule">
                 Thursday, 7 April 2022
               </div>
-              <button class="buy-button">
-                Buy
-              </button>
+                <router-link to="/select-seat" class="buy-button">Buy</router-link>
             </div>
           </div>
         </div>
@@ -181,6 +177,6 @@ export default defineComponent({
 }
 
 .buy-button {
-  @apply rounded-lg bg-pale-gray text-white px-8 py-2;
+  @apply rounded-lg bg-pale-gray text-white px-8 py-2 hover:bg-gray-hover inline-block;
 }
 </style>
