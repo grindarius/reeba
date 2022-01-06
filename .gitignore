@@ -32,4 +32,5 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 coverage
 .nyc_output
 
-/packages/backend/uploads
+# file storage that gets uploaded from API
+!/packages/backend/uploads/default-user-profile.png
