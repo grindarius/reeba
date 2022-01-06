@@ -15,7 +15,7 @@
             <div class="event-info">
               <div>
                 <h3 class="event-name">
-                    LIDO CONNECT - Movie Program
+                  LIDO CONNECT - Movie Program
                 </h3>
                 <p class="event-time">16 JAN 2022 | 13:00 </p>
                 <p class="event-location">LIDO CONNECT Hall 1</p>
@@ -24,18 +24,20 @@
           </div>
 
           <div class="event">
-            <div class="event-image-box">
-              <img class="event-image" src="@/assets/TK-2-BTS.png" alt="event-image">
-            </div>
-            <div class="event-info">
-              <div>
-                <h3 class="event-name">
-                  BTS World Tour 'Love Yourself' Bangkok
-                </h3>
-                <p class="event-time">6 - 7 Apr 2021 | 21:00 </p>
-                <p class="event-location">Rajamangkala National</p>
+            <router-link to="/event">
+              <div class="event-image-box">
+                <img class="event-image" src="@/assets/TK-2-BTS.png" alt="event-image">
               </div>
-            </div>
+              <div class="event-info">
+                <div>
+                  <h3 class="event-name">
+                    BTS World Tour 'Love Yourself' Bangkok
+                  </h3>
+                  <p class="event-time">6 - 7 Apr 2021 | 21:00 </p>
+                  <p class="event-location">Rajamangkala National</p>
+                </div>
+              </div>
+            </router-link>
           </div>
 
           <div class="event">
@@ -45,7 +47,7 @@
             <div class="event-info">
               <div>
                 <h3 class="event-name">
-                    Re-MSC: Reconnecting with Mindful Self-Compassion
+                  Re-MSC: Reconnecting with Mindful Self-Compassion
                 </h3>
                 <p class="event-time">25 APR 2022 | 13:00 </p>
                 <p class="event-location">Online Event</p>
@@ -85,7 +87,7 @@
             <div class="event-info">
               <div>
                 <h3 class="event-name">
-                    PGB Live: Next Level Pinoy
+                  PGB Live: Next Level Pinoy
                 </h3>
                 <p class="event-time">10 MAR 2022 | 13:00 </p>
                 <p class="event-location">Virtual Event</p>
@@ -100,7 +102,7 @@
             <div class="event-info">
               <div>
                 <h3 class="event-name">
-                    Child in Mob
+                  Child in Mob
                 </h3>
                 <p class="event-time">9 JUN 2022 | 21:00 </p>
                 <p class="event-location">Charity</p>
@@ -115,7 +117,7 @@
             <div class="event-info">
               <div>
                 <h3 class="event-name">
-                    Transport | Chang Chui 2
+                  Transport | Chang Chui 2
                 </h3>
                 <p class="event-time">19 JAN 2022 | 13:00 </p>
                 <p class="event-location">Chang Chui</p>
@@ -130,7 +132,7 @@
             <div class="event-info">
               <div>
                 <h3 class="event-name">
-                    Hg80 Bar Vouchers
+                  Hg80 Bar Vouchers
                 </h3>
                 <p class="event-time">1 DEC 2022 | 13:00 </p>
                 <p class="event-location">Hg80 Bar Bangkok (near Chong Nonsi BTS)</p>
