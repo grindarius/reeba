@@ -5,6 +5,7 @@ import helmet from 'fastify-helmet'
 import jwt from 'fastify-jwt'
 import multipart from 'fastify-multipart'
 import pg from 'fastify-postgres'
+import servestatic from 'fastify-static'
 import { IncomingMessage, Server, ServerResponse } from 'http'
 import { resolve } from 'path'
 import { Logger } from 'pino'
@@ -47,6 +48,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
   }
 
   void server.register(multipart)
+  void server.register(servestatic)
   void server.register(cors)
   void server.register(helmet, { enableCSPNonces: true })
   void server.register(pg, {
@@ -55,6 +57,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
   void server.register(jwt, {
     secret: jwtSecret
   })
+
   void server.register(routes)
 
   return server
