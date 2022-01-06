@@ -68,6 +68,8 @@
                 </tr>
               </tbody>
             </table>
+            <router-link to="/payment" v-if="ticketPrice !== 0" class="submit-button-active">SUBMIT</router-link>
+            <button v-else class="submit-button-disable">SELECT SEAT FIRST</button>
           </div>
         </div>
       </div>
@@ -197,11 +199,11 @@ export default defineComponent({
 }
 
 .detail-header-text {
-  @apply text-white place-self-center text-2xl text-center;
+  @apply font-semibold text-white place-self-center text-2xl text-center;
 }
 
 .detail-content {
-  @apply table-auto w-full md:w-4/5 h-48 bg-white rounded-b-lg;
+  @apply table-auto w-full md:w-4/5 h-48 bg-white;
 }
 
 .ticket-price-text {
@@ -222,5 +224,14 @@ export default defineComponent({
 
 .right-table {
   @apply text-right px-3 font-medium;
+}
+
+.submit-button-active {
+  @apply px-5 py-2 text-xl font-semibold bg-pale-yellow rounded-b-lg hover:bg-yellow-hover w-4/5 text-center;
+}
+
+.submit-button-disable {
+  @apply px-5 py-2 text-xl font-semibold bg-red-disabled text-white rounded-b-lg w-4/5;
+  cursor: not-allowed;
 }
 </style>
