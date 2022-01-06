@@ -4,6 +4,7 @@
     <h1 class="text-white text-4xl">upload</h1>
     <input type="file" class="text-white text-xl" name="avatar-image-input" id="avatar-image-input" @change="onFileSelected">
     <button class="w-16 h-9 bg-pale-yellow text-white rounded-xl" @click="uploadFileAsync">Upload (async/await)</button>
+    <router-link to="/event" class="pointer-events-none cursor-not-allowed">Come here now</router-link>
   </div>
 </div>
 </template>
@@ -23,11 +24,9 @@ export default defineComponent({
         body.append('image', userAvatar.value, userAvatar.value.name)
 
         try {
-          const resp = await ky.post('http://localhost:3000/avatars', {
+          await ky.post('http://localhost:3000/avatars', {
             body
-          }).json()
-
-          console.log(resp)
+          })
         } catch (error) {
           console.error(error)
         }
