@@ -1,10 +1,14 @@
--- CREATE DATABASE IF NOT EXISTS reeba
+-- create database if not exists reeba;
 
-CREATE TABLE IF NOT EXISTS users(
-  user_id TEXT NOT NULL,
-  user_name TEXT NOT NULL UNIQUE,
-  user_email TEXT NOT NULL UNIQUE,
-  user_password TEXT NOT NULL,
-  user_profile_path TEXT NOT NULl DEFAULT './uploads/default-user-profile.png',
-  PRIMARY KEY (user_id)
+drop type if exists t_user_role;
+create type t_user_role as enum ('user', 'organizer', 'admin');
+
+create table if not exists users(
+  user_id text not null,
+  user_name text not null UNIQUE,
+  user_email text not null UNIQUE,
+  user_password text not null,
+  user_role t_user_role not null default 'user',
+  user_profile_path text not null default './uploads/default-user-profile.png',
+  primary key (user_id)
 );
