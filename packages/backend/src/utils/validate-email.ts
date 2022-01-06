@@ -10,6 +10,5 @@ const emailRegExp: RegExp = /[\w-]+@\w+\.[a-zA-Z]+/
  * @returns boolean states that whether the email is the correct format or not.
  */
 export const validateEmail = (email: string): boolean => {
-  console.log('passed in email: ', email)
   return emailRegExp.test(email)
 }
