@@ -95,13 +95,13 @@
               <div class="show-date-schedule">
                 Wednesday, 6 April 2022
               </div>
-                <router-link to="/select-seat" class="buy-button" >Buy</router-link>
+                <router-link to="/select-seat" class="buy-button">Buy</router-link>
             </div>
             <div class="show-date">
               <div class="show-date-schedule">
                 Thursday, 7 April 2022
               </div>
-                <router-link to="/select-seat" class="buy-button" >Buy</router-link>
+                <router-link to="/select-seat" class="buy-button">Buy</router-link>
             </div>
           </div>
         </div>
