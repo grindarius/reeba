@@ -68,8 +68,9 @@
                 </tr>
               </tbody>
             </table>
-            <router-link to="/payment" v-if="ticketPrice !== 0" class="submit-button-active">SUBMIT</router-link>
-            <button v-else class="submit-button-disable">SELECT SEAT FIRST</button>
+            <router-link to="/payment" :class="`${ticketPrice !== 0 ? 'submit-button-active' : 'submit-button-disable'}`">
+              {{ticketPrice === 0 ? "Select seat first":"Submit"}}
+            </router-link>
           </div>
         </div>
       </div>
@@ -227,11 +228,11 @@ export default defineComponent({
 }
 
 .submit-button-active {
-  @apply px-5 py-2 text-xl font-semibold bg-pale-yellow rounded-b-lg hover:bg-yellow-hover w-4/5 text-center;
+  @apply px-5 py-2 text-xl font-semibold bg-pale-yellow rounded-b-lg hover:bg-yellow-hover w-4/5 text-center uppercase;
 }
 
 .submit-button-disable {
-  @apply px-5 py-2 text-xl font-semibold bg-red-disabled text-white rounded-b-lg w-4/5;
-  cursor: not-allowed;
+  @apply px-5 py-2 text-xl font-semibold bg-red-disabled text-white rounded-b-lg w-4/5 text-center uppercase;
+  pointer-events: none;
 }
 </style>
