@@ -7,7 +7,7 @@ import multipart from 'fastify-multipart'
 import pg from 'fastify-postgres'
 import servestatic from 'fastify-static'
 import { IncomingMessage, Server, ServerResponse } from 'http'
-import { resolve } from 'path'
+import { join, resolve } from 'path'
 import { Logger } from 'pino'
 
 import routes from './routes'
@@ -48,7 +48,10 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
   }
 
   void server.register(multipart)
-  void server.register(servestatic)
+  void server.register(servestatic, {
+    root: join(__dirname, 'uploads'),
+    prefix: '/uploads/'
+  })
   void server.register(cors)
   void server.register(helmet, { enableCSPNonces: true })
   void server.register(pg, {
