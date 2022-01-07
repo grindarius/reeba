@@ -49,7 +49,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
 
   void server.register(multipart)
   void server.register(servestatic, {
-    root: join(__dirname, 'uploads'),
+    root: join(__dirname, '..', 'uploads'),
     prefix: '/uploads/'
   })
   void server.register(cors)

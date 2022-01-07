@@ -4,7 +4,10 @@ import { pipeline } from 'stream'
 import { promisify } from 'util'
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.post('/', async (request) => {
+  instance.get('/', async (_, reply) => {
+    return await reply.sendFile('default-user-profile.png')
+  })
+  instance.post('/', async (request, _) => {
     const data = await request.file()
 
     const pump = promisify(pipeline)
@@ -12,7 +15,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     await pump(data.file, createWriteStream('./uploads/' + data.filename))
 
     return {
-      message: 'world'
+      message: 'post avatar'
     }
   })
 }
