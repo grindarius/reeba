@@ -12,7 +12,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
     const pump = promisify(pipeline)
 
-    await pump(data.file, createWriteStream('./uploads/' + data.filename))
+    await pump(data.file, createWriteStream(`./uploads/${data.filename}`))
 
     return {
       message: 'post avatar'
