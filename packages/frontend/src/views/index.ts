@@ -12,6 +12,7 @@ import Payment from './payment.vue'
 import Receipt from './receipt.vue'
 import SelectSeat from './select-seat.vue'
 import Upload from './upload.vue'
+import Users from './users.vue'
 
 export {
   Account,
@@ -27,5 +28,6 @@ export {
   PurchaseHistory,
   Receipt,
   SelectSeat,
-  Upload
+  Upload,
+  Users
 }

@@ -57,7 +57,7 @@
   "v-mdi tag": {
     "prefix": "v-mdi",
     "body": [
-      "<v-mdi name=\"mdi-$1\"></v-mdi>"
+      "<v-mdi name=\"mdi-$1\" fill=\"#D5A755\"></v-mdi>"
     ]
   }
 }
