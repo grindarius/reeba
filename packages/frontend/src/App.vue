@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar">
-    <div class="big-navbar mt-2.5">
+    <div class="big-navbar flex-1">
       <div class="logo w-14 lg:w-96">
         <router-link to="/">
-          <img src="@/assets/reeba-logo-2.png" alt="Reeba logo" width="25"  class="ml-2 cursor-pointer">
+          <img src="@/assets/reeba-logo-2.png" alt="Reeba logo" width="35"  class="ml-2 cursor-pointer">
         </router-link>
       </div>
       <div class="searchbar">
@@ -100,6 +100,10 @@ export default defineComponent({
   & > li:first-child {
     @apply text-center px-0;
   }
+}
+
+.logo {
+  @apply hidden lg:flex justify-start items-center;
 }
 
 .searchbar {
