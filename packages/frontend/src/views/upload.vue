@@ -5,6 +5,9 @@
     <input type="file" class="text-white text-xl" name="avatar-image-input" id="avatar-image-input" @change="onFileSelected">
     <button class="w-16 h-9 bg-pale-yellow text-white rounded-xl" @click="uploadFileAsync">Upload (async/await)</button>
     <router-link to="/event" class="pointer-events-none cursor-not-allowed">Come here now</router-link>
+    <div class="image">
+      <img src="http://localhost:3000/avatars" alt="image">
+    </div>
   </div>
 </div>
 </template>
