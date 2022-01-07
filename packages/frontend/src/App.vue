@@ -69,7 +69,8 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .navbar {
-  @apply h-min w-full bg-pale-yellow text-center flex flex-col;
+  min-height: 48px;
+  @apply w-full bg-pale-yellow text-center flex flex-col;
 }
 
 @media (min-width: 1024px) {
@@ -103,7 +104,7 @@ export default defineComponent({
 }
 
 .logo {
-  @apply hidden lg:flex justify-start items-center;
+  @apply flex justify-start items-center;
 }
 
 .searchbar {
