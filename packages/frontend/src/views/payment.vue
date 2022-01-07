@@ -79,9 +79,7 @@
               and <a href="" class="font-bold text-pale-yellow underline">Event Organizer's Disclaimer.</a>
               I accept that the items in this order cannot be canceled and payments are non-refundable.
             </label>
-            <div class="checkout-button">
-              <button class="rounded-full">Pay Now</button>
-            </div>
+            <router-link to="/account" class="checkout-button">Pay now</router-link>
           </div>
         </div>
       </div>
@@ -147,19 +145,7 @@ export default defineComponent({
   @apply flex justify-between;
 }
 
-.subtotal-detail {
-  @apply flex mt-2 justify-between;
-}
-
-.service-fee-detail {
-  @apply flex mt-2 justify-between;
-}
-
-.credit-fee-detail {
-  @apply flex mt-2 justify-between;
-}
-
-.total-detail {
+.subtotal-detail, .service-fee-detail, .credit-fee-detail, .total-detail  {
   @apply flex mt-2 justify-between;
 }
 
@@ -168,7 +154,7 @@ export default defineComponent({
 }
 
 .checkout-button {
-  @apply flex mt-6 h-12 rounded-full justify-center bg-pale-yellow hover:bg-yellow-hover font-sans text-white text-2xl;
+  @apply flex mt-6 h-12 items-center rounded-full justify-center bg-pale-yellow hover:bg-yellow-hover font-sans text-white text-2xl;
 }
 
 #card-number-input, #card-name-input, #card-expiration-date-input, #card-cvc-input {

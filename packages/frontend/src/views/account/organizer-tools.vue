@@ -152,20 +152,12 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-  .page-header {
+.page-header {
   @apply text-4xl font-semibold text-white;
 }
 
 .box-bg {
   @apply px-6 py-3 border-b border-pale-gray bg-pale-yellow text-left text-xs leading-4 font-medium text-pale-gray uppercase tracking-wider;
-}
-
-.box-bg-text-header {
-  @apply flex items-center px-5 py-6 shadow-sm rounded-md bg-pale-yellow text-pale-gray;
-}
-
-.box-text-secondary {
-  @apply text-2xl font-semibold text-pale-gray;
 }
 
 .header-box {

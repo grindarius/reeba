@@ -7,22 +7,25 @@
         <img class="content-box-picture" src="@/assets/photo.jpg">
       </div>
       <div class="content-box-textbox">
-        <h1 class="content-box-frontsize-title">Rajamangala National Stadium</h1>
-        <h1 class="content-box-frontsize-main">Seat</h1>
-        <h1 class="content-box-frontsize-message">C4-C09</h1>
-        <h1 class="content-box-frontsize-main">Prices</h1>
-        <h1 class="content-box-frontsize-message">6800 THB</h1>
-        <h1 class="content-box-frontsize-main">Show date</h1>
-        <h1 class="content-box-frontsize-message">Wednesday, 6 April 2022</h1>
-        <h1 class="content-box-frontsize-message">Thursday, 7 April 2022</h1>
+        <h1>Rajamangala National Stadium</h1>
+        <h3>Seat</h3>
+        <h2>C4-C09</h2>
+        <h3>Prices</h3>
+        <h2>6800 THB</h2>
+        <h3>Show date</h3>
+        <h2>Wednesday, 6 April 2022</h2>
+        <h2>Thursday, 7 April 2022</h2>
         <div class="flex flex-col">
           <div class="flex justify-center">
-            <a href="#" class="button-chang">
+            <a href="#" class="command-buttons">
               Transfer
             </a>
-            <a href="#" class="button-chang">
+            <a href="#" class="command-buttons">
               Change descriptions
             </a>
+            <router-link to="/receipt" class="command-buttons">
+              View receipt
+            </router-link>
           </div>
         </div>
       </div>
@@ -40,28 +43,8 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.content-box {
-  @apply w-full my-1 border-none;
-}
-
-.content-box-frontsize-title {
-  @apply text-sm text-gray-900 font-bold;
-}
-
-.content-box-frontsize-main {
-  @apply text-xs text-gray-900 font-normal;
-}
-
-.content-box-frontsize-message {
-  @apply text-xs text-gray-600 font-normal;
-}
-
-.content-box-size {
-  @apply max-w-md py-4;
-}
-
 .content-box-inside {
-  @apply w-full bg-pale-yellow rounded-lg  overflow-hidden flex flex-col md:flex-row;
+  @apply bg-pale-yellow rounded-lg overflow-hidden flex flex-col md:flex-row;
 }
 
 .content-box-picture {
@@ -73,14 +56,26 @@ export default defineComponent({
 }
 
 .content-box-textbox {
-  @apply w-full md:w-3/5 text-left p-6 md:p-4 space-y-2;
+  @apply w-full md:w-4/5 text-left p-6 md:p-4 space-y-2;
+
+  & h1 {
+    @apply text-sm text-gray-900 font-bold;
+  }
+
+  & h2 {
+    @apply text-xs text-gray-600 font-normal;
+  }
+
+  & h3 {
+    @apply text-xs text-gray-900 font-normal;
+  }
 }
 
 .page-header {
   @apply text-4xl font-semibold text-white;
 }
 
-.button-chang {
+.command-buttons {
   @apply bg-pale-gray rounded-full font-bold text-xs text-white px-3 py-2 hover:bg-gray-hover mr-1;
 }
 </style>
