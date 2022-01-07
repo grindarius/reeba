@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar">
-    <div class="big-navbar">
+    <div class="big-navbar flex-1">
       <div class="logo w-14 lg:w-96">
         <router-link to="/">
-          <img src="@/assets/reeba-logo.png" alt="Reeba logo" width="48" class="ml-2 cursor-pointer">
+          <img src="@/assets/reeba-logo-2.png" alt="Reeba logo" width="35"  class="ml-2 cursor-pointer">
         </router-link>
       </div>
       <div class="searchbar">
@@ -69,7 +69,8 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .navbar {
-  @apply h-min w-full bg-pale-yellow text-center flex flex-col;
+  min-height: 48px;
+  @apply w-full bg-pale-yellow text-center flex flex-col;
 }
 
 @media (min-width: 1024px) {
@@ -100,6 +101,10 @@ export default defineComponent({
   & > li:first-child {
     @apply text-center px-0;
   }
+}
+
+.logo {
+  @apply flex justify-start items-center;
 }
 
 .searchbar {
