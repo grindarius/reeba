@@ -3,7 +3,7 @@
   <div class="upload-page-content">
     <h1 class="text-white text-4xl">upload</h1>
     <input type="file" class="text-white text-xl" name="avatar-image-input" id="avatar-image-input" @change="onFileSelected">
-    <button class="w-16 h-9 bg-pale-yellow text-white rounded-xl w-16" @click="uploadFileAsync">Upload (async/await)</button>
+    <button class="w-32 h-18 bg-pale-yellow text-white rounded-xl" @click="uploadFileAsync">Upload (async/await)</button>
     <div class="image">
       <img src="http://localhost:3000/avatars" alt="image">
     </div>
