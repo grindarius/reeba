@@ -66,6 +66,11 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.CreateEvent
   },
   {
+    path: '/upload',
+    name: 'Upload',
+    component: Page.Upload
+  },
+  {
     path: '/:pathMatch(.*)',
     redirect: '/'
   }

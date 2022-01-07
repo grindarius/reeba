@@ -13,7 +13,7 @@
             <label class="block text-pale-gray text-sm font-sans mb-2" for="email">
               Email
             </label>
-            <input class=" shadow-lg shadow-zinc-900 rounded-xl w-full py-2 px-3 mb-2 text-grey-darker outline-none focus:ring-pale-gray ring-0 focus:ring-2" id="username" type="text" placeholder="Email">
+            <input class="shadow-lg shadow-zinc-900 rounded-xl w-full py-2 px-3 mb-2 text-grey-darker outline-none focus:ring-pale-gray ring-0 focus:ring-2" id="username" type="text" placeholder="Email">
           </div>
           <div class="mb-6">
             <label class="block text-pale-gray text-sm font-sans mb-2" for="password">

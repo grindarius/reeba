@@ -3,8 +3,12 @@ import fastify, { FastifyInstance } from 'fastify'
 import cors from 'fastify-cors'
 import helmet from 'fastify-helmet'
 import jwt from 'fastify-jwt'
+import multipart from 'fastify-multipart'
 import pg from 'fastify-postgres'
-import { resolve } from 'path'
+import servestatic from 'fastify-static'
+import { IncomingMessage, Server, ServerResponse } from 'http'
+import { join, resolve } from 'path'
+import { Logger } from 'pino'
 
 import routes from './routes'
 
@@ -12,9 +16,14 @@ dotenv.config({
   path: resolve(__dirname, '..')
 })
 
-const createServer = (): FastifyInstance => {
-  const server = fastify({
-    logger: true
+const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse, Logger> => {
+  const server = fastify<Server, IncomingMessage, ServerResponse, Logger>({
+    logger: {
+      prettyPrint: {
+        colorize: true,
+        translateTime: 'SYS:standard'
+      }
+    }
   })
 
   const pgUsername = process.env.POSTGRES_USERNAME
@@ -38,15 +47,21 @@ const createServer = (): FastifyInstance => {
     throw new Error('Missing jwt secret')
   }
 
+  void server.register(multipart)
+  void server.register(servestatic, {
+    root: join(__dirname, '..', 'uploads'),
+    prefix: '/uploads/'
+  })
   void server.register(cors)
   void server.register(helmet, { enableCSPNonces: true })
-  void server.register(routes)
   void server.register(pg, {
     connectionString: `postgres://${pgUsername}:${encodeURIComponent(pgPassword)}@${pgHostname}:${pgPort}/${pgDBName}`
   })
   void server.register(jwt, {
     secret: jwtSecret
   })
+
+  void server.register(routes)
 
   return server
 }

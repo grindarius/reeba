@@ -4,16 +4,19 @@ import { nanoid } from 'nanoid'
 
 import {
   BadRequestReplySchema,
+  BCRYPT_GENSALT_ROUNDS,
   LoginParams,
   LoginParamsSchema,
+  LoginReply,
   LoginReplySchema,
+  NANOID_USERID_LENGTH,
   RegisterParams,
   RegisterParamsSchema,
   RegisterReply,
   RegisterReplySchema
 } from '@reeba/common'
 
-import { users } from '../../types'
+import { UserRoles, users } from '../../types'
 import { createSignPayload, validateEmail } from '../../utils'
 
 const registerSchema: FastifySchema = {
@@ -75,8 +78,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         throw new Error('duplicate \'email\'')
       }
 
-      const userId = nanoid(25)
-      const salt = await bcrypt.genSalt(10)
+      const userId = nanoid(NANOID_USERID_LENGTH)
+      const salt = await bcrypt.genSalt(BCRYPT_GENSALT_ROUNDS)
       const encryptedPassword = await bcrypt.hash(password, salt)
 
       try {
@@ -88,7 +91,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         throw new Error(`error while inserting new user into the database ${error as string}`)
       }
 
-      const token = instance.jwt.sign(createSignPayload(userId), {
+      const token = instance.jwt.sign(createSignPayload(userId, UserRoles.User), {
         expiresIn: '5m'
       })
 
@@ -98,7 +101,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     }
   )
 
-  instance.post<{ Body: LoginParams }>(
+  instance.post<{ Body: LoginParams, Reply: LoginReply }>(
     '/login',
     {
       schema: loginSchema,
@@ -137,7 +140,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           throw new Error('invalid password')
         }
 
-        const token = instance.jwt.sign(createSignPayload(user.rows[0].user_id), {
+        const token = instance.jwt.sign(createSignPayload(user.rows[0].user_id, user.rows[0].user_role), {
           expiresIn: '5m'
         })
 
