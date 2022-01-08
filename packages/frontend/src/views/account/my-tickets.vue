@@ -20,9 +20,9 @@
             <button class="command-buttons" @click="openModal">
               Transfer
             </button>
-            <a href="#" class="command-buttons">
+            <router-link to="/select-seat" class="command-buttons">
               Change descriptions
-            </a>
+            </router-link>
             <router-link to="/receipt" class="command-buttons">
               View receipt
             </router-link>
