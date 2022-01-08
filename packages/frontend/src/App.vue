@@ -8,7 +8,7 @@
       </div>
       <div class="searchbar">
         <label>
-          <input type="text" name="searchbar" id="searchbar" placeholder="Search">
+          <input type="text" name="searchbar" id="searchbar-big" placeholder="Search">
         </label>
       </div>
       <div class="buttons">
@@ -27,7 +27,7 @@
       <ul class="small-navbar-list">
         <li>
           <label>
-            <input class="pr-2 pl-11 w-full h-7 text-white rounded-lg shadow-lg outline-none bg-pale-gray" type="text" name="searchbar" id="searchbar" placeholder="Search">
+            <input class="pr-2 pl-11 w-full h-7 text-white rounded-lg shadow-lg outline-none bg-pale-gray" type="text" name="searchbar" id="searchbar-small" placeholder="Search">
           </label>
         </li>
         <li>
