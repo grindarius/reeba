@@ -1,9 +1,9 @@
 <template>
 <div class="upload-page">
   <div class="upload-page-content">
-    <h1 class="text-white text-4xl">upload</h1>
-    <input type="file" class="text-white text-xl" name="avatar-image-input" id="avatar-image-input" @change="onFileSelected">
-    <button class="w-32 h-18 bg-pale-yellow text-white rounded-xl" @click="uploadFileAsync">Upload (async/await)</button>
+    <h1 class="text-4xl text-white">upload</h1>
+    <input type="file" class="text-xl text-white" name="avatar-image-input" id="avatar-image-input" @change="onFileSelected">
+    <button class="w-32 text-white rounded-xl h-18 bg-pale-yellow" @click="uploadFileAsync">Upload (async/await)</button>
     <div class="image">
       <img src="http://localhost:3000/avatars" alt="image">
     </div>
@@ -51,10 +51,10 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .upload-page {
-  @apply w-full min-h-screen flex flex-row justify-center bg-pale-gray;
+  @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
 }
 
 .upload-page-content {
-  @apply mt-6 container;
+  @apply container mt-6;
 }
 </style>

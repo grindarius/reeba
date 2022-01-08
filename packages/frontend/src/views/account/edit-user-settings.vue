@@ -4,7 +4,7 @@
   <section class="setting-bg-content">
     <form>
       <div class="flex justify-center">
-        <img class="rounded-full object-cover object-center h-24 w-24" src="@/assets/user.png" alt="Avatar Upload" />
+        <img class="object-cover object-center w-24 h-24 rounded-full" src="@/assets/user.png" alt="Avatar Upload" />
       </div>
       <div class="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2">
         <div>
@@ -46,18 +46,18 @@ export default defineComponent({
 }
 
 .text-header {
-  @apply  text-base text-pale-gray font-bold;
+  @apply text-base font-bold text-pale-gray;
 }
 
 .box-text {
-  @apply block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-100 dark:text-black dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring;
+  @apply block py-2 px-4 mt-2 w-full text-gray-700 bg-white rounded-md border border-gray-300 dark:text-black dark:bg-gray-100 dark:border-gray-600 focus:border-blue-500 focus:ring focus:outline-none dark:focus:border-blue-500;
 }
 
 .button-save {
-  @apply px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pale-gray rounded-md hover:bg-gray-hover;
+  @apply py-2 px-6 leading-5 text-white rounded-md transition-colors duration-200 transform bg-pale-gray hover:bg-gray-hover;
 }
 
 .setting-bg-content {
-  @apply w-full p-6 mx-auto bg-pale-yellow rounded-md shadow-md mt-10;
+  @apply p-6 mx-auto mt-10 w-full rounded-md shadow-md bg-pale-yellow;
 }
 </style>
