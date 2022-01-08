@@ -44,7 +44,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .content-box-inside {
-  @apply bg-pale-yellow rounded-lg overflow-hidden flex flex-col md:flex-row;
+  @apply bg-pale-yellow rounded-lg overflow-hidden flex flex-col md:flex-row max-w-xl;
 }
 
 .content-box-picture {
