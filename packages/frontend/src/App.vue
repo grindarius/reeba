@@ -8,7 +8,7 @@
       </div>
       <div class="searchbar">
         <label>
-          <input type="text" name="searchbar" id="searchbar" placeholder="Search">
+          <input type="text" name="searchbar" id="searchbar-big" placeholder="Search">
         </label>
       </div>
       <div class="buttons">
@@ -23,11 +23,11 @@
         <v-mdi name="mdi-hamburger" class="cursor-pointer" size="40" fill="#423E41" @click="onHamburgerClicked"></v-mdi>
       </div>
     </div>
-    <div :class="hamburgerState ?'block' : 'hidden'">
+    <div :class="hamburgerState ?'small-navbar block' : 'small-navbar hidden'">
       <ul class="small-navbar-list">
         <li>
           <label>
-            <input class="pr-2 pl-11 w-full h-7 text-white rounded-lg shadow-lg outline-none bg-pale-gray" type="text" name="searchbar" id="searchbar" placeholder="Search">
+            <input class="pr-2 pl-11 w-full h-7 text-white rounded-lg shadow-lg outline-none bg-pale-gray" type="text" name="searchbar" id="searchbar-small" placeholder="Search">
           </label>
         </li>
         <li>
@@ -82,6 +82,10 @@ export default defineComponent({
 
 .big-navbar {
   @apply flex flex-row justify-between;
+}
+
+.small-navbar {
+  @apply lg:hidden;
 }
 
 .small-navbar-list {
