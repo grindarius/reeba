@@ -69,7 +69,7 @@
               </tbody>
             </table>
             <router-link to="/payment" :class="`${ticketPrice !== 0 ? 'submit-button-active' : 'submit-button-disable'}`">
-              {{ticketPrice === 0 ? "Select seat first":"Submit"}}
+              {{ ticketPrice === 0 ? "Select seat first":"Submit" }}
             </router-link>
           </div>
         </div>
