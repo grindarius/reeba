@@ -69,7 +69,7 @@
               </tbody>
             </table>
             <router-link to="/payment" :class="`${ticketPrice !== 0 ? 'submit-button-active' : 'submit-button-disable'}`">
-              {{ticketPrice === 0 ? "Select seat first":"Submit"}}
+              {{ ticketPrice === 0 ? "Select seat first":"Submit" }}
             </router-link>
           </div>
         </div>
@@ -127,7 +127,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .select-seat-page {
-  @apply w-full flex justify-center bg-pale-gray min-h-screen;
+  @apply flex justify-center w-full min-h-screen bg-pale-gray;
 }
 
 .base {
@@ -135,19 +135,19 @@ export default defineComponent({
 }
 
 .title {
-  @apply text-4xl font-sans font-semibold text-white py-2;
+  @apply py-2 font-sans text-4xl font-semibold text-white;
 }
 
 .button {
-  @apply w-[100px] h-[100px] bg-pale-yellow hover:ring text-white font-bold py-2 px-4 rounded active:bg-gray-hover focus:outline-none;
+  @apply py-2 px-4 w-24 h-24 font-bold text-white rounded hover:ring focus:outline-none bg-pale-yellow active:bg-gray-hover;
 }
 
 .button-active {
-  @apply w-[100px] h-[100px] bg-yellow-hover text-white font-bold py-2 px-4 rounded;
+  @apply py-2 px-4 w-24 h-24 font-bold text-white rounded bg-yellow-hover;
 }
 
 .zone {
-  @apply px-10 py-6 flex md:justify-center w-full;
+  @apply flex py-6 px-10 w-full md:justify-center;
 }
 
 .section {
@@ -156,7 +156,7 @@ export default defineComponent({
 }
 
 .section-text {
-  @apply text-4xl font-sans font-semibold text-black;
+  @apply font-sans text-4xl font-semibold text-black;
 }
 
 .selected {
@@ -164,15 +164,15 @@ export default defineComponent({
 }
 
 .price-list {
-  @apply gap-12 columns-1 flex md:justify-center py-6 px-12 md:px-0;
+  @apply flex gap-12 py-6 px-12 md:justify-center md:px-0 columns-1;
 }
 
 .price-rate {
-  @apply flex columns-1 gap-3 py-3;
+  @apply flex gap-3 py-3 columns-1;
 }
 
 .price-rate-color {
-  @apply rounded-full px-4 py-4;
+  @apply py-4 px-4 rounded-full;
 }
 
 .price-color {
@@ -180,7 +180,7 @@ export default defineComponent({
 }
 
 .zone-detail {
-  @apply flex w-full py-3 px-8 flex-col lg:flex-row justify-between;
+  @apply flex flex-col justify-between py-3 px-8 w-full lg:flex-row;
 }
 
 .seats {
@@ -188,35 +188,35 @@ export default defineComponent({
 }
 
 .seats-rows {
-  @apply flex columns-1 gap-2 py-1 px-10 md:justify-center md:px-0;
+  @apply flex gap-2 py-1 px-10 md:justify-center md:px-0 columns-1;
 }
 
 .seats-details {
-  @apply py-12 basis-1/3 justify-center flex flex-col place-items-center columns-1;
+  @apply flex flex-col justify-center place-items-center py-12 basis-1/3 columns-1;
 }
 
 .detail-header {
-  @apply w-full md:w-4/5 h-14 bg-black rounded-t-lg flex place-content-center;
+  @apply flex place-content-center w-full h-14 bg-black rounded-t-lg md:w-4/5;
 }
 
 .detail-header-text {
-  @apply font-semibold text-white place-self-center text-2xl text-center;
+  @apply place-self-center text-2xl font-semibold text-center text-white;
 }
 
 .detail-content {
-  @apply table-auto w-full md:w-4/5 h-48 bg-white;
+  @apply w-full h-48 bg-white table-auto md:w-4/5;
 }
 
 .ticket-price-text {
-  @apply text-white place-self-center text-2xl;
+  @apply place-self-center text-2xl text-white;
 }
 
 .seats-rows-text {
-  @apply px-1 text-white text-lg place-self-center;
+  @apply place-self-center px-1 text-lg text-white;
 }
 
 .blank-space {
-  @apply px-3 py-3 rounded-full hover:ring;
+  @apply py-3 px-3 rounded-full hover:ring;
 }
 
 .left-table {
@@ -224,14 +224,14 @@ export default defineComponent({
 }
 
 .right-table {
-  @apply text-right px-3 font-medium;
+  @apply px-3 font-medium text-right;
 }
 
 .submit-button-active {
-  @apply px-5 py-2 text-xl font-semibold bg-pale-yellow rounded-b-lg hover:bg-yellow-hover w-4/5 text-center uppercase;
+  @apply py-2 px-5 w-4/5 text-xl font-semibold text-center uppercase rounded-b-lg bg-pale-yellow hover:bg-yellow-hover;
 }
 
 .submit-button-disable {
-  @apply px-5 py-2 text-xl font-semibold bg-red-disabled text-white rounded-b-lg w-4/5 text-center uppercase pointer-events-none;
+  @apply py-2 px-5 w-4/5 text-xl font-semibold text-center text-white uppercase rounded-b-lg pointer-events-none bg-red-disabled;
 }
 </style>

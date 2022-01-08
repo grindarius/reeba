@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="text-center">
-        <span class="font-semibold text-white text-lg">Bhattarapong Somwong</span>
+        <span class="text-lg font-semibold text-white">Bhattarapong Somwong</span>
         <p class="text-sm text-pale-yellow">Bhattarapongs@nu.ac.th</p>
       </div>
       <div class="account-settings-menu">
@@ -51,11 +51,11 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .account-page {
-  @apply bg-pale-gray w-full h-screen flex flex-row justify-center;
+  @apply flex flex-row justify-center w-full h-screen bg-pale-gray;
 }
 
 .account-table {
-  @apply flex-col w-72 h-screen px-8 text-gray-900 border-r-4 border-pale-yellow hidden sm:flex;
+  @apply hidden flex-col px-8 w-72 h-screen text-gray-900 border-r-4 sm:flex border-pale-yellow;
 }
 
 .account-image-wrapper {
@@ -71,10 +71,10 @@ export default defineComponent({
 }
 
 .account-settings-menu-list {
-  @apply py-4 pl-2 text-gray-100 hover:bg-gray-hover hover:font-bold rounded-lg;
+  @apply py-4 pl-2 text-gray-100 rounded-lg hover:font-bold hover:bg-gray-hover;
 }
 
 .account-content {
-  @apply grow p-12;
+  @apply p-12 grow;
 }
 </style>

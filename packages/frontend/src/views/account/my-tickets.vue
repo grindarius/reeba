@@ -44,11 +44,11 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .content-box-inside {
-  @apply bg-pale-yellow rounded-lg overflow-hidden flex flex-col md:flex-row;
+  @apply flex overflow-hidden flex-col max-w-xl rounded-lg md:flex-row bg-pale-yellow;
 }
 
 .content-box-picture {
-  @apply object-center object-cover h-64 md:h-full w-full;
+  @apply object-cover object-center w-full h-64 md:h-full;
 }
 
 .content-box-setting-image {
@@ -56,18 +56,18 @@ export default defineComponent({
 }
 
 .content-box-textbox {
-  @apply w-full md:w-4/5 text-left p-6 md:p-4 space-y-2;
+  @apply p-6 space-y-2 w-full text-left md:p-4 md:w-4/5;
 
   & h1 {
-    @apply text-sm text-gray-900 font-bold;
+    @apply text-sm font-bold text-gray-900;
   }
 
   & h2 {
-    @apply text-xs text-gray-600 font-normal;
+    @apply text-xs font-normal text-gray-600;
   }
 
   & h3 {
-    @apply text-xs text-gray-900 font-normal;
+    @apply text-xs font-normal text-gray-900;
   }
 }
 
@@ -76,6 +76,6 @@ export default defineComponent({
 }
 
 .command-buttons {
-  @apply bg-pale-gray rounded-full font-bold text-xs text-white px-3 py-2 hover:bg-gray-hover mr-1;
+  @apply py-2 px-3 mr-1 text-xs font-bold text-white rounded-full bg-pale-gray hover:bg-gray-hover;
 }
 </style>

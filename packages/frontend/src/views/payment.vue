@@ -7,38 +7,38 @@
       </h1>
       <div class="payment-details">
         <div class="payment-channels">
-          <h1 class="text-2xl font-sans mb-6">Payment Details</h1>
+          <h1 class="mb-6 font-sans text-2xl">Payment Details</h1>
           <div class="payment-selectors">
             <div class="payment-type-selections">
-              <h1 class="text-xl font-sans text-white">Payment Types</h1>
+              <h1 class="font-sans text-xl text-white">Payment Types</h1>
               <div class="payment-types">
                 <div class="payment-method">
                   <v-mdi name="mdi-credit-card" fill="#D5A755" size="32"></v-mdi>
-                  <h1 class="text-md font-sans text-white mt-2">Credit card</h1>
+                  <h1 class="mt-2 font-sans text-white text-md">Credit card</h1>
                 </div>
                 <div class="payment-method">
                   <v-mdi name="mdi-google" fill="#D5A755" size="32"></v-mdi>
-                  <h1 class="text-md font-sans text-white mt-2">Google Pay</h1>
+                  <h1 class="mt-2 font-sans text-white text-md">Google Pay</h1>
                 </div>
                 <div class="payment-method">
                   <v-mdi name="mdi-qrcode-scan" fill="#D5A755" size="32"></v-mdi>
-                  <h1 class="text-md font-sans text-white mt-2">QR Code</h1>
+                  <h1 class="mt-2 font-sans text-white text-md">QR Code</h1>
                 </div>
               </div>
             </div>
             <div class="selected-payment">
               <div class="credit-card-payment">
-                <label for="card-number-input" class="text-sm font-sans text-white inline-block mt-2">Card number</label>
+                <label for="card-number-input" class="inline-block mt-2 font-sans text-sm text-white">Card number</label>
                 <input type="text" name="card-number-input" id="card-number-input" placeholder="**** **** **** ****">
-                <label for="card-name-input" class="text-sm font-sans text-white inline-block mt-2">Card name</label>
+                <label for="card-name-input" class="inline-block mt-2 font-sans text-sm text-white">Card name</label>
                 <input type="text" name="card-name-input" id="card-name-input" placeholder="">
-                <div class="mt-2 grid grid-cols-2 gap-6">
+                <div class="grid grid-cols-2 gap-6 mt-2">
                   <div class="card-expiration-date-section">
-                    <label for="card-expiration-date" class="text-sm font-sans text-white">Expiration date</label>
+                    <label for="card-expiration-date" class="font-sans text-sm text-white">Expiration date</label>
                     <input type="text" name="card-expiration-date-input" id="card-expiration-date-input" placeholder="MM/YY">
                   </div>
                   <div class="card-cvc-section">
-                    <label for="card-cvc-input" class="text-sm font-sans text-white">CVC</label>
+                    <label for="card-cvc-input" class="font-sans text-sm text-white">CVC</label>
                     <input type="text" name="card-cvc-input" id="card-cvc-input" placeholder="***">
                   </div>
                 </div>
@@ -47,36 +47,36 @@
           </div>
         </div>
         <div class="receipt">
-          <h1 class="text-2xl font-sans mb-6">Payment Receipt</h1>
+          <h1 class="mb-6 font-sans text-2xl">Payment Receipt</h1>
           <div class="payment-small-receipt">
-            <h1 class="text-xl font-sans text-white mb-2">Ticket Type</h1>
+            <h1 class="mb-2 font-sans text-xl text-white">Ticket Type</h1>
             <div class="ticket-type">
               <h1 class="text-white">C4-C09</h1>
               <h1 class="text-white">THB 6,400.00</h1>
             </div>
-            <h1 class="text-s font-sans text-gray-400">(THB 6,400.00 × 1)</h1>
+            <h1 class="font-sans text-gray-400 text-s">(THB 6,400.00 × 1)</h1>
             <div class="subtotal-detail">
-              <h1 class="text-white text-lg font-sans">Subtotal</h1>
-              <h1 class="text-white text-lg font-sans">THB 6,400.00</h1>
+              <h1 class="font-sans text-lg text-white">Subtotal</h1>
+              <h1 class="font-sans text-lg text-white">THB 6,400.00</h1>
             </div>
-            <div class="service-fee-detail text-white font-sans">
+            <div class="font-sans text-white service-fee-detail">
               <h1 class="text-lg">Service Fee</h1>
               <h1 class="text-lg">THB 40.00</h1>
             </div>
-            <div class="credit-fee-detail text-white font-sans text-lg">
+            <div class="font-sans text-lg text-white credit-fee-detail">
               <h1>Credit Card Fee (VAT incl.)</h1>
               <h1>THB 5.00</h1>
             </div>
           </div>
-          <div class="total-detail text-black font-sans text-2xl mt-5">
+          <div class="mt-5 font-sans text-2xl text-black total-detail">
             <h1>Total</h1>
             <h1 class="text-gray-600">THB 6,445.00</h1>
           </div>
-          <div class="agree-check mt-5">
+          <div class="mt-5 agree-check">
             <input type="checkbox" id="scales" name="scales" unchecked>
             <label for="scales">
-              By checking out, I agree to <a href="#" class="font-bold text-pale-yellow underline">ReebA's Terms of Service</a>
-              and <a href="" class="font-bold text-pale-yellow underline">Event Organizer's Disclaimer.</a>
+              By checking out, I agree to <a href="#" class="font-bold underline text-pale-yellow">ReebA's Terms of Service</a>
+              and <a href="" class="font-bold underline text-pale-yellow">Event Organizer's Disclaimer.</a>
               I accept that the items in this order cannot be canceled and payments are non-refundable.
             </label>
             <router-link to="/account" class="checkout-button">Pay now</router-link>
@@ -98,11 +98,11 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .payment-page {
-  @apply bg-pale-gray min-h-screen w-full flex flex-row justify-center;
+  @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
 }
 
 .payment-section {
-  @apply py-14 container;
+  @apply container py-14;
 }
 
 .payment-channels {
@@ -110,15 +110,15 @@ export default defineComponent({
 }
 
 .payment-card {
-  @apply bg-white rounded-xl w-full p-6;
+  @apply p-6 w-full bg-white rounded-xl;
 }
 
 .payment-details {
-  @apply grid grid-cols-1 md:grid-cols-3 gap-4 mt-10 justify-center;
+  @apply grid grid-cols-1 gap-4 justify-center mt-10 md:grid-cols-3;
 }
 
 .payment-selectors, .payment-small-receipt {
-  @apply bg-gray-800 rounded-lg p-6;
+  @apply p-6 bg-gray-800 rounded-lg;
 }
 
 .payment-types {
@@ -146,7 +146,7 @@ export default defineComponent({
 }
 
 .subtotal-detail, .service-fee-detail, .credit-fee-detail, .total-detail  {
-  @apply flex mt-2 justify-between;
+  @apply flex justify-between mt-2;
 }
 
 .agree-check {
@@ -154,10 +154,10 @@ export default defineComponent({
 }
 
 .checkout-button {
-  @apply flex mt-6 h-12 items-center rounded-full justify-center bg-pale-yellow hover:bg-yellow-hover font-sans text-white text-2xl;
+  @apply flex justify-center items-center mt-6 h-12 font-sans text-2xl text-white rounded-full bg-pale-yellow hover:bg-yellow-hover;
 }
 
 #card-number-input, #card-name-input, #card-expiration-date-input, #card-cvc-input {
-  @apply w-full h-9 bg-gray-800 outline-none text-white border-b border-gray-600 font-sans;
+  @apply w-full h-9 font-sans text-white bg-gray-800 border-b border-gray-600 outline-none;
 }
 </style>

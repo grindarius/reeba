@@ -3,10 +3,10 @@
   <div class="event-page-content">
     <div class="event-top-part">
       <div class="poster-image">
-        <img class="object-contain rounded-lg " src="@/assets/bts-world-tour.jpg" alt="image">
+        <img class="object-contain rounded-lg" src="@/assets/bts-world-tour.jpg" alt="image">
       </div>
       <div class="event-summaries">
-        <h1 class="text-4xl font-sans text-white ">
+        <h1 class="font-sans text-4xl text-white">
           BTS WORLD TOUR 'LOVE YOURSELF' BANGKOK
         </h1>
         <div class="event-details">
@@ -59,13 +59,13 @@
     </div>
     <div class="event-bottom-part">
       <div class="event-description-section">
-        <div class="text-4xl font-sans text-white mb-4 ">
+        <div class="mb-4 font-sans text-4xl text-white">
           Description
         </div>
-        <p class="text-white font-sans break-words">
+        <p class="font-sans text-white break-words">
           ขอขอบคุณอาร์มี่ทุกคนอีกครั้งที่ให้การตอบรับเป็นอย่างดีกับการร่วมกันสร้างประวัติศาสตร์หน้าใหม่ในการจัดคอนเสิร์ตใหญ่ของศิลปินเกาหลีในประเทศไทยบนพื้นที่สนามกีฬาที่ใหญ่ที่สุดในประเทศไทย
         </p>
-        <p class="text-white font-sans break-words mt-3">
+        <p class="mt-3 font-sans text-white break-words">
           “สนามราชมังคลากีฬาสถาน” กับงาน BTS WORLD TOUR ‘LOVE YOURSELF’ BANGKOK บัตรจำนวน 80,000 กว่าใบทั้ง 2 รอบการแสดง ถูกจำหน่ายหมดภายในเวลาอันรวดเร็วโดย BTS
           ถือเป็นศิลปินเกาหลีวงแรกที่เปิดคอนเสิร์ตที่นี่!!! แต่สำหรับใครที่ยังนกบัตรอยู่ไม่ต้องเสียใจไป “ไอมี่ไทยแลนด์” และ “บิ๊กฮิต เอนเตอร์เทนเม้น” มีข่าวดีมาบอก!! เราจะเปิดขายบัตรเพิ่มเติมในราคา 6,400 บาท
           ทั้ง 2 รอบการแสดง (เสาร์ที่ 6 เมษายน และ อาทิตย์ที่ 7 เมษายน 2562) รวมทั้งทีมงานยังได้ตรวจสอบบัตรที่มีการขายต่อเพิ่มราคา / การซื้อ-ขายบัตรนอกระบบ และพบว่ามีบัตรจำนวนหนึ่งที่เข้าข่ายผิดกฎจริง
@@ -73,23 +73,23 @@
           สำหรับการซื้อบัตร นั่นคือสามารถเลือกได้เพียงโซนที่ต้องการ และทางระบบจะเลือกที่นั่งที่ดีที่สุดที่เหลืออยู่ในโซนนั้นมาให้ และต้องชำระเงินทันทีตามรายละเอียดดังนี้
         </p>
       </div>
-      <div class="event-tickets-section ">
-        <div class="text-4xl font-sans text-white mb-4">
+      <div class="event-tickets-section">
+        <div class="mb-4 font-sans text-4xl text-white">
           Tickets
         </div>
         <div class="ticket-date-selector">
-          <h1 class="text-pale-gray font-medium text-2xl font-sans">
+          <h1 class="font-sans text-2xl font-medium text-pale-gray">
             Rajamangkala National Stadium
           </h1>
           <div>
-            <h1 class="text-2xl font-sans text-pale-gray font-medium mt-2">
+            <h1 class="mt-2 font-sans text-2xl font-medium text-pale-gray">
               Prices
             </h1>
-            <h1 class="text-xl font-sans text-pale-gray font-medium">
+            <h1 class="font-sans text-xl font-medium text-pale-gray">
               2,000 / 2,800 / 3,800 / 4,800 / 5,800 / 6,400 / 6,800 THB
             </h1>
           </div>
-          <h1 class="text-2xl text-pale-gray font-medium mt-2">Show date</h1>
+          <h1 class="mt-2 text-2xl font-medium text-pale-gray">Show date</h1>
           <div class="date-selector">
             <div class="show-date">
               <div class="show-date-schedule">
@@ -125,11 +125,11 @@ export default defineComponent({
 }
 
 .event-top-part {
-  @apply flex flex-row gap-6 ;
+  @apply flex flex-row gap-6;
 }
 
 .event-bottom-part {
-  @apply grid grid-cols-2 gap-6 mt-12 ;
+  @apply grid grid-cols-2 gap-6 mt-12;
 }
 
 .event-page-content {
@@ -137,7 +137,7 @@ export default defineComponent({
 }
 
 .poster-image {
-  @apply rounded-lg ;
+  @apply rounded-lg;
 }
 
 .event-summaries {
@@ -145,7 +145,7 @@ export default defineComponent({
 }
 
 .event-details {
-  @apply grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-4 mt-12 ;
+  @apply grid grid-cols-1 grid-flow-row gap-4 mt-12 md:grid-cols-2;
 }
 
 .event-calendar, .event-prices, .event-times, .event-place {
@@ -153,19 +153,19 @@ export default defineComponent({
 }
 
 .event-prices, .event-place {
-  @apply col-span-1 md:col-span-2 ;
+  @apply col-span-1 md:col-span-2;
 }
 
 .detail-header {
-  @apply text-xl font-sans text-white;
+  @apply font-sans text-xl text-white;
 }
 
 .detail-sub-header {
-  @apply text-sm font-sans text-white;
+  @apply font-sans text-sm text-white;
 }
 
 .ticket-date-selector {
-  @apply bg-pale-yellow p-4 rounded-lg;
+  @apply p-4 rounded-lg bg-pale-yellow;
 }
 
 .show-date {
@@ -173,10 +173,10 @@ export default defineComponent({
 }
 
 .show-date-schedule {
-  @apply text-lg font-sans text-pale-gray font-medium;
+  @apply font-sans text-lg font-medium text-pale-gray;
 }
 
 .buy-button {
-  @apply rounded-lg bg-pale-gray text-white px-8 py-2 hover:bg-gray-hover inline-block;
+  @apply inline-block py-2 px-8 text-white rounded-lg bg-pale-gray hover:bg-gray-hover;
 }
 </style>

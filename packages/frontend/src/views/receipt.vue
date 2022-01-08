@@ -4,7 +4,7 @@
       <div class="receipt-section">
         <div class="receipt-section-header">
           <div class="flex flex-row justify-center items-start">
-            <h1 class="py-8 text-white text-4xl font-bold">Payment receipt</h1>
+            <h1 class="py-8 text-4xl font-bold text-white">Payment receipt</h1>
           </div>
           <img src="@/assets/sample-qr-code.png" alt="QR code">
         </div>
@@ -103,7 +103,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .receipt-page {
-  @apply flex flex-row justify-center bg-pale-gray w-full min-h-screen;
+  @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
 }
 
 .receipt-page-content {
@@ -111,23 +111,23 @@ export default defineComponent({
 }
 
 .receipt-section {
-  @apply w-full h-full bg-zinc-600 rounded-md p-8;
+  @apply p-8 w-full h-full rounded-md bg-zinc-600;
 }
 
 .receipt-section-header {
-  @apply flex flex-col sm:flex-row sm:justify-between justify-start mb-6;
+  @apply flex flex-col justify-start mb-6 sm:flex-row sm:justify-between;
 }
 
 .receipt-section-description {
-  @apply grid grid-flow-row grid-cols-3 gap-4;
+  @apply grid grid-cols-3 grid-flow-row gap-4;
 }
 
 .receipt-header {
-  @apply text-white text-2xl;
+  @apply text-2xl text-white;
 }
 
 .receipt-description-box {
-  @apply bg-white leading-loose px-4 rounded-lg col-span-2;
+  @apply col-span-2 px-4 leading-loose bg-white rounded-lg;
 }
 
 .receipt-description-box-text {

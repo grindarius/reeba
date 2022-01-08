@@ -1,6 +1,6 @@
 <template>
 <div class="home-page">
-  <div class="w-full min-h-screen container">
+  <div class="container w-full min-h-screen">
     <div class="official-events-box">
       <div class="event-section">
         <h1 class="text-main-event-name">
@@ -157,46 +157,46 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .home-page {
-  @apply bg-pale-gray flex flex-row justify-center;
+  @apply flex flex-row justify-center bg-pale-gray;
 }
 
 .text-main-event-name {
-  @apply text-4xl font-bold font-sans text-white;
+  @apply font-sans text-4xl font-bold text-white;
 }
 
 .event-section {
-  @apply max-w-2xl mx-auto py-10 px-10 sm:py-12 sm:px-6 lg:max-w-7xl lg:px-8;
+  @apply py-10 px-10 mx-auto max-w-2xl sm:py-12 sm:px-6 lg:px-8 lg:max-w-7xl;
 }
 
 .event-grid-box {
-  @apply mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8;
+  @apply grid grid-cols-1 gap-x-6 gap-y-10 mt-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8;
 }
 
 .event {
-  @apply rounded-lg shadow-xl cursor-pointer transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-105 duration-200;
+  @apply rounded-lg shadow-xl transition duration-200 ease-in-out delay-100 cursor-pointer hover:scale-105 hover:-translate-y-1;
 }
 
 .event-image-box {
-  @apply bg-gray-200 rounded-t-lg overflow-hidden group-hover:opacity-75;
+  @apply overflow-hidden bg-gray-200 rounded-t-lg group-hover:opacity-75;
 }
 
 .event-image {
-  @apply object-cover h-96 w-full;
+  @apply object-cover w-full h-96;
 }
 
 .event-info {
-  @apply pl-2 object-cover flex flex-col h-24 rounded-b-lg justify-self-start bg-pale-yellow;
+  @apply flex object-cover flex-col justify-self-start pl-2 h-24 rounded-b-lg bg-pale-yellow;
 }
 
 .event-name {
-  @apply truncate mt-0.5 text-lg font-medium text-black;
+  @apply mt-0.5 text-lg font-medium text-black truncate;
 }
 
 .event-time {
-  @apply truncate mt-1 text-sm font-normal text-white;
+  @apply mt-1 text-sm font-normal text-white truncate;
 }
 
 .event-location {
-  @apply truncate mt-1 text-sm font-normal text-white;
+  @apply mt-1 text-sm font-normal text-white truncate;
 }
 </style>

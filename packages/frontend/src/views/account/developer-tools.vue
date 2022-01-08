@@ -2,8 +2,8 @@
 <div class="developer-tools-page">
   <h1 class="page-header">Developer Tools</h1>
   <div class="mt-4">
-    <div class="flex flex-wrap -mx-6 object-center">
-      <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
+    <div class="flex object-center flex-wrap -mx-6">
+      <div class="px-6 w-full sm:w-1/2 xl:w-1/3">
         <div class="box-bg-text-header">
           <div class="mx-5">
             <h4 class="box-text-secondary">1000</h4>
@@ -11,7 +11,7 @@
           </div>
         </div>
       </div>
-      <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
+      <div class="px-6 mt-6 w-full sm:mt-0 sm:w-1/2 xl:w-1/3">
         <div class="box-bg-text-header">
           <div class="mx-5">
             <h4 class="box-text-secondary">230</h4>
@@ -19,7 +19,7 @@
           </div>
         </div>
       </div>
-      <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/3 xl:mt-0">
+      <div class="px-6 mt-6 w-full sm:w-1/2 xl:mt-0 xl:w-1/3">
         <div class="box-bg-text-header">
           <div class="mx-5">
             <h4 class="box-text-secondary">500</h4>
@@ -30,8 +30,8 @@
     </div>
   </div>
   <div class="flex flex-col mt-8">
-    <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-      <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+    <div class="overflow-x-auto py-2 -my-2 sm:px-6 sm:-mx-6 lg:px-8 lg:-mx-8">
+      <div class="inline-block overflow-hidden min-w-full align-middle border-b border-gray-200 shadow sm:rounded-lg">
         <table class="min-w-full">
           <thead>
             <tr>
@@ -47,110 +47,110 @@
               <th class="box-bg">
                 Role
               </th>
-              <th class="px-6 py-3 border-b border-pale-gray bg-pale-yellow"></th>
+              <th class="py-3 px-6 border-b border-pale-gray bg-pale-yellow"></th>
             </tr>
           </thead>
           <tbody class="bg-pale-yellow">
             <tr>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
-                    <img class="h-10 w-10 rounded-full" src="@/assets/user.png" alt="">
+                  <div class="flex-shrink-0 w-10 h-10">
+                    <img class="w-10 h-10 rounded-full" src="@/assets/user.png" alt="">
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm leading-5 font-medium text-pale-gray">
+                    <div class="text-sm font-medium leading-5 text-pale-gray">
                       John Doe
                     </div>
                     <div class="text-sm leading-5 text-gray-500">john@example.com</div>
                   </div>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="text-sm leading-5 text-pale-gray">Software Engineer</div>
                 <div class="text-sm leading-5 text-gray-500">Web dev</div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
-                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
+                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
                   Active
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray text-sm leading-5 text-pale-gray">
+              <td class="py-4 px-6 text-sm leading-5 border-b whitespace-no-wrap border-pale-gray text-pale-gray">
                 Owner
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-pale-gray text-sm leading-5 font-medium">
+              <td class="py-4 px-6 text-sm font-medium leading-5 text-right border-b whitespace-no-wrap border-pale-gray">
                 <a href="#" class="text-pale-gray hover:text-gray-hover">
                   Edit
                 </a>
               </td>
             </tr>
             <tr>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
-                    <img class="h-10 w-10 rounded-full"
+                  <div class="flex-shrink-0 w-10 h-10">
+                    <img class="w-10 h-10 rounded-full"
                       src="@/assets/user.png"
                       alt="">
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm leading-5 font-medium text-pale-gray">John Doe
+                    <div class="text-sm font-medium leading-5 text-pale-gray">John Doe
                     </div>
                     <div class="text-sm leading-5 text-gray-500">john@example.com</div>
                   </div>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="text-sm leading-5 text-pale-gray">Software Engineer</div>
                 <div class="text-sm leading-5 text-gray-500">Web dev</div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
-                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
+                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">Active</span>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray text-sm leading-5 text-pale-gray">
+              <td class="py-4 px-6 text-sm leading-5 border-b whitespace-no-wrap border-pale-gray text-pale-gray">
                 Owner
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-pale-gray text-sm leading-5 font-medium">
+              <td class="py-4 px-6 text-sm font-medium leading-5 text-right border-b whitespace-no-wrap border-pale-gray">
                 <a href="#" class="text-pale-gray hover:text-gray-hover">Edit</a>
               </td>
             </tr>
             <tr>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
-                    <img class="h-10 w-10 rounded-full"
+                  <div class="flex-shrink-0 w-10 h-10">
+                    <img class="w-10 h-10 rounded-full"
                       src="@/assets/user.png"
                       alt="">
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm leading-5 font-medium text-pale-gray">John Doe
+                    <div class="text-sm font-medium leading-5 text-pale-gray">John Doe
                     </div>
                     <div class="text-sm leading-5 text-gray-500">john@example.com</div>
                   </div>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="text-sm leading-5 text-pale-gray">Software Engineer</div>
                 <div class="text-sm leading-5 text-gray-500">Web dev</div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <span
-                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                  class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">Active</span>
               </td>
               <td
-                class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray text-sm leading-5 text-pale-gray">
+                class="py-4 px-6 text-sm leading-5 border-b whitespace-no-wrap border-pale-gray text-pale-gray">
                 Owner</td>
               <td
-                class="px-6 py-4 whitespace-no-wrap text-right border-b border-pale-gray text-sm leading-5 font-medium">
+                class="py-4 px-6 text-sm font-medium leading-5 text-right border-b whitespace-no-wrap border-pale-gray">
                 <a href="#" class="text-pale-gray hover:text-gray-hover">Edit</a>
               </td>
             </tr>
             <tr>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
-                    <img class="h-10 w-10 rounded-full" src="@/assets/user.png" alt="">
+                  <div class="flex-shrink-0 w-10 h-10">
+                    <img class="w-10 h-10 rounded-full" src="@/assets/user.png" alt="">
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm leading-5 font-medium text-pale-gray">
+                    <div class="text-sm font-medium leading-5 text-pale-gray">
                       John Doe
                     </div>
                     <div class="text-sm leading-5 text-gray-500">
@@ -159,17 +159,17 @@
                   </div>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="text-sm leading-5 text-pale-gray">Software Engineer</div>
                 <div class="text-sm leading-5 text-gray-500">Web dev</div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
-                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
+                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">Active</span>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray text-sm leading-5 text-pale-gray">
+              <td class="py-4 px-6 text-sm leading-5 border-b whitespace-no-wrap border-pale-gray text-pale-gray">
                 Owner
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-pale-gray text-sm leading-5 font-medium">
+              <td class="py-4 px-6 text-sm font-medium leading-5 text-right border-b whitespace-no-wrap border-pale-gray">
                 <a href="#" class="text-pale-gray hover:text-gray-hover">
                   Edit
                 </a>
@@ -197,11 +197,11 @@ export default defineComponent({
 }
 
 .box-bg {
-  @apply px-6 py-3 border-b border-pale-gray bg-pale-yellow text-left text-xs leading-4 font-medium text-pale-gray uppercase tracking-wider;
+  @apply py-3 px-6 text-xs font-medium tracking-wider leading-4 text-left uppercase border-b border-pale-gray bg-pale-yellow text-pale-gray;
 }
 
 .box-bg-text-header {
-  @apply flex items-center px-5 py-6 shadow-sm rounded-md bg-pale-yellow text-pale-gray;
+  @apply flex items-center py-6 px-5 rounded-md shadow-sm bg-pale-yellow text-pale-gray;
 }
 
 .box-text-secondary {
@@ -209,6 +209,6 @@ export default defineComponent({
 }
 
 .box-total {
-  @apply text-pale-gray uppercase;
+  @apply uppercase text-pale-gray;
 }
 </style>

@@ -19,119 +19,119 @@
               <th class="box-bg">
                 total tickets
               </th>
-              <th class="px-6 py-3 border-b border-pale-gray bg-pale-yellow"></th>
+              <th class="py-3 px-6 border-b border-pale-gray bg-pale-yellow"></th>
             </tr>
           </thead>
           <tbody class="bg-pale-yellow">
             <tr>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
-                    <img class="h-10 w-10 rounded-full" src="@/assets/user.png" alt="">
+                  <div class="flex-shrink-0 w-10 h-10">
+                    <img class="w-10 h-10 rounded-full" src="@/assets/user.png" alt="">
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm leading-5 font-medium text-pale-gray">John Doe
+                    <div class="text-sm font-medium leading-5 text-pale-gray">John Doe
                     </div>
                     <div class="text-sm leading-5 text-gray-500">john@example.com</div>
                   </div>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="text-sm leading-5 text-pale-gray">BTS World Tour 'Love Yourself'</div>
                 <div class="text-sm leading-5 text-gray-500">Rajamangkala National</div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <span class="active-setting">Active</span>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray text-sm leading-5 text-pale-gray">
+              <td class="py-4 px-6 text-sm leading-5 border-b whitespace-no-wrap border-pale-gray text-pale-gray">
                 1000
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-pale-gray text-sm leading-5 font-medium">
+              <td class="py-4 px-6 text-sm font-medium leading-5 text-right border-b whitespace-no-wrap border-pale-gray">
                 <a href="#" class="text-pale-gray hover:text-gray-hover">Edit</a>
               </td>
             </tr>
             <tr>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
-                    <img class="h-10 w-10 rounded-full"
+                  <div class="flex-shrink-0 w-10 h-10">
+                    <img class="w-10 h-10 rounded-full"
                       src="@/assets/user.png"
                       alt="">
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm leading-5 font-medium text-pale-gray">John Doe
+                    <div class="text-sm font-medium leading-5 text-pale-gray">John Doe
                     </div>
                     <div class="text-sm leading-5 text-gray-500">john@example.com</div>
                   </div>
                 </div>
               </td>
 
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="text-sm leading-5 text-pale-gray">Re-MSC: Reconnecting with Mi</div>
                 <div class="text-sm leading-5 text-gray-500">Online Event</div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <span class="active-setting">Active</span>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray text-sm leading-5 text-pale-gray">
+              <td class="py-4 px-6 text-sm leading-5 border-b whitespace-no-wrap border-pale-gray text-pale-gray">
                 1000
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-pale-gray text-sm leading-5 font-medium">
+              <td class="py-4 px-6 text-sm font-medium leading-5 text-right border-b whitespace-no-wrap border-pale-gray">
                 <a href="#" class="text-pale-gray hover:text-gray-hover">Edit</a>
               </td>
             </tr>
             <tr>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
-                    <img class="h-10 w-10 rounded-full" src="@/assets/user.png" alt="">
+                  <div class="flex-shrink-0 w-10 h-10">
+                    <img class="w-10 h-10 rounded-full" src="@/assets/user.png" alt="">
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm leading-5 font-medium text-pale-gray">John Doe
+                    <div class="text-sm font-medium leading-5 text-pale-gray">John Doe
                     </div>
                     <div class="text-sm leading-5 text-gray-500">john@example.com</div>
                   </div>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="text-sm leading-5 text-pale-gray">LIDO CONNECT - Movie Program</div>
                 <div class="text-sm leading-5 text-gray-500">LIDO CONNECT Hall 1</div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <span class="active-setting">Active</span>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray text-sm leading-5 text-pale-gray">
+              <td class="py-4 px-6 text-sm leading-5 border-b whitespace-no-wrap border-pale-gray text-pale-gray">
                 1000
               </td>
               <td
-                class="px-6 py-4 whitespace-no-wrap text-right border-b border-pale-gray text-sm leading-5 font-medium">
+                class="py-4 px-6 text-sm font-medium leading-5 text-right border-b whitespace-no-wrap border-pale-gray">
                 <a href="#" class="text-pale-gray hover:text-gray-hover">Edit</a>
               </td>
             </tr>
             <tr>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
-                    <img class="h-10 w-10 rounded-full" src="@/assets/user.png" alt="">
+                  <div class="flex-shrink-0 w-10 h-10">
+                    <img class="w-10 h-10 rounded-full" src="@/assets/user.png" alt="">
                   </div>
                   <div class="ml-4">
-                    <div class="text-sm leading-5 font-medium text-pale-gray">John Doe
+                    <div class="text-sm font-medium leading-5 text-pale-gray">John Doe
                     </div>
                     <div class="text-sm leading-5 text-gray-500">john@example.com</div>
                   </div>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <div class="text-sm leading-5 text-pale-gray">Sculpture Drive Thru</div>
                 <div class="text-sm leading-5 text-gray-500">Day Day Ari, Ari Samphan Soi 5</div>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray">
+              <td class="py-4 px-6 border-b whitespace-no-wrap border-pale-gray">
                 <span class="active-setting">Active</span>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-pale-gray text-sm leading-5 text-pale-gray">
+              <td class="py-4 px-6 text-sm leading-5 border-b whitespace-no-wrap border-pale-gray text-pale-gray">
                 1000
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-pale-gray text-sm leading-5 font-medium">
+              <td class="py-4 px-6 text-sm font-medium leading-5 text-right border-b whitespace-no-wrap border-pale-gray">
                 <a href="#" class="text-pale-gray hover:text-gray-hover">Edit</a>
               </td>
             </tr>
@@ -157,18 +157,18 @@ export default defineComponent({
 }
 
 .box-bg {
-  @apply px-6 py-3 border-b border-pale-gray bg-pale-yellow text-left text-xs leading-4 font-medium text-pale-gray uppercase tracking-wider;
+  @apply py-3 px-6 text-xs font-medium tracking-wider leading-4 text-left uppercase border-b border-pale-gray bg-pale-yellow text-pale-gray;
 }
 
 .header-box {
-  @apply align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-pale-gray;
+  @apply inline-block overflow-hidden min-w-full align-middle border-b shadow sm:rounded-lg border-pale-gray;
 }
 
 .setting-header {
-  @apply my-2 py-2 overflow-x-auto;
+  @apply overflow-x-auto py-2 my-2;
 }
 
 .active-setting {
-  @apply px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800;
+  @apply inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full;
 }
 </style>

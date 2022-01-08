@@ -1,35 +1,35 @@
 <template>
   <div class="login-page">
     <div class="login-page-content">
-      <form class="w-11/12 md:w-3/5 xl:w-1/3 rounded-lg">
-        <div class="bg-pale-yellow shadow-transparent rounded-2xl px-8 pt-6 pb-8 mb-4 flex flex-col">
-          <div class="flex font-bold justify-center scroll-mt-50">
-            <img class="h-64 w-64 mb-2" src="@/assets/reeba-logo.png" alt="logo-reeba">
+      <form class="w-11/12 rounded-lg md:w-3/5 xl:w-1/3">
+        <div class="flex flex-col px-8 pt-6 pb-8 mb-4 rounded-2xl bg-pale-yellow shadow-transparent">
+          <div class="flex justify-center font-bold scroll-mt-50">
+            <img class="mb-2 w-64 h-64" src="@/assets/reeba-logo.png" alt="logo-reeba">
           </div>
-          <h3 class="text-4xl text-white text-center">
+          <h3 class="text-4xl text-center text-white">
             Login
           </h3>
           <div class="mb-4">
-            <label class="block text-pale-gray text-sm font-sans mb-2" for="email">
+            <label class="block mb-2 font-sans text-sm text-pale-gray" for="email">
               Email
             </label>
-            <input class="shadow-lg shadow-zinc-900 rounded-xl w-full py-2 px-3 mb-2 text-grey-darker outline-none focus:ring-pale-gray ring-0 focus:ring-2" id="username" type="text" placeholder="Email">
+            <input class="py-2 px-3 mb-2 w-full rounded-xl ring-0 shadow-lg outline-none focus:ring-2 shadow-zinc-900 text-grey-darker focus:ring-pale-gray" id="username" type="text" placeholder="Email">
           </div>
           <div class="mb-6">
-            <label class="block text-pale-gray text-sm font-sans mb-2" for="password">
+            <label class="block mb-2 font-sans text-sm text-pale-gray" for="password">
               Password
             </label>
-            <input class="shadow-lg shadow-zinc-900 border-red rounded-xl w-full py-2 px-3 text-grey-darker mb-3 outline-none focus:ring-pale-gray ring-0 focus:ring-2" id="password" type="password" placeholder="Password">
+            <input class="py-2 px-3 mb-3 w-full rounded-xl ring-0 shadow-lg outline-none focus:ring-2 shadow-zinc-900 border-red text-grey-darker focus:ring-pale-gray" id="password" type="password" placeholder="Password">
           </div>
-          <a class="inline-block align-baseline font-sans text-right text-white hover:underline" href="#">
+          <a class="inline-block font-sans text-right text-white align-baseline hover:underline" href="#">
             Forgot Password?
           </a>
-          <div class="flex items-center justify-center">
-            <button class="bg-pale-gray hover:bg-gray-hover text-white font-sans py-2 px-8 rounded-xl" type="button">
+          <div class="flex justify-center items-center">
+            <button class="py-2 px-8 font-sans text-white rounded-xl bg-pale-gray hover:bg-gray-hover" type="button">
               Sign in
             </button>
           </div>
-          <a class="inline-block align-baseline font-sans text-center text-pale-gray hover:text-white hover:underline" href="#">Do you have an account?</a>
+          <a class="inline-block font-sans text-center align-baseline hover:text-white hover:underline text-pale-gray" href="#">Do you have an account?</a>
         </div>
       </form>
     </div>
@@ -50,6 +50,6 @@ export default defineComponent({
 }
 
 .login-page-content {
-  @apply w-full h-screen flex items-center justify-center;
+  @apply flex justify-center items-center w-full h-screen;
 }
 </style>
