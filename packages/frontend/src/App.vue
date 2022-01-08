@@ -23,7 +23,7 @@
         <v-mdi name="mdi-hamburger" class="cursor-pointer" size="40" fill="#423E41" @click="onHamburgerClicked"></v-mdi>
       </div>
     </div>
-    <div :class="hamburgerState ?'block' : 'hidden'">
+    <div :class="hamburgerState ?'small-navbar block' : 'small-navbar hidden'">
       <ul class="small-navbar-list">
         <li>
           <label>
@@ -82,6 +82,10 @@ export default defineComponent({
 
 .big-navbar {
   @apply flex flex-row justify-between;
+}
+
+.small-navbar {
+  @apply lg:hidden;
 }
 
 .small-navbar-list {
