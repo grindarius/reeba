@@ -4,7 +4,9 @@
       <div class="receipt-section">
         <div class="receipt-section-header">
           <div class="flex flex-row justify-center items-start">
-            <h1 class="py-8 text-4xl font-bold text-white">Payment receipt</h1>
+            <h1 class="py-8 text-4xl font-bold text-white">
+              Payment receipt
+            </h1>
           </div>
           <img src="@/assets/sample-qr-code.png" alt="QR code">
         </div>

@@ -67,10 +67,28 @@ module.exports = {
     {
       files: ['*.vue'],
       extends: [
-        'plugin:vue/vue3-essential',
+        'plugin:vue/vue3-strongly-recommended',
         '@vue/standard',
         '@vue/typescript/recommended'
-      ]
+      ],
+      rules: {
+        'vue/html-closing-bracket-newline': [
+          'error',
+          {
+            singleline: 'never',
+            multiline: 'never'
+          }
+        ],
+        'vue/max-attributes-per-line': [
+          'error',
+          {
+            singleline: { max: 5 },
+            multiline: { max: 2 }
+          }
+        ],
+        'vue/component-definition-name-casing': ['error', 'kebab-case'],
+        'vue/html-indent': ['error']
+      }
     }
   ]
 }

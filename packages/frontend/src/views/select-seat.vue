@@ -1,70 +1,97 @@
 <template>
   <div class="select-seat-page">
     <div class="base">
-      <h1 class="title">Stage zones</h1>
+      <h1 class="title">
+        Stage zones
+      </h1>
       <div class="zone">
         <div class="section">
           <button
-            :class="`${zoneData.id === userSelectedZone ? 'button-active' : 'button'}`"
-            @click="changeZone(zoneData.id)"
-            v-for="(zoneData, id) in zoneData"
+            v-for="(zoneInfo, id) in zoneData"
+            :class="`${zoneInfo.id === userSelectedZone ? 'button-active' : 'button'}`"
+            @click="changeZone(zoneInfo.id)"
             :key="`section-text-${id}`">
             <h1 class="section-text">
-              {{ zoneData.zone }}
+              {{ zoneInfo.zone }}
             </h1>
           </button>
         </div>
       </div>
-      <h1 class="title" v-if="userSelectedZone === 0">Select the zone</h1>
-      <h1 class="title" v-else>Zone {{ zoneData[userSelectedZone - 1].zone }}</h1>
-      <div v-if="userSelectedZone === 0"></div>
+      <h1 class="title" v-if="userSelectedZone === 0">
+        Select the zone
+      </h1>
+      <h1 class="title" v-else>
+        Zone {{ zoneData[userSelectedZone - 1].zone }}
+      </h1>
+      <div v-if="userSelectedZone === 0" />
       <div class="selected" v-else>
         <div class="price-list">
-          <div class="price-rate"
-            v-for="(ticketPrice, id) in zoneData[userSelectedZone - 1].ticketPrices"
+          <div
+            class="price-rate"
+            v-for="(price, id) in zoneData[userSelectedZone - 1].ticketPrices"
             :key="`price-rate-${id}`">
-            <div class="price-rate-color" :style="{'background-color': zoneData[userSelectedZone-1].ticketPriceColors[id]}"></div>
+            <div class="price-rate-color" :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[id]}" />
             <p class="ticket-price-text">
-              {{ ticketPrice }}
+              {{ price }}
             </p>
           </div>
         </div>
         <div class="zone-detail">
           <div class="seats">
             <div class="seats-rows" v-for="row in 5" :key="row">
-              <p class="seats-rows-text">{{ alphabet[row - 1] }}</p>
+              <p class="seats-rows-text">
+                {{ alphabet[row - 1] }}
+              </p>
               <button
                 class="price-color"
                 @click="changeSeat(row, column)"
                 :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}"
                 v-for="column in 15"
                 :key="column">
-                <div class="blank-space" v-if="alphabet[row - 1] + column !== userSelectedSeatNumber"></div>
-                <v-mdi v-else name="mdi-check" size="24" fill="black"></v-mdi>
+                <div class="blank-space" v-if="alphabet[row - 1] + column !== userSelectedSeatNumber" />
+                <v-mdi v-else name="mdi-check" size="24" fill="black" />
               </button>
             </div>
           </div>
           <div class="seats-details">
             <div class="detail-header">
-              <p class="detail-header-text">Reservation Description</p>
+              <p class="detail-header-text">
+                Reservation Description
+              </p>
             </div>
             <table class="detail-content">
               <tbody>
                 <tr>
-                  <td class="left-table">Date</td>
-                  <td class="right-table">{{ getTimeString }}</td>
+                  <td class="left-table">
+                    Date
+                  </td>
+                  <td class="right-table">
+                    {{ getTimeString }}
+                  </td>
                 </tr>
                 <tr>
-                  <td class="left-table">Zone</td>
-                  <td class="right-table">{{ zoneData[userSelectedZone - 1].zone }}</td>
+                  <td class="left-table">
+                    Zone
+                  </td>
+                  <td class="right-table">
+                    {{ zoneData[userSelectedZone - 1].zone }}
+                  </td>
                 </tr>
                 <tr>
-                  <td class="left-table">Price</td>
-                  <td class="right-table">{{ ticketPrice }}</td>
+                  <td class="left-table">
+                    Price
+                  </td>
+                  <td class="right-table">
+                    {{ ticketPrice }}
+                  </td>
                 </tr>
                 <tr>
-                  <td class="left-table">Seat</td>
-                  <td class="right-table">{{ userSelectedSeatNumber }}</td>
+                  <td class="left-table">
+                    Seat
+                  </td>
+                  <td class="right-table">
+                    {{ userSelectedSeatNumber }}
+                  </td>
                 </tr>
               </tbody>
             </table>

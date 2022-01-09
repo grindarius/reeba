@@ -1,35 +1,39 @@
 <template>
-<div class="edit-user-settings-page">
-  <h1 class="page-header">Edit Settings</h1>
-  <section class="setting-bg-content">
-    <form>
-      <div class="flex justify-center">
-        <img class="object-cover object-center w-24 h-24 rounded-full" src="@/assets/user.png" alt="Avatar Upload" />
-      </div>
-      <div class="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2">
-        <div>
-          <label class="text-header" for="username">Username</label>
-          <input id="username" type="text" class="box-text">
+  <div class="edit-user-settings-page">
+    <h1 class="page-header">
+      Edit Settings
+    </h1>
+    <section class="setting-bg-content">
+      <form>
+        <div class="flex justify-center">
+          <img class="object-cover object-center w-24 h-24 rounded-full" src="@/assets/user.png" alt="Avatar Upload">
         </div>
-        <div>
-          <label class="text-header" for="emailAddress">Email Address</label>
-          <input id="emailAddress" type="email" class="box-text">
+        <div class="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2">
+          <div>
+            <label class="text-header" for="username">Username</label>
+            <input id="username" type="text" class="box-text">
+          </div>
+          <div>
+            <label class="text-header" for="emailAddress">Email Address</label>
+            <input id="emailAddress" type="email" class="box-text">
+          </div>
+          <div>
+            <label class="text-header" for="password">Password</label>
+            <input id="password" type="password" class="box-text">
+          </div>
+          <div>
+            <label class="text-header" for="passwordConfirmation">Confirm Password</label>
+            <input id="passwordConfirmation" type="password" class="box-text">
+          </div>
         </div>
-        <div>
-          <label class="text-header" for="password">Password</label>
-          <input id="password" type="password" class="box-text">
+        <div class="flex justify-center mt-6">
+          <button class="button-save">
+            Save
+          </button>
         </div>
-        <div>
-          <label class="text-header" for="passwordConfirmation">Confirm Password</label>
-          <input id="passwordConfirmation" type="password" class="box-text">
-        </div>
-      </div>
-      <div class="flex justify-center mt-6">
-        <button class="button-save">Save</button>
-      </div>
-    </form>
-  </section>
-</div>
+      </form>
+    </section>
+  </div>
 </template>
 
 <script lang="ts">

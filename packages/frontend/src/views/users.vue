@@ -1,53 +1,63 @@
 <template>
-<div class="users-page">
-  <div class="users-page-content">
-    <section class="profile-descriptions">
-      <img src="@/assets/user.png" alt="user-image" class="user-image">
-      <h1 class="text-4xl font-bold text-white">grindarius</h1>
-      <p class="text-white text-md">I love going all out on people I don't know</p>
-      <div class="social-icons">
-        <a href="https://www.facebook.com/grindarius" target="_blank" rel="noopener">
-          <v-mdi name="mdi-facebook" fill="#D5A755"></v-mdi>
-        </a>
-        <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" rel="noopener">
-          <v-mdi name="mdi-google" fill="#D5A755"></v-mdi>
-        </a>
-        <a href="https://www.instagram.com/jawedkarimofficial/" target="_blank" rel="noopener">
-          <v-mdi name="mdi-instagram" fill="#D5A755"></v-mdi>
-        </a>
-      </div>
-      <button class="follow-button">Follow</button>
-      <div class="user-stats">
-        <h1>3 events created</h1>
-        <h1>122 events attended</h1>
-        <h1>3,344 followers</h1>
-      </div>
-    </section>
-    <section class="profile-events">
-      <h1 class="text-2xl text-white">
-        Events grindarius went to
-      </h1>
-      <div class="event-grid-box">
-        <div class="event">
-          <router-link to="/event">
-            <div class="event-image-box">
-              <img class="event-image" src="@/assets/TK-2-BTS.png" alt="event-image">
-            </div>
-            <div class="event-info">
-              <div>
-                <h3 class="event-name">
-                  BTS World Tour 'Love Yourself' Bangkok
-                </h3>
-                <p class="event-time">6 - 7 Apr 2021 | 21:00 </p>
-                <p class="event-location">Rajamangkala National</p>
-              </div>
-            </div>
-          </router-link>
+  <div class="users-page">
+    <div class="users-page-content">
+      <section class="profile-descriptions">
+        <img src="@/assets/user.png" alt="user-image" class="user-image">
+        <h1 class="text-4xl font-bold text-white">
+          grindarius
+        </h1>
+        <p class="text-white text-md">
+          I love going all out on people I don't know
+        </p>
+        <div class="social-icons">
+          <a href="https://www.facebook.com/grindarius" target="_blank" rel="noopener">
+            <v-mdi name="mdi-facebook" fill="#D5A755" />
+          </a>
+          <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" rel="noopener">
+            <v-mdi name="mdi-google" fill="#D5A755" />
+          </a>
+          <a href="https://www.instagram.com/jawedkarimofficial/" target="_blank" rel="noopener">
+            <v-mdi name="mdi-instagram" fill="#D5A755" />
+          </a>
         </div>
-      </div>
-    </section>
+        <button class="follow-button">
+          Follow
+        </button>
+        <div class="user-stats">
+          <h1>3 events created</h1>
+          <h1>122 events attended</h1>
+          <h1>3,344 followers</h1>
+        </div>
+      </section>
+      <section class="profile-events">
+        <h1 class="text-2xl text-white">
+          Events grindarius went to
+        </h1>
+        <div class="event-grid-box">
+          <div class="event">
+            <router-link to="/event">
+              <div class="event-image-box">
+                <img class="event-image" src="@/assets/TK-2-BTS.png" alt="event-image">
+              </div>
+              <div class="event-info">
+                <div>
+                  <h3 class="event-name">
+                    BTS World Tour 'Love Yourself' Bangkok
+                  </h3>
+                  <p class="event-time">
+                    6 - 7 Apr 2021 | 21:00
+                  </p>
+                  <p class="event-location">
+                    Rajamangkala National
+                  </p>
+                </div>
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">
