@@ -1,14 +1,18 @@
 <template>
-<div class="upload-page">
-  <div class="upload-page-content">
-    <h1 class="text-4xl text-white">upload</h1>
-    <input type="file" class="text-xl text-white" name="avatar-image-input" id="avatar-image-input" @change="onFileSelected">
-    <button class="w-32 text-white rounded-xl h-18 bg-pale-yellow" @click="uploadFileAsync">Upload (async/await)</button>
-    <div class="image">
-      <img src="http://localhost:3000/avatars" alt="image">
+  <div class="upload-page">
+    <div class="upload-page-content">
+      <h1 class="text-4xl text-white">
+        upload
+      </h1>
+      <input type="file" class="text-xl text-white" name="avatar-image-input" id="avatar-image-input" @change="onFileSelected">
+      <button class="w-32 text-white rounded-xl h-18 bg-pale-yellow" @click="uploadFileAsync">
+        Upload (async/await)
+      </button>
+      <div class="image">
+        <img src="http://localhost:3000/avatars" alt="image">
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">

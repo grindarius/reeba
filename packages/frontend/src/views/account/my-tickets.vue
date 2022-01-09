@@ -1,70 +1,72 @@
 <template>
-<div class="my-tickets-page">
-  <h2 class="page-header">My tickets</h2>
-  <section class="content-box-size">
-    <div class="content-box-inside">
-      <div class="content-box-setting-image">
-        <img class="content-box-picture" src="@/assets/photo.jpg">
+  <div class="my-tickets-page">
+    <h2 class="page-header">
+      My tickets
+    </h2>
+    <section class="content-box-size">
+      <div class="content-box-inside">
+        <div class="content-box-setting-image">
+          <img class="content-box-picture" src="@/assets/photo.jpg">
+        </div>
+        <div class="content-box-textbox">
+          <h1>Rajamangala National Stadium</h1>
+          <h3>Seat</h3>
+          <h2>C4-C09</h2>
+          <h3>Prices</h3>
+          <h2>6800 THB</h2>
+          <h3>Show date</h3>
+          <h2>Wednesday, 6 April 2022</h2>
+          <h2>Thursday, 7 April 2022</h2>
+          <div class="flex flex-col">
+            <div class="flex justify-center">
+              <button class="command-buttons" @click="openModal">
+                Transfer
+              </button>
+              <router-link to="/select-seat" class="command-buttons">
+                Change descriptions
+              </router-link>
+              <router-link to="/receipt" class="command-buttons">
+                View receipt
+              </router-link>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="content-box-textbox">
-        <h1>Rajamangala National Stadium</h1>
-        <h3>Seat</h3>
-        <h2>C4-C09</h2>
-        <h3>Prices</h3>
-        <h2>6800 THB</h2>
-        <h3>Show date</h3>
-        <h2>Wednesday, 6 April 2022</h2>
-        <h2>Thursday, 7 April 2022</h2>
-        <div class="flex flex-col">
-          <div class="flex justify-center">
-            <button class="command-buttons" @click="openModal">
-              Transfer
+    </section>
+    <div class="cursor-pointer modal-background" v-if="transferOwnershipModalState">
+      <div class="modal">
+        <div class="modal-content">
+          <div class="modal-title">
+            <h1>Transfer ownership</h1>
+            <button class="modal-close-button-icon" @click="closeModal">
+              <v-mdi fill="#fff" name="mdi-close-circle-outline" />
             </button>
-            <router-link to="/select-seat" class="command-buttons">
-              Change descriptions
-            </router-link>
-            <router-link to="/receipt" class="command-buttons">
-              View receipt
-            </router-link>
+          </div>
+          <div class="modal-body">
+            <h1 class="font-semibold text-white">
+              Who are you going to transfer the ticket to?
+            </h1>
+            <div class="searchbar">
+              <label>
+                <input type="text" name="searchbar" placeholder="Search">
+              </label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div>
+              <button class="modal-close-button" type="button" @click="closeModal">
+                Close
+              </button>
+              <button class="modal-accept-button" type="button" @click="closeModal">
+                Submit changes
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
-  <div class="cursor-pointer modal-background" v-if="transferOwnershipModalState">
-    <div class="modal">
-      <div class="modal-content">
-        <div class="modal-title">
-          <h1>Transfer ownership</h1>
-          <button class="modal-close-button-icon" @click="closeModal">
-            <v-mdi fill="#fff" name="mdi-close-circle-outline"></v-mdi>
-          </button>
-        </div>
-        <div class="modal-body">
-          <h1 class="font-semibold text-white">
-            Who are you going to transfer the ticket to?
-          </h1>
-          <div class="searchbar">
-            <label>
-              <input type="text" name="searchbar" placeholder="Search">
-            </label>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <div>
-            <button class="modal-close-button" type="button" @click="closeModal">
-              Close
-            </button>
-            <button class="modal-accept-button" type="button" @click="closeModal">
-              Submit changes
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="modal-background-color" v-if="transferOwnershipModalState" />
   </div>
-  <div class="modal-background-color" v-if="transferOwnershipModalState"></div>
-</div>
 </template>
 
 <script lang="ts">
@@ -185,10 +187,10 @@ label {
 }
 
 .modal-close-button {
-  @apply px-6 py-2 mr-1 mb-1 text-lg font-bold uppercase rounded-lg transition-all duration-150 ease-linear outline-none focus:outline-none text-pale-gray bg-pale-yellow;
+  @apply py-2 px-6 mr-1 mb-1 text-lg font-bold uppercase rounded-lg transition-all duration-150 ease-linear outline-none focus:outline-none text-pale-gray bg-pale-yellow;
 }
 
 .modal-accept-button {
-  @apply px-6 py-2 mr-1 mb-1 text-lg font-bold uppercase rounded-lg transition-all duration-150 ease-linear outline-none focus:outline-none text-pale-gray bg-pale-yellow;
+  @apply py-2 px-6 mr-1 mb-1 text-lg font-bold uppercase rounded-lg transition-all duration-150 ease-linear outline-none focus:outline-none text-pale-gray bg-pale-yellow;
 }
 </style>

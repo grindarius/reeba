@@ -48,11 +48,19 @@
         <div class="flex flex-col gap-y-4 gap-x-6 md:flex-row">
           <div class="input-box grow">
             <label for="event-section-rows" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Section rows</label>
-            <input type="number" id="event-section-rows" name="event-section-rows" class="input" step="1" v-model="selectedSectionRow">
+            <input
+              type="number" id="event-section-rows"
+              name="event-section-rows" class="input"
+              step="1"
+              v-model="selectedSectionRow">
           </div>
           <div class="input-box grow">
             <label for="event-section-columns" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Section columns</label>
-            <input type="number" id="event-section-columns" name="event-section-columns" class="input" step="1" v-model="selectedSectionColumn">
+            <input
+              type="number" id="event-section-columns"
+              name="event-section-columns" class="input"
+              step="1"
+              v-model="selectedSectionColumn">
           </div>
         </div>
         <div class="event-sections-visualize">
@@ -77,11 +85,19 @@
         <div class="flex flex-col gap-y-4 gap-x-6 md:flex-row">
           <div class="input-box grow">
             <label for="event-zone-rows" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Zone rows</label>
-            <input type="number" id="event-zone-rows" name="event-zone-rows" class="input" step="1" v-model="selectedZoneRow">
+            <input
+              type="number" id="event-zone-rows"
+              name="event-zone-rows" class="input"
+              step="1"
+              v-model="selectedZoneRow">
           </div>
           <div class="input-box grow">
             <label for="event-zone-columns" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Zone columns</label>
-            <input type="number" id="event-zone-columns" name="event-zone-columns" class="input" step="1" v-model="selectedZoneColumn">
+            <input
+              type="number" id="event-zone-columns"
+              name="event-zone-columns" class="input"
+              step="1"
+              v-model="selectedZoneColumn">
           </div>
         </div>
         <div class="seatings">
@@ -90,8 +106,7 @@
               <template v-for="seat in row" :key="seat">
                 <button
                   @click="onSeatChange(seat)"
-                  class="w-8 h-8 rounded-full bg-pale-yellow">
-                </button>
+                  class="w-8 h-8 rounded-full bg-pale-yellow" />
               </template>
             </template>
           </div>
