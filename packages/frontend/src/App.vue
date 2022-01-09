@@ -3,7 +3,7 @@
     <div class="flex-1 big-navbar">
       <div class="w-14 lg:w-96 logo">
         <router-link to="/">
-          <img src="@/assets/reeba-logo-2.png" alt="Reeba logo" width="35"  class="ml-2 cursor-pointer">
+          <img src="@/assets/reeba-logo-2.png" alt="Reeba logo" width="35" class="ml-2 cursor-pointer">
         </router-link>
       </div>
       <div class="searchbar">
@@ -20,7 +20,7 @@
         </router-link>
       </div>
       <div class="buttons-mobile">
-        <v-mdi name="mdi-hamburger" class="cursor-pointer" size="40" fill="#423E41" @click="onHamburgerClicked"></v-mdi>
+        <v-mdi name="mdi-hamburger" class="cursor-pointer" size="40" fill="#423E41" @click="onHamburgerClicked" />
       </div>
     </div>
     <div :class="hamburgerState ?'small-navbar block' : 'small-navbar hidden'">
@@ -31,22 +31,26 @@
           </label>
         </li>
         <li>
-          <router-link to="/create" @click="closeHamburger" class="inline-block py-2 w-full">Create event</router-link>
+          <router-link to="/create" @click="closeHamburger" class="inline-block py-2 w-full">
+            Create event
+          </router-link>
         </li>
         <li>
-          <router-link to="/login" @click="closeHamburger" class="inline-block py-2 w-full">Login/Sign up</router-link>
+          <router-link to="/login" @click="closeHamburger" class="inline-block py-2 w-full">
+            Login/Sign up
+          </router-link>
         </li>
       </ul>
     </div>
   </nav>
-  <router-view></router-view>
+  <router-view />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  name: 'App',
+  name: 'app',
   setup () {
     const hamburgerState = ref(false)
 
