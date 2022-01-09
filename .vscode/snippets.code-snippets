@@ -3,11 +3,11 @@
     "prefix": "spa",
     "body": [
       "<template>",
-      "<div class=\"$1-page\">",
-      "  <div class=\"$1-page-content\">",
-      "    <h1 class=\"text-white text-4xl\">$1</h1>",
+      "  <div class=\"$1-page\">",
+      "    <div class=\"$1-page-content\">",
+      "      <h1 class=\"text-white text-4xl\">$1</h1>",
+      "    </div>",
       "  </div>",
-      "</div>",
       "</template>",
       "",
       "<script lang=\"ts\">",
@@ -57,7 +57,7 @@
   "v-mdi tag": {
     "prefix": "v-mdi",
     "body": [
-      "<v-mdi name=\"mdi-$1\" fill=\"#D5A755\"></v-mdi>"
+      "<v-mdi name=\"mdi-$1\" fill=\"#D5A755\" />"
     ]
   }
 }
