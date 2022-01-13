@@ -10,6 +10,7 @@ import Home from './home.vue'
 import Login from './login.vue'
 import Payment from './payment.vue'
 import Receipt from './receipt.vue'
+import Register from './register.vue'
 import SelectSeat from './select-seat.vue'
 import Upload from './upload.vue'
 import Users from './users.vue'
@@ -27,6 +28,7 @@ export {
   Payment,
   PurchaseHistory,
   Receipt,
+  Register,
   SelectSeat,
   Upload,
   Users
