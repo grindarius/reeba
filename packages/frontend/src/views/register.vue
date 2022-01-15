@@ -2,7 +2,7 @@
   <div class="register-page">
     <div class="register-page-content">
       <form class="register-form-section">
-        <div class="register-logo-section">
+        <div class="register">
           <div class="flex justify-center font-bold scroll-mt-50">
             <img class="mb-1 w-64 h-64" src="@/assets/reeba-logo.png" alt="logo-reeba">
           </div>
@@ -75,19 +75,19 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .register-page {
-  @apply w-full h-screen bg-pale-gray;
+  @apply w-full h-full bg-pale-gray;
 }
 
 .register-page-content {
-  @apply flex justify-center items-center w-full h-screen;
+  @apply py-7 flex justify-center items-center w-full h-full;
 }
 
-.register-logo-section {
+.register {
   @apply flex flex-col px-8 pt-6 pb-8 mb-4 rounded-2xl bg-pale-yellow shadow-transparent;
 }
 
 .register-form-section {
-  @apply w-11/12 rounded-lg mt-48 md:w-3/5  xl:w-1/3;
+  @apply w-11/12 rounded-lg pb-8 md:w-3/5  xl:w-1/3;
 }
 
 .register-section {
@@ -103,7 +103,7 @@ export default defineComponent({
 }
 
 .register-input-box {
-  @apply py-2 px-3 mb-2 w-full rounded-xl ring-0 shadow-lg outline-none focus:ring-2 shadow-zinc-900 focus:ring-pale-gray;
+  @apply text-pale-gray py-2 px-3 mb-2 w-full rounded-xl ring-0 shadow-lg outline-none focus:ring-2 shadow-zinc-900 focus:ring-pale-gray;
 }
 
 .register-button {
