@@ -29,7 +29,11 @@
               Sign in
             </button>
           </div>
-          <a class="inline-block font-sans text-center align-baseline hover:text-white hover:underline text-pale-gray" href="#">Do you have an account?</a>
+          <router-link to="/register" class="inline-block font-sans text-center align-baseline">
+            <a class="hover:text-white hover:underline text-pale-gray" href="#">
+              Do you have an account?
+            </a>
+          </router-link>
         </div>
       </form>
     </div>
