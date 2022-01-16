@@ -7,13 +7,10 @@
             <img class="mb-1 w-64 h-64" src="@/assets/reeba-logo.png" alt="logo-reeba">
           </div>
           <h1 class="text-4xl text-center text-white">
-            Register
+            Sign up
           </h1>
-          <h2 class="mt-3 text-base text-center text-white">
-            Enter your credentials to get access account
-          </h2>
           <div class="register-section">
-            <div class="mt-4">
+            <div class="register-input-section">
               <label class="heading" for="username">
                 Username
               </label>
@@ -22,7 +19,7 @@
               </div>
             </div>
 
-            <div class="mt-4">
+            <div class="register-input-section">
               <label class="heading" for="email">
                 Email
               </label>
@@ -31,7 +28,7 @@
               </div>
             </div>
 
-            <div class="mt-4">
+            <div class="register-input-section">
               <label class="heading" for="password">
                 Password
               </label>
@@ -40,7 +37,7 @@
               </div>
             </div>
 
-            <div class="mt-4">
+            <div class="register-input-section">
               <label class="heading" for="confirm-password">
                 Confirm password
               </label>
@@ -56,7 +53,7 @@
           </div>
           <router-link class="mt-2 inline-block font-sans text-center align-baseline" to="/login">
             <a class="hover:text-white hover:underline text-pale-gray" href="#">
-              Already have an account?
+              Already have an account? <a class="font-bold">Sign in</a>.
             </a>
           </router-link>
         </div>
@@ -75,11 +72,11 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .register-page {
-  @apply w-full h-full bg-pale-gray;
+  @apply w-full min-h-screen bg-pale-gray;
 }
 
 .register-page-content {
-  @apply py-7 flex justify-center items-center w-full h-full;
+  @apply py-7 flex justify-center items-center w-full min-h-screen;
 }
 
 .register {
@@ -92,6 +89,10 @@ export default defineComponent({
 
 .register-section {
   @apply flex flex-col;
+}
+
+.register-input-section {
+  @apply mt-1;
 }
 
 .heading {

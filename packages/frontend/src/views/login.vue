@@ -7,7 +7,7 @@
             <img class="mb-2 w-64 h-64" src="@/assets/reeba-logo.png" alt="logo-reeba">
           </div>
           <h3 class="text-4xl text-center text-white">
-            Login
+            Sign in
           </h3>
           <div class="mb-4">
             <label class="block mb-2 font-sans text-sm text-pale-gray" for="email">
@@ -31,7 +31,7 @@
           </div>
           <router-link to="/register" class="mt-2 inline-block font-sans text-center align-baseline">
             <a class="hover:text-white hover:underline text-pale-gray" href="#">
-              Don't have an account?
+              Don't have an account? <a class="font-bold">Sign up</a>.
             </a>
           </router-link>
         </div>
