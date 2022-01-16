@@ -33,7 +33,7 @@
                 Password
               </label>
               <div>
-                <input class="register-input-box" id="password" type="password" placeholder="Password">
+                <input class="register-input-box" id="password" type="password" placeholder="Password" v-model="passwordField">
               </div>
             </div>
 
@@ -42,12 +42,12 @@
                 Confirm password
               </label>
               <div>
-                <input class="register-input-box" id="confirm-password" type="password" placeholder="Confirm password">
+                <input class="register-input-box" id="confirm-password" type="password" placeholder="Confirm password" v-model="confirmPasswordField">
               </div>
             </div>
           </div>
           <div class="register-sing-up-section">
-            <button class="register-button" type="button">
+            <button class="register-button" type="button" @click="onCredentialsSubmit">
               Sign up
             </button>
           </div>
@@ -63,10 +63,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  name: 'register'
+  name: 'register',
+  setup () {
+    const passwordField = ref('')
+    const confirmPasswordField = ref('')
+
+    const onCredentialsSubmit = (): void => {
+      if (passwordField.value === confirmPasswordField.value) {
+        console.log('submit credentials')
+      }
+    }
+
+    return { passwordField, confirmPasswordField, onCredentialsSubmit }
+  }
 })
 </script>
 
