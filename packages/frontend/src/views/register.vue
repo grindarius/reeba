@@ -51,7 +51,7 @@
               Sign up
             </button>
           </div>
-          <router-link class="mt-2 inline-block font-sans text-center align-baseline" to="/login">
+          <router-link class="inline-block mt-2 font-sans text-center align-baseline" to="/login">
             <a class="hover:text-white hover:underline text-pale-gray" href="#">
               Already have an account? <a class="font-bold">Sign in</a>.
             </a>
@@ -88,7 +88,7 @@ export default defineComponent({
 }
 
 .register-page-content {
-  @apply py-7 flex justify-center items-center w-full min-h-screen;
+  @apply flex justify-center items-center py-7 w-full min-h-screen;
 }
 
 .register {
@@ -96,7 +96,7 @@ export default defineComponent({
 }
 
 .register-form-section {
-  @apply w-11/12 rounded-lg pb-8 md:w-3/5  xl:w-1/3;
+  @apply pb-8 w-11/12 rounded-lg md:w-3/5 xl:w-1/3;
 }
 
 .register-section {
@@ -112,11 +112,11 @@ export default defineComponent({
 }
 
 .register-sing-up-section {
-  @apply mt-5 flex justify-center items-center;
+  @apply flex justify-center items-center mt-5;
 }
 
 .register-input-box {
-  @apply text-pale-gray py-2 px-3 mb-2 w-full rounded-xl ring-0 shadow-lg outline-none focus:ring-2 shadow-zinc-900 focus:ring-pale-gray;
+  @apply py-2 px-3 mb-2 w-full rounded-xl ring-0 shadow-lg outline-none focus:ring-2 text-pale-gray shadow-zinc-900 focus:ring-pale-gray;
 }
 
 .register-button {

@@ -29,7 +29,7 @@
               Sign in
             </button>
           </div>
-          <router-link to="/register" class="mt-2 inline-block font-sans text-center align-baseline">
+          <router-link to="/register" class="inline-block mt-2 font-sans text-center align-baseline">
             <a class="hover:text-white hover:underline text-pale-gray" href="#">
               Don't have an account? <a class="font-bold">Sign up</a>.
             </a>
