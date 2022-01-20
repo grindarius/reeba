@@ -10,5 +10,5 @@ create table if not exists users(
   user_password text not null,
   user_role t_user_role not null default 'user',
   user_profile_path text not null default '',
-  primary key (user_id)
+  primary key (user_username)
 );
