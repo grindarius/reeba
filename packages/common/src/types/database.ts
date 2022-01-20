@@ -29,8 +29,8 @@ export interface users {
    */
   user_password: string
   /**
-   * User's roles, Not null, default is 'user', will get upgraded to 'organizer' when there's an event running,
-   * An admin role could only be created right in the database by injecting custom api calls.
+   * User's roles, Not null, default is `'user'`, will get upgraded to `'organizer'` when there's an event running,
+   * An `'admin'` role could only be created right in the database by injecting custom api calls.
    */
   user_role: t_user_roles
   /**
