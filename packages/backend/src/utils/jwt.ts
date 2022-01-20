@@ -1,16 +1,16 @@
-import { UserRoles } from '../types'
+import { t_user_roles } from '@reeba/common'
 
 /**
  * Create object used to sign by `jsonwebtoken`
  *
- * @param id user id
- * @returns an object containing user id to be signed by `jsonwebtoken`
+ * @param useranme username
+ * @returns an object containing username to be signed by `jsonwebtoken`
  */
-export const createSignPayload = (id: string, role: UserRoles): {
+export const createSignPayload = (username: string, role: t_user_roles): {
   user: {
-    id: string
-    role: UserRoles
+    username: string
+    role: t_user_roles
   }
 } => {
-  return { user: { id, role } }
+  return { user: { username, role } }
 }

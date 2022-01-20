@@ -1,24 +1,32 @@
 import { Static, Type } from '@sinclair/typebox'
 
-export const LoginParamsSchema = Type.Object({
+import { t_user_roles } from '.'
+
+export const SigninParamsSchema = Type.Object({
   email: Type.String(),
   password: Type.String()
 })
-export type LoginParams = Static<typeof LoginParamsSchema>
+export type SigninParams = Static<typeof SigninParamsSchema>
 
-export const LoginReplySchema = Type.Object({
-  token: Type.String()
+export const SigninReplySchema = Type.Object({
+  token: Type.String(),
+  username: Type.String(),
+  role: Type.Union([
+    Type.Literal(t_user_roles.user),
+    Type.Literal(t_user_roles.organizer),
+    Type.Literal(t_user_roles.admin)
+  ])
 })
-export type LoginReply = Static<typeof LoginReplySchema>
+export type SigninReply = Static<typeof SigninReplySchema>
 
-export const RegisterParamsSchema = Type.Object({
+export const SignupParamsSchema = Type.Object({
   username: Type.String(),
   email: Type.String(),
   password: Type.String()
 })
-export type RegisterParams = Static<typeof RegisterParamsSchema>
+export type SignupParams = Static<typeof SignupParamsSchema>
 
-export const RegisterReplySchema = Type.Object({
-  token: Type.String()
+export const SignupReplySchema = Type.Object({
+  message: Type.String()
 })
-export type RegisterReply = Static<typeof RegisterReplySchema>
+export type SignupReply = Static<typeof SignupReplySchema>

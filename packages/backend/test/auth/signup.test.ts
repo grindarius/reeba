@@ -17,7 +17,7 @@ const client = new Client({
   database: process.env.POSTGRES_DBNAME
 })
 
-void t.test('Registeration process', async t => {
+void t.test('signup process', async t => {
   const app = createServer()
 
   t.teardown(async () => {
@@ -37,7 +37,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: '',
           email: 'authtest@gmail.com',
@@ -57,7 +57,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           email: 'authtest@gmail.com',
           password: 'asdfghjkl123'
@@ -76,7 +76,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'grindarius',
           email: '',
@@ -96,7 +96,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'grindarius',
           password: 'asdfghjkl123'
@@ -115,7 +115,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'grindarius',
           email: 'authtest @gmail.com',
@@ -135,7 +135,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'grindarius',
           email: 'authtest@gmail.com',
@@ -155,7 +155,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'grindarius',
           email: 'authtest@gmail.com'
@@ -170,11 +170,11 @@ void t.test('Registeration process', async t => {
     }
   })
 
-  void t.test('Successful registration', async t => {
+  void t.test('Successful signup', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'grindarius',
           email: 'authtest@gmail.com',
@@ -183,19 +183,18 @@ void t.test('Registeration process', async t => {
       })
 
       t.strictSame(response.statusCode, 200, 'Success code from registration.')
-      t.strictSame(response.json().message, undefined, 'No error message.')
-      t.type(response.json().token, 'string', 'Type of response token.')
+      t.strictSame(response.json().message, 'complete', 'response message from signup.')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error in a successful registration.')
     }
   })
 
-  void t.test('Duplicate registration', async t => {
+  void t.test('Duplicate signup', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'grindarius',
           email: 'authtest@gmail.com',
@@ -205,6 +204,26 @@ void t.test('Registeration process', async t => {
 
       t.strictSame(response.statusCode, 400, 'Error code from redundant email.')
       t.strictSame(response.json().message, 'duplicate \'email\'', 'Error message from redundant email.')
+    } catch (error) {
+      t.error(error)
+      t.fail('There should not be an error in a successful registration.')
+    }
+  })
+
+  void t.test('invalid username', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/auth/signup',
+        payload: {
+          username: 'longgggggggggggggggggggggggggggggggggggggggg',
+          email: 'authtest@gmail.com',
+          password: 'asdfghjkl123'
+        }
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from invalid name format.')
+      t.strictSame(response.json().message, 'invalid \'username\' format', 'Error message from invalid username.')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error in a successful registration.')
