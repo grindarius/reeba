@@ -1,11 +1,9 @@
 import bcrypt from 'bcrypt'
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
-import { nanoid } from 'nanoid'
 
 import {
   BadRequestReplySchema,
   BCRYPT_GENSALT_ROUNDS,
-  NANOID_USERID_LENGTH,
   SignupParams,
   SignupParamsSchema,
   SignupReply,
@@ -66,20 +64,19 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         throw new Error('duplicate \'email\'')
       }
 
-      const userId = nanoid(NANOID_USERID_LENGTH)
       const salt = await bcrypt.genSalt(BCRYPT_GENSALT_ROUNDS)
       const encryptedPassword = await bcrypt.hash(password, salt)
 
       try {
-        await instance.pg.query<users, [string, string, string, string]>(
-          'insert into users (user_id, user_name, user_email, user_password) VALUES ($1, $2, $3, $4)',
-          [userId, username, email, encryptedPassword]
+        await instance.pg.query<users, [users['user_username'], users['user_email'], users['user_password']]>(
+          'insert into users (user_username, user_email, user_password) VALUES ($1, $2, $3)',
+          [username, email, encryptedPassword]
         )
       } catch (error) {
         throw new Error(`error while inserting new user into the database ${error as string}`)
       }
 
-      const token = instance.jwt.sign(createSignPayload(userId, t_user_roles.user), {
+      const token = instance.jwt.sign(createSignPayload(username, t_user_roles.user), {
         expiresIn: '5m'
       })
 

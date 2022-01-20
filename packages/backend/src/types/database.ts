@@ -17,13 +17,9 @@ export const enum t_user_roles {
  */
 export interface users {
   /**
-   * id of each user. Unique. Not null. generated using `nanoid(25)`. Primary key.
-   */
-  user_id: string
-  /**
    * User's username, will not exceed 15 characters. Not null.
    */
-  user_name: string
+  user_username: string
   /**
    * User's email. Not null. Unique.
    */
@@ -39,7 +35,7 @@ export interface users {
   user_role: t_user_roles
   /**
    * Users's image profile, Not null, stores path to user image in /uploads folder, default is
-   * `/uploads/default-user-profile.png`.
+   * `''`.
    */
-  user_profile_path: string
+  user_image_profile_path: string
 }

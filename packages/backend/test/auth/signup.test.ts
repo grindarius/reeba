@@ -17,7 +17,7 @@ const client = new Client({
   database: process.env.POSTGRES_DBNAME
 })
 
-void t.test('Registeration process', async t => {
+void t.test('signup process', async t => {
   const app = createServer()
 
   t.teardown(async () => {
@@ -37,7 +37,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: '',
           email: 'authtest@gmail.com',
@@ -57,7 +57,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           email: 'authtest@gmail.com',
           password: 'asdfghjkl123'
@@ -76,7 +76,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'grindarius',
           email: '',
@@ -96,7 +96,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'grindarius',
           password: 'asdfghjkl123'
@@ -115,7 +115,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'grindarius',
           email: 'authtest @gmail.com',
@@ -135,7 +135,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'grindarius',
           email: 'authtest@gmail.com',
@@ -155,7 +155,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'grindarius',
           email: 'authtest@gmail.com'
@@ -174,7 +174,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'grindarius',
           email: 'authtest@gmail.com',
@@ -195,7 +195,7 @@ void t.test('Registeration process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'grindarius',
           email: 'authtest@gmail.com',

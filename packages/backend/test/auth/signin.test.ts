@@ -17,7 +17,7 @@ const client = new Client({
   database: process.env.POSTGRES_DBNAME
 })
 
-void t.test('Login process', async t => {
+void t.test('signin process', async t => {
   const app = createServer()
 
   t.teardown(async () => {
@@ -34,7 +34,7 @@ void t.test('Login process', async t => {
     if (email.rows.length <= 0) {
       await app.inject({
         method: 'POST',
-        url: '/auth/register',
+        url: '/auth/signup',
         payload: {
           username: 'login_test_boy',
           email: 'logintest@gmail.com',
@@ -51,7 +51,7 @@ void t.test('Login process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/login',
+        url: '/auth/signin',
         payload: {
           email: '',
           password: 'logintest_123'
@@ -70,7 +70,7 @@ void t.test('Login process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/login',
+        url: '/auth/signin',
         payload: {
           password: 'logintest_123'
         }
@@ -88,7 +88,7 @@ void t.test('Login process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/login',
+        url: '/auth/signin',
         payload: {
           email: 'logintest@gmail.com',
           password: ''
@@ -107,7 +107,7 @@ void t.test('Login process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/login',
+        url: '/auth/signin',
         payload: {
           password: 'logintest_123'
         }
@@ -125,14 +125,14 @@ void t.test('Login process', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/auth/login',
+        url: '/auth/signin',
         payload: {
           email: 'logintest@gmail.com',
           password: 'logintest_123'
         }
       })
 
-      t.strictSame(response.statusCode, 200, 'Success code from success login')
+      t.strictSame(response.statusCode, 200, 'Success code from success signin')
       t.type(response.json().token, 'string', 'Error message from missing email as missing params')
     } catch (error) {
       t.error(error)

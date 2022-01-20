@@ -42,7 +42,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const { email, password } = request.body
 
       try {
-        const user = await instance.pg.query<users, [string]>(
+        const user = await instance.pg.query<users, [users['user_email']]>(
           'select * from users where user_email = $1',
           [email]
         )
@@ -60,7 +60,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           throw new Error('invalid password')
         }
 
-        const token = instance.jwt.sign(createSignPayload(user.rows[0].user_id, user.rows[0].user_role), {
+        const token = instance.jwt.sign(createSignPayload(user.rows[0].user_username, user.rows[0].user_role), {
           expiresIn: '5m'
         })
 
