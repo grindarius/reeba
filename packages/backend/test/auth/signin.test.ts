@@ -121,7 +121,7 @@ void t.test('signin process', async t => {
     }
   })
 
-  void t.test('Successful login', async t => {
+  void t.test('Successful signin', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
@@ -136,6 +136,44 @@ void t.test('signin process', async t => {
       t.type(response.json().token, 'string', 'Error message from missing email as missing params')
       t.type(response.json().username, 'string', 'Return type of username')
       t.strictSame(response.json().username, 'login_test_boy', 'Username returned from registering')
+      t.strictSame(['admin', 'organizer', 'user'].includes(response.json().role), true, 'User role should be one in user roles')
+    } catch (error) {
+      t.error(error)
+      t.fail('There should not be an error.')
+    }
+  })
+
+  void t.test('email not found', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/auth/signin',
+        payload: {
+          email: 'wronglogintest@gmail.com',
+          password: 'logintest_123'
+        }
+      })
+
+      t.strictSame(response.json().message, '\'email\' not found')
+    } catch (error) {
+      t.error(error)
+      t.fail('There should not be an error.')
+    }
+  })
+
+  void t.test('wrong password', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/auth/signin',
+        payload: {
+          email: 'logintest@gmail.com',
+          password: 'wrongpassword'
+        }
+      })
+
+      t.strictSame(response.statusCode, 400, 'response status of wrong password')
+      t.strictSame(response.json().message, 'invalid \'password\'', 'response message of wrong password')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error.')
