@@ -1,4 +1,4 @@
-import { t_user_roles } from '../types'
+import { t_user_roles } from '@reeba/common'
 
 /**
  * Create object used to sign by `jsonwebtoken`
