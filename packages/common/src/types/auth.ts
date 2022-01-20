@@ -27,6 +27,6 @@ export const SignupParamsSchema = Type.Object({
 export type SignupParams = Static<typeof SignupParamsSchema>
 
 export const SignupReplySchema = Type.Object({
-  token: Type.String()
+  message: Type.String()
 })
 export type SignupReply = Static<typeof SignupReplySchema>
