@@ -7,10 +7,12 @@ import {
   SignupParams,
   SignupParamsSchema,
   SignupReply,
-  SignupReplySchema
+  SignupReplySchema,
+  t_user_roles,
+  users
 } from '@reeba/common'
 
-import { t_user_roles, users } from '../../types'
+import { ACCESS_TOKEN_EXPIRES_TIME } from '../../constants'
 import { createSignPayload, validateEmail } from '../../utils'
 
 const signupSchema: FastifySchema = {
@@ -52,16 +54,16 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     }, async (request, reply) => {
       const { username, email, password } = request.body
 
-      const possibleDuplicateEmails = await instance.pg.query<users, [string]>(
+      const possibleDuplicateEmails = await instance.pg.query<users, [users['user_email']]>(
         'select * from users where user_email = $1',
         [email]
       ).catch(error => {
-        throw new Error(`error while finding email duplicates: ${error as string}`)
+        throw new Error(`${error as string}`)
       })
 
       if (possibleDuplicateEmails.rows.length > 0) {
         void reply.code(400)
-        throw new Error('duplicate \'email\'')
+        throw new Error('duplicate email')
       }
 
       const salt = await bcrypt.genSalt(BCRYPT_GENSALT_ROUNDS)
@@ -77,7 +79,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       }
 
       const token = instance.jwt.sign(createSignPayload(username, t_user_roles.user), {
-        expiresIn: '5m'
+        expiresIn: ACCESS_TOKEN_EXPIRES_TIME
       })
 
       return {
