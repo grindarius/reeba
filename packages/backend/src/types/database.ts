@@ -6,10 +6,10 @@
  * that user's role will automatically downgraded to 'user'.
  * - `'admin'` superuser role that cannot be created normally.
  */
-export const enum UserRoles {
-  User = 'user',
-  Organizer = 'organizer',
-  Admin = 'admin'
+export const enum t_user_roles {
+  user = 'user',
+  organizer = 'organizer',
+  admin = 'admin'
 }
 
 /**
@@ -36,7 +36,7 @@ export interface users {
    * User's roles, Not null, default is 'user', will get upgraded to 'organizer' when there's an event running,
    * An admin role could only be created right in the database by injecting custom api calls.
    */
-  user_role: UserRoles
+  user_role: t_user_roles
   /**
    * Users's image profile, Not null, stores path to user image in /uploads folder, default is
    * `/uploads/default-user-profile.png`.
