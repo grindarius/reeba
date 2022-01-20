@@ -134,6 +134,8 @@ void t.test('signin process', async t => {
 
       t.strictSame(response.statusCode, 200, 'Success code from success signin')
       t.type(response.json().token, 'string', 'Error message from missing email as missing params')
+      t.type(response.json().username, 'string', 'Return type of username')
+      t.strictSame(response.json().username, 'login_test_boy', 'Username returned from registering')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error.')
