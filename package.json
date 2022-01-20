@@ -29,7 +29,7 @@
     "build:frontend": "cd packages/frontend && npm run build",
     "build:common": "cd packages/common && npm run build",
     "rebuild": "npx rimraf node_modules && lerna run clean",
-    "lint:css": "node scripts/lint-classes.js .",
+    "lint:css": "node scripts/lint-classes.mjs .",
     "clean": "lerna run clean",
     "test": "tap --rcfile=.taprc",
     "build": "lerna run build"

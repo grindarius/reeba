@@ -1,7 +1,7 @@
 import { exec } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
-import upath from 'node:upath'
+import upath from 'upath'
 
 /**
  * Recursively walk a directory asynchronously and obtain all file names (with full path).
