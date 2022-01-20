@@ -5,8 +5,7 @@ create type t_user_role as enum ('user', 'organizer', 'admin');
 
 drop table if exists users;
 create table if not exists users(
-  user_id text not null,
-  user_name text not null unique,
+  user_username text not null unique,
   user_email text not null unique,
   user_password text not null,
   user_role t_user_role not null default 'user',
