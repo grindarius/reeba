@@ -59,5 +59,19 @@
     "body": [
       "<v-mdi name=\"mdi-$1\" fill=\"#D5A755\" />"
     ]
+  },
+  "new tap test": {
+    "prefix": "test",
+    "body": [
+      "void t.test('$1', async t => {",
+      "  try {",
+      "    const response = await app.inject({})",
+      "  } catch (error) {",
+      "    t.error(error)",
+      "    t.fail('There should not be an error in a successful registration.')",
+      "  }",
+      "})"
+    ],
+    "description": ""
   }
 }
