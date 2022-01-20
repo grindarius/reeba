@@ -50,7 +50,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       })
 
       if (user.rows.length === 0) {
-        throw new Error('email not found')
+        throw new Error('\'email\' not found')
       }
 
       const isPasswordValid = await bcrypt.compare(
@@ -62,7 +62,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       if (!isPasswordValid) {
         void reply.code(400)
-        throw new Error('invalid password')
+        throw new Error('invalid \'password\'')
       }
 
       const token = instance.jwt.sign(createSignPayload(user.rows[0].user_username, user.rows[0].user_role), {
