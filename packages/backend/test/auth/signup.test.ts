@@ -204,7 +204,7 @@ void t.test('signup process', async t => {
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from redundant email.')
-      t.strictSame(response.json().message, 'duplicate \'email\'', 'Error message from redundant email.')
+      t.strictSame(response.json().message, 'duplicate email', 'Error message from redundant email.')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error in a successful registration.')
