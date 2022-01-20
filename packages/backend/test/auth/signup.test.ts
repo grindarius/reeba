@@ -210,5 +210,25 @@ void t.test('signup process', async t => {
     }
   })
 
+  void t.test('invalid username', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/auth/signup',
+        payload: {
+          username: 'longgggggggggggggggggggggggggggggggggggggggg',
+          email: 'authtest@gmail.com',
+          password: 'asdfghjkl123'
+        }
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from invalid name format.')
+      t.strictSame(response.json().message, 'invalid \'username\' format', 'Error message from invalid username.')
+    } catch (error) {
+      t.error(error)
+      t.fail('There should not be an error in a successful registration.')
+    }
+  })
+
   t.end()
 })
