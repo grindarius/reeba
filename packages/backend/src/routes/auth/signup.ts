@@ -8,10 +8,10 @@ import {
   SignupParamsSchema,
   SignupReply,
   SignupReplySchema,
-  users
+  users,
+  validateEmail,
+  validateUsername
 } from '@reeba/common'
-
-import { validateEmail } from '../../utils'
 
 const signupSchema: FastifySchema = {
   body: SignupParamsSchema,
@@ -29,9 +29,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       preValidation: async (request, reply) => {
         const { username, email, password } = request.body
 
-        if (username === '') {
+        if (username == null || username === '') {
           void reply.code(400)
           throw new Error('body should have required property \'username\'')
+        }
+
+        if (!validateUsername(username)) {
+          void reply.code(400)
+          throw new Error('invalid \'username\' format')
         }
 
         if (email == null || email === '') {
