@@ -170,7 +170,7 @@ void t.test('signup process', async t => {
     }
   })
 
-  void t.test('Successful registration', async t => {
+  void t.test('Successful signup', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
@@ -183,15 +183,14 @@ void t.test('signup process', async t => {
       })
 
       t.strictSame(response.statusCode, 200, 'Success code from registration.')
-      t.strictSame(response.json().message, undefined, 'No error message.')
-      t.type(response.json().token, 'string', 'Type of response token.')
+      t.strictSame(response.json().message, 'complete', 'response message from signup.')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error in a successful registration.')
     }
   })
 
-  void t.test('Duplicate registration', async t => {
+  void t.test('Duplicate signup', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
@@ -204,7 +203,7 @@ void t.test('signup process', async t => {
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from redundant email.')
-      t.strictSame(response.json().message, 'duplicate email', 'Error message from redundant email.')
+      t.strictSame(response.json().message, 'duplicate \'email\'', 'Error message from redundant email.')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error in a successful registration.')
