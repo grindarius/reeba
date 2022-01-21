@@ -29,12 +29,12 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       preValidation: async (request, reply) => {
         const { email, password } = request.body
 
-        if (email === '') {
+        if (email == null || email === '') {
           void reply.code(400)
           throw new Error('body should have required property \'email\'')
         }
 
-        if (password === '') {
+        if (password == null || password === '') {
           void reply.code(400)
           throw new Error('body should have required property \'password\'')
         }
