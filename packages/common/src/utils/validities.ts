@@ -24,7 +24,7 @@ export const validateEmail = (email: string): boolean => {
  * @returns boolean indicating if username is right.
  */
 export const validateUsername = (username: string): boolean => {
-  if (username.length < 1 && username.length > 30) {
+  if (username.length < 1 || username.length > 30) {
     return false
   }
 
