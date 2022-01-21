@@ -3,10 +3,10 @@ import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
   BadRequestReplySchema,
-  SigninParams,
-  SigninParamsSchema,
-  SigninReply,
-  SigninReplySchema,
+  SigninBody,
+  SigninBodySchema,
+  SigninReplyBody,
+  SigninReplyBodySchema,
   users
 } from '@reeba/common'
 
@@ -14,15 +14,15 @@ import { ACCESS_TOKEN_EXPIRES_TIME } from '../../constants'
 import { createSignPayload } from '../../utils'
 
 const signinSchema: FastifySchema = {
-  body: SigninParamsSchema,
+  body: SigninBodySchema,
   response: {
-    200: SigninReplySchema,
+    200: SigninReplyBodySchema,
     400: BadRequestReplySchema
   }
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.post<{ Body: SigninParams, Reply: SigninReply }>(
+  instance.post<{ Body: SigninBody, Reply: SigninReplyBody }>(
     '/signin',
     {
       schema: signinSchema,
