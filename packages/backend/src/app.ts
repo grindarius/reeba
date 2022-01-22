@@ -40,11 +40,11 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
     pgPort == null || pgPort === '' ||
     pgDBName == null || pgDBName === ''
   ) {
-    throw new Error('Missing one of postgres related credentials, or jwt secret')
+    throw new Error('missing one of postgres related credentials')
   }
 
   if (jwtSecret == null || jwtSecret === '') {
-    throw new Error('Missing jwt secret')
+    throw new Error('missing jwt secret')
   }
 
   void server.register(multipart)
