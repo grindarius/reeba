@@ -2,11 +2,11 @@
   <div class="event-page">
     <div class="event-page-content">
       <div class="event-top-part">
-        <div class="poster-image">
-          <img class="object-contain rounded-lg" src="@/assets/bts-world-tour.jpg" alt="image">
+        <div class="rounded-lg">
+          <img class="mx-auto rounded-lg md:mx-0" src="@/assets/bts-world-tour.jpg" alt="image">
         </div>
-        <div class="event-summaries">
-          <h1 class="font-sans text-4xl text-white clear-right">
+        <div class="grow">
+          <h1 class="clear-right font-sans text-4xl text-white">
             BTS WORLD TOUR 'LOVE YOURSELF' BANGKOK
           </h1>
           <div class="event-details">
@@ -58,7 +58,7 @@
         </div>
       </div>
       <div class="event-bottom-part">
-        <div class="event-description-section">
+        <div class="order-2 col-span-1 md:order-1 md:col-span-2">
           <div class="mb-4 font-sans text-4xl text-white">
             Description
           </div>
@@ -73,7 +73,7 @@
             สำหรับการซื้อบัตร นั่นคือสามารถเลือกได้เพียงโซนที่ต้องการ และทางระบบจะเลือกที่นั่งที่ดีที่สุดที่เหลืออยู่ในโซนนั้นมาให้ และต้องชำระเงินทันทีตามรายละเอียดดังนี้
           </p>
         </div>
-        <div class="event-tickets-section">
+        <div class="order-1 md:order-2">
           <div class="mb-4 font-sans text-4xl text-white">
             Tickets
           </div>
@@ -131,23 +131,15 @@ export default defineComponent({
 }
 
 .event-top-part {
-  @apply flex flex-row gap-6 clear-right;
+  @apply flex flex-col gap-6 md:flex-row;
 }
 
 .event-bottom-part {
-  @apply grid grid-cols-2 gap-6 mt-12;
+  @apply grid grid-cols-1 gap-6 mt-12 md:grid-cols-3;
 }
 
 .event-page-content {
-  @apply container mt-10;
-}
-
-.poster-image {
-  @apply rounded-lg shrink-0;
-}
-
-.event-summaries {
-  @apply grow clear-right;
+  @apply container px-4 mt-10;
 }
 
 .event-details {
