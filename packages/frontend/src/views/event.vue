@@ -3,10 +3,10 @@
     <div class="event-page-content">
       <div class="event-top-part">
         <div class="poster-image">
-          <img class="object-contain rounded-lg" src="@/assets/bts-world-tour.jpg" alt="image">
+          <img class="object-contain rounded-lg " src="@/assets/bts-world-tour.jpg" alt="image">
         </div>
         <div class="event-summaries">
-          <h1 class="font-sans text-4xl text-white">
+          <h1 class="font-sans text-4xl text-white ">
             BTS WORLD TOUR 'LOVE YOURSELF' BANGKOK
           </h1>
           <div class="event-details">
@@ -74,7 +74,7 @@
           </p>
         </div>
         <div class="event-tickets-section">
-          <div class="mb-4 font-sans text-4xl text-white">
+          <div class="mb-4 font-sans text-4xl text-white ">
             Tickets
           </div>
           <div class="ticket-date-selector">
@@ -127,7 +127,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .event-page {
-  @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
+  @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray ;
 }
 
 .event-top-part {
