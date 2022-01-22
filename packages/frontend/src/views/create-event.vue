@@ -28,9 +28,9 @@
 
           <div class="col-span-4">
             <div v-for="(time, i) in selectedTimes" :key="`selected-event-time-${i}`">
-              <div class="add-list-remove gap-x-px">
+              <div class="add-list-remove">
                 {{ getTimeString(time) }}
-                <v-mdi name="mdi-minus-circle" class="mx-3 cursor-pointer" size="36" fill="#D5A755" @click="removeEventTime(i)" />
+                <v-mdi name="mdi-minus-circle" class="mx-3 cursor-pointer" size="24" fill="#D5A755" @click="removeEventTime(i)" />
               </div>
             </div>
           </div>
@@ -263,7 +263,7 @@ export default defineComponent({
 }
 
 .add-list-remove {
-  @apply bg-gray-100;
+  @apply text-center py-3 px-4 w-full bg-gray-100 rounded outline-none focus:bg-white ring-pale-gray focus:ring-gray-hover;
 }
 
 // .datetime-controls {
