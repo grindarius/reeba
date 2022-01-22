@@ -1,7 +1,7 @@
-const fs = require('fs')
-const path = require('path')
-const upath = require('upath')
-const exec = require('child_process').exec
+import { exec } from 'node:child_process'
+import fs from 'node:fs'
+import path from 'node:path'
+import upath from 'upath'
 
 /**
  * Recursively walk a directory asynchronously and obtain all file names (with full path).

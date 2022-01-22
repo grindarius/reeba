@@ -38,4 +38,46 @@ export interface users {
    * `''`.
    */
   user_image_profile_path: string
+  /**
+   * Users's telephone number, not null, stores as a string, default is `''`.
+   */
+  user_telephone_number: string
+  /**
+   * Users's birthdate, string, NULLABLE, stores as a string in `YYYY-MM-DD` format. default is `null`.
+   */
+  user_birthdate: string | null
+}
+
+/**
+ * Table storing events created from users.
+ */
+export interface events {
+  /**
+   * Event id, not null, unique, generates from `nanoid()`
+   */
+  event_id: string
+  /**
+   * Event name, not null, stores event name.
+   */
+  event_name: string
+  /**
+   * Event descriptions, not null default is `''`, stores event descriptions, can be left empty.
+   */
+  event_descriptions: string
+  event_dates: Array<string>
+}
+
+/**
+ * Table storing a `n:m` relationship between event and its tags
+ */
+export interface event_tags {
+  event_id: string
+  tag_label: string
+}
+
+/**
+ * Table storing tags of events created by users.
+ */
+export interface tags {
+  tag_label: string
 }

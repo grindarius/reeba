@@ -50,7 +50,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
   void server.register(multipart)
   void server.register(servestatic, {
     root: join(__dirname, '..', 'uploads'),
-    prefix: '/uploads/'
+    prefix: '/'
   })
   void server.register(cors)
   void server.register(helmet, { enableCSPNonces: true })

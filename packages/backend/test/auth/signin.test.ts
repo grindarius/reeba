@@ -31,7 +31,7 @@ void t.test('signin process', async t => {
     // * Looking for existing logged in user, if not. create one.
     const email = await client.query('select * from "users" where user_email = \'logintest@gmail.com\'')
 
-    if (email.rows.length <= 0) {
+    if (email.rowCount <= 0) {
       await app.inject({
         method: 'POST',
         url: '/auth/signup',

@@ -4,25 +4,25 @@ import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 import {
   BadRequestReplySchema,
   BCRYPT_GENSALT_ROUNDS,
-  SignupParams,
-  SignupParamsSchema,
-  SignupReply,
-  SignupReplySchema,
+  SignupBody,
+  SignupBodySchema,
+  SignupReplyBody,
+  SignupReplyBodySchema,
   users,
   validateEmail,
   validateUsername
 } from '@reeba/common'
 
 const signupSchema: FastifySchema = {
-  body: SignupParamsSchema,
+  body: SignupBodySchema,
   response: {
-    200: SignupReplySchema,
+    200: SignupReplyBodySchema,
     400: BadRequestReplySchema
   }
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.post<{ Body: SignupParams, Reply: SignupReply }>(
+  instance.post<{ Body: SignupBody, Reply: SignupReplyBody }>(
     '/signup',
     {
       schema: signupSchema,
@@ -64,7 +64,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         throw new Error(`${error as string}`)
       })
 
-      if (possibleDuplicateEmails.rows.length > 0) {
+      if (possibleDuplicateEmails.rowCount > 0) {
         void reply.code(400)
         throw new Error('duplicate \'email\'')
       }

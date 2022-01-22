@@ -29,7 +29,7 @@
     "build:frontend": "cd packages/frontend && npm run build",
     "build:common": "cd packages/common && npm run build",
     "rebuild": "npx rimraf node_modules && lerna run clean",
-    "lint:css": "node scripts/lint-classes.js .",
+    "lint:css": "node scripts/lint-classes.mjs .",
     "clean": "lerna run clean",
     "test": "tap --rcfile=.taprc",
     "build": "lerna run build"
@@ -48,6 +48,8 @@
     "@typescript-eslint/parser": "^4.29.3",
     "@vue/eslint-config-standard": "^6.1.0",
     "@vue/eslint-config-typescript": "^7.0.0",
+    "chalk": "^4.1.2",
+    "chance": "^1.1.8",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-config-standard-with-typescript": "^20.0.0",

@@ -3,10 +3,10 @@ import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
   BadRequestReplySchema,
-  SigninParams,
-  SigninParamsSchema,
-  SigninReply,
-  SigninReplySchema,
+  SigninBody,
+  SigninBodySchema,
+  SigninReplyBody,
+  SigninReplyBodySchema,
   users
 } from '@reeba/common'
 
@@ -14,27 +14,27 @@ import { ACCESS_TOKEN_EXPIRES_TIME } from '../../constants'
 import { createSignPayload } from '../../utils'
 
 const signinSchema: FastifySchema = {
-  body: SigninParamsSchema,
+  body: SigninBodySchema,
   response: {
-    200: SigninReplySchema,
+    200: SigninReplyBodySchema,
     400: BadRequestReplySchema
   }
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.post<{ Body: SigninParams, Reply: SigninReply }>(
+  instance.post<{ Body: SigninBody, Reply: SigninReplyBody }>(
     '/signin',
     {
       schema: signinSchema,
       preValidation: async (request, reply) => {
         const { email, password } = request.body
 
-        if (email === '') {
+        if (email == null || email === '') {
           void reply.code(400)
           throw new Error('body should have required property \'email\'')
         }
 
-        if (password === '') {
+        if (password == null || password === '') {
           void reply.code(400)
           throw new Error('body should have required property \'password\'')
         }
@@ -49,7 +49,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         throw new Error(error as string)
       })
 
-      if (user.rows.length === 0) {
+      if (user.rowCount === 0) {
         throw new Error('\'email\' not found')
       }
 
