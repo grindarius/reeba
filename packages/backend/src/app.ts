@@ -53,7 +53,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
     prefix: '/'
   })
   void server.register(cors)
-  void server.register(helmet, { enableCSPNonces: true })
+  void server.register(helmet)
   void server.register(pg, {
     connectionString: `postgres://${pgUsername}:${encodeURIComponent(pgPassword)}@${pgHostname}:${pgPort}/${pgDBName}`
   })
