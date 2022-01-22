@@ -9,5 +9,32 @@ create table users(
   user_password text not null,
   user_role t_user_roles not null default 'user',
   user_image_profile_path text not null default '',
+  user_telephone_number text not null default '',
+  user_birthdate date default null,
   primary key (user_username)
+);
+
+drop table if exists events cascade;
+create table events(
+  event_id text not null unique,
+  event_name text not null,
+  event_description text not null default '',
+  event_dates timestamp with time zone[] not null default '{}',
+  primary key (event_id)
+);
+
+drop table if exists event_tags cascade;
+create table event_tags(
+  event_id text not null,
+  tag_label text not null,
+  primary key (event_id, tag_label),
+  foreign key (event_id) references events(event_id) on update cascade,
+  foreign key (tab_label) references tags(tag_label) on update cascade
+);
+
+-- this table needs HEAVY normalization before put in
+drop table if exists tags cascade;
+create table tags(
+  tag_label text not null unique,
+  primary key (tag_label)
 );
