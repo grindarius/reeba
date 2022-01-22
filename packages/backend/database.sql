@@ -21,16 +21,18 @@ create table users (
 
 drop table if exists events cascade;
 create table events (
+  user_username text not null,
   event_id text not null unique,
   event_name text not null,
   event_website text not null default '',
   event_description text not null default '',
   event_datetimes t_event_datetime[] not null default '{}',
   event_venue_name text not null default '',
-  event_venue_coordinates point not null default '(0,0)',
-  event_opening_date timestamp with time zone,
+  event_venue_coordinates point not null default '0,0',
+  event_opening_date timestamp with time zone not null,
   event_prices integer[] not null default '{}',
-  primary key (event_id)
+  primary key (event_id),
+  foreign key (user_username) references users(user_username) on delete cascade
 );
 
 -- this table needs HEAVY normalization before put in
