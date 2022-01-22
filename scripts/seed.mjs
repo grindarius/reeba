@@ -46,7 +46,7 @@ client.connect().then(async () => {
       [user[0]]
     )
 
-    if (dupes.rows.length <= 0) {
+    if (dupes.rowCount <= 0) {
       await client.query(
         'insert into users (user_username, user_email, user_password) values ($1, $2, $3)',
         user

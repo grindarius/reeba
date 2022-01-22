@@ -64,7 +64,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         throw new Error(`${error as string}`)
       })
 
-      if (possibleDuplicateEmails.rows.length > 0) {
+      if (possibleDuplicateEmails.rowCount > 0) {
         void reply.code(400)
         throw new Error('duplicate \'email\'')
       }

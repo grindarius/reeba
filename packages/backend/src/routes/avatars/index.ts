@@ -27,7 +27,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         [username]
       )
 
-      if (imagePath.rows.length === 0) {
+      if (imagePath.rowCount === 0) {
         return await reply.sendFile('/uploads/default-user-profile.png')
       }
 

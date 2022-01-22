@@ -49,7 +49,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         throw new Error(error as string)
       })
 
-      if (user.rows.length === 0) {
+      if (user.rowCount === 0) {
         throw new Error('\'email\' not found')
       }
 
