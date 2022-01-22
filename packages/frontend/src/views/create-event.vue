@@ -263,7 +263,7 @@ export default defineComponent({
 }
 
 .add-list-remove {
-  @apply text-center py-3 px-4 w-full bg-gray-100 rounded outline-none focus:bg-white ring-pale-gray focus:ring-gray-hover;
+  @apply text-center p-3 mt-5 w-full bg-gray-100 rounded outline-none focus:bg-white ring-pale-gray focus:ring-gray-hover;
 }
 
 // .datetime-controls {
