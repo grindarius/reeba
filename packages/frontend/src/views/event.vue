@@ -6,7 +6,7 @@
           <img class="object-contain rounded-lg" src="@/assets/bts-world-tour.jpg" alt="image">
         </div>
         <div class="event-summaries">
-          <h1 class="font-sans text-4xl text-white">
+          <h1 class="font-sans text-4xl text-white clear-right">
             BTS WORLD TOUR 'LOVE YOURSELF' BANGKOK
           </h1>
           <div class="event-details">
@@ -131,7 +131,7 @@ export default defineComponent({
 }
 
 .event-top-part {
-  @apply flex flex-row gap-6;
+  @apply flex flex-row gap-6 clear-right;
 }
 
 .event-bottom-part {
@@ -143,11 +143,11 @@ export default defineComponent({
 }
 
 .poster-image {
-  @apply rounded-lg;
+  @apply rounded-lg shrink-0;
 }
 
 .event-summaries {
-  @apply grow;
+  @apply grow clear-right;
 }
 
 .event-details {
