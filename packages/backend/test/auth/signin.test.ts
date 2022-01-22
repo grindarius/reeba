@@ -137,6 +137,7 @@ void t.test('signin process', async t => {
       t.type(response.json().username, 'string', 'Return type of username')
       t.strictSame(response.json().username, 'login_test_boy', 'Username returned from registering')
       t.strictSame(['admin', 'organizer', 'user'].includes(response.json().role), true, 'User role should be one in user roles')
+      t.type(response.json().verificationStatus, 'boolean', 'Type of verification status')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error.')
