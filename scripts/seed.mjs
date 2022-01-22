@@ -57,5 +57,6 @@ client.connect().then(async () => {
   }
 
   console.log(chalk.blue('successfully generated random users'))
+  await client.end()
   exit(1)
 })
