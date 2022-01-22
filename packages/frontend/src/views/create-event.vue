@@ -14,14 +14,25 @@
             <label for="event-website-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Website</label>
             <input type="text" id="event-website-name" name="event-website-name" class="appearance-none input" placeholder="https://event.reeba.com">
           </div>
-          <div class="col-span-4 md:col-span-2 input-box">
-            <label for="event-date" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Date</label>
-            <input type="date" id="event-date" name="event-date" class="input">
+          <div class="col-span-2 input-box">
+            <label for="event-start-datetime" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Start time</label>
+            <input type="datetime-local" id="event-start-datetime" name="event-start-datetime" class="input" v-model="selectedEventStartTime">
           </div>
-          <div class="col-span-4 md:col-span-2 input-box">
-            <label for="event-start-time" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Start time</label>
-            <input type="time" id="event-start-time" name="event-start-time" class="input">
+          <div class="col-span-2 input-box">
+            <label for="event-end-datetime" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">End time</label>
+            <div class="flex flex-row items-center">
+              <input type="datetime-local" id="event-end-datetime" name="event-end-datetime" class="input" v-model="selectedEventEndTime">
+              <v-mdi name="mdi-plus-circle" class="mx-3 cursor-pointer" size="36" fill="#D5A755" @click="addEventTime" />
+            </div>
           </div>
+
+          <div class="col-span-4">
+            <div v-for="(time, i) in selectedTimes" :key="`selected-event-time-${i}`">
+              <div>{{ getTimeString(time) }}</div>
+              <v-mdi name="mdi-minus-circle" class="mx-3 cursor-pointer" size="36" fill="#D5A755" @click="removeEventTime(i)" />
+            </div>
+          </div>
+
           <div class="col-span-4 md:col-span-1 input-box">
             <label for="event-location-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Location name</label>
             <input type="text" id="event-location-name" name="event-location-name" class="appearance-none input" placeholder="Rajamangkala National Stadium">
@@ -122,13 +133,25 @@
 </template>
 
 <script lang="ts">
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
 import { computed, defineComponent, ref, StyleValue } from 'vue'
 
+import { EventTime } from '@/types'
 import { generateEventSections } from '@/utils'
+
+dayjs.extend(localizedFormat)
+dayjs.extend(customParseFormat)
 
 export default defineComponent({
   name: 'create-event',
   setup () {
+    const selectedEventStartTime = ref('')
+    const selectedEventEndTime = ref('')
+
+    const selectedTimes = ref<Array<EventTime>>([])
+
     const selectedSection = ref('A1')
     const selectedSectionRow = ref('5')
     const selectedSectionColumn = ref('5')
@@ -136,7 +159,7 @@ export default defineComponent({
     const selectedZoneColumn = ref('5')
 
     const sections = computed(() => generateEventSections(Number(selectedSectionRow.value) || 1, Number(selectedSectionColumn.value) || 1))
-    const zones = computed(() => generateEventSections(Number(selectedZoneRow.value) || 1, Number(selectedZoneColumn.value || 1)))
+    const zones = computed(() => generateEventSections(Number(selectedZoneRow.value) || 1, Number(selectedZoneColumn.value) || 1))
     const selectedSectionStyles = computed<StyleValue>(() => {
       return {
         'grid-template-columns': `repeat(${selectedSectionColumn.value || '1'}, 100px)`,
@@ -158,6 +181,29 @@ export default defineComponent({
       console.log(value)
     }
 
+    const getTimeString = (time: EventTime): string => {
+      return `From ${time.from.format('LLL')} to ${time.to.format('LLL')}`
+    }
+
+    const addEventTime = (): void => {
+      if (!dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm', true).isValid()) {
+        return
+      }
+
+      if (!dayjs(selectedEventEndTime.value, 'YYYY-MM-DDTHH:mm', true).isValid()) {
+        return
+      }
+
+      selectedTimes.value.push({
+        from: dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm'),
+        to: dayjs(selectedEventEndTime.value, 'YYYY-MM-DDTHH:mm')
+      })
+    }
+
+    const removeEventTime = (index: number): void => {
+      selectedTimes.value.splice(1, index)
+    }
+
     return {
       sections,
       onSelectedSection,
@@ -169,7 +215,13 @@ export default defineComponent({
       selectedSectionStyles,
       selectedZoneStyles,
       zones,
-      onSeatChange
+      getTimeString,
+      onSeatChange,
+      selectedEventStartTime,
+      selectedEventEndTime,
+      selectedTimes,
+      addEventTime,
+      removeEventTime
     }
   }
 })
@@ -207,6 +259,10 @@ export default defineComponent({
 .event-sections-visualize {
   @apply overflow-x-auto p-3 mt-3 w-full;
 }
+
+// .datetime-controls {
+//   @apply py-3 px-4 w-full bg-gray-100 rounded outline-none focus:bg-white ring-pale-gray focus:ring-gray-hover;
+// }
 
 input[type=number] {
   margin: 0;
