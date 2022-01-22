@@ -28,8 +28,10 @@
 
           <div class="col-span-4">
             <div v-for="(time, i) in selectedTimes" :key="`selected-event-time-${i}`">
-              <div>{{ getTimeString(time) }}</div>
-              <v-mdi name="mdi-minus-circle" class="mx-3 cursor-pointer" size="36" fill="#D5A755" @click="removeEventTime(i)" />
+              <div class="add-list-remove gap-x-px">
+                {{ getTimeString(time) }}
+                <v-mdi name="mdi-minus-circle" class="mx-3 cursor-pointer" size="36" fill="#D5A755" @click="removeEventTime(i)" />
+              </div>
             </div>
           </div>
 
@@ -201,7 +203,7 @@ export default defineComponent({
     }
 
     const removeEventTime = (index: number): void => {
-      selectedTimes.value.splice(1, index)
+      selectedTimes.value.splice(index, 1)
     }
 
     return {
@@ -258,6 +260,10 @@ export default defineComponent({
 
 .event-sections-visualize {
   @apply overflow-x-auto p-3 mt-3 w-full;
+}
+
+.add-list-remove {
+  @apply bg-gray-100;
 }
 
 // .datetime-controls {
