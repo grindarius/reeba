@@ -14,11 +14,11 @@
             <label for="event-website-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Website</label>
             <input type="text" id="event-website-name" name="event-website-name" class="appearance-none input" placeholder="https://event.reeba.com">
           </div>
-          <div class="col-span-2 input-box">
+          <div class="col-span-4 md:col-span-2 input-box">
             <label for="event-start-datetime" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Start time</label>
             <input type="datetime-local" id="event-start-datetime" name="event-start-datetime" class="input" v-model="selectedEventStartTime">
           </div>
-          <div class="col-span-2 input-box">
+          <div class="col-span-4 md:col-span-2 input-box">
             <label for="event-end-datetime" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">End time</label>
             <div class="flex flex-row items-center">
               <input type="datetime-local" id="event-end-datetime" name="event-end-datetime" class="input" v-model="selectedEventEndTime">
@@ -30,7 +30,7 @@
             <div v-for="(time, i) in selectedTimes" :key="`selected-event-time-${i}`">
               <div class="add-list-remove">
                 {{ getTimeString(time) }}
-                <v-mdi name="mdi-minus-circle" class="mx-3 cursor-pointer" size="24" fill="#D5A755" @click="removeEventTime(i)" />
+                <v-mdi name="mdi-minus-circle" class="mx-3 cursor-pointer" size="36" fill="#D5A755" @click="removeEventTime(i)" />
               </div>
             </div>
           </div>
@@ -184,9 +184,8 @@ export default defineComponent({
     }
 
     const getTimeString = (time: EventTime): string => {
-      return `From ${time.from.format('LLL')} to ${time.to.format('LLL')}`
+      return `${time.from.format('MMMM D, YYYY HH:mm')} to ${time.to.format('MMMM D, YYYY HH:mm')}`
     }
-
     const addEventTime = (): void => {
       if (!dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm', true).isValid()) {
         return
@@ -263,7 +262,7 @@ export default defineComponent({
 }
 
 .add-list-remove {
-  @apply text-center p-3 mt-5 w-full bg-gray-100 rounded outline-none focus:bg-white ring-pale-gray focus:ring-gray-hover;
+  @apply flex justify-between align-middle text-white text-xl mt-5 rounded outline-none w-full;
 }
 
 // .datetime-controls {
