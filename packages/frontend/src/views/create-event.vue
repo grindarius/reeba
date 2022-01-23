@@ -265,10 +265,6 @@ export default defineComponent({
   @apply flex justify-between align-middle text-white text-xl mt-5 rounded outline-none w-full;
 }
 
-// .datetime-controls {
-//   @apply py-3 px-4 w-full bg-gray-100 rounded outline-none focus:bg-white ring-pale-gray focus:ring-gray-hover;
-// }
-
 input[type=number] {
   margin: 0;
 
