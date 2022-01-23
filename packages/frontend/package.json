@@ -5,7 +5,7 @@
   "description": "Frontend of ReebA",
   "repository": {
     "type": "git",
-    "url": "https://github.com/grindarius/reeba.git",
+    "url": "git+https://github.com/grindarius/reeba.git",
     "directory": "packages/frontend"
   },
   "author": "ReebA Team",

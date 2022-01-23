@@ -7,7 +7,7 @@
   "types": "dist/backend/src/server.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/grindarius/reeba.git",
+    "url": "git+https://github.com/grindarius/reeba.git",
     "directory": "packages/backend"
   },
   "author": "ReebA Team",
