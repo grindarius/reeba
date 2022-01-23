@@ -137,13 +137,11 @@
 <script lang="ts">
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import localizedFormat from 'dayjs/plugin/localizedFormat'
 import { computed, defineComponent, ref, StyleValue } from 'vue'
 
 import { EventTime } from '@/types'
 import { generateEventSections } from '@/utils'
 
-dayjs.extend(localizedFormat)
 dayjs.extend(customParseFormat)
 
 export default defineComponent({
@@ -262,7 +260,7 @@ export default defineComponent({
 }
 
 .add-list-remove {
-  @apply flex justify-between align-middle text-white text-xl mt-5 rounded outline-none w-full;
+  @apply flex justify-between mt-5 w-full text-xl text-white align-middle rounded outline-none;
 }
 
 input[type=number] {
