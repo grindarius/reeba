@@ -77,7 +77,7 @@
           </div>
         </div>
         <div class="grid grid-flow-col gap-4 py-8 px-3 mt-8 -mb-5">
-          <div class="col-span-2 text-center text-white text-3xl">
+          <div class="col-span-2 text-3xl text-center text-white">
             STAGE
           </div>
         </div>
@@ -172,7 +172,7 @@ export default defineComponent({
         'grid-template-rows': `repeat(${selectedSectionRow.value || '1'}, 100px)`
       }
     })
-    const selectedZoneStyles = computed(() => {
+    const selectedZoneStyles = computed<StyleValue>(() => {
       return {
         'grid-template-columns': `repeat(${selectedZoneColumn.value || '1'}, 32px)`,
         'grid-template-rows': `repeat(${selectedZoneRow.value || '1'}, 32px)`
