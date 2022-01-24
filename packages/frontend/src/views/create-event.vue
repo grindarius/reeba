@@ -76,6 +76,12 @@
               v-model="selectedSectionColumn">
           </div>
         </div>
+        <div class="grid grid-flow-col gap-4 py-8 px-3 mt-8 -mb-5">
+          <div class="col-span-2 text-4xl text-center text-white font-mono">
+            STAGE
+          </div>
+        </div>
+        <hr class="col-span-4 mb-8 w-full border border-pale-yellow">
         <div class="event-sections-visualize">
           <div class="grid gap-4 my-0 mx-auto max-w-min" :style="selectedSectionStyles">
             <template v-for="row in sections" :key="JSON.stringify(row)">
@@ -166,7 +172,7 @@ export default defineComponent({
         'grid-template-rows': `repeat(${selectedSectionRow.value || '1'}, 100px)`
       }
     })
-    const selectedZoneStyles = computed(() => {
+    const selectedZoneStyles = computed<StyleValue>(() => {
       return {
         'grid-template-columns': `repeat(${selectedZoneColumn.value || '1'}, 32px)`,
         'grid-template-rows': `repeat(${selectedZoneRow.value || '1'}, 32px)`
