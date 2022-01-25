@@ -1,5 +1,5 @@
 /**
- * This sample file is used with test.sql file
+ * This sample file is used with no_event.sql file
  */
 
 import dayjs from 'dayjs'
@@ -191,49 +191,26 @@ client.connect().then(async () => {
     throw new Error(error)
   })
 
-  for await (const price of event.pricings) {
-    await client.query(
-      'insert into event_pricings (pricing_id, event_id, event_price) values ($1, $2, $3)',
-      [price.id, event.event_id, price.price]
-    ).catch(error => {
-      throw new Error(error)
-    })
-  }
-
-  for await (const times of event.datetimes) {
-    await client.query(
-      'insert into event_datetimes (event_datetime_id, event_id, event_start_datetime, event_end_datetime) values ($1, $2, $3, $4)',
-      [times.id, event.event_id, dayjs(times.from).format('YYYY-MM-DD HH:mm:ssZ'), dayjs(times.to).format('YYYY-MM-DD HH:mm:ssZ')]
+  for await (const datetime of event.datetimes) {
+    const datetimeId = await client.query(
+      'insert into event_datetimes (event_id, event_start_datetime, event_end_datetime) values ($1, $2, $3) returning event_datetime_id',
+      [event.event_id, dayjs(datetime.from).format('YYYY-MM-DD HH:mm:ssZ'), dayjs(datetime.to).format('YYYY-MM-DD HH:mm:ssZ')]
     )
-  }
 
-  // * map event.sections into different days before putting in.
-  const sections = event.sections
-
-  const sectionsObject = event.datetimes.reduce((previous, current) => {
-    previous[current.id] = sections
-
-    return previous
-  }, {})
-
-  const prices = await client.query(
-    'select * from "event_pricings" where event_id = $1',
-    [event.event_id]
-  )
-
-  for await (const [datetimeId, sections] of Object.entries(sectionsObject)) {
-    for await (const sectionRow of sections) {
-      for await (const sectionCell of sectionRow) {
+    for await (const sectionRow of event.sections) {
+      for await (const section of sectionRow) {
         const sectionId = await client.query(
-          'insert into event_sections (section_id, event_id, section_row_position, section_column_position, datetime_id) values ($1, $2, $3, $4, $5) returning section_id',
-          [nanoid(32), event.event_id, sectionCell.section_row_position, sectionCell.section_column_position, datetimeId]
+          'insert into event_sections (section_row_position, section_column_position, event_datetime_id) values ($1, $2, $3) returning event_section_id',
+          [section.section_row_position, section.section_column_position, datetimeId.rows[0].event_datetime_id]
         )
 
-        for (const seats of sectionCell.seatings.flat()) {
-          await client.query(
-            'insert into event_seats (seat_id, section_id, is_seat_taken, seat_row_position, seat_column_position, datetime_id, price_id) values ($1, $2, $3, $4, $5, $6, $7)',
-            [nanoid(64), sectionId.rows[0].section_id, false, seats.seat_row_position, seats.seat_column_position, datetimeId, prices.rows.find((priceObj) => priceObj.event_price === seats.seat_price).pricing_id]
-          )
+        for await (const seatRow of section.seatings) {
+          for await (const seat of seatRow) {
+            await client.query(
+              'insert into event_seats (event_section_id, event_price, event_seat_row_position, event_seat_column_position) values ($1, $2, $3, $4)',
+              [sectionId.rows[0].event_section_id, seat.seat_price, seat.seat_row_position, seat.seat_column_position]
+            )
+          }
         }
       }
     }
