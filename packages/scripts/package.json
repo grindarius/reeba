@@ -1,0 +1,19 @@
+{
+  "name": "@reeba/scripts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "admin scripts for managing the system",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grindarius/reeba.git",
+    "directory": "packages/scripts"
+  },
+  "author": "ReebA Team",
+  "scripts": {
+    "clean": "npx rimraf dist",
+    "fix": "eslint **/*.ts --fix"
+  },
+  "dependencies": {
+    "upath": "^2.0.1"
+  }
+}

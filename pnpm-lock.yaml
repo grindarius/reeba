@@ -136,6 +136,12 @@ importers:
       vite: 2.7.13_sass@1.49.0
       vue-tsc: 0.29.8_typescript@4.5.2
 
+  packages/scripts:
+    specifiers:
+      upath: ^2.0.1
+    dependencies:
+      upath: 2.0.1
+
 packages:
 
   /@babel/code-frame/7.12.11:
@@ -5635,7 +5641,6 @@ packages:
   /upath/2.0.1:
     resolution: {integrity: sha512-1uEe95xksV1O0CYKXo8vQvN1JEbtJp7lb7C5U9HMsIp6IVwntkH/oNUzyVNQSd4S1sYk2FpSSW44FqMc8qee5w==}
     engines: {node: '>=4'}
-    dev: true
 
   /update-notifier/5.1.0:
     resolution: {integrity: sha512-ItnICHbeMh9GqUy31hFPrD1kcuZ3rpxDZbf4KUDavXwS0bW5m7SLbDQpGX3UYr072cbrF5hFUs3r5tUsPwjfHw==}
