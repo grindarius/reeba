@@ -28,7 +28,7 @@
     "build:backend": "cd packages/backend && npm run build",
     "build:frontend": "cd packages/frontend && npm run build",
     "build:common": "cd packages/common && npm run build",
-    "lint:css": "node scripts/lint-classes.mjs .",
+    "lint:css": "ts-node packages/scripts/src/lint-css.ts",
     "test": "tap --rcfile=.taprc"
   },
   "author": "ReebA Team",
