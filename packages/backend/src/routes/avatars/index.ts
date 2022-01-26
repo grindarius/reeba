@@ -1,11 +1,8 @@
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
-import { createWriteStream } from 'fs'
-import { pipeline } from 'stream'
-import { promisify } from 'util'
+import { createWriteStream } from 'node:fs'
+import { pipeline as pump } from 'node:stream/promises'
 
 import { GetAvatarsParams, GetAvatarsParamsSchema, users } from '@reeba/common'
-
-const pump = promisify(pipeline)
 
 const schema: FastifySchema = {
   params: GetAvatarsParamsSchema
