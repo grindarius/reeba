@@ -19,6 +19,7 @@ module.exports = {
   ],
   rules: {
     'no-void': ['error', { allowAsStatement: true }],
+    'quotes': ['error', 'single', { allowTemplateLiterals: true }],
     'quote-props': ['error', 'consistent'],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
