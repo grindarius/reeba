@@ -14,9 +14,9 @@
   ],
   "engines": {
     "node": ">=14",
-    "npm": ">=7"
+    "npm": ">=7",
+    "pnpm": ">=6.26.0"
   },
-  "engineStrict": true,
   "workspaces": [
     "packages/*"
   ],
