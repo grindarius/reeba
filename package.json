@@ -21,6 +21,7 @@
     "packages/*"
   ],
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "dev:backend": "cd packages/backend && npm run watch",
     "dev:frontend": "cd packages/frontend && npm run dev",
     "dev:common": "cd packages/common && npm run watch",
