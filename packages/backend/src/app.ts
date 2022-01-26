@@ -6,8 +6,8 @@ import jwt from 'fastify-jwt'
 import multipart from 'fastify-multipart'
 import pg from 'fastify-postgres'
 import servestatic from 'fastify-static'
-import { IncomingMessage, Server, ServerResponse } from 'http'
-import { join, resolve } from 'path'
+import { IncomingMessage, Server, ServerResponse } from 'node:http'
+import { join, resolve } from 'node:path'
 import { Logger } from 'pino'
 
 import routes from './routes'
@@ -40,11 +40,11 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
     pgPort == null || pgPort === '' ||
     pgDBName == null || pgDBName === ''
   ) {
-    throw new Error('Missing one of postgres related credentials, or jwt secret')
+    throw new Error('missing one of postgres related credentials, or jwt secret')
   }
 
   if (jwtSecret == null || jwtSecret === '') {
-    throw new Error('Missing jwt secret')
+    throw new Error('missing jwt secret')
   }
 
   void server.register(multipart)
