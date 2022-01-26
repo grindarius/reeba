@@ -1,9 +1,10 @@
 -- create database if not exists reeba;
 
-drop type t_user_role, t_event_price cascade;
+drop type t_user_role, t_event_price t_event_status cascade;
 drop table if exists users, user_followers, user_roles, events, event_tags, event_tags_bridge, event_datetimes, event_sections, event_seats, transactions, transaction_details cascade;
 
 create type t_user_role as enum ('user', 'admin');
+create type t_event_status as enum ('open', 'closed');
 create type t_event_price as (
   price_color text,
   price_value integer
@@ -39,6 +40,7 @@ create table events (
   event_venue_name text not null default '',
   event_venue_coordinates point not null default '0,0',
   event_opening_date timestamp with time zone not null,
+  event_status t_event_status not null default 'closed',
   event_ticket_prices t_event_price[] not null default '{}',
   primary key (event_id),
   foreign key (user_username) references users(user_username) on delete cascade
@@ -93,8 +95,8 @@ create table transactions (
 );
 
 create table transaction_details (
-  transaction_detail_id text not null unique,
+  event_seat_id text not null unique,
   transaction_id text not null,
-  primary key (transaction_detail_id),
-  foreign key (transaction_id) references transactions(transaction_id) on delete cascade
+  primary key (event_seat_id),
+  constraint fk_event_seat_id foreign key (event_seat_id) references event_seats(event_seat_id)
 );
