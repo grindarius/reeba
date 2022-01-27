@@ -40,6 +40,12 @@ Our project consists of
   npm -v
   ```
   into the terminal.
+- `pnpm` v6.26.0 or higher.
+  You can check by typing
+  ```
+  pnpm -v
+  ```
+  into the terminal.
 - PostgreSQL v14.1 *exact*.
   You can check by typing
   ```
@@ -55,19 +61,25 @@ When Node.js is installed, upgrade `npm` by running
 npm i -g npm@latest
 ```
 
+and then install `pnpm` by running
+```
+npm i -g pnpm
+```
+ใน Terminal
+
 ## Running the application.
 ### Before anything.
 Run this command from the root of the project
 ```
-npm install
+pnpm install
 ```
 to install dependencies in the project.
 
 In case of when you switch branch to other people's project. I suggest running
 ```
-npm ci
+pnpm install --frozen-lockfile
 ```
-because `npm ci` will install dependencies *without* editing `package-lock.json`. If there's an error installing dependencies with `npm ci`, then use the fallback `npm install`
+because `pnpm install --frozen-lockfile` will install dependencies *without* editing `pnpm-lock.yaml`. If there's an error installing dependencies with `pnpm install --frozen-lockfile`, then use the fallback `pnpm install`
 
 ### Database setup (ReebA API).
 **Reminder: this topic needs to be done only once.**
@@ -163,7 +175,7 @@ If top 3 requirements surpassed. You're ready to develop ReebA's database. These
 ### ReebA.com.
 Run this command from the root of the project
 ```
-npm run build:common && npm run dev:frontend
+pnpm run build:common && pnpm run dev:frontend
 ```
 and you should see the website pop up at `http://localhost:8080`.
 
@@ -189,9 +201,9 @@ First of all, you have to start PostgreSQL database server.
   You're ready to develop.
 
 Run these commands from the root of the project.
-| Terminal #1             | Terminal #2            |
-| ----------------------- | ---------------------- |
-| `npm run dev:common`    | `npm run dev:backend`  |
+| Terminal #1              | Terminal #2             |
+| -----------------------  | ----------------------  |
+| `pnpm run dev:common`    | `pnpm run dev:backend`  |
 
 You will see the API runs at `http://localhost:3000`.
 
@@ -216,8 +228,8 @@ First of all, you have to start PostgreSQL database server.
   You're ready to develop.
 
 Open 3 terminals and run these commands from the root of the project.
-| Terminal #1             | Terminal #2            | Terminal #3           |
-| ----------------------- | ---------------------- | --------------------- |
-| `npm run dev:common`    | `npm run dev:frontend` | `npm run dev:backend` |
+| Terminal #1              | Terminal #2             | Terminal #3            |
+| -----------------------  | ----------------------  | ---------------------  |
+| `pnpm run dev:common`    | `pnpm run dev:frontend` | `pnpm run dev:backend` |
 
 You will see the API runs at `http://localhost:3000` and frontend server runs at `http://localhost:8080`
