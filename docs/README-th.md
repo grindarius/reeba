@@ -40,6 +40,12 @@ ReebA (อ่านว่า รีบ-อะ) เป็นเว็บไซต
   npm -v
   ```
   ลงใน Terminal
+- `pnpm` v6.26.0 หรือสูงกว่า
+  ตรวจสอบได้โดยการพิมพ์
+  ```
+  pnpm -v
+  ```
+  ลงใน Terminal
 - PostgreSQL v14.1 *ตรงตัวเท่านั้น*
   ตรวจสอบได้โดยการพิมพ์
   ```
@@ -56,19 +62,25 @@ npm i -g npm@latest
 ```
 ใน Terminal
 
+และทำการติดตั้ง `pnpm` โดยพิมพ์
+```
+npm i -g pnpm
+```
+ใน Terminal
+
 ## เริ่มทำงาน
 ### ก่อนอื่นใด
 รันคอมมานด์นี้จากโฟลเดอร์แรกของโปรเจกต์
 ```
-npm install
+pnpm install
 ```
 เพื่อลง Dependencies ที่จำเป็นในการทำงาน
 
 หากมีการย้าย branch เพื่อไปดูความคืบหน้าของ branch คนอื่น รัน
 ```
-npm ci
+pnpm install --frozen-lockfile
 ```
-เนื่องจาก `npm ci` จะทำการติดตั้ง dependencies *โดยไม่เปลี่ยนแปลงเนื้อหาของ `package-lock.json`* ถ้าเกิด error ขึ้นระหว่างการติดตั้งด้วยคอมมานด์ `npm ci` จึงค่อยกลับมาใช้คอมมานด์ `npm install`
+เนื่องจาก `pnpm install --frozen-lockfile` จะทำการติดตั้ง dependencies *โดยไม่เปลี่ยนแปลงเนื้อหาของ `pnpm-lock.yaml`* ถ้าเกิด error ขึ้นระหว่างการติดตั้งด้วยคอมมานด์ `pnpm install --frozen-lockfile` จึงค่อยกลับมาใช้คอมมานด์ `pnpm install`
 
 ### การติดตั้ง Database (reebA API)
 **คำเตือน: หัวข้อนี้จำเป็นต้องทำแค่ครั้งแรกครั้งเดียว**
@@ -164,7 +176,7 @@ npm ci
 ### ReebA.com
 รันคอมมานด์นี้จากโฟลเดอร์แรกของโปรเจกต์
 ```
-npm run build:common && npm run dev:frontend
+pnpm run build:common && pnpm run dev:frontend
 ```
 เว็บไซต์จะเปิดขึ้นมาที่ `http://localhost:8080`
 
@@ -190,9 +202,9 @@ npm run build:common && npm run dev:frontend
   คุณพร้อม่ทำงานแล้ว
 
 รันคอมมานด์เหล่านี้จากโฟลเดอร์แรกของโปรเจกต์
-| Terminal #1             | Terminal #2            |
-| ----------------------- | ---------------------- |
-| `npm run dev:common`    | `npm run dev:backend`  |
+| Terminal #1              | Terminal #2             |
+| -----------------------  | ----------------------  |
+| `pnpm run dev:common`    | `pnpm run dev:backend`  |
 
 คุณจะสามารถคุยกับ API ได้ที่ `http://localhost:3000`.
 
@@ -218,8 +230,8 @@ npm run build:common && npm run dev:frontend
   คุณพร้อม่ทำงานแล้ว
 
 เปิดเทอร์มินอล 3 เทอร์มินอล แล้วรันคอมมานด์เหล่านี้จากโฟลเดอร์แรกของโปรเจกต์
-| Terminal #1             | Terminal #2            | Terminal #3           |
-| ----------------------- | ---------------------- | --------------------- |
-| `npm run dev:common`    | `npm run dev:frontend` | `npm run dev:backend` |
+| Terminal #1              | Terminal #2             | Terminal #3            |
+| -----------------------  | ----------------------  | ---------------------  |
+| `pnpm run dev:common`    | `pnpm run dev:frontend` | `pnpm run dev:backend` |
 
 คุณจะเห็น API ทำงานที่ `http://localhost:3000` และเว็บไซต์ทำงานที่ `http://localhost:8080`

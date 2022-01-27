@@ -3,7 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@reeba/*": ["packages/*/src"]
+      "@reeba/*": [
+        "packages/*/src"
+      ]
     },
     "noEmit": true
   }

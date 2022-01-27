@@ -1,6 +1,7 @@
 import { exec } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
+import { exit } from 'node:process'
 import upath from 'upath'
 
 /**
@@ -9,39 +10,53 @@ import upath from 'upath'
  * @param dir Folder name you want to recursively process
  * @param done Callback function, returns all files with full path.
  * @param filter Optional filter to specify which files to include,
- *   e.g. for json files: (f: string) => /.json$/.test(f)
+ *   e.g. for json files:
+ *
+ * ```ts
+ * (f: string) => /.json$/.test(f)
+ * ```
  * @see https://stackoverflow.com/questions/5827612/node-js-fs-readdir-recursive-directory-search/50345475#50345475
  */
 const walk = (
-  dir,
-  done,
-  filter
-) => {
-  let results = []
-  fs.readdir(dir, (err, list) => {
-    if (err) {
+  dir: string,
+  done: (err: Error | null, results?: Array<string>) => void,
+  filter?: (f: string) => boolean
+): void => {
+  let results: Array<string> = []
+  fs.readdir(dir, (err: NodeJS.ErrnoException | null, list: Array<string>) => {
+    if (err != null) {
       return done(err)
     }
+
     let pending = list.length
+    // eslint-disable-next-line
     if (!pending) {
       return done(null, results)
     }
-    list.forEach((file) => {
+
+    list.forEach((file: string) => {
       file = path.resolve(dir, file)
-      fs.stat(file, (err2, stat) => {
+      fs.stat(file, (_, stat) => {
+        // eslint-disable-next-line
         if (stat && stat.isDirectory()) {
-          walk(file, (err3, res) => {
-            if (res) {
+          // eslint-disable-next-line
+          walk(file, (_, res) => {
+            if (res != null) {
               results = results.concat(res)
             }
+
+            // eslint-disable-next-line
             if (!--pending) {
               done(null, results)
             }
           }, filter)
         } else {
+          // eslint-disable-next-line
           if (typeof filter === 'undefined' || (filter && filter(file))) {
             results.push(file)
           }
+
+          // eslint-disable-next-line
           if (!--pending) {
             done(null, results)
           }
@@ -51,20 +66,29 @@ const walk = (
   })
 }
 
-const main = () => {
-  const argv = process.argv.slice(2)
+const main = (): void => {
+  walk(path.resolve(__dirname, '..', '..', 'frontend', 'src'), (error, pathnames) => {
+    console.log('paths are', pathnames)
 
-  walk(argv[0], (error, pathnames) => {
-    if (error) {
-      throw new Error(error)
+    if (error != null) {
+      throw new Error(error.message)
     }
 
+    if (pathnames == null || pathnames.length === 0) {
+      throw new Error('Did not find any pathnames')
+    }
+
+    console.log('filtering paths')
     const relative = pathnames
       .map(pathname => {
         return upath.toUnix(pathname)
       })
-      .filter(pathname => !pathname.includes('node_modules'))
+      .filter(pathname => {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        return !pathname.includes('node_modules')
+      })
 
+    console.log('applying styles for rustywind')
     relative.forEach(pathname => {
       const content = fs.readFileSync(pathname).toString()
 
@@ -74,11 +98,13 @@ const main = () => {
       fs.writeFileSync(pathname, wrappedApplyStyle)
     })
 
-    exec('npx rustywind --write ./packages/frontend', (error, stdout, stderr) => {
+    exec('npx rustywind --write .', { cwd: path.resolve(__dirname, '..', '..', 'frontend') }, (error, stdout, stderr) => {
       console.log('stdout: ' + stdout)
       console.log('stderr: ' + stderr)
+
       if (error != null) {
-        console.log('exec error: ' + error)
+        console.log(error)
+        exit(1)
       }
 
       relative.forEach(pathname => {

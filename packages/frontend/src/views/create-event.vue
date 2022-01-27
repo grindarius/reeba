@@ -77,7 +77,7 @@
           </div>
         </div>
         <div class="grid grid-flow-col gap-4 py-8 px-3 mt-8 -mb-5">
-          <div class="col-span-2 text-4xl text-center text-white font-mono">
+          <div class="col-span-2 font-mono text-4xl text-center text-white">
             STAGE
           </div>
         </div>
