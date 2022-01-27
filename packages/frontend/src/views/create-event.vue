@@ -15,13 +15,26 @@
             <input type="text" id="event-website-name" name="event-website-name" class="appearance-none input" placeholder="https://event.reeba.com">
           </div>
           <div class="col-span-4 md:col-span-2 input-box">
-            <label for="event-date" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Date</label>
-            <input type="date" id="event-date" name="event-date" class="input">
+            <label for="event-start-datetime" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Start time</label>
+            <input type="datetime-local" id="event-start-datetime" name="event-start-datetime" class="input" v-model="selectedEventStartTime">
           </div>
           <div class="col-span-4 md:col-span-2 input-box">
-            <label for="event-start-time" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Start time</label>
-            <input type="time" id="event-start-time" name="event-start-time" class="input">
+            <label for="event-end-datetime" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">End time</label>
+            <div class="flex flex-row items-center">
+              <input type="datetime-local" id="event-end-datetime" name="event-end-datetime" class="input" v-model="selectedEventEndTime">
+              <v-mdi name="mdi-plus-circle" class="mx-3 cursor-pointer" size="36" fill="#D5A755" @click="addEventTime" />
+            </div>
           </div>
+
+          <div class="col-span-4">
+            <div v-for="(time, i) in selectedTimes" :key="`selected-event-time-${i}`">
+              <div class="add-list-remove">
+                {{ getTimeString(time) }}
+                <v-mdi name="mdi-minus-circle" class="mx-3 cursor-pointer" size="36" fill="#D5A755" @click="removeEventTime(i)" />
+              </div>
+            </div>
+          </div>
+
           <div class="col-span-4 md:col-span-1 input-box">
             <label for="event-location-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Location name</label>
             <input type="text" id="event-location-name" name="event-location-name" class="appearance-none input" placeholder="Rajamangkala National Stadium">
@@ -63,6 +76,12 @@
               v-model="selectedSectionColumn">
           </div>
         </div>
+        <div class="grid grid-flow-col gap-4 py-8 px-3 mt-8 -mb-5">
+          <div class="col-span-2 font-mono text-4xl text-center text-white">
+            STAGE
+          </div>
+        </div>
+        <hr class="col-span-4 mb-8 w-full border border-pale-yellow">
         <div class="event-sections-visualize">
           <div class="grid gap-4 my-0 mx-auto max-w-min" :style="selectedSectionStyles">
             <template v-for="row in sections" :key="JSON.stringify(row)">
@@ -122,13 +141,23 @@
 </template>
 
 <script lang="ts">
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { computed, defineComponent, ref, StyleValue } from 'vue'
 
+import { EventTime } from '@/types'
 import { generateEventSections } from '@/utils'
+
+dayjs.extend(customParseFormat)
 
 export default defineComponent({
   name: 'create-event',
   setup () {
+    const selectedEventStartTime = ref('')
+    const selectedEventEndTime = ref('')
+
+    const selectedTimes = ref<Array<EventTime>>([])
+
     const selectedSection = ref('A1')
     const selectedSectionRow = ref('5')
     const selectedSectionColumn = ref('5')
@@ -136,14 +165,14 @@ export default defineComponent({
     const selectedZoneColumn = ref('5')
 
     const sections = computed(() => generateEventSections(Number(selectedSectionRow.value) || 1, Number(selectedSectionColumn.value) || 1))
-    const zones = computed(() => generateEventSections(Number(selectedZoneRow.value) || 1, Number(selectedZoneColumn.value || 1)))
+    const zones = computed(() => generateEventSections(Number(selectedZoneRow.value) || 1, Number(selectedZoneColumn.value) || 1))
     const selectedSectionStyles = computed<StyleValue>(() => {
       return {
         'grid-template-columns': `repeat(${selectedSectionColumn.value || '1'}, 100px)`,
         'grid-template-rows': `repeat(${selectedSectionRow.value || '1'}, 100px)`
       }
     })
-    const selectedZoneStyles = computed(() => {
+    const selectedZoneStyles = computed<StyleValue>(() => {
       return {
         'grid-template-columns': `repeat(${selectedZoneColumn.value || '1'}, 32px)`,
         'grid-template-rows': `repeat(${selectedZoneRow.value || '1'}, 32px)`
@@ -158,6 +187,28 @@ export default defineComponent({
       console.log(value)
     }
 
+    const getTimeString = (time: EventTime): string => {
+      return `${time.from.format('MMMM D, YYYY HH:mm')} to ${time.to.format('MMMM D, YYYY HH:mm')}`
+    }
+    const addEventTime = (): void => {
+      if (!dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm', true).isValid()) {
+        return
+      }
+
+      if (!dayjs(selectedEventEndTime.value, 'YYYY-MM-DDTHH:mm', true).isValid()) {
+        return
+      }
+
+      selectedTimes.value.push({
+        from: dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm'),
+        to: dayjs(selectedEventEndTime.value, 'YYYY-MM-DDTHH:mm')
+      })
+    }
+
+    const removeEventTime = (index: number): void => {
+      selectedTimes.value.splice(index, 1)
+    }
+
     return {
       sections,
       onSelectedSection,
@@ -169,7 +220,13 @@ export default defineComponent({
       selectedSectionStyles,
       selectedZoneStyles,
       zones,
-      onSeatChange
+      getTimeString,
+      onSeatChange,
+      selectedEventStartTime,
+      selectedEventEndTime,
+      selectedTimes,
+      addEventTime,
+      removeEventTime
     }
   }
 })
@@ -206,6 +263,10 @@ export default defineComponent({
 
 .event-sections-visualize {
   @apply overflow-x-auto p-3 mt-3 w-full;
+}
+
+.add-list-remove {
+  @apply flex justify-between mt-5 w-full text-xl text-white align-middle rounded outline-none;
 }
 
 input[type=number] {

@@ -1,0 +1,52 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "packages/backend"
+    },
+    {
+      "path": "packages/frontend"
+    },
+    {
+      "path": "packages/common"
+    },
+    {
+      "path": "packages/scripts"
+    }
+  ],
+  "settings": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.fixAll.stylelint": true
+    },
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.renderFinalNewline": true,
+    "editor.multiCursorModifier": "alt",
+    "files.autoSave": "onFocusChange",
+    "files.eol": "\n",
+    "editor.detectIndentation": false,
+    "files.insertFinalNewline": true,
+    "eslint.validate": [
+      "typescript",
+      "javascript"
+    ],
+    "emmet.includeLanguages": {
+      "ejs": "html",
+      "vue": "html"
+    },
+    "stylelint.enable": true,
+    "stylelint.validate": [
+      "vue",
+      "scss"
+    ],
+    "scss.validate": false,
+    "css.validate": false,
+    "volar.completion.autoImportComponent": true,
+    "volar.codeLens.references": true,
+    "volar.completion.preferredAttrNameCase": "kebab",
+    "volar.completion.preferredTagNameCase": "kebab"
+  }
+}

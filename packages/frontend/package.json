@@ -5,7 +5,7 @@
   "description": "Frontend of ReebA",
   "repository": {
     "type": "git",
-    "url": "https://github.com/grindarius/reeba.git",
+    "url": "git+https://github.com/grindarius/reeba.git",
     "directory": "packages/frontend"
   },
   "author": "ReebA Team",
@@ -13,7 +13,8 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
-    "clean": "npx rimraf dist"
+    "clean": "npx rimraf dist",
+    "fix": "eslint **/*.{vue,ts} --fix"
   },
   "dependencies": {
     "@mdi/js": "^6.5.95",
