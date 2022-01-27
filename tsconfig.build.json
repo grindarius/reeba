@@ -29,6 +29,7 @@
     "forceConsistentCasingInFileNames": true,
     "noErrorTruncation": true,
     "pretty": true,
+    "newLine": "lf",
     "resolveJsonModule": true,
     "paths": {
       "@reeba/*": [
