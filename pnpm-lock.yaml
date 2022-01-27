@@ -10,7 +10,6 @@ importers:
       '@typescript-eslint/parser': ^4.29.3
       '@vue/eslint-config-standard': ^6.1.0
       '@vue/eslint-config-typescript': ^7.0.0
-      chance: ^1.1.8
       eslint: ^7.32.0
       eslint-config-standard: ^16.0.3
       eslint-config-standard-with-typescript: ^20.0.0
@@ -35,7 +34,6 @@ importers:
       '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.5.2
       '@vue/eslint-config-standard': 6.1.0_90225dee0e523eac1a58b65487e71de6
       '@vue/eslint-config-typescript': 7.0.0_f2c1c083ca9f8be5792c7dca889a98e3
-      chance: 1.1.8
       eslint: 7.32.0
       eslint-config-standard: 16.0.3_6a48346ff31498e55146b31bc801dc94
       eslint-config-standard-with-typescript: 20.0.0_91a67365673e94267d78d1cf47f55247
@@ -1396,10 +1394,6 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
-    dev: true
-
-  /chance/1.1.8:
-    resolution: {integrity: sha512-v7fi5Hj2VbR6dJEGRWLmJBA83LJMS47pkAbmROFxHWd9qmE1esHRZW8Clf1Fhzr3rjxnNZVCjOEv/ivFxeIMtg==}
     dev: true
 
   /character-parser/2.2.0:
