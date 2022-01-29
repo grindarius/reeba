@@ -24,7 +24,7 @@ void t.test('Get image', async t => {
       const imageFromApi = response.rawPayload
       const defaultImage = await readFile(resolve(__dirname, '..', '..', 'uploads', 'default-user-profile.png'))
 
-      t.strictSame(Buffer.compare(imageFromApi, defaultImage), 0)
+      t.strictSame(Buffer.compare(imageFromApi, defaultImage), 0, 'same image from api')
     } catch (error) {
       t.error(error)
       t.fail('There should not be an error')
