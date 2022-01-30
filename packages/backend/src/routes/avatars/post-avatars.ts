@@ -36,9 +36,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const user = await instance.pg.query<Pick<users, 'user_username'>, [users['user_username']]>(
         'select user_username from users where user_username = $1',
         [username]
-      ).catch(error => {
-        throw new Error(error as string)
-      })
+      )
 
       if (user.rowCount === 0) {
         void reply.code(404)

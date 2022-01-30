@@ -45,9 +45,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const user = await instance.pg.query<users, [users['user_email']]>(
         'select * from users where user_email = $1',
         [email]
-      ).catch(error => {
-        throw new Error(error as string)
-      })
+      )
 
       if (user.rowCount === 0) {
         throw new Error('\'email\' not found')
@@ -56,9 +54,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const isPasswordValid = await bcrypt.compare(
         password,
         user.rows[0].user_password
-      ).catch(error => {
-        throw new Error(error as string)
-      })
+      )
 
       if (!isPasswordValid) {
         void reply.code(400)

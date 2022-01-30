@@ -20,9 +20,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const imagePath = await instance.pg.query<Pick<users, 'user_image_profile_path'>, [users['user_username']]>(
         'select user_image_profile_path from users where user_username = $1',
         [username]
-      ).catch(error => {
-        throw new Error(error as string)
-      })
+      )
 
       if (imagePath.rowCount === 0) {
         return await reply.sendFile('default-user-profile.png')
