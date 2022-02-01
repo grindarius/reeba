@@ -1,10 +1,12 @@
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import { nanoid } from 'nanoid'
 import { createWriteStream } from 'node:fs'
 import { resolve } from 'node:path'
 import { pipeline as pump } from 'node:stream/promises'
 
 import {
   BadRequestReplySchema,
+  getFileExtension,
   NotFoundReplySchema,
   PostAvatarsParams,
   PostAvatarsParamsSchema,
@@ -44,15 +46,24 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       }
 
       const data = await request.file()
-      await pump(data.file, createWriteStream(resolve(__dirname, '..', '..', '..', 'uploads', data.filename)))
 
-      await instance.pg.query(
-        'update users set user_image_profile_path = $1 where user_username = $2',
-        [`${data.filename}`, username]
-      )
+      try {
+        const fileExtension = getFileExtension(data.filename)
+        const filename = `${nanoid()}.${fileExtension}`
 
-      return {
-        message: 'complete'
+        await pump(data.file, createWriteStream(resolve(__dirname, '..', '..', '..', 'uploads', filename)))
+
+        await instance.pg.query(
+          'update users set user_image_profile_path = $1 where user_username = $2',
+          [filename, username]
+        )
+
+        return {
+          message: 'complete'
+        }
+      } catch (error) {
+        void reply.code(400)
+        throw new Error('unmatched file extension')
       }
     }
   )
