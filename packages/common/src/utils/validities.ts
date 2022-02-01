@@ -39,8 +39,8 @@ export const getFileExtension = (filename: string): string => {
   const matches = filename.match(fileExtensionMatchRegExp)
 
   if (matches != null) {
-    return matches[0]
+    return matches[1]
   }
 
-  throw new Error('unknown file extension')
+  throw new Error('unmatched file extension')
 }
