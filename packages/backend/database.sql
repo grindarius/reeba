@@ -1,6 +1,6 @@
 -- create database if not exists reeba;
 
-drop type t_user_role, t_event_price t_event_status cascade;
+drop type t_user_role, t_event_price, t_event_status cascade;
 drop table if exists users, user_followers, user_roles, events, event_tags, event_tags_bridge, event_datetimes, event_sections, event_seats, transactions, transaction_details cascade;
 
 create type t_user_role as enum ('user', 'admin');

@@ -1,3 +1,5 @@
+import { numberToLetters } from './string'
+
 /**
  * A function to generate basic seating sections for previews.
  *
@@ -15,6 +17,6 @@ export const generateEventSections = (row: number, column: number): Array<Array<
   }
 
   return Array.from<Array<string>, Array<string>>({ length: Math.floor(row) }, (_, u) => {
-    return Array.from<string, string>({ length: Math.floor(column) }, (_, v) => `${String.fromCharCode(u + 65)}${v + 1}`)
+    return Array.from<string, string>({ length: Math.floor(column) }, (_, v) => `${numberToLetters(u)}${v + 1}`)
   })
 }

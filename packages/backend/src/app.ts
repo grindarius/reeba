@@ -40,7 +40,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
     pgPort == null || pgPort === '' ||
     pgDBName == null || pgDBName === ''
   ) {
-    throw new Error('missing one of postgres related credentials, or jwt secret')
+    throw new Error('missing one of postgres related credentials')
   }
 
   if (jwtSecret == null || jwtSecret === '') {
@@ -53,7 +53,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
     prefix: '/uploads/'
   })
   void server.register(cors)
-  void server.register(helmet, { enableCSPNonces: true })
+  void server.register(helmet)
   void server.register(pg, {
     connectionString: `postgres://${pgUsername}:${encodeURIComponent(pgPassword)}@${pgHostname}:${pgPort}/${pgDBName}`
   })

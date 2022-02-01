@@ -42,8 +42,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     }, async (request, reply) => {
       const { email, password } = request.body
 
-      const user = await instance.pg.query<users, [users['user_email']]>(
-        'select * from users where user_email = $1',
+      const user = await instance.pg.query<Pick<users, 'user_username' | 'user_role' | 'user_verification_status' | 'user_password'>, [users['user_email']]>(
+        'select user_username, user_role, user_verification_status, user_password from users where user_email = $1',
         [email]
       )
 
@@ -68,7 +68,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       return {
         token,
         username: user.rows[0].user_username,
-        role: user.rows[0].user_role
+        role: user.rows[0].user_role,
+        verificationStatus: user.rows[0].user_verification_status
       }
     }
   )

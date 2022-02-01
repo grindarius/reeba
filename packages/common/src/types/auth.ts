@@ -15,7 +15,8 @@ export const SigninReplyBodySchema = Type.Object({
     Type.Literal(t_user_roles.user),
     Type.Literal(t_user_roles.organizer),
     Type.Literal(t_user_roles.admin)
-  ])
+  ]),
+  verificationStatus: Type.Boolean()
 })
 export type SigninReplyBody = Static<typeof SigninReplyBodySchema>
 
