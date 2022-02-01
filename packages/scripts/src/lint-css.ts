@@ -98,7 +98,7 @@ const main = (): void => {
       fs.writeFileSync(pathname, wrappedApplyStyle)
     })
 
-    exec('npx rustywind --write .', { cwd: path.resolve(__dirname, '..', '..', 'frontend') }, (error, stdout, stderr) => {
+    exec('pnpm dlx rustywind --write .', { cwd: path.resolve(__dirname, '..', '..', 'frontend') }, (error, stdout, stderr) => {
       console.log('stdout: ' + stdout)
       console.log('stderr: ' + stderr)
 
