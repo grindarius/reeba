@@ -65,7 +65,7 @@
     "body": [
       "void t.test('$1', async t => {",
       "  try {",
-      "    const response = await app.inject({})",
+      "    const response = await app.inject({$2})",
       "  } catch (error) {",
       "    t.error(error)",
       "    t.fail('There should not be an error in a successful registration.')",
@@ -73,5 +73,12 @@
       "})"
     ],
     "description": ""
+  },
+  "new tap fail": {
+    "prefix": "fail",
+    "body": [
+      "t.error(error)",
+      "t.fail('There should not be an error')"
+    ]
   }
 }

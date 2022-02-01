@@ -175,7 +175,7 @@ If top 3 requirements surpassed. You're ready to develop ReebA's database. These
 ### ReebA.com.
 Run this command from the root of the project
 ```
-pnpm run build:common && pnpm run dev:frontend
+pnpm build:common && pnpm dev:frontend
 ```
 and you should see the website pop up at `http://localhost:8080`.
 
@@ -187,23 +187,27 @@ First of all, you have to start PostgreSQL database server.
   psql -U postgres
   ```
   and put in your `postgres` password.
-
 - Run
   ```
   postgres=# \c postgres://postgres@localhost:5432/reeba
   ```
   and put in your `postgres` password.
 
-  If you see
+  You will see
   ```
   You are now connected to database "reeba" as user "postgres".
+  ```
+
+  Migrate the database with
+  ```
+  reeba=# \i database.sql
   ```
   You're ready to develop.
 
 Run these commands from the root of the project.
 | Terminal #1              | Terminal #2             |
 | -----------------------  | ----------------------  |
-| `pnpm run dev:common`    | `pnpm run dev:backend`  |
+| `pnpm dev:common`        | `pnpm dev:backend`      |
 
 You will see the API runs at `http://localhost:3000`.
 
@@ -221,15 +225,20 @@ First of all, you have to start PostgreSQL database server.
   ```
   and put in your `postgres` password.
 
-  If you see
+  You will see
   ```
   You are now connected to database "reeba" as user "postgres".
+  ```
+
+  Migrate the database with
+  ```
+  reeba=# \i database.sql
   ```
   You're ready to develop.
 
 Open 3 terminals and run these commands from the root of the project.
 | Terminal #1              | Terminal #2             | Terminal #3            |
 | -----------------------  | ----------------------  | ---------------------  |
-| `pnpm run dev:common`    | `pnpm run dev:frontend` | `pnpm run dev:backend` |
+| `pnpm dev:common`        | `pnpm dev:frontend`     | `pnpm dev:backend`     |
 
 You will see the API runs at `http://localhost:3000` and frontend server runs at `http://localhost:8080`

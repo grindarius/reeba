@@ -176,7 +176,7 @@ pnpm install --frozen-lockfile
 ### ReebA.com
 รันคอมมานด์นี้จากโฟลเดอร์แรกของโปรเจกต์
 ```
-pnpm run build:common && pnpm run dev:frontend
+pnpm build:common && pnpm dev:frontend
 ```
 เว็บไซต์จะเปิดขึ้นมาที่ `http://localhost:8080`
 
@@ -195,16 +195,21 @@ pnpm run build:common && pnpm run dev:frontend
   ```
   แล้วใส่รหัสผ่านของบัญชี `postgres`
 
-  ถ้าคุณเห็น
+  จะมีข้อความ
   ```
   You are now connected to database "reeba" as user "postgres".
+  ```
+
+  จากนั้นรัน
+  ```
+  reeba=# \i database.sql
   ```
   คุณพร้อม่ทำงานแล้ว
 
 รันคอมมานด์เหล่านี้จากโฟลเดอร์แรกของโปรเจกต์
 | Terminal #1              | Terminal #2             |
 | -----------------------  | ----------------------  |
-| `pnpm run dev:common`    | `pnpm run dev:backend`  |
+| `pnpm dev:common`        | `pnpm dev:backend`      |
 
 คุณจะสามารถคุยกับ API ได้ที่ `http://localhost:3000`.
 
@@ -223,15 +228,20 @@ pnpm run build:common && pnpm run dev:frontend
   ```
   แล้วใส่รหัสผ่านของบัญชี `postgres`
 
-  ถ้าคุณเห็น
+  จะมีข้อความ
   ```
   You are now connected to database "reeba" as user "postgres".
+  ```
+
+  จากนั้นรัน
+  ```
+  reeba=# \i database.sql
   ```
   คุณพร้อม่ทำงานแล้ว
 
 เปิดเทอร์มินอล 3 เทอร์มินอล แล้วรันคอมมานด์เหล่านี้จากโฟลเดอร์แรกของโปรเจกต์
 | Terminal #1              | Terminal #2             | Terminal #3            |
 | -----------------------  | ----------------------  | ---------------------  |
-| `pnpm run dev:common`    | `pnpm run dev:frontend` | `pnpm run dev:backend` |
+| `pnpm dev:common`        | `pnpm dev:frontend`     | `pnpm dev:backend` |
 
 คุณจะเห็น API ทำงานที่ `http://localhost:3000` และเว็บไซต์ทำงานที่ `http://localhost:8080`

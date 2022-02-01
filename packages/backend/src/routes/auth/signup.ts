@@ -60,9 +60,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const possibleDuplicateEmails = await instance.pg.query<users, [users['user_email']]>(
         'select * from users where user_email = $1',
         [email]
-      ).catch(error => {
-        throw new Error(`${error as string}`)
-      })
+      )
 
       if (possibleDuplicateEmails.rowCount > 0) {
         void reply.code(400)
@@ -72,14 +70,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const salt = await bcrypt.genSalt(BCRYPT_GENSALT_ROUNDS)
       const encryptedPassword = await bcrypt.hash(password, salt)
 
-      try {
-        await instance.pg.query<users, [users['user_username'], users['user_email'], users['user_password']]>(
-          'insert into users (user_username, user_email, user_password) values ($1, $2, $3)',
-          [username, email, encryptedPassword]
-        )
-      } catch (error) {
-        throw new Error(`${error as string}`)
-      }
+      await instance.pg.query<users, [users['user_username'], users['user_email'], users['user_password']]>(
+        'insert into users (user_username, user_email, user_password) values ($1, $2, $3)',
+        [username, email, encryptedPassword]
+      )
 
       return {
         message: 'complete'

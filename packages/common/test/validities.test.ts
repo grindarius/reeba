@@ -1,6 +1,6 @@
 import t from 'tap'
 
-import { validateEmail, validateUsername } from '../src/utils'
+import { getFileExtension, validateEmail, validateUsername } from '../src/utils'
 
 void t.test('Validate email formats', async t => {
   t.strictSame(validateEmail('an_email@gmail.com'), true)
@@ -31,4 +31,52 @@ void t.test('Validate username formats', async t => {
   t.strictSame(validateUsername(' sdfdf'), false)
   t.strictSame(validateUsername(''), false)
   t.strictSame(validateUsername('longgggggggggggggggggggggggggggggg'), false)
+})
+
+void t.test('validate file extensions', async t => {
+  t.strictSame(getFileExtension('imgur_image.png'), 'png')
+  t.strictSame(getFileExtension('imgur_image.PNG'), 'PNG')
+  t.strictSame(getFileExtension('imgur_image.jpg'), 'jpg')
+  t.strictSame(getFileExtension('imgur_image.JPG'), 'JPG')
+  t.strictSame(getFileExtension('imgur_image.jpeg'), 'jpeg')
+  t.strictSame(getFileExtension('imgur_image.JPEG'), 'JPEG')
+
+  t.strictSame(getFileExtension('imgur image test.png'), 'png')
+  t.strictSame(getFileExtension('imgur image test.PNG'), 'PNG')
+  t.strictSame(getFileExtension('imgur image test.jpg'), 'jpg')
+  t.strictSame(getFileExtension('imgur image test.JPG'), 'JPG')
+  t.strictSame(getFileExtension('imgur image test.jpeg'), 'jpeg')
+  t.strictSame(getFileExtension('imgur image test.JPEG'), 'JPEG')
+
+  t.strictSame(getFileExtension('โลกทัศน์ใหม่แห่งการเรียนรู้.png'), 'png')
+  t.strictSame(getFileExtension('โลกทัศน์ใหม่แห่งการเรียนรู้.PNG'), 'PNG')
+  t.strictSame(getFileExtension('โลกทัศน์ใหม่แห่งการเรียนรู้.jpg'), 'jpg')
+  t.strictSame(getFileExtension('โลกทัศน์ใหม่แห่งการเรียนรู้.JPG'), 'JPG')
+  t.strictSame(getFileExtension('โลกทัศน์ใหม่แห่งการเรียนรู้.jpeg'), 'jpeg')
+  t.strictSame(getFileExtension('โลกทัศน์ใหม่แห่งการเรียนรู้.JPEG'), 'JPEG')
+
+  t.strictSame(getFileExtension('โลกทัศน์ ใหม่แห่งการเรียนรู้.png'), 'png')
+  t.strictSame(getFileExtension('โลกทัศน์ ใหม่แห่งการเรียนรู้.PNG'), 'PNG')
+  t.strictSame(getFileExtension('โลกทัศน์ ใหม่แห่งการเรียนรู้.jpg'), 'jpg')
+  t.strictSame(getFileExtension('โลกทัศน์ ใหม่แห่งการเรียนรู้.JPG'), 'JPG')
+  t.strictSame(getFileExtension('โลกทัศน์ ใหม่แห่งการเรียนรู้.jpeg'), 'jpeg')
+  t.strictSame(getFileExtension('โลกทัศน์ ใหม่แห่งการเรียนรู้.JPEG'), 'JPEG')
+
+  t.strictSame(getFileExtension('โลกทัศน์.ใหม่แห่งการเรียนรู้.png'), 'png')
+  t.strictSame(getFileExtension('โลกทัศน์.ใหม่แห่งการเรียนรู้.PNG'), 'PNG')
+  t.strictSame(getFileExtension('โลกทัศน์.ใหม่แห่งการเรียนรู้.jpg'), 'jpg')
+  t.strictSame(getFileExtension('โลกทัศน์.ใหม่แห่งการเรียนรู้.JPG'), 'JPG')
+  t.strictSame(getFileExtension('โลกทัศน์.ใหม่แห่งการเรียนรู้.jpeg'), 'jpeg')
+  t.strictSame(getFileExtension('โลกทัศน์.ใหม่แห่งการเรียนรู้.JPEG'), 'JPEG')
+
+  t.strictSame(getFileExtension('imgur.image.test.png'), 'png')
+  t.strictSame(getFileExtension('imgur.image.test.PNG'), 'PNG')
+  t.strictSame(getFileExtension('imgur.image.test.jpg'), 'jpg')
+  t.strictSame(getFileExtension('imgur.image.test.JPG'), 'JPG')
+  t.strictSame(getFileExtension('imgur.image.test.jpeg'), 'jpeg')
+  t.strictSame(getFileExtension('imgur.image.test.JPEG'), 'JPEG')
+
+  t.throws(() => {
+    getFileExtension('render.md')
+  }, 'unmatched file extension')
 })

@@ -1,4 +1,4 @@
-import { emailRegExp, usernameRegExp } from '../constants'
+import { emailRegExp, fileExtensionMatchRegExp, usernameRegExp } from '../constants'
 
 /**
  * Function for validating user emails whether it's the right format or not.
@@ -33,4 +33,14 @@ export const validateUsername = (username: string): boolean => {
   }
 
   return true
+}
+
+export const getFileExtension = (filename: string): string => {
+  const matches = filename.match(fileExtensionMatchRegExp)
+
+  if (matches != null) {
+    return matches[1]
+  }
+
+  throw new Error('unmatched file extension')
 }
