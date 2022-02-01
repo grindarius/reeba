@@ -245,3 +245,20 @@ pnpm build:common && pnpm dev:frontend
 | `pnpm dev:common`        | `pnpm dev:frontend`     | `pnpm dev:backend` |
 
 คุณจะเห็น API ทำงานที่ `http://localhost:3000` และเว็บไซต์ทำงานที่ `http://localhost:8080`
+
+## ทดสอบ
+โมดูล `common` และ `backend` ของเราจะถูกทดสอบโดย [`tap`](https://github.com/tapjs/node-tap) และนี่คือวิธีการรันเทสต์
+
+- ทำการ Build `common` โดยรัน
+  ```
+  pnpm build:common
+  ```
+  จากรูทของโปรเจกต์
+
+- จากนั้นรัน
+  ```
+  pnpm test
+  ```
+  เพื่อดูผลลัพธ์
+
+**ทุก test ต้องผ่านก่อนทำการส่ง PR**

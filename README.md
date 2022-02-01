@@ -242,3 +242,20 @@ Open 3 terminals and run these commands from the root of the project.
 | `pnpm dev:common`        | `pnpm dev:frontend`     | `pnpm dev:backend`     |
 
 You will see the API runs at `http://localhost:3000` and frontend server runs at `http://localhost:8080`
+
+## Testing
+Our `common` and `backend` module will be tested using [`tap`](https://github.com/tapjs/node-tap). This is how to run the test.
+
+- Build `common` module by running
+  ```
+  pnpm build:common
+  ```
+  from the root of the project.
+
+- Then run
+  ```
+  pnpm test
+  ```
+  to see results.
+
+**All tests should pass before submitting PRs**
