@@ -17,7 +17,7 @@
     "watch": "nodemon",
     "watch:ts": "tsc -w",
     "serve:ts-node": "ts-node src/index.ts -p ./tsconfig.json",
-    "clean": "npx rimraf dist",
+    "clean": "pnpm dlx rimraf dist",
     "fix": "eslint **/*.ts --fix"
   },
   "dependencies": {
