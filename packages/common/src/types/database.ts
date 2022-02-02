@@ -74,6 +74,11 @@ export interface users {
    */
   user_verification_status: boolean
   /**
+   * User's telephone country code. not null, stored as country code without plus sign. we can traceback the country of user later.
+   * Will be very helpful in statistics
+   */
+  user_telephone_country_code: string
+  /**
    * Users's telephone number, not null, stores as a string, default is `''`.
    */
   user_telephone_number: string
