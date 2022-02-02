@@ -14,14 +14,14 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.Event
   },
   {
-    path: '/register',
-    name: 'Register',
-    component: Page.Register
+    path: '/signup',
+    name: 'Signup',
+    component: Page.Signup
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: Page.Login
+    path: '/signin',
+    name: 'Signin',
+    component: Page.Signin
   },
   {
     path: '/select-seat',
