@@ -15,8 +15,17 @@ export const enum t_user_role {
   admin = 'admin'
 }
 
+/**
+ * Tuple storing event's price as a pair of color and price
+ */
 export interface t_event_price {
+  /**
+   * Seat's color
+   */
   event_color: string
+  /**
+   * Seat's price
+   */
   seat_price: number
 }
 
