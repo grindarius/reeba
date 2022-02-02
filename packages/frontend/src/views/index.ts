@@ -7,10 +7,10 @@ import PurchaseHistory from './account/purchase-history.vue'
 import CreateEvent from './create-event.vue'
 import Event from './event.vue'
 import Home from './home.vue'
-import Login from './login.vue'
+import Signin from './login.vue'
 import Payment from './payment.vue'
 import Receipt from './receipt.vue'
-import Register from './register.vue'
+import Signup from './register.vue'
 import SelectSeat from './select-seat.vue'
 import Upload from './upload.vue'
 import Users from './users.vue'
@@ -22,14 +22,14 @@ export {
   EditUserSettings,
   Event,
   Home,
-  Login,
   MyTickets,
   OrganizerTools,
   Payment,
   PurchaseHistory,
   Receipt,
-  Register,
   SelectSeat,
+  Signin,
+  Signup,
   Upload,
   Users
 }
