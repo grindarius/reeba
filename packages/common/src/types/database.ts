@@ -253,10 +253,6 @@ export interface transactions {
    */
   user_username: string
   /**
-   * which event the transaction belongs to.
-   */
-  event_id: string
-  /**
    * time when the transaction happens. stores in pg timestamp with time zone format.
    */
   transaction_time: string
