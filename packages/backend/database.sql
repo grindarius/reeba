@@ -42,6 +42,7 @@ create table events (
   event_opening_date timestamp with time zone not null,
   event_status t_event_status not null default 'closed',
   event_ticket_prices t_event_price[] not null default '{}',
+  event_minimum_age integer not null default 0
   primary key (event_id),
   foreign key (user_username) references users(user_username) on delete cascade
 );
@@ -90,6 +91,7 @@ create table event_seats (
 create table transactions (
   transaction_id text not null unique, -- nanoid(32)
   user_username text not null,
+  event_id text not null,
   primary key (transaction_id),
   foreign key (user_username) references users(user_username) on delete cascade
 );

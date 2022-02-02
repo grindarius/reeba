@@ -2,28 +2,27 @@
  * Status about how each user is doing
  *
  * - `'user'` is when they haven't created or don't have any events running.
- * - `'organizer'` is when they have created an event and running, if an event is completed,
- * that user's role will automatically downgraded to 'user'.
  * - `'admin'` superuser role that cannot be created normally.
  */
-export const enum t_user_roles {
+export const enum t_user_role {
+  /**
+   * User role
+   */
   user = 'user',
-  organizer = 'organizer',
+  /**
+   * Admin role
+   */
   admin = 'admin'
 }
 
-/**
- * Stores information about event start dates and end dates, each as a `timestamp with time zone` string.
- */
-export interface t_event_datetime {
-  /**
-   * Event's start date, not null, a string that stores timestamp with time zone string.
-   */
-  start_date: string
-  /**
-   * Event's end date, not null, a string that stores tiemstamp with time zone string.
-   */
-  end_date: string
+export interface t_event_price {
+  event_color: string
+  seat_price: number
+}
+
+export const enum t_event_status {
+  open = 'open',
+  closed = 'closed'
 }
 
 /**
@@ -51,20 +50,20 @@ export interface users {
    */
   user_password: string
   /**
-   * whether a user is verified or not. Events created from a verified user will be an `official` event, otherwise a `local` event.
-   * default is `false`
-   */
-  user_verification_status: boolean
-  /**
    * User's roles, Not null, default is `'user'`, will get upgraded to `'organizer'` when there's an event running,
    * An `'admin'` role could only be created right in the database by injecting custom api calls.
    */
-  user_role: t_user_roles
+  user_role: t_user_role
   /**
    * Users's image profile, Not null, stores path to user image in /uploads folder, default is
    * `''`.
    */
   user_image_profile_path: string
+  /**
+   * whether a user is verified or not. Events created from a verified user will be an `official` event, otherwise a `local` event.
+   * default is `false`
+   */
+  user_verification_status: boolean
   /**
    * Users's telephone number, not null, stores as a string, default is `''`.
    */
@@ -80,29 +79,29 @@ export interface users {
  */
 export interface events {
   /**
-   * Username of a user who created this event, not null.
-   */
-  user_username: string
-  /**
    * Event id, not null, unique, generates from `nanoid()`
    */
   event_id: string
+  /**
+   * Username of a user who created this event, not null.
+   */
+  user_username: string
   /**
    * Event name, not null.
    */
   event_name: string
   /**
-   * Event's website for further data, not null, default is `''`
-   */
-  event_website: string
-  /**
-   * Event description, as a markdown string, rendered as Github Flavoured Markdown. default is `''`
+   * Event description, rendered as Github Flavoured Markdown, default is `## No description provided`
    */
   event_description: string
   /**
-   * Event datetimes, stored as a postgres's custom type up above. default is just empty array.
+   * Event's cover image
    */
-  event_datetimes: Array<t_event_datetime>
+  event_cover_image_path: string
+  /**
+   * Event's website for further data, not null, default is `''`
+   */
+  event_website: string
   /**
    * The name of where the event will be hosted. default is empty string but frontend would not let this pass.
    */
@@ -123,20 +122,54 @@ export interface events {
    * but will never be null.
    */
   event_opening_date: string
-  /**
-   * Price range of an event, can only be an integer, will be sorted from min to max. never null,
-   * default is empty array but frontend will not let event without price range go through, except
-   * an event marked as `free` event.
-   */
-  event_prices: Array<number>
+  event_status: string
+  event_ticket_prices: Array<t_event_price>
+  event_minimum_age: number
 }
 
 /**
  * Table storing a `n:m` relationship between event and its tags
  */
 export interface event_tags {
+  event_tag_label: string
+}
+
+export interface event_tags_bridge {
+  event_tag_label: string
   event_id: string
-  tag_label: string
+}
+
+export interface event_datetimes {
+  event_datetime_id: string
+  event_id: string
+  event_start_datetime: string
+  event_end_datetime: string
+}
+
+export interface event_sections {
+  event_section_id: string
+  event_datetime_id: string
+  event_section_row_position: number
+  event_section_column_position: number
+}
+
+export interface event_seats {
+  event_seat_id: string
+  event_section_id: string
+  event_seat_price: number
+  event_seat_row_position: number
+  event_seat_column_position: number
+}
+
+export interface transactions {
+  transaction_id: string
+  user_username: string
+  event_id: string
+}
+
+export interface transaction_details {
+  event_seat_id: string
+  transaction_id: string
 }
 
 /**
