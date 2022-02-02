@@ -22,14 +22,14 @@
   ],
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "dev:backend": "cd packages/backend && npm run watch",
-    "dev:frontend": "cd packages/frontend && npm run dev",
-    "dev:common": "cd packages/common && npm run watch",
-    "build:backend": "cd packages/backend && npm run build",
-    "build:frontend": "cd packages/frontend && npm run build",
-    "build:common": "cd packages/common && npm run build",
+    "dev:backend": "cd packages/backend && pnpm watch",
+    "dev:frontend": "cd packages/frontend && pnpm dev",
+    "dev:common": "cd packages/common && pnpm watch",
+    "build:backend": "cd packages/backend && pnpm build",
+    "build:frontend": "cd packages/frontend && pnpm build",
+    "build:common": "cd packages/common && pnpm build",
     "lint:css": "ts-node packages/scripts/src/lint-css.ts",
-    "test": "tap --rcfile=.taprc"
+    "test": "pnpm build:common && tap --rcfile=.taprc"
   },
   "author": "ReebA Team",
   "license": "MIT",

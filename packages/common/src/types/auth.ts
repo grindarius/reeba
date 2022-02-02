@@ -1,6 +1,6 @@
 import { Static, Type } from '@sinclair/typebox'
 
-import { t_user_roles } from '.'
+import { t_user_role } from '.'
 
 export const SigninBodySchema = Type.Object({
   email: Type.String(),
@@ -12,9 +12,8 @@ export const SigninReplyBodySchema = Type.Object({
   token: Type.String(),
   username: Type.String(),
   role: Type.Union([
-    Type.Literal(t_user_roles.user),
-    Type.Literal(t_user_roles.organizer),
-    Type.Literal(t_user_roles.admin)
+    Type.Literal(t_user_role.user),
+    Type.Literal(t_user_role.admin)
   ]),
   verificationStatus: Type.Boolean()
 })

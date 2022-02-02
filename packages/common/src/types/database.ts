@@ -2,28 +2,45 @@
  * Status about how each user is doing
  *
  * - `'user'` is when they haven't created or don't have any events running.
- * - `'organizer'` is when they have created an event and running, if an event is completed,
- * that user's role will automatically downgraded to 'user'.
  * - `'admin'` superuser role that cannot be created normally.
  */
-export const enum t_user_roles {
+export const enum t_user_role {
+  /**
+   * User role
+   */
   user = 'user',
-  organizer = 'organizer',
+  /**
+   * Admin role
+   */
   admin = 'admin'
 }
 
 /**
- * Stores information about event start dates and end dates, each as a `timestamp with time zone` string.
+ * Tuple storing event's price as a pair of color and price
  */
-export interface t_event_datetime {
+export interface t_event_price {
   /**
-   * Event's start date, not null, a string that stores timestamp with time zone string.
+   * Seat's color
    */
-  start_date: string
+  event_color: string
   /**
-   * Event's end date, not null, a string that stores tiemstamp with time zone string.
+   * Seat's price
    */
-  end_date: string
+  seat_price: number
+}
+
+/**
+ * Enum to store event status
+ *
+ * - `'open'` means the event is open to others, will be able to look at and make transactions.
+ * - `'closed'` means the event is not accepting anymore transactions, and will not be visible to others.
+ * Will be marked as closed for other people who bought the ticket.
+ *
+ * TODO: Might need more statuses
+ */
+export const enum t_event_status {
+  open = 'open',
+  closed = 'closed'
 }
 
 /**
@@ -51,20 +68,25 @@ export interface users {
    */
   user_password: string
   /**
-   * whether a user is verified or not. Events created from a verified user will be an `official` event, otherwise a `local` event.
-   * default is `false`
-   */
-  user_verification_status: boolean
-  /**
    * User's roles, Not null, default is `'user'`, will get upgraded to `'organizer'` when there's an event running,
    * An `'admin'` role could only be created right in the database by injecting custom api calls.
    */
-  user_role: t_user_roles
+  user_role: t_user_role
   /**
    * Users's image profile, Not null, stores path to user image in /uploads folder, default is
    * `''`.
    */
   user_image_profile_path: string
+  /**
+   * whether a user is verified or not. Events created from a verified user will be an `official` event, otherwise a `local` event.
+   * default is `false`
+   */
+  user_verification_status: boolean
+  /**
+   * User's telephone country code. not null, stored as country code without plus sign. we can traceback the country of user later.
+   * Will be very helpful in statistics
+   */
+  user_telephone_country_code: string
   /**
    * Users's telephone number, not null, stores as a string, default is `''`.
    */
@@ -80,29 +102,29 @@ export interface users {
  */
 export interface events {
   /**
-   * Username of a user who created this event, not null.
-   */
-  user_username: string
-  /**
    * Event id, not null, unique, generates from `nanoid()`
    */
   event_id: string
+  /**
+   * Username of a user who created this event, not null.
+   */
+  user_username: string
   /**
    * Event name, not null.
    */
   event_name: string
   /**
-   * Event's website for further data, not null, default is `''`
-   */
-  event_website: string
-  /**
-   * Event description, as a markdown string, rendered as Github Flavoured Markdown. default is `''`
+   * Event description, rendered as Github Flavoured Markdown, default is `## No description provided`
    */
   event_description: string
   /**
-   * Event datetimes, stored as a postgres's custom type up above. default is just empty array.
+   * Event's cover image
    */
-  event_datetimes: Array<t_event_datetime>
+  event_cover_image_path: string
+  /**
+   * Event's website for further data, not null, default is `''`
+   */
+  event_website: string
   /**
    * The name of where the event will be hosted. default is empty string but frontend would not let this pass.
    */
@@ -119,29 +141,147 @@ export interface events {
    */
   event_venue_coordinates: point
   /**
-   * Event's opening date to sell tickets, stored as timestamp with time zone string, not default
+   * Event's opening date to sell tickets, stored as `timestamp with time zone` string, no default
    * but will never be null.
    */
   event_opening_date: string
   /**
-   * Price range of an event, can only be an integer, will be sorted from min to max. never null,
-   * default is empty array but frontend will not let event without price range go through, except
-   * an event marked as `free` event.
+   * Event's status, either `'open'` or `'closed'`. default for when opening an event is `closed`.
    */
-  event_prices: Array<number>
+  event_status: t_event_status
+  /**
+   * Event's ticket prices array. Will be an array of type `t_event_price`. Stored as a pair of
+   * color and their price as integer.
+   */
+  event_ticket_prices: Array<t_event_price>
+  /**
+   * Minimum age of a user, cannot be null, cannot be less than 0, default is 0
+   */
+  event_minimum_age: number
 }
 
 /**
- * Table storing a `n:m` relationship between event and its tags
+ * Table that stores tags of an event. needs HEAVY NORMALIZATION before putting in.
  */
 export interface event_tags {
-  event_id: string
-  tag_label: string
+  /**
+   * Tag label, primark key. Refers to type of an event.
+   */
+  event_tag_label: string
 }
 
 /**
- * Table storing tags of events created by users.
+ * table that creates a many to many relationship between an event and their tags.
  */
-export interface tags {
-  tag_label: string
+export interface event_tags_bridge {
+  /**
+   * Tag label, primark key. Refers to type of an event.
+   */
+  event_tag_label: string
+  /**
+   * Event's ID
+   */
+  event_id: string
+}
+
+/**
+ * Table that stores datetimes of an event. (1 event could occur many times)
+ */
+export interface event_datetimes {
+  /**
+   * Datetime id, default is `nanoid()`
+   */
+  event_datetime_id: string
+  /**
+   * Event's id
+   */
+  event_id: string
+  /**
+   * Event start datetime, refers to when an event is starting.
+   */
+  event_start_datetime: string
+  /**
+   * Event's end datetime, referes to when an event is ending.
+   */
+  event_end_datetime: string
+}
+
+/**
+ * Event seat section (a group of many seats)
+ */
+export interface event_sections {
+  /**
+   * Section id
+   */
+  event_section_id: string
+  /**
+   * Datetime id
+   */
+  event_datetime_id: string
+  /**
+   * row position, the section is constructed in 2d manner, zero-based
+   */
+  event_section_row_position: number
+  /**
+   * column position, the section is constructed in 2d manner, zero-based
+   */
+  event_section_column_position: number
+}
+
+/**
+ * Table storing each individual seats in an event
+ */
+export interface event_seats {
+  /**
+   * Seat id.
+   */
+  event_seat_id: string
+  /**
+   * its section it belongs to.
+   */
+  event_section_id: string
+  /**
+   * Seat price.
+   */
+  event_seat_price: number
+  /**
+   * seat row position, the seat is constructed in 2d manner. zero-based
+   */
+  event_seat_row_position: number
+  /**
+   * seat column position, the seat is constructed in 2d manner. zero-based
+   */
+  event_seat_column_position: number
+}
+
+/**
+ * Table storing each transaction
+ */
+export interface transactions {
+  /**
+   * transaction id
+   */
+  transaction_id: string
+  /**
+   * user who does the transaction
+   */
+  user_username: string
+  /**
+   * time when the transaction happens. stores in pg timestamp with time zone format.
+   */
+  transaction_time: string
+}
+
+/**
+ * table storing individual seats the transactions happen.
+ */
+export interface transaction_details {
+  /**
+   * which seat this transaction has acquired.
+   */
+  event_seat_id: string
+  /**
+   * which transaction id it belongs to.
+   */
+  transaction_id: string
 }
