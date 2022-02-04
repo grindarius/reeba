@@ -17,13 +17,14 @@ create table users (
   user_role t_user_role not null default 'user',
   user_image_profile_path text not null default '',
   user_verification_status boolean not null default false,
+  user_telephone_country_code string not null default '66',
   user_telephone_number text not null default '',
   user_birthdate date default null,
   primary key (user_username)
 );
 
 create table user_followers (
-  follow_id serial not null unique,
+  follow_id text not null unique,
   base_username text not null,
   base_username_following text not null,
   primary key (follow_id),
@@ -39,6 +40,7 @@ create table events (
   event_website text not null default '',
   event_venue_name text not null default '',
   event_venue_coordinates point not null default '0,0',
+  event_creation_date timestamp with time zone not null,
   event_opening_date timestamp with time zone not null,
   event_status t_event_status not null default 'closed',
   event_ticket_prices t_event_price[] not null default '{}',
