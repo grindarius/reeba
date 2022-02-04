@@ -29,7 +29,9 @@
     "build:frontend": "cd packages/frontend && pnpm build",
     "build:common": "cd packages/common && pnpm build",
     "lint:css": "ts-node packages/scripts/src/lint-css.ts",
-    "test": "pnpm build:common && tap --rcfile=.taprc"
+    "test": "pnpm build:common && tap --rcfile=.taprc",
+    "seed": "ts-node packages/scripts/src/seed.ts",
+    "clear-uploads": "ts-node packages/scripts/src/clear-uploads-folder.ts"
   },
   "author": "ReebA Team",
   "license": "MIT",
@@ -38,28 +40,28 @@
   },
   "homepage": "https://github.com/grindarius/reeba#readme",
   "devDependencies": {
-    "@types/node": "^16.11.12",
+    "@types/node": "^16.11.22",
     "@types/tap": "^15.0.5",
-    "@typescript-eslint/eslint-plugin": "^4.29.3",
-    "@typescript-eslint/parser": "^4.29.3",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
     "@vue/eslint-config-standard": "^6.1.0",
     "@vue/eslint-config-typescript": "^7.0.0",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-config-standard-with-typescript": "^20.0.0",
-    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
-    "eslint-plugin-unused-imports": "^1.1.4",
-    "eslint-plugin-vue": "^7.16.0",
+    "eslint-plugin-unused-imports": "^1.1.5",
+    "eslint-plugin-vue": "^7.20.0",
     "nodemon": "^2.0.15",
     "postcss-html": "^1.3.0",
-    "stylelint": "^14.2.0",
+    "stylelint": "^14.3.0",
     "stylelint-config-recommended-scss": "^5.0.2",
     "stylelint-config-recommended-vue": "^1.1.0",
-    "tap": "^15.1.5",
+    "tap": "^15.1.6",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.5"
   }
 }
