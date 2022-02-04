@@ -22,11 +22,11 @@ export interface t_event_price {
   /**
    * Seat's color
    */
-  event_color: string
+  price_color: string
   /**
    * Seat's price
    */
-  seat_price: number
+  price_value: number
 }
 
 /**
@@ -140,6 +140,10 @@ export interface events {
    * ```
    */
   event_venue_coordinates: point
+  /**
+   * The day that the event has been injected into the database, stored as `timestamp with time zone`
+   */
+  event_creation_date: string
   /**
    * Event's opening date to sell tickets, stored as `timestamp with time zone` string, no default
    * but will never be null.
@@ -284,4 +288,22 @@ export interface transaction_details {
    * which transaction id it belongs to.
    */
   transaction_id: string
+}
+
+/**
+ * Table storing follower relationships for each user.
+ */
+export interface user_followers {
+  /**
+   * Follow id, not null, nanoid()
+   */
+  follow_id: string
+  /**
+   * username of a user who clicks on the follow button.
+   */
+  base_username: string
+  /**
+   * username of a user who `base_username` follows.
+   */
+  base_username_following: string
 }
