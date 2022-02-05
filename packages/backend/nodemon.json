@@ -6,5 +6,5 @@
   "ignore": [
     "node_modules"
   ],
-  "exec": "npm run kill-port && npm run serve:ts-node"
+  "exec": "pnpm kill-port && pnpm serve:ts-node"
 }
