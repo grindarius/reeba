@@ -22,7 +22,9 @@ export type SigninReplyBody = Static<typeof SigninReplyBodySchema>
 export const SignupBodySchema = Type.Object({
   username: Type.String(),
   email: Type.String(),
-  password: Type.String()
+  password: Type.String(),
+  phoneCountryCode: Type.String(),
+  phoneNumber: Type.String()
 })
 export type SignupBody = Static<typeof SignupBodySchema>
 
