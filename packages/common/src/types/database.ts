@@ -98,6 +98,24 @@ export interface users {
 }
 
 /**
+ * Table storing follower relationships for each user.
+ */
+export interface user_followers {
+  /**
+   * Follow id, not null, nanoid()
+   */
+  follow_id: string
+  /**
+   * username of a user who clicks on the follow button.
+   */
+  base_username: string
+  /**
+   * username of a user who `base_username` follows.
+   */
+  base_username_following: string
+}
+
+/**
  * Table storing events created from users.
  */
 export interface events {
@@ -271,6 +289,10 @@ export interface transactions {
    */
   user_username: string
   /**
+   * The event this transaction belongs to
+   */
+  event_id: string
+  /**
    * time when the transaction happens. stores in pg timestamp with time zone format.
    */
   transaction_time: string
@@ -288,22 +310,4 @@ export interface transaction_details {
    * which transaction id it belongs to.
    */
   transaction_id: string
-}
-
-/**
- * Table storing follower relationships for each user.
- */
-export interface user_followers {
-  /**
-   * Follow id, not null, nanoid()
-   */
-  follow_id: string
-  /**
-   * username of a user who clicks on the follow button.
-   */
-  base_username: string
-  /**
-   * username of a user who `base_username` follows.
-   */
-  base_username_following: string
 }
