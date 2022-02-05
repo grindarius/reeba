@@ -145,7 +145,7 @@ import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { computed, defineComponent, ref, StyleValue } from 'vue'
 
-import { EventTime } from '@/types'
+import { ReebAEventDatetime } from '@/types'
 import { generateEventSections } from '@/utils'
 
 dayjs.extend(customParseFormat)
@@ -156,7 +156,7 @@ export default defineComponent({
     const selectedEventStartTime = ref('')
     const selectedEventEndTime = ref('')
 
-    const selectedTimes = ref<Array<EventTime>>([])
+    const selectedTimes = ref<Array<ReebAEventDatetime>>([])
 
     const selectedSection = ref('A1')
     const selectedSectionRow = ref('5')
@@ -187,7 +187,7 @@ export default defineComponent({
       console.log(value)
     }
 
-    const getTimeString = (time: EventTime): string => {
+    const getTimeString = (time: ReebAEventDatetime): string => {
       return `${time.from.format('MMMM D, YYYY HH:mm')} to ${time.to.format('MMMM D, YYYY HH:mm')}`
     }
     const addEventTime = (): void => {
