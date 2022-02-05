@@ -126,7 +126,7 @@ importers:
       '@reeba/common': link:../common
       dayjs: 1.10.7
       ky: 0.28.7
-      pinia: 2.0.9_typescript@4.5.2+vue@3.2.29
+      pinia: 2.0.9_typescript@4.5.5+vue@3.2.29
       postcss-import: 14.0.2_postcss@8.4.5
       vue: 3.2.29
       vue-mdijs: 0.5.12
@@ -138,11 +138,12 @@ importers:
       sass: 1.49.0
       tailwindcss: 3.0.16_f98f8cb1d4c2734d9765edb689db6e16
       vite: 2.7.13_sass@1.49.0
-      vue-tsc: 0.29.8_typescript@4.5.2
+      vue-tsc: 0.29.8_typescript@4.5.5
 
   packages/scripts:
     specifiers:
       '@faker-js/faker': ^6.0.0-alpha.5
+      '@reeba/common': ^1.0.0
       chalk: 4.1.2
       countries-list: ^2.6.1
       dayjs: ^1.10.7
@@ -151,6 +152,7 @@ importers:
       nanoid: ^3.2.0
       upath: ^2.0.1
     dependencies:
+      '@reeba/common': link:../common
       chalk: 4.1.2
       countries-list: 2.6.1
       dayjs: 1.10.7
@@ -4491,7 +4493,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /pinia/2.0.9_typescript@4.5.2+vue@3.2.29:
+  /pinia/2.0.9_typescript@4.5.5+vue@3.2.29:
     resolution: {integrity: sha512-iuYdxLJKQ07YPyOHYH05wNG9eKWqkP/4y4GE8+RqEYtz5fwHgPA5kr6zQbg/DoEJGnR2XCm1w1vdt6ppzL9ATg==}
     peerDependencies:
       '@vue/composition-api': ^1.4.0
@@ -4504,7 +4506,7 @@ packages:
         optional: true
     dependencies:
       '@vue/devtools-api': 6.0.0-beta.21.1
-      typescript: 4.5.2
+      typescript: 4.5.5
       vue: 3.2.29
       vue-demi: 0.12.1_vue@3.2.29
     dev: false
@@ -4619,7 +4621,7 @@ packages:
         optional: true
     dependencies:
       lilconfig: 2.0.4
-      ts-node: 10.4.0_7317d3d3fc3a415e63d6ec3b82807719
+      ts-node: 10.4.0_247b6ed5e900a7cb1f087e65be0c3da9
       yaml: 1.10.2
     dev: true
 
@@ -6210,14 +6212,14 @@ packages:
       vue: 3.2.29
     dev: false
 
-  /vue-tsc/0.29.8_typescript@4.5.2:
+  /vue-tsc/0.29.8_typescript@4.5.5:
     resolution: {integrity: sha512-pT0wLRjvRuSmB+J4WJT6uuV9mO0KtSSXEAtaVXZQzyk5+DJdbLIQTbRce/TXSkfqt1l1WogO78RjtOJFiMCgfQ==}
     hasBin: true
     peerDependencies:
       typescript: '*'
     dependencies:
       '@volar/shared': 0.29.8
-      typescript: 4.5.2
+      typescript: 4.5.5
       vscode-vue-languageservice: 0.29.8
     dev: true
 
