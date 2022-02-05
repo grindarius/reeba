@@ -22,11 +22,11 @@ export interface t_event_price {
   /**
    * Seat's color
    */
-  event_color: string
+  price_color: string
   /**
    * Seat's price
    */
-  seat_price: number
+  price_value: number
 }
 
 /**
@@ -98,6 +98,24 @@ export interface users {
 }
 
 /**
+ * Table storing follower relationships for each user.
+ */
+export interface user_followers {
+  /**
+   * Follow id, not null, nanoid()
+   */
+  follow_id: string
+  /**
+   * username of a user who clicks on the follow button.
+   */
+  base_username: string
+  /**
+   * username of a user who `base_username` follows.
+   */
+  base_username_following: string
+}
+
+/**
  * Table storing events created from users.
  */
 export interface events {
@@ -140,6 +158,10 @@ export interface events {
    * ```
    */
   event_venue_coordinates: point
+  /**
+   * The day that the event has been injected into the database, stored as `timestamp with time zone`
+   */
+  event_creation_date: string
   /**
    * Event's opening date to sell tickets, stored as `timestamp with time zone` string, no default
    * but will never be null.
@@ -266,6 +288,10 @@ export interface transactions {
    * user who does the transaction
    */
   user_username: string
+  /**
+   * The event this transaction belongs to
+   */
+  event_id: string
   /**
    * time when the transaction happens. stores in pg timestamp with time zone format.
    */

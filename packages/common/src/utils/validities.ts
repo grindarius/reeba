@@ -35,6 +35,13 @@ export const validateUsername = (username: string): boolean => {
   return true
 }
 
+/**
+ * Get file extension from a filename, used to extract file extension to rename a file when saving
+ * an image to API. Either returns the extension without the dot, or throw an error about unmatched file extension.
+ *
+ * @param filename the filename
+ * @returns either extension name without the dot, or throw an error about unmatched file extension
+ */
 export const getFileExtension = (filename: string): string => {
   const matches = filename.match(fileExtensionMatchRegExp)
 

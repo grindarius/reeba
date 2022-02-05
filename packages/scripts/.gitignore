@@ -1,0 +1,5 @@
+# ignore files dump stored in output folder except README.md
+
+!output
+output/*
+!output/README.md
