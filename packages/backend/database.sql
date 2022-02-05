@@ -17,7 +17,7 @@ create table users (
   user_role t_user_role not null default 'user',
   user_image_profile_path text not null default '',
   user_verification_status boolean not null default false,
-  user_telephone_country_code string not null default '66',
+  user_telephone_country_code text not null default '66',
   user_telephone_number text not null default '',
   user_birthdate date default null,
   primary key (user_username)
@@ -94,6 +94,7 @@ create table transactions (
   transaction_id text not null unique, -- nanoid(32)
   user_username text not null,
   event_id text not null,
+  transaction_time timestamp with time zone not null,
   primary key (transaction_id),
   foreign key (user_username) references users(user_username) on delete cascade
 );
