@@ -1,8 +1,8 @@
 import t from 'tap'
 
-import { getFileExtension, validateEmail, validateUsername } from '../src/utils'
+import { getFileExtension, validateEmail, validatePhoneNumber, validateUsername } from '../src/utils'
 
-void t.test('Validate email formats', async t => {
+void t.test('validate email formats', async t => {
   t.strictSame(validateEmail('an_email@gmail.com'), true)
   t.strictSame(validateEmail('_another_email@gmail.com'), true)
   t.strictSame(validateEmail('this_is_hard@outlook.co.th'), true)
@@ -19,7 +19,7 @@ void t.test('Validate email formats', async t => {
   t.strictSame(validateEmail('abc-def@gmail#archive.com'), false)
 })
 
-void t.test('Validate username formats', async t => {
+void t.test('validate username formats', async t => {
   t.strictSame(validateUsername('a'), true)
   t.strictSame(validateUsername('abc'), true)
   t.strictSame(validateUsername('AbC'), true)
@@ -79,4 +79,17 @@ void t.test('validate file extensions', async t => {
   t.throws(() => {
     getFileExtension('render.md')
   }, 'unmatched file extension')
+})
+
+void t.test('validate phone numbers', async t => {
+  t.strictSame(validatePhoneNumber('943452365'), true)
+  t.strictSame(validatePhoneNumber('442352332444444444444423'), false)
+  t.strictSame(validatePhoneNumber('3984873334534244'), false)
+  t.strictSame(validatePhoneNumber('398487333453424'), true)
+  t.strictSame(validatePhoneNumber(' 4454545423'), false)
+  t.strictSame(validatePhoneNumber('445454 5423'), false)
+  t.strictSame(validatePhoneNumber('445454\n5423'), false)
+  t.strictSame(validatePhoneNumber('445454\t5423'), false)
+  t.strictSame(validatePhoneNumber('445454ก5423'), false)
+  t.strictSame(validatePhoneNumber('445454ndd5423'), false)
 })
