@@ -16,9 +16,14 @@ import {
   event_datetimes,
   event_seats,
   event_sections,
+  event_tags,
+  event_tags_bridge,
+  groupBy,
   t_event_price,
   t_event_status,
   t_user_role,
+  transaction_details,
+  transactions,
   user_followers,
   users
 } from '@reeba/common'
@@ -78,10 +83,17 @@ const eventPricesToString = (prices: Array<t_event_price>): string => {
 }
 
 const generateEventPrices = (): Array<t_event_price> => {
-  return Array.from({ length: faker.mersenne.rand(3, 7) }, () => {
+  const arrayLength = faker.mersenne.rand(3, 7)
+  const pricesSet: Set<number> = new Set()
+
+  while (pricesSet.size !== arrayLength) {
+    pricesSet.add(Math.floor(faker.mersenne.rand(1001, 9999) / 1000) * 1000)
+  }
+
+  return [...pricesSet].map(price => {
     return {
       price_color: faker.internet.color(),
-      price_value: Math.round(faker.mersenne.rand(1001, 9999) / 1000) * 1000
+      price_value: price
     }
   }).sort((a, b) => a.price_value - b.price_value)
 }
@@ -223,7 +235,7 @@ const generateEvent = async (userList: Array<users>, amount: number = 30): Promi
   for (const indivEvent of eventList) {
     for (const indivDatetime of eventDatetimeList.filter((datetime) => datetime.event_id === indivEvent.event_id)) {
       const seatRowAmount = (indivEvent.prices_array ?? []).length
-      const seatColumnAmount = faker.mersenne.rand(1, 8)
+      const seatColumnAmount = faker.mersenne.rand(8, 30)
       for (const indivSection of eventSectionList.filter(sec => sec.event_datetime_id === indivDatetime.event_datetime_id)) {
         const seats = Array.from<Array<event_seats>, Array<event_seats>>({ length: seatRowAmount }, (_, i) => {
           return Array.from<event_seats, event_seats>({ length: seatColumnAmount }, (_, j) => {
@@ -250,6 +262,105 @@ const generateEvent = async (userList: Array<users>, amount: number = 30): Promi
   }
 }
 
+const getSectionId = (eventId: string, eventData: EventGroup): string => {
+  const sectionsList: Array<event_sections> = []
+
+  for (const datetime of eventData.datetimes.filter(datetime => eventId === datetime.event_id)) {
+    for (const section of eventData.sections.filter(sec => sec.event_datetime_id === datetime.event_datetime_id)) {
+      sectionsList.push(section)
+    }
+  }
+
+  return faker.random.arrayElement(sectionsList).event_section_id
+}
+
+const getAllSeatsFromSectionId = (sectionId: string, eventData: EventGroup): Array<event_seats> => {
+  const seatsList: Array<event_seats> = eventData.seats.filter(seat => seat.event_section_id === sectionId)
+  return seatsList
+}
+
+const generateTransactions = (users: Array<users>, eventData: EventGroup): {
+  transactions: Array<transactions>
+  details: Array<transaction_details>
+} => {
+  const transactions = Array.from<transactions, transactions>({ length: 300 }, () => {
+    const ticketBuyer = faker.random.arrayElement(users)
+    let eventsThatGoTo = faker.random.arrayElement(eventData.event)
+
+    while (eventsThatGoTo.user_username === ticketBuyer.user_username) {
+      eventsThatGoTo = faker.random.arrayElement(eventData.event)
+    }
+
+    const lastDateEvent = eventData.datetimes
+      .filter(datetime => datetime.event_id === eventsThatGoTo.event_id)
+      .sort((a, b) => dayjs(b.event_start_datetime, 'YYYY-MM-DD HH:mm:ss.SSS Z').unix() - dayjs(a.event_start_datetime, 'YYYY-MM-DD HH:mm:ss.SSS Z').unix())
+
+    return {
+      transaction_id: compatibleExcelNanoid(),
+      user_username: ticketBuyer.user_username,
+      event_id: eventsThatGoTo.event_id,
+      transaction_time: dayjs(faker.date.between(
+        dayjs(eventsThatGoTo.event_opening_date, 'YYYY-MM-DD HH:mm:ss.SSS Z').format(),
+        dayjs(lastDateEvent[0].event_start_datetime, 'YYYY-MM-DD HH:mm:ss.SSS Z').format()
+      )).format('YYYY-MM-DD HH:mm:ss.SSS Z')
+    }
+  })
+
+  const details: Array<transaction_details> = []
+
+  transactions.forEach(transact => {
+    const randomSectionId = getSectionId(transact.event_id, eventData)
+    const allSeatsGroupedByPrice = groupBy(getAllSeatsFromSectionId(randomSectionId, eventData), (s) => s.event_seat_price)
+    const priceKey = faker.random.arrayElement(Object.keys(allSeatsGroupedByPrice))
+    const selectedSeat = faker.random.arrayElements(allSeatsGroupedByPrice[parseInt(priceKey)], faker.mersenne.rand(1, 4)).map(s => {
+      return {
+        event_seat_id: s.event_seat_id,
+        transaction_id: transact.transaction_id
+      }
+    })
+
+    details.push(...selectedSeat)
+  })
+
+  return {
+    transactions,
+    details
+  }
+}
+
+const generateEventTags = (): Array<event_tags> => {
+  const tags: Array<event_tags> = [
+    'sports',
+    'business',
+    'stand-up-comedy',
+    'technology',
+    'concert',
+    'entertainment',
+    'fan-meet',
+    'gameshow',
+    'lifestyle',
+    'musical',
+    'online',
+    'live',
+    'seminar',
+    'variety'
+  ].map(t => { return { event_tag_label: t } })
+
+  return tags
+}
+
+const generateTagsBridge = (tags: Array<event_tags>, events: Array<CustomEvent>): Array<event_tags_bridge> => {
+  const bridge: Array<event_tags_bridge> = []
+
+  events.forEach(ev => {
+    const tagForEv = faker.random.arrayElements(tags, faker.mersenne.rand(1, 5))
+
+    tagForEv.forEach(t => bridge.push({ event_tag_label: t.event_tag_label, event_id: ev.event_id }))
+  })
+
+  return bridge
+}
+
 // eslint-disable-next-line
 (async () => {
   console.log(chalk.blue('Generating users...'))
@@ -260,6 +371,15 @@ const generateEvent = async (userList: Array<users>, amount: number = 30): Promi
 
   console.log(chalk.blue('Generating events related data...'))
   const eventData = await generateEvent(users, 5)
+
+  console.log(chalk.blue('Generating transactions...'))
+  const transactions = generateTransactions(users, eventData)
+
+  console.log(chalk.blue('Generating event tags...'))
+  const tags = generateEventTags()
+
+  console.log(chalk.blue('Generating event tags bridge...'))
+  const bridge = generateTagsBridge(tags, eventData.event)
 
   console.log(chalk.yellow('Writing ./output/users.csv'))
   const usersDestinationFile = createWriteStream(resolve(__dirname, '..', 'output', 'users.csv'))
@@ -338,4 +458,52 @@ const generateEvent = async (userList: Array<users>, amount: number = 30): Promi
   })
 
   eventSeatsStream.end()
+
+  console.log(chalk.yellow('Writing ./output/transactions.csv'))
+  const transactionsDestinationFile = createWriteStream(resolve(__dirname, '..', 'output', 'transactions.csv'))
+  const transactionsStream = csv.format({ headers: true, delimiter: ',', quote: true })
+
+  transactionsStream.pipe(transactionsDestinationFile)
+
+  transactions.transactions.forEach(t => {
+    transactionsStream.write(t)
+  })
+
+  transactionsStream.end()
+
+  console.log(chalk.yellow('Writing ./output/transaction_details.csv'))
+  const transactionDetailsDestinationFile = createWriteStream(resolve(__dirname, '..', 'output', 'transaction_details.csv'))
+  const transactionsDetailsStream = csv.format({ headers: true, delimiter: ',', quote: true })
+
+  transactionsDetailsStream.pipe(transactionDetailsDestinationFile)
+
+  transactions.details.forEach(d => {
+    transactionsDetailsStream.write(d)
+  })
+
+  transactionsDetailsStream.end()
+
+  console.log(chalk.yellow('Writing ./output/event_tags.csv'))
+  const eventTagsDestinationFile = createWriteStream(resolve(__dirname, '..', 'output', 'event_tags.csv'))
+  const eventTagsStream = csv.format({ headers: true, delimiter: ',', quote: true })
+
+  eventTagsStream.pipe(eventTagsDestinationFile)
+
+  tags.forEach(d => {
+    eventTagsStream.write(d)
+  })
+
+  eventTagsStream.end()
+
+  console.log(chalk.yellow('Writing ./output/event_tags_bridge.csv'))
+  const tagsBridgeDestinationFile = createWriteStream(resolve(__dirname, '..', 'output', 'event_tags_bridge.csv'))
+  const tagsBridgeStream = csv.format({ headers: true, delimiter: ',', quote: true })
+
+  tagsBridgeStream.pipe(tagsBridgeDestinationFile)
+
+  bridge.forEach(d => {
+    tagsBridgeStream.write(d)
+  })
+
+  tagsBridgeStream.end()
 })()
