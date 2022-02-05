@@ -68,7 +68,7 @@
       "    const response = await app.inject({$2})",
       "  } catch (error) {",
       "    t.error(error)",
-      "    t.fail('There should not be an error in a successful registration.')",
+      "    t.fail()",
       "  }",
       "})"
     ],
