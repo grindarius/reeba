@@ -44,7 +44,7 @@ void t.test('signin process', async t => {
     }
   } catch (error) {
     t.error(error)
-    t.fail('Error while connecting to database')
+    t.fail()
   }
 
   void t.test('Missing email (as empty string)', async t => {
@@ -62,7 +62,7 @@ void t.test('signin process', async t => {
       t.strictSame(response.json().message, 'body should have required property \'email\'', 'Error message from missing email as empty string')
     } catch (error) {
       t.error(error)
-      t.fail('There should not be an error.')
+      t.fail()
     }
   })
 
@@ -80,7 +80,7 @@ void t.test('signin process', async t => {
       t.strictSame(response.json().message, 'body should have required property \'email\'', 'Error message from missing email as missing params')
     } catch (error) {
       t.error(error)
-      t.fail('There should not be an error.')
+      t.fail()
     }
   })
 
@@ -99,7 +99,7 @@ void t.test('signin process', async t => {
       t.strictSame(response.json().message, 'body should have required property \'password\'', 'Error message from missing password as empty string')
     } catch (error) {
       t.error(error)
-      t.fail('There should not be an error.')
+      t.fail()
     }
   })
 
@@ -117,7 +117,7 @@ void t.test('signin process', async t => {
       t.strictSame(response.json().message, 'body should have required property \'email\'', 'Error message from missing password as missing params')
     } catch (error) {
       t.error(error)
-      t.fail('There should not be an error.')
+      t.fail()
     }
   })
 
@@ -140,7 +140,7 @@ void t.test('signin process', async t => {
       t.type(response.json().verificationStatus, 'boolean', 'Type of verification status')
     } catch (error) {
       t.error(error)
-      t.fail('There should not be an error.')
+      t.fail()
     }
   })
 
@@ -158,7 +158,7 @@ void t.test('signin process', async t => {
       t.strictSame(response.json().message, '\'email\' not found')
     } catch (error) {
       t.error(error)
-      t.fail('There should not be an error.')
+      t.fail()
     }
   })
 
@@ -177,7 +177,7 @@ void t.test('signin process', async t => {
       t.strictSame(response.json().message, 'invalid \'password\'', 'response message of wrong password')
     } catch (error) {
       t.error(error)
-      t.fail('There should not be an error.')
+      t.fail()
     }
   })
 

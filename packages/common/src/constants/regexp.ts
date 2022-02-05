@@ -16,3 +16,10 @@ export const usernameRegExp: RegExp = /^(?=.{0,30}$)[a-zA-Z0-9_-]+$/
  * @see https://stackoverflow.com/a/374956/12386405
  */
 export const fileExtensionMatchRegExp: RegExp = /^.*\.(jpg|JPG|png|PNG|jpeg|JPEG)$/
+
+/**
+ * RegExp to match plain `n` digit phone number without spacebar
+ *
+ * @see https://www.quora.com/What-is-maximum-and-minimum-length-of-any-mobile-number-across-the-world
+ */
+export const phoneNumberRegExp: RegExp = /^\d{4,15}$/

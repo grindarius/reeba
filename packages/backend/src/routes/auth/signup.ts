@@ -10,10 +10,11 @@ import {
   SignupReplyBodySchema,
   users,
   validateEmail,
+  validatePhoneNumber,
   validateUsername
 } from '@reeba/common'
 
-const signupSchema: FastifySchema = {
+const schema: FastifySchema = {
   body: SignupBodySchema,
   response: {
     200: SignupReplyBodySchema,
@@ -25,9 +26,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   instance.post<{ Body: SignupBody, Reply: SignupReplyBody }>(
     '/signup',
     {
-      schema: signupSchema,
+      schema,
       preValidation: async (request, reply) => {
-        const { username, email, password } = request.body
+        const { username, email, password, phoneCountryCode, phoneNumber } = request.body
 
         if (username == null || username === '') {
           void reply.code(400)
@@ -44,6 +45,21 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           throw new Error('body should have required property \'email\'')
         }
 
+        if (phoneCountryCode == null || phoneCountryCode === '') {
+          void reply.code(400)
+          throw new Error('body should have required property \'phoneCountryCode\'')
+        }
+
+        if (phoneNumber == null || phoneNumber === '') {
+          void reply.code(400)
+          throw new Error('body should have required property \'phoneNumber\'')
+        }
+
+        if (!validatePhoneNumber(phoneNumber)) {
+          void reply.code(400)
+          throw new Error('invalid \'phoneNumber\' format')
+        }
+
         if (!validateEmail(email)) {
           void reply.code(400)
           throw new Error('invalid \'email\' format')
@@ -55,7 +71,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
       }
     }, async (request, reply) => {
-      const { username, email, password } = request.body
+      const { username, email, password, phoneCountryCode, phoneNumber } = request.body
 
       const possibleDuplicateEmails = await instance.pg.query<users, [users['user_email']]>(
         'select * from users where user_email = $1',
@@ -67,12 +83,30 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         throw new Error('duplicate \'email\'')
       }
 
+      const possibleDuplicateUsernames = await instance.pg.query<users, [users['user_username']]>(
+        'select * from users where user_username = $1',
+        [username]
+      )
+
+      if (possibleDuplicateUsernames.rowCount > 0) {
+        void reply.code(400)
+        throw new Error('duplicate \'username\'')
+      }
+
       const salt = await bcrypt.genSalt(BCRYPT_GENSALT_ROUNDS)
       const encryptedPassword = await bcrypt.hash(password, salt)
 
-      await instance.pg.query<users, [users['user_username'], users['user_email'], users['user_password']]>(
-        'insert into users (user_username, user_email, user_password) values ($1, $2, $3)',
-        [username, email, encryptedPassword]
+      type InsertUserValues = [
+        users['user_username'],
+        users['user_email'],
+        users['user_password'],
+        users['user_telephone_country_code'],
+        users['user_telephone_number']
+      ]
+
+      await instance.pg.query<users, InsertUserValues>(
+        'insert into users (user_username, user_email, user_password, user_telephone_country_code, user_telephone_number) values ($1, $2, $3, $4, $5)',
+        [username, email, encryptedPassword, phoneCountryCode, phoneNumber]
       )
 
       return {

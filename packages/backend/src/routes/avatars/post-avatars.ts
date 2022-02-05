@@ -63,7 +63,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
       } catch (error) {
         void reply.code(400)
-        throw new Error('unmatched file extension')
+        throw new Error((error as Error).message)
       }
     }
   )
