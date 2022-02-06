@@ -1,21 +1,25 @@
 import { Static, Type } from '@sinclair/typebox'
 
 export const PostEventBodySchema = Type.Object({
-  username: Type.String(),
   eventName: Type.String(),
-  eventDescription: Type.String(),
-  eventWebsite: Type.String(),
-  eventVenueName: Type.String(),
-  eventVenueCoordinates: Type.Object({
-    x: Type.Number(),
-    y: Type.Number()
+  createdBy: Type.String(),
+  description: Type.String(),
+  website: Type.String(),
+  venueName: Type.String(),
+  venueCoordinates: Type.Object({
+    x: Type.String(),
+    y: Type.String()
   }),
-  eventOpeningDate: Type.String(),
-  eventTicketPrices: Type.Array(Type.Object({
+  openingDate: Type.String(),
+  ticketPrices: Type.Array(Type.Object({
     color: Type.String(),
     price: Type.Number()
   })),
-  eventMinimumAge: Type.Number(),
+  datetimes: Type.Array(Type.Object({
+    start: Type.String(),
+    end: Type.String()
+  })),
+  minimumAge: Type.Number(),
   sections: Type.Array(Type.Array(Type.Object({
     sectionRowPosition: Type.Number(),
     sectionColumnPosition: Type.Number(),
