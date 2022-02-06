@@ -6,7 +6,9 @@
           <h1 class="text-main-event-name">
             Official events
           </h1>
-
+          <div v-for="({coverImagePath, name, firstDatetime, venueName}, index) in eventData?.official " :key="index">
+            {{ coverImagePath }}: {{ name }}: {{ firstDatetime }}: {{ venueName }}
+          </div>
           <div class="event-grid-box">
             <div class="event">
               <div class="event-image-box">
@@ -15,7 +17,7 @@
               <div class="event-info">
                 <div>
                   <h3 class="event-name">
-                    LIDO CONNECT - Movie Program
+                    {{ eventData?.official ?? 'noreply' }}
                   </h3>
                   <p class="event-time">
                     16 JAN 2022 | 13:00
@@ -179,11 +181,35 @@
 </template>
 
 <script lang="ts">
+import ky from 'ky'
+import { defineComponent, onMounted, Ref, ref } from 'vue'
 
-import { defineComponent } from 'vue'
+import { GetEventsReply } from '@reeba/common'
+
+import { getEvents } from '@/api/endpoints'
 
 export default defineComponent({
-  name: 'home'
+  name: 'home',
+  setup () {
+    const eventData: Ref<GetEventsReply | undefined> = ref(undefined)
+
+    onMounted(async () => {
+      const { method, url } = getEvents
+      try {
+        const response = await ky(url, {
+          method
+        }).json<GetEventsReply>()
+
+        eventData.value = response
+      } catch (error) {
+        console.error(error)
+      }
+    })
+
+    return {
+      eventData
+    }
+  }
 })
 </script>
 

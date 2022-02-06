@@ -9,3 +9,8 @@ export const postAvatar: Endpoint = {
   url: url + '/avatars',
   method: 'post'
 }
+
+export const getEvents: Endpoint = {
+  url: url + '/events',
+  method: 'get'
+}
