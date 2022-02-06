@@ -36,8 +36,8 @@ export const GetIndividualEventReplySchema = Type.Object({
   })),
   tags: Type.Array(Type.String()),
   datetimes: Type.Array(Type.Object({
-    from: Type.String(),
-    to: Type.String()
+    start: Type.String(),
+    end: Type.String()
   }))
 })
 export type GetIndividualEventReply = Static<typeof GetIndividualEventReplySchema>
