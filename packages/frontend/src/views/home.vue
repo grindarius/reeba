@@ -28,7 +28,7 @@
             </div>
 
             <div class="event">
-              <router-link to="/event">
+              <router-link :to="{ name: 'Event', params: { eventId: 123 } }">
                 <div class="event-image-box">
                   <img class="event-image" src="@/assets/TK-2-BTS.png" alt="event-image">
                 </div>

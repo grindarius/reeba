@@ -7,7 +7,7 @@
         </div>
         <div class="grow">
           <h1 class="font-sans text-4xl text-white">
-            BTS WORLD TOUR 'LOVE YOURSELF' BANGKOK
+            {{ eventData?.name ?? 'BTS WORLD TOUR \'LOVE YOURSELF\' BANGKOK' }}
           </h1>
           <div class="event-details">
             <div class="event-calendar">
@@ -118,10 +118,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import ky from 'ky'
+import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { useRoute } from 'vue-router'
+
+import { GetIndividualEventReply } from '@reeba/common'
 
 export default defineComponent({
-  name: 'event'
+  name: 'event',
+  setup () {
+    const route = useRoute()
+    const eventData: Ref<GetIndividualEventReply | undefined> = ref(undefined)
+
+    onMounted(async () => {
+      try {
+        const response = await ky('http://localhost:3000/events/' + route.params.eventId, {
+          method: 'get'
+        }).json<GetIndividualEventReply>()
+
+        eventData.value = response
+      } catch (error) {
+        console.error(error)
+      }
+    })
+
+    return {
+      eventData
+    }
+  }
 })
 </script>
 
