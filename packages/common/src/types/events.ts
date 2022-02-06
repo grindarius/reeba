@@ -14,6 +14,11 @@ export const GetEventsReplySchema = Type.Object({
 })
 export type GetEventsReply = Static<typeof GetEventsReplySchema>
 
+export const GetIndividualEventRequestParamsSchema = Type.Object({
+  eventId: Type.String()
+})
+export type GetIndividualEventRequestParams = Static<typeof GetIndividualEventRequestParamsSchema>
+
 export const GetIndividualEventReplySchema = Type.Object({
   name: Type.String(),
   createdBy: Type.String(),
