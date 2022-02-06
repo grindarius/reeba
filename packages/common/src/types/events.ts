@@ -1,10 +1,10 @@
 import { Static, Type } from '@sinclair/typebox'
 
-export const PostEventsBodySchema = Type.Object({
+export const PostEventBodySchema = Type.Object({
   username: Type.String(),
   eventName: Type.String(),
   eventDescription: Type.String(),
-  eventWebSite: Type.String(),
+  eventWebsite: Type.String(),
   eventVenueName: Type.String(),
   eventVenueCoordinates: Type.Object({
     x: Type.Number(),
@@ -26,8 +26,8 @@ export const PostEventsBodySchema = Type.Object({
     })))
   })))
 })
+export type PostEventBody = Static<typeof PostEventBodySchema>
 
-export type PostEventsBody = Static<typeof PostEventsBodySchema>
 export const RootPageEventSchema = Type.Object({
   coverImagePath: Type.String(),
   name: Type.String(),

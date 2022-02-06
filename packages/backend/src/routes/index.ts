@@ -2,6 +2,7 @@ import { FastifyInstance, FastifyPluginOptions } from 'fastify'
 
 import authRoute from './auth'
 import avatarRoute from './avatars'
+import eventsRoute from './events'
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.all('/', async () => {
@@ -13,4 +14,5 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
   void instance.register(authRoute, { prefix: '/auth' })
   void instance.register(avatarRoute, { prefix: '/avatars' })
+  void instance.register(eventsRoute, { prefix: '/events' })
 }
