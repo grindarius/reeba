@@ -1,6 +1,6 @@
 -- create database if not exists reeba;
 
-drop type t_user_role, t_event_price, t_event_status cascade;
+drop type t_user_role, t_event_status cascade;
 drop type if exists t_event_price cascade;
 drop table if exists users, user_followers, user_roles, events, event_tags, event_tags_bridge, event_datetimes, event_sections, event_seats, transactions, transaction_details cascade;
 
@@ -52,11 +52,9 @@ create table event_tags (
 );
 
 create table event_tags_bridge (
-  event_tag_label text not null,
-  event_id text not null,
-  primary key (event_tag_label, event_id),
-  foreign key (event_tag_label) references event_tags(event_tag_label) on update cascade,
-  foreign key (event_id) references events(event_id) on update cascade
+  event_tag_label text not null references event_tags(event_tag_label) on update cascade on delete cascade,
+  event_id text not null references events(event_id) on update cascade on delete cascade,
+  constraint event_tags_bridge_pkey primary key (event_tag_label, event_id)
 );
 
 create table event_datetimes (

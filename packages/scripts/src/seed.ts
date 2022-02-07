@@ -118,7 +118,7 @@ const generateUserList = async (amount: number): Promise<Array<users>> => {
     const card = faker.helpers.contextualCard()
 
     const user: users = {
-      user_username: card.username,
+      user_username: card.username.replace(/\./g, ''),
       user_email: card.email,
       user_password: 'asdfghjkl123',
       user_role: faker.mersenne.rand(1, 100) > 60 ? t_user_role.admin : t_user_role.user,
