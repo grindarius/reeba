@@ -16,20 +16,6 @@ export const enum t_user_role {
 }
 
 /**
- * Tuple storing event's price as a pair of color and price
- */
-export interface t_event_price {
-  /**
-   * Seat's color
-   */
-  price_color: string
-  /**
-   * Seat's price
-   */
-  price_value: number
-}
-
-/**
  * Enum to store event status
  *
  * - `'open'` means the event is open to others, will be able to look at and make transactions.
@@ -172,10 +158,9 @@ export interface events {
    */
   event_status: t_event_status
   /**
-   * Event's ticket prices array. Will be an array of type `t_event_price`. Stored as a pair of
-   * color and their price as integer.
+   * Event's ticket prices Will be a record of hex string with value as price of the seat.
    */
-  event_ticket_prices: Array<t_event_price>
+  event_ticket_prices: Record<`#${string}`, number>
   /**
    * Minimum age of a user, cannot be null, cannot be less than 0, default is 0
    */
