@@ -17,7 +17,7 @@
                   Show details
                 </h1>
                 <h1 class="detail-sub-header">
-                  {{ eventData?.datetimes ?? '6-7 April 2022 • 19:00'}}
+                  {{ eventData?.datetimes ?? '6-7 April 2022 • 19:00' }}
                 </h1>
               </div>
             </div>
@@ -44,7 +44,7 @@
               </div>
             </div>
             <div class="event-place">
-              <v-mdi name="mdi-map-marker-account" size="60" fill="#D5A755" />
+              <a href="https://www.google.com/maps/place/Rajamangala+National+Stadium/@13.7553742,100.6210566,18.56z/data=!4m6!3m5!1s0x311d61e05e9ba1a1:0xf0100b33d0b3830!4b1!8m2!3d13.7554203!4d100.622154"><v-mdi name="mdi-map-marker-account" size="60" fill="#D5A755" /></a>
               <div class="place-content">
                 <h1 class="detail-header">
                   Place
@@ -66,7 +66,7 @@
             {{ eventData?.description ?? 'ขอขอบคุณอาร์มี่ทุกคนอีกครั้งที่ให้การตอบรับเป็นอย่างดีกับการร่วมกันสร้างประวัติศาสตร์หน้าใหม่ในการจัดคอนเสิร์ตใหญ่ของศิลปินเกาหลีในประเทศไทยบนพื้นที่สนามกีฬาที่ใหญ่ที่สุดในประเทศไทย' }}
           </p>
           <p class="mt-3 font-sans text-white break-words">
-            {{ eventData?.description ?? ''}}
+            {{ eventData?.description ?? '' }}
             <!-- “สนามราชมังคลากีฬาสถาน” กับงาน BTS WORLD TOUR ‘LOVE YOURSELF’ BANGKOK บัตรจำนวน 80,000 กว่าใบทั้ง 2 รอบการแสดง ถูกจำหน่ายหมดภายในเวลาอันรวดเร็วโดย BTS
             ถือเป็นศิลปินเกาหลีวงแรกที่เปิดคอนเสิร์ตที่นี่!!! แต่สำหรับใครที่ยังนกบัตรอยู่ไม่ต้องเสียใจไป “ไอมี่ไทยแลนด์” และ “บิ๊กฮิต เอนเตอร์เทนเม้น” มีข่าวดีมาบอก!! เราจะเปิดขายบัตรเพิ่มเติมในราคา 6,400 บาท
             ทั้ง 2 รอบการแสดง (เสาร์ที่ 6 เมษายน และ อาทิตย์ที่ 7 เมษายน 2562) รวมทั้งทีมงานยังได้ตรวจสอบบัตรที่มีการขายต่อเพิ่มราคา / การซื้อ-ขายบัตรนอกระบบ และพบว่ามีบัตรจำนวนหนึ่งที่เข้าข่ายผิดกฎจริง
