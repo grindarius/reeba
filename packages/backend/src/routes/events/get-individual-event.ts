@@ -54,16 +54,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       )
 
       const queriedTags = await instance.pg.query<event_tags_bridge, [events['event_id']]>(
-        'select * from event_tags_bridge where event_id = $1',
+        'select * from event_tags_bridge where event_id = $1 order by event_tag_label asc',
         [eventId]
       )
-
-      const mappedPrices = queriedEvent.rows[0].event_ticket_prices.map(price => {
-        return {
-          color: price.price_color,
-          value: price.price_value
-        }
-      })
 
       return {
         name: queriedEvent.rows[0].event_name,
@@ -71,9 +64,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         description: queriedEvent.rows[0].event_description,
         website: queriedEvent.rows[0].event_website,
         venueName: queriedEvent.rows[0].event_venue_name,
-        venueCoordinates: queriedEvent.rows[0].event_venue_coordinates,
+        venueCoordinates: { x: queriedEvent.rows[0].event_venue_coordinates.x.toString(), y: queriedEvent.rows[0].event_venue_coordinates.y.toString() },
         openingDate: queriedEvent.rows[0].event_opening_date,
-        prices: mappedPrices,
+        prices: Object.keys(queriedEvent.rows[0].event_ticket_prices).map(k => {
+          return {
+            color: k,
+            value: queriedEvent.rows[0].event_ticket_prices[k]
+          }
+        }),
         tags: queriedTags.rows.map(tag => tag.event_tag_label),
         datetimes: queriedDatetimes.rows.map(datetime => {
           return {

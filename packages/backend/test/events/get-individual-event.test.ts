@@ -13,6 +13,24 @@ dotenv.config({
   path: resolve(__dirname, '..', '..', 'src')
 })
 
+const tagList = [
+  'amphitheater',
+  'business',
+  'concert',
+  'entertainment',
+  'fan-meet',
+  'gameshow',
+  'lifestyle',
+  'live',
+  'musical',
+  'online',
+  'opera',
+  'seminar',
+  'stand-up-comedy',
+  'technology',
+  'variety'
+]
+
 const client = new Client({
   user: process.env.POSTGRES_USERNAME,
   password: process.env.POSTGRES_PASSWORD,
@@ -24,7 +42,7 @@ const client = new Client({
 const mockEvent = async (): Promise<void> => {
   const ev = {
     eventName: 'BTS Army',
-    createdBy: 'grindarius',
+    createdBy: 'getindiveventtest',
     description: '## No description provided',
     website: 'www.github.com/sindresorhus/ky',
     venueName: 'Rajamangkala Stadium',
@@ -32,7 +50,8 @@ const mockEvent = async (): Promise<void> => {
       x: '13.755313892097984',
       y: '100.62221451070221'
     },
-    openingDate: '2021-03-01 12:00:00.000 +07:00',
+    openingDate: '2021-03-01T12:00:00.000+07:00',
+    tags: ['concert', 'stand-up-comedy'],
     ticketPrices: [
       {
         color: '#4C9141',
@@ -45,12 +64,12 @@ const mockEvent = async (): Promise<void> => {
     ],
     datetimes: [
       {
-        start: '2021-03-07 20:00:00.000 +07:00',
-        end: '2021-03-08 00:00:00.000 +07:00'
+        start: '2021-03-07T20:00:00.000+07:00',
+        end: '2021-03-08T00:00:00.000+07:00'
       },
       {
-        start: '2021-03-08 20:00:00.000 +07:00',
-        end: '2021-03-09 00:00:00.000 +07:00'
+        start: '2021-03-08T20:00:00.000+07:00',
+        end: '2021-03-09T00:00:00.000+07:00'
       }
     ],
     minimumAge: 18,
@@ -182,6 +201,21 @@ const mockEvent = async (): Promise<void> => {
     ]
   }
 
+  // * this is a user associated with creating event. check if he's there, if not, get him there.
+  const targetUser = await client.query('select * from "users" where user_username = \'getindiveventtest\'')
+
+  if (targetUser.rowCount === 0) {
+    await client.query(
+      'insert into users (user_username, user_email, user_password, user_telephone_country_code, user_telephone_number) values ($1, $2, $3, $4, $5)',
+      ['getindiveventtest', 'getindivevent@gmail.com', 'asdfhjkl123', '66', '39848743']
+    )
+  }
+
+  // * check if event tags is there, if not, add it.
+  for await (const preparedTag of tagList) {
+    await client.query('insert into event_tags (event_tag_label) values ($1) on conflict (event_tag_label) do nothing', [preparedTag])
+  }
+
   // * check if the event already existed, if no, have to add new one.
   const targetEvent = await client.query<events, [string]>('select * from "events" where event_id = $1', ['grindarius_event_test'])
 
@@ -200,7 +234,7 @@ const mockEvent = async (): Promise<void> => {
           event_status,
           event_ticket_prices,
           event_minimum_age
-        ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning event_id`,
+        ) values ($1, $2, $3, $4, $5, $6, $7::point, $8, $9, $10, $11, $12) returning event_id`,
       [
         'grindarius_event_test',
         ev.createdBy,
@@ -209,13 +243,18 @@ const mockEvent = async (): Promise<void> => {
         ev.website,
         ev.venueName,
         `${ev.venueCoordinates.x}, ${ev.venueCoordinates.y}`,
-        dayjs().format('YYYY-MM-DD HH:mm:ss.SSS Z'),
+        dayjs().toDate(),
         ev.openingDate,
         t_event_status.open,
-        ev.ticketPrices.map(price => { return `( ${price.color}, ${price.price} )::t_event_price` }),
+        // eslint-disable-next-line
+        JSON.stringify(ev.ticketPrices.reduce((obj, item) => (obj[item.color] = item.price, obj) ,{} as Record<string, number>)),
         ev.minimumAge
       ]
     )
+
+    for await (const tag of ev.tags) {
+      await client.query('insert into event_tags_bridge (event_tag_label, event_id) values ($1, $2)', [tag, eventId.rows[0].event_id])
+    }
 
     for await (const datetime of ev.datetimes) {
       const datetimeId = await client.query<{ event_datetime_id: string }>(
@@ -261,7 +300,7 @@ void t.test('get individual event', async t => {
     t.fail()
   }
 
-  void t.todo('get event with empty event id', async t => {
+  void t.test('get event with empty event id', async t => {
     try {
       const response = await app.inject({
         method: 'GET',
@@ -276,7 +315,7 @@ void t.test('get individual event', async t => {
     }
   })
 
-  void t.todo('get event with non existent id', async t => {
+  void t.test('get event with non existent id', async t => {
     try {
       const response = await app.inject({
         method: 'GET',
@@ -291,7 +330,7 @@ void t.test('get individual event', async t => {
     }
   })
 
-  void t.todo('get event with correct id', async t => {
+  void t.test('get event with correct id', async t => {
     try {
       const response = await app.inject({
         method: 'GET',
@@ -302,12 +341,23 @@ void t.test('get individual event', async t => {
 
       t.strictSame(response.statusCode, 200, 'status code from correct response')
       t.strictSame(json.name, 'BTS Army')
-      t.strictSame(json.createdBy, 'grindarius')
+      t.strictSame(json.createdBy, 'getindiveventtest')
       t.strictSame(json.description, '## No description provided')
       t.strictSame(json.website, 'www.github.com/sindresorhus/ky')
       t.strictSame(json.venueName, 'Rajamangkala Stadium')
       t.strictSame(json.venueCoordinates, { x: '13.755313892097984', y: '100.62221451070221' })
-      t.strictSame(json.openingDate, '2021-03-01 12:00:00.000 +07')
+      t.strictSame(json.openingDate, '2021-03-01T05:00:00.000Z')
+      t.strictSame(json.tags, ['concert', 'stand-up-comedy'])
+      t.strictSame(json.datetimes, [
+        {
+          start: '2021-03-07T13:00:00.000Z',
+          end: '2021-03-07T17:00:00.000Z'
+        },
+        {
+          start: '2021-03-08T13:00:00.000Z',
+          end: '2021-03-08T17:00:00.000Z'
+        }
+      ])
     } catch (error) {
       t.error(error)
       t.fail()
