@@ -33,8 +33,8 @@ export const enum t_event_status {
  * PostgreSQL's `point` type
  */
 export interface point {
-  x: string
-  y: string
+  x: number
+  y: number
 }
 
 /**
@@ -158,9 +158,9 @@ export interface events {
    */
   event_status: t_event_status
   /**
-   * Event's ticket prices array. Will be an object where key is a string of hex color, and value being the price,
+   * Event's ticket prices Will be a record of hex string with value as price of the seat.
    */
-  event_ticket_prices: Record<string, number>
+  event_ticket_prices: Record<`#${string}`, number>
   /**
    * Minimum age of a user, cannot be null, cannot be less than 0, default is 0
    */
