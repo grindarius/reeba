@@ -8,6 +8,8 @@ import {
   event_datetimes,
   event_seats,
   event_sections,
+  event_tags,
+  event_tags_bridge,
   events,
   PostEventBody,
   PostEventBodySchema,
@@ -38,7 +40,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           venueCoordinates,
           openingDate,
           ticketPrices,
-          minimumAge
+          minimumAge,
+          tags
         } = request.body
 
         if (createdBy == null || createdBy === '') {
@@ -85,6 +88,11 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('body should have required property \'minimumAge\'')
         }
+
+        if (tags == null || !Array.isArray(tags)) {
+          void reply.code(400)
+          throw new Error('body should have required property \'tags\'')
+        }
       }
     }, async (request) => {
       const {
@@ -98,7 +106,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         ticketPrices,
         minimumAge,
         sections,
-        datetimes
+        datetimes,
+        tags
       } = request.body
 
       type InsertEvent = [
@@ -142,10 +151,30 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           dayjs().format('YYYY-MM-DD HH:mm:ss.SSS Z'),
           openingDate,
           t_event_status.open,
-          ticketPrices.map(price => { return { price_color: price.color, price_value: price.price } }),
+          ticketPrices.reduce<Record<string, number>>((obj, item) => {
+            obj[item.color] = item.price
+            return obj
+          }, {}),
           minimumAge
         ]
       )
+
+      // * insert newly created tags from user
+      // TODO @grindarius: may need string normalization before this could be executed.
+      for await (const tag of tags) {
+        await instance.pg.query<event_tags, [event_tags['event_tag_label']]>(
+          'insert into event_tags (event_tag_label) values ($1) on conflict (event_tag_label) do nothing',
+          [tag]
+        )
+      }
+
+      // * insert the actual tag from the event
+      for await (const tag of tags) {
+        await instance.pg.query<event_tags_bridge, [event_tags_bridge['event_tag_label'], event_tags_bridge['event_id']]>(
+          'insert into event_tags_bridge (event_tag_label, event_id) values ($1, $2)',
+          [tag, eventId.rows[0].event_id]
+        )
+      }
 
       type InsertDatetimes = [
         event_datetimes['event_datetime_id'],
@@ -169,12 +198,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         event_seats['event_seat_column_position']
       ]
 
+      // * insert each datetime of an event.
       for await (const datetime of datetimes) {
         const datetimeId = await instance.pg.query<Pick<event_datetimes, 'event_datetime_id'>, InsertDatetimes>(
           'insert into event_datetimes (event_datetime_id, event_id, event_start_datetime, event_end_datetime) values ($1, $2, $3, $4) returning event_datetime_id',
           [nanoid(), eventId.rows[0].event_id, datetime.start, datetime.end]
         )
 
+        // * insert each section of each datetime
         for await (const sectionRow of sections) {
           for await (const section of sectionRow) {
             const sectionId = await instance.pg.query<Pick<event_sections, 'event_section_id'>, InsertSection>(
@@ -182,6 +213,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
               [nanoid(), datetimeId.rows[0].event_datetime_id, section.sectionRowPosition, section.sectionColumnPosition]
             )
 
+            // * insert each chair of each section of each datetime
             for await (const seatRow of section.seats) {
               for await (const seat of seatRow) {
                 await instance.pg.query<event_seats, InsertSeat>(

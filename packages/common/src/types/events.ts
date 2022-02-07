@@ -11,6 +11,7 @@ export const PostEventBodySchema = Type.Object({
     y: Type.String()
   }),
   openingDate: Type.String(),
+  tags: Type.Array(Type.String()),
   ticketPrices: Type.Array(Type.Object({
     color: Type.String(),
     price: Type.Number()
