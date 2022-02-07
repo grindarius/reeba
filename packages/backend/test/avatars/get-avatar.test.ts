@@ -57,7 +57,7 @@ void t.test('get image', async t => {
     })
   } catch (error) {
     t.error(error)
-    t.fail('Error while connecting to database')
+    t.fail()
   }
 
   void t.test('get default user image when emptystring is passed', async t => {
@@ -73,7 +73,7 @@ void t.test('get image', async t => {
       })
     } catch (error) {
       t.error(error)
-      t.fail('There should not be an error')
+      t.fail()
     }
   })
 
@@ -91,7 +91,7 @@ void t.test('get image', async t => {
         })
     } catch (error) {
       t.error(error)
-      t.fail('There should not be an error')
+      t.fail()
     }
   })
 
@@ -109,7 +109,7 @@ void t.test('get image', async t => {
         })
     } catch (error) {
       t.error(error)
-      t.fail('There should not be an error')
+      t.fail()
     }
   })
 
@@ -127,7 +127,7 @@ void t.test('get image', async t => {
         })
     } catch (error) {
       t.error(error)
-      t.fail('There should not be an error in a successful registration.')
+      t.fail()
     }
   })
 })
