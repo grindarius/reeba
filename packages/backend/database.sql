@@ -55,7 +55,7 @@ create table event_tags_bridge (
   event_tag_label text not null,
   event_id text not null,
   primary key (event_tag_label, event_id),
-  foreign key (event_tag_label) references users(user_username) on update cascade,
+  foreign key (event_tag_label) references event_tags(event_tag_label) on update cascade,
   foreign key (event_id) references events(event_id) on update cascade
 );
 
