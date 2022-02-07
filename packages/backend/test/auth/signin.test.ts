@@ -32,15 +32,19 @@ void t.test('signin process', async t => {
     const email = await client.query('select * from "users" where user_email = \'logintest@gmail.com\'')
 
     if (email.rowCount <= 0) {
-      await app.inject({
+      const resp = await app.inject({
         method: 'POST',
         url: '/auth/signup',
         payload: {
           username: 'login_test_boy',
           email: 'logintest@gmail.com',
-          password: 'logintest_123'
+          password: 'logintest_123',
+          phoneCountryCode: '883',
+          phoneNumber: '33442200'
         }
       })
+
+      console.log(resp.json())
     }
   } catch (error) {
     t.error(error)

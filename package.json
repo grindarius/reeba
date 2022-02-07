@@ -31,6 +31,7 @@
     "lint:css": "ts-node packages/scripts/src/lint-css.ts",
     "test": "pnpm build:common && tap --rcfile=.taprc --reporter-arg=silent",
     "seed": "ts-node packages/scripts/src/seed.ts",
+    "inject": "ts-node packages/scripts/src/inject-db.ts",
     "clear-uploads": "ts-node packages/scripts/src/clear-uploads-folder.ts"
   },
   "author": "ReebA Team",

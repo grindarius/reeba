@@ -259,3 +259,11 @@ Our `common` and `backend` module will be tested using [`tap`](https://github.co
   to see results.
 
 **All tests should pass before submitting PRs**
+
+## Database seeding
+In ReebA, there's a command called `seed` and `inject` that you can run to seed your database.
+
+- `pnpm seed` will generate data based on seed (112233) so all the data will be the same.
+- `pnpm inject` will inject the data into the database (please do note that this feature is incomplete and subject to change in the future).
+
+Please bear in mind that `pnpm inject` will only work if backend server is running. You have to run `pnpm dev:backend` from one terminal and use the other terminal to run `pnpm inject`. This hassle is being noted and the change is coming in the future.

@@ -1,14 +1,11 @@
 -- create database if not exists reeba;
 
-drop type t_user_role, t_event_price, t_event_status cascade;
+drop type t_user_role, t_event_status cascade;
+drop type if exists t_event_price cascade;
 drop table if exists users, user_followers, user_roles, events, event_tags, event_tags_bridge, event_datetimes, event_sections, event_seats, transactions, transaction_details cascade;
 
 create type t_user_role as enum ('user', 'admin');
 create type t_event_status as enum ('open', 'closed');
-create type t_event_price as (
-  price_color text,
-  price_value integer
-);
 
 create table users (
   user_username text not null unique,
@@ -43,7 +40,7 @@ create table events (
   event_creation_date timestamp with time zone not null,
   event_opening_date timestamp with time zone not null,
   event_status t_event_status not null default 'closed',
-  event_ticket_prices t_event_price[] not null default '{}',
+  event_ticket_prices jsonb not null default '{}'::jsonb,
   event_minimum_age integer not null default 0,
   primary key (event_id),
   foreign key (user_username) references users(user_username) on delete cascade
@@ -55,11 +52,9 @@ create table event_tags (
 );
 
 create table event_tags_bridge (
-  event_tag_label text not null,
-  event_id text not null,
-  primary key (event_tag_label, event_id),
-  foreign key (event_tag_label) references users(user_username) on update cascade,
-  foreign key (event_id) references events(event_id) on update cascade
+  event_tag_label text not null references event_tags(event_tag_label) on update cascade on delete cascade,
+  event_id text not null references events(event_id) on update cascade on delete cascade,
+  constraint event_tags_bridge_pkey primary key (event_tag_label, event_id)
 );
 
 create table event_datetimes (
