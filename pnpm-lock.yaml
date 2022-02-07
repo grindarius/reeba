@@ -60,6 +60,7 @@ importers:
       '@types/pg': ^8.6.4
       '@types/resemblejs': ^3.2.1
       bcrypt: ^5.0.1
+      dayjs: ^1.10.7
       dotenv-flow: ^3.2.0
       fast-csv: ^4.3.6
       fastify: ^3.27.0
@@ -78,6 +79,7 @@ importers:
     dependencies:
       '@reeba/common': link:../common
       bcrypt: 5.0.1
+      dayjs: 1.10.7
       dotenv-flow: 3.2.0
       fastify: 3.27.0
       fastify-cors: 6.0.2
