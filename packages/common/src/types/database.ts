@@ -160,7 +160,7 @@ export interface events {
   /**
    * Event's ticket prices Will be a record of hex string with value as price of the seat.
    */
-  event_ticket_prices: Record<`#${string}`, number>
+  event_ticket_prices: Record<string, number>
   /**
    * Minimum age of a user, cannot be null, cannot be less than 0, default is 0
    */
