@@ -200,19 +200,19 @@ const mockEvent = async (): Promise<void> => {
           event_status,
           event_ticket_prices,
           event_minimum_age
-        ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11::t_event_price[], $12) returning event_id`,
+        ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning event_id`,
       [
-        nanoid(),
+        'grindarius_event_test',
         ev.createdBy,
         ev.eventName,
         ev.description,
         ev.website,
         ev.venueName,
-        ev.venueCoordinates,
+        `${ev.venueCoordinates.x}, ${ev.venueCoordinates.y}`,
         dayjs().format('YYYY-MM-DD HH:mm:ss.SSS Z'),
         ev.openingDate,
         t_event_status.open,
-        ev.ticketPrices.map(price => { return { price_color: price.color, price_value: price.price } }),
+        ev.ticketPrices.map(price => { return `( ${price.color}, ${price.price} )::t_event_price` }),
         ev.minimumAge
       ]
     )
@@ -244,7 +244,7 @@ const mockEvent = async (): Promise<void> => {
   }
 }
 
-void t.todo('get individual event', async t => {
+void t.test('get individual event', async t => {
   const app = createServer()
 
   t.teardown(async () => {
@@ -254,9 +254,65 @@ void t.todo('get individual event', async t => {
 
   try {
     await client.connect()
+    console.log('gimmie gimmie now')
     await mockEvent()
   } catch (error) {
     t.error(error)
     t.fail()
   }
+
+  void t.todo('get event with empty event id', async t => {
+    try {
+      const response = await app.inject({
+        method: 'GET',
+        url: '/events/'
+      })
+
+      t.strictSame(response.statusCode, 400, 'status code from no eventId')
+      t.strictSame(response.json().message, 'params should have required property \'eventId\'', 'error message from no eventId')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.todo('get event with non existent id', async t => {
+    try {
+      const response = await app.inject({
+        method: 'GET',
+        url: '/events/unknown_event_id'
+      })
+
+      t.strictSame(response.statusCode, 404, 'status code from nonexistent eventId')
+      t.strictSame(response.json().message, 'event not found', 'error message from nonexistent eventId')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.todo('get event with correct id', async t => {
+    try {
+      const response = await app.inject({
+        method: 'GET',
+        url: '/events/grindarius_event_test'
+      })
+
+      const json = response.json()
+
+      t.strictSame(response.statusCode, 200, 'status code from correct response')
+      t.strictSame(json.name, 'BTS Army')
+      t.strictSame(json.createdBy, 'grindarius')
+      t.strictSame(json.description, '## No description provided')
+      t.strictSame(json.website, 'www.github.com/sindresorhus/ky')
+      t.strictSame(json.venueName, 'Rajamangkala Stadium')
+      t.strictSame(json.venueCoordinates, { x: '13.755313892097984', y: '100.62221451070221' })
+      t.strictSame(json.openingDate, '2021-03-01 12:00:00.000 +07')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  t.end()
 })
