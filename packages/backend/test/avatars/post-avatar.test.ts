@@ -40,7 +40,9 @@ void t.test('post image', async t => {
         payload: {
           username: 'postavatartest',
           email: 'postavatartest@gmail.com',
-          password: 'postavatartest_123'
+          password: 'postavatartest_123',
+          phoneCountryCode: '334',
+          phoneNumber: '4304849384'
         }
       })
     }
