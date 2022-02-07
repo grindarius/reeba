@@ -31,7 +31,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
         if (eventId == null || eventId === '') {
           void reply.code(400)
-          throw new Error('body should have required property \'eventId\'')
+          throw new Error('params should have required property \'eventId\'')
         }
       }
     },
