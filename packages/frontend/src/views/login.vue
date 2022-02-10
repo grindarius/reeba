@@ -48,10 +48,10 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .login-page {
-  @apply w-full h-screen bg-pale-gray;
+  @apply w-full min-h-screen bg-pale-gray;
 }
 
 .login-page-content {
-  @apply flex justify-center items-center w-full h-screen;
+  @apply flex justify-center items-center w-full min-h-screen;
 }
 </style>
