@@ -44,13 +44,14 @@
               </div>
             </div>
             <div class="event-place">
-              <a href="https://www.google.com/maps/place/Rajamangala+National+Stadium/@13.7553742,100.6210566,18.56z/data=!4m6!3m5!1s0x311d61e05e9ba1a1:0xf0100b33d0b3830!4b1!8m2!3d13.7554203!4d100.622154"><v-mdi name="mdi-map-marker-account" size="60" fill="#D5A755" /></a>
+              <a href="https://www.google.com/maps/@13.7555347,100.6222595,19z" onclick="window.open(this.href,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=SomeSize,height=SomeSize'); return false;">
+                <v-mdi name="mdi-map-marker-account" size="60" fill="#D5A755" /></a>
               <div class="place-content">
                 <h1 class="detail-header">
                   Place
                 </h1>
                 <h1 class="detail-sub-header">
-                  Rajamangkala National Stadium
+                  {{ eventData?.venueName ?? 'Rajamangkala National Stadium' }}
                 </h1>
               </div>
             </div>
