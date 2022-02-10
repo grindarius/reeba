@@ -206,7 +206,7 @@ const mockEvent = async (): Promise<void> => {
 
   if (targetUser.rowCount === 0) {
     await client.query(
-      'insert into users (user_username, user_email, user_password, user_telephone_country_code, user_telephone_number) values ($1, $2, $3, $4, $5)',
+      'insert into users (user_username, user_email, user_password, user_phone_country_code, user_phone_number) values ($1, $2, $3, $4, $5)',
       ['getindiveventtest', 'getindivevent@gmail.com', 'asdfhjkl123', '66', '39848743']
     )
   }
