@@ -51,10 +51,8 @@
               Sign up
             </button>
           </div>
-          <router-link class="inline-block mt-2 font-sans text-center align-baseline" to="/login">
-            <a class="hover:text-white hover:underline text-pale-gray" href="#">
-              Already have an account? <a class="font-bold">Sign in</a>.
-            </a>
+          <router-link class="inline-block mt-2 font-sans text-center align-baseline hover:text-white hover:underline text-pale-gray" to="/signin">
+            Already have an account? <a class="font-bold">Sign in</a>.
           </router-link>
         </div>
       </form>
