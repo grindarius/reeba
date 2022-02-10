@@ -112,6 +112,7 @@ importers:
       '@mdi/js': ^6.5.95
       '@reeba/common': ^1.0.0
       '@types/d3': ^7.1.0
+      '@types/topojson-client': ^3.1.0
       '@vitejs/plugin-vue': ^2.0.0
       autoprefixer: ^10.4.0
       d3: ^7.3.0
@@ -122,6 +123,7 @@ importers:
       postcss-import: ^14.0.2
       sass: ^1.44.0
       tailwindcss: ^3.0.8
+      topojson-client: ^3.1.0
       vite: ^2.7.8
       vue: ^3.2.25
       vue-mdijs: ^0.5.12
@@ -135,11 +137,13 @@ importers:
       ky: 0.28.7
       pinia: 2.0.9_typescript@4.5.5+vue@3.2.29
       postcss-import: 14.0.2_postcss@8.4.5
+      topojson-client: 3.1.0
       vue: 3.2.29
       vue-mdijs: 0.5.12
       vue-router: 4.0.12_vue@3.2.29
     devDependencies:
       '@types/d3': 7.1.0
+      '@types/topojson-client': 3.1.0
       '@vitejs/plugin-vue': 2.1.0_vite@2.7.13+vue@3.2.29
       autoprefixer: 10.4.2_postcss@8.4.5
       postcss: 8.4.5
@@ -839,6 +843,19 @@ packages:
     resolution: {integrity: sha512-MaP+EgZNFAGRvVjHWv8ldrLvYBn4PnmAlzY7IL3/RPAPkOXdggTSTgLFONbnTpdQTe8+ixYGAySKAm9ESlZm1A==}
     dependencies:
       '@types/node': 16.11.22
+    dev: true
+
+  /@types/topojson-client/3.1.0:
+    resolution: {integrity: sha512-wmjTmMkF6k6m3Tn4mIyRjw8KUQZLHB1TxNcpGYirvV/aCINkC0eMJsUO/OPMkKIB6VO5iA6Vp39bmAq6QgvSfA==}
+    dependencies:
+      '@types/geojson': 7946.0.8
+      '@types/topojson-specification': 1.0.2
+    dev: true
+
+  /@types/topojson-specification/1.0.2:
+    resolution: {integrity: sha512-SGc1NdX9g3UGDp6S+p+uyG+Z8CehS51sUJ9bejA25Xgn2kkAguILk6J9nxXK+0M/mbTBN7ypMA7+4HVLNMJ8ag==}
+    dependencies:
+      '@types/geojson': 7946.0.8
     dev: true
 
   /@typescript-eslint/eslint-plugin/4.33.0_959502c0ea240e86d4d2ba8b8c0fee45:
@@ -1726,6 +1743,10 @@ packages:
     dependencies:
       delayed-stream: 1.0.0
     dev: true
+
+  /commander/2.20.3:
+    resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
+    dev: false
 
   /commander/7.2.0:
     resolution: {integrity: sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==}
@@ -6121,6 +6142,13 @@ packages:
   /token-stream/1.0.0:
     resolution: {integrity: sha1-zCAOqyYT9BZtJ/+a/HylbUnfbrQ=}
     dev: true
+
+  /topojson-client/3.1.0:
+    resolution: {integrity: sha512-605uxS6bcYxGXw9qi62XyrV6Q3xwbndjachmNxu8HWTtVPxZfEJN9fd/SZS1Q54Sn2y0TMyMxFj/cJINqGHrKw==}
+    hasBin: true
+    dependencies:
+      commander: 2.20.3
+    dev: false
 
   /touch/3.1.0:
     resolution: {integrity: sha512-WBx8Uy5TLtOSRtIq+M03/sKDrXCLHxwDcquSP2c43Le03/9serjQBIztjRz6FkJez9D/hleyAXTBGLwwZUw9lA==}

@@ -24,12 +24,14 @@
     "ky": "^0.28.7",
     "pinia": "^2.0.9",
     "postcss-import": "^14.0.2",
+    "topojson-client": "^3.1.0",
     "vue": "^3.2.25",
     "vue-mdijs": "^0.5.12",
     "vue-router": "^4.0.11"
   },
   "devDependencies": {
     "@types/d3": "^7.1.0",
+    "@types/topojson-client": "^3.1.0",
     "@vitejs/plugin-vue": "^2.0.0",
     "autoprefixer": "^10.4.0",
     "postcss": "^8.4.5",
