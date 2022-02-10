@@ -100,12 +100,12 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         users['user_username'],
         users['user_email'],
         users['user_password'],
-        users['user_telephone_country_code'],
-        users['user_telephone_number']
+        users['user_phone_country_code'],
+        users['user_phone_number']
       ]
 
       await instance.pg.query<users, InsertUserValues>(
-        'insert into users (user_username, user_email, user_password, user_telephone_country_code, user_telephone_number) values ($1, $2, $3, $4, $5)',
+        'insert into users (user_username, user_email, user_password, user_phone_country_code, user_phone_number) values ($1, $2, $3, $4, $5)',
         [username, email, encryptedPassword, phoneCountryCode, phoneNumber]
       )
 
