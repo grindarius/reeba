@@ -19,7 +19,7 @@
           <h2>Thursday, 7 April 2022</h2>
           <div class="flex flex-col">
             <div class="flex justify-center">
-              <button class="command-buttons" @click="openModal">
+              <button class="command-buttons" @click="open">
                 Transfer
               </button>
               <router-link to="/select-seat" class="command-buttons">
@@ -33,12 +33,12 @@
         </div>
       </div>
     </section>
-    <div class="cursor-pointer modal-background" v-if="transferOwnershipModalState">
+    <div class="cursor-pointer modal-background" v-if="state">
       <div class="modal">
         <div class="modal-content">
           <div class="modal-title">
             <h1>Transfer ownership</h1>
-            <button class="modal-close-button-icon" @click="closeModal">
+            <button class="modal-close-button-icon" @click="close">
               <v-mdi fill="#fff" name="mdi-close-circle-outline" />
             </button>
           </div>
@@ -54,10 +54,10 @@
           </div>
           <div class="modal-footer">
             <div>
-              <button class="modal-close-button" type="button" @click="closeModal">
+              <button class="modal-close-button" type="button" @click="close">
                 Close
               </button>
-              <button class="modal-accept-button" type="button" @click="closeModal">
+              <button class="modal-accept-button" type="button" @click="close">
                 Submit changes
               </button>
             </div>
@@ -65,30 +65,29 @@
         </div>
       </div>
     </div>
-    <div class="modal-background-color" v-if="transferOwnershipModalState" />
+    <div class="modal-background-color" v-if="state" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, onMounted } from 'vue'
+
+import { useCounter, useModalState } from '@/composables'
 
 export default defineComponent({
   name: 'my-tickets',
   setup () {
-    const transferOwnershipModalState = ref(false)
+    const { state, open, close } = useModalState()
+    const { life } = useCounter()
 
-    const closeModal = (): void => {
-      transferOwnershipModalState.value = false
-    }
-
-    const openModal = (): void => {
-      transferOwnershipModalState.value = true
-    }
+    onMounted(() => {
+      console.log(life.value)
+    })
 
     return {
-      transferOwnershipModalState,
-      closeModal,
-      openModal
+      state,
+      close,
+      open
     }
   }
 })
