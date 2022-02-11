@@ -101,3 +101,20 @@ create table transaction_details (
   primary key (event_seat_id),
   constraint fk_event_seat_id foreign key (event_seat_id) references event_seats(event_seat_id)
 );
+
+insert into event_tags (event_tag_label) values
+  ('amphitheater'),
+  ('business'),
+  ('concert'),
+  ('entertainment'),
+  ('fan-meet'),
+  ('gameshow'),
+  ('lifestyle'),
+  ('live'),
+  ('musical'),
+  ('online'),
+  ('opera'),
+  ('seminar'),
+  ('stand-up-comedy'),
+  ('technology'),
+  ('variety')

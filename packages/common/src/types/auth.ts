@@ -1,6 +1,6 @@
 import { Static, Type } from '@sinclair/typebox'
 
-import { t_user_role } from '.'
+import { t_user_role } from './database'
 
 export const SigninBodySchema = Type.Object({
   email: Type.String(),

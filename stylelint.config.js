@@ -4,7 +4,7 @@ module.exports = {
     'at-rule-no-unknown': [
       true,
       {
-        ignoreAtRules: ['tailwind', 'apply']
+        ignoreAtRules: ['tailwind', 'apply', 'layer']
       }
     ],
     'declaration-block-trailing-semicolon': 'always',

@@ -15,7 +15,7 @@
         <router-link class="button" to="/create">
           Create event
         </router-link>
-        <router-link class="button" to="/login">
+        <router-link class="button" to="/signin">
           Login/Sign up
         </router-link>
       </div>
@@ -36,7 +36,7 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/login" @click="closeHamburger" class="inline-block py-2 w-full">
+          <router-link to="/signin" @click="closeHamburger" class="inline-block py-2 w-full">
             Login/Sign up
           </router-link>
         </li>
