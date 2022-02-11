@@ -35,10 +35,10 @@
                 Organizer tools
               </router-link>
             </li>
-            <li class="account-settings-menu-list">
-              <router-link class="link" to="/account/developer/">
+            <li class="text-gray-100 rounded-lg my-1 px-2">
+              <a class="link">
                 Developer tools
-              </router-link>
+              </a>
             </li>
             <li class="pl-3 border-l-2 ml-2">
               <ul>
