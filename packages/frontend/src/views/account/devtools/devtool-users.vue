@@ -1,10 +1,10 @@
 <template>
   <div class="devtool-users-page">
     <div class="container">
-      <h1 class="text-4xl font-semibold text-white">
+      <h1 class="page-header">
         Users
       </h1>
-      <div id="user-table" class="grid mt-8 w-full rounded-lg bg-pale-yellow">
+      <div class="user-table">
         <div class="uppercase border-t border-b border-collapse table-cell-string border-t-black border-b-black">
           Name
         </div>
@@ -89,7 +89,8 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-#user-table {
+.user-table {
+  @apply grid mt-8 w-full rounded-lg bg-pale-yellow;
   grid-template-columns: 2fr 1fr 0.5fr 0.5fr;
 }
 
@@ -99,5 +100,9 @@ export default defineComponent({
 
 .table-cell-string {
   @apply py-4 px-5 text-sm text-left;
+}
+
+.page-header {
+  @apply text-4xl font-semibold text-white;
 }
 </style>
