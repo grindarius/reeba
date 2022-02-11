@@ -176,3 +176,11 @@ export const users = [
   { username: 'tlewerenz8', email: 'abourhill8@engadget.com', birthdate: '1999-03-29T04:34:10Z', role: 0 },
   { username: 'emaryman9', email: 'gdanilchev9@drupal.org', birthdate: '1998-05-04T14:27:30Z', role: 1 }
 ]
+
+export const popularEventTypes: Record<string, number> = {
+  business: 219,
+  concert: 433,
+  live: 27,
+  musical: 90,
+  technology: 13
+}
