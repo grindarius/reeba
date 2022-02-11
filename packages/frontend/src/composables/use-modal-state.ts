@@ -4,6 +4,7 @@ interface UseModalState {
   state: Ref<boolean>
   open: () => void
   close: () => void
+  toggle: () => void
 }
 
 export const useModalState = (): UseModalState => {
@@ -17,9 +18,14 @@ export const useModalState = (): UseModalState => {
     state.value = false
   }
 
+  const toggle = (): void => {
+    state.value = !state.value
+  }
+
   return {
     state,
     open,
-    close
+    close,
+    toggle
   }
 }
