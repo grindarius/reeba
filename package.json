@@ -28,10 +28,11 @@
     "build:backend": "cd packages/backend && pnpm build",
     "build:frontend": "cd packages/frontend && pnpm build",
     "build:common": "cd packages/common && pnpm build",
-    "lint:css": "ts-node packages/scripts/src/lint-css.ts",
-    "test": "pnpm build:common && tap --rcfile=.taprc --reporter-arg=silent",
-    "seed": "ts-node packages/scripts/src/seed.ts",
-    "clear-uploads": "ts-node packages/scripts/src/clear-uploads-folder.ts"
+    "lint:css": "pnpm exec ts-node packages/scripts/src/lint-css.ts",
+    "test": "pnpm build:common && pnpm exec tap --rcfile=.taprc --reporter-arg=spec",
+    "seed": "pnpm exec ts-node packages/scripts/src/seed.ts",
+    "clear-uploads": "pnpm clear-db && pnpm exec ts-node packages/scripts/src/clear-uploads-folder.ts",
+    "clear-db": "pnpm exec ts-node packages/scripts/src/clear-db.ts"
   },
   "author": "ReebA Team",
   "license": "MIT",

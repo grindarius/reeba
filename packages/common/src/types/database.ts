@@ -25,7 +25,14 @@ export const enum t_user_role {
  * TODO: Might need more statuses
  */
 export const enum t_event_status {
+  /**
+   * Event is open for ordering new tickets
+   */
   open = 'open',
+  /**
+   * Event is closed, will disappear from first page, not accessible by links and API, (redirectes
+   * to not found page). tickets cannot be ordered from the page.
+   */
   closed = 'closed'
 }
 
@@ -54,6 +61,10 @@ export interface users {
    */
   user_password: string
   /**
+   * time when user is registered to the system, not now, auto generated with `now()`, stored as `timestamptz`
+   */
+  user_registration_datetime: string
+  /**
    * User's roles, Not null, default is `'user'`, will get upgraded to `'organizer'` when there's an event running,
    * An `'admin'` role could only be created right in the database by injecting custom api calls.
    */
@@ -72,11 +83,11 @@ export interface users {
    * User's telephone country code. not null, stored as country code without plus sign. we can traceback the country of user later.
    * Will be very helpful in statistics
    */
-  user_telephone_country_code: string
+  user_phone_country_code: string
   /**
    * Users's telephone number, not null, stores as a string, default is `''`.
    */
-  user_telephone_number: string
+  user_phone_number: string
   /**
    * Users's birthdate, string, NULLABLE, stores as a string in `YYYY-MM-DD` format. default is `null`.
    */
@@ -94,11 +105,11 @@ export interface user_followers {
   /**
    * username of a user who clicks on the follow button.
    */
-  base_username: string
+  following_user_id: string
   /**
-   * username of a user who `base_username` follows.
+   * username of a user who `following_user_id` follows.
    */
-  base_username_following: string
+  followed_user_id: string
 }
 
 /**
