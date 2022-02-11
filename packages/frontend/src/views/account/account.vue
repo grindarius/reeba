@@ -16,32 +16,32 @@
         <div class="account-settings-menu">
           <ul class="account-settings-menu-wrapper">
             <li class="account-settings-menu-list">
-              <router-link class="py-4 inline-block w-full h-full" to="/account">
+              <router-link class="inline-block py-4 w-full h-full" to="/account">
                 My tickets
               </router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link class="py-4 inline-block w-full h-full" to="/account/purchase-history">
+              <router-link class="inline-block py-4 w-full h-full" to="/account/purchase-history">
                 Purchase history
               </router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link class="py-4 inline-block w-full h-full" to="/account/edit">
+              <router-link class="inline-block py-4 w-full h-full" to="/account/edit">
                 Edit profile
               </router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link class="py-4 inline-block w-full h-full" to="/account/organizer">
+              <router-link class="inline-block py-4 w-full h-full" to="/account/organizer">
                 Organizer tools
               </router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link class="py-4 inline-block w-full h-full" to="/account/developer">
+              <router-link class="inline-block py-4 w-full h-full" to="/account/developer">
                 Developer tools
               </router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link class="py-4 inline-block w-full h-full" to="/">
+              <router-link class="inline-block py-4 w-full h-full" to="/">
                 Logout
               </router-link>
             </li>

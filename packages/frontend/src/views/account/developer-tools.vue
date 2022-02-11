@@ -68,7 +68,7 @@
             </thead>
             <tbody class="bg-pale-yellow">
               <tr>
-                <td class="py-4 px-6 border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 whitespace-nowrap border-b border-pale-gray">
                   <div class="flex items-center">
                     <div class="flex-shrink-0 w-10 h-10">
                       <img class="w-10 h-10 rounded-full" src="@/assets/user.png" alt="">
@@ -83,7 +83,7 @@
                     </div>
                   </div>
                 </td>
-                <td class="py-4 px-6 border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 whitespace-nowrap border-b border-pale-gray">
                   <div class="text-sm leading-5 text-pale-gray">
                     Software Engineer
                   </div>
@@ -91,22 +91,22 @@
                     Web dev
                   </div>
                 </td>
-                <td class="py-4 px-6 border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 whitespace-nowrap border-b border-pale-gray">
                   <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
                     Active
                   </span>
                 </td>
-                <td class="py-4 px-6 text-sm leading-5 border-b whitespace-nowrap border-pale-gray text-pale-gray">
+                <td class="py-4 px-6 text-sm leading-5 whitespace-nowrap border-b border-pale-gray text-pale-gray">
                   Owner
                 </td>
-                <td class="py-4 px-6 text-sm font-medium leading-5 text-right border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 text-sm font-medium leading-5 text-right whitespace-nowrap border-b border-pale-gray">
                   <a href="#" class="text-pale-gray hover:text-gray-hover">
                     Edit
                   </a>
                 </td>
               </tr>
               <tr>
-                <td class="py-4 px-6 border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 whitespace-nowrap border-b border-pale-gray">
                   <div class="flex items-center">
                     <div class="flex-shrink-0 w-10 h-10">
                       <img
@@ -124,7 +124,7 @@
                     </div>
                   </div>
                 </td>
-                <td class="py-4 px-6 border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 whitespace-nowrap border-b border-pale-gray">
                   <div class="text-sm leading-5 text-pale-gray">
                     Software Engineer
                   </div>
@@ -132,18 +132,18 @@
                     Web dev
                   </div>
                 </td>
-                <td class="py-4 px-6 border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 whitespace-nowrap border-b border-pale-gray">
                   <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">Active</span>
                 </td>
-                <td class="py-4 px-6 text-sm leading-5 border-b whitespace-nowrap border-pale-gray text-pale-gray">
+                <td class="py-4 px-6 text-sm leading-5 whitespace-nowrap border-b border-pale-gray text-pale-gray">
                   Owner
                 </td>
-                <td class="py-4 px-6 text-sm font-medium leading-5 text-right border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 text-sm font-medium leading-5 text-right whitespace-nowrap border-b border-pale-gray">
                   <a href="#" class="text-pale-gray hover:text-gray-hover">Edit</a>
                 </td>
               </tr>
               <tr>
-                <td class="py-4 px-6 border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 whitespace-nowrap border-b border-pale-gray">
                   <div class="flex items-center">
                     <div class="flex-shrink-0 w-10 h-10">
                       <img
@@ -161,7 +161,7 @@
                     </div>
                   </div>
                 </td>
-                <td class="py-4 px-6 border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 whitespace-nowrap border-b border-pale-gray">
                   <div class="text-sm leading-5 text-pale-gray">
                     Software Engineer
                   </div>
@@ -169,21 +169,21 @@
                     Web dev
                   </div>
                 </td>
-                <td class="py-4 px-6 border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 whitespace-nowrap border-b border-pale-gray">
                   <span
                     class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">Active</span>
                 </td>
                 <td
-                  class="py-4 px-6 text-sm leading-5 border-b whitespace-nowrap border-pale-gray text-pale-gray">
+                  class="py-4 px-6 text-sm leading-5 whitespace-nowrap border-b border-pale-gray text-pale-gray">
                   Owner
                 </td>
                 <td
-                  class="py-4 px-6 text-sm font-medium leading-5 text-right border-b whitespace-nowrap border-pale-gray">
+                  class="py-4 px-6 text-sm font-medium leading-5 text-right whitespace-nowrap border-b border-pale-gray">
                   <a href="#" class="text-pale-gray hover:text-gray-hover">Edit</a>
                 </td>
               </tr>
               <tr>
-                <td class="py-4 px-6 border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 whitespace-nowrap border-b border-pale-gray">
                   <div class="flex items-center">
                     <div class="flex-shrink-0 w-10 h-10">
                       <img class="w-10 h-10 rounded-full" src="@/assets/user.png" alt="">
@@ -198,7 +198,7 @@
                     </div>
                   </div>
                 </td>
-                <td class="py-4 px-6 border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 whitespace-nowrap border-b border-pale-gray">
                   <div class="text-sm leading-5 text-pale-gray">
                     Software Engineer
                   </div>
@@ -206,13 +206,13 @@
                     Web dev
                   </div>
                 </td>
-                <td class="py-4 px-6 border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 whitespace-nowrap border-b border-pale-gray">
                   <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">Active</span>
                 </td>
-                <td class="py-4 px-6 text-sm leading-5 border-b whitespace-nowrap border-pale-gray text-pale-gray">
+                <td class="py-4 px-6 text-sm leading-5 whitespace-nowrap border-b border-pale-gray text-pale-gray">
                   Owner
                 </td>
-                <td class="py-4 px-6 text-sm font-medium leading-5 text-right border-b whitespace-nowrap border-pale-gray">
+                <td class="py-4 px-6 text-sm font-medium leading-5 text-right whitespace-nowrap border-b border-pale-gray">
                   <a href="#" class="text-pale-gray hover:text-gray-hover">
                     Edit
                   </a>
@@ -287,7 +287,7 @@ export default defineComponent({
           tooltip.value.style('top', `${xy[1] + 10}px`)
             .style('left', `${xy[0] + 10}px`)
             .html(`
-              <div class="px-4 py-1 h-16 rounded-lg bg-pale-yellow">
+              <div class="py-1 px-4 h-16 rounded-lg bg-pale-yellow">
                 <h3 class="font-mono">${iso.whereAlpha2(alpha2Key)?.country ?? 'No data'}</h3>
                 <h3 :style="{ visibility: iso.whereAlpha(alpha2Key)?.country == null ? 'hidden' : 'visible' }" class="font-mono text-xl">${devtoolsUsersObject[alpha2Key] == null ? 'No data' : devtoolsUsersObject[alpha2Key] + ' users'}</h3>
               </div>
