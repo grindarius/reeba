@@ -17,7 +17,7 @@
         <div class="uppercase border-t border-b border-collapse table-cell-string border-t-black border-b-black" />
         <template v-for="(user, i) in userRef" :key="JSON.stringify(user)">
           <div class="flex flex-row gap-4 items-center py-4 px-5 cursor-pointer" @click="goToUsersPage(i)">
-            <img src="@/assets/user.png" alt="user" class="w-8 h-8 rounded-full">
+            <img src="@/assets/user.png" :alt="user.username" class="w-8 h-8 rounded-full">
             <div>
               <h1 class="font-sans text-sm font-medium text-black">
                 {{ user.username }}
@@ -27,7 +27,7 @@
               </h1>
             </div>
           </div>
-          <h1 class="font-sans text-sm font-medium text-black table-cell-string">
+          <h1 class="font-mono text-sm font-medium text-black table-cell-string">
             {{ formatBirthdate(user.birthdate) }}
           </h1>
           <div class="flex flex-row justify-start self-start py-4 px-5">
