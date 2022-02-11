@@ -16,32 +16,46 @@
         <div class="account-settings-menu">
           <ul class="account-settings-menu-wrapper">
             <li class="account-settings-menu-list">
-              <router-link class="inline-block py-4 w-full h-full" to="/account">
+              <router-link class="link" to="/account">
                 My tickets
               </router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link class="inline-block py-4 w-full h-full" to="/account/purchase-history">
+              <router-link class="link" to="/account/purchase-history">
                 Purchase history
               </router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link class="inline-block py-4 w-full h-full" to="/account/edit">
+              <router-link class="link" to="/account/edit">
                 Edit profile
               </router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link class="inline-block py-4 w-full h-full" to="/account/organizer">
+              <router-link class="link" to="/account/organizer">
                 Organizer tools
               </router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link class="inline-block py-4 w-full h-full" to="/account/developer">
+              <router-link class="link" to="/account/developer/">
                 Developer tools
               </router-link>
             </li>
+            <li class="pl-3 border-l-2 ml-2">
+              <ul>
+                <li class="account-settings-menu-list">
+                  <router-link class="link" to="/account/developer/">
+                    Events
+                  </router-link>
+                </li>
+                <li class="account-settings-menu-list">
+                  <router-link class="link" to="/account/developer/users">
+                    Users
+                  </router-link>
+                </li>
+              </ul>
+            </li>
             <li class="account-settings-menu-list">
-              <router-link class="inline-block py-4 w-full h-full" to="/">
+              <router-link class="link" to="/">
                 Logout
               </router-link>
             </li>
@@ -85,7 +99,15 @@ export default defineComponent({
 }
 
 .account-settings-menu-list {
-  @apply pl-2 text-gray-100 rounded-lg hover:font-bold hover:bg-gray-hover;
+  @apply text-gray-100 rounded-lg hover:font-bold hover:bg-gray-hover my-1;
+
+  & > a {
+    @apply px-2;
+  }
+}
+
+.link {
+  @apply inline-block py-2 w-full h-full;
 }
 
 .account-content {
