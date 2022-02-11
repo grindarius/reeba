@@ -18,13 +18,13 @@
           Status
         </div>
         <template v-for="t in transactionsRef" :key="JSON.stringify(t)">
-          <h1 class="table-cell-string font-sans text-sm font-medium text-black">
+          <h1 class="font-sans text-sm font-medium text-black table-cell-string">
             {{ t.username }}
           </h1>
-          <h1 class="table-cell-string font-sans text-sm font-medium text-black">
+          <h1 class="font-sans text-sm font-medium text-black table-cell-string">
             {{ formatTime(t.time) }}
           </h1>
-          <h1 class="font-mono text-sm font-medium text-black table-cell-string break-words">
+          <h1 class="font-mono text-sm font-medium text-black break-words table-cell-string">
             {{ t.seatId }}
           </h1>
           <div class="flex flex-row justify-start self-start py-4 px-5">
