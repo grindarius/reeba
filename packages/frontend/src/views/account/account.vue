@@ -44,12 +44,17 @@
               <ul>
                 <li class="account-settings-menu-list">
                   <router-link class="link" to="/account/developer/">
-                    Events
+                    Summary
                   </router-link>
                 </li>
                 <li class="account-settings-menu-list">
                   <router-link class="link" to="/account/developer/users">
                     Users
+                  </router-link>
+                </li>
+                <li class="account-settings-menu-list">
+                  <router-link class="link" to="/account/developer/transactions">
+                    Transactions
                   </router-link>
                 </li>
               </ul>

@@ -60,11 +60,19 @@ const routes: Array<RouteRecordRaw> = [
         children: [
           {
             path: '',
-            component: Page.DevtoolEvents
+            component: Page.DevtoolSummary
           },
           {
             path: 'users',
             component: Page.DevtoolUsers
+          },
+          {
+            path: 'events',
+            component: Page.DevtoolEvents
+          },
+          {
+            path: 'transactions',
+            component: Page.DevtoolTransactions
           }
         ]
       }

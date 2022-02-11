@@ -1,8 +1,8 @@
 <template>
-  <div class="devtool-events-page">
-    <div class="devtool-events-page-content">
+  <div class="devtool-transactions-page">
+    <div class="devtool-transactions-page-content">
       <h1 class="text-4xl text-white">
-        devtool-events
+        devtool-transactions
       </h1>
     </div>
   </div>
@@ -12,16 +12,16 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'devtool-events'
+  name: 'devtool-transactions'
 })
 </script>
 
 <style scoped lang="scss">
-.devtool-events-page {
+.devtool-transactions-page {
   @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
 }
 
-.devtool-events-page-content {
+.devtool-transactions-page-content {
   @apply container mt-6;
 }
 </style>
