@@ -299,7 +299,6 @@ export default defineComponent({
     })
 
     return {
-      path,
       worldMapRef,
       totalUsers
     }
