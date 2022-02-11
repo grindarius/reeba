@@ -54,6 +54,10 @@
     </div>
     <div id="world-map-tooltip" />
     <div id="world-map" ref="worldMapRef" />
+    <h1 class="page-header mt-8">
+      Popular events this month
+    </h1>
+    <div id="pie-chart" />
   </div>
 </template>
 
@@ -67,7 +71,7 @@ import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue'
 
 import countriesJson from '@/assets/world-topo.json'
 import RDropdown from '@/components/r-dropdown.vue'
-import { devtoolsEventsObject, devtoolsUsersObject } from '@/constants'
+import { devtoolsEventsObject, devtoolsUsersObject, popularEventTypes } from '@/constants'
 
 export default defineComponent({
   name: 'devtool-summary',
@@ -100,7 +104,7 @@ export default defineComponent({
       return d3.format(',.2r')(Object.values(devtoolsUsersObject).reduce((total, users) => total + users, 0))
     })
 
-    const createChart = (): void => {
+    const createWorldMap = (): void => {
       svg.value = d3.select('div#world-map')
         .append('svg')
         .attr('id', 'world-map-svg')
@@ -112,12 +116,10 @@ export default defineComponent({
 
       // @ts-expect-error from how json calculates their type
       land.value = topojson.feature(countriesJson as Topology, countriesJson.objects.countries as GeometryCollection<{ name: string }>)
-      updateChart()
+      updateWorldMap()
     }
 
-    const updateChart = (): void => {
-      // d3.select('svg#world-map-svg').selectAll('path').remove()
-
+    const updateWorldMap = (): void => {
       svg.value.selectAll('svg#world-map-svg')
         .data(land.value.features)
         .join('path')
@@ -161,13 +163,90 @@ export default defineComponent({
         })
     }
 
-    onMounted(async () => {
-      createChart()
+    const piesvg = ref() as Ref<d3.Selection<SVGGElement, unknown, HTMLElement, unknown>>
+
+    const pieWidth = 450
+    const pieHeight = 450
+    const pieMargin = 40
+    const radius = Math.min(pieWidth, pieHeight) / 2 - pieMargin
+
+    const pieColor = computed(() => {
+      return d3.scaleSequential(d3.interpolateInferno)
+        .domain([0, Math.max(...Object.values(popularEventTypes))])
     })
 
-    watch(selectedChartType, (value) => {
-      console.log(value)
-      updateChart()
+    const createPieChart = (): void => {
+      piesvg.value = d3.select('div#pie-chart')
+        .append('svg')
+        .attr('id', 'pie-chart-svg')
+        .attr('preserveAspectRatio', 'xMidYMid meet')
+        .attr('viewBox', '0 0 450 450')
+        .append('g')
+        .attr('transform', `translate(${pieWidth / 2}, ${pieHeight / 2.8})`)
+
+      const pie = d3.pie<Array<[string, number]>, [string, number]>().sort(null).value(d => d[1])
+      // @ts-expect-error missing generics
+      const loadedPie = pie(Object.entries(popularEventTypes))
+      const arc = d3.arc<d3.PieArcDatum<[string, number]>>().innerRadius(radius * 0.4).outerRadius(radius * 0.6)
+      const outerArc = d3.arc().innerRadius(radius * 0.7).outerRadius(radius * 0.7)
+
+      piesvg.value
+        .selectAll('allSlices')
+        .data(loadedPie)
+        .join('path')
+        // eslint-disable-next-line
+        .attr('d', arc as unknown as any)
+        .attr('fill', d => pieColor.value(d.data[1]))
+        .attr('stroke', 'white')
+        .style('stroke-width', '0.5px')
+        .style('opacity', 0.7)
+
+      piesvg.value
+        .selectAll('allPolylines')
+        .data(loadedPie)
+        .join('polyline')
+        .attr('stroke', 'white')
+        .style('fill', 'none')
+        .attr('stroke-width', '0.5px')
+        // @ts-expect-error type error
+        .attr('points', (d) => {
+          const posA = arc.centroid(d)
+          // @ts-expect-error type error
+          const posB = outerArc.centroid(d)
+          // @ts-expect-error type error
+          const posC = outerArc.centroid(d)
+          const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
+          posC[0] = radius * 0.66 * (midangle < Math.PI ? 1 : -1)
+          return [posA, posB, posC]
+        })
+
+      piesvg.value
+        .selectAll('allLabels')
+        .data(loadedPie)
+        .join('text')
+        .text(d => `${d.data[0]} (${d.data[1]})`)
+        .attr('transform', function (d) {
+        // @ts-expect-error type error
+          const pos = outerArc.centroid(d)
+          const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
+          pos[0] = radius * 0.7 * (midangle < Math.PI ? 1 : -1)
+          return `translate(${pos})`
+        })
+        .style('text-anchor', function (d) {
+          const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
+          return (midangle < Math.PI ? 'start' : 'end')
+        })
+        .style('fill', '#fff')
+        .style('font-size', '9px')
+    }
+
+    onMounted(async () => {
+      createWorldMap()
+      createPieChart()
+    })
+
+    watch(selectedChartType, () => {
+      updateWorldMap()
     })
 
     return {
