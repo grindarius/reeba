@@ -16,32 +16,32 @@
         <div class="account-settings-menu">
           <ul class="account-settings-menu-wrapper">
             <li class="account-settings-menu-list">
-              <router-link class="w-full h-full" to="/account">
+              <router-link class="py-4 inline-block w-full h-full" to="/account">
                 My tickets
               </router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link class="w-full h-full" to="/account/purchase-history">
+              <router-link class="py-4 inline-block w-full h-full" to="/account/purchase-history">
                 Purchase history
               </router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link class="w-full h-full" to="/account/edit">
+              <router-link class="py-4 inline-block w-full h-full" to="/account/edit">
                 Edit profile
               </router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link class="w-full h-full" to="/account/organizer">
+              <router-link class="py-4 inline-block w-full h-full" to="/account/organizer">
                 Organizer tools
               </router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link class="w-full h-full" to="/account/developer">
+              <router-link class="py-4 inline-block w-full h-full" to="/account/developer">
                 Developer tools
               </router-link>
             </li>
             <li class="account-settings-menu-list">
-              <router-link class="w-full h-full" to="/">
+              <router-link class="py-4 inline-block w-full h-full" to="/">
                 Logout
               </router-link>
             </li>
@@ -85,7 +85,7 @@ export default defineComponent({
 }
 
 .account-settings-menu-list {
-  @apply py-4 pl-2 text-gray-100 rounded-lg hover:font-bold hover:bg-gray-hover;
+  @apply pl-2 text-gray-100 rounded-lg hover:font-bold hover:bg-gray-hover;
 }
 
 .account-content {
