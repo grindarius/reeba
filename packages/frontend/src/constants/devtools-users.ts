@@ -105,3 +105,16 @@ export const devtoolsUsersObject: Record<string, number> = devtoolsUsers.reduce<
   obj[item.country_code] = item.amount
   return obj
 }, {})
+
+export const users = [
+  { username: 'grindarius', email: 'sgammidge0@tumblr.com', birthdate: '1991-07-13T15:24:23Z', role: 1 },
+  { username: 'vkeepin1', email: 'ahairyes1@nbcnews.com', birthdate: '1993-07-06T07:49:45Z', role: 1 },
+  { username: 'kraulstone2', email: 'pion2@msn.com', birthdate: '1994-12-25T05:32:20Z', role: 1 },
+  { username: 'bbenting3', email: 'hakester3@webeden.co.uk', birthdate: '1997-06-30T13:56:57Z', role: 0 },
+  { username: 'nespinos4', email: 'mtreen4@example.com', birthdate: '1996-05-14T22:55:18Z', role: 0 },
+  { username: 'bscamel5', email: 'mhabishaw5@ft.com', birthdate: '1998-06-27T01:06:55Z', role: 1 },
+  { username: 'jtogher6', email: 'isterzaker6@sphinn.com', birthdate: '1995-03-21T14:18:04Z', role: 0 },
+  { username: 'jquinnell7', email: 'cmascall7@devhub.com', birthdate: '1997-04-28T11:03:53Z', role: 0 },
+  { username: 'tlewerenz8', email: 'abourhill8@engadget.com', birthdate: '1999-03-29T04:34:10Z', role: 0 },
+  { username: 'emaryman9', email: 'gdanilchev9@drupal.org', birthdate: '1998-05-04T14:27:30Z', role: 1 }
+]
