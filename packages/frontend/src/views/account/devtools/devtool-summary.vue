@@ -54,15 +54,15 @@
     </div>
     <div id="world-map-tooltip" />
     <div id="world-map" ref="worldMapRef" />
-    <h1 class="page-header mt-8">
+    <h1 class="mt-8 page-header">
       Transaction amount past 6 months
     </h1>
     <div id="transaction-bar-chart" />
-    <h1 class="page-header mt-8">
+    <h1 class="mt-8 page-header">
       Registration amount past 6 months
     </h1>
     <div id="registration-bar-chart" />
-    <h1 class="page-header mt-8">
+    <h1 class="mt-8 page-header">
       Popular events this month
     </h1>
     <div id="pie-chart" class="max-w-4xl" />
