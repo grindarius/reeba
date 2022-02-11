@@ -35,12 +35,12 @@
                 Organizer tools
               </router-link>
             </li>
-            <li class="text-gray-100 rounded-lg my-1 px-2">
+            <li class="px-2 my-1 text-gray-100 rounded-lg">
               <a class="link">
                 Developer tools
               </a>
             </li>
-            <li class="pl-3 border-l-2 ml-2">
+            <li class="pl-3 ml-2 border-l-2">
               <ul>
                 <li class="account-settings-menu-list">
                   <router-link class="link" to="/account/developer/">
@@ -109,7 +109,7 @@ export default defineComponent({
 }
 
 .account-settings-menu-list {
-  @apply text-gray-100 rounded-lg hover:font-bold hover:bg-gray-hover my-1;
+  @apply my-1 text-gray-100 rounded-lg hover:font-bold hover:bg-gray-hover;
 
   & > a {
     @apply px-2;

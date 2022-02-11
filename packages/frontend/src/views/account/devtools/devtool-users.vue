@@ -4,19 +4,19 @@
       <h1 class="text-4xl font-semibold text-white">
         Users
       </h1>
-      <div id="user-table" class="grid mt-8 bg-pale-yellow rounded-lg w-full">
-        <div class="table-cell-string uppercase border-t border-b border-t-black border-b-black border-collapse">
+      <div id="user-table" class="grid mt-8 w-full rounded-lg bg-pale-yellow">
+        <div class="uppercase border-t border-b border-collapse table-cell-string border-t-black border-b-black">
           Name
         </div>
-        <div class="table-cell-string uppercase border-t border-b border-t-black border-b-black border-collapse">
+        <div class="uppercase border-t border-b border-collapse table-cell-string border-t-black border-b-black">
           Birthdate
         </div>
-        <div class="table-cell-string uppercase border-t border-b border-t-black border-b-black border-collapse">
+        <div class="uppercase border-t border-b border-collapse table-cell-string border-t-black border-b-black">
           Role
         </div>
-        <div class="table-cell-string uppercase border-t border-b border-t-black border-b-black border-collapse" />
+        <div class="uppercase border-t border-b border-collapse table-cell-string border-t-black border-b-black" />
         <template v-for="(user, i) in userRef" :key="JSON.stringify(user)">
-          <div class="py-4 px-5 flex flex-row gap-4 items-center cursor-pointer" @click="goToUsersPage(i)">
+          <div class="flex flex-row gap-4 items-center py-4 px-5 cursor-pointer" @click="goToUsersPage(i)">
             <img src="@/assets/user.png" alt="user" class="w-8 h-8 rounded-full">
             <div>
               <h1 class="font-sans text-sm font-medium text-black">
@@ -27,14 +27,14 @@
               </h1>
             </div>
           </div>
-          <h1 class="table-cell-string font-sans text-sm font-medium text-black">
+          <h1 class="font-sans text-sm font-medium text-black table-cell-string">
             {{ formatBirthdate(user.birthdate) }}
           </h1>
-          <div class="py-4 px-5 flex flex-row justify-start self-start">
-            <span v-if="user.role === 0" class="inline-flex text-sm bg-red-100 text-red-500 rounded-2xl px-2">
+          <div class="flex flex-row justify-start self-start py-4 px-5">
+            <span v-if="user.role === 0" class="inline-flex px-2 text-sm text-red-500 bg-red-100 rounded-2xl">
               Admin
             </span>
-            <span v-else class="inline-flex text-sm bg-green-100 text-green-800 rounded-2xl px-2">
+            <span v-else class="inline-flex px-2 text-sm text-green-800 bg-green-100 rounded-2xl">
               User
             </span>
           </div>
@@ -98,6 +98,6 @@ export default defineComponent({
 }
 
 .table-cell-string {
-  @apply text-left text-sm py-4 px-5;
+  @apply py-4 px-5 text-sm text-left;
 }
 </style>

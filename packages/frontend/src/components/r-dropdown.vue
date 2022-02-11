@@ -2,6 +2,7 @@
   <div class="inline-block relative">
     <button
       class="dropdown-toggle-button"
+      style="min-width: 8rem;"
       @click="toggleDropdown">
       <span class="mr-1 font-sans text-lg">
         {{ buttonWord }}
@@ -92,14 +93,14 @@ export default defineComponent({
 }
 
 .dropdown-toggle-button {
-  @apply py-2 px-4 inline-flex items-center justify-between outline-none w-full bg-slate-900 rounded-lg h-9 text-white font-sans;
+  @apply inline-flex justify-between items-center py-2 px-4 w-full h-9 font-sans text-white rounded-lg outline-none bg-slate-900;
 }
 
 .dropdown-list {
-  @apply absolute text-white font-sans pt-1 filter drop-shadow-xl;
+  @apply absolute pt-1 font-sans text-white filter drop-shadow-xl;
 }
 
 .dropdown-selector {
-  @apply cursor-pointer py-2 px-4 block whitespace-nowrap;
+  @apply block py-2 px-4 whitespace-nowrap cursor-pointer;
 }
 </style>
