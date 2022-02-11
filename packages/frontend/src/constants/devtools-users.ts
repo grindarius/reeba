@@ -106,6 +106,64 @@ export const devtoolsUsersObject: Record<string, number> = devtoolsUsers.reduce<
   return obj
 }, {})
 
+export const devtoolsEvents = [
+  { country: 'SI', amount: 9 },
+  { country: 'PL', amount: 8 },
+  { country: 'ID', amount: 4 },
+  { country: 'NP', amount: 10 },
+  { country: 'ID', amount: 5 },
+  { country: 'RU', amount: 7 },
+  { country: 'TH', amount: 9 },
+  { country: 'ID', amount: 3 },
+  { country: 'MA', amount: 3 },
+  { country: 'ID', amount: 8 },
+  { country: 'CN', amount: 5 },
+  { country: 'CN', amount: 8 },
+  { country: 'UA', amount: 7 },
+  { country: 'PK', amount: 6 },
+  { country: 'CN', amount: 1 },
+  { country: 'CN', amount: 4 },
+  { country: 'SN', amount: 9 },
+  { country: 'BR', amount: 10 },
+  { country: 'CN', amount: 2 },
+  { country: 'ID', amount: 10 },
+  { country: 'TH', amount: 3 },
+  { country: 'UA', amount: 3 },
+  { country: 'NC', amount: 2 },
+  { country: 'FR', amount: 7 },
+  { country: 'ID', amount: 6 },
+  { country: 'PK', amount: 4 },
+  { country: 'FR', amount: 5 },
+  { country: 'CN', amount: 6 },
+  { country: 'KZ', amount: 7 },
+  { country: 'MA', amount: 6 },
+  { country: 'RU', amount: 4 },
+  { country: 'SE', amount: 8 },
+  { country: 'ID', amount: 3 },
+  { country: 'FR', amount: 3 },
+  { country: 'SE', amount: 9 },
+  { country: 'BF', amount: 6 },
+  { country: 'PT', amount: 10 },
+  { country: 'RU', amount: 7 },
+  { country: 'GR', amount: 1 },
+  { country: 'JP', amount: 7 },
+  { country: 'SE', amount: 1 },
+  { country: 'BR', amount: 6 },
+  { country: 'PL', amount: 3 },
+  { country: 'CZ', amount: 1 },
+  { country: 'LB', amount: 9 },
+  { country: 'SE', amount: 2 },
+  { country: 'ID', amount: 2 },
+  { country: 'IE', amount: 3 },
+  { country: 'BR', amount: 6 },
+  { country: 'FR', amount: 3 }
+]
+
+export const devtoolsEventsObject: Record<string, number> = devtoolsEvents.reduce<Record<string, number>>((obj, item) => {
+  obj[item.country] = item.amount
+  return obj
+}, {})
+
 export const users = [
   { username: 'grindarius', email: 'sgammidge0@tumblr.com', birthdate: '1991-07-13T15:24:23Z', role: 1 },
   { username: 'vkeepin1', email: 'ahairyes1@nbcnews.com', birthdate: '1993-07-06T07:49:45Z', role: 1 },
