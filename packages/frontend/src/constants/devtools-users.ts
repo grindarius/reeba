@@ -1,6 +1,5 @@
-
-export const devtoolsUsers: Array<{ country_code: string, amount: number }> =
-[{ country_code: 'FR', amount: 2200 },
+export const devtoolsUsers: Array<{ country_code: string, amount: number }> = [
+  { country_code: 'FR', amount: 2200 },
   { country_code: 'RU', amount: 109 },
   { country_code: 'PE', amount: 1390 },
   { country_code: 'ID', amount: 692 },
@@ -99,7 +98,8 @@ export const devtoolsUsers: Array<{ country_code: string, amount: number }> =
   { country_code: 'CN', amount: 2200 },
   { country_code: 'JP', amount: 412 },
   { country_code: 'CN', amount: 917 },
-  { country_code: 'CN', amount: 1942 }]
+  { country_code: 'CN', amount: 1942 }
+]
 
 export const devtoolsUsersObject: Record<string, number> = devtoolsUsers.reduce<Record<string, number>>((obj, item) => {
   obj[item.country_code] = item.amount
