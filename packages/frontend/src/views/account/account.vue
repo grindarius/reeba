@@ -65,11 +65,11 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .account-page {
-  @apply flex flex-row justify-center w-full h-screen bg-pale-gray;
+  @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
 }
 
 .account-table {
-  @apply hidden flex-col px-8 w-72 h-screen text-gray-900 border-r-4 sm:flex border-pale-yellow;
+  @apply hidden flex-col px-8 w-72 min-h-screen text-gray-900 border-r-4 lg:flex border-pale-yellow;
 }
 
 .account-image-wrapper {
