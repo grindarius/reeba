@@ -48,6 +48,11 @@
                   </router-link>
                 </li>
                 <li class="account-settings-menu-list">
+                  <router-link class="link" to="/account/developer/events">
+                    Events
+                  </router-link>
+                </li>
+                <li class="account-settings-menu-list">
                   <router-link class="link" to="/account/developer/users">
                     Users
                   </router-link>
