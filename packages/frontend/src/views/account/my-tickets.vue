@@ -3,7 +3,7 @@
     <h2 class="page-header">
       My tickets
     </h2>
-    <section class="content-box-size">
+    <section class="mt-8">
       <div class="content-box-inside">
         <div class="content-box-setting-image">
           <img class="content-box-picture" src="@/assets/photo.jpg">
