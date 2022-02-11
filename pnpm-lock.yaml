@@ -115,8 +115,10 @@ importers:
       '@types/topojson-client': ^3.1.0
       '@vitejs/plugin-vue': ^2.0.0
       autoprefixer: ^10.4.0
+      countries-list: ^2.6.1
       d3: ^7.3.0
       dayjs: ^1.10.7
+      iso-3166-1: ^2.1.1
       ky: ^0.28.7
       pinia: ^2.0.9
       postcss: ^8.4.5
@@ -132,8 +134,10 @@ importers:
     dependencies:
       '@mdi/js': 6.5.95
       '@reeba/common': link:../common
+      countries-list: 2.6.1
       d3: 7.3.0
       dayjs: 1.10.7
+      iso-3166-1: 2.1.1
       ky: 0.28.7
       pinia: 2.0.9_typescript@4.5.5+vue@3.2.29
       postcss-import: 14.0.2_postcss@8.4.5
@@ -4015,6 +4019,10 @@ packages:
   /isexe/2.0.0:
     resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
     dev: true
+
+  /iso-3166-1/2.1.1:
+    resolution: {integrity: sha512-RZxXf8cw5Y8LyHZIwIRvKw8sWTIHh2/txBT+ehO0QroesVfnz3JNFFX4i/OC/Yuv2bDIVYrHna5PMvjtpefq5w==}
+    dev: false
 
   /isstream/0.1.2:
     resolution: {integrity: sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=}
