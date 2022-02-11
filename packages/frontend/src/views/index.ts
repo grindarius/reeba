@@ -1,5 +1,7 @@
 import Account from './account/account.vue'
 import DeveloperTools from './account/developer-tools.vue'
+import DevtoolEvents from './account/devtools/devtool-events.vue'
+import DevtoolUsers from './account/devtools/devtool-users.vue'
 import EditUserSettings from './account/edit-user-settings.vue'
 import MyTickets from './account/my-tickets.vue'
 import OrganizerTools from './account/organizer-tools.vue'
@@ -19,6 +21,8 @@ export {
   Account,
   CreateEvent,
   DeveloperTools,
+  DevtoolEvents,
+  DevtoolUsers,
   EditUserSettings,
   Event,
   Home,
