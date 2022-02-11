@@ -43,9 +43,15 @@
         </div>
       </div>
     </div>
-    <h1 class="page-header mt-8">
-      Users world map
-    </h1>
+    <div class="flex flex-row gap-3 mt-8">
+      <h1 class="page-header">
+        Where
+      </h1>
+      <r-dropdown :values="['users', 'events']" v-model:selected-value="selectedChartType" />
+      <h1 class="page-header">
+        came from
+      </h1>
+    </div>
     <div id="users-world-map-tooltip" />
     <div id="users-world-map" ref="worldMapRef" />
   </div>
@@ -59,18 +65,24 @@ import { GeometryCollection, Topology } from 'topojson-specification'
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
 
 import countriesJson from '@/assets/world-topo.json'
+import RDropdown from '@/components/r-dropdown.vue'
 import { devtoolsUsersObject } from '@/constants'
 
 export default defineComponent({
   name: 'devtool-summary',
+  components: {
+    'r-dropdown': RDropdown
+  },
   setup () {
     const width = 800
     const height = 600
 
+    const selectedChartType = ref('users')
+
     const worldMapRef: Ref<HTMLDivElement | undefined> = ref(undefined)
     const svg = ref() as Ref<d3.Selection<SVGSVGElement, unknown, HTMLElement, unknown>>
     const tooltip = ref()
-    const projection = ref(d3.geoMercator().scale(110).center([0, 20]).translate([width / 2, height / 2]))
+    const projection = ref(d3.geoMercator().scale(115).center([0, 20]).translate([width / 2, height / 2]))
     const path = ref(d3.geoPath().projection(projection.value))
 
     const color = computed(() => {
@@ -125,7 +137,8 @@ export default defineComponent({
 
     return {
       worldMapRef,
-      totalUsers
+      totalUsers,
+      selectedChartType
     }
   }
 })
