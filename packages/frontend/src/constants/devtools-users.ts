@@ -260,4 +260,11 @@ export const transactionsDataTable = [
   { username: 'vglas1b', time: '2021-03-08T20:35:02Z', seatId: 'c67b230c-619e-4576-8dee-cf0c972a906e', status: 0 },
   { username: 'jcollar1c', time: '2021-11-27T18:35:40Z', seatId: '70e34acb-9560-4c4c-93aa-96a752c21c88', status: 2 },
   { username: 'gregorz1d', time: '2020-07-11T13:30:11Z', seatId: '33d8acb4-b259-469c-a95d-76de425082ec', status: 0 }
-]
+].map(t => {
+  return {
+    username: t.username,
+    time: t.time,
+    seatId: t.seatId.replace(/-/g, '').slice(0, 21),
+    status: t.status
+  }
+})

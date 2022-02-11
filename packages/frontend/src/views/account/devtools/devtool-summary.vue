@@ -184,6 +184,8 @@ export default defineComponent({
     })
 
     const createPieChart = (): void => {
+      d3.select('svg#pie-chart-svg').remove()
+
       piesvg.value = d3.select('div#pie-chart')
         .append('svg')
         .attr('id', 'pie-chart-svg')
@@ -248,6 +250,8 @@ export default defineComponent({
     }
 
     const createTransactionsHistoryChart = (): void => {
+      d3.select('svg#transaction-bar-chart-svg').remove()
+
       const margins = {
         top: 30,
         right: 30,
@@ -291,6 +295,8 @@ export default defineComponent({
     }
 
     const createRegistrationHistoryChart = (): void => {
+      d3.select('svg#registration-bar-chart-svg').remove()
+
       const margins = {
         top: 30,
         right: 30,

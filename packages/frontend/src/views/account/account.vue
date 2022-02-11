@@ -1,7 +1,7 @@
 <template>
   <div class="account-page">
     <div class="container flex flex-row">
-      <nav class="account-table">
+      <nav class="account-table max-w-xs">
         <div class="account-image-wrapper">
           <div class="w-10/12">
             <img src="@/assets/user.png" class="mx-auto w-20 h-20 rounded-full">
