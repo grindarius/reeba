@@ -55,9 +55,17 @@
     <div id="world-map-tooltip" />
     <div id="world-map" ref="worldMapRef" />
     <h1 class="page-header mt-8">
+      Transaction amount past 6 months
+    </h1>
+    <div id="transaction-bar-chart" />
+    <h1 class="page-header mt-8">
+      Registration amount past 6 months
+    </h1>
+    <div id="registration-bar-chart" />
+    <h1 class="page-header mt-8">
       Popular events this month
     </h1>
-    <div id="pie-chart" />
+    <div id="pie-chart" class="max-w-4xl" />
   </div>
 </template>
 
@@ -71,7 +79,7 @@ import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue'
 
 import countriesJson from '@/assets/world-topo.json'
 import RDropdown from '@/components/r-dropdown.vue'
-import { devtoolsEventsObject, devtoolsUsersObject, popularEventTypes } from '@/constants'
+import { devtoolsEventsObject, devtoolsUsersObject, popularEventTypes, registrationsPastSixMonths, transactionsPastSixMonths } from '@/constants'
 
 export default defineComponent({
   name: 'devtool-summary',
@@ -165,9 +173,9 @@ export default defineComponent({
 
     const piesvg = ref() as Ref<d3.Selection<SVGGElement, unknown, HTMLElement, unknown>>
 
-    const pieWidth = 450
-    const pieHeight = 450
-    const pieMargin = 40
+    const pieWidth = 350
+    const pieHeight = 350
+    const pieMargin = 30
     const radius = Math.min(pieWidth, pieHeight) / 2 - pieMargin
 
     const pieColor = computed(() => {
@@ -179,8 +187,7 @@ export default defineComponent({
       piesvg.value = d3.select('div#pie-chart')
         .append('svg')
         .attr('id', 'pie-chart-svg')
-        .attr('preserveAspectRatio', 'xMidYMid meet')
-        .attr('viewBox', '0 0 450 450')
+        .attr('viewBox', `0 0 ${pieWidth} ${pieHeight}`)
         .append('g')
         .attr('transform', `translate(${pieWidth / 2}, ${pieHeight / 2.8})`)
 
@@ -237,12 +244,100 @@ export default defineComponent({
           return (midangle < Math.PI ? 'start' : 'end')
         })
         .style('fill', '#fff')
-        .style('font-size', '9px')
+        .style('font-size', '8px')
+    }
+
+    const createTransactionsHistoryChart = (): void => {
+      const margins = {
+        top: 30,
+        right: 30,
+        bottom: 50,
+        left: 50
+      }
+      const width = 1000 - margins.left - margins.right
+      const height = 500 - margins.top - margins.bottom
+
+      const color = d3.scaleSequential(d3.interpolateInferno)
+        .domain([0, Math.max(...Object.values(transactionsPastSixMonths))])
+
+      const svg = d3.select('div#transaction-bar-chart')
+        .append('svg')
+        .attr('id', 'transaction-bar-chart-svg')
+        .attr('preserveAspectRatio', 'xMidYMin slice')
+        .attr('viewBox', `0 0 ${width + margins.left + margins.right} ${height + margins.top + margins.bottom}`)
+        .append('g')
+        .attr('transform', `translate(${margins.left}, ${margins.top})`)
+
+      const x = d3.scaleBand().range([0, width]).domain(Object.keys(transactionsPastSixMonths)).padding(0.5)
+
+      svg.append('g')
+        .attr('transform', `translate(0, ${height})`)
+        .classed('x-axis', true)
+        .call(d3.axisBottom(x))
+
+      const y = d3.scaleLinear([0, Math.max(...Object.values(transactionsPastSixMonths))], [height, 0])
+      svg.append('g')
+        .classed('y-axis', true)
+        .call(d3.axisLeft(y))
+
+      svg.selectAll('svg#transaction-bar-chart-svg')
+        .data(Object.entries(transactionsPastSixMonths).map((a) => { return { time: a[0], money: a[1] } }).sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()))
+        .join('rect')
+        .attr('x', d => x(d.time) ?? 0)
+        .attr('y', d => y(d.money))
+        .attr('width', x.bandwidth())
+        .attr('height', d => height - y(d.money))
+        .attr('fill', d => color(d.money))
+    }
+
+    const createRegistrationHistoryChart = (): void => {
+      const margins = {
+        top: 30,
+        right: 30,
+        bottom: 50,
+        left: 50
+      }
+      const width = 1000 - margins.left - margins.right
+      const height = 500 - margins.top - margins.bottom
+
+      const color = d3.scaleSequential(d3.interpolateInferno)
+        .domain([0, Math.max(...Object.values(registrationsPastSixMonths))])
+
+      const svg = d3.select('div#registration-bar-chart')
+        .append('svg')
+        .attr('id', 'registration-bar-chart-svg')
+        .attr('preserveAspectRatio', 'xMidYMin slice')
+        .attr('viewBox', `0 0 ${width + margins.left + margins.right} ${height + margins.top + margins.bottom}`)
+        .append('g')
+        .attr('transform', `translate(${margins.left}, ${margins.top})`)
+
+      const x = d3.scaleBand().range([0, width]).domain(Object.keys(registrationsPastSixMonths)).padding(0.5)
+
+      svg.append('g')
+        .attr('transform', `translate(0, ${height})`)
+        .classed('x-axis', true)
+        .call(d3.axisBottom(x))
+
+      const y = d3.scaleLinear([0, Math.max(...Object.values(registrationsPastSixMonths))], [height, 0])
+      svg.append('g')
+        .classed('y-axis', true)
+        .call(d3.axisLeft(y))
+
+      svg.selectAll('svg#registration-bar-chart-svg')
+        .data(Object.entries(registrationsPastSixMonths).map((a) => { return { time: a[0], money: a[1] } }).sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()))
+        .join('rect')
+        .attr('x', d => x(d.time) ?? 0)
+        .attr('y', d => y(d.money))
+        .attr('width', x.bandwidth())
+        .attr('height', d => height - y(d.money))
+        .attr('fill', d => color(d.money))
     }
 
     onMounted(async () => {
       createWorldMap()
       createPieChart()
+      createTransactionsHistoryChart()
+      createRegistrationHistoryChart()
     })
 
     watch(selectedChartType, () => {

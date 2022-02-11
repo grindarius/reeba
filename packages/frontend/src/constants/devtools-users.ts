@@ -184,3 +184,21 @@ export const popularEventTypes: Record<string, number> = {
   musical: 90,
   technology: 13
 }
+
+export const transactionsPastSixMonths: Record<string, number> = {
+  '2022-02-01': 499394823,
+  '2022-01-01': 344553442,
+  '2021-12-01': 233423443,
+  '2021-11-01': 123434554,
+  '2021-10-01': 113343556,
+  '2021-09-01': 94793283
+}
+
+export const registrationsPastSixMonths: Record<string, number> = {
+  '2022-02-01': 500,
+  '2022-01-01': 660,
+  '2021-12-01': 492,
+  '2021-11-01': 345,
+  '2021-10-01': 945,
+  '2021-09-01': 354
+}
