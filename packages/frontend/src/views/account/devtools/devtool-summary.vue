@@ -55,11 +55,11 @@
     <div id="world-map-tooltip" />
     <div id="world-map" ref="worldMapRef" />
     <h1 class="mt-8 page-header">
-      Transaction amount past 6 months
+      Transaction amount past 6 months (THB)
     </h1>
     <div id="transaction-bar-chart" />
     <h1 class="mt-8 page-header">
-      Registration amount past 6 months
+      Registration amount past 6 months (people)
     </h1>
     <div id="registration-bar-chart" />
     <h1 class="mt-8 page-header">
@@ -256,13 +256,12 @@ export default defineComponent({
         top: 30,
         right: 30,
         bottom: 50,
-        left: 50
+        left: 80
       }
       const width = 1000 - margins.left - margins.right
       const height = 500 - margins.top - margins.bottom
 
-      const color = d3.scaleSequential(d3.interpolateInferno)
-        .domain([0, Math.max(...Object.values(transactionsPastSixMonths))])
+      const color = d3.scaleLinear([0, Math.max(...Object.values(transactionsPastSixMonths))], colorRange)
 
       const svg = d3.select('div#transaction-bar-chart')
         .append('svg')
@@ -272,7 +271,7 @@ export default defineComponent({
         .append('g')
         .attr('transform', `translate(${margins.left}, ${margins.top})`)
 
-      const x = d3.scaleBand().range([0, width]).domain(Object.keys(transactionsPastSixMonths)).padding(0.5)
+      const x = d3.scaleBand().range([0, width]).domain(Object.keys(transactionsPastSixMonths).sort((a, b) => new Date(a).getTime() - new Date(b).getTime())).padding(0.5)
 
       svg.append('g')
         .attr('transform', `translate(0, ${height})`)
@@ -301,13 +300,12 @@ export default defineComponent({
         top: 30,
         right: 30,
         bottom: 50,
-        left: 50
+        left: 80
       }
       const width = 1000 - margins.left - margins.right
       const height = 500 - margins.top - margins.bottom
 
-      const color = d3.scaleSequential(d3.interpolateInferno)
-        .domain([0, Math.max(...Object.values(registrationsPastSixMonths))])
+      const color = d3.scaleLinear([0, Math.max(...Object.values(registrationsPastSixMonths))], colorRange)
 
       const svg = d3.select('div#registration-bar-chart')
         .append('svg')
@@ -317,7 +315,7 @@ export default defineComponent({
         .append('g')
         .attr('transform', `translate(${margins.left}, ${margins.top})`)
 
-      const x = d3.scaleBand().range([0, width]).domain(Object.keys(registrationsPastSixMonths)).padding(0.5)
+      const x = d3.scaleBand().range([0, width]).domain(Object.keys(registrationsPastSixMonths).sort((a, b) => new Date(a).getTime() - new Date(b).getTime())).padding(0.5)
 
       svg.append('g')
         .attr('transform', `translate(0, ${height})`)
