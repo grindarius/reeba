@@ -14,9 +14,6 @@
         <div class="uppercase border-t border-b border-collapse table-cell-string border-t-black border-b-black">
           Seat ID
         </div>
-        <div class="uppercase border-t border-b border-collapse table-cell-string border-t-black border-b-black">
-          Status
-        </div>
         <template v-for="t in transactionsRef" :key="JSON.stringify(t)">
           <h1 class="font-sans text-sm font-medium text-black table-cell-string">
             {{ t.username }}
@@ -27,17 +24,6 @@
           <h1 class="font-mono text-sm font-medium text-black break-words table-cell-string">
             {{ t.seatId }}
           </h1>
-          <div class="flex flex-row justify-start self-start py-4 px-5">
-            <span v-if="t.status === 0" class="inline-flex px-2 text-sm text-red-500 bg-red-100 rounded-2xl">
-              Rejected
-            </span>
-            <span v-else-if="t.status === 1" class="inline-flex px-2 text-sm text-green-800 bg-green-100 rounded-2xl">
-              Confirmed
-            </span>
-            <span v-else class="inline-flex px-2 text-sm text-emerald-700 bg-green-100 rounded-2xl">
-              Pending
-            </span>
-          </div>
         </template>
       </div>
     </div>
@@ -93,6 +79,6 @@ export default defineComponent({
 
 .transaction-table {
   @apply grid mt-8 w-full rounded-lg bg-pale-yellow;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
 }
 </style>

@@ -59,7 +59,7 @@ export default defineComponent({
     const router = useRouter()
 
     const goToEventPage = (): void => {
-      router.push('/events')
+      router.push('/event')
     }
 
     return {
