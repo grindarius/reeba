@@ -32,171 +32,249 @@ void t.test('post event', async t => {
     t.fail()
   }
 
-  void t.test('missing eventNames (as empty string)', async t => {
-    try {
-      const response = await app.inject({
-        method: 'POST',
-        url: '/events/post-event',
-        payload: {
-          eventNames: 'BTS',
-          createdBy: 'postindiveventtest',
-          description: '## No description provided',
-          website: 'www.github.com/sindresorhus/ky',
-          venueName: 'Rajamangkala Stadium',
-          venueCoordinates: {
-            x: '13.755313892097984',
-            y: '100.62221451070221'
-          },
-          openingDate: '2021-03-01T12:00:00.000+07:00',
-          tags: ['concert', 'stand-up-comedy'],
-          ticketPrices: [
-            {
-              color: '#4C9141',
-              price: 1000
-            },
-            {
-              color: '#C1876B',
-              price: 1500
-            }
-          ],
-          datetimes: [
-            {
-              start: '2021-03-07T20:00:00.000+07:00',
-              end: '2021-03-08T00:00:00.000+07:00'
-            },
-            {
-              start: '2021-03-08T20:00:00.000+07:00',
-              end: '2021-03-09T00:00:00.000+07:00'
-            }
-          ],
-          minimumAge: 18,
-          sections: [
+  const perfectEvent = {
+    eventName: 'BTS',
+    createdBy: 'postindiveventtest',
+    description: '## No description provided',
+    website: 'www.github.com/sindresorhus/ky',
+    venueName: 'Rajamangkala Stadium',
+    venueCoordinates: {
+      x: '13.755313892097984',
+      y: '100.62221451070221'
+    },
+    openingDate: '2021-03-01T12:00:00.000+07:00',
+    tags: ['concert', 'stand-up-comedy'],
+    ticketPrices: [
+      {
+        color: '#4C9141',
+        price: 1000
+      },
+      {
+        color: '#C1876B',
+        price: 1500
+      }
+    ],
+    datetimes: [
+      {
+        start: '2021-03-07T20:00:00.000+07:00',
+        end: '2021-03-08T00:00:00.000+07:00'
+      },
+      {
+        start: '2021-03-08T20:00:00.000+07:00',
+        end: '2021-03-09T00:00:00.000+07:00'
+      }
+    ],
+    minimumAge: 18,
+    sections: [
+      [
+        {
+          sectionRowPosition: 0,
+          sectionColumnPosition: 0,
+          seats: [
             [
               {
-                sectionRowPosition: 0,
-                sectionColumnPositon: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
+                seatRowPosition: 0,
+                seatColumnPosition: 0,
+                seatPrice: 1500
               },
               {
-                sectionRowPosition: 0,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
+                seatRowPosition: 0,
+                seatColumnPosition: 1,
+                seatPrice: 1500
               }
             ],
             [
               {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
+                seatRowPosition: 1,
+                seatColumnPosition: 0,
+                seatPrice: 1000
               },
               {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
+                seatRowPosition: 1,
+                seatColumnPosition: 1,
+                seatPrice: 1000
+              }
+            ]
+          ]
+        },
+        {
+          sectionRowPosition: 0,
+          sectionColumnPosition: 1,
+          seats: [
+            [
+              {
+                seatRowPosition: 0,
+                seatColumnPosition: 0,
+                seatPrice: 1500
+              },
+              {
+                seatRowPosition: 0,
+                seatColumnPosition: 1,
+                seatPrice: 1500
+              }
+            ],
+            [
+              {
+                seatRowPosition: 1,
+                seatColumnPosition: 0,
+                seatPrice: 1000
+              },
+              {
+                seatRowPosition: 1,
+                seatColumnPosition: 1,
+                seatPrice: 1000
               }
             ]
           ]
         }
+      ],
+      [
+        {
+          sectionRowPosition: 1,
+          sectionColumnPosition: 0,
+          seats: [
+            [
+              {
+                seatRowPosition: 0,
+                seatColumnPosition: 0,
+                seatPrice: 1500
+              },
+              {
+                seatRowPosition: 0,
+                seatColumnPosition: 1,
+                seatPrice: 1500
+              }
+            ],
+            [
+              {
+                seatRowPosition: 1,
+                seatColumnPosition: 0,
+                seatPrice: 1000
+              },
+              {
+                seatRowPosition: 1,
+                seatColumnPosition: 1,
+                seatPrice: 1000
+              }
+            ]
+          ]
+        },
+        {
+          sectionRowPosition: 1,
+          sectionColumnPosition: 1,
+          seats: [
+            [
+              {
+                seatRowPosition: 0,
+                seatColumnPosition: 0,
+                seatPrice: 1500
+              },
+              {
+                seatRowPosition: 0,
+                seatColumnPosition: 1,
+                seatPrice: 1500
+              }
+            ],
+            [
+              {
+                seatRowPosition: 1,
+                seatColumnPosition: 0,
+                seatPrice: 1000
+              },
+              {
+                seatRowPosition: 1,
+                seatColumnPosition: 1,
+                seatPrice: 1000
+              }
+            ]
+          ]
+        }
+      ]
+    ]
+  }
+
+  // * These tests should fail with 400 (Bad Request: user is wrong because they don't send what API wants.
+  // * Our API have to be REALLY STRICT. So there would be no errors when it is talking with the client)
+  const emptyStringEventName = { ...perfectEvent, ...{ eventName: '' } }
+  const undefinedEventName = (({ eventName, ...others }) => ({ ...others }))(perfectEvent)
+
+  const emptyStringCreatedBy = { ...perfectEvent, ...{ createdBy: '' } }
+  const undefinedCreatedBy = (({ createdBy, ...others }) => ({ ...others }))(perfectEvent)
+
+  const undefinedDescription = (({ description, ...others }) => ({ ...others }))(perfectEvent)
+
+  const emptyStringWebsite = { ...perfectEvent, ...{ website: '' } }
+  const undefinedWebsite = (({ website, ...others }) => ({ ...others }))(perfectEvent)
+
+  const emptyStringVenueName = { ...perfectEvent, ...{ venueName: '' } }
+  const undefinedVenueName = (({ venueName, ...others }) => ({ ...others }))(perfectEvent)
+
+  const emptyObjectVenueCoordinates = { ...perfectEvent, ...{ venueCoordinates: {} } }
+  const wrongKeyNameOfVenueCoordinates = { ...perfectEvent, ...{ venueCoordinates: { lat: 123, long: 456 } } }
+  const wrongTypeVenueCoordinates = { ...perfectEvent, ...{ venueCoordinates: { x: 2345, y: 1234 } } }
+  const undefinedVenueCoordinates = (({ venueCoordinates, ...others }) => ({ ...others }))(perfectEvent)
+
+  const emptyStringOpeningDate = { ...perfectEvent, ...{ openingDate: '' } }
+  const undefinedOpeningDate = (({ openingDate, ...others }) => ({ ...others }))(perfectEvent)
+
+  const undefinedTags = (({ tags, ...others }) => ({ ...others }))(perfectEvent)
+
+  const emptyArrayTicketPrices = { ...perfectEvent, ...{ ticketPrices: [] } }
+  const undefinedTicketPrices = (({ ticketPrices, ...others }) => ({ ...others }))(perfectEvent)
+
+  const emptyStringDatetimes = { ...perfectEvent, ...{ datetimes: [] } }
+  const containsEmptyStringDatetimes = { ...perfectEvent, ...{ datetimes: [{ start: '', end: '' }] } }
+  const undefinedDatetimes = (({ datetimes, ...others }) => ({ ...others }))(perfectEvent)
+
+  const negativeMinimumAge = { ...perfectEvent, ...{ minimumAge: -5 } }
+  const undefinedMinimumAge = (({ minimumAge, ...others }) => ({ ...others }))(perfectEvent)
+
+  const emptyArraySections = { ...perfectEvent, ...{ sections: [] } }
+  const undefinedSections = (({ sections, ...others }) => ({ ...others }))(perfectEvent)
+
+  const undefinedSeats = {
+    ...perfectEvent,
+    ...{
+      sections: [
+        [
+          {
+            sectionRowPosition: 0,
+            sectionColumnPosition: 0,
+            seats: undefined
+          },
+          {
+            sectionRowPosition: 0,
+            sectionColumnPosition: 1,
+            seats: undefined
+          }
+        ],
+        [
+          {
+            sectionRowPosition: 1,
+            sectionColumnPosition: 0,
+            seats: undefined
+          },
+          {
+            sectionRowPosition: 1,
+            sectionColumnPosition: 1,
+            seats: undefined
+          }
+        ]
+      ]
+    }
+  }
+  // * need more test for seats, but those code will be generated by javascript so there should not be error
+
+  // * These tests should success
+  const emptyArrayTags = { ...perfectEvent, ...{ tags: [] } }
+  const emptyStringDescription = { ...perfectEvent, ...{ description: '' } }
+
+  void t.test('missing eventName (as empty string)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: emptyStringEventName
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from missing eventNames')
@@ -207,170 +285,12 @@ void t.test('post event', async t => {
     }
   })
 
-  void t.test('missing eventNames (as missing params)', async t => {
+  void t.test('missing eventName (as missing params)', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/events/post-event',
-        payload: {
-          createdBy: 'postindiveventtest',
-          description: '## No description provided',
-          website: 'www.github.com/sindresorhus/ky',
-          venueName: 'Rajamangkala Stadium',
-          venueCoordinates: {
-            x: '13.755313892097984',
-            y: '100.62221451070221'
-          },
-          openingDate: '2021-03-01T12:00:00.000+07:00',
-          tags: ['concert', 'stand-up-comedy'],
-          ticketPrices: [
-            {
-              color: '#4C9141',
-              price: 1000
-            },
-            {
-              color: '#C1876B',
-              price: 1500
-            }
-          ],
-          datetimes: [
-            {
-              start: '2021-03-07T20:00:00.000+07:00',
-              end: '2021-03-08T00:00:00.000+07:00'
-            },
-            {
-              start: '2021-03-08T20:00:00.000+07:00',
-              end: '2021-03-09T00:00:00.000+07:00'
-            }
-          ],
-          minimumAge: 18,
-          sections: [
-            [
-              {
-                sectionRowPosition: 0,
-                sectionColumnPositon: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 0,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ],
-            [
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ]
-          ]
-        }
+        url: '/events',
+        payload: undefinedEventName
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from missing eventNames')
@@ -381,171 +301,12 @@ void t.test('post event', async t => {
     }
   })
 
-  void t.test('missing createdBy (as empty createdBy)', async t => {
+  void t.test('missing createdBy (as empty string)', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/events/post-event',
-        payload: {
-          eventNames: 'BTS Army',
-          createdBy: '',
-          description: '## No description provided',
-          website: 'www.github.com/sindresorhus/ky',
-          venueName: 'Rajamangkala Stadium',
-          venueCoordinates: {
-            x: '13.755313892097984',
-            y: '100.62221451070221'
-          },
-          openingDate: '2021-03-01T12:00:00.000+07:00',
-          tags: ['concert', 'stand-up-comedy'],
-          ticketPrices: [
-            {
-              color: '#4C9141',
-              price: 1000
-            },
-            {
-              color: '#C1876B',
-              price: 1500
-            }
-          ],
-          datetimes: [
-            {
-              start: '2021-03-07T20:00:00.000+07:00',
-              end: '2021-03-08T00:00:00.000+07:00'
-            },
-            {
-              start: '2021-03-08T20:00:00.000+07:00',
-              end: '2021-03-09T00:00:00.000+07:00'
-            }
-          ],
-          minimumAge: 18,
-          sections: [
-            [
-              {
-                sectionRowPosition: 0,
-                sectionColumnPositon: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 0,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ],
-            [
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ]
-          ]
-        }
+        url: '/events',
+        payload: emptyStringCreatedBy
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from missing createdBy')
@@ -560,166 +321,8 @@ void t.test('post event', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/events/post-event',
-        payload: {
-          eventNames: 'BTS Army',
-          description: '## No description provided',
-          website: 'www.github.com/sindresorhus/ky',
-          venueName: 'Rajamangkala Stadium',
-          venueCoordinates: {
-            x: '13.755313892097984',
-            y: '100.62221451070221'
-          },
-          openingDate: '2021-03-01T12:00:00.000+07:00',
-          tags: ['concert', 'stand-up-comedy'],
-          ticketPrices: [
-            {
-              color: '#4C9141',
-              price: 1000
-            },
-            {
-              color: '#C1876B',
-              price: 1500
-            }
-          ],
-          datetimes: [
-            {
-              start: '2021-03-07T20:00:00.000+07:00',
-              end: '2021-03-08T00:00:00.000+07:00'
-            },
-            {
-              start: '2021-03-08T20:00:00.000+07:00',
-              end: '2021-03-09T00:00:00.000+07:00'
-            }
-          ],
-          minimumAge: 18,
-          sections: [
-            [
-              {
-                sectionRowPosition: 0,
-                sectionColumnPositon: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 0,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ],
-            [
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ]
-          ]
-        }
+        url: '/events',
+        payload: undefinedCreatedBy
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from missing createdBy')
@@ -730,345 +333,12 @@ void t.test('post event', async t => {
     }
   })
 
-  void t.test('missing description (as empty description)', async t => {
-    try {
-      const response = await app.inject({
-        method: 'POST',
-        url: '/events/post-event',
-        payload: {
-          eventNames: 'BTS Army',
-          createdBy: 'postindiveventtest',
-          description: '',
-          website: 'www.github.com/sindresorhus/ky',
-          venueName: 'Rajamangkala Stadium',
-          venueCoordinates: {
-            x: '13.755313892097984',
-            y: '100.62221451070221'
-          },
-          openingDate: '2021-03-01T12:00:00.000+07:00',
-          tags: ['concert', 'stand-up-comedy'],
-          ticketPrices: [
-            {
-              color: '#4C9141',
-              price: 1000
-            },
-            {
-              color: '#C1876B',
-              price: 1500
-            }
-          ],
-          datetimes: [
-            {
-              start: '2021-03-07T20:00:00.000+07:00',
-              end: '2021-03-08T00:00:00.000+07:00'
-            },
-            {
-              start: '2021-03-08T20:00:00.000+07:00',
-              end: '2021-03-09T00:00:00.000+07:00'
-            }
-          ],
-          minimumAge: 18,
-          sections: [
-            [
-              {
-                sectionRowPosition: 0,
-                sectionColumnPositon: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 0,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ],
-            [
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ]
-          ]
-        }
-      })
-
-      t.strictSame(response.statusCode, 400, 'Error code from missing description')
-      t.strictSame(response.json().message, 'body should have required property \'description\'', 'Error message from missing description')
-    } catch (error) {
-      t.error(error)
-      t.fail()
-    }
-  })
-
   void t.test('missing description (as missing params)', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/events/post-event',
-        payload: {
-          eventNames: 'BTS Army',
-          createdBy: 'postindiveventtest',
-          website: 'www.github.com/sindresorhus/ky',
-          venueName: 'Rajamangkala Stadium',
-          venueCoordinates: {
-            x: '13.755313892097984',
-            y: '100.62221451070221'
-          },
-          openingDate: '2021-03-01T12:00:00.000+07:00',
-          tags: ['concert', 'stand-up-comedy'],
-          ticketPrices: [
-            {
-              color: '#4C9141',
-              price: 1000
-            },
-            {
-              color: '#C1876B',
-              price: 1500
-            }
-          ],
-          datetimes: [
-            {
-              start: '2021-03-07T20:00:00.000+07:00',
-              end: '2021-03-08T00:00:00.000+07:00'
-            },
-            {
-              start: '2021-03-08T20:00:00.000+07:00',
-              end: '2021-03-09T00:00:00.000+07:00'
-            }
-          ],
-          minimumAge: 18,
-          sections: [
-            [
-              {
-                sectionRowPosition: 0,
-                sectionColumnPositon: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 0,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ],
-            [
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ]
-          ]
-        }
+        url: '/events',
+        payload: undefinedDescription
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from missing description')
@@ -1083,167 +353,8 @@ void t.test('post event', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/events/post-event',
-        payload: {
-          eventNames: 'BTS Army',
-          createdBy: 'postindiveventtest',
-          description: '## No description provided',
-          website: '',
-          venueName: 'Rajamangkala Stadium',
-          venueCoordinates: {
-            x: '13.755313892097984',
-            y: '100.62221451070221'
-          },
-          openingDate: '2021-03-01T12:00:00.000+07:00',
-          tags: ['concert', 'stand-up-comedy'],
-          ticketPrices: [
-            {
-              color: '#4C9141',
-              price: 1000
-            },
-            {
-              color: '#C1876B',
-              price: 1500
-            }
-          ],
-          datetimes: [
-            {
-              start: '2021-03-07T20:00:00.000+07:00',
-              end: '2021-03-08T00:00:00.000+07:00'
-            },
-            {
-              start: '2021-03-08T20:00:00.000+07:00',
-              end: '2021-03-09T00:00:00.000+07:00'
-            }
-          ],
-          minimumAge: 18,
-          sections: [
-            [
-              {
-                sectionRowPosition: 0,
-                sectionColumnPositon: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 0,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ],
-            [
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ]
-          ]
-        }
+        url: '/events',
+        payload: emptyStringWebsite
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from missing website')
@@ -1258,166 +369,8 @@ void t.test('post event', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/events/post-event',
-        payload: {
-          eventNames: 'BTS Army',
-          createdBy: 'postindiveventtest',
-          description: '## No description provided',
-          venueName: 'Rajamangkala Stadium',
-          venueCoordinates: {
-            x: '13.755313892097984',
-            y: '100.62221451070221'
-          },
-          openingDate: '2021-03-01T12:00:00.000+07:00',
-          tags: ['concert', 'stand-up-comedy'],
-          ticketPrices: [
-            {
-              color: '#4C9141',
-              price: 1000
-            },
-            {
-              color: '#C1876B',
-              price: 1500
-            }
-          ],
-          datetimes: [
-            {
-              start: '2021-03-07T20:00:00.000+07:00',
-              end: '2021-03-08T00:00:00.000+07:00'
-            },
-            {
-              start: '2021-03-08T20:00:00.000+07:00',
-              end: '2021-03-09T00:00:00.000+07:00'
-            }
-          ],
-          minimumAge: 18,
-          sections: [
-            [
-              {
-                sectionRowPosition: 0,
-                sectionColumnPositon: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 0,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ],
-            [
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ]
-          ]
-        }
+        url: '/events',
+        payload: undefinedWebsite
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from missing website')
@@ -1432,167 +385,8 @@ void t.test('post event', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/events/post-event',
-        payload: {
-          eventNames: 'BTS Army',
-          createdBy: 'postindiveventtest',
-          description: '## No description provided',
-          website: 'www.github.com/sindresorhus/ky',
-          venueName: '',
-          venueCoordinates: {
-            x: '13.755313892097984',
-            y: '100.62221451070221'
-          },
-          openingDate: '2021-03-01T12:00:00.000+07:00',
-          tags: ['concert', 'stand-up-comedy'],
-          ticketPrices: [
-            {
-              color: '#4C9141',
-              price: 1000
-            },
-            {
-              color: '#C1876B',
-              price: 1500
-            }
-          ],
-          datetimes: [
-            {
-              start: '2021-03-07T20:00:00.000+07:00',
-              end: '2021-03-08T00:00:00.000+07:00'
-            },
-            {
-              start: '2021-03-08T20:00:00.000+07:00',
-              end: '2021-03-09T00:00:00.000+07:00'
-            }
-          ],
-          minimumAge: 18,
-          sections: [
-            [
-              {
-                sectionRowPosition: 0,
-                sectionColumnPositon: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 0,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ],
-            [
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ]
-          ]
-        }
+        url: '/events',
+        payload: emptyStringVenueName
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from missing venueName')
@@ -1607,166 +401,8 @@ void t.test('post event', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/events/post-event',
-        payload: {
-          eventNames: 'BTS Army',
-          createdBy: 'postindiveventtest',
-          description: '## No description provided',
-          website: 'www.github.com/sindresorhus/ky',
-          venueCoordinates: {
-            x: '13.755313892097984',
-            y: '100.62221451070221'
-          },
-          openingDate: '2021-03-01T12:00:00.000+07:00',
-          tags: ['concert', 'stand-up-comedy'],
-          ticketPrices: [
-            {
-              color: '#4C9141',
-              price: 1000
-            },
-            {
-              color: '#C1876B',
-              price: 1500
-            }
-          ],
-          datetimes: [
-            {
-              start: '2021-03-07T20:00:00.000+07:00',
-              end: '2021-03-08T00:00:00.000+07:00'
-            },
-            {
-              start: '2021-03-08T20:00:00.000+07:00',
-              end: '2021-03-09T00:00:00.000+07:00'
-            }
-          ],
-          minimumAge: 18,
-          sections: [
-            [
-              {
-                sectionRowPosition: 0,
-                sectionColumnPositon: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 0,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ],
-            [
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 0,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              },
-              {
-                sectionRowPosition: 1,
-                sectionColumnPosition: 1,
-                seats: [
-                  [
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 0,
-                      seatPrice: 1500
-                    },
-                    {
-                      seatRowPosition: 0,
-                      seatColumnPosition: 1,
-                      seatPrice: 1500
-                    }
-                  ],
-                  [
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 0,
-                      seatPrice: 1000
-                    },
-                    {
-                      seatRowPosition: 1,
-                      seatColumnPosition: 1,
-                      seatPrice: 1000
-                    }
-                  ]
-                ]
-              }
-            ]
-          ]
-        }
+        url: '/events',
+        payload: undefinedVenueName
       })
 
       t.strictSame(response.statusCode, 400, 'Error code from missing venueName')

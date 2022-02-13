@@ -139,7 +139,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           event_status,
           event_ticket_prices,
           event_minimum_age
-        ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11::t_event_price[], $12) returning event_id`,
+        ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11::jsonb, $12) returning event_id`,
         [
           nanoid(),
           createdBy,
