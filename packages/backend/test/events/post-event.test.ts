@@ -38,7 +38,7 @@ void t.test('post event', async t => {
         method: 'POST',
         url: '/events/post-event',
         payload: {
-          eventNames: 'BTS',
+          eventNames: '',
           createdBy: 'postindiveventtest',
           description: '## No description provided',
           website: 'www.github.com/sindresorhus/ky',
