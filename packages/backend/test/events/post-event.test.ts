@@ -333,6 +333,22 @@ void t.test('post event', async t => {
     }
   })
 
+  void t.test('missing description (as empty string)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: emptyStringDescription
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing description')
+      t.strictSame(response.json().message, 'body should have required property \'description\'', 'Error message from missing description')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
   void t.test('missing description (as missing params)', async t => {
     try {
       const response = await app.inject({
@@ -412,4 +428,294 @@ void t.test('post event', async t => {
       t.fail()
     }
   })
+
+  void t.test('missing venueCoordinates (as empty object)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: emptyObjectVenueCoordinates
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing venueCoordinates')
+      t.strictSame(response.json().message, 'body should have required property \'venueCoordinates\'', 'Error message from missing venueCoordinates')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing venueCoordinates (wrong key name)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: wrongKeyNameOfVenueCoordinates
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing venueCoordinates')
+      t.strictSame(response.json().message, 'body should have required property \'venueCoordinates\'', 'Error message from missing venueCoordinates')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing venueCoordinates (wrong type)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: wrongTypeVenueCoordinates
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing venueCoordinates')
+      t.strictSame(response.json().message, 'body should have required property \'venueCoordinates\'', 'Error message from missing venueCoordinates')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing venueCoordinates (as missing params)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: undefinedVenueCoordinates
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing venueCoordinates')
+      t.strictSame(response.json().message, 'body should have required property \'venueCoordinates\'', 'Error message from missing venueCoordinates')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing openingDate (as empty string)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: emptyStringOpeningDate
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing openingDate')
+      t.strictSame(response.json().message, 'body should have required property \'openingDate\'', 'Error message from missing openingDate')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing openingDate (as missing params)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: undefinedOpeningDate
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing openingDate')
+      t.strictSame(response.json().message, 'body should have required property \'openingDate\'', 'Error message from missing openingDate')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing tags (as empty array)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: emptyArrayTags
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing tags')
+      t.strictSame(response.json().message, 'body should have required property \'tags\'', 'Error message from missing tags')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing tags (as missing params)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: undefinedTags
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing tags')
+      t.strictSame(response.json().message, 'body should have required property \'tags\'', 'Error message from missing tags')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing ticketPrices (as empty array)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: emptyArrayTicketPrices
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing ticketPrices')
+      t.strictSame(response.json().message, 'body should have required property \'ticketPrices\'', 'Error message from missing ticketPrices')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing ticketPrices (as missing params)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: undefinedTicketPrices
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing ticketPrices')
+      t.strictSame(response.json().message, 'body should have required property \'ticketPrices\'', 'Error message from missing ticketPrices')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing datetimes (as empty string)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: emptyStringDatetimes
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing datetime')
+      t.strictSame(response.json().message, 'body should have required property \'datetime\'', 'Error message from missing datetime')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing datetimes (as empty string)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: containsEmptyStringDatetimes
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing datetime')
+      t.strictSame(response.json().message, 'body should have required property \'datetime\'', 'Error message from missing datetime')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing datetimes (as missing params)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: undefinedDatetimes
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing datetime')
+      t.strictSame(response.json().message, 'body should have required property \'datetime\'', 'Error message from missing datetime')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing minimumAge (age negative)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: negativeMinimumAge
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing minimumAge')
+      t.strictSame(response.json().message, 'body should have required property \'minimumAge\'', 'Error message from missing minimumAge')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing minimumAge (as missing params)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: undefinedMinimumAge
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing minimumAge')
+      t.strictSame(response.json().message, 'body should have required property \'minimumAge\'', 'Error message from missing minimumAge')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing sections (as empty array)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: emptyArraySections
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing sections')
+      t.strictSame(response.json().message, 'body should have required property \'sections\'', 'Error message from missing sections')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing sections (as missing params)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: undefinedSections
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing sections')
+      t.strictSame(response.json().message, 'body should have required property \'sections\'', 'Error message from missing sections')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('missing seats (as missing params)', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/events',
+        payload: undefinedSeats
+      })
+
+      t.strictSame(response.statusCode, 400, 'Error code from missing seats')
+      t.strictSame(response.json().message, 'body should have required property \'seats\'', 'Error message from missing seats')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  t.end()
 })
