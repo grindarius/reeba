@@ -41,7 +41,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           openingDate,
           ticketPrices,
           minimumAge,
-          tags
+          tags,
+          sections
         } = request.body
 
         if (createdBy == null || createdBy === '') {
@@ -92,6 +93,11 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         if (tags == null || !Array.isArray(tags)) {
           void reply.code(400)
           throw new Error('body should have required property \'tags\'')
+        }
+
+        if (sections == null || !Array.isArray(sections)) {
+          void reply.code(400)
+          throw new Error('body should have required property \'sections\'')
         }
       }
     }, async (request) => {
