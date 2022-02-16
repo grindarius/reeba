@@ -32,27 +32,27 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       schema,
       preValidation: async (request, reply) => {
         const {
-          createdBy,
           eventName,
+          createdBy,
           description,
           website,
           venueName,
           venueCoordinates,
           openingDate,
-          ticketPrices,
-          minimumAge,
           tags,
+          ticketPrices,
+          datetimes,
+          minimumAge,
           sections
         } = request.body
+        if (eventName == null || eventName === '') {
+          void reply.code(400)
+          throw new Error('body should have required property \'eventName\'')
+        }
 
         if (createdBy == null || createdBy === '') {
           void reply.code(400)
           throw new Error('body should have required property \'createdBy\'')
-        }
-
-        if (eventName == null || eventName === '') {
-          void reply.code(400)
-          throw new Error('body should have required property \'eventName\'')
         }
 
         if (description == null) {
@@ -62,7 +62,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
         if (website == null) {
           void reply.code(400)
-          throw new Error('body should have required property \'eventWebSite\'')
+          throw new Error('body should have required property \'website\'')
         }
 
         if (venueName == null || venueName === '') {
@@ -75,19 +75,19 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           throw new Error('body should have required property \'eventVenuCoordinates\'')
         }
 
+        if (typeof venueCoordinates.x !== 'string') {
+          void reply.code(400)
+          throw new Error('venueCoordinates.x should be type of \'string\'')
+        }
+
+        if (typeof venueCoordinates.y !== 'string') {
+          void reply.code(400)
+          throw new Error('venueCoordinates.y should be type of \'string\'')
+        }
+
         if (openingDate == null || openingDate === '') {
           void reply.code(400)
           throw new Error('body should have required property \'openingDate\'')
-        }
-
-        if (ticketPrices == null || !Array.isArray(ticketPrices) || ticketPrices.length === 0) {
-          void reply.code(400)
-          throw new Error('body should have required property \'ticketPrices\'')
-        }
-
-        if (minimumAge == null || minimumAge < 0) {
-          void reply.code(400)
-          throw new Error('body should have required property \'minimumAge\'')
         }
 
         if (tags == null || !Array.isArray(tags)) {
@@ -95,7 +95,27 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           throw new Error('body should have required property \'tags\'')
         }
 
-        if (sections == null || !Array.isArray(sections)) {
+        if (ticketPrices == null || !Array.isArray(ticketPrices) || ticketPrices.length === 0) {
+          void reply.code(400)
+          throw new Error('body should have required property \'ticketPrices\'')
+        }
+
+        if (datetimes == null || !Array.isArray(datetimes) || datetimes.length === 0) {
+          void reply.code(400)
+          throw new Error('body should have required property \'datetimes\'')
+        }
+
+        if (datetimes.some(dt => dt.start === '' || dt.end === '')) {
+          void reply.code(400)
+          throw new Error('body should have required property \'datetimes\'')
+        }
+
+        if (minimumAge == null || minimumAge < 0) {
+          void reply.code(400)
+          throw new Error('body should have required property \'minimumAge\'')
+        }
+
+        if (sections == null || !Array.isArray(sections) || sections.length === 0 || sections[0].length === 0) {
           void reply.code(400)
           throw new Error('body should have required property \'sections\'')
         }
@@ -123,7 +143,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         events['event_description'],
         events['event_website'],
         events['event_venue_name'],
-        events['event_venue_coordinates'],
+        string,
         events['event_creation_date'],
         events['event_opening_date'],
         events['event_status'],
@@ -145,7 +165,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           event_status,
           event_ticket_prices,
           event_minimum_age
-        ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11::jsonb, $12) returning event_id`,
+        ) values ($1, $2, $3, $4, $5, $6, $7::point, $8, $9, $10, $11::jsonb, $12) returning event_id`,
         [
           nanoid(),
           createdBy,
@@ -153,7 +173,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           description,
           website,
           venueName,
-          venueCoordinates,
+          `${venueCoordinates.x}, ${venueCoordinates.y}`,
           dayjs().format('YYYY-MM-DD HH:mm:ss.SSS Z'),
           openingDate,
           t_event_status.open,
