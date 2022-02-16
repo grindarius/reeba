@@ -48,7 +48,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       )
 
       if (user.rowCount === 0) {
-        throw new Error('\'email\' not found')
+        void reply.code(404)
+        throw new Error('user with supplied \'email\' not found')
       }
 
       const isPasswordValid = await bcrypt.compare(
