@@ -1,5 +1,38 @@
 import { Static, Type } from '@sinclair/typebox'
 
+export const PostEventBodySchema = Type.Object({
+  eventName: Type.String(),
+  createdBy: Type.String(),
+  description: Type.String(),
+  website: Type.String(),
+  venueName: Type.String(),
+  venueCoordinates: Type.Object({
+    x: Type.String(),
+    y: Type.String()
+  }),
+  openingDate: Type.String(),
+  tags: Type.Array(Type.String()),
+  ticketPrices: Type.Array(Type.Object({
+    color: Type.String(),
+    price: Type.Number()
+  })),
+  datetimes: Type.Array(Type.Object({
+    start: Type.String(),
+    end: Type.String()
+  })),
+  minimumAge: Type.Number(),
+  sections: Type.Array(Type.Array(Type.Object({
+    sectionRowPosition: Type.Number(),
+    sectionColumnPosition: Type.Number(),
+    seats: Type.Array(Type.Array(Type.Object({
+      seatRowPosition: Type.Number(),
+      seatColumnPosition: Type.Number(),
+      seatPrice: Type.Number()
+    })))
+  })))
+})
+export type PostEventBody = Static<typeof PostEventBodySchema>
+
 export const RootPageEventSchema = Type.Object({
   coverImagePath: Type.String(),
   name: Type.String(),
