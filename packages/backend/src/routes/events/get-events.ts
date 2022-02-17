@@ -26,7 +26,7 @@ const schema: FastifySchema = {
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.get<{ Reply: GetEventsReply }>(
-    '/',
+    '/root',
     {
       schema
     },
@@ -45,7 +45,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         where event_datetimes.event_start_datetime > $1
         and users.user_verification_status = 'true'::boolean
         group by users.user_username, events.event_id
-        order by first_start_datetime asc
+        order by first_start_datetime desc
         limit 8`,
         [oneMonthBackDate]
       )
@@ -62,7 +62,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         where event_datetimes.event_start_datetime > $1
         and users.user_verification_status = 'false'::boolean
         group by users.user_username, events.event_id
-        order by first_start_datetime asc
+        order by first_start_datetime desc
         limit 8`,
         [oneMonthBackDate]
       )
