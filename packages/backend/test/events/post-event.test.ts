@@ -26,7 +26,7 @@ void t.test('post event', async t => {
   })
   try {
     await client.connect()
-    await client.query('delete from "events" where user_username = \'postevent\'')
+    await client.query('delete from "events" where user_username = \'postindiveventtest\'')
 
     await client.query(
       `insert into users (
