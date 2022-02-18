@@ -21,11 +21,16 @@ For signing up new user
 
 - Requests
   - Body
-    - `username`
-    - `email`
-    - `password`
-    - `phoneCountryCode`
-    - `phoneNumber`
+    Schema looks like this
+    ```ts
+    interface SignupBody {
+      username: string
+      email: string
+      password: string
+      phoneCountryCode: string
+      phoneNumber: string
+    }
+    ```
 
 - Responses
   - `200` with payload of
@@ -49,8 +54,13 @@ For signing in the user
 
 - Requests
   - Body
-    - `email`
-    - `password`
+    Schema looks like this
+    ```ts
+    interface SigninBody {
+      email: string
+      password: string
+    }
+    ```
 
 - Responses
   - `200` with payload of
@@ -69,8 +79,7 @@ For signing in the user
     - user does not exists (email not found)
     - invalid password
 
-  - `404` for
-    - email not found
+  - `404` for email not found
 
   - `500` for `bcrypt` error while comparing salt, or any other db errors.
 
@@ -84,6 +93,8 @@ For getting a profile picture of a specific user
 - Responses
   - `200` with a user's profile, either default profile or the user's own profile.
 
+  - `500` for any other errors
+
 ### `POST /avatars/:username`
 For sending a profile picture to specific user, validates filename using these RegExp
 ```ts
@@ -93,6 +104,7 @@ For sending a profile picture to specific user, validates filename using these R
 - Requests
   - Params
     - `username`
+
   - Body
     - FormData with key of `image` with an image file.
 
@@ -105,17 +117,134 @@ For sending a profile picture to specific user, validates filename using these R
     ```
 
   - `400` for missing username, or invalid file extension.
+
   - `404` for user not found.
+
+  - `500` for any other errors
 
 ### `POST /events`
 For sending new event to the system
 
 - Requests
   - Body
-    
-
+    Schema looks like this
+    ```ts
+    interface PostEventBody {
+      eventName: string,
+      createdBy: string,
+      description: string,
+      website: string,
+      venueName: string,
+      venueCoordinates: {
+        x: string,
+        y: string
+      },
+      openingDate: string,
+      tags: Array<string>,
+      ticketPrices: Array<{
+        color: string,
+        price: number
+      }>,
+      datetimes: Array<{
+        start: string,
+        end: string
+      }>,
+      minimumAge: number,
+      sections: Array<Array<{
+        sectionRowPosition: number
+        sectionColumnPosition: number
+        seats: Array<Array<{
+          seatRowPosition: number
+          seatColumnPosition: number
+          seatPrice: number
+        }>>
+      }>>
+    }
+    ```
 
 - Responses
+  - `200` with a payload of
+    ```json
+    {
+      "message": "complete"
+    }
+    ```
+
+  - `400` for any other type mismatch errors and missing values (unlikely to happen if our frontend did a good job)
+
+  - `500` for any other errors
+
+### `GET /events/:eventId`
+Getting individual event for each event page
+
+- Requests
+  - Params
+    - `eventId`
+
+- Responses
+  - `200` with a payload of
+  ```json
+  {
+    "name": "bts live in korea",
+    "createdBy": "grindarius",
+    "description": "event description",
+    "website": "venue website",
+    "venueName": "venue name",
+    "venueCoordinates": { 
+      "x": "122.038480232343043",
+      "y": "14.02938443089723293"
+    },
+    "openingDate": "2021-01-01T22:33:22.893Z",
+    "prices": [
+      {
+        "color": "#221343",
+        "value": 2000
+      }
+    ],
+    "tags": ["stand-up-comedy", "funny"],
+    "datetimes": [
+      {
+        "start": "2021-01-01T22:33:22.893Z",
+        "end": "2021-01-01T22:33:22.893Z"
+      }
+    ]
+  }
+  ```
+
+  - `404` for event not found.
+
+  - `500` for any other errors
+
+### `GET /events/root`
+Get events for root page, get any events that is in between 1 month of query
+
+- Requests
+  - No request schema
+
+- Responses
+  - `200` with payload of
+  ```json
+  {
+    "official": [
+      {
+        "id": "fknldkfngsdjf393",
+        "name": "Bangtan fanmeet",
+        "firstDatetime": "2021-01-01T22:33:22.893Z",
+        "venueName": "Rajamangkala stadium"
+      }
+    ],
+    "local": [
+      {
+        "id": "fknldkfsdfdfds3f393",
+        "name": "Kamin and the gang",
+        "firstDatetime": "2021-01-01T22:33:22.893Z",
+        "venueName": "Kamin's house"
+      }
+    ]
+  }
+  ```
+
+  - `500` for any other errors
 
 ### `GET /users/:username`
 Get data about that specific user
