@@ -306,8 +306,23 @@ void t.test('get individual event', async t => {
         url: '/events/unknown_event_id'
       })
 
-      t.strictSame(response.statusCode, 404, 'status code from nonexistent eventId')
-      t.strictSame(response.json().message, 'event not found', 'error message from nonexistent eventId')
+      t.strictSame(response.statusCode, 404)
+      t.strictSame(response.json().message, 'event not found')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('get event with empty string name', async t => {
+    try {
+      const response = await app.inject({
+        method: 'GET',
+        url: '/events/'
+      })
+
+      t.strictSame(response.statusCode, 400)
+      t.strictSame(response.json().message, 'params should have required property \'eventId\'')
     } catch (error) {
       t.error(error)
       t.fail()
