@@ -259,7 +259,3 @@ Get data about that specific user
 
   - `404` for user not found (wrong username or user does not exists)
   - `500` for any other errors
-
-### `GET /events/:eventId`
-
-### `POST /events`
