@@ -20,12 +20,17 @@ console.log(chalk.green('deleting data in tables'));
 (async () => {
   await client.connect()
 
+  console.log(chalk.green('deleting transaction details'))
   await client.query('delete from transaction_details')
+  console.log(chalk.green('deleting transactions'))
   await client.query('delete from transactions')
+  console.log(chalk.green('deleting users'))
   await client.query('delete from users')
+  console.log(chalk.green('deleting followers'))
   await client.query('delete from user_followers')
+  console.log(chalk.green('deleting events'))
   await client.query('delete from events')
 
-  console.log(chalk.green('successfully removes data from '))
+  console.log(chalk.green('successfully removes data from the db'))
   await client.end()
 })()
