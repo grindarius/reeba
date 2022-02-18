@@ -31,7 +31,7 @@
     "lint:css": "pnpm exec ts-node packages/scripts/src/lint-css.ts",
     "test": "pnpm build:common && pnpm exec tap --rcfile=.taprc --reporter-arg=spec",
     "seed": "pnpm exec ts-node packages/scripts/src/seed.ts",
-    "clear-uploads": "pnpm clear-db && pnpm exec ts-node packages/scripts/src/clear-uploads-folder.ts",
+    "clear-uploads": "pnpm exec ts-node packages/scripts/src/clear-uploads-folder.ts",
     "clear-db": "pnpm exec ts-node packages/scripts/src/clear-db.ts"
   },
   "author": "ReebA Team",

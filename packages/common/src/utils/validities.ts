@@ -24,6 +24,30 @@ export const validateEmail = (email: string): boolean => {
  * @returns boolean indicating if username is right.
  */
 export const validateUsername = (username: string): boolean => {
+  if (username.toLowerCase() === 'events') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'root') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'signin') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'signup') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'auth') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'avatars') {
+    return false
+  }
+
   if (username.length < 1 || username.length > 30) {
     return false
   }

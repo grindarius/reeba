@@ -135,7 +135,7 @@ const generateUserList = async (amount: number): Promise<Array<users>> => {
       user_image_profile_path: '',
       user_verification_status: faker.mersenne.rand(1, 100) < 70,
       user_phone_country_code: faker.random.arrayElement(countriesValues).phone.split(',')[0],
-      user_phone_number: faker.phone.phoneNumber('09########'),
+      user_phone_number: faker.phone.phoneNumber('9########'),
       user_birthdate: dayjs(faker.date.between('1960-01-01', '2006-01-01')).format('YYYY-MM-DD')
     }
 
@@ -170,7 +170,7 @@ const generateEvent = async (userList: Array<users>, amount: number = 30): Promi
 
   // eslint-disable-next-line
   for await (const _ of [...range(amount)]) {
-    const creationDateString = dayjs(faker.date.between('2020-01-01', dayjs().format('YYYY-MM-DD'))).toISOString()
+    const creationDateString = dayjs(faker.date.between('2020-01-01', dayjs().subtract(40, 'days').format('YYYY-MM-DD'))).toISOString()
     const pricesArray = generateEventPrices()
     const coordinates = {
       x: Number(faker.address.latitude()),

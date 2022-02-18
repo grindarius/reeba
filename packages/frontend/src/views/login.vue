@@ -29,10 +29,8 @@
               Sign in
             </button>
           </div>
-          <router-link to="/register" class="inline-block mt-2 font-sans text-center align-baseline">
-            <a class="hover:text-white hover:underline text-pale-gray" href="#">
-              Don't have an account? <a class="font-bold">Sign up</a>.
-            </a>
+          <router-link to="/signup" class="inline-block mt-2 font-sans text-center align-baseline hover:text-white hover:underline text-pale-gray">
+            Don't have an account? <a class="font-bold">Sign up</a>.
           </router-link>
         </div>
       </form>
@@ -50,10 +48,10 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .login-page {
-  @apply w-full h-screen bg-pale-gray;
+  @apply w-full min-h-screen bg-pale-gray;
 }
 
 .login-page-content {
-  @apply flex justify-center items-center w-full h-screen;
+  @apply flex justify-center items-center w-full min-h-screen;
 }
 </style>

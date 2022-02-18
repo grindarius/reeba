@@ -40,8 +40,8 @@ export const enum t_event_status {
  * PostgreSQL's `point` type
  */
 export interface point {
-  x: number
-  y: number
+  x: string
+  y: string
 }
 
 /**

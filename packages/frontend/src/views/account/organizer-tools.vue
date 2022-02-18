@@ -4,7 +4,7 @@
       Organizer Tools
     </h1>
     <div class="flex flex-col mt-8">
-      <div class="setting-header">
+      <div class="overflow-x-auto">
         <div class="header-box">
           <table class="min-w-full">
             <thead>
@@ -193,10 +193,6 @@ export default defineComponent({
 
 .header-box {
   @apply inline-block overflow-hidden min-w-full align-middle border-b shadow sm:rounded-lg border-pale-gray;
-}
-
-.setting-header {
-  @apply overflow-x-auto py-2 my-2;
 }
 
 .active-setting {
