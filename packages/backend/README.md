@@ -74,6 +74,49 @@ For signing in the user
 
   - `500` for `bcrypt` error while comparing salt, or any other db errors.
 
+### `GET /avatars/:username`
+For getting a profile picture of a specific user
+
+- Requests
+  - Params
+    - `username`
+
+- Responses
+  - `200` with a user's profile, either default profile or the user's own profile.
+
+### `POST /avatars/:username`
+For sending a profile picture to specific user, validates filename using these RegExp
+```ts
+/^.*\.(jpg|JPG|png|PNG|jpeg|JPEG)$/
+```
+
+- Requests
+  - Params
+    - `username`
+  - Body
+    - FormData with key of `image` with an image file.
+
+- Responses
+  - `200` with payload of
+    ```json
+    {
+      "message": "complete"
+    }
+    ```
+
+  - `400` for missing username, or invalid file extension.
+  - `404` for user not found.
+
+### `POST /events`
+For sending new event to the system
+
+- Requests
+  - Body
+    
+
+
+- Responses
+
 ### `GET /users/:username`
 Get data about that specific user
 
