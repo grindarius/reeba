@@ -45,6 +45,11 @@ void t.test('get front page event test', async t => {
 
   t.teardown(async () => {
     await app.close()
+
+    for (const ev of [...localEventsList, ...officialEventsList]) {
+      await client.query('delete from "events" where event_id = $1', [ev.id])
+    }
+
     await client.end()
   })
 
