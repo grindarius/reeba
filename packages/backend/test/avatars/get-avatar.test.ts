@@ -132,4 +132,6 @@ void t.test('get image', async t => {
       t.fail()
     }
   })
+
+  t.end()
 })
