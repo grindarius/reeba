@@ -34,7 +34,7 @@ export const PostEventBodySchema = Type.Object({
 export type PostEventBody = Static<typeof PostEventBodySchema>
 
 export const RootPageEventSchema = Type.Object({
-  coverImagePath: Type.String(),
+  id: Type.String(),
   name: Type.String(),
   firstDatetime: Type.String(),
   venueName: Type.String()
@@ -74,3 +74,8 @@ export const GetIndividualEventReplySchema = Type.Object({
   }))
 })
 export type GetIndividualEventReply = Static<typeof GetIndividualEventReplySchema>
+
+export const GetEventImageRequestParamsSchema = Type.Object({
+  eventId: Type.String()
+})
+export type GetEventImageRequestParams = Static<typeof GetEventImageRequestParamsSchema>

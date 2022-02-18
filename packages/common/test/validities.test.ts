@@ -27,6 +27,13 @@ void t.test('validate username formats', async t => {
   t.strictSame(validateUsername('123sdfdf'), true)
   t.strictSame(validateUsername('Chang_international'), true)
 
+  t.strictSame(validateUsername('events'), false)
+  t.strictSame(validateUsername('root'), false)
+  t.strictSame(validateUsername('signin'), false)
+  t.strictSame(validateUsername('signup'), false)
+  t.strictSame(validateUsername('auth'), false)
+  t.strictSame(validateUsername('avatars'), false)
+
   t.strictSame(validateUsername('Chang international'), false)
   t.strictSame(validateUsername(' sdfdf'), false)
   t.strictSame(validateUsername(''), false)

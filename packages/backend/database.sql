@@ -118,3 +118,4 @@ insert into event_tags (event_tag_label) values
   ('stand-up-comedy'),
   ('technology'),
   ('variety')
+on conflict (event_tag_label) do nothing;
