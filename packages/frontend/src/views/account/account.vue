@@ -7,12 +7,15 @@
             <img src="@/assets/user.png" class="mx-auto w-20 h-20 rounded-full">
           </div>
         </div>
-        <div class="text-center">
-          <span class="text-lg font-semibold text-white">Bhattarapong Somwong</span>
-          <p class="text-sm text-pale-yellow">
-            Bhattarapongs@nu.ac.th
+        <div class="account-info">
+          <p class="text-center text-white text-base font-semibold">
+            grindarius
           </p>
+          <v-mdi name="mdi-check-decagram" fill="#D5A755" />
         </div>
+        <p class="text-center text-sm text-pale-yellow">
+          Bhattarapongs@nu.ac.th
+        </p>
         <div class="account-settings-menu">
           <ul class="account-settings-menu-wrapper">
             <li class="account-settings-menu-list">
@@ -90,6 +93,10 @@ export default defineComponent({
 <style scoped lang="scss">
 .account-page {
   @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
+}
+
+.account-info {
+  @apply flex flex-row gap-1 justify-center text-center  text-white;
 }
 
 .account-table {
