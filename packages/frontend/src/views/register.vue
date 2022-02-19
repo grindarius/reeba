@@ -21,6 +21,15 @@
 
             <div class="register-input-section">
               <label class="heading" for="email">
+                Phone
+              </label>
+              <div>
+                <input class="register-input-box" id="phone" type="text" placeholder="000-000-0000">
+              </div>
+            </div>
+
+            <div class="register-input-section">
+              <label class="heading" for="email">
                 Email
               </label>
               <div>
