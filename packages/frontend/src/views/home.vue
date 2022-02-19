@@ -17,7 +17,7 @@
                     {{ name }}
                   </h3>
                   <p class="event-time">
-                    {{ firstDatetime }}
+                    {{ getTimeString(firstDatetime) }}
                   </p>
                   <p class="event-location">
                     {{ venueName }}
@@ -62,6 +62,7 @@
 </template>
 
 <script lang="ts">
+import dayjs from 'dayjs'
 import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
 
@@ -87,8 +88,13 @@ export default defineComponent({
       }
     })
 
+    const getTimeString = (firstDatetime: string): string => {
+      return dayjs(firstDatetime).format('MMMM D, YYYY HH:mm')
+    }
+
     return {
-      eventData
+      eventData,
+      getTimeString
     }
   }
 })
