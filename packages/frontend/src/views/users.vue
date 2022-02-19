@@ -105,7 +105,8 @@ export default defineComponent({
 }
 
 .user-info {
-  @apply flex flex-row justify-center gap-1 text-center  text-white; }
+  @apply flex flex-row justify-center gap-1 text-center  text-white;
+}
 
 .users-page-content {
   @apply container grid grid-rows-2 gap-6 mt-6;
