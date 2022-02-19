@@ -19,7 +19,7 @@
               </div>
             </div>
 
-            <div class="register-input-section">
+            <div class="register-section">
               <label class="heading" for="phone">
                 Phone
               </label>
@@ -590,7 +590,9 @@
                     Tajikstan (+7)
                   </option>
                   <option data-countryCode="TH" value="66">
-                    Thailand (+66)
+                    <i class="em em-flag-th" aria-role="presentation" aria-label="Thailand Flag">
+                      Thailand (+66)
+                    </i>
                   </option>
                   <option data-countryCode="TG" value="228">
                     Togo (+228)
@@ -622,7 +624,6 @@
                   <option data-countryCode="UG" value="256">
                     Uganda (+256)
                   </option>
-                  <!-- <option data-countryCode="GB" value="44">UK (+44)</option> -->
                   <option data-countryCode="UA" value="380">
                     Ukraine (+380)
                   </option>
@@ -632,7 +633,6 @@
                   <option data-countryCode="UY" value="598">
                     Uruguay (+598)
                   </option>
-                  <!-- <option data-countryCode="US" value="1">USA (+1)</option> -->
                   <option data-countryCode="UZ" value="7">
                     Uzbekistan (+7)
                   </option>
