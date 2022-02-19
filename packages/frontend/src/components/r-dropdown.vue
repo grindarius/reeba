@@ -1,22 +1,20 @@
 <template>
-  <div class="inline-block relative">
+  <div class="inline-block relative w-full">
     <button
-      class="dropdown-toggle-button"
-      style="min-width: 8rem;"
-      @click="toggleDropdown">
+      :class="colorStyle === 'black' ? 'dropdown-toggle-button black' : 'dropdown-toggle-button white'"
+      @click.prevent="toggleDropdown">
       <span class="mr-1 font-sans text-lg">
         {{ buttonWord }}
       </span>
       <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-        <path fill="#fff" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+        <path :fill="colorStyle === 'black' ? '#fff' : '#000'" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
       </svg>
     </button>
     <ul
-      :class="dropdownStatus ?'dropdown-list hidden' : 'dropdown-list block'"
-      style="min-width: 8rem;">
+      :class="dropdownStatus ?'dropdown-list hidden' : 'dropdown-list block'">
       <li class="link-wrapper" v-for="(v, i) in values" :key="`dropdown-item-${i}`">
         <div
-          :class="selectedValue != null && v === localSelectedValue ? 'dropdown-selector selected' : 'dropdown-selector not-selected'"
+          :class="getDropdownClassname(v)"
           @click="onSelectedValue(v)">
           {{ v }}
         </div>
@@ -40,6 +38,11 @@ export default defineComponent({
       type: Object as PropType<Array<string>>,
       required: true,
       default: [] as Array<string>
+    },
+    colorStyle: {
+      type: String as PropType<'black' | 'white'>,
+      required: true,
+      default: 'black'
     }
   },
   emits: ['update:selectedValue'],
@@ -49,6 +52,10 @@ export default defineComponent({
 
     const toggleDropdown = (): void => {
       dropdownStatus.value = !dropdownStatus.value
+    }
+
+    const closeDropdown = (): void => {
+      dropdownStatus.value = false
     }
 
     const updateSelectedValue = (): void => {
@@ -64,12 +71,21 @@ export default defineComponent({
       return localSelectedValue.value
     })
 
+    const getDropdownClassname = (v: string): string => {
+      if (props.selectedValue != null && v === localSelectedValue.value) {
+        return props.colorStyle === 'black' ? 'dropdown-selector selected-black' : 'dropdown-selector selected-white'
+      }
+      return props.colorStyle === 'black' ? 'dropdown-selector not-selected-black' : 'dropdown-selector not-selected-white'
+    }
+
     return {
       dropdownStatus,
       toggleDropdown,
       localSelectedValue,
       onSelectedValue,
-      buttonWord
+      buttonWord,
+      closeDropdown,
+      getDropdownClassname
     }
   }
 })
@@ -84,20 +100,36 @@ export default defineComponent({
   @apply rounded-b;
 }
 
-.selected {
-  @apply bg-slate-700;
+.selected-black {
+  @apply bg-slate-700 text-white;
 }
 
-.not-selected {
-  @apply bg-slate-900;
+.not-selected-black {
+  @apply bg-slate-900 text-white;
+}
+
+.selected-white {
+  @apply bg-zinc-300 text-black;
+}
+
+.not-selected-white {
+  @apply bg-white text-black;
 }
 
 .dropdown-toggle-button {
-  @apply inline-flex justify-between items-center py-2 px-4 w-full h-9 font-sans text-white rounded-lg outline-none bg-slate-900;
+  @apply inline-flex justify-between items-center py-2 px-4 w-full h-9 font-sans rounded-lg;
+}
+
+.black {
+  @apply text-white outline-none bg-slate-900;
+}
+
+.white {
+  @apply rounded-xl shadow-lg outline-none focus:ring-2 text-pale-gray shadow-zinc-900 focus:ring-pale-gray bg-white;
 }
 
 .dropdown-list {
-  @apply absolute pt-1 font-sans text-white filter drop-shadow-xl;
+  @apply absolute pt-1 font-sans text-black filter drop-shadow-xl w-full;
 }
 
 .dropdown-selector {

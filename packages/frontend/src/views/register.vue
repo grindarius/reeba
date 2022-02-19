@@ -23,16 +23,7 @@
               <label class="heading" for="phone">
                 Phone
               </label>
-              <div>
-                <div class="register-input-section">
-                  <label for="countries" class="sr-only">Countries</label>
-                  <select id="countries" name="countries" class="register-input-box">
-                    <option>+66</option>
-                    <option>+00</option>
-                    <option>+00</option>
-                  </select>
-                </div>
-              </div>
+              <r-dropdown class="mb-2" :values="['+55', '+66', '+77']" v-model:selected-value="selectedCountryCode" :color-style="'white'" />
             </div>
 
             <div class="register-input-section">
@@ -79,11 +70,18 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 
+import RDropdown from '@/components/r-dropdown.vue'
+
 export default defineComponent({
   name: 'register',
+  components: {
+    'r-dropdown': RDropdown
+  },
   setup () {
     const passwordField = ref('')
     const confirmPasswordField = ref('')
+
+    const selectedCountryCode = ref('+55')
 
     const onCredentialsSubmit = (): void => {
       if (passwordField.value === confirmPasswordField.value) {
@@ -91,7 +89,12 @@ export default defineComponent({
       }
     }
 
-    return { passwordField, confirmPasswordField, onCredentialsSubmit }
+    return {
+      passwordField,
+      confirmPasswordField,
+      onCredentialsSubmit,
+      selectedCountryCode
+    }
   }
 })
 </script>
