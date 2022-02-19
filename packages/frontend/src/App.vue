@@ -53,14 +53,20 @@
               Follow us
             </div>
             <div class="flex justify-start space-x-3">
-              <a rel="noopener noreferrer" href="#" title="Facebook" class="flex items-center p-1">
-                <v-mdi name="mdi-facebook" size="40" fill="#D5A755" />
+              <a class="block bg-pale-yellow p-0 rounded-full">
+                <a rel="noopener noreferrer" href="#" title="Facebook" class="flex items-center p-1">
+                  <v-mdi name="mdi-facebook" size="40" fill="#FFFFFF" />
+                </a>
               </a>
-              <a rel="noopener noreferrer" href="#" title="Twitter" class="flex items-center p-1">
-                <v-mdi name="mdi-twitter" size="40" fill="#D5A755" />
+              <a class="block bg-pale-yellow p-0 rounded-full">
+                <a rel="noopener noreferrer" href="#" title="Facebook" class="flex items-center p-1">
+                  <v-mdi name="mdi-twitter" size="40" fill="#FFFFFF" />
+                </a>
               </a>
-              <a rel="noopener noreferrer" href="#" title="Instagram" class="flex items-center p-1">
-                <v-mdi name="mdi-instagram" size="40" fill="#D5A755" />
+              <a class="block bg-pale-yellow p-0 rounded-full">
+                <a rel="noopener noreferrer" href="#" title="Facebook" class="flex items-center p-1">
+                  <v-mdi name="mdi-Instagram" size="40" fill="#FFFFFF" />
+                </a>
               </a>
             </div>
           </div>
@@ -92,14 +98,29 @@
           </h3>
           <ul class="space-y-3 text-gray-600">
             <li>
+              <button class="inline-flex items-center justify-center w-5 h-5 mr-1 text-white transition-colors duration-150 bg-pale-yellow rounded-full focus:shadow-outline">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 3l-6 6m0 0V4m0 5h5M5 3a2 2 0 00-2 2v1c0 8.284 6.716 15 15 15h1a2 2 0 002-2v-3.28a1 1 0 00-.684-.948l-4.493-1.498a1 1 0 00-1.21.502l-1.13 2.257a11.042 11.042 0 01-5.516-5.517l2.257-1.128a1 1 0 00.502-1.21L9.228 3.683A1 1 0 008.279 3H5z" />
+                </svg>
+              </button>
               <a rel="noopener noreferrer" href="#">+(66)2 026 3068
                 10.30-18.00(UTC+7), Mon-Fri
               </a>
             </li>
             <li>
-              <a rel="noopener noreferrer" href="#">@ReebA</a>
+              <button class="inline-flex items-center justify-center w-5 h-5 mr-1 text-white transition-colors duration-150 bg-pale-yellow rounded-full focus:shadow-outline">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20" />
+                </svg>
+              </button>
+              <a rel="noopener noreferrer" href="#">@reeba</a>
             </li>
             <li>
+              <button class="inline-flex items-center justify-center w-5 h-5 mr-1 text-white transition-colors duration-150 bg-pale-yellow rounded-full focus:shadow-outline">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </button>
               <a rel="noopener noreferrer" href="#">support@reeba.com</a>
             </li>
           </ul>
@@ -122,6 +143,29 @@
               <a rel="noopener noreferrer" href="#">Talk to us</a>
             </li>
           </ul>
+        </div>
+        <div class="space-y-3">
+          <ul class="space-y-3 text-gray-600">
+            <li>
+              <button class="inline-flex items-center justify-center w-5 h-5 mr-1 text-white transition-colors duration-150 bg-pale-yellow rounded-full focus:shadow-outline">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 3l-6 6m0 0V4m0 5h5M5 3a2 2 0 00-2 2v1c0 8.284 6.716 15 15 15h1a2 2 0 002-2v-3.28a1 1 0 00-.684-.948l-4.493-1.498a1 1 0 00-1.21.502l-1.13 2.257a11.042 11.042 0 01-5.516-5.517l2.257-1.128a1 1 0 00.502-1.21L9.228 3.683A1 1 0 008.279 3H5z" />
+                </svg>
+              </button>
+              <a rel="noopener noreferrer" href="#">+(66)2 026 3235</a>
+            </li>
+            <li>
+              <button class="inline-flex items-center justify-center w-5 h-5 mr-1 text-white transition-colors duration-150 bg-pale-yellow rounded-full focus:shadow-outline">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </button>
+              <a rel="noopener noreferrer" href="#">sales@reeba.com</a>
+            </li>
+          </ul>
+          <router-link to="" class="buy-button">
+            Sell Tickets
+          </router-link>
         </div>
       </div>
     </div>
@@ -215,6 +259,10 @@ export default defineComponent({
       @apply mr-2 #{!important};
     }
   }
+}
+
+.buy-button {
+  @apply inline-block py-2 px-8 text-white rounded-lg bg-pale-gray hover:bg-gray-hover;
 }
 
 .buttons-mobile {
