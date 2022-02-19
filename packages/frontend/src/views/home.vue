@@ -6,8 +6,8 @@
           <h1 class="text-main-event-name">
             Official events
           </h1>
-          <div v-for="({coverImagePath, name, firstDatetime, venueName}, index) in eventData?.official " :key="index">
-            {{ coverImagePath }}: {{ name }}: {{ firstDatetime }}: {{ venueName }}
+          <div v-for="({name, firstDatetime, venueName}, index) in eventData?.official " :key="index">
+            {{ name }}: {{ firstDatetime }}: {{ venueName }}
           </div>
           <div class="event-grid-box">
             <div class="event">
