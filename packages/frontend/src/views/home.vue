@@ -9,7 +9,7 @@
           <div class="event-grid-box">
             <div class="event" v-for="({id, name, firstDatetime, venueName}, index ) in eventData?.official " :key="JSON.stringify(index)">
               <div class="event-image-box">
-                <img class="event-image" :src="`http://127.0.0.1:3000/event-images/${ id }`" alt="event-image">
+                <img class="event-image" :src="`http://localhost:3000/event-images/${id}`" alt="event-image">
               </div>
               <div class="event-info">
                 <div>
@@ -38,7 +38,7 @@
           <div class="event-grid-box">
             <div class="event" v-for="({id, name, firstDatetime, venueName}, index ) in eventData?.local " :key="JSON.stringify(index)">
               <div class="event-image-box">
-                <img class="event-image" :src="`http://127.0.0.1:3000/event-images/${ id }`" alt="event-image">
+                <img class="event-image" :src="`http://localhost:3000/event-images/${id}`" alt="event-image">
               </div>
               <div class="event-info">
                 <div>

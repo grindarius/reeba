@@ -9,7 +9,7 @@
         Upload (async/await)
       </button>
       <div class="image">
-        <img src="http://localhost:3000/avatars" alt="image">
+        <img src="http://localhost:3000/avatars/grindarius" alt="image">
       </div>
     </div>
   </div>
