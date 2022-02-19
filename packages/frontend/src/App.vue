@@ -49,10 +49,10 @@
       <div class="lg:w-1/5">
         <a rel="noopener noreferrer" href="#" class="flex justify-center space-x-3 lg:justify-start">
           <div class="space-y-3 ">
-            <div class="font-bold md:mt-8">
+            <div class="font-bold md:mt-8 px-4 mt-10">
               Follow us
             </div>
-            <div class="flex justify-start space-x-3">
+            <div class="flex justify-start space-x-3 px-4 mt-10">
               <a class="block bg-pale-yellow p-0 rounded-full">
                 <a rel="noopener noreferrer" href="#" title="Facebook" class="flex items-center p-1">
                   <v-mdi name="mdi-facebook" size="40" fill="#FFFFFF" />
@@ -72,7 +72,7 @@
           </div>
         </a>
       </div>
-      <div class="grid grid-cols-2 text-sm gap-x-3 gap-y-8 lg:w-2/3 sm:grid-cols-4 ">
+      <div class="footer-Need-Customer-Our">
         <div class="space-y-3">
           <h3 class="font-bold text-black-700">
             Need help?
@@ -263,6 +263,10 @@ export default defineComponent({
 
 .buy-button {
   @apply inline-block py-2 px-8 text-white rounded-lg bg-pale-gray hover:bg-gray-hover;
+}
+
+.footer-Need-Customer-Our{
+  @apply grid grid-cols-1 px-4 mt-10 text-sm gap-x-3 gap-y-8 lg:w-2/3 sm:grid-cols-4;
 }
 
 .buttons-mobile {
