@@ -20,11 +20,18 @@
             </div>
 
             <div class="register-input-section">
-              <label class="heading" for="email">
+              <label class="heading" for="phone">
                 Phone
               </label>
               <div>
-                <input class="register-input-box" id="phone" type="text" placeholder="000-000-0000">
+                <div class="register-input-section">
+                  <label for="countries" class="sr-only">Countries</label>
+                  <select id="countries" name="countries" class="register-input-box">
+                    <option>+66</option>
+                    <option>+00</option>
+                    <option>+00</option>
+                  </select>
+                </div>
               </div>
             </div>
 
