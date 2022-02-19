@@ -6,83 +6,21 @@
           <h1 class="text-main-event-name">
             Official events
           </h1>
-          <div v-for="({name, firstDatetime, venueName}, index) in eventData?.official " :key="index">
-            {{ name }}: {{ firstDatetime }}: {{ venueName }}
-          </div>
           <div class="event-grid-box">
-            <div class="event">
+            <div class="event" v-for="({id, name, firstDatetime, venueName}, index ) in eventData?.official " :key="JSON.stringify(index)">
               <div class="event-image-box">
-                <img class="event-image" src="@/assets/TK-1-Lido.png" alt="event-image">
+                <img class="event-image" src="http://localhost:3000/event-images/" alt="event-image">
               </div>
               <div class="event-info">
                 <div>
                   <h3 class="event-name">
-                    {{ eventData?.official ?? 'noreply' }}
+                    {{ name }}
                   </h3>
                   <p class="event-time">
-                    16 JAN 2022 | 13:00
+                    {{ firstDatetime }}
                   </p>
                   <p class="event-location">
-                    LIDO CONNECT Hall 1
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="event">
-              <router-link to="/event">
-                <div class="event-image-box">
-                  <img class="event-image" src="@/assets/TK-2-BTS.png" alt="event-image">
-                </div>
-                <div class="event-info">
-                  <div>
-                    <h3 class="event-name">
-                      BTS World Tour 'Love Yourself' Bangkok
-                    </h3>
-                    <p class="event-time">
-                      6 - 7 Apr 2021 | 21:00
-                    </p>
-                    <p class="event-location">
-                      Rajamangkala National
-                    </p>
-                  </div>
-                </div>
-              </router-link>
-            </div>
-
-            <div class="event">
-              <div class="event-image-box">
-                <img class="event-image" src="@/assets/TK-3-ReMSC.png" alt="event-image">
-              </div>
-              <div class="event-info">
-                <div>
-                  <h3 class="event-name">
-                    Re-MSC: Reconnecting with Mindful Self-Compassion
-                  </h3>
-                  <p class="event-time">
-                    25 APR 2022 | 13:00
-                  </p>
-                  <p class="event-location">
-                    Online Event
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="event">
-              <div class="event-image-box">
-                <img class="event-image" src="@/assets/TK-4-sculpture-drive-through.png" alt="event-image">
-              </div>
-              <div class="event-info">
-                <div>
-                  <h3 class="event-name">
-                    Sculpture Drive Thru
-                  </h3>
-                  <p class="event-time">
-                    5 MAR 2022 | 13:00
-                  </p>
-                  <p class="event-location">
-                    Day Day Ari, Ari Samphan Soi 5
+                    {{ venueName }}
                   </p>
                 </div>
               </div>
@@ -98,77 +36,20 @@
           </h1>
 
           <div class="event-grid-box">
-            <div class="event">
+            <div class="event" v-for="({name, firstDatetime, venueName}, index ) in eventData?.local " :key="JSON.stringify(index)">
               <div class="event-image-box">
                 <img class="event-image" src="@/assets/TK-5-PGBLive.png" alt="event-image">
               </div>
               <div class="event-info">
                 <div>
                   <h3 class="event-name">
-                    PGB Live: Next Level Pinoy
+                    {{ name }}
                   </h3>
                   <p class="event-time">
-                    10 MAR 2022 | 13:00
+                    {{ firstDatetime }}
                   </p>
                   <p class="event-location">
-                    Virtual Event
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="event">
-              <div class="event-image-box">
-                <img class="event-image" src="@/assets/TK-6-child-in-mob.png" alt="event-image">
-              </div>
-              <div class="event-info">
-                <div>
-                  <h3 class="event-name">
-                    Child in Mob
-                  </h3>
-                  <p class="event-time">
-                    9 JUN 2022 | 21:00
-                  </p>
-                  <p class="event-location">
-                    Charity
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="event">
-              <div class="event-image-box">
-                <img class="event-image" src="@/assets/TK-7-transport-chang-chui-2.png" alt="event-image">
-              </div>
-              <div class="event-info">
-                <div>
-                  <h3 class="event-name">
-                    Transport | Chang Chui 2
-                  </h3>
-                  <p class="event-time">
-                    19 JAN 2022 | 13:00
-                  </p>
-                  <p class="event-location">
-                    Chang Chui
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="event">
-              <div class="event-image-box">
-                <img class="event-image" src="@/assets/TK-8-hg80.png" alt="event-image">
-              </div>
-              <div class="event-info">
-                <div>
-                  <h3 class="event-name">
-                    Hg80 Bar Vouchers
-                  </h3>
-                  <p class="event-time">
-                    1 DEC 2022 | 13:00
-                  </p>
-                  <p class="event-location">
-                    Hg80 Bar Bangkok (near Chong Nonsi BTS)
+                    {{ venueName }}
                   </p>
                 </div>
               </div>
@@ -194,9 +75,9 @@ export default defineComponent({
     const eventData: Ref<GetEventsReply | undefined> = ref(undefined)
 
     onMounted(async () => {
-      const { method, url } = getEvents
+      const { method } = getEvents
       try {
-        const response = await ky(url, {
+        const response = await ky('http://localhost:3000/events/root', {
           method
         }).json<GetEventsReply>()
 
@@ -227,7 +108,7 @@ export default defineComponent({
 }
 
 .event-grid-box {
-  @apply grid grid-cols-1 gap-x-6 gap-y-10 mt-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8;
+  @apply grid grid-rows-1 gap-x-6 gap-y-10 mt-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8;
 }
 
 .event {
