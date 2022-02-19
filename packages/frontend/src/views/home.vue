@@ -7,23 +7,25 @@
             Official events
           </h1>
           <div class="event-grid-box">
-            <div class="event" v-for="({id, name, firstDatetime, venueName}, index ) in eventData?.official " :key="JSON.stringify(index)">
-              <div class="event-image-box">
-                <img class="event-image" :src="`http://localhost:3000/event-images/${id}`" alt="event-image">
-              </div>
-              <div class="event-info">
-                <div>
-                  <h3 class="event-name">
-                    {{ name }}
-                  </h3>
-                  <p class="event-time">
-                    {{ getTimeString(firstDatetime) }}
-                  </p>
-                  <p class="event-location">
-                    {{ venueName }}
-                  </p>
+            <div class="event" v-for="({id, name, firstDatetime, venueName}, index ) in eventData?.official" :key="JSON.stringify(index)">
+              <router-link :to="{ name: 'Event', params: { eventId: id }}">
+                <div class="event-image-box">
+                  <img class="event-image" :src="`http://localhost:3000/event-images/${id}`" alt="event-image">
                 </div>
-              </div>
+                <div class="event-info">
+                  <div>
+                    <h3 class="event-name">
+                      {{ name }}
+                    </h3>
+                    <p class="event-time">
+                      {{ getTimeString(firstDatetime) }}
+                    </p>
+                    <p class="event-location">
+                      {{ venueName }}
+                    </p>
+                  </div>
+                </div>
+              </router-link>
             </div>
           </div>
         </div>
@@ -37,22 +39,24 @@
 
           <div class="event-grid-box">
             <div class="event" v-for="({id, name, firstDatetime, venueName}, index ) in eventData?.local " :key="JSON.stringify(index)">
-              <div class="event-image-box">
-                <img class="event-image" :src="`http://localhost:3000/event-images/${id}`" alt="event-image">
-              </div>
-              <div class="event-info">
-                <div>
-                  <h3 class="event-name">
-                    {{ name }}
-                  </h3>
-                  <p class="event-time">
-                    {{ firstDatetime }}
-                  </p>
-                  <p class="event-location">
-                    {{ venueName }}
-                  </p>
+              <router-link :to="{ name: 'Event', params: { eventId: id }}">
+                <div class="event-image-box">
+                  <img class="event-image" :src="`http://localhost:3000/event-images/${id}`" alt="event-image">
                 </div>
-              </div>
+                <div class="event-info">
+                  <div>
+                    <h3 class="event-name">
+                      {{ name }}
+                    </h3>
+                    <p class="event-time">
+                      {{ firstDatetime }}
+                    </p>
+                    <p class="event-location">
+                      {{ venueName }}
+                    </p>
+                  </div>
+                </div>
+              </router-link>
             </div>
           </div>
         </div>
@@ -74,6 +78,8 @@ export default defineComponent({
   name: 'home',
   setup () {
     const eventData: Ref<GetEventsReply | undefined> = ref(undefined)
+    // const eventIdData: Ref<GetIndividualEventReply | undefined> = ref(undefined)
+    // const route = useRoute()
 
     onMounted(async () => {
       const { method } = getEvents
@@ -86,6 +92,15 @@ export default defineComponent({
       } catch (error) {
         console.error(error)
       }
+      // try {
+      //   const response = await ky('http://localhost:3000/events/' + route.params.eventId, {
+      //     method
+      //   }).json<GetIndividualEventReply>()
+
+      //   eventIdData.value = response
+      // } catch (error) {
+      //   console.error(error)
+      // }
     })
 
     const getTimeString = (firstDatetime: string): string => {
