@@ -178,6 +178,8 @@ export default defineComponent({
     const selectedZoneRow = ref('5')
     const selectedZoneColumn = ref('5')
 
+    const markdown = new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true })
+
     const sections = computed(() => generateEventSections(Number(selectedSectionRow.value) || 1, Number(selectedSectionColumn.value) || 1))
     const zones = computed(() => generateEventSections(Number(selectedZoneRow.value) || 1, Number(selectedZoneColumn.value) || 1))
     const selectedSectionStyles = computed<StyleValue>(() => {
@@ -223,6 +225,12 @@ export default defineComponent({
       selectedTimes.value.splice(index, 1)
     }
 
+    const result = ref('Description display here')
+
+    const updateMarkdown = debounce((e:Event): void => {
+      result.value = markdown.render((e.target as HTMLInputElement).value)
+    }, 500)
+
     return {
       sections,
       onSelectedSection,
@@ -240,7 +248,9 @@ export default defineComponent({
       selectedEventEndTime,
       selectedTimes,
       addEventTime,
-      removeEventTime
+      removeEventTime,
+      updateMarkdown,
+      result
     }
   }
 })
