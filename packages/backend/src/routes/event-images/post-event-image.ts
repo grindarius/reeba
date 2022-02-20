@@ -35,8 +35,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         throw new Error('params should have required property \'eventId\'')
       }
 
-      const eventImagePath = await instance.pg.query<Pick<events, 'event_cover_image_path'>, [events['event_id']]>(
-        'select event_cover_image_path from events where event_id = $1',
+      const eventImagePath = await instance.pg.query<Pick<events, 'event_cover_image_path'>, [events['event_name']]>(
+        'select event_cover_image_path from events where event_name = $1',
         [eventId]
       )
 
@@ -54,7 +54,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         await pump(data.file, createWriteStream(resolve(__dirname, '..', '..', '..', 'uploads', filename)))
 
         await instance.pg.query(
-          'update events set event_cover_image_path = $1 where user_username = $2',
+          'update events set event_cover_image_path = $1 where event_name = $2',
           [filename, eventId]
         )
         return {
