@@ -72,35 +72,21 @@ import { defineComponent, onMounted, Ref, ref } from 'vue'
 
 import { GetEventsReply } from '@reeba/common'
 
-import { getEvents } from '@/api/endpoints'
-
 export default defineComponent({
   name: 'home',
   setup () {
     const eventData: Ref<GetEventsReply | undefined> = ref(undefined)
-    // const eventIdData: Ref<GetIndividualEventReply | undefined> = ref(undefined)
-    // const route = useRoute()
 
     onMounted(async () => {
-      const { method } = getEvents
       try {
         const response = await ky('http://localhost:3000/events/root', {
-          method
+          method: 'get'
         }).json<GetEventsReply>()
 
         eventData.value = response
       } catch (error) {
         console.error(error)
       }
-      // try {
-      //   const response = await ky('http://localhost:3000/events/' + route.params.eventId, {
-      //     method
-      //   }).json<GetIndividualEventReply>()
-
-      //   eventIdData.value = response
-      // } catch (error) {
-      //   console.error(error)
-      // }
     })
 
     const getTimeString = (firstDatetime: string): string => {
