@@ -11,7 +11,7 @@
           </h1>
           <div class="register-section">
             <div class="register-input-section">
-              <label class="heading" for="username">
+              <label class="heading" for="username">04
                 Username
               </label>
               <div>
@@ -25,7 +25,9 @@
               </label>
               <select name="countryCode" id="">
                 <option data-countryCode="GB" value="44" Selected>
-                  Norway (+47)
+                  <span class="flag-icon  flag-icon-gr">
+                    Norway (+47)
+                  </span>
                 </option>
                 <option data-countryCode="US" value="1">
                   UK (+44)
