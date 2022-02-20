@@ -100,7 +100,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/:pathMatch(.*)',
-    redirect: '/'
+    name: 'Not Found',
+    component: Page.NotFound
   }
 ]
 
