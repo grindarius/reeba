@@ -1,0 +1,23 @@
+import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+
+export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
+  instance.all(
+    '/verification',
+    {
+      onRequest: async (request, reply) => {
+        try {
+          await request.jwtVerify()
+        } catch (error) {
+          void reply.send(error)
+        }
+      }
+    },
+    async (request) => {
+      const user = request.user
+
+      return {
+        user
+      }
+    }
+  )
+}
