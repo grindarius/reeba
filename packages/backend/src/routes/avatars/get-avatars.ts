@@ -13,6 +13,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     async (request, reply) => {
       const { username } = request.params
 
+      void reply.header('Cross-Origin-Resource-Policy', 'cross-origin')
+
       if (username == null || username === '') {
         return await reply.sendFile('default-user-profile.png')
       }
