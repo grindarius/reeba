@@ -7,7 +7,7 @@
             Official events
           </h1>
           <div class="event-grid-box">
-            <div class="event" v-for="({id, name, firstDatetime, venueName}, index ) in eventData?.official" :key="JSON.stringify(index)">
+            <div class="event" v-for="({id, name, firstDatetime, venueName}, i ) in eventData?.official" :key="`root-page-official-event-${i}`">
               <router-link :to="{ name: 'Event', params: { eventId: id }}">
                 <div class="event-image-box">
                   <img class="event-image" :src="`http://localhost:3000/event-images/${id}`" alt="event-image">
@@ -38,7 +38,7 @@
           </h1>
 
           <div class="event-grid-box">
-            <div class="event" v-for="({id, name, firstDatetime, venueName}, index ) in eventData?.local " :key="JSON.stringify(index)">
+            <div class="event" v-for="({id, name, firstDatetime, venueName}, i ) in eventData?.local " :key="`root-page-local-event-${i}`">
               <router-link :to="{ name: 'Event', params: { eventId: id }}">
                 <div class="event-image-box">
                   <img class="event-image" :src="`http://localhost:3000/event-images/${id}`" alt="event-image">
@@ -72,6 +72,8 @@ import { defineComponent, onMounted, Ref, ref } from 'vue'
 
 import { GetEventsReply } from '@reeba/common'
 
+import { getRootPageEvents } from '@/api/endpoints'
+
 export default defineComponent({
   name: 'home',
   setup () {
@@ -79,10 +81,8 @@ export default defineComponent({
 
     onMounted(async () => {
       try {
-        const response = await ky('http://localhost:3000/events/root', {
-          method: 'get'
-        }).json<GetEventsReply>()
-
+        const { method, url } = getRootPageEvents
+        const response = await ky(url, { method }).json<GetEventsReply>()
         eventData.value = response
       } catch (error) {
         console.error(error)

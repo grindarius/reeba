@@ -11,6 +11,6 @@ export const postAvatar: Endpoint = {
 }
 
 export const getRootPageEvents: Endpoint = {
-  url: url + '/events',
+  url: url + '/events/root',
   method: 'get'
 }
