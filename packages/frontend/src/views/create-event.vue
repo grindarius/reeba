@@ -143,6 +143,8 @@
 <script lang="ts">
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import debounce from 'debounce'
+import MarkdownIt from 'markdown-it'
 import { computed, defineComponent, ref, StyleValue } from 'vue'
 
 import { ReebAEventDatetime } from '@/types'
