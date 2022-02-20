@@ -4,12 +4,12 @@
       <section class="profile-descriptions">
         <img src="@/assets/user.png" alt="user-image" class="user-image">
         <div class="user-info">
-          <div class="text-4xl font-bold mt-3 text-white">
+          <div class="mt-3 text-4xl font-bold text-white">
             grindarius
             <v-mdi name="mdi-check-decagram" fill="#D5A755" />
           </div>
         </div>
-        <div class="text-white text-md mt-3 mb-5">
+        <div class="mt-3 mb-5 text-white text-md">
           I love going all out on people I don't know
         </div>
         <div class="social-icons">
@@ -105,7 +105,7 @@ export default defineComponent({
 }
 
 .user-info {
-  @apply flex flex-row justify-center gap-1 text-center  text-white;
+  @apply flex flex-row gap-1 justify-center text-center text-white;
 }
 
 .users-page-content {

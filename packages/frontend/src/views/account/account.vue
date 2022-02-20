@@ -8,12 +8,12 @@
           </div>
         </div>
         <div class="account-info">
-          <p class="text-center text-white text-base font-semibold">
+          <p class="text-base font-semibold text-center text-white">
             grindarius
           </p>
           <v-mdi name="mdi-check-decagram" fill="#D5A755" />
         </div>
-        <p class="text-center text-sm text-pale-yellow">
+        <p class="text-sm text-center text-pale-yellow">
           Bhattarapongs@nu.ac.th
         </p>
         <div class="account-settings-menu">
@@ -96,7 +96,7 @@ export default defineComponent({
 }
 
 .account-info {
-  @apply flex flex-row gap-1 justify-center text-center  text-white;
+  @apply flex flex-row gap-1 justify-center text-center text-white;
 }
 
 .account-table {
