@@ -51,6 +51,18 @@
             <label for="event-contact-credentials" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Credentials</label>
             <input type="text" id="event-contact-credentials" name="event-contact-credentials" class="appearance-none input" placeholder="092-3245423">
           </div>
+          <div class="col-span-2 input-box">
+            <label for="event-description-box" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Description</label>
+            <textarea
+              type="text" id="event-description-box"
+              name="event-description-box" class="appearance-none input"
+              placeholder="Description"
+              @input="updateMarkdown" />
+          </div>
+          <div class="col-span-2 input-box">
+            <label for="event-description-box-example" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Example</label>
+            <div class="markdown" v-html="result" />
+          </div>
           <hr class="col-span-4 mt-8 w-full border border-pale-yellow">
         </div>
       </div>
@@ -281,5 +293,9 @@ input[type=number] {
   &::-webkit-outer-spin-button {
     appearance: none;
   }
+}
+
+.markdown {
+  @apply py-3 px-4 w-full h-auto bg-gray-100 rounded outline-none focus:bg-white ring-pale-gray focus:ring-gray-hover;
 }
 </style>
