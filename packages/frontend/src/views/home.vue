@@ -76,13 +76,18 @@ import { getRootPageEvents } from '@/api/endpoints'
 export default defineComponent({
   name: 'home',
   setup () {
-    const eventData: Ref<GetEventsReply> = ref({}) as Ref<GetEventsReply>
+    const eventData: Ref<GetEventsReply> = ref({
+      official: [],
+      local: []
+    })
     const { method, url } = getRootPageEvents
 
     onMounted(async () => {
       try {
         const response = await ky(url, { method }).json<GetEventsReply>()
-        eventData.value = response
+
+        eventData.value.official = response.official ?? []
+        eventData.value.local = response.local ?? []
       } catch (error) {
         console.error(error)
       }
