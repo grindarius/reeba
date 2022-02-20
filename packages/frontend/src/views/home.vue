@@ -7,7 +7,7 @@
             Official events
           </h1>
           <div class="event-grid-box">
-            <div class="event" v-for="({id, name, firstDatetime, venueName}, i ) in eventData.official" :key="`root-page-official-event-${i}`">
+            <div class="event" v-for="({id, name, firstDatetime, venueName}, i) in eventData.official" :key="`root-page-official-event-${i}`">
               <router-link :to="{ name: 'Event', params: { eventId: id }}">
                 <div class="event-image-box">
                   <img class="event-image" :src="`http://localhost:3000/event-images/${id}`" alt="event-image">
@@ -37,7 +37,7 @@
             Local events
           </h1>
           <div class="event-grid-box">
-            <div class="event" v-for="({id, name, firstDatetime, venueName}, i ) in eventData.local " :key="`root-page-local-event-${i}`">
+            <div class="event" v-for="({id, name, firstDatetime, venueName}, i) in eventData.local" :key="`root-page-local-event-${i}`">
               <router-link :to="{ name: 'Event', params: { eventId: id }}">
                 <div class="event-image-box">
                   <img class="event-image" :src="`http://localhost:3000/event-images/${id}`" alt="event-image">
@@ -119,7 +119,7 @@ export default defineComponent({
 }
 
 .event-grid-box {
-  @apply grid grid-rows-1 gap-x-6 gap-y-10 mt-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8;
+  @apply grid grid-cols-1 gap-x-6 gap-y-10 mt-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8;
 }
 
 .event {
