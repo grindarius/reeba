@@ -7,7 +7,7 @@
             Official events
           </h1>
           <div class="event-grid-box">
-            <div class="event" v-for="({id, name, firstDatetime, venueName}, i ) in eventData?.official" :key="`root-page-official-event-${i}`">
+            <div class="event" v-for="({id, name, firstDatetime, venueName}, i ) in eventData.official" :key="`root-page-official-event-${i}`">
               <router-link :to="{ name: 'Event', params: { eventId: id }}">
                 <div class="event-image-box">
                   <img class="event-image" :src="`http://localhost:3000/event-images/${id}`" alt="event-image">
@@ -36,9 +36,8 @@
           <h1 class="text-main-event-name">
             Local events
           </h1>
-
           <div class="event-grid-box">
-            <div class="event" v-for="({id, name, firstDatetime, venueName}, i ) in eventData?.local " :key="`root-page-local-event-${i}`">
+            <div class="event" v-for="({id, name, firstDatetime, venueName}, i ) in eventData.local " :key="`root-page-local-event-${i}`">
               <router-link :to="{ name: 'Event', params: { eventId: id }}">
                 <div class="event-image-box">
                   <img class="event-image" :src="`http://localhost:3000/event-images/${id}`" alt="event-image">
@@ -77,11 +76,11 @@ import { getRootPageEvents } from '@/api/endpoints'
 export default defineComponent({
   name: 'home',
   setup () {
-    const eventData: Ref<GetEventsReply | undefined> = ref(undefined)
+    const eventData: Ref<GetEventsReply> = ref({}) as Ref<GetEventsReply>
+    const { method, url } = getRootPageEvents
 
     onMounted(async () => {
       try {
-        const { method, url } = getRootPageEvents
         const response = await ky(url, { method }).json<GetEventsReply>()
         eventData.value = response
       } catch (error) {
