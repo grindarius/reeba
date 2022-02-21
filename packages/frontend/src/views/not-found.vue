@@ -1,18 +1,14 @@
 <template>
   <div class="error-page">
     <div class="background">
-      <section class="container">
-        <img src="@/assets/notfound.png" class="object-cover w-full h-full">
-        <div class="whitespace-nowrap button">
-          <router-link to="/" class="not-found">
-            <button
-              type="submit"
-              class="flex-row justify-center py-2 px-6 mx-6 w-60 tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray">
-              Go Home
-            </button>
-          </router-link>
-        </div>
-      </section>
+      <img src="@/assets/not-found.png" class="w-full">
+      <div class="whitespace-nowrap button">
+        <router-link to="/" class="not-found">
+          <button class="py-2 px-6 mx-6 w-60 tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray">
+            Go home
+          </button>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
