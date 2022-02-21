@@ -10,16 +10,18 @@
             <label for="event-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Event name</label>
             <input type="text" id="event-name" name="event-name" class="appearance-none input" placeholder="LOVE YOUR SELF">
           </div>
-          <div class="col-span-2 input-box">
-            <label for="event-description-box" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Description</label>
-            <span
-              class="textarea"
-              role="textbox" contenteditable="true"
-              @input="updateMarkdown" />
-          </div>
-          <div class="col-span-2 input-box">
-            <label for="event-description-box-example" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Example</label>
-            <div class="input prosing" v-html="result === ''? 'Description display here' : result" />
+          <div class="grid overflow-x-auto col-span-4 grid-rows-1 gap-y-4 gap-x-6 md:grid-cols-2">
+            <div class="input-box">
+              <label for="event-description-box" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Description</label>
+              <span
+                class="textarea"
+                role="textbox" contenteditable="true"
+                @input="updateMarkdown" />
+            </div>
+            <div class="input-box">
+              <label for="event-description-box-example" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Example</label>
+              <div class="input prosing" v-html="result === ''? 'Description display here' : result" />
+            </div>
           </div>
           <div class="col-span-4 input-box">
             <label for="event-website-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Website</label>
@@ -306,10 +308,10 @@ input[type=number] {
 }
 
 .textarea {
-  @apply input inline-block;
+  @apply inline-block input;
 }
 
 .prosing {
-  @apply max-w-none prose hover:prose-a:text-blue-500 prose-a:no-underline hover:prose-a:underline prose-a:text-blue-700 prose-blockquote:not-italic;
+  @apply max-w-none prose prose-a:no-underline prose-a:text-blue-700 prose-blockquote:not-italic hover:prose-a:text-blue-500 hover:prose-a:underline;
 }
 </style>
