@@ -153,7 +153,7 @@ export default defineComponent({
 }
 
 .dropdown-list {
-  @apply absolute pt-1 font-sans text-black filter drop-shadow-xl w-full;
+  @apply absolute pt-1 font-sans text-black filter drop-shadow-xl w-full max-h-20 overflow-x-scroll;
 }
 
 .link-wrapper:first-child > div {
