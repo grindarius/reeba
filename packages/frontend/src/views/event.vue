@@ -17,7 +17,7 @@
                   Show details
                 </h1>
                 <h1 class="detail-sub-header">
-                  {{ formatTimeRange(eventData?.datetimes ?? []) ?? '6-7 April 2022' }}
+                  {{ eventData?.datetimes == null ? '' : formatTimeRange(eventData?.datetimes ?? []) }}
                 </h1>
               </div>
             </div>
@@ -25,10 +25,10 @@
               <v-mdi name="mdi-alarm" size="60" fill="#D5A755" />
               <div class="times-content">
                 <h1 class="detail-header">
-                  {{ eventData?.openingDate ?? 'Opening date' }}
+                  Opening date
                 </h1>
                 <h1 class="detail-sub-header">
-                  {{ eventData?.openingDate ?? '15 March 2022 • 0:00' }}
+                  {{ eventData?.openingDate ?? '' }}
                 </h1>
               </div>
             </div>
@@ -39,20 +39,20 @@
                   Prices
                 </h1>
                 <h1 class="detail-sub-header">
-                  {{ (eventData?.prices ?? []).map(p => p.value) }}
+                  {{ eventData?.prices == null ? '' : formatPrices(eventData?.prices) }}
                 </h1>
               </div>
             </div>
             <div class="event-organizer">
-              <div class="flex-shrink-0 w-10 h-10">
-                <img class="rounded-full" :src="`http://localhost:3000/avatars/${eventData?.createdBy}`" alt="">
+              <div class="flex-shrink-0 w-[60px] h-[60px]">
+                <img class="rounded-full" :src="`http://localhost:3000/avatars/${eventData?.createdBy}`" :alt="eventData?.createdBy ?? ''">
               </div>
               <div class="organizer-content">
                 <h1 class="detail-header">
                   Created by
                 </h1>
                 <h1 class="detail-sub-header">
-                  {{ eventData?.createdBy ?? 'Grindarius' }}
+                  {{ eventData?.createdBy ?? '' }}
                 </h1>
               </div>
             </div>
@@ -64,7 +64,7 @@
                   Place
                 </h1>
                 <h1 class="detail-sub-header">
-                  {{ eventData?.venueName ?? 'Rajamangkala National Stadium' }}
+                  {{ eventData?.venueName ?? '' }}
                 </h1>
               </div>
             </div>
@@ -164,7 +164,7 @@ export default defineComponent({
     }
 
     const formatPrices = (prices: Array<{ color: string, value: number }>): string => {
-      return prices.map(p => p.value).sort((a, b) => a - b).map(p => format(',')(p)).join(', ') + ' THB'
+      return prices.map(p => p.value).sort((a, b) => a - b).map(p => format(',')(p)).join(' / ') + ' THB'
     }
 
     onMounted(async () => {
