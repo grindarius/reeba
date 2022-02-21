@@ -10,6 +10,17 @@
             <label for="event-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Event name</label>
             <input type="text" id="event-name" name="event-name" class="appearance-none input" placeholder="LOVE YOUR SELF">
           </div>
+          <div class="col-span-2 input-box">
+            <label for="event-description-box" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Description</label>
+            <span
+              class="textarea"
+              role="textbox" contenteditable="true"
+              @input="updateMarkdown" />
+          </div>
+          <div class="col-span-2 input-box">
+            <label for="event-description-box-example" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Example</label>
+            <div class="max-w-none prose input " v-html="result === ''? 'Description display here' : result" />
+          </div>
           <div class="col-span-4 input-box">
             <label for="event-website-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Website</label>
             <input type="text" id="event-website-name" name="event-website-name" class="appearance-none input" placeholder="https://event.reeba.com">
@@ -25,7 +36,6 @@
               <v-mdi name="mdi-plus-circle" class="mx-3 cursor-pointer" size="36" fill="#D5A755" @click="addEventTime" />
             </div>
           </div>
-
           <div class="col-span-4">
             <div v-for="(time, i) in selectedTimes" :key="`selected-event-time-${i}`">
               <div class="add-list-remove">
@@ -34,7 +44,6 @@
               </div>
             </div>
           </div>
-
           <div class="col-span-4 md:col-span-1 input-box">
             <label for="event-location-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Location name</label>
             <input type="text" id="event-location-name" name="event-location-name" class="appearance-none input" placeholder="Rajamangkala National Stadium">
@@ -50,17 +59,6 @@
           <div class="col-span-4 input-box">
             <label for="event-contact-credentials" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Credentials</label>
             <input type="text" id="event-contact-credentials" name="event-contact-credentials" class="appearance-none input" placeholder="092-3245423">
-          </div>
-          <div class="col-span-2 input-box">
-            <label for="event-description-box" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Description</label>
-            <span
-              class="textarea"
-              role="textbox" contenteditable="true"
-              @input="updateMarkdown" />
-          </div>
-          <div class="col-span-2 input-box">
-            <label for="event-description-box-example" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Example</label>
-            <div class="prose input" v-html="result === ''? 'Description display here' : result" />
           </div>
           <hr class="col-span-4 mt-8 w-full border border-pale-yellow">
         </div>
