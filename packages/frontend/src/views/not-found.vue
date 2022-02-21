@@ -3,14 +3,14 @@
     <!-- <section class="w-full h-screen">
       <img src="@/assets/error404.png" class="object-cover w-full h-full"> -->
     <div class="background">
-      <section class="contrainer">
-        <img src="@/assets/notfound.png" class="object-cover w-full h-full">
-        <div class="whitespace-nowrap botton">
-          <router-link to="/" class="buy-button">
+      <section class="container">
+        <img src="@/assets/not-found.png" class="object-cover w-full h-full">
+        <div class="whitespace-nowrap button">
+          <router-link to="/" class="not-found">
             <button
               type="submit"
               class="flex-row justify-center py-2 px-6 mx-6 w-60 tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray disabled:bg-red-disabled">
-              go home
+              Go Home
             </button>
           </router-link>
           <!-- <button
@@ -34,7 +34,7 @@
   @apply container px-6 mt-12 lg:px-0;
 }
 
-.botton {
+.button {
   @apply flex justify-center items-center;
 }
 </style>
