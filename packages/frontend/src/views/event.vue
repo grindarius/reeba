@@ -7,7 +7,7 @@
         </div>
         <div class="grow">
           <h1 class="font-sans text-4xl text-white">
-            {{ eventData?.name ?? 'BTS WORLD TOUR \'LOVE YOURSELF\' BANGKOK' }}
+            {{ eventData?.name ?? '' }}
           </h1>
           <div class="event-details">
             <div class="event-calendar">
@@ -17,7 +17,7 @@
                   Show details
                 </h1>
                 <h1 class="detail-sub-header">
-                  {{ eventData?.datetimes ?? '6-7 April 2022 • 19:00' }}
+                  {{ formatTimeRange(eventData?.datetimes ?? []) ?? '6-7 April 2022' }}
                 </h1>
               </div>
             </div>
@@ -39,7 +39,20 @@
                   Prices
                 </h1>
                 <h1 class="detail-sub-header">
-                  2,000 / 2,800 / 3,800 / 4,800 / 5,800 / 6,400 / 6,800 THB
+                  {{ (eventData?.prices ?? []).map(p => p.value) }}
+                </h1>
+              </div>
+            </div>
+            <div class="event-organizer">
+              <div class="flex-shrink-0 w-10 h-10">
+                <img class="rounded-full" :src="`http://localhost:3000/avatars/${eventData?.createdBy}`" alt="">
+              </div>
+              <div class="organizer-content">
+                <h1 class="detail-header">
+                  Created by
+                </h1>
+                <h1 class="detail-sub-header">
+                  {{ eventData?.createdBy ?? 'Grindarius' }}
                 </h1>
               </div>
             </div>
@@ -69,10 +82,10 @@
           <p class="mt-3 font-sans text-white break-words">
             {{ eventData?.description ?? '' }}
             <!-- “สนามราชมังคลากีฬาสถาน” กับงาน BTS WORLD TOUR ‘LOVE YOURSELF’ BANGKOK บัตรจำนวน 80,000 กว่าใบทั้ง 2 รอบการแสดง ถูกจำหน่ายหมดภายในเวลาอันรวดเร็วโดย BTS
-            ถือเป็นศิลปินเกาหลีวงแรกที่เปิดคอนเสิร์ตที่นี่!!! แต่สำหรับใครที่ยังนกบัตรอยู่ไม่ต้องเสียใจไป “ไอมี่ไทยแลนด์” และ “บิ๊กฮิต เอนเตอร์เทนเม้น” มีข่าวดีมาบอก!! เราจะเปิดขายบัตรเพิ่มเติมในราคา 6,400 บาท
-            ทั้ง 2 รอบการแสดง (เสาร์ที่ 6 เมษายน และ อาทิตย์ที่ 7 เมษายน 2562) รวมทั้งทีมงานยังได้ตรวจสอบบัตรที่มีการขายต่อเพิ่มราคา / การซื้อ-ขายบัตรนอกระบบ และพบว่ามีบัตรจำนวนหนึ่งที่เข้าข่ายผิดกฎจริง
-            จึงจะนำบัตรเหล่านั้นกลับเข้าสู่ระบบขายใหม่ในครั้งนี้ด้วย โดยสามารถตรวจสอบบัตรที่นำเข้าระบบได้ผ่านทางหน้าซื้อบัตร ในวันเปิดขายบัตรพร้อมกับ บัตรที่ขายเพิ่มเติมข้างต้น และในครั้งนี้จะใช้ระบบ Best Seat
-            สำหรับการซื้อบัตร นั่นคือสามารถเลือกได้เพียงโซนที่ต้องการ และทางระบบจะเลือกที่นั่งที่ดีที่สุดที่เหลืออยู่ในโซนนั้นมาให้ และต้องชำระเงินทันทีตามรายละเอียดดังนี้ -->
+              ถือเป็นศิลปินเกาหลีวงแรกที่เปิดคอนเสิร์ตที่นี่!!! แต่สำหรับใครที่ยังนกบัตรอยู่ไม่ต้องเสียใจไป “ไอมี่ไทยแลนด์” และ “บิ๊กฮิต เอนเตอร์เทนเม้น” มีข่าวดีมาบอก!! เราจะเปิดขายบัตรเพิ่มเติมในราคา 6,400 บาท
+              ทั้ง 2 รอบการแสดง (เสาร์ที่ 6 เมษายน และ อาทิตย์ที่ 7 เมษายน 2562) รวมทั้งทีมงานยังได้ตรวจสอบบัตรที่มีการขายต่อเพิ่มราคา / การซื้อ-ขายบัตรนอกระบบ และพบว่ามีบัตรจำนวนหนึ่งที่เข้าข่ายผิดกฎจริง
+              จึงจะนำบัตรเหล่านั้นกลับเข้าสู่ระบบขายใหม่ในครั้งนี้ด้วย โดยสามารถตรวจสอบบัตรที่นำเข้าระบบได้ผ่านทางหน้าซื้อบัตร ในวันเปิดขายบัตรพร้อมกับ บัตรที่ขายเพิ่มเติมข้างต้น และในครั้งนี้จะใช้ระบบ Best Seat
+              สำหรับการซื้อบัตร นั่นคือสามารถเลือกได้เพียงโซนที่ต้องการ และทางระบบจะเลือกที่นั่งที่ดีที่สุดที่เหลืออยู่ในโซนนั้นมาให้ และต้องชำระเงินทันทีตามรายละเอียดดังนี้ -->
           </p>
         </div>
         <div class="order-1 md:order-2">
@@ -81,14 +94,14 @@
           </div>
           <div class="ticket-date-selector">
             <h1 class="font-sans text-2xl font-medium text-pale-gray">
-              Rajamangkala National Stadium
+              {{ eventData?.venueName ?? '' }}
             </h1>
             <div>
               <h1 class="mt-2 font-sans text-2xl font-medium text-pale-gray">
                 Prices
               </h1>
               <h1 class="font-sans text-xl font-medium text-pale-gray">
-                2,000 / 2,800 / 3,800 / 4,800 / 5,800 / 6,400 / 6,800 THB
+                {{ formatPrices(eventData?.prices ?? []) ?? 'ราคา' }}
               </h1>
             </div>
             <h1 class="mt-2 text-2xl font-medium text-pale-gray">
@@ -120,6 +133,8 @@
 </template>
 
 <script lang="ts">
+import { format } from 'd3'
+import dayjs from 'dayjs'
 import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -131,6 +146,26 @@ export default defineComponent({
   setup () {
     const route = useRoute()
     const eventData: Ref<GetIndividualEventReply | undefined> = ref(undefined)
+
+    const formatTimeRange = (datetimes: Array<{ start: string, end: string }>): string => {
+      const sortedDatetimes = datetimes.sort((a, b) => dayjs(a.start).unix() - dayjs(b.start).unix())
+      const first = dayjs(sortedDatetimes[0].start)
+      const last = dayjs(sortedDatetimes[sortedDatetimes.length - 1].start)
+
+      if (first.get('year') !== last.get('year')) {
+        return `${first.format('D MMMM YYYY')} - ${last.format('D MMMM YYYY')}`
+      } else if (first.get('month') !== last.get('month')) {
+        return `${first.format('D MMMM')} - ${last.format('D MMMM')} ${first.format('YYYY')}`
+      } else if (first.get('date') !== last.get('date')) {
+        return `${first.format('D')} - ${last.format('D')} ${first.format('MMMM YYYY')}`
+      } else {
+        return first.format('D MMMM YYYY')
+      }
+    }
+
+    const formatPrices = (prices: Array<{ color: string, value: number }>): string => {
+      return prices.map(p => p.value).sort((a, b) => a - b).map(p => format(',')(p)).join(', ') + ' THB'
+    }
 
     onMounted(async () => {
       try {
@@ -145,7 +180,9 @@ export default defineComponent({
     })
 
     return {
-      eventData
+      eventData,
+      formatTimeRange,
+      formatPrices
     }
   }
 })
@@ -172,12 +209,12 @@ export default defineComponent({
   @apply grid grid-cols-1 grid-flow-row gap-4 mt-12 md:grid-cols-2;
 }
 
-.event-calendar, .event-prices, .event-times, .event-place {
+.event-calendar, .event-prices, .event-times, .event-place, .event-organizer {
   @apply flex flex-row gap-3;
 }
 
-.event-prices, .event-place {
-  @apply col-span-1 md:col-span-2;
+.event-prices, .event-place  {
+  @apply col-span-1 md:col-span-1;
 }
 
 .detail-header {
