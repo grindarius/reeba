@@ -19,7 +19,7 @@
           </div>
           <div class="col-span-2 input-box">
             <label for="event-description-box-example" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Example</label>
-            <div class="max-w-none prose input " v-html="result === ''? 'Description display here' : result" />
+            <div class="input prosing" v-html="result === ''? 'Description display here' : result" />
           </div>
           <div class="col-span-4 input-box">
             <label for="event-website-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Website</label>
@@ -307,5 +307,9 @@ input[type=number] {
 
 .textarea {
   @apply input inline-block;
+}
+
+.prosing {
+  @apply max-w-none prose hover:prose-a:text-blue-500 prose-a:no-underline hover:prose-a:underline prose-a:text-blue-700 prose-blockquote:not-italic;
 }
 </style>
