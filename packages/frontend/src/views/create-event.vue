@@ -156,6 +156,9 @@ import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import debounce from 'debounce'
 import MarkdownIt from 'markdown-it'
+// @ts-expect-error not have definitelyTyped
+import abbr from 'markdown-it-abbr'
+import emoji from 'markdown-it-emoji'
 import { computed, defineComponent, ref, StyleValue } from 'vue'
 
 import { ReebAEventDatetime } from '@/types'
@@ -177,7 +180,7 @@ export default defineComponent({
     const selectedZoneRow = ref('5')
     const selectedZoneColumn = ref('5')
 
-    const markdown = new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true })
+    const markdown = new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr)
 
     const sections = computed(() => generateEventSections(Number(selectedSectionRow.value) || 1, Number(selectedSectionColumn.value) || 1))
     const zones = computed(() => generateEventSections(Number(selectedZoneRow.value) || 1, Number(selectedZoneColumn.value) || 1))
