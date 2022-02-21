@@ -29,7 +29,7 @@
     "build:frontend": "cd packages/frontend && pnpm build",
     "build:common": "cd packages/common && pnpm build",
     "lint:css": "pnpm exec ts-node packages/scripts/src/lint-css.ts",
-    "test": "pnpm build:common && pnpm exec tap --rcfile=.taprc --reporter-arg=spec",
+    "test": "pnpm build:common && pnpm exec tap --rcfile=.taprc.yaml",
     "seed": "pnpm exec ts-node packages/scripts/src/seed.ts",
     "clear-uploads": "pnpm exec ts-node packages/scripts/src/clear-uploads-folder.ts",
     "clear-db": "pnpm exec ts-node packages/scripts/src/clear-db.ts"
