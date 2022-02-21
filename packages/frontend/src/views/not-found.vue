@@ -4,18 +4,20 @@
       <img src="@/assets/error404.png" class="object-cover w-full h-full"> -->
     <div class="background">
       <section class="contrainer">
-        <img src="@/assets/error-c.png" class="object-cover w-full h-full">
-        <div class="botton whitespace-nowrap">
-          <button
+        <img src="@/assets/notfound.png" class="object-cover w-full h-full">
+        <div class="whitespace-nowrap botton">
+          <router-link to="/" class="buy-button">
+            <button
+              type="submit"
+              class="flex-row justify-center py-2 px-6 mx-6 w-60 tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray disabled:bg-red-disabled">
+              go home
+            </button>
+          </router-link>
+          <!-- <button
             type="submit"
-            class=" flex-row justify-center py-2 px-6 mx-6 w-40 tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray disabled:bg-red-disabled">
-            go home
-          </button>
-          <button
-            type="submit"
-            class=" flex-row justify-center py-2 px-6 mx-6 w-40 tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray disabled:bg-red-disabled">
+            class="flex-row justify-center py-2 px-6 mx-6 w-40 tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray disabled:bg-red-disabled">
             conect again
-          </button>
+          </button> -->
         </div>
       </section>
     </div>
@@ -33,6 +35,6 @@
 }
 
 .botton {
-  @apply flex items-center justify-center;
+  @apply flex justify-center items-center;
 }
 </style>
