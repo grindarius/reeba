@@ -4,7 +4,7 @@
       <img src="@/assets/error404.png" class="object-cover w-full h-full"> -->
     <div class="background">
       <section class="container">
-        <img src="@/assets/not-found.png" class="object-cover w-full h-full">
+        <img src="@/assets/notfound.png" class="object-cover w-full h-full">
         <div class="whitespace-nowrap button">
           <router-link to="/" class="not-found">
             <button
