@@ -47,7 +47,7 @@
       <h1 class="page-header">
         Where
       </h1>
-      <r-dropdown :values="['users', 'events']" v-model:selected-value="selectedChartType" style="max-width: 200px;" :color-style="'black'" />
+      <r-dropdown :values="['users', 'events']" v-model:selected-value="selectedChartType" style="max-width: 200px;" />
       <h1 class="page-header">
         came from
       </h1>
