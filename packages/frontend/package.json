@@ -22,7 +22,7 @@
     "countries-list": "^2.6.1",
     "d3": "^7.3.0",
     "dayjs": "^1.10.7",
-    "iso-3166-1": "^2.1.1",
+    "i18n-iso-countries": "^7.3.0",
     "ky": "^0.28.7",
     "pinia": "^2.0.9",
     "postcss-import": "^14.0.2",
