@@ -1,13 +1,13 @@
 <template>
   <div class="inline-block relative w-full">
     <button
-      :class="colorStyle === 'black' ? 'dropdown-toggle-button black' : 'dropdown-toggle-button white'"
+      class="dropdown-toggle-button"
       @click.prevent="toggleDropdown">
       <span class="mr-1 font-sans text-lg">
         {{ buttonWord }}
       </span>
       <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-        <path :fill="colorStyle === 'black' ? '#fff' : '#000'" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+        <path :fill="'#fff'" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
       </svg>
     </button>
     <ul
@@ -38,11 +38,6 @@ export default defineComponent({
       type: Object as PropType<Array<string>>,
       required: true,
       default: [] as Array<string>
-    },
-    colorStyle: {
-      type: String as PropType<'black' | 'white'>,
-      required: true,
-      default: 'black'
     }
   },
   emits: ['update:selectedValue'],
@@ -73,9 +68,9 @@ export default defineComponent({
 
     const getDropdownClassname = (v: string): string => {
       if (props.selectedValue != null && v === localSelectedValue.value) {
-        return props.colorStyle === 'black' ? 'dropdown-selector selected-black' : 'dropdown-selector selected-white'
+        return 'dropdown-selector selected'
       }
-      return props.colorStyle === 'black' ? 'dropdown-selector not-selected-black' : 'dropdown-selector not-selected-white'
+      return 'dropdown-selector not-selected'
     }
 
     return {
@@ -100,32 +95,16 @@ export default defineComponent({
   @apply rounded-b;
 }
 
-.selected-black {
+.selected {
   @apply bg-slate-700 text-white;
 }
 
-.not-selected-black {
+.not-selected {
   @apply bg-slate-900 text-white;
 }
 
-.selected-white {
-  @apply bg-zinc-300 text-black;
-}
-
-.not-selected-white {
-  @apply bg-white text-black;
-}
-
 .dropdown-toggle-button {
-  @apply inline-flex justify-between items-center py-2 px-4 w-full h-9 font-sans rounded-lg;
-}
-
-.black {
-  @apply text-white outline-none bg-slate-900;
-}
-
-.white {
-  @apply rounded-xl shadow-lg outline-none focus:ring-2 text-pale-gray shadow-zinc-900 focus:ring-pale-gray bg-white;
+  @apply inline-flex justify-between items-center py-2 px-4 w-full h-9 font-sans rounded-lg text-white outline-none bg-slate-900;
 }
 
 .dropdown-list {
