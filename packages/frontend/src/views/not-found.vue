@@ -1,7 +1,5 @@
 <template>
   <div class="error-page">
-    <!-- <section class="w-full h-screen">
-      <img src="@/assets/error404.png" class="object-cover w-full h-full"> -->
     <div class="background">
       <section class="container">
         <img src="@/assets/notfound.png" class="object-cover w-full h-full">
@@ -9,19 +7,13 @@
           <router-link to="/" class="not-found">
             <button
               type="submit"
-              class="flex-row justify-center py-2 px-6 mx-6 w-60 tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray disabled:bg-red-disabled">
+              class="flex-row justify-center py-2 px-6 mx-6 w-60 tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray">
               Go Home
             </button>
           </router-link>
-          <!-- <button
-            type="submit"
-            class="flex-row justify-center py-2 px-6 mx-6 w-40 tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray disabled:bg-red-disabled">
-            conect again
-          </button> -->
         </div>
       </section>
     </div>
-    <!-- </section> -->
   </div>
 </template>
 
