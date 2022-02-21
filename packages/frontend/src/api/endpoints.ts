@@ -14,3 +14,13 @@ export const getRootPageEvents: Endpoint = {
   url: url + '/events/root',
   method: 'get'
 }
+
+export const signin: Endpoint = {
+  url: url + '/auth/signin',
+  method: 'post'
+}
+
+export const signup: Endpoint = {
+  url: url + '/auth/signup',
+  method: 'post'
+}
