@@ -111,6 +111,7 @@ importers:
     specifiers:
       '@mdi/js': ^6.5.95
       '@reeba/common': ^1.0.0
+      '@tailwindcss/typography': ^0.5.2
       '@types/d3': ^7.1.0
       '@types/debounce': ^1.2.1
       '@types/markdown-it': ^12.2.3
@@ -152,6 +153,7 @@ importers:
       vue-mdijs: 0.5.12
       vue-router: 4.0.12_vue@3.2.29
     devDependencies:
+      '@tailwindcss/typography': 0.5.2_tailwindcss@3.0.16
       '@types/d3': 7.1.0
       '@types/debounce': 1.2.1
       '@types/markdown-it': 12.2.3
@@ -620,6 +622,17 @@ packages:
     dependencies:
       defer-to-connect: 2.0.1
     dev: false
+
+  /@tailwindcss/typography/0.5.2_tailwindcss@3.0.16:
+    resolution: {integrity: sha512-coq8DBABRPFcVhVIk6IbKyyHUt7YTEC/C992tatFB+yEx5WGBQrCgsSFjxHUr8AWXphWckadVJbominEduYBqw==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1 || insiders'
+    dependencies:
+      lodash.castarray: 4.4.0
+      lodash.isplainobject: 4.0.6
+      lodash.merge: 4.6.2
+      tailwindcss: 3.0.16_f98f8cb1d4c2734d9765edb689db6e16
+    dev: true
 
   /@tsconfig/node10/1.0.8:
     resolution: {integrity: sha512-6XFfSQmMgq0CFLY1MslA/CPUfhIL919M1rMsa5lP2P097N2Wd1sSX0tx1u4olM16fLNhtHZpRhedZJphNJqmZg==}
@@ -4350,6 +4363,10 @@ packages:
       p-locate: 4.1.0
     dev: true
 
+  /lodash.castarray/4.4.0:
+    resolution: {integrity: sha1-wCUTUV4wna3dTCTGDP3c9ZdtkRU=}
+    dev: true
+
   /lodash.escaperegexp/4.1.2:
     resolution: {integrity: sha1-ZHYsSGGAglGKw99Mz11YhtriA0c=}
 
@@ -4371,6 +4388,10 @@ packages:
 
   /lodash.isnil/4.0.0:
     resolution: {integrity: sha1-SeKM1VkBNFjIFMVHnTxmOiG/qmw=}
+
+  /lodash.isplainobject/4.0.6:
+    resolution: {integrity: sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=}
+    dev: true
 
   /lodash.isundefined/3.0.1:
     resolution: {integrity: sha1-I+89lTVWUgOmbO/VuDD4SJEa+0g=}
