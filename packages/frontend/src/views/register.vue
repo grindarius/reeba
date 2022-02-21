@@ -18,19 +18,35 @@
                 <input class="register-input-box" id="username" type="text" placeholder="Username">
               </div>
             </div>
-<<<<<<< HEAD
-            <div class="register-section">
-              <label class="heading" for="phone">
-                Phone
-=======
-
             <div class="register-input-section">
               <label class="heading" for="email">
                 Email
->>>>>>> 0d98d0e7f31945e5c8bb1aa7c9eaaf3f96844971
               </label>
               <div>
                 <input class="register-input-box" id="email" type="text" placeholder="Email">
+              </div>
+            </div>
+
+            <div class="register-input-section">
+              <label class="heading" for="email">
+                Phone country code
+              </label>
+              <div>
+                <div class="register-input-box bg-white inline-block relative">
+                  <div class="flex justify-between items-center" @click="toggleDropdown">
+                    <span>{{ `${selectedCountryCode.name} (+${selectedCountryCode.phoneCode})` }}</span>
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                      <path fill="#000" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </div>
+                  <ul :class="dropdownState ? 'dropdown-list block' : 'dropdown-list hidden'">
+                    <li class="link-wrapper" v-for="(v, i) in phoneCodesList" :key="`country-code-dropdown-${i}`">
+                      <div :class="getDropdownClassname(v)">
+                        {{ `${v.name} (+${v.phoneCode})` }}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
 
