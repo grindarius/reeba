@@ -1,3 +1,5 @@
 test-regex: .+\.test.ts$
 ts: true
 jobs: 2
+reporter-arg: spec
+bail: true

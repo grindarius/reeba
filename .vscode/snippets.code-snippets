@@ -78,7 +78,7 @@
     "prefix": "fail",
     "body": [
       "t.error(error)",
-      "t.fail('There should not be an error')"
+      "t.fail()"
     ]
   }
 }

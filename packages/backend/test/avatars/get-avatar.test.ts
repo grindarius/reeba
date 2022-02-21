@@ -41,7 +41,9 @@ void t.test('get image', async t => {
         payload: {
           username: 'getavatartest',
           email: 'getavatartest@gmail.com',
-          password: 'getavatartest_123'
+          password: 'getavatartest_123',
+          phoneCountryCode: '332',
+          phoneNumber: '9384937485'
         }
       })
     }
@@ -130,4 +132,6 @@ void t.test('get image', async t => {
       t.fail()
     }
   })
+
+  t.end()
 })

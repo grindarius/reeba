@@ -16,20 +16,6 @@ export const enum t_user_role {
 }
 
 /**
- * Tuple storing event's price as a pair of color and price
- */
-export interface t_event_price {
-  /**
-   * Seat's color
-   */
-  price_color: string
-  /**
-   * Seat's price
-   */
-  price_value: number
-}
-
-/**
  * Enum to store event status
  *
  * - `'open'` means the event is open to others, will be able to look at and make transactions.
@@ -39,7 +25,14 @@ export interface t_event_price {
  * TODO: Might need more statuses
  */
 export const enum t_event_status {
+  /**
+   * Event is open for ordering new tickets
+   */
   open = 'open',
+  /**
+   * Event is closed, will disappear from first page, not accessible by links and API, (redirectes
+   * to not found page). tickets cannot be ordered from the page.
+   */
   closed = 'closed'
 }
 
@@ -47,8 +40,8 @@ export const enum t_event_status {
  * PostgreSQL's `point` type
  */
 export interface point {
-  x: number
-  y: number
+  x: string
+  y: string
 }
 
 /**
@@ -68,6 +61,10 @@ export interface users {
    */
   user_password: string
   /**
+   * time when user is registered to the system, not now, auto generated with `now()`, stored as `timestamptz`
+   */
+  user_registration_datetime: string
+  /**
    * User's roles, Not null, default is `'user'`, will get upgraded to `'organizer'` when there's an event running,
    * An `'admin'` role could only be created right in the database by injecting custom api calls.
    */
@@ -86,11 +83,11 @@ export interface users {
    * User's telephone country code. not null, stored as country code without plus sign. we can traceback the country of user later.
    * Will be very helpful in statistics
    */
-  user_telephone_country_code: string
+  user_phone_country_code: string
   /**
    * Users's telephone number, not null, stores as a string, default is `''`.
    */
-  user_telephone_number: string
+  user_phone_number: string
   /**
    * Users's birthdate, string, NULLABLE, stores as a string in `YYYY-MM-DD` format. default is `null`.
    */
@@ -108,11 +105,11 @@ export interface user_followers {
   /**
    * username of a user who clicks on the follow button.
    */
-  base_username: string
+  following_user_id: string
   /**
-   * username of a user who `base_username` follows.
+   * username of a user who `following_user_id` follows.
    */
-  base_username_following: string
+  followed_user_id: string
 }
 
 /**
@@ -172,10 +169,9 @@ export interface events {
    */
   event_status: t_event_status
   /**
-   * Event's ticket prices array. Will be an array of type `t_event_price`. Stored as a pair of
-   * color and their price as integer.
+   * Event's ticket prices Will be a record of hex string with value as price of the seat.
    */
-  event_ticket_prices: Array<t_event_price>
+  event_ticket_prices: Record<string, number>
   /**
    * Minimum age of a user, cannot be null, cannot be less than 0, default is 0
    */

@@ -18,12 +18,16 @@
     "chalk": "4.1.2",
     "countries-list": "^2.6.1",
     "dayjs": "^1.10.7",
+    "dotenv-flow": "^3.2.0",
     "fast-csv": "^4.3.6",
     "got": "11.8.3",
     "nanoid": "^3.2.0",
+    "pg": "^8.7.1",
     "upath": "^2.0.1"
   },
   "devDependencies": {
-    "@faker-js/faker": "^6.0.0-alpha.5"
+    "@faker-js/faker": "^6.0.0-alpha.5",
+    "@types/dotenv-flow": "^3.2.0",
+    "@types/pg": "^8.6.4"
   }
 }
