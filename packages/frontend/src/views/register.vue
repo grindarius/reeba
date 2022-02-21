@@ -40,7 +40,7 @@
                     </svg>
                   </div>
                   <ul :class="dropdownState ? 'dropdown-list block' : 'dropdown-list hidden'">
-                    <li class="link-wrapper" @click="toggleDropdown" v-for="(v, i) in phoneCodesList" :key="`country-code-dropdown-${i}`">
+                    <li class="link-wrapper" v-for="(v, i) in phoneCodesList" :key="`country-code-dropdown-${i}`">
                       <div :class="getDropdownClassname(v)">
                         {{ `${v.name} (+${v.phoneCode})` }}
                       </div>
