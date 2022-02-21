@@ -39,8 +39,8 @@
                       <path fill="#000" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                     </svg>
                   </div>
-                  <ul :class="dropdownState ? 'dropdown-list block' : 'dropdown-list hidden' ">
-                    <li class="link-wrapper bg-white" v-for="(v, i) in phoneCodesList" :key="`country-code-dropdown-${i}`">
+                  <ul :class="dropdownState ? 'dropdown-list block' : 'dropdown-list hidden'">
+                    <li class="link-wrapper" @click="toggleDropdown" v-for="(v, i) in phoneCodesList" :key="`country-code-dropdown-${i}`">
                       <div :class="getDropdownClassname(v)">
                         {{ `${v.name} (+${v.phoneCode})` }}
                       </div>
