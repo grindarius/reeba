@@ -4,13 +4,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   instance.all(
     '/verification',
     {
-      onRequest: async (request, reply) => {
-        try {
-          await request.jwtVerify()
-        } catch (error) {
-          void reply.send(error)
-        }
-      }
+      onRequest: instance.authenticate
     },
     async (request) => {
       const user = request.user
