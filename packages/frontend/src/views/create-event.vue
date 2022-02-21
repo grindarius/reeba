@@ -53,15 +53,14 @@
           </div>
           <div class="col-span-2 input-box">
             <label for="event-description-box" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Description</label>
-            <textarea
-              type="text" id="event-description-box"
-              name="event-description-box" class="appearance-none input"
-              placeholder="Description"
+            <span
+              class="textarea"
+              role="textbox" contenteditable="true"
               @input="updateMarkdown" />
           </div>
           <div class="col-span-2 input-box">
             <label for="event-description-box-example" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Example</label>
-            <div class="markdown" v-html="result" />
+            <div class="prose input" v-html="result === ''? 'Description display here' : result" />
           </div>
           <hr class="col-span-4 mt-8 w-full border border-pale-yellow">
         </div>
@@ -225,10 +224,10 @@ export default defineComponent({
       selectedTimes.value.splice(index, 1)
     }
 
-    const result = ref('Description display here')
+    const result = ref('')
 
     const updateMarkdown = debounce((e:Event): void => {
-      result.value = markdown.render((e.target as HTMLInputElement).value)
+      result.value = markdown.render((e.target as HTMLTextAreaElement).innerText)
     }, 500)
 
     return {
@@ -305,7 +304,7 @@ input[type=number] {
   }
 }
 
-.markdown {
-  @apply py-3 px-4 w-full h-auto bg-gray-100 rounded outline-none focus:bg-white ring-pale-gray focus:ring-gray-hover;
+.textarea {
+  @apply input inline-block;
 }
 </style>
