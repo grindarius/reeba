@@ -39,8 +39,8 @@
                       <path fill="#000" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                     </svg>
                   </div>
-                  <ul :class="dropdownState ? 'dropdown-list block' : 'dropdown-list hidden'">
-                    <li class="link-wrapper" v-for="(v, i) in phoneCodesList" :key="`country-code-dropdown-${i}`">
+                  <ul :class="dropdownState ? 'dropdown-list block' : 'dropdown-list hidden' ">
+                    <li class="link-wrapper bg-white" v-for="(v, i) in phoneCodesList" :key="`country-code-dropdown-${i}`">
                       <div :class="getDropdownClassname(v)">
                         {{ `${v.name} (+${v.phoneCode})` }}
                       </div>
@@ -49,30 +49,6 @@
                 </div>
               </div>
             </div>
-
-            <div class="register-input-section">
-              <label class="heading" for="email">
-                Phone country code
-              </label>
-              <div>
-                <div class="register-input-box bg-white inline-block relative">
-                  <div class="flex justify-between items-center" @click="toggleDropdown">
-                    <span>{{ `${selectedCountryCode.name} (+${selectedCountryCode.phoneCode})` }}</span>
-                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                      <path fill="#000" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  </div>
-                  <ul :class="dropdownState ? 'dropdown-list block' : 'dropdown-list hidden'">
-                    <li class="link-wrapper" v-for="(v, i) in phoneCodesList" :key="`country-code-dropdown-${i}`">
-                      <div :class="getDropdownClassname(v)">
-                        {{ `${v.name} (+${v.phoneCode})` }}
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
             <div class="register-input-section">
               <label class="heading" for="password">
                 Password
@@ -97,7 +73,7 @@
             </button>
           </div>
           <router-link class="inline-block mt-2 font-sans text-center align-baseline hover:text-white hover:underline text-pale-gray" to="/signin">
-            Already have an account? <a class="font-bold">Sign in</a>.
+            Already have an account? <a class="font-bold">Sign in</a>
           </router-link>
         </div>
       </form>
@@ -175,7 +151,7 @@ export default defineComponent({
 }
 
 .dropdown-list {
-  @apply absolute pt-1 font-sans text-black filter drop-shadow-xl w-full max-h-20 overflow-x-scroll;
+  @apply absolute top-auto left-0 right-0 max-h-52 overflow-x-scroll;
 }
 
 .link-wrapper:first-child > div {
@@ -227,6 +203,6 @@ export default defineComponent({
 }
 
 .dropdown-selector {
-  @apply block py-2 px-4 whitespace-nowrap cursor-pointer;
+  @apply block py-2 px-3 whitespace-normal cursor-pointer bg-white text-pale-gray;
 }
 </style>
