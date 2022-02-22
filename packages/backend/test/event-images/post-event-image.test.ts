@@ -7,12 +7,12 @@ import { resolve } from 'node:path'
 import { Client } from 'pg'
 import t from 'tap'
 
-import { event_seats, events, t_event_status } from '@reeba/common'
+import { event_seats, t_event_status } from '@reeba/common'
 
 import createServer from '../../src/app'
 
 dotenv.config({
-  path: resolve(__dirname, '..', '..', 'src')
+  path: resolve(__dirname, '..', '..')
 })
 
 const tagList = [
@@ -43,7 +43,8 @@ const client = new Client({
 
 const mockEvent = async (): Promise<void> => {
   const ev = {
-    eventName: 'LIDO CONNECT - Movie Program',
+    id: 'posteventimagetest555',
+    eventName: 'lido',
     createdBy: 'posteventimagetest',
     description: '## No description provided',
     eventImagePath: '',
@@ -205,24 +206,14 @@ const mockEvent = async (): Promise<void> => {
   }
 
   // * this is a user associated with creating event. check if he's there, if not, get him there.
-  const targetUser = await client.query('select * from "users" where user_username = \'posteventimagetest\'')
-
-  if (targetUser.rowCount === 0) {
-    await client.query(
-      'insert into users (user_username, user_email, user_password, user_phone_country_code, user_phone_number) values ($1, $2, $3, $4, $5)',
-      ['posteventimagetest', 'posteventimagetest@gmail.com', 'asdfhjkl123', '66', '39848743']
-    )
-  }
+  const isEVExists = await client.query('select * from "events" where event_name = \'posteventimagetest555\'')
 
   // * check if event tags is there, if not, add it.
   for await (const preparedTag of tagList) {
     await client.query('insert into event_tags (event_tag_label) values ($1) on conflict (event_tag_label) do nothing', [preparedTag])
   }
 
-  // * check if the event already existed, if no, have to add new one.
-  const targetEvent = await client.query<events, [string]>('select * from "events" where event_id = $1', ['grindarius_event_test'])
-
-  if (targetEvent.rowCount === 0) {
+  if (isEVExists.rowCount === 0) {
     const eventId = await client.query<{ event_id: string }>(
       `insert into events (
           event_id,
@@ -240,7 +231,7 @@ const mockEvent = async (): Promise<void> => {
           event_minimum_age
         ) values ($1, $2, $3, $4, $5, $6, $7::point, $8, $9, $10, $11, $12, $13) returning event_id`,
       [
-        'grindarius_event_test',
+        'posteventimagetest555',
         ev.createdBy,
         ev.eventName,
         ev.description,
@@ -288,7 +279,7 @@ const mockEvent = async (): Promise<void> => {
   }
 }
 
-void t.test('get image', async t => {
+void t.test('post event image', async t => {
   const app = createServer()
 
   t.teardown(async () => {
@@ -298,23 +289,23 @@ void t.test('get image', async t => {
 
   try {
     await client.connect()
-    await mockEvent()
 
-    const email = await client.query('select * from "events" where event_name = \'posteventimagetest\'')
+    const user = await client.query('select * from "users" where user_username = \'posteventimageuser\'')
 
-    if (email.rowCount <= 0) {
+    if (user.rowCount <= 0) {
       await app.inject({
         method: 'POST',
         url: '/auth/signup',
         payload: {
-          username: 'posteventimagetest',
-          email: 'postevenimagetest@gmail.com',
+          username: 'posteventimageuser',
+          email: 'postevenimageuser@gmail.com',
           password: 'posteventimagetest_123',
           phoneCountryCod: '334',
           phonNumber: '4304849384'
         }
       })
     }
+    await mockEvent()
   } catch (error) {
     t.error(error)
     t.fail()
@@ -357,7 +348,7 @@ void t.test('get image', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/event-images/posteventimagetest',
+        url: '/event-images/posteventimagetest555',
         payload: form,
         headers: form.getHeaders()
       })
@@ -377,7 +368,7 @@ void t.test('get image', async t => {
     try {
       const response = await app.inject({
         method: 'POST',
-        url: '/event-images/posteventimagestest',
+        url: '/event-images/posteventimagetest555',
         payload: form,
         headers: form.getHeaders()
       })
@@ -390,35 +381,12 @@ void t.test('get image', async t => {
     }
   })
 
-  void t.test('get event with correct id', async t => {
+  void t.todo('get event with correct id', async t => {
     try {
-      const response = await app.inject({
+      await app.inject({
         method: 'POST',
         url: '/event-images/grindarius_event_test'
       })
-
-      const json = response.json()
-
-      t.strictSame(response.statusCode, 200, 'status code from correct response')
-      t.strictSame(json.name, 'LIDO CONNECT - Movie Program')
-      t.strictSame(json.createdBy, 'getindiveventtest')
-      t.strictSame(json.description, '## No description provided')
-      t.strictSame(json.eventImagePath, '')
-      t.strictSame(json.website, 'www.github.com/sindresorhus/ky')
-      t.strictSame(json.venueName, 'LIDO CONNECT HALL 1')
-      t.strictSame(json.venueCoordinates, { x: '13.74593937535103', y: '100.53257672630755' })
-      t.strictSame(json.openingDate, '2021-03-01T05:00:00.000Z')
-      t.strictSame(json.tags, ['stand-up-comedy', 'fan-meet'])
-      t.strictSame(json.datetimes, [
-        {
-          start: '2021-03-07T13:00:00.000Z',
-          end: '2021-03-07T17:00:00.000Z'
-        },
-        {
-          start: '2021-03-08T13:00:00.000Z',
-          end: '2021-03-08T17:00:00.000Z'
-        }
-      ])
     } catch (error) {
       t.error(error)
       t.fail()
