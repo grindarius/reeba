@@ -19,7 +19,7 @@
                 </button>
               </div>
               <span
-                class="textarea font-mono"
+                class="font-mono textarea"
                 role="textbox" contenteditable="true"
                 @input="updateMarkdown" />
             </div>
