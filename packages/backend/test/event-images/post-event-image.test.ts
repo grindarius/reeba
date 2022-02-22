@@ -348,8 +348,8 @@ void t.test('post event image', async t => {
         headers: form.getHeaders()
       })
 
-      t.strictSame(response.statusCode, 200, 'status code from posting')
-      t.strictSame(response.json().message, 'complete', 'message from posting')
+      t.strictSame(response.statusCode, 200, 'status code from posting image')
+      t.strictSame(response.json().message, 'complete', 'message from posting image')
     } catch (error) {
       t.error(error)
       t.fail()
