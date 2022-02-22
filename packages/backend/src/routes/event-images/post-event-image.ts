@@ -11,13 +11,13 @@ import {
   NotFoundReplySchema,
   PostEventImageParams,
   PostEventImageParamsSchema,
-  PostEventImageReplyBodySchema
+  PostEventImageReplySchema
 } from '@reeba/common'
 
 const schema: FastifySchema = {
   params: PostEventImageParamsSchema,
   response: {
-    200: PostEventImageReplyBodySchema,
+    200: PostEventImageReplySchema,
     400: BadRequestReplySchema,
     404: NotFoundReplySchema
   }

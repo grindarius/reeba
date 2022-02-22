@@ -85,7 +85,7 @@ export const PostEventImageParamsSchema = Type.Object({
 })
 export type PostEventImageParams = Static<typeof PostEventImageParamsSchema>
 
-export const PostEventImageReplyBodySchema = Type.Object({
+export const PostEventImageReplySchema = Type.Object({
   message: Type.String()
 })
-export type PostEventImageReply = Static<typeof PostEventImageReplyBodySchema>
+export type PostEventImageReply = Static<typeof PostEventImageReplySchema>
