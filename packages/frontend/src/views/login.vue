@@ -13,19 +13,19 @@
             <label class="block mb-2 font-sans text-sm text-pale-gray" for="email">
               Email
             </label>
-            <input class="py-2 px-3 mb-2 w-full rounded-xl ring-0 shadow-lg outline-none focus:ring-2 shadow-zinc-900 text-grey-darker focus:ring-pale-gray" id="username" type="text" placeholder="Email">
+            <input class="py-2 px-3 mb-2 w-full rounded-xl ring-0 shadow-lg outline-none focus:ring-2 shadow-zinc-900 text-grey-darker focus:ring-pale-gray" id="username" type="text" placeholder="Email" v-model="emailField">
           </div>
           <div class="mb-6">
             <label class="block mb-2 font-sans text-sm text-pale-gray" for="password">
               Password
             </label>
-            <input class="py-2 px-3 mb-3 w-full rounded-xl ring-0 shadow-lg outline-none focus:ring-2 shadow-zinc-900 border-red text-grey-darker focus:ring-pale-gray" id="password" type="password" placeholder="Password">
+            <input class="py-2 px-3 mb-3 w-full rounded-xl ring-0 shadow-lg outline-none focus:ring-2 shadow-zinc-900 border-red text-grey-darker focus:ring-pale-gray" id="password" type="password" placeholder="Password" v-model="passwordField">
           </div>
           <a class="inline-block font-sans text-right text-white align-baseline hover:underline" href="#">
             Forgot Password?
           </a>
           <div class="flex justify-center items-center">
-            <button class="py-2 px-8 font-sans text-white rounded-xl bg-pale-gray hover:bg-gray-hover" type="button">
+            <button class="py-2 px-8 font-sans text-white rounded-xl bg-pale-gray hover:bg-gray-hover" @click="login">
               Sign in
             </button>
           </div>
@@ -39,10 +39,43 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+import { useAuthStore } from '@/store/use-auth-store'
 
 export default defineComponent({
-  name: 'login'
+  name: 'login',
+  setup () {
+    const authStore = useAuthStore()
+    const router = useRouter()
+
+    const emailField = ref('')
+    const passwordField = ref('')
+
+    const login = async (): Promise<void> => {
+      if (emailField.value.length === 0) {
+        return
+      }
+
+      if (passwordField.value.length === 0) {
+        return
+      }
+
+      try {
+        await authStore.signin({ email: emailField.value, password: passwordField.value })
+        router.push('/')
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    return {
+      emailField,
+      passwordField,
+      login
+    }
+  }
 })
 </script>
 
