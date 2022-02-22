@@ -20,7 +20,7 @@
         </router-link>
       </div>
       <div class="buttons-mobile">
-        <v-mdi name="mdi-hamburger" class="cursor-pointer" size="40" fill="#423E41" @click="onHamburgerClicked" />
+        <v-mdi name="mdi-hamburger" class="cursor-pointer" size="40" fill="#423E41" @click="toggleHamburger" />
       </div>
     </div>
     <div :class="hamburgerState ?'small-navbar block' : 'small-navbar hidden'">
@@ -47,23 +47,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
+
+import { useModalState } from './composables'
 
 export default defineComponent({
   name: 'app',
   setup () {
-    const hamburgerState = ref(false)
-
-    const onHamburgerClicked = (): void => {
-      hamburgerState.value = !hamburgerState.value
-    }
-
-    const closeHamburger = (): void => {
-      hamburgerState.value = false
-    }
+    const { state: hamburgerState, toggle: toggleHamburger, close: closeHamburger } = useModalState()
 
     return {
-      onHamburgerClicked,
+      toggleHamburger,
       hamburgerState,
       closeHamburger
     }
