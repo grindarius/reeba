@@ -3,6 +3,10 @@
 - [ ] All work is complete / ทุกอย่างเรียบร้อยดี
 - [ ] Issues linked: Resolves #xyz
 
+## ✅ Checks
+- [ ] can you run `pnpm lint` without any errors? / รัน `pnpm lint` แล้วไม่มีเออเร่อ
+- [ ] can you run `pnpm lint:css` without any errors? / `pnpm lint:css` แล้วไม่มีเออเร่อ
+
 ## 📝 Summary / สรุปผล
 
 - Write a list of changes / เขียนรายละเอียดว่าทำอะไรลงไป
