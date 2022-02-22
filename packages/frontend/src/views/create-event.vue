@@ -21,35 +21,8 @@
               <span
                 class="font-mono textarea" id="description"
                 role="textbox" contenteditable="true"
-                @input="updateMarkdown">
-                <div># Heading 8-)</div>
-                <div><br></div>
-                <div>**This is bold text**</div>
-                <div><br></div>
-                <div>__This is bold text__</div>
-                <div><br></div>
-                <div>*This is italic text*</div>
-                <div><br></div>
-                <div>_This is italic text_</div>
-                <div><br></div>
-                <div>~~Strikethrough~~</div>
-                <div><br></div>
-                <div><br></div>
-                <div>&gt; Blockquotes can also be nested...</div>
-                <div>&gt; &gt; ...by using additional greater-than signs right next to each other...</div>
-                <div>&gt; &gt; &gt; ...or with spaces between arrows.</div>
-                <div><br></div>
-                <div><br></div>
-                <div>+ Create a list by starting a line with +</div>
-                <div>+ Very easy!</div>
-                <div><br></div>
-                <div>1. Lorem ipsum dolor sit amet</div>
-                <div>2. Consectetur adipiscing elit</div>
-                <div>3. Integer molestie lorem at massa</div>
-                <div><br></div>
-                <div><br></div>
-                <div>1. You can use sequential numbers...</div>
-                <div>1. ...or keep all the numbers as 1.</div></span>
+                v-text="rawInput"
+                @input="updateMarkdown" />
             </div>
             <div class="input-box">
               <label for="event-description-box-example" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Example</label>
@@ -260,34 +233,23 @@ export default defineComponent({
       selectedTimes.value.splice(index, 1)
     }
 
-    const rawInput = ref(`# Heading 8-)
-
-**This is bold text**
-
-__This is bold text__
-
-*This is italic text*
-
-_This is italic text_
-
-~~Strikethrough~~
-
-
-> Blockquotes can also be nested...
->> ...by using additional greater-than signs right next to each other...
-> > > ...or with spaces between arrows.
-
-
-+ Create a list by starting a line with +
-+ Very easy!
-
-1. Lorem ipsum dolor sit amet
-2. Consectetur adipiscing elit
-3. Integer molestie lorem at massa
-
-
-1. You can use sequential numbers...
-1. ...or keep all the numbers as 1.`)
+    const rawInput = ref([
+      '## Heading 8-)\n',
+      '**This is bold text**\n',
+      '__This is bold text__\n',
+      '*This is italic text*\n',
+      '~~Strikethrough~~\n',
+      '> Blockquotes can also be nested...',
+      '> > ...by using additional greater-than signs right next to each other...',
+      '> > > ...by using additional greater-than signs right next to each other...\n',
+      '+ Create a list by starting a line with +',
+      '+ Very easy!\n',
+      '1. Lorem ipsum dolor sit amet\n2. Consectetur adipiscing elit',
+      '2. Consectetur adipiscing elit',
+      '3. Integer molestie lorem at massa\n',
+      '1. You can use sequential numbers...',
+      '1. ...or keep all the numbers as 1.'
+    ].join('\n'))
 
     const updateMarkdown = debounce((e: Event): void => {
       rawInput.value = (e.target as HTMLSpanElement).innerText
@@ -379,7 +341,7 @@ input[type=number] {
 }
 
 .textarea {
-  @apply inline-block input;
+  @apply inline-block input whitespace-pre;
 }
 
 .prosing {
