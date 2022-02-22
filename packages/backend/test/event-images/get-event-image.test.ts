@@ -25,7 +25,7 @@ const client = new Client({
   database: process.env.POSTGRES_DBNAME
 })
 
-void t.todo('get event image', async t => {
+void t.test('get event image', async t => {
   const app = createServer()
 
   t.teardown(async () => {
@@ -136,7 +136,7 @@ void t.todo('get event image', async t => {
     t.fail()
   }
 
-  void t.todo('get default event image when emptystring is passed', async t => {
+  void t.test('get default event image when emptystring is passed', async t => {
     try {
       const response = await app.inject({
         method: 'GET',
@@ -154,7 +154,7 @@ void t.todo('get event image', async t => {
     }
   })
 
-  void t.todo('get event image of unknown event id', async t => {
+  void t.test('get event image of unknown event id', async t => {
     try {
       const response = await app.inject({
         method: 'GET',
@@ -172,14 +172,14 @@ void t.todo('get event image', async t => {
     }
   })
 
-  void t.todo('get event image of known event id', async t => {
+  void t.test('get event image of known event id', async t => {
     try {
       const response = await app.inject({
         method: 'GET',
         url: '/event-images/test_get_event_image'
       })
 
-      Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, '..', '..', 'uploads', 'test-event-image.png')))
+      Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, 'test-event-image.png')))
         .onComplete(result => {
           t.strictSame(result.isSameDimensions, true)
           t.strictSame(Number(result.misMatchPercentage), 0)
@@ -190,14 +190,14 @@ void t.todo('get event image', async t => {
     }
   })
 
-  void t.todo('get event image of event with empty string image', async t => {
+  void t.test('get event image of event with empty string image', async t => {
     try {
       const response = await app.inject({
         method: 'GET',
         url: '/event-images/empty_string_event_name'
       })
 
-      Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, '..', '..', 'uploads', 'test-event-image.png')))
+      Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, '..', '..', 'uploads', 'default-event-image.png')))
         .onComplete(result => {
           t.strictSame(result.isSameDimensions, true)
           t.strictSame(Number(result.misMatchPercentage), 0)

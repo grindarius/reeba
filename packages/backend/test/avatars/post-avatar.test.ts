@@ -120,4 +120,6 @@ void t.test('post image', async t => {
       t.fail()
     }
   })
+
+  t.end()
 })
