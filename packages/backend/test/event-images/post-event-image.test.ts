@@ -45,7 +45,7 @@ const mockEvent = async (): Promise<void> => {
   const ev = {
     eventName: 'LIDO CONNECT - Movie Program',
     createdBy: 'posteventimagetest',
-    description: '### No description provided',
+    description: '## No description provided',
     eventImagePath: '',
     website: 'www.github.com/sindresorhus/ky',
     venueName: 'LIDO CONNECT HALL 1',
@@ -58,11 +58,11 @@ const mockEvent = async (): Promise<void> => {
     ticketPrices: [
       {
         color: '#4C9141',
-        price: 1500
+        price: 1000
       },
       {
         color: '#C1876B',
-        price: 2000
+        price: 1500
       }
     ],
     datetimes: [
@@ -205,12 +205,12 @@ const mockEvent = async (): Promise<void> => {
   }
 
   // * this is a user associated with creating event. check if he's there, if not, get him there.
-  const targetUser = await client.query('select * from "users" where user_username = \'getindiveventtest\'')
+  const targetUser = await client.query('select * from "users" where user_username = \'posteventimagetest\'')
 
   if (targetUser.rowCount === 0) {
     await client.query(
       'insert into users (user_username, user_email, user_password, user_phone_country_code, user_phone_number) values ($1, $2, $3, $4, $5)',
-      ['getindiveventtest', 'getindivevent@gmail.com', 'asdfhjkl123', '66', '39848743']
+      ['posteventimagetest', 'posteventimagetest@gmail.com', 'asdfhjkl123', '66', '39848743']
     )
   }
 
@@ -298,6 +298,7 @@ void t.test('get image', async t => {
 
   try {
     await client.connect()
+    await mockEvent()
 
     const email = await client.query('select * from "events" where event_name = \'posteventimagetest\'')
 
@@ -383,6 +384,41 @@ void t.test('get image', async t => {
 
       t.strictSame(response.statusCode, 200, 'status code from posting unmatched file extension')
       t.strictSame(response.json().message, 'eventImagePath not found', 'message from posting unmatched file extension')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('get event with correct id', async t => {
+    try {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/event-images/grindarius_event_test'
+      })
+
+      const json = response.json()
+
+      t.strictSame(response.statusCode, 200, 'status code from correct response')
+      t.strictSame(json.name, 'LIDO CONNECT - Movie Program')
+      t.strictSame(json.createdBy, 'getindiveventtest')
+      t.strictSame(json.description, '## No description provided')
+      t.strictSame(json.eventImagePath, '')
+      t.strictSame(json.website, 'www.github.com/sindresorhus/ky')
+      t.strictSame(json.venueName, 'LIDO CONNECT HALL 1')
+      t.strictSame(json.venueCoordinates, { x: '13.74593937535103', y: '100.53257672630755' })
+      t.strictSame(json.openingDate, '2021-03-01T05:00:00.000Z')
+      t.strictSame(json.tags, ['stand-up-comedy', 'fan-meet'])
+      t.strictSame(json.datetimes, [
+        {
+          start: '2021-03-07T13:00:00.000Z',
+          end: '2021-03-07T17:00:00.000Z'
+        },
+        {
+          start: '2021-03-08T13:00:00.000Z',
+          end: '2021-03-08T17:00:00.000Z'
+        }
+      ])
     } catch (error) {
       t.error(error)
       t.fail()
