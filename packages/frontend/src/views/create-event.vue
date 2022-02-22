@@ -14,14 +14,42 @@
             <div class="input-box">
               <div class="grid grid-cols-2">
                 <label for="event-description-box" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Description</label>
-                <button @click="openMarkdownRef" class="self-center place-self-end">
+                <button @click="openMarkdownRef('https://markdown-it.github.io/')" class="self-center place-self-end">
                   <v-mdi name="mdi-information-outline" fill="#D5A755" class="self-center place-self-end" />
                 </button>
               </div>
               <span
-                class="font-mono textarea"
+                class="font-mono textarea" id="description"
                 role="textbox" contenteditable="true"
-                @input="updateMarkdown" />
+                @input="updateMarkdown">
+                <div># Heading 8-)</div>
+                <div><br></div>
+                <div>**This is bold text**</div>
+                <div><br></div>
+                <div>__This is bold text__</div>
+                <div><br></div>
+                <div>*This is italic text*</div>
+                <div><br></div>
+                <div>_This is italic text_</div>
+                <div><br></div>
+                <div>~~Strikethrough~~</div>
+                <div><br></div>
+                <div><br></div>
+                <div>&gt; Blockquotes can also be nested...</div>
+                <div>&gt;&gt; ...by using additional greater-than signs right next to each other...</div>
+                <div>&gt; &gt; &gt; ...or with spaces between arrows.</div>
+                <div><br></div>
+                <div><br></div>
+                <div>+ Create a list by starting a line with +</div>
+                <div>+ Very easy!</div>
+                <div><br></div>
+                <div>1. Lorem ipsum dolor sit amet</div>
+                <div>2. Consectetur adipiscing elit</div>
+                <div>3. Integer molestie lorem at massa</div>
+                <div><br></div>
+                <div><br></div>
+                <div>1. You can use sequential numbers...</div>
+                <div>1. ...or keep all the numbers as 1.</div></span>
             </div>
             <div class="input-box">
               <label for="event-description-box-example" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Example</label>
@@ -232,7 +260,34 @@ export default defineComponent({
       selectedTimes.value.splice(index, 1)
     }
 
-    const rawInput = ref('')
+    const rawInput = ref(`# Heading 8-)
+
+**This is bold text**
+
+__This is bold text__
+
+*This is italic text*
+
+_This is italic text_
+
+~~Strikethrough~~
+
+
+> Blockquotes can also be nested...
+>> ...by using additional greater-than signs right next to each other...
+> > > ...or with spaces between arrows.
+
+
++ Create a list by starting a line with +
++ Very easy!
+
+1. Lorem ipsum dolor sit amet
+2. Consectetur adipiscing elit
+3. Integer molestie lorem at massa
+
+
+1. You can use sequential numbers...
+1. ...or keep all the numbers as 1.`)
 
     const updateMarkdown = debounce((e: Event): void => {
       rawInput.value = (e.target as HTMLSpanElement).innerText
@@ -242,8 +297,9 @@ export default defineComponent({
       return markdown.value.render(rawInput.value)
     })
 
-    const openMarkdownRef = () => {
-      window.open('https://markdown-it.github.io/')
+    const openMarkdownRef = (url: string) => {
+      const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+      if (newWindow) newWindow.opener = null
     }
 
     return {
