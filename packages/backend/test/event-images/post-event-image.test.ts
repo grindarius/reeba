@@ -42,10 +42,18 @@ const client = new Client({
 })
 
 const mockEvent = async (): Promise<void> => {
+  const user = await client.query('select * from "users" where user_username = \'posteventimageuser\'')
+
+  if (user.rowCount <= 0) {
+    await client.query('insert into "users" (user_username, user_email, user_password, user_phone_country_code, user_phone_number) values ($1, $2, $3, $4, $5)',
+      ['posteventimageuser', 'postevenimageuser@gmail.com', 'posteventimagetest_123', '334', '4304849384']
+    )
+  }
+
   const ev = {
     id: 'posteventimagetest555',
     eventName: 'lido',
-    createdBy: 'posteventimagetest',
+    createdBy: 'posteventimageuser',
     description: '## No description provided',
     eventImagePath: '',
     website: 'www.github.com/sindresorhus/ky',
@@ -204,73 +212,76 @@ const mockEvent = async (): Promise<void> => {
       ]
     ]
   }
-
-  // * this is a user associated with creating event. check if he's there, if not, get him there.
-  const isEVExists = await client.query('select * from "events" where event_name = \'posteventimagetest555\'')
+  const evClone = { ...ev, eventImagePath: '', id: 'posteventemptystring' }
 
   // * check if event tags is there, if not, add it.
   for await (const preparedTag of tagList) {
     await client.query('insert into event_tags (event_tag_label) values ($1) on conflict (event_tag_label) do nothing', [preparedTag])
   }
 
-  if (isEVExists.rowCount === 0) {
-    const eventId = await client.query<{ event_id: string }>(
-      `insert into events (
-          event_id,
-          user_username,
-          event_name,
-          event_description,
-          event_cover_image_path,
-          event_website,
-          event_venue_name,
-          event_venue_coordinates,
-          event_creation_date,
-          event_opening_date,
-          event_status,
-          event_ticket_prices,
-          event_minimum_age
-        ) values ($1, $2, $3, $4, $5, $6, $7::point, $8, $9, $10, $11, $12, $13) returning event_id`,
-      [
-        'posteventimagetest555',
-        ev.createdBy,
-        ev.eventName,
-        ev.description,
-        ev.eventImagePath,
-        ev.website,
-        ev.venueName,
-        `${ev.venueCoordinates.x}, ${ev.venueCoordinates.y}`,
-        dayjs().toDate(),
-        ev.openingDate,
-        t_event_status.open,
-        // eslint-disable-next-line
-        JSON.stringify(ev.ticketPrices.reduce((obj, item) => (obj[item.color] = item.price, obj), {} as Record<string, number>)),
-        ev.minimumAge
-      ]
-    )
+  for (const indivEvent of [ev, evClone]) {
+    // * this is a user associated with creating event. check if he's there, if not, get him there.
+    const isEVExists = await client.query('select * from "events" where event_id = $1', [indivEvent.id])
 
-    for await (const tag of ev.tags) {
-      await client.query('insert into event_tags_bridge (event_tag_label, event_id) values ($1, $2)', [tag, eventId.rows[0].event_id])
-    }
-
-    for await (const datetime of ev.datetimes) {
-      const datetimeId = await client.query<{ event_datetime_id: string }>(
-        'insert into event_datetimes (event_datetime_id, event_id, event_start_datetime, event_end_datetime) values ($1, $2, $3, $4) returning event_datetime_id',
-        [nanoid(), eventId.rows[0].event_id, datetime.start, datetime.end]
+    if (isEVExists.rowCount === 0) {
+      const eventId = await client.query<{ event_id: string }>(
+        `insert into events (
+            event_id,
+            user_username,
+            event_name,
+            event_description,
+            event_cover_image_path,
+            event_website,
+            event_venue_name,
+            event_venue_coordinates,
+            event_creation_date,
+            event_opening_date,
+            event_status,
+            event_ticket_prices,
+            event_minimum_age
+          ) values ($1, $2, $3, $4, $5, $6, $7, $8::point, $9, $10, $11, $12, $13) returning event_id`,
+        [
+          indivEvent.id,
+          indivEvent.createdBy,
+          indivEvent.eventName,
+          indivEvent.description,
+          indivEvent.eventImagePath,
+          indivEvent.website,
+          indivEvent.venueName,
+          `${indivEvent.venueCoordinates.x}, ${indivEvent.venueCoordinates.y}`,
+          dayjs().toDate(),
+          indivEvent.openingDate,
+          t_event_status.open,
+          // eslint-disable-next-line
+          JSON.stringify(indivEvent.ticketPrices.reduce((obj, item) => (obj[item.color] = item.price, obj), {} as Record<string, number>)),
+          indivEvent.minimumAge
+        ]
       )
 
-      for await (const sectionRow of ev.sections) {
-        for await (const section of sectionRow) {
-          const sectionId = await client.query<{ event_section_id: string }>(
-            'insert into event_sections (event_section_id, event_datetime_id, event_section_row_position, event_section_column_position) values ($1, $2, $3, $4) returning event_section_id',
-            [nanoid(), datetimeId.rows[0].event_datetime_id, section.sectionRowPosition, section.sectionColumnPosition]
-          )
+      for await (const tag of indivEvent.tags) {
+        await client.query('insert into event_tags_bridge (event_tag_label, event_id) values ($1, $2)', [tag, eventId.rows[0].event_id])
+      }
 
-          for await (const seatRow of section.seats) {
-            for await (const seat of seatRow) {
-              await client.query<event_seats>(
-                'insert into event_seats (event_seat_id, event_section_id, event_seat_price, event_seat_row_position, event_seat_column_position) values ($1, $2, $3, $4, $5)',
-                [nanoid(), sectionId.rows[0].event_section_id, seat.seatPrice, seat.seatRowPosition, seat.seatColumnPosition]
-              )
+      for await (const datetime of indivEvent.datetimes) {
+        const datetimeId = await client.query<{ event_datetime_id: string }>(
+          'insert into event_datetimes (event_datetime_id, event_id, event_start_datetime, event_end_datetime) values ($1, $2, $3, $4) returning event_datetime_id',
+          [nanoid(), eventId.rows[0].event_id, datetime.start, datetime.end]
+        )
+
+        for await (const sectionRow of indivEvent.sections) {
+          for await (const section of sectionRow) {
+            const sectionId = await client.query<{ event_section_id: string }>(
+              'insert into event_sections (event_section_id, event_datetime_id, event_section_row_position, event_section_column_position) values ($1, $2, $3, $4) returning event_section_id',
+              [nanoid(), datetimeId.rows[0].event_datetime_id, section.sectionRowPosition, section.sectionColumnPosition]
+            )
+
+            for await (const seatRow of section.seats) {
+              for await (const seat of seatRow) {
+                await client.query<event_seats>(
+                  'insert into event_seats (event_seat_id, event_section_id, event_seat_price, event_seat_row_position, event_seat_column_position) values ($1, $2, $3, $4, $5)',
+                  [nanoid(), sectionId.rows[0].event_section_id, seat.seatPrice, seat.seatRowPosition, seat.seatColumnPosition]
+                )
+              }
             }
           }
         }
@@ -289,22 +300,6 @@ void t.test('post event image', async t => {
 
   try {
     await client.connect()
-
-    const user = await client.query('select * from "users" where user_username = \'posteventimageuser\'')
-
-    if (user.rowCount <= 0) {
-      await app.inject({
-        method: 'POST',
-        url: '/auth/signup',
-        payload: {
-          username: 'posteventimageuser',
-          email: 'postevenimageuser@gmail.com',
-          password: 'posteventimagetest_123',
-          phoneCountryCod: '334',
-          phonNumber: '4304849384'
-        }
-      })
-    }
     await mockEvent()
   } catch (error) {
     t.error(error)
@@ -341,7 +336,7 @@ void t.test('post event image', async t => {
     }
   })
 
-  void t.test('posting image to existing', async t => {
+  void t.test('posting image to existing event', async t => {
     const form = new FormData()
     form.append('image', createReadStream(resolve(__dirname, 'test-event-image.png')))
 
@@ -373,20 +368,8 @@ void t.test('post event image', async t => {
         headers: form.getHeaders()
       })
 
-      t.strictSame(response.statusCode, 200, 'status code from posting unmatched file extension')
-      t.strictSame(response.json().message, 'eventImagePath not found', 'message from posting unmatched file extension')
-    } catch (error) {
-      t.error(error)
-      t.fail()
-    }
-  })
-
-  void t.todo('get event with correct id', async t => {
-    try {
-      await app.inject({
-        method: 'POST',
-        url: '/event-images/grindarius_event_test'
-      })
+      t.strictSame(response.statusCode, 400, 'status code from posting unmatched file extension')
+      t.strictSame(response.json().message, 'unmatched file extension', 'message from posting unmatched file extension')
     } catch (error) {
       t.error(error)
       t.fail()
