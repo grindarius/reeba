@@ -6,7 +6,7 @@
           <div class="flex justify-center font-bold scroll-mt-50">
             <img class="mb-1 w-64 h-64" src="@/assets/reeba-logo.png" alt="logo-reeba">
           </div>
-          <h1 class="text-4xl text-center text-white font-bold">
+          <h1 class="text-4xl font-bold text-center text-white">
             Sign up
           </h1>
           <div class="register-section">
@@ -31,14 +31,14 @@
               <label class="heading" for="country-code">
                 Phone country code
               </label>
-              <div class="register-input-box bg-white inline-block relative cursor-pointer">
+              <div class="inline-block relative bg-white cursor-pointer register-input-box">
                 <div class="flex justify-between items-center" @click="toggleDropdown">
                   <span>{{ `${phoneCountryCodeField.name} (+${phoneCountryCodeField.phoneCode})` }}</span>
                   <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                     <path fill="#000" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                   </svg>
                 </div>
-                <ul :class="dropdownState ? 'dropdown-list block' : 'dropdown-list hidden'">
+                <ul :class="dropdownState ?'dropdown-list block' : 'dropdown-list hidden'">
                   <li class="link-wrapper" v-for="(v, i) in phoneCodesList" :key="`country-code-dropdown-${i}`">
                     <div :class="getDropdownClassname(v)" @click="onPhoneCountryCodeClicked(i)">
                       {{ countryCodeString(v) }}
@@ -181,7 +181,7 @@ export default defineComponent({
 }
 
 .dropdown-list {
-  @apply absolute top-auto left-0 right-0 max-h-52 overflow-y-scroll;
+  @apply overflow-y-scroll absolute right-0 left-0 top-auto max-h-52;
 }
 
 .link-wrapper:first-child > div {

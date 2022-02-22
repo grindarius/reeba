@@ -96,19 +96,19 @@ export default defineComponent({
 }
 
 .selected {
-  @apply bg-slate-700 text-white;
+  @apply text-white bg-slate-700;
 }
 
 .not-selected {
-  @apply bg-slate-900 text-white;
+  @apply text-white bg-slate-900;
 }
 
 .dropdown-toggle-button {
-  @apply inline-flex justify-between items-center py-2 px-4 w-full h-9 font-sans rounded-lg text-white outline-none bg-slate-900;
+  @apply inline-flex justify-between items-center py-2 px-4 w-full h-9 font-sans text-white rounded-lg outline-none bg-slate-900;
 }
 
 .dropdown-list {
-  @apply absolute pt-1 font-sans text-black filter drop-shadow-xl w-full;
+  @apply absolute pt-1 w-full font-sans text-black filter drop-shadow-xl;
 }
 
 .dropdown-selector {
