@@ -81,7 +81,7 @@
             </button>
           </div>
           <router-link class="inline-block mt-2 font-sans text-center align-baseline hover:text-white hover:underline text-pale-gray" to="/signin">
-            Already have an account? <a class="font-bold">Sign in</a>
+            Already have an account? <a class="font-bold">Sign in</a>.
           </router-link>
         </div>
       </form>
