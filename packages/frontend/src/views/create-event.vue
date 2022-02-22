@@ -12,15 +12,20 @@
           </div>
           <div class="grid overflow-x-auto col-span-4 grid-rows-1 gap-y-4 gap-x-6 md:grid-cols-2">
             <div class="input-box">
-              <label for="event-description-box" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Description</label>
+              <div class="grid grid-cols-2">
+                <label for="event-description-box" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Description</label>
+                <button @click="openMarkdownRef" class="self-center place-self-end">
+                  <v-mdi name="mdi-information-outline" fill="#D5A755" class="self-center place-self-end" />
+                </button>
+              </div>
               <span
-                class="textarea"
+                class="textarea font-mono"
                 role="textbox" contenteditable="true"
                 @input="updateMarkdown" />
             </div>
             <div class="input-box">
               <label for="event-description-box-example" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Example</label>
-              <div class="input prosing" v-html="result === ''? 'Description display here' : result" />
+              <div :class="displayedDescription !== '' ? 'input prosing' : 'input prosing h-12'" v-html="displayedDescription" />
             </div>
           </div>
           <div class="col-span-4 input-box">
@@ -180,7 +185,7 @@ export default defineComponent({
     const selectedZoneRow = ref('5')
     const selectedZoneColumn = ref('5')
 
-    const markdown = new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr)
+    const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
 
     const sections = computed(() => generateEventSections(Number(selectedSectionRow.value) || 1, Number(selectedSectionColumn.value) || 1))
     const zones = computed(() => generateEventSections(Number(selectedZoneRow.value) || 1, Number(selectedZoneColumn.value) || 1))
@@ -227,11 +232,19 @@ export default defineComponent({
       selectedTimes.value.splice(index, 1)
     }
 
-    const result = ref('')
+    const rawInput = ref('')
 
-    const updateMarkdown = debounce((e:Event): void => {
-      result.value = markdown.render((e.target as HTMLTextAreaElement).innerText)
+    const updateMarkdown = debounce((e: Event): void => {
+      rawInput.value = (e.target as HTMLSpanElement).innerText
     }, 500)
+
+    const displayedDescription = computed<string>(() => {
+      return markdown.value.render(rawInput.value)
+    })
+
+    const openMarkdownRef = () => {
+      window.open('https://markdown-it.github.io/')
+    }
 
     return {
       sections,
@@ -252,7 +265,9 @@ export default defineComponent({
       addEventTime,
       removeEventTime,
       updateMarkdown,
-      result
+      rawInput,
+      displayedDescription,
+      openMarkdownRef
     }
   }
 })
