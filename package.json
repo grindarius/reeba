@@ -28,6 +28,7 @@
     "build:backend": "cd packages/backend && pnpm build",
     "build:frontend": "cd packages/frontend && pnpm build",
     "build:common": "cd packages/common && pnpm build",
+    "lint": "eslint **/*.{ts,vue}",
     "lint:css": "pnpm exec ts-node packages/scripts/src/lint-css.ts",
     "test": "pnpm build:common && pnpm exec tap --rcfile=.taprc --reporter-arg=spec",
     "seed": "pnpm exec ts-node packages/scripts/src/seed.ts",

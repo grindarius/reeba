@@ -2,6 +2,7 @@
 
 - [ ] All work is complete / ทุกอย่างเรียบร้อยดี
 - [ ] Issues linked: Resolves #xyz
+- [ ] Have you linted using `pnpm lint:css` and `pnpm lint`
 
 ## 📝 Summary / สรุปผล
 
