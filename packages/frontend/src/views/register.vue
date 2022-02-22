@@ -15,7 +15,7 @@
                 Username
               </label>
               <div>
-                <input class="register-input-box" id="username" type="text" placeholder="Username">
+                <input class="register-input-box" id="username" type="text" placeholder="Username" v-model="usernameField">
               </div>
             </div>
 
@@ -24,7 +24,7 @@
                 Email
               </label>
               <div>
-                <input class="register-input-box" id="email" type="text" placeholder="Email">
+                <input class="register-input-box" id="email" type="text" placeholder="Email" v-model="emailField">
               </div>
             </div>
 
@@ -47,7 +47,7 @@
             </div>
           </div>
           <div class="register-sing-up-section">
-            <button class="register-button" type="button" @click="onCredentialsSubmit">
+            <button class="register-button" type="button" @click="signup">
               Sign up
             </button>
           </div>
@@ -61,21 +61,44 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { getUnicode } from 'countries-list'
+import { defineComponent, onMounted, ref } from 'vue'
+
+import { useAuthStore } from '@/store/use-auth-store'
 
 export default defineComponent({
   name: 'register',
   setup () {
+    const authStore = useAuthStore()
+
+    const usernameField = ref('')
+    const emailField = ref('')
     const passwordField = ref('')
     const confirmPasswordField = ref('')
 
-    const onCredentialsSubmit = (): void => {
+    onMounted(() => {
+      console.log(getUnicode('TH'))
+    })
+
+    const signup = async (): Promise<void> => {
       if (passwordField.value === confirmPasswordField.value) {
-        console.log('submit credentials')
+        return
+      }
+
+      try {
+        await authStore.signup({ username: usernameField.value, email: emailField.value, password: passwordField.value, phoneCountryCode: '66', phoneNumber: '48830489384' })
+      } catch (error) {
+        console.error(error)
       }
     }
 
-    return { passwordField, confirmPasswordField, onCredentialsSubmit }
+    return {
+      usernameField,
+      emailField,
+      passwordField,
+      confirmPasswordField,
+      signup
+    }
   }
 })
 </script>
