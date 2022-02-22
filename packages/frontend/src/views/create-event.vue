@@ -341,7 +341,7 @@ input[type=number] {
 }
 
 .textarea {
-  @apply inline-block input whitespace-pre;
+  @apply inline-block whitespace-pre input;
 }
 
 .prosing {
