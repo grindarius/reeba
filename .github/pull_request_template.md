@@ -11,7 +11,6 @@
 
 - [ ] can you run `pnpm test` without any errors? / รัน `pnpm test` แล้วไม่มีเออเร่อ
 - [ ] can you run `pnpm build -r` without any errors? / รัน `pnpm build -r` แล้วไม่มีเออเร่อ
-- [ ] Have you linted using `pnpm lint:css` and `pnpm lint`
 - more tests / การทดสอบเพิ่มเติม
 
 ## 🛑 Problems / ปัญหา
