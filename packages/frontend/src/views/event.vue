@@ -28,7 +28,7 @@
                   Opening date
                 </h1>
                 <h1 class="detail-sub-header">
-                  {{ eventData?.openingDate ?? '' }}
+                  {{ eventData?.openingDate == null ? '' : formatOpeningDate(eventData?.openingDate) }}
                 </h1>
               </div>
             </div>
@@ -44,7 +44,7 @@
               </div>
             </div>
             <div class="event-organizer">
-              <div class="flex-shrink-0 w-[60px] h-[60px]">
+              <div class=" w-[60px] h-[60px]">
                 <img class="rounded-full" :src="`http://localhost:3000/avatars/${eventData?.createdBy}`" :alt="eventData?.createdBy ?? ''">
               </div>
               <div class="organizer-content">
@@ -56,9 +56,8 @@
                 </h1>
               </div>
             </div>
-            <div class="event-place">
-              <a href="https://www.google.com/maps/@13.7555347,100.6222595,19z" onclick="window.open(this.href,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=SomeSize,height=SomeSize'); return false;">
-                <v-mdi name="mdi-map-marker-account" size="60" fill="#D5A755" /></a>
+            <div class="event-place " @click="openGoogle(eventData?.venueCoordinates ?? { x:'0', y:'0' })">
+              <v-mdi name="mdi-map-marker-account" size="60" fill="#D5A755" class="cursor-pointer" />
               <div class="place-content">
                 <h1 class="detail-header">
                   Place
@@ -108,17 +107,9 @@
               Show date
             </h1>
             <div class="date-selector">
-              <div class="show-date">
+              <div class="show-date" v-for="(datetimes, i) in (eventData?.datetimes?? [])" :key="`event-page-data-selector-${i}`">
                 <div class="show-date-schedule">
-                  Wednesday, 6 April 2022
-                </div>
-                <router-link to="/select-seat" class="buy-button">
-                  Buy
-                </router-link>
-              </div>
-              <div class="show-date">
-                <div class="show-date-schedule">
-                  Thursday, 7 April 2022
+                  {{ formatOpeningDate(datetimes.start) }}
                 </div>
                 <router-link to="/select-seat" class="buy-button">
                   Buy
@@ -166,6 +157,12 @@ export default defineComponent({
     const formatPrices = (prices: Array<{ color: string, value: number }>): string => {
       return prices.map(p => p.value).sort((a, b) => a - b).map(p => format(',')(p)).join(' / ') + ' THB'
     }
+    const openGoogle = (place: {x: string, y: string}): void => {
+      window.open(`https://www.google.com/maps/search/?api=1&query=${place.x},${place.y}`, '_blank', 'noopener')
+    }
+    const formatOpeningDate = (openingDate: string): string => {
+      return dayjs(openingDate).format('MMMM D, YYYY HH:mm')
+    }
 
     onMounted(async () => {
       try {
@@ -182,7 +179,9 @@ export default defineComponent({
     return {
       eventData,
       formatTimeRange,
-      formatPrices
+      formatPrices,
+      openGoogle,
+      formatOpeningDate
     }
   }
 })
@@ -210,7 +209,11 @@ export default defineComponent({
 }
 
 .event-calendar, .event-prices, .event-times, .event-place, .event-organizer {
-  @apply flex flex-row gap-3;
+  @apply flex flex-row gap-3 ;
+}
+
+.event-organizer {
+  @apply cursor-pointer;
 }
 
 .event-prices, .event-place  {
