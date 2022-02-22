@@ -36,7 +36,7 @@
                 <div><br></div>
                 <div><br></div>
                 <div>&gt; Blockquotes can also be nested...</div>
-                <div>&gt;&gt; ...by using additional greater-than signs right next to each other...</div>
+                <div>&gt; &gt; ...by using additional greater-than signs right next to each other...</div>
                 <div>&gt; &gt; &gt; ...or with spaces between arrows.</div>
                 <div><br></div>
                 <div><br></div>
