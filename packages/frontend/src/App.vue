@@ -59,12 +59,12 @@
                 </a>
               </a>
               <a class="block p-0 rounded-full bg-pale-yellow">
-                <a rel="noopener noreferrer" href="#" title="Facebook" class="flex items-center p-1">
+                <a rel="noopener noreferrer" href="#" title="Twitter" class="flex items-center p-1">
                   <v-mdi name="mdi-twitter" size="40" fill="#FFFFFF" />
                 </a>
               </a>
               <a class="block p-0 rounded-full bg-pale-yellow">
-                <a rel="noopener noreferrer" href="#" title="Facebook" class="flex items-center p-1">
+                <a rel="noopener noreferrer" href="#" title="Instagram" class="flex items-center p-1">
                   <v-mdi name="mdi-Instagram" size="40" fill="#FFFFFF" />
                 </a>
               </a>
