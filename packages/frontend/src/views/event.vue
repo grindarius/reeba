@@ -6,7 +6,7 @@
           <h1 class="block font-sans text-4xl text-white lg:hidden">
             {{ eventData?.name ?? '' }}
           </h1>
-          <img class="mx-auto max-w-md rounded-lg lg:mx-0" :src="`${getEventImage.url}/${route.params.eventID}`" :alt="`${eventData?.name ?? '' }`">
+          <img class="mx-auto max-w-md rounded-lg lg:mx-0" :src="`${getEventImage.url}/${route.params.eventId ?? ''}`" :alt="`${eventData?.name ?? '' }`">
         </div>
         <div class="grow">
           <h1 class="hidden font-sans text-4xl text-white lg:block">
