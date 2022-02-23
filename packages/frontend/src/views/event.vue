@@ -46,9 +46,9 @@
                 </h1>
               </div>
             </div>
-            <div class="event-organizer">
+            <div class="event-createdby">
               <img class="rounded-full" width="60" :src="`${getUserAvatar.url}/${eventData?.createdBy ?? ''}`" :alt="eventData?.createdBy ?? ''">
-              <div class="organizer-content">
+              <div class="createdby-content">
                 <h1 class="detail-header">
                   Created by
                 </h1>
@@ -218,7 +218,7 @@ export default defineComponent({
   @apply grid grid-cols-1 grid-flow-row gap-4 mt-12 xl:grid-cols-2;
 }
 
-.event-calendar, .event-prices, .event-times, .event-place, .event-organizer {
+.event-calendar, .event-prices, .event-times, .event-place, .event-organizer, .event-createdby {
   @apply flex flex-row gap-3;
 }
 
