@@ -14,3 +14,18 @@ export const getRootPageEvents: Endpoint = {
   url: url + '/events/root',
   method: 'get'
 }
+
+export const getUserAvatar: Endpoint = {
+  url: url + '/avatars',
+  method: 'get'
+}
+
+export const getEventImage: Endpoint = {
+  url: url + '/event-images',
+  method: 'get'
+}
+
+export const getIndividualEvent: Endpoint = {
+  url: url + '/events',
+  method: 'get'
+}
