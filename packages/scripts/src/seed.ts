@@ -696,5 +696,5 @@ const main = async () => {
 // eslint-disable-next-line
 main().then(() => {
   console.log(chalk.green('done!'))
-  exit(1)
+  exit()
 })
