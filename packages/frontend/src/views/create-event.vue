@@ -71,6 +71,46 @@
           <hr class="col-span-4 mt-8 w-full border border-pale-yellow">
         </div>
       </div>
+
+      <h3 class="text-4xl font-medium text-white">
+        Stage zone picture
+      </h3>
+      <div class="flex justify-center mt-5">
+        <div class="rounded-lg lg:w-2/3">
+          <div class="m-4">
+            <label class="inline-block mb-2 text-white">Upload
+              Image</label>
+            <div class="flex items-center justify-center w-full">
+              <label class="flex flex-col w-full h-56 border-4 border-dashed hover:bg-pale-yellow hover:border-white">
+                <div class="flex flex-col items-center justify-center pt-10 mt-8">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-12 h-12 text-white group-hover:text-white" viewBox="0 0 20 20"
+                    fill="currentColor">
+                    <path
+                      fill-rule="evenodd"
+                      d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                      clip-rule="evenodd" />
+                  </svg>
+                  <p class="pt-1 text-sm tracking-wider text-white group-hover:text-white">
+                    Select a photo</p>
+                </div>
+                <input type="file" class="opacity-0">
+              </label>
+            </div>
+          </div>
+          <!-- <div class="flex p-2 space-x-4">
+            <button class="px-4 py-2 text-white bg-red-500 rounded shadow-xl">
+              Cannel
+            </button>
+            <button class="px-4 py-2 text-white bg-green-500 rounded shadow-xl">
+              Create
+            </button>
+          </div> -->
+        </div>
+      </div>
+      <!-- <hr class="col-span-4 mt-8 w-full border border-pale-yellow"> -->
+
       <div class="event-sections">
         <h3 class="my-6 text-4xl font-medium text-white">
           Event sections
@@ -148,9 +188,34 @@
           </div>
         </div>
       </div>
+
+      <h3 class="text-4xl font-medium text-white">
+        Price
+      </h3>
+      <button
+        class="w-8 h-8 mt-5 rounded-full bg-pale-yellow" />
+      <div class="flex mt-5">
+        <!-- <label for="price" class="block text-sm font-medium text-gray-700">Price</label> -->
+        <div class="relative rounded-md shadow-sm">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <span class="text-gray-500 sm:text-sm"> $ </span>
+          </div>
+          <input type="text" name="price" id="price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full py-3 pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00">
+          <div class="absolute inset-y-0 right-0 flex items-center">
+            <label for="currency" class="sr-only">Currency</label>
+            <select id="currency" name="currency" class="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
+              <option>USD</option>
+              <option>CAD</option>
+              <option>EUR</option>
+              <option>TH</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
       <button
         type="submit"
-        class="flex flex-row justify-center py-2 w-full tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray disabled:bg-red-disabled">
+        class="flex flex-row justify-center mt-8 py-2 w-full tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray disabled:bg-red-disabled">
         <span>Submit</span>
       </button>
     </div>
