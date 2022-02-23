@@ -99,7 +99,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.Users
   },
   {
-    path: '/:pathMatch(.*)',
+    path: '/:pathMatch(.*)*',
     name: 'Not Found',
     component: Page.NotFound
   }
