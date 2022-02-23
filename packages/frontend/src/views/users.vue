@@ -3,12 +3,15 @@
     <div class="users-page-content">
       <section class="profile-descriptions">
         <img src="@/assets/user.png" alt="user-image" class="user-image">
-        <h1 class="text-4xl font-bold text-white">
-          grindarius
-        </h1>
-        <p class="text-white text-md">
+        <div class="user-info">
+          <div class="mt-3 text-4xl font-bold text-white">
+            grindarius
+            <v-mdi name="mdi-check-decagram" fill="#D5A755" />
+          </div>
+        </div>
+        <div class="mt-3 mb-5 text-white text-md">
           I love going all out on people I don't know
-        </p>
+        </div>
         <div class="social-icons">
           <a href="https://www.facebook.com/grindarius" target="_blank" rel="noopener">
             <v-mdi name="mdi-facebook" fill="#D5A755" />
@@ -20,7 +23,7 @@
             <v-mdi name="mdi-instagram" fill="#D5A755" />
           </a>
         </div>
-        <button class="follow-button">
+        <button class="follow-button hover:bg-yellow-hover">
           Follow
         </button>
         <div class="user-stats">
@@ -99,6 +102,10 @@ export default defineComponent({
 
 .users-page {
   @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
+}
+
+.user-info {
+  @apply flex flex-row gap-1 justify-center text-center text-white;
 }
 
 .users-page-content {

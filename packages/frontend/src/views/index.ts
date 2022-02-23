@@ -12,6 +12,7 @@ import CreateEvent from './create-event.vue'
 import Event from './event.vue'
 import Home from './home.vue'
 import Signin from './login.vue'
+import NotFound from './not-found.vue'
 import Payment from './payment.vue'
 import Receipt from './receipt.vue'
 import Signup from './register.vue'
@@ -31,6 +32,7 @@ export {
   Event,
   Home,
   MyTickets,
+  NotFound,
   OrganizerTools,
   Payment,
   PurchaseHistory,

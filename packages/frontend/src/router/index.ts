@@ -9,7 +9,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.Home
   },
   {
-    path: '/event',
+    path: '/events/:eventId',
     name: 'Event',
     component: Page.Event
   },
@@ -100,7 +100,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/:pathMatch(.*)',
-    redirect: '/'
+    name: 'Not Found',
+    component: Page.NotFound
   }
 ]
 

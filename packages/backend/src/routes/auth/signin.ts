@@ -11,7 +11,6 @@ import {
 } from '@reeba/common'
 
 import { ACCESS_TOKEN_EXPIRES_TIME } from '../../constants'
-import { createSignPayload } from '../../utils'
 
 const signinSchema: FastifySchema = {
   body: SigninBodySchema,
@@ -62,7 +61,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         throw new Error('invalid \'password\'')
       }
 
-      const token = instance.jwt.sign(createSignPayload(user.rows[0].user_username, user.rows[0].user_role), {
+      const token = instance.jwt.sign({
+        username: user.rows[0].user_username,
+        role: user.rows[0].user_role
+      }, {
         expiresIn: ACCESS_TOKEN_EXPIRES_TIME
       })
 

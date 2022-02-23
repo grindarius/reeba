@@ -2,13 +2,14 @@ import dotenv from 'dotenv-flow'
 import fastify, { FastifyInstance } from 'fastify'
 import cors from 'fastify-cors'
 import helmet from 'fastify-helmet'
-import jwt from 'fastify-jwt'
 import multipart from 'fastify-multipart'
 import pg from 'fastify-postgres'
 import servestatic from 'fastify-static'
 import { IncomingMessage, Server, ServerResponse } from 'node:http'
 import { join, resolve } from 'node:path'
 import { Logger } from 'pino'
+
+import jwt from '@reeba/fastify-check-jwt'
 
 import routes from './routes'
 

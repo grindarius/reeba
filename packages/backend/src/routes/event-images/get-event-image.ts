@@ -17,6 +17,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     async (request, reply) => {
       const { eventId } = request.params
 
+      void reply.header('Cross-Origin-Resource-Policy', 'cross-origin')
+
       if (eventId == null || eventId === '') {
         return await reply.sendFile('default-event-image.png')
       }

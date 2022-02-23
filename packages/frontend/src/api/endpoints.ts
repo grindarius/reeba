@@ -9,3 +9,8 @@ export const postAvatar: Endpoint = {
   url: url + '/avatars',
   method: 'post'
 }
+
+export const getRootPageEvents: Endpoint = {
+  url: url + '/events/root',
+  method: 'get'
+}
