@@ -99,7 +99,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.Users
   },
   {
-    path: '/:pathMatch(.*)',
+    path: '/:pathMatch(.*)*',
     name: 'Not Found',
     component: Page.NotFound
   }
@@ -107,7 +107,10 @@ const routes: Array<RouteRecordRaw> = [
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+  routes,
+  scrollBehavior: () => {
+    return { top: 0 }
+  }
 })
 
 export default router
