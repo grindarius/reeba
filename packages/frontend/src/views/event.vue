@@ -2,11 +2,14 @@
   <div class="event-page">
     <div class="event-page-content">
       <div class="event-top-part">
-        <div class="rounded-lg">
-          <img class="mx-auto rounded-lg md:mx-0" src="@/assets/bts-world-tour.jpg" alt="image">
+        <div class="w-full rounded-lg lg:w-min">
+          <h1 class="font-sans text-4xl text-white block lg:hidden">
+            {{ eventData?.name ?? '' }}
+          </h1>
+          <img class="mx-auto max-w-md rounded-lg lg:mx-0" :src="`${getEventImage.url}/${route.params.eventID}`" :alt="`${eventData?.name ?? '' }`">
         </div>
         <div class="grow">
-          <h1 class="font-sans text-4xl text-white">
+          <h1 class="font-sans text-4xl text-white hidden lg:block">
             {{ eventData?.name ?? '' }}
           </h1>
           <div class="event-details">
@@ -17,7 +20,7 @@
                   Show details
                 </h1>
                 <h1 class="detail-sub-header">
-                  {{ eventData?.datetimes == null ? '' : formatTimeRange(eventData?.datetimes ?? []) }}
+                  {{ eventData?.datetimes == null ? '' : formatTimeRange(eventData.datetimes ?? []) }}
                 </h1>
               </div>
             </div>
@@ -28,7 +31,7 @@
                   Opening date
                 </h1>
                 <h1 class="detail-sub-header">
-                  {{ eventData?.openingDate == null ? '' : formatOpeningDate(eventData?.openingDate) }}
+                  {{ eventData?.openingDate == null ? '' : formatOpeningDate(eventData.openingDate) }}
                 </h1>
               </div>
             </div>
@@ -39,14 +42,12 @@
                   Prices
                 </h1>
                 <h1 class="detail-sub-header">
-                  {{ eventData?.prices == null ? '' : formatPrices(eventData?.prices) }}
+                  {{ eventData?.prices == null ? '' : formatPrices(eventData.prices) }}
                 </h1>
               </div>
             </div>
             <div class="event-organizer">
-              <div class=" w-[60px] h-[60px]">
-                <img class="rounded-full" :src="`http://localhost:3000/avatars/${eventData?.createdBy}`" :alt="eventData?.createdBy ?? ''">
-              </div>
+              <img class="rounded-full" width="60" :src="`${getUserAvatar.url}/${eventData?.createdBy ?? ''}`" :alt="eventData?.createdBy ?? ''">
               <div class="organizer-content">
                 <h1 class="detail-header">
                   Created by
@@ -56,8 +57,8 @@
                 </h1>
               </div>
             </div>
-            <div class="event-place " @click="openGoogle(eventData?.venueCoordinates ?? { x:'0', y:'0' })">
-              <v-mdi name="mdi-map-marker-account" size="60" fill="#D5A755" class="cursor-pointer" />
+            <div class="cursor-pointer event-place" @click="openGoogle(eventData?.venueCoordinates ?? { x: '0', y: '0' })">
+              <v-mdi name="mdi-map-marker-account" size="60" fill="#D5A755" />
               <div class="place-content">
                 <h1 class="detail-header">
                   Place
@@ -71,23 +72,13 @@
         </div>
       </div>
       <div class="event-bottom-part">
-        <div class="order-2 col-span-1 md:order-1 md:col-span-2">
+        <div class="order-2 col-span-1 lg:order-1 lg:col-span-2">
           <div class="mb-4 font-sans text-4xl text-white">
             Description
           </div>
-          <p class="font-sans text-white break-words">
-            {{ eventData?.description ?? 'ขอขอบคุณอาร์มี่ทุกคนอีกครั้งที่ให้การตอบรับเป็นอย่างดีกับการร่วมกันสร้างประวัติศาสตร์หน้าใหม่ในการจัดคอนเสิร์ตใหญ่ของศิลปินเกาหลีในประเทศไทยบนพื้นที่สนามกีฬาที่ใหญ่ที่สุดในประเทศไทย' }}
-          </p>
-          <p class="mt-3 font-sans text-white break-words">
-            {{ eventData?.description ?? '' }}
-            <!-- “สนามราชมังคลากีฬาสถาน” กับงาน BTS WORLD TOUR ‘LOVE YOURSELF’ BANGKOK บัตรจำนวน 80,000 กว่าใบทั้ง 2 รอบการแสดง ถูกจำหน่ายหมดภายในเวลาอันรวดเร็วโดย BTS
-              ถือเป็นศิลปินเกาหลีวงแรกที่เปิดคอนเสิร์ตที่นี่!!! แต่สำหรับใครที่ยังนกบัตรอยู่ไม่ต้องเสียใจไป “ไอมี่ไทยแลนด์” และ “บิ๊กฮิต เอนเตอร์เทนเม้น” มีข่าวดีมาบอก!! เราจะเปิดขายบัตรเพิ่มเติมในราคา 6,400 บาท
-              ทั้ง 2 รอบการแสดง (เสาร์ที่ 6 เมษายน และ อาทิตย์ที่ 7 เมษายน 2562) รวมทั้งทีมงานยังได้ตรวจสอบบัตรที่มีการขายต่อเพิ่มราคา / การซื้อ-ขายบัตรนอกระบบ และพบว่ามีบัตรจำนวนหนึ่งที่เข้าข่ายผิดกฎจริง
-              จึงจะนำบัตรเหล่านั้นกลับเข้าสู่ระบบขายใหม่ในครั้งนี้ด้วย โดยสามารถตรวจสอบบัตรที่นำเข้าระบบได้ผ่านทางหน้าซื้อบัตร ในวันเปิดขายบัตรพร้อมกับ บัตรที่ขายเพิ่มเติมข้างต้น และในครั้งนี้จะใช้ระบบ Best Seat
-              สำหรับการซื้อบัตร นั่นคือสามารถเลือกได้เพียงโซนที่ต้องการ และทางระบบจะเลือกที่นั่งที่ดีที่สุดที่เหลืออยู่ในโซนนั้นมาให้ และต้องชำระเงินทันทีตามรายละเอียดดังนี้ -->
-          </p>
+          <div id="markdown-box" ref="markdownBoxRef" class="markdown-box" v-html="markdownRenderedDescription ?? ''" />
         </div>
-        <div class="order-1 md:order-2">
+        <div class="order-1 lg:order-2">
           <div class="mb-4 font-sans text-4xl text-white">
             Tickets
           </div>
@@ -104,7 +95,7 @@
               </h1>
             </div>
             <h1 class="mt-2 text-2xl font-medium text-pale-gray">
-              Show date
+              Schedule
             </h1>
             <div class="date-selector">
               <div class="show-date" v-for="(datetimes, i) in (eventData?.datetimes?? [])" :key="`event-page-data-selector-${i}`">
@@ -127,16 +118,25 @@
 import { format } from 'd3'
 import dayjs from 'dayjs'
 import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import MarkdownIt from 'markdown-it'
+// @ts-expect-error no definitelytyped module
+import abbr from 'markdown-it-abbr'
+import emoji from 'markdown-it-emoji'
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import { GetIndividualEventReply } from '@reeba/common'
+
+import { getEventImage, getIndividualEvent as getIndividualEventEndpoint, getUserAvatar } from '@/api/endpoints'
 
 export default defineComponent({
   name: 'event',
   setup () {
     const route = useRoute()
+    const router = useRouter()
     const eventData: Ref<GetIndividualEventReply | undefined> = ref(undefined)
+
+    const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
 
     const formatTimeRange = (datetimes: Array<{ start: string, end: string }>): string => {
       const sortedDatetimes = datetimes.sort((a, b) => dayjs(a.start).unix() - dayjs(b.start).unix())
@@ -164,15 +164,21 @@ export default defineComponent({
       return dayjs(openingDate).format('MMMM D, YYYY HH:mm')
     }
 
+    const markdownRenderedDescription = computed(() => {
+      return markdown.value.render(eventData.value?.description ?? '## No description provided')
+    })
+
     onMounted(async () => {
+      const { method, url } = getIndividualEventEndpoint
+
       try {
-        const response = await ky('http://localhost:3000/events/' + route.params.eventId, {
-          method: 'get'
+        const response = await ky(`${url}/${route.params.eventId ?? ''}`, {
+          method
         }).json<GetIndividualEventReply>()
 
         eventData.value = response
       } catch (error) {
-        console.error(error)
+        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
       }
     })
 
@@ -181,7 +187,11 @@ export default defineComponent({
       formatTimeRange,
       formatPrices,
       openGoogle,
-      formatOpeningDate
+      formatOpeningDate,
+      markdownRenderedDescription,
+      getEventImage,
+      route,
+      getUserAvatar
     }
   }
 })
@@ -193,11 +203,11 @@ export default defineComponent({
 }
 
 .event-top-part {
-  @apply flex flex-col gap-6 md:flex-row;
+  @apply flex flex-col gap-6 lg:flex-row;
 }
 
 .event-bottom-part {
-  @apply grid grid-cols-1 gap-6 mt-12 md:grid-cols-3;
+  @apply grid grid-cols-1 gap-6 mt-12 lg:grid-cols-3;
 }
 
 .event-page-content {
@@ -205,11 +215,11 @@ export default defineComponent({
 }
 
 .event-details {
-  @apply grid grid-cols-1 grid-flow-row gap-4 mt-12 md:grid-cols-2;
+  @apply grid grid-cols-1 grid-flow-row gap-4 mt-12 xl:grid-cols-2;
 }
 
 .event-calendar, .event-prices, .event-times, .event-place, .event-organizer {
-  @apply flex flex-row gap-3 ;
+  @apply flex flex-row gap-3;
 }
 
 .event-organizer {
@@ -241,6 +251,10 @@ export default defineComponent({
 }
 
 .buy-button {
-  @apply inline-block py-2 px-8 text-white rounded-lg bg-pale-gray hover:bg-gray-hover;
+  @apply inline-block py-2 px-8 h-min w-min text-white rounded-lg bg-pale-gray hover:bg-gray-hover;
+}
+
+.markdown-box {
+  @apply prose prose-p:text-white prose-strong:text-white prose-h1:text-white prose-h2:text-white prose-h3:text-white prose-h4:text-white prose-a:no-underline prose-a:text-pale-yellow prose-blockquote:not-italic hover:prose-a:text-yellow-hover hover:prose-a:underline;
 }
 </style>
