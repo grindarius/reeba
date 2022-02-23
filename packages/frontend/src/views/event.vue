@@ -3,13 +3,13 @@
     <div class="event-page-content">
       <div class="event-top-part">
         <div class="w-full rounded-lg lg:w-min">
-          <h1 class="font-sans text-4xl text-white block lg:hidden">
+          <h1 class="block font-sans text-4xl text-white lg:hidden">
             {{ eventData?.name ?? '' }}
           </h1>
           <img class="mx-auto max-w-md rounded-lg lg:mx-0" :src="`${getEventImage.url}/${route.params.eventID}`" :alt="`${eventData?.name ?? '' }`">
         </div>
         <div class="grow">
-          <h1 class="font-sans text-4xl text-white hidden lg:block">
+          <h1 class="hidden font-sans text-4xl text-white lg:block">
             {{ eventData?.name ?? '' }}
           </h1>
           <div class="event-details">
@@ -251,7 +251,7 @@ export default defineComponent({
 }
 
 .buy-button {
-  @apply inline-block py-2 px-8 h-min w-min text-white rounded-lg bg-pale-gray hover:bg-gray-hover;
+  @apply inline-block py-2 px-8 w-min text-white rounded-lg h-min bg-pale-gray hover:bg-gray-hover;
 }
 
 .markdown-box {
