@@ -16,7 +16,7 @@
           Create event
         </router-link>
         <router-link class="button" to="/signin">
-          Login/Sign up
+          Sign in
         </router-link>
       </div>
       <div class="buttons-mobile">
@@ -37,7 +37,7 @@
         </li>
         <li>
           <router-link to="/signin" @click="closeHamburger" class="inline-block py-2 w-full">
-            Login/Sign up
+            Sign in
           </router-link>
         </li>
       </ul>
@@ -104,7 +104,7 @@
                 </svg>
               </button>
               <a rel="noopener noreferrer" href="#">+(66)2 026 3068
-                10.30-18.00(UTC+7), Mon-Fri
+                10.30 - 18.00 (UTC +7), Mon - Fri
               </a>
             </li>
             <li>
