@@ -25,7 +25,7 @@
             Forgot Password?
           </a>
           <div class="flex justify-center items-center">
-            <button class="py-2 px-8 font-sans text-white rounded-xl bg-pale-gray hover:bg-gray-hover" @click="login">
+            <button class="py-2 px-8 font-sans text-white rounded-xl bg-pale-gray hover:bg-gray-hover" @click.prevent="signin">
               Sign in
             </button>
           </div>
@@ -41,6 +41,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { POSITION, useToast } from 'vue-toastification'
 
 import { useAuthStore } from '@/store/use-auth-store'
 
@@ -49,31 +50,31 @@ export default defineComponent({
   setup () {
     const authStore = useAuthStore()
     const router = useRouter()
+    const toast = useToast()
 
     const emailField = ref('')
     const passwordField = ref('')
 
-    const login = async (): Promise<void> => {
-      if (emailField.value.length === 0) {
-        return
-      }
-
-      if (passwordField.value.length === 0) {
+    const signin = async (): Promise<void> => {
+      if (emailField.value.length === 0 || passwordField.value.length === 0) {
+        toast.error('Email or password cannot be empty', { position: POSITION.BOTTOM_RIGHT, timeout: 2000 })
         return
       }
 
       try {
         await authStore.signin({ email: emailField.value, password: passwordField.value })
+        toast.success('Authentication completed', { position: POSITION.BOTTOM_RIGHT, timeout: 2000 })
         router.push('/')
       } catch (error) {
-        console.error(error)
+        // @ts-expect-error error is unknown
+        toast.error(error.message, { position: POSITION.BOTTOM_RIGHT, timeout: 2000 })
       }
     }
 
     return {
       emailField,
       passwordField,
-      login
+      signin
     }
   }
 })
@@ -85,6 +86,6 @@ export default defineComponent({
 }
 
 .login-page-content {
-  @apply flex justify-center items-center w-full min-h-screen;
+  @apply flex justify-center items-center w-full min-h-screen py-7;
 }
 </style>
