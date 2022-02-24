@@ -6,7 +6,7 @@
           <div class="flex justify-center font-bold scroll-mt-50">
             <img class="mb-1 w-64 h-64" src="@/assets/reeba-logo.png" alt="logo-reeba">
           </div>
-          <h1 class="text-4xl text-center text-white">
+          <h1 class="text-4xl font-bold text-center text-white">
             Sign up
           </h1>
           <div class="register-section">
@@ -18,13 +18,42 @@
                 <input class="register-input-box" id="username" type="text" placeholder="Username" v-model="usernameField">
               </div>
             </div>
-
             <div class="register-input-section">
               <label class="heading" for="email">
                 Email
               </label>
               <div>
                 <input class="register-input-box" id="email" type="text" placeholder="Email" v-model="emailField">
+              </div>
+            </div>
+
+            <div class="register-input-section">
+              <label class="heading" for="country-code">
+                Phone country code
+              </label>
+              <div class="inline-block relative bg-white cursor-pointer register-input-box">
+                <div class="flex justify-between items-center" @click="toggleDropdown">
+                  <span>{{ `${phoneCountryCodeField.name} (+${phoneCountryCodeField.phoneCode})` }}</span>
+                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path fill="#000" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                  </svg>
+                </div>
+                <ul :class="dropdownState ?'dropdown-list block' : 'dropdown-list hidden'">
+                  <li class="link-wrapper" v-for="(v, i) in phoneCodesList" :key="`country-code-dropdown-${i}`">
+                    <div :class="getDropdownClassname(v)" @click="onPhoneCountryCodeClicked(i)">
+                      {{ countryCodeString(v) }}
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="register-input-section">
+              <label class="heading" for="phone-number-input">
+                Phone number
+              </label>
+              <div>
+                <input class="register-input-box" id="phone-number-input" type="tel" placeholder="Phone number" v-model="phoneNumberField">
               </div>
             </div>
 
@@ -61,10 +90,16 @@
 </template>
 
 <script lang="ts">
-import { getUnicode } from 'countries-list'
-import { defineComponent, onMounted, ref } from 'vue'
+import { countries, getUnicode } from 'countries-list'
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
 
+import { useModalState } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
+
+interface CountryCode {
+  name: string
+  phoneCode: string
+}
 
 export default defineComponent({
   name: 'register',
@@ -73,8 +108,30 @@ export default defineComponent({
 
     const usernameField = ref('')
     const emailField = ref('')
+    const phoneCountryCodeField: Ref<CountryCode> = ref({
+      name: 'Thailand',
+      phoneCode: '66'
+    })
+    const phoneNumberField = ref('')
     const passwordField = ref('')
     const confirmPasswordField = ref('')
+
+    const { state: dropdownState, toggle: toggleDropdown } = useModalState()
+
+    const phoneCodesList = computed(() => {
+      return Object.values(countries).flatMap(ct => {
+        const phoneCodeArray = ct.phone.split(',')
+
+        return phoneCodeArray.map(code => {
+          const ret: CountryCode = {
+            name: ct.name,
+            phoneCode: code
+          }
+
+          return ret
+        })
+      })
+    })
 
     onMounted(() => {
       console.log(getUnicode('TH'))
@@ -92,12 +149,36 @@ export default defineComponent({
       }
     }
 
+    const onPhoneCountryCodeClicked = (index: number): void => {
+      phoneCountryCodeField.value = phoneCodesList.value[index]
+    }
+
+    const countryCodeString = (code: CountryCode): string => {
+      return `${code.name} (+${code.phoneCode})`
+    }
+
+    const getDropdownClassname = (code: CountryCode) => {
+      if (phoneCountryCodeField.value != null && code.name === phoneCountryCodeField.value.name && code.phoneCode === phoneCountryCodeField.value.phoneCode) {
+        return 'dropdown-selector selected'
+      }
+
+      return 'dropdown-selector not-selected'
+    }
+
     return {
       usernameField,
       emailField,
+      phoneNumberField,
       passwordField,
       confirmPasswordField,
-      signup
+      signup,
+      getDropdownClassname,
+      dropdownState,
+      phoneCodesList,
+      toggleDropdown,
+      phoneCountryCodeField,
+      onPhoneCountryCodeClicked,
+      countryCodeString
     }
   }
 })
@@ -110,6 +191,18 @@ export default defineComponent({
 
 .register-page-content {
   @apply flex justify-center items-center py-7 w-full min-h-screen;
+}
+
+.dropdown-list {
+  @apply overflow-y-scroll absolute right-0 left-0 top-auto max-h-52;
+}
+
+.link-wrapper:first-child > div {
+  @apply rounded-t;
+}
+
+.link-wrapper:last-child > div {
+  @apply rounded-b;
 }
 
 .register {
@@ -142,5 +235,17 @@ export default defineComponent({
 
 .register-button {
   @apply py-2 px-8 font-sans text-white rounded-xl bg-pale-gray hover:bg-gray-hover;
+}
+
+.selected {
+  @apply bg-zinc-300;
+}
+
+.not-selected {
+  @apply bg-white;
+}
+
+.dropdown-selector {
+  @apply block py-2 px-3 whitespace-normal cursor-pointer text-pale-gray;
 }
 </style>

@@ -10,7 +10,7 @@
             <div class="event" v-for="({id, name, firstDatetime, venueName}, i) in eventData.official" :key="`root-page-official-event-${i}`">
               <router-link :to="{ name: 'Event', params: { eventId: id }}">
                 <div class="event-image-box">
-                  <img class="event-image" :src="`http://localhost:3000/event-images/${id}`" alt="event-image">
+                  <img class="event-image" :src="`${getEventImage.url}/${id}`" alt="event-image">
                 </div>
                 <div class="event-info">
                   <div>
@@ -40,7 +40,7 @@
             <div class="event" v-for="({id, name, firstDatetime, venueName}, i) in eventData.local" :key="`root-page-local-event-${i}`">
               <router-link :to="{ name: 'Event', params: { eventId: id }}">
                 <div class="event-image-box">
-                  <img class="event-image" :src="`http://localhost:3000/event-images/${id}`" alt="event-image">
+                  <img class="event-image" :src="`${getEventImage.url}/${id}`" alt="event-image">
                 </div>
                 <div class="event-info">
                   <div>
@@ -71,7 +71,7 @@ import { defineComponent, onMounted, Ref, ref } from 'vue'
 
 import { GetEventsReply } from '@reeba/common'
 
-import { getRootPageEvents } from '@/api/endpoints'
+import { getEventImage, getRootPageEvents } from '@/api/endpoints'
 
 export default defineComponent({
   name: 'home',
@@ -99,7 +99,8 @@ export default defineComponent({
 
     return {
       eventData,
-      getTimeString
+      getTimeString,
+      getEventImage
     }
   }
 })

@@ -2,12 +2,15 @@
   <div class="event-page">
     <div class="event-page-content">
       <div class="event-top-part">
-        <div class="rounded-lg">
-          <img class="mx-auto rounded-lg md:mx-0" src="@/assets/bts-world-tour.jpg" alt="image">
+        <div class="w-full rounded-lg lg:w-min">
+          <h1 class="block font-sans text-4xl text-white lg:hidden">
+            {{ eventData?.name ?? '' }}
+          </h1>
+          <img class="mx-auto max-w-md rounded-lg lg:mx-0" :src="`${getEventImage.url}/${route.params.eventId ?? ''}`" :alt="`${eventData?.name ?? '' }`">
         </div>
         <div class="grow">
-          <h1 class="font-sans text-4xl text-white">
-            BTS WORLD TOUR 'LOVE YOURSELF' BANGKOK
+          <h1 class="hidden font-sans text-4xl text-white lg:block">
+            {{ eventData?.name ?? '' }}
           </h1>
           <div class="event-details">
             <div class="event-calendar">
@@ -17,7 +20,7 @@
                   Show details
                 </h1>
                 <h1 class="detail-sub-header">
-                  6-7 April 2022 • 19:00
+                  {{ eventData?.datetimes == null ? '' : formatTimeRange(eventData.datetimes ?? []) }}
                 </h1>
               </div>
             </div>
@@ -28,7 +31,7 @@
                   Opening date
                 </h1>
                 <h1 class="detail-sub-header">
-                  15 March 2022 • 0:00
+                  {{ eventData?.openingDate == null ? '' : formatOpeningDate(eventData.openingDate) }}
                 </h1>
               </div>
             </div>
@@ -39,18 +42,29 @@
                   Prices
                 </h1>
                 <h1 class="detail-sub-header">
-                  2,000 / 2,800 / 3,800 / 4,800 / 5,800 / 6,400 / 6,800 THB
+                  {{ eventData?.prices == null ? '' : formatPrices(eventData.prices) }}
                 </h1>
               </div>
             </div>
-            <div class="event-place">
+            <div class="event-createdby">
+              <img class="rounded-full" width="60" :src="`${getUserAvatar.url}/${eventData?.createdBy ?? ''}`" :alt="eventData?.createdBy ?? ''">
+              <div class="createdby-content">
+                <h1 class="detail-header">
+                  Created by
+                </h1>
+                <h1 class="detail-sub-header">
+                  {{ eventData?.createdBy ?? '' }}
+                </h1>
+              </div>
+            </div>
+            <div class="cursor-pointer event-place" @click="openGoogle(eventData?.venueCoordinates ?? { x: '0', y: '0' })">
               <v-mdi name="mdi-map-marker-account" size="60" fill="#D5A755" />
               <div class="place-content">
                 <h1 class="detail-header">
                   Place
                 </h1>
                 <h1 class="detail-sub-header">
-                  Rajamangkala National Stadium
+                  {{ eventData?.venueName ?? '' }}
                 </h1>
               </div>
             </div>
@@ -58,52 +72,35 @@
         </div>
       </div>
       <div class="event-bottom-part">
-        <div class="order-2 col-span-1 md:order-1 md:col-span-2">
+        <div class="order-2 col-span-1 lg:order-1 lg:col-span-2">
           <div class="mb-4 font-sans text-4xl text-white">
             Description
           </div>
-          <p class="font-sans text-white break-words">
-            ขอขอบคุณอาร์มี่ทุกคนอีกครั้งที่ให้การตอบรับเป็นอย่างดีกับการร่วมกันสร้างประวัติศาสตร์หน้าใหม่ในการจัดคอนเสิร์ตใหญ่ของศิลปินเกาหลีในประเทศไทยบนพื้นที่สนามกีฬาที่ใหญ่ที่สุดในประเทศไทย
-          </p>
-          <p class="mt-3 font-sans text-white break-words">
-            “สนามราชมังคลากีฬาสถาน” กับงาน BTS WORLD TOUR ‘LOVE YOURSELF’ BANGKOK บัตรจำนวน 80,000 กว่าใบทั้ง 2 รอบการแสดง ถูกจำหน่ายหมดภายในเวลาอันรวดเร็วโดย BTS
-            ถือเป็นศิลปินเกาหลีวงแรกที่เปิดคอนเสิร์ตที่นี่!!! แต่สำหรับใครที่ยังนกบัตรอยู่ไม่ต้องเสียใจไป “ไอมี่ไทยแลนด์” และ “บิ๊กฮิต เอนเตอร์เทนเม้น” มีข่าวดีมาบอก!! เราจะเปิดขายบัตรเพิ่มเติมในราคา 6,400 บาท
-            ทั้ง 2 รอบการแสดง (เสาร์ที่ 6 เมษายน และ อาทิตย์ที่ 7 เมษายน 2562) รวมทั้งทีมงานยังได้ตรวจสอบบัตรที่มีการขายต่อเพิ่มราคา / การซื้อ-ขายบัตรนอกระบบ และพบว่ามีบัตรจำนวนหนึ่งที่เข้าข่ายผิดกฎจริง
-            จึงจะนำบัตรเหล่านั้นกลับเข้าสู่ระบบขายใหม่ในครั้งนี้ด้วย โดยสามารถตรวจสอบบัตรที่นำเข้าระบบได้ผ่านทางหน้าซื้อบัตร ในวันเปิดขายบัตรพร้อมกับ บัตรที่ขายเพิ่มเติมข้างต้น และในครั้งนี้จะใช้ระบบ Best Seat
-            สำหรับการซื้อบัตร นั่นคือสามารถเลือกได้เพียงโซนที่ต้องการ และทางระบบจะเลือกที่นั่งที่ดีที่สุดที่เหลืออยู่ในโซนนั้นมาให้ และต้องชำระเงินทันทีตามรายละเอียดดังนี้
-          </p>
+          <div id="markdown-box" ref="markdownBoxRef" class="markdown-box" v-html="markdownRenderedDescription ?? ''" />
         </div>
-        <div class="order-1 md:order-2">
+        <div class="order-1 lg:order-2">
           <div class="mb-4 font-sans text-4xl text-white">
             Tickets
           </div>
           <div class="ticket-date-selector">
             <h1 class="font-sans text-2xl font-medium text-pale-gray">
-              Rajamangkala National Stadium
+              {{ eventData?.venueName ?? '' }}
             </h1>
             <div>
               <h1 class="mt-2 font-sans text-2xl font-medium text-pale-gray">
                 Prices
               </h1>
               <h1 class="font-sans text-xl font-medium text-pale-gray">
-                2,000 / 2,800 / 3,800 / 4,800 / 5,800 / 6,400 / 6,800 THB
+                {{ formatPrices(eventData?.prices ?? []) ?? 'ราคา' }}
               </h1>
             </div>
             <h1 class="mt-2 text-2xl font-medium text-pale-gray">
-              Show date
+              Schedule
             </h1>
             <div class="date-selector">
-              <div class="show-date">
+              <div class="show-date" v-for="(datetimes, i) in (eventData?.datetimes?? [])" :key="`event-page-data-selector-${i}`">
                 <div class="show-date-schedule">
-                  Wednesday, 6 April 2022
-                </div>
-                <router-link to="/select-seat" class="buy-button">
-                  Buy
-                </router-link>
-              </div>
-              <div class="show-date">
-                <div class="show-date-schedule">
-                  Thursday, 7 April 2022
+                  {{ formatOpeningDate(datetimes.start) }}
                 </div>
                 <router-link to="/select-seat" class="buy-button">
                   Buy
@@ -118,10 +115,85 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { format } from 'd3'
+import dayjs from 'dayjs'
+import ky from 'ky'
+import MarkdownIt from 'markdown-it'
+// @ts-expect-error no definitelytyped module
+import abbr from 'markdown-it-abbr'
+import emoji from 'markdown-it-emoji'
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+import { GetIndividualEventReply } from '@reeba/common'
+
+import { getEventImage, getIndividualEvent as getIndividualEventEndpoint, getUserAvatar } from '@/api/endpoints'
 
 export default defineComponent({
-  name: 'event'
+  name: 'event',
+  setup () {
+    const route = useRoute()
+    const router = useRouter()
+    const eventData: Ref<GetIndividualEventReply | undefined> = ref(undefined)
+
+    const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
+
+    const formatTimeRange = (datetimes: Array<{ start: string, end: string }>): string => {
+      const sortedDatetimes = datetimes.sort((a, b) => dayjs(a.start).unix() - dayjs(b.start).unix())
+      const first = dayjs(sortedDatetimes[0].start)
+      const last = dayjs(sortedDatetimes[sortedDatetimes.length - 1].start)
+
+      if (first.get('year') !== last.get('year')) {
+        return `${first.format('D MMMM YYYY')} - ${last.format('D MMMM YYYY')}`
+      } else if (first.get('month') !== last.get('month')) {
+        return `${first.format('D MMMM')} - ${last.format('D MMMM')} ${first.format('YYYY')}`
+      } else if (first.get('date') !== last.get('date')) {
+        return `${first.format('D')} - ${last.format('D')} ${first.format('MMMM YYYY')}`
+      } else {
+        return first.format('D MMMM YYYY')
+      }
+    }
+
+    const formatPrices = (prices: Array<{ color: string, value: number }>): string => {
+      return prices.map(p => p.value).sort((a, b) => a - b).map(p => format(',')(p)).join(' / ') + ' THB'
+    }
+    const openGoogle = (place: {x: string, y: string}): void => {
+      window.open(`https://www.google.com/maps/search/?api=1&query=${place.x},${place.y}`, '_blank', 'noopener')
+    }
+    const formatOpeningDate = (openingDate: string): string => {
+      return dayjs(openingDate).format('MMMM D, YYYY HH:mm')
+    }
+
+    const markdownRenderedDescription = computed(() => {
+      return markdown.value.render(eventData.value?.description ?? '## No description provided')
+    })
+
+    onMounted(async () => {
+      const { method, url } = getIndividualEventEndpoint
+
+      try {
+        const response = await ky(`${url}/${route.params.eventId ?? ''}`, {
+          method
+        }).json<GetIndividualEventReply>()
+
+        eventData.value = response
+      } catch (error) {
+        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+      }
+    })
+
+    return {
+      eventData,
+      formatTimeRange,
+      formatPrices,
+      openGoogle,
+      formatOpeningDate,
+      markdownRenderedDescription,
+      getEventImage,
+      route,
+      getUserAvatar
+    }
+  }
 })
 </script>
 
@@ -131,11 +203,11 @@ export default defineComponent({
 }
 
 .event-top-part {
-  @apply flex flex-col gap-6 md:flex-row;
+  @apply flex flex-col gap-6 lg:flex-row;
 }
 
 .event-bottom-part {
-  @apply grid grid-cols-1 gap-6 mt-12 md:grid-cols-3;
+  @apply grid grid-cols-1 gap-6 mt-12 lg:grid-cols-3;
 }
 
 .event-page-content {
@@ -143,15 +215,19 @@ export default defineComponent({
 }
 
 .event-details {
-  @apply grid grid-cols-1 grid-flow-row gap-4 mt-12 md:grid-cols-2;
+  @apply grid grid-cols-1 grid-flow-row gap-4 mt-12 xl:grid-cols-2;
 }
 
-.event-calendar, .event-prices, .event-times, .event-place {
+.event-calendar, .event-prices, .event-times, .event-place, .event-organizer, .event-createdby {
   @apply flex flex-row gap-3;
 }
 
-.event-prices, .event-place {
-  @apply col-span-1 md:col-span-2;
+.event-organizer {
+  @apply cursor-pointer;
+}
+
+.event-prices, .event-place  {
+  @apply col-span-1 md:col-span-1;
 }
 
 .detail-header {
@@ -175,6 +251,10 @@ export default defineComponent({
 }
 
 .buy-button {
-  @apply inline-block py-2 px-8 text-white rounded-lg bg-pale-gray hover:bg-gray-hover;
+  @apply inline-block py-2 px-8 w-min text-white rounded-lg h-min bg-pale-gray hover:bg-gray-hover;
+}
+
+.markdown-box {
+  @apply prose prose-p:text-white prose-strong:text-white prose-h1:text-white prose-h2:text-white prose-h3:text-white prose-h4:text-white prose-a:no-underline prose-a:text-pale-yellow prose-blockquote:not-italic hover:prose-a:text-yellow-hover hover:prose-a:underline;
 }
 </style>

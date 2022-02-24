@@ -10,6 +10,25 @@
             <label for="event-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Event name</label>
             <input type="text" id="event-name" name="event-name" class="appearance-none input" placeholder="LOVE YOUR SELF">
           </div>
+          <div class="grid overflow-x-auto col-span-4 grid-rows-1 gap-y-4 gap-x-6 md:grid-cols-2">
+            <div class="input-box">
+              <div class="grid grid-cols-2">
+                <label for="event-description-box" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Description</label>
+                <button @click="openMarkdownRef('https://markdown-it.github.io/')" class="self-center place-self-end">
+                  <v-mdi name="mdi-information-outline" fill="#D5A755" class="self-center place-self-end" />
+                </button>
+              </div>
+              <span
+                class="font-mono textarea" id="description"
+                role="textbox" contenteditable="true"
+                v-text="rawInput"
+                @input="updateMarkdown" />
+            </div>
+            <div class="input-box">
+              <label for="event-description-box-example" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Example</label>
+              <div :class="displayedDescription !== '' ? 'input prosing' : 'input prosing h-12'" v-html="displayedDescription" />
+            </div>
+          </div>
           <div class="col-span-4 input-box">
             <label for="event-website-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Website</label>
             <input type="text" id="event-website-name" name="event-website-name" class="appearance-none input" placeholder="https://event.reeba.com">
@@ -25,7 +44,6 @@
               <v-mdi name="mdi-plus-circle" class="mx-3 cursor-pointer" size="36" fill="#D5A755" @click="addEventTime" />
             </div>
           </div>
-
           <div class="col-span-4">
             <div v-for="(time, i) in selectedTimes" :key="`selected-event-time-${i}`">
               <div class="add-list-remove">
@@ -34,7 +52,6 @@
               </div>
             </div>
           </div>
-
           <div class="col-span-4 md:col-span-1 input-box">
             <label for="event-location-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Location name</label>
             <input type="text" id="event-location-name" name="event-location-name" class="appearance-none input" placeholder="Rajamangkala National Stadium">
@@ -143,6 +160,11 @@
 <script lang="ts">
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import debounce from 'debounce'
+import MarkdownIt from 'markdown-it'
+// @ts-expect-error not have definitelyTyped
+import abbr from 'markdown-it-abbr'
+import emoji from 'markdown-it-emoji'
 import { computed, defineComponent, ref, StyleValue } from 'vue'
 
 import { useAuthStore } from '@/store/use-auth-store'
@@ -173,6 +195,8 @@ export default defineComponent({
     const selectedSectionColumn = ref('5')
     const selectedZoneRow = ref('5')
     const selectedZoneColumn = ref('5')
+
+    const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
 
     const sections = computed(() => generateEventSections(Number(selectedSectionRow.value) || 1, Number(selectedSectionColumn.value) || 1))
     const zones = computed(() => generateEventSections(Number(selectedZoneRow.value) || 1, Number(selectedZoneColumn.value) || 1))
@@ -219,6 +243,37 @@ export default defineComponent({
       selectedTimes.value.splice(index, 1)
     }
 
+    const rawInput = ref([
+      '## Heading 8-)\n',
+      '**This is bold text**\n',
+      '__This is bold text__\n',
+      '*This is italic text*\n',
+      '~~Strikethrough~~\n',
+      '> Blockquotes can also be nested...',
+      '> > ...by using additional greater-than signs right next to each other...',
+      '> > > ...by using additional greater-than signs right next to each other...\n',
+      '+ Create a list by starting a line with +',
+      '+ Very easy!\n',
+      '1. Lorem ipsum dolor sit amet\n2. Consectetur adipiscing elit',
+      '2. Consectetur adipiscing elit',
+      '3. Integer molestie lorem at massa\n',
+      '1. You can use sequential numbers...',
+      '1. ...or keep all the numbers as 1.'
+    ].join('\n'))
+
+    const updateMarkdown = debounce((e: Event): void => {
+      rawInput.value = (e.target as HTMLSpanElement).innerText
+    }, 500)
+
+    const displayedDescription = computed<string>(() => {
+      return markdown.value.render(rawInput.value)
+    })
+
+    const openMarkdownRef = (url: string) => {
+      const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+      if (newWindow) newWindow.opener = null
+    }
+
     return {
       sections,
       onSelectedSection,
@@ -236,7 +291,11 @@ export default defineComponent({
       selectedEventEndTime,
       selectedTimes,
       addEventTime,
-      removeEventTime
+      removeEventTime,
+      updateMarkdown,
+      rawInput,
+      displayedDescription,
+      openMarkdownRef
     }
   }
 })
@@ -289,5 +348,13 @@ input[type=number] {
   &::-webkit-outer-spin-button {
     appearance: none;
   }
+}
+
+.textarea {
+  @apply inline-block whitespace-pre input;
+}
+
+.prosing {
+  @apply max-w-none prose prose-a:no-underline prose-a:text-blue-700 prose-blockquote:not-italic hover:prose-a:text-blue-500 hover:prose-a:underline;
 }
 </style>

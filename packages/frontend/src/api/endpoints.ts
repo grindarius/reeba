@@ -24,3 +24,18 @@ export const signup: Endpoint = {
   url: url + '/auth/signup',
   method: 'post'
 }
+
+export const getUserAvatar: Endpoint = {
+  url: url + '/avatars',
+  method: 'get'
+}
+
+export const getEventImage: Endpoint = {
+  url: url + '/event-images',
+  method: 'get'
+}
+
+export const getIndividualEvent: Endpoint = {
+  url: url + '/events',
+  method: 'get'
+}
