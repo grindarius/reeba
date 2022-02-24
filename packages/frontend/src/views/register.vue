@@ -90,8 +90,12 @@
 </template>
 
 <script lang="ts">
-import { countries, getUnicode } from 'countries-list'
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { countries } from 'countries-list'
+import { computed, defineComponent, Ref, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { POSITION, useToast } from 'vue-toastification'
+
+import { SignupBody } from '@reeba/common'
 
 import { useModalState } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
@@ -105,6 +109,8 @@ export default defineComponent({
   name: 'register',
   setup () {
     const authStore = useAuthStore()
+    const toast = useToast()
+    const router = useRouter()
 
     const usernameField = ref('')
     const emailField = ref('')
@@ -133,19 +139,22 @@ export default defineComponent({
       })
     })
 
-    onMounted(() => {
-      console.log(getUnicode('TH'))
-    })
-
     const signup = async (): Promise<void> => {
-      if (passwordField.value === confirmPasswordField.value) {
-        return
+      const signupCredentials: SignupBody = {
+        username: usernameField.value,
+        email: emailField.value,
+        password: passwordField.value,
+        phoneCountryCode: phoneCountryCodeField.value.phoneCode,
+        phoneNumber: phoneNumberField.value
       }
 
       try {
-        await authStore.signup({ username: usernameField.value, email: emailField.value, password: passwordField.value, phoneCountryCode: '66', phoneNumber: '48830489384' })
+        await authStore.signup(signupCredentials)
+        toast.success('Signup completed', { timeout: 2000, position: POSITION.BOTTOM_RIGHT })
+        router.push({ name: 'Signin' })
       } catch (error) {
-        console.error(error)
+        // @ts-expect-error unknown error
+        toast.error(error.message, { timeout: 2000, position: POSITION.BOTTOM_RIGHT })
       }
     }
 
