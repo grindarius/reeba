@@ -19,7 +19,7 @@
                 </button>
               </div>
               <span
-                class="font-mono textarea" id="description"
+                class="overflow-x-auto font-mono textarea" id="description"
                 role="textbox" contenteditable="true"
                 v-text="rawInput"
                 @input="updateMarkdown" />
