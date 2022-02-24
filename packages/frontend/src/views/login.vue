@@ -86,6 +86,6 @@ export default defineComponent({
 }
 
 .login-page-content {
-  @apply flex justify-center items-center w-full min-h-screen py-7;
+  @apply flex justify-center items-center py-7 w-full min-h-screen;
 }
 </style>

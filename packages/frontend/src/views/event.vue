@@ -207,7 +207,7 @@ export default defineComponent({
 }
 
 .event-bottom-part {
-  @apply grid grid-cols-1 gap-6 mt-12 lg:grid-cols-3;
+  @apply grid grid-cols-1 gap-6 my-12 lg:grid-cols-3;
 }
 
 .event-page-content {
