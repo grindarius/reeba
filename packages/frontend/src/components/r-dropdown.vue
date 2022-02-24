@@ -1,22 +1,20 @@
 <template>
-  <div class="inline-block relative">
+  <div class="inline-block relative w-full">
     <button
       class="dropdown-toggle-button"
-      style="min-width: 8rem;"
-      @click="toggleDropdown">
+      @click.prevent="toggleDropdown">
       <span class="mr-1 font-sans text-lg">
         {{ buttonWord }}
       </span>
       <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-        <path fill="#fff" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+        <path :fill="'#fff'" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
       </svg>
     </button>
     <ul
-      :class="dropdownStatus ?'dropdown-list hidden' : 'dropdown-list block'"
-      style="min-width: 8rem;">
+      :class="dropdownStatus ?'dropdown-list hidden' : 'dropdown-list block'">
       <li class="link-wrapper" v-for="(v, i) in values" :key="`dropdown-item-${i}`">
         <div
-          :class="selectedValue != null && v === localSelectedValue ? 'dropdown-selector selected' : 'dropdown-selector not-selected'"
+          :class="getDropdownClassname(v)"
           @click="onSelectedValue(v)">
           {{ v }}
         </div>
@@ -51,6 +49,10 @@ export default defineComponent({
       dropdownStatus.value = !dropdownStatus.value
     }
 
+    const closeDropdown = (): void => {
+      dropdownStatus.value = false
+    }
+
     const updateSelectedValue = (): void => {
       context.emit('update:selectedValue', localSelectedValue.value)
     }
@@ -64,12 +66,21 @@ export default defineComponent({
       return localSelectedValue.value
     })
 
+    const getDropdownClassname = (v: string): string => {
+      if (props.selectedValue != null && v === localSelectedValue.value) {
+        return 'dropdown-selector selected'
+      }
+      return 'dropdown-selector not-selected'
+    }
+
     return {
       dropdownStatus,
       toggleDropdown,
       localSelectedValue,
       onSelectedValue,
-      buttonWord
+      buttonWord,
+      closeDropdown,
+      getDropdownClassname
     }
   }
 })
@@ -85,11 +96,11 @@ export default defineComponent({
 }
 
 .selected {
-  @apply bg-slate-700;
+  @apply text-white bg-slate-700;
 }
 
 .not-selected {
-  @apply bg-slate-900;
+  @apply text-white bg-slate-900;
 }
 
 .dropdown-toggle-button {
@@ -97,7 +108,7 @@ export default defineComponent({
 }
 
 .dropdown-list {
-  @apply absolute pt-1 font-sans text-white filter drop-shadow-xl;
+  @apply absolute pt-1 w-full font-sans text-black filter drop-shadow-xl;
 }
 
 .dropdown-selector {
