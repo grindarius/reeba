@@ -15,29 +15,30 @@
         <router-link class="button" to="/create">
           Create event
         </router-link>
-        <button @click="dropdownClicked" id="dropdownBottomButton" data-dropdown-toggle="dropdownBottom" data-dropdown-placement="bottom" class="mr-3 mb-3 md:mb-0 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-          Dropdown bottom <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+        <button @click="dropdownClicked" class="dropdown-navbar">
+          <img src="@/assets/user.png" class="profile-image">
+          <v-mdi class="place-self-center" name="mdi-chevron-down" fill="#423E41" />
         </button>
       </div>
       <div class="buttons-mobile">
         <v-mdi name="mdi-hamburger" class="cursor-pointer" size="40" fill="#423E41" @click="onHamburgerClicked" />
       </div>
     </div>
-    <div v-if="dropdownState" id="dropdownBottom" class="place-self-end mr-2 z-10 w-44 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
-      <ul class="py-1" aria-labelledby="dropdownBottomButton">
+    <div v-if="dropdownState" class="dropdown-state">
+      <div class="py-1">
+        <a href="#" class="dropdown-text">Login</a>
+      </div>
+      <ul class="py-1">
         <li>
-          <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+          <a href="#" class="dropdown-text">My profile</a>
         </li>
         <li>
-          <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
-        </li>
-        <li>
-          <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
-        </li>
-        <li>
-          <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+          <a href="#" class="dropdown-text">Settings</a>
         </li>
       </ul>
+      <div class="py-1">
+        <a href="#" class="dropdown-text">Sign out</a>
+      </div>
     </div>
     <div :class="hamburgerState ?'small-navbar block' : 'small-navbar hidden'">
       <ul class="small-navbar-list">
@@ -109,7 +110,7 @@ export default defineComponent({
 }
 
 .big-navbar {
-  @apply flex flex-row mt-1 justify-between;
+  @apply flex flex-row mt-0.5 justify-between;
 }
 
 .small-navbar {
@@ -157,6 +158,24 @@ export default defineComponent({
       @apply mr-2 #{!important};
     }
   }
+}
+
+.dropdown-navbar {
+  @apply mr-3 mb-3 md:mb-0 rounded-lg px-4 py-2.5 inline-flex items-center;
+}
+
+.profile-image {
+  width: 25px;
+  height: 25px;
+  @apply rounded-full;
+}
+
+.dropdown-state {
+  @apply hidden lg:block place-self-end mr-2 z-10 w-44 bg-white divide-y divide-gray-100 shadow dark:bg-gray-700;
+}
+
+.dropdown-text {
+  @apply block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white;
 }
 
 .buttons-mobile {
