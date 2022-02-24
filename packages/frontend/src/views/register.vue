@@ -76,7 +76,7 @@
             </div>
           </div>
           <div class="register-sing-up-section">
-            <button class="register-button" type="button" @click="onCredentialsSubmit">
+            <button class="register-button" type="button" @click="signup">
               Sign up
             </button>
           </div>
@@ -92,8 +92,13 @@
 <script lang="ts">
 import { countries } from 'countries-list'
 import { computed, defineComponent, Ref, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { POSITION, useToast } from 'vue-toastification'
+
+import { SignupBody } from '@reeba/common'
 
 import { useModalState } from '@/composables'
+import { useAuthStore } from '@/store/use-auth-store'
 
 interface CountryCode {
   name: string
@@ -103,7 +108,9 @@ interface CountryCode {
 export default defineComponent({
   name: 'register',
   setup () {
-    const { state: dropdownState, toggle: toggleDropdown } = useModalState()
+    const authStore = useAuthStore()
+    const toast = useToast()
+    const router = useRouter()
 
     const usernameField = ref('')
     const emailField = ref('')
@@ -114,6 +121,8 @@ export default defineComponent({
     const phoneNumberField = ref('')
     const passwordField = ref('')
     const confirmPasswordField = ref('')
+
+    const { state: dropdownState, toggle: toggleDropdown } = useModalState()
 
     const phoneCodesList = computed(() => {
       return Object.values(countries).flatMap(ct => {
@@ -130,9 +139,22 @@ export default defineComponent({
       })
     })
 
-    const onCredentialsSubmit = (): void => {
-      if (passwordField.value === confirmPasswordField.value) {
-        console.log('submit credentials')
+    const signup = async (): Promise<void> => {
+      const signupCredentials: SignupBody = {
+        username: usernameField.value,
+        email: emailField.value,
+        password: passwordField.value,
+        phoneCountryCode: phoneCountryCodeField.value.phoneCode,
+        phoneNumber: phoneNumberField.value
+      }
+
+      try {
+        await authStore.signup(signupCredentials)
+        toast.success('Signup completed', { timeout: 2000, position: POSITION.BOTTOM_RIGHT })
+        router.push({ name: 'Signin' })
+      } catch (error) {
+        // @ts-expect-error unknown error
+        toast.error(error.message, { timeout: 2000, position: POSITION.BOTTOM_RIGHT })
       }
     }
 
@@ -158,7 +180,7 @@ export default defineComponent({
       phoneNumberField,
       passwordField,
       confirmPasswordField,
-      onCredentialsSubmit,
+      signup,
       getDropdownClassname,
       dropdownState,
       phoneCodesList,

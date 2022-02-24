@@ -16,11 +16,11 @@
           Create event
         </router-link>
         <router-link class="button" to="/signin">
-          Login/Sign up
+          Sign in
         </router-link>
       </div>
       <div class="buttons-mobile">
-        <v-mdi name="mdi-hamburger" class="cursor-pointer" size="40" fill="#423E41" @click="onHamburgerClicked" />
+        <v-mdi name="mdi-hamburger" class="cursor-pointer" size="40" fill="#423E41" @click="toggleHamburger" />
       </div>
     </div>
     <div :class="hamburgerState ?'small-navbar block' : 'small-navbar hidden'">
@@ -37,7 +37,7 @@
         </li>
         <li>
           <router-link to="/signin" @click="closeHamburger" class="inline-block py-2 w-full">
-            Login/Sign up
+            Sign in
           </router-link>
         </li>
       </ul>
@@ -104,7 +104,7 @@
                 </svg>
               </button>
               <a rel="noopener noreferrer" href="#">+(66)2 026 3068
-                10.30-18.00(UTC+7), Mon-Fri
+                10.30 - 18.00 (UTC +7), Mon - Fri
               </a>
             </li>
             <li>
@@ -173,23 +173,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
+
+import { useModalState } from './composables'
 
 export default defineComponent({
   name: 'app',
   setup () {
-    const hamburgerState = ref(false)
-
-    const onHamburgerClicked = (): void => {
-      hamburgerState.value = !hamburgerState.value
-    }
-
-    const closeHamburger = (): void => {
-      hamburgerState.value = false
-    }
+    const { state: hamburgerState, toggle: toggleHamburger, close: closeHamburger } = useModalState()
 
     return {
-      onHamburgerClicked,
+      toggleHamburger,
       hamburgerState,
       closeHamburger
     }

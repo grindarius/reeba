@@ -48,7 +48,7 @@
                       {{ name }}
                     </h3>
                     <p class="event-time">
-                      {{ firstDatetime }}
+                      {{ getTimeString(firstDatetime) }}
                     </p>
                     <p class="event-location">
                       {{ venueName }}
