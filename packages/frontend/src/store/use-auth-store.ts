@@ -24,11 +24,10 @@ export const useAuthStore = defineStore('authStore', {
           method,
           json: body
         }).json<SigninReplyBody>()
+        console.log(response)
 
         this.userData = response
         this.isAuthenticated = true
-
-        return
       } catch (error) {
         // @ts-expect-error error is unknown
         const json = await error.response.json()
@@ -43,15 +42,14 @@ export const useAuthStore = defineStore('authStore', {
           method,
           json: body
         })
-
-        return
       } catch (error) {
         // @ts-expect-error error is unknown
         const json = await error.response.json()
         throw new Error(json.message)
       }
     },
-    async signout (): Promise<void> {
+    signout (): void {
+      sessionStorage.clear()
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       this.userData = {} as SigninReplyBody
       this.isAuthenticated = false
