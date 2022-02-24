@@ -161,19 +161,35 @@
         <div class="flex flex-col gap-y-4 gap-x-6 md:flex-row">
           <div class="input-box grow">
             <label for="event-zone-rows" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Zone rows</label>
-            <input
-              type="number" id="event-zone-rows"
-              name="event-zone-rows" class="input"
-              step="1"
-              v-model="selectedZoneRow">
+            <div class="flex flex-row">
+              <input
+                type="number" id="event-zone-rows"
+                name="event-zone-rows" class="input"
+                step="1"
+                v-model="selectedZoneRow" disabled>
+              <button @click="decreaseRow" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-20 rounded-l cursor-pointer outline-none">
+                <span class="m-auto text-2xl font-thin">−</span>
+              </button>
+              <button @click="increaseRow" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-20 rounded-r cursor-pointer">
+                <span class="m-auto text-2xl font-thin">+</span>
+              </button>
+            </div>
           </div>
           <div class="input-box grow">
             <label for="event-zone-columns" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Zone columns</label>
-            <input
-              type="number" id="event-zone-columns"
-              name="event-zone-columns" class="input"
-              step="1"
-              v-model="selectedZoneColumn">
+            <div class="flex flex-row">
+              <input
+                type="number" id="event-zone-columns"
+                name="event-zone-columns" class="input"
+                step="1"
+                v-model="selectedZoneColumn" disabled>
+              <button @click="decreaseColumn" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-20 rounded-l cursor-pointer">
+                <span class="m-auto text-2xl font-thin">−</span>
+              </button>
+              <button @click="increaseColumn" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-20 rounded-r cursor-pointer">
+                <span class="m-auto text-2xl font-thin">+</span>
+              </button>
+            </div>
           </div>
         </div>
         <div class="seatings">
@@ -192,7 +208,7 @@
       <h3 class="text-4xl font-medium text-white">
         Price
       </h3>
-      <div class="flex overflow-x-auto">
+      <div class="flex flex-wrap">
         <div v-for="row in zones" :key="JSON.stringify(row)" class="flex flex-none place-items-center mb-2">
           <button
             class="mt-5 mr-2 ml-2 w-8 h-8 rounded-full bg-pale-yellow" />
@@ -333,6 +349,22 @@ export default defineComponent({
       if (newWindow) newWindow.opener = null
     }
 
+    const increaseRow = (): void => {
+      selectedZoneRow.value = String(Number(selectedZoneRow.value) + 1)
+    }
+
+    const increaseColumn = (): void => {
+      selectedZoneColumn.value = String(Number(selectedZoneColumn.value) + 1)
+    }
+
+    const decreaseRow = (): void => {
+      if (Number(selectedZoneRow.value) > 1) selectedZoneRow.value = String(Number(selectedZoneRow.value) - 1)
+    }
+
+    const decreaseColumn = (): void => {
+      if (Number(selectedZoneColumn.value) > 1) selectedZoneColumn.value = String(Number(selectedZoneColumn.value) - 1)
+    }
+
     return {
       sections,
       onSelectedSection,
@@ -354,7 +386,11 @@ export default defineComponent({
       updateMarkdown,
       rawInput,
       displayedDescription,
-      openMarkdownRef
+      openMarkdownRef,
+      increaseRow,
+      increaseColumn,
+      decreaseRow,
+      decreaseColumn
     }
   }
 })
