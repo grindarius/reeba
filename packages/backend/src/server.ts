@@ -15,6 +15,6 @@ const server = createServer()
 server.listen(PORT, (error, _) => {
   if (error != null) {
     server.log.error(error)
-    exit(1)
+    exit()
   }
 })

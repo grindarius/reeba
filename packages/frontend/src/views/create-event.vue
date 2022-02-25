@@ -333,6 +333,7 @@ import abbr from 'markdown-it-abbr'
 import emoji from 'markdown-it-emoji'
 import { computed, defineComponent, ref, StyleValue } from 'vue'
 
+import { useAuthStore } from '@/store/use-auth-store'
 import { ReebAEventDatetime } from '@/types'
 import { generateEventSections } from '@/utils'
 
@@ -340,6 +341,15 @@ dayjs.extend(customParseFormat)
 
 export default defineComponent({
   name: 'create-event',
+  beforeRouteEnter (_, __, next) {
+    const authStore = useAuthStore()
+
+    if (!authStore.isAuthenticated) {
+      next({ name: 'Signin' })
+    } else {
+      next()
+    }
+  },
   setup () {
     const selectedEventStartTime = ref('')
     const selectedEventEndTime = ref('')

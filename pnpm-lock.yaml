@@ -68,7 +68,6 @@ importers:
       fastify-cors: ^6.0.2
       fastify-helmet: ^7.0.1
       fastify-multipart: ^5.3.0
-      fastify-plugin: ^3.0.1
       fastify-postgres: ^3.6.0
       fastify-static: ^4.5.0
       form-data: ^4.0.0
@@ -87,7 +86,6 @@ importers:
       fastify-cors: 6.0.2
       fastify-helmet: 7.0.1
       fastify-multipart: 5.3.0
-      fastify-plugin: 3.0.1
       fastify-postgres: 3.6.0_pg@8.7.1
       fastify-static: 4.5.0
       nanoid: 3.2.0
@@ -136,7 +134,7 @@ importers:
       d3: ^7.3.0
       dayjs: ^1.10.7
       debounce: ^1.2.1
-      iso-3166-1: ^2.1.1
+      i18n-iso-countries: ^7.3.0
       ky: ^0.28.7
       markdown-it: ^12.3.2
       markdown-it-abbr: ^1.0.4
@@ -151,6 +149,7 @@ importers:
       vue: ^3.2.25
       vue-mdijs: ^0.5.12
       vue-router: ^4.0.11
+      vue-toastification: ^2.0.0-rc.5
       vue-tsc: ^0.29.8
     dependencies:
       '@mdi/js': 6.5.95
@@ -159,7 +158,7 @@ importers:
       d3: 7.3.0
       dayjs: 1.10.7
       debounce: 1.2.1
-      iso-3166-1: 2.1.1
+      i18n-iso-countries: 7.3.0
       ky: 0.28.7
       markdown-it: 12.3.2
       markdown-it-abbr: 1.0.4
@@ -170,6 +169,7 @@ importers:
       vue: 3.2.29
       vue-mdijs: 0.5.12
       vue-router: 4.0.12_vue@3.2.29
+      vue-toastification: 2.0.0-rc.5_vue@3.2.29
     devDependencies:
       '@tailwindcss/typography': 0.5.2_tailwindcss@3.0.16
       '@types/d3': 7.1.0
@@ -2398,6 +2398,10 @@ packages:
       minimist: 1.2.5
     dev: true
 
+  /diacritics/1.3.0:
+    resolution: {integrity: sha1-PvqHMj67hj5mls67AILUj/PW96E=}
+    dev: false
+
   /didyoumean/1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
     dev: true
@@ -3805,6 +3809,13 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /i18n-iso-countries/7.3.0:
+    resolution: {integrity: sha512-z7vFa/wSDx3lpxQZNr/+ZioUQNTYqk1NZoP6vxjukr554r/QxpSRkYFfE3ovKKW82GpyAw4/c6Zi+2Ebr4T0fA==}
+    engines: {node: '>= 12'}
+    dependencies:
+      diacritics: 1.3.0
+    dev: false
+
   /iconv-lite/0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
@@ -4083,10 +4094,6 @@ packages:
   /isexe/2.0.0:
     resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
     dev: true
-
-  /iso-3166-1/2.1.1:
-    resolution: {integrity: sha512-RZxXf8cw5Y8LyHZIwIRvKw8sWTIHh2/txBT+ehO0QroesVfnz3JNFFX4i/OC/Yuv2bDIVYrHna5PMvjtpefq5w==}
-    dev: false
 
   /isstream/0.1.2:
     resolution: {integrity: sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=}
@@ -6800,6 +6807,14 @@ packages:
       vue: ^3.0.0
     dependencies:
       '@vue/devtools-api': 6.0.0-beta.21.1
+      vue: 3.2.29
+    dev: false
+
+  /vue-toastification/2.0.0-rc.5_vue@3.2.29:
+    resolution: {integrity: sha512-q73e5jy6gucEO/U+P48hqX+/qyXDozAGmaGgLFm5tXX4wJBcVsnGp4e/iJqlm9xzHETYOilUuwOUje2Qg1JdwA==}
+    peerDependencies:
+      vue: ^3.0.2
+    dependencies:
       vue: 3.2.29
     dev: false
 

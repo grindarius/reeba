@@ -128,7 +128,7 @@ const generateUserList = async (amount: number): Promise<Array<users>> => {
     const user: users = {
       user_username: card.username.replace(/\./g, ''),
       user_email: card.email,
-      user_password: 'asdfghjkl123',
+      user_password: '$2b$10$stcsoa28Ym.QM3f3NyQI2Oac7XByJIzv3mjLO/fsmkQjLPBi8HMj2',
       user_registration_datetime: dayjs(faker.date.between('2020-01-01', '2021-01-01')).toISOString(),
       user_role: faker.mersenne.rand(1, 100) > 60 ? t_user_role.admin : t_user_role.user,
       // user_image_profile_path: await getAndSaveImage(card.avatar),
@@ -170,7 +170,7 @@ const generateEvent = async (userList: Array<users>, amount: number = 30): Promi
 
   // eslint-disable-next-line
   for await (const _ of [...range(amount)]) {
-    const creationDateString = dayjs(faker.date.between('2020-01-01', dayjs().subtract(40, 'days').format('YYYY-MM-DD'))).toISOString()
+    const creationDateString = dayjs(faker.date.between(dayjs().subtract(3, 'months').toISOString(), dayjs().toISOString())).toISOString()
     const pricesArray = generateEventPrices()
     const coordinates = {
       x: Number(faker.address.latitude()),
@@ -180,7 +180,7 @@ const generateEvent = async (userList: Array<users>, amount: number = 30): Promi
     const reebaEvent: CustomEvent = {
       event_id: compatibleExcelNanoid(),
       user_username: faker.random.arrayElement(userList).user_username,
-      event_name: faker.commerce.product(),
+      event_name: faker.commerce.productName(),
       event_description: faker.lorem.paragraphs(5, ''),
       // event_cover_image_path: await getAndSaveImage(faker.image.animals(100, 100, true)),
       event_cover_image_path: '',
@@ -393,13 +393,13 @@ const main = async () => {
   await client.connect()
 
   console.log(chalk.blue('Generating users...'))
-  const users = await generateUserList(20)
+  const users = await generateUserList(100)
 
   console.log(chalk.blue('Generating users followers...'))
   const followersList = generateFollowersList(users, 1000)
 
   console.log(chalk.blue('Generating events related data...'))
-  const eventData = await generateEvent(users, 5)
+  const eventData = await generateEvent(users, 20)
 
   console.log(chalk.blue('Generating transactions...'))
   const transactions = generateTransactions(users, eventData)
@@ -696,5 +696,5 @@ const main = async () => {
 // eslint-disable-next-line
 main().then(() => {
   console.log(chalk.green('done!'))
-  exit(1)
+  exit()
 })

@@ -47,7 +47,7 @@
       <h1 class="page-header">
         Where
       </h1>
-      <r-dropdown :values="['users', 'events']" v-model:selected-value="selectedChartType" />
+      <r-dropdown :values="['users', 'events']" v-model:selected-value="selectedChartType" style="max-width: 200px;" />
       <h1 class="page-header">
         came from
       </h1>
@@ -70,9 +70,11 @@
 </template>
 
 <script lang="ts">
+import { countries } from 'countries-list'
 import * as d3 from 'd3'
 import { FeatureCollection, Geometry } from 'geojson'
-import iso from 'iso-3166-1'
+import i18nCountries from 'i18n-iso-countries'
+import en from 'i18n-iso-countries/langs/en.json'
 import * as topojson from 'topojson-client'
 import { GeometryCollection, Topology } from 'topojson-specification'
 import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue'
@@ -80,6 +82,8 @@ import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue'
 import countriesJson from '@/assets/world-topo.json'
 import RDropdown from '@/components/r-dropdown.vue'
 import { devtoolsEventsObject, devtoolsUsersObject, popularEventTypes, registrationsPastSixMonths, transactionsPastSixMonths } from '@/constants'
+
+i18nCountries.registerLocale(en)
 
 export default defineComponent({
   name: 'devtool-summary',
@@ -136,29 +140,31 @@ export default defineComponent({
         .attr('stroke-width', '0.5px')
         .attr('fill', (d) => {
           if (selectedChartType.value === 'users') {
-            return colorUsers.value(iso.whereNumeric(d.id ?? '') == null ? 0 : devtoolsUsersObject[(iso.whereNumeric(d.id ?? '') ?? {}).alpha2 ?? ''] ?? 0)
+            // * d.id is iso-3166 numeric
+
+            return colorUsers.value(countries[i18nCountries.numericToAlpha2(d.id ?? '') as keyof typeof countries] == null ? 0 : devtoolsUsersObject[i18nCountries.numericToAlpha2(d.id ?? '') ?? ''] ?? 0)
           }
 
-          return colorEvents.value(iso.whereNumeric(d.id ?? '') == null ? 0 : devtoolsEventsObject[(iso.whereNumeric(d.id ?? '') ?? {}).alpha2 ?? ''] ?? 0)
+          return colorEvents.value(countries[i18nCountries.numericToAlpha2(d.id ?? '') as keyof typeof countries] == null ? 0 : devtoolsEventsObject[i18nCountries.numericToAlpha2(d.id ?? '') ?? ''] ?? 0)
         })
         .on('mouseover', () => {
           tooltip.value.style('visibility', 'visible')
         })
         .on('mousemove', (event, d) => {
           const xy = d3.pointer(event, d3.select('svg#world-map-svg'))
-          const alpha2Key = iso.whereNumeric(d.id ?? '')?.alpha2 ?? ''
+          const alpha2Key = i18nCountries.numericToAlpha2(d.id ?? '')
 
           const usersHTMLString = `
             <div class="py-1 px-4 h-16 rounded-lg bg-pale-yellow">
-              <h3 class="font-mono">${iso.whereAlpha2(alpha2Key)?.country ?? 'No data'}</h3>
-              <h3 :style="{ visibility: iso.whereAlpha(alpha2Key)?.country == null ? 'hidden' : 'visible' }" class="font-mono text-xl">${devtoolsUsersObject[alpha2Key] == null ? 'No data' : devtoolsUsersObject[alpha2Key] + ' users'}</h3>
+              <h3 class="font-mono">${countries[alpha2Key as keyof typeof countries].name ?? 'No data'}</h3>
+              <h3 :style="{ visibility: countries[alpha2Key as keyof typeof countries].name == null ? 'hidden' : 'visible' }" class="font-mono text-xl">${devtoolsUsersObject[alpha2Key] == null ? 'No data' : devtoolsUsersObject[alpha2Key] + ' users'}</h3>
             </div>
           `
 
           const eventsHTMLString = `
             <div class="py-1 px-4 h-16 rounded-lg bg-pale-yellow">
-              <h3 class="font-mono">${iso.whereAlpha2(alpha2Key)?.country ?? 'No data'}</h3>
-              <h3 :style="{ visibility: iso.whereAlpha(alpha2Key)?.country == null ? 'hidden' : 'visible' }" class="font-mono text-xl">${devtoolsEventsObject[alpha2Key] == null ? 'No data' : devtoolsEventsObject[alpha2Key] + ' events'}</h3>
+              <h3 class="font-mono">${countries[alpha2Key as keyof typeof countries].name ?? 'No data'}</h3>
+              <h3 :style="{ visibility: countries[alpha2Key as keyof typeof countries].name == null ? 'hidden' : 'visible' }" class="font-mono text-xl">${devtoolsEventsObject[alpha2Key] == null ? 'No data' : devtoolsEventsObject[alpha2Key] + ' events'}</h3>
             </div>
           `
 
