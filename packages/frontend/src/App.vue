@@ -18,7 +18,7 @@
         <router-link v-show="!authStore.isAuthenticated" class="button" to="/signin">
           Sign in
         </router-link>
-        <button @click="dropdownClicked" :class="authStore.isAuthenticated ? 'dropdown-navbar inline-flex' : 'dropdown-navbar hidden'">
+        <button @click="dropdownClicked" :class="authStore.isAuthenticated ?'dropdown-navbar inline-flex' : 'dropdown-navbar hidden'">
           <img src="@/assets/user.png" class="profile-image-navbar">
           <v-mdi class="place-self-center" name="mdi-chevron-down" fill="#423E41" />
         </button>
@@ -28,7 +28,7 @@
       </div>
     </div>
     <div v-if="dropdownState" v-show="authStore.isAuthenticated" class="dropdown-state">
-      <div :class="authStore.isAuthenticated ? 'py-1 block' : 'py-1 hidden'">
+      <div :class="authStore.isAuthenticated ?'py-1 block' : 'py-1 hidden'">
         <router-link to="/users" class="dropdown-text" @click="closeDropdown">
           {{ authStore.userData.username }}
         </router-link>
@@ -46,7 +46,7 @@
         </li>
       </ul>
       <div class="py-1">
-        <button class="dropdown-text w-full" @click="signout">
+        <button class="w-full dropdown-text" @click="signout">
           Sign out
         </button>
       </div>
@@ -91,7 +91,7 @@
   <footer class="dark:text-black">
     <div class="container flex flex-col justify-center py-10 mx-auto lg:flex-row lg:space-y-center">
       <div class="md:w-1/5">
-        <a rel="noopener noreferrer" href="#" class="flex space-x-3 justify-start">
+        <a rel="noopener noreferrer" href="#" class="flex justify-start space-x-3">
           <div class="space-y-3">
             <div class="px-4 mt-10 font-bold md:mt-8">
               Follow us
@@ -308,7 +308,7 @@ export default defineComponent({
 }
 
 .buttons {
-  @apply hidden w-96 justify-end items-center lg:flex;
+  @apply hidden justify-end items-center w-96 lg:flex;
 
   .button {
     @apply p-1 mx-6 w-36 h-8 text-white whitespace-nowrap rounded-lg outline-none bg-pale-gray;
@@ -328,19 +328,19 @@ export default defineComponent({
 .profile-image {
   width: 40px;
   height: 40px;
-  @apply rounded-full mr-4;
+  @apply mr-4 rounded-full;
 }
 
 .dropdown-navbar {
-  @apply mr-3 mb-3 md:mb-0 px-4 py-2.5 items-center;
+  @apply items-center py-2.5 px-4 mr-3 mb-3 md:mb-0;
 }
 
 .dropdown-state {
-  @apply hidden lg:block place-self-end rounded-lg mt-2 mr-2 z-10 w-44 bg-white divide-y divide-gray-100 shadow dark:bg-zinc-600;
+  @apply hidden z-10 place-self-end mt-2 mr-2 w-44 bg-white rounded-lg divide-y divide-gray-100 shadow lg:block dark:bg-zinc-600;
 }
 
 .dropdown-text {
-  @apply block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-gray-200 dark:hover:text-white;
+  @apply block py-2 px-4 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-500 dark:hover:text-white;
 }
 
 .buy-button {

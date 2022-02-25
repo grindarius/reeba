@@ -68,7 +68,7 @@
               </ul>
             </li>
             <li class="account-settings-menu-list">
-              <button class="link text-left" @click="signout">
+              <button class="text-left link" @click="signout">
                 Sign out
               </button>
             </li>
