@@ -15,7 +15,7 @@
         <router-link class="button" to="/create">
           Create event
         </router-link>
-        <router-link :class="authStore.isAuthenticated ? 'button hidden' : 'button block'" to="/signin">
+        <router-link v-show="!authStore.isAuthenticated" class="button" to="/signin">
           Sign in
         </router-link>
         <button @click="dropdownClicked" :class="authStore.isAuthenticated ? 'dropdown-navbar inline-flex' : 'dropdown-navbar hidden'">
@@ -27,7 +27,7 @@
         <v-mdi name="mdi-hamburger" class="cursor-pointer" size="40" fill="#423E41" @click="toggleHamburger" />
       </div>
     </div>
-    <div v-if="dropdownState" :class="authStore.isAuthenticated ? 'dropdown-state block' : 'dropdown-state hidden'">
+    <div v-if="dropdownState" v-show="authStore.isAuthenticated" class="dropdown-state">
       <div :class="authStore.isAuthenticated ? 'py-1 block' : 'py-1 hidden'">
         <router-link to="/users" class="dropdown-text" @click="closeDropdown">
           {{ authStore.userData.username }}
@@ -63,23 +63,23 @@
             Create event
           </router-link>
         </li>
-        <li :class="authStore.isAuthenticated ? 'hidden' : 'block'">
+        <li v-show="!authStore.isAuthenticated">
           <router-link to="/signin" @click="closeHamburger" class="inline-block py-2 w-full">
             Sign in
           </router-link>
         </li>
-        <li :class="!authStore.isAuthenticated ? 'hidden' : 'block'">
+        <li v-show="authStore.isAuthenticated">
           <router-link to="/users" @click="closeHamburger" class="flex place-items-center">
             <img :src="`${getUserAvatar.url}/${authStore.userData.username ?? ''}`" :alt="authStore.userData.username ?? ''" class="profile-image">
             {{ authStore.userData.username }}
           </router-link>
         </li>
-        <li :class="!authStore.isAuthenticated ? 'hidden' : 'block'">
+        <li v-show="authStore.isAuthenticated">
           <router-link to="/account" @click="closeHamburger" class="inline-block py-2 w-full">
             Settings
           </router-link>
         </li>
-        <li :class="!authStore.isAuthenticated ? 'hidden' : 'block'">
+        <li v-show="authStore.isAuthenticated">
           <button @click="signout" class="inline-block py-2 w-full text-left">
             Sign out
           </button>
