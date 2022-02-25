@@ -18,7 +18,7 @@
         <router-link :class="authStore.isAuthenticated ? 'button hidden' : 'button block'" to="/signin">
           Sign in
         </router-link>
-        <button @click="dropdownClicked" class="dropdown-navbar">
+        <button @click="dropdownClicked" :class="authStore.isAuthenticated ? 'dropdown-navbar inline-flex' : 'dropdown-navbar hidden'">
           <img src="@/assets/user.png" class="profile-image-navbar">
           <v-mdi class="place-self-center" name="mdi-chevron-down" fill="#423E41" />
         </button>
@@ -27,9 +27,9 @@
         <v-mdi name="mdi-hamburger" class="cursor-pointer" size="40" fill="#423E41" @click="toggleHamburger" />
       </div>
     </div>
-    <div v-if="dropdownState" class="dropdown-state">
+    <div v-if="dropdownState" :class="authStore.isAuthenticated ? 'dropdown-state block' : 'dropdown-state hidden'">
       <div :class="authStore.isAuthenticated ? 'py-1 block' : 'py-1 hidden'">
-        <router-link to="/users" class="dropdown-text">
+        <router-link to="/users" class="dropdown-text" @click="closeDropdown">
           {{ authStore.userData.username }}
         </router-link>
       </div>
@@ -46,9 +46,9 @@
         </li>
       </ul>
       <div class="py-1">
-        <router-link to="#" class="dropdown-text" @click="closeDropdown">
+        <button class="dropdown-text w-full" @click="signout">
           Sign out
-        </router-link>
+        </button>
       </div>
     </div>
     <div :class="hamburgerState ?'small-navbar block' : 'small-navbar hidden'">
@@ -68,26 +68,21 @@
             Sign in
           </router-link>
         </li>
-        <li>
+        <li :class="!authStore.isAuthenticated ? 'hidden' : 'block'">
           <router-link to="/users" @click="closeHamburger" class="flex place-items-center">
-            <img src="@/assets/user.png" class="profile-image">
-            grindarius
+            <img :src="`${getUserAvatar.url}/${authStore.userData.username ?? ''}`" :alt="authStore.userData.username ?? ''" class="profile-image">
+            {{ authStore.userData.username }}
           </router-link>
         </li>
-        <li>
-          <router-link to="/users" @click="closeHamburger" class="inline-block py-2 w-full">
-            My profile
-          </router-link>
-        </li>
-        <li>
-          <router-link to="#" @click="closeHamburger" class="inline-block py-2 w-full">
+        <li :class="!authStore.isAuthenticated ? 'hidden' : 'block'">
+          <router-link to="/account" @click="closeHamburger" class="inline-block py-2 w-full">
             Settings
           </router-link>
         </li>
-        <li>
-          <router-link to="#" @click="closeHamburger" class="inline-block py-2 w-full">
+        <li :class="!authStore.isAuthenticated ? 'hidden' : 'block'">
+          <button @click="signout" class="inline-block py-2 w-full text-left">
             Sign out
-          </router-link>
+          </button>
         </li>
       </ul>
     </div>
@@ -223,7 +218,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 
+import { getUserAvatar } from '@/api/endpoints'
 import { useModalState } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
 
@@ -231,8 +228,16 @@ export default defineComponent({
   name: 'app',
   setup () {
     const authStore = useAuthStore()
+    const router = useRouter()
+
     const { state: dropdownState, toggle: dropdownClicked, close: closeDropdown } = useModalState()
     const { state: hamburgerState, toggle: toggleHamburger, close: closeHamburger } = useModalState()
+
+    const signout = (): void => {
+      authStore.signout()
+      closeDropdown()
+      router.push('/')
+    }
 
     return {
       toggleHamburger,
@@ -241,7 +246,9 @@ export default defineComponent({
       dropdownClicked,
       dropdownState,
       closeDropdown,
-      authStore
+      authStore,
+      getUserAvatar,
+      signout
     }
   }
 })
@@ -261,7 +268,8 @@ export default defineComponent({
 }
 
 .big-navbar {
-  @apply flex flex-row mt-0.5 justify-between;
+  min-height: 48px;
+  @apply flex flex-row justify-between;
 }
 
 .small-navbar {
@@ -324,7 +332,7 @@ export default defineComponent({
 }
 
 .dropdown-navbar {
-  @apply mr-3 mb-3 md:mb-0 px-4 py-2.5 inline-flex items-center;
+  @apply mr-3 mb-3 md:mb-0 px-4 py-2.5 items-center;
 }
 
 .dropdown-state {
