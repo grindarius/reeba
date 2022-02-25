@@ -4,7 +4,7 @@
       <nav class="max-w-xs account-table">
         <div class="account-image-wrapper">
           <div class="w-10/12">
-            <img src="@/assets/user.png" class="mx-auto w-20 h-20 rounded-full">
+            <img :src="`${getUserAvatar.url}/${authStore.userData.username ?? ''}`" class="mx-auto w-20 h-20 rounded-full">
           </div>
         </div>
         <div class="account-info">
@@ -87,6 +87,7 @@ import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { POSITION, useToast } from 'vue-toastification'
 
+import { getUserAvatar } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { useSignedInGuard } from '@/utils'
 
@@ -106,7 +107,8 @@ export default defineComponent({
 
     return {
       authStore,
-      signout
+      signout,
+      getUserAvatar
     }
   }
 })
