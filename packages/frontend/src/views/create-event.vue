@@ -180,7 +180,7 @@
         Price range
       </h3>
       <div class="grid grid-rows-1 md:grid-cols-5">
-        <div class="flex flex-row md:col-span-1 justify-center">
+        <div class="flex flex-row mb-4 md:col-span-1 justify-center">
           <input
             type="number" id="event-zone-rows"
             name="event-zone-rows" class="input-button h-12"
