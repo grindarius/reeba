@@ -442,19 +442,19 @@ export default defineComponent({
     }
 
     const increaseRow = (): void => {
-      selectedZoneRow.value = String(Number(selectedZoneRow.value) + 1)
+      selectedZoneRow.value = (Number(selectedZoneRow.value) + 1).toString()
     }
 
     const increaseColumn = (): void => {
-      selectedZoneColumn.value = String(Number(selectedZoneColumn.value) + 1)
+      selectedZoneColumn.value = (Number(selectedZoneColumn.value) + 1).toString()
     }
 
     const decreaseRow = (): void => {
-      if (Number(selectedZoneRow.value) > 1) selectedZoneRow.value = String(Number(selectedZoneRow.value) - 1)
+      if (Number(selectedZoneRow.value) - 1 !== 0) selectedZoneRow.value = (Number(selectedZoneRow.value) - 1).toString()
     }
 
     const decreaseColumn = (): void => {
-      if (Number(selectedZoneColumn.value) > 1) selectedZoneColumn.value = String(Number(selectedZoneColumn.value) - 1)
+      if (Number(selectedZoneColumn.value) - 1 !== 0) selectedZoneColumn.value = (Number(selectedZoneColumn.value) - 1).toString()
     }
 
     return {
