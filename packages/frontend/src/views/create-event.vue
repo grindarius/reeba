@@ -121,26 +121,30 @@
         <div class="flex flex-row md:col-span-1 justify-center">
           <input
             type="number" id="event-zone-rows"
-            name="event-zone-rows" class="input h-12"
+            name="event-zone-rows" class="input-button h-12"
             step="1"
             v-model="priceRange" disabled>
-          <button @click="decreasePrice" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-20 rounded-l cursor-pointer outline-none">
+          <button @click="decreasePrice" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
             <span class="m-auto text-2xl font-thin">−</span>
           </button>
-          <button @click="increasePrice" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-20 rounded-r cursor-pointer">
+          <button @click="increasePrice" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
             <span class="m-auto text-2xl font-thin">+</span>
           </button>
         </div>
         <div class="grid grid-cols-1 md:col-span-4">
           <div v-for="price in priceRange" :key="price" class="flex flex-none place-items-center place-self-center mb-4">
-            <input type="color" class="mx-2" v-model="colorList[price-1]">
+            <input type="color" class="mr-4 cursor-pointer" v-model="colorList[price-1]">
             <div class="flex">
               <!-- <label for="price" class="block text-sm font-medium text-gray-700">Price</label> -->
               <div class="relative rounded-md shadow-sm">
                 <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                   <span class="text-gray-500 sm:text-sm"> $ </span>
                 </div>
-                <input type="text" name="price" id="price" class="block h-12 py-3 pr-12 pl-7 w-full rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0.00">
+                <input
+                  type="text" name="price"
+                  id="price" class="block h-12 py-3 pr-12 pl-7 w-full rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  placeholder="0.00"
+                  v-model="priceList[price-1]">
                 <div class="flex absolute inset-y-0 right-0 items-center">
                   <label for="currency" class="sr-only">Currency</label>
                   <select id="currency" name="currency" class="py-0 pr-7 pl-2 h-full text-gray-500 bg-transparent rounded-md border-transparent sm:text-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -208,13 +212,13 @@
             <div class="flex flex-row">
               <input
                 type="number" id="event-zone-rows"
-                name="event-zone-rows" class="input"
+                name="event-zone-rows" class="input-button"
                 step="1"
                 v-model="selectedZoneRow" disabled>
-              <button @click="decreaseRow" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-20 rounded-l cursor-pointer outline-none">
+              <button @click="decreaseRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
                 <span class="m-auto text-2xl font-thin">−</span>
               </button>
-              <button @click="increaseRow" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-20 rounded-r cursor-pointer">
+              <button @click="increaseRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
             </div>
@@ -224,13 +228,13 @@
             <div class="flex flex-row">
               <input
                 type="number" id="event-zone-columns"
-                name="event-zone-columns" class="input"
+                name="event-zone-columns" class="input-button"
                 step="1"
                 v-model="selectedZoneColumn" disabled>
-              <button @click="decreaseColumn" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-20 rounded-l cursor-pointer">
+              <button @click="decreaseColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer">
                 <span class="m-auto text-2xl font-thin">−</span>
               </button>
-              <button @click="increaseColumn" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-20 rounded-r cursor-pointer">
+              <button @click="increaseColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
             </div>
@@ -310,6 +314,8 @@ export default defineComponent({
 
     const onSeatChange = (value: string): void => {
       console.log(value)
+      console.log(colorList.value)
+      console.log(priceList.value)
     }
 
     const getTimeString = (time: ReebAEventDatetime): string => {
@@ -384,16 +390,19 @@ export default defineComponent({
     const increasePrice = (): void => {
       priceRange.value = priceRange.value + 1
       colorList.value.push('#D5A755')
+      priceList.value.push(0)
     }
 
     const decreasePrice = (): void => {
       if (priceRange.value > 1) {
         priceRange.value = priceRange.value - 1
         colorList.value.pop()
+        priceList.value.pop()
       }
     }
 
     const colorList = ref<Array<string>>(['#D5A755', '#D5A755', '#D5A755'])
+    const priceList = ref<Array<number>>([1300, 1500, 1700])
 
     return {
       sections,
@@ -424,7 +433,8 @@ export default defineComponent({
       priceRange,
       increasePrice,
       decreasePrice,
-      colorList
+      colorList,
+      priceList
     }
   }
 })
@@ -459,6 +469,10 @@ export default defineComponent({
   @apply py-3 px-4 w-full bg-gray-100 rounded outline-none focus:bg-white ring-pale-gray focus:ring-gray-hover;
 }
 
+.input-button {
+  @apply py-3 px-4 w-full bg-gray-100 rounded-l outline-none focus:bg-white ring-pale-gray focus:ring-gray-hover;
+}
+
 .event-sections-visualize {
   @apply overflow-x-auto p-3 mt-3 w-full;
 }
@@ -487,13 +501,11 @@ input[type=color] {
 }
 
 input[type=color]::-webkit-color-swatch {
-  border: none;
   border-radius: 100%;
   padding: 0;
 }
 
 input[type=color]::-webkit-color-swatch-wrapper {
-    border: none;
     border-radius: 100%;
     padding: 0;
 }
