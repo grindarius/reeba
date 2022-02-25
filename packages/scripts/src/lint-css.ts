@@ -104,7 +104,7 @@ const main = (): void => {
 
       if (error != null) {
         console.log(error)
-        exit(1)
+        exit()
       }
 
       relative.forEach(pathname => {

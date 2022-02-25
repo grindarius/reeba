@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "dev:backend": "cd packages/backend && pnpm watch",
+    "dev:backend": "pnpm build:common && cd packages/backend && pnpm watch",
     "dev:frontend": "cd packages/frontend && pnpm dev",
     "dev:common": "cd packages/common && pnpm watch",
     "build:backend": "cd packages/backend && pnpm build",

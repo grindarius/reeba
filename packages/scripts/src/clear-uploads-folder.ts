@@ -10,7 +10,7 @@ readdir(resolve(__dirname, '..', '..', 'backend', 'uploads'), (err, files) => {
   }
 
   for (const file of files) {
-    if (file === 'default-user-profile.png') {
+    if (file === 'default-user-profile.png' || file === 'default-event-image.png') {
       continue
     }
 
