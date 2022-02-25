@@ -110,7 +110,48 @@
         </div>
       </div>
       <!-- <hr class="col-span-4 mt-8 w-full border border-pale-yellow"> -->
-
+      <h3 class="text-4xl font-medium text-white">
+        Price range
+      </h3>
+      <div class="grid grid-rows-1 md:grid-cols-5">
+        <div class="flex flex-row md:col-span-1 mt-5 justify-center">
+          <input
+            type="number" id="event-zone-rows"
+            name="event-zone-rows" class="input h-12"
+            step="1"
+            v-model="priceRange" disabled>
+          <button @click="decreasePrice" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-20 rounded-l cursor-pointer outline-none">
+            <span class="m-auto text-2xl font-thin">−</span>
+          </button>
+          <button @click="increasePrice" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-20 rounded-r cursor-pointer">
+            <span class="m-auto text-2xl font-thin">+</span>
+          </button>
+        </div>
+        <div class="flex flex-wrap md:col-span-4 justify-center">
+          <div v-for="price in priceRange" :key="price" class="flex flex-none place-items-center mb-2">
+            <button
+              class="mt-5 mr-2 ml-2 w-8 h-8 rounded-full bg-pale-yellow" />
+            <div class="flex mt-5">
+              <!-- <label for="price" class="block text-sm font-medium text-gray-700">Price</label> -->
+              <div class="relative rounded-md shadow-sm">
+                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                  <span class="text-gray-500 sm:text-sm"> $ </span>
+                </div>
+                <input type="text" name="price" id="price" class="block py-3 pr-12 pl-7 w-full rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0.00">
+                <div class="flex absolute inset-y-0 right-0 items-center">
+                  <label for="currency" class="sr-only">Currency</label>
+                  <select id="currency" name="currency" class="py-0 pr-7 pl-2 h-full text-gray-500 bg-transparent rounded-md border-transparent sm:text-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <option>USD</option>
+                    <option>CAD</option>
+                    <option>EUR</option>
+                    <option>TH</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="event-sections">
         <h3 class="my-6 text-4xl font-medium text-white">
           Event sections
@@ -204,35 +245,6 @@
           </div>
         </div>
       </div>
-
-      <h3 class="text-4xl font-medium text-white">
-        Price
-      </h3>
-      <div class="flex flex-wrap">
-        <div v-for="row in zones" :key="JSON.stringify(row)" class="flex flex-none place-items-center mb-2">
-          <button
-            class="mt-5 mr-2 ml-2 w-8 h-8 rounded-full bg-pale-yellow" />
-          <div class="flex mt-5">
-            <!-- <label for="price" class="block text-sm font-medium text-gray-700">Price</label> -->
-            <div class="relative rounded-md shadow-sm">
-              <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                <span class="text-gray-500 sm:text-sm"> $ </span>
-              </div>
-              <input type="text" name="price" id="price" class="block py-3 pr-12 pl-7 w-full rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0.00">
-              <div class="flex absolute inset-y-0 right-0 items-center">
-                <label for="currency" class="sr-only">Currency</label>
-                <select id="currency" name="currency" class="py-0 pr-7 pl-2 h-full text-gray-500 bg-transparent rounded-md border-transparent sm:text-sm focus:border-indigo-500 focus:ring-indigo-500">
-                  <option>USD</option>
-                  <option>CAD</option>
-                  <option>EUR</option>
-                  <option>TH</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <button
         type="submit"
         class="flex flex-row justify-center py-2 mt-8 w-full tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray disabled:bg-red-disabled">
@@ -270,6 +282,7 @@ export default defineComponent({
     const selectedSectionColumn = ref('5')
     const selectedZoneRow = ref('5')
     const selectedZoneColumn = ref('5')
+    const priceRange = ref(3)
 
     const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
 
@@ -365,6 +378,14 @@ export default defineComponent({
       if (Number(selectedZoneColumn.value) > 1) selectedZoneColumn.value = String(Number(selectedZoneColumn.value) - 1)
     }
 
+    const increasePrice = (): void => {
+      priceRange.value = priceRange.value + 1
+    }
+
+    const decreasePrice = (): void => {
+      if (priceRange.value > 1) priceRange.value = priceRange.value - 1
+    }
+
     return {
       sections,
       onSelectedSection,
@@ -390,7 +411,10 @@ export default defineComponent({
       increaseRow,
       increaseColumn,
       decreaseRow,
-      decreaseColumn
+      decreaseColumn,
+      priceRange,
+      increasePrice,
+      decreasePrice
     }
   }
 })
