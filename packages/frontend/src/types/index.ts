@@ -13,6 +13,10 @@ export interface ReebAEventPrice {
   price: number
 }
 
+export interface ReebAExtendedEventPrice extends ReebAEventPrice {
+  currency: 'USD' | 'EUR' | 'CAD' | 'THB'
+}
+
 export interface ReebAEventSeat {
   rowPosition: number
   columnPosition: number

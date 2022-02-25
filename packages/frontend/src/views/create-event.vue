@@ -80,69 +80,9 @@
         Checkbox tags
       </h3>
       <div class="grid grid-cols-1 gap-y-4 gap-x-6 py-4 mt-6 md:grid-cols-3">
-        <div class="flex items-center h-5">
-          <input id="amphitheater" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="amphitheater" class="font-medium text-white">Amphitheater</label>
-        </div>
-        <div class="flex items-center h-5">
-          <input id="business" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="business" class="font-medium text-white">Business</label>
-        </div>
-        <div class="flex items-center h-5">
-          <input id="concert" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="concert" class="font-medium text-white">Concert</label>
-        </div>
-
-        <div class="flex items-center h-5">
-          <input id="entertainment" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="entertainment" class="font-medium text-white">Entertainment</label>
-        </div>
-        <div class="flex items-center h-5">
-          <input id="fan-meet" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="fan-meet" class="font-medium text-white">Fan meet</label>
-        </div>
-        <div class="flex items-center h-5">
-          <input id="gameshow" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="gameshow" class="font-medium text-white">Gameshow</label>
-        </div>
-
-        <div class="flex items-center h-5">
-          <input id="lifestyle" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="lifestyle" class="font-medium text-white">Lifestyle</label>
-        </div>
-        <div class="flex items-center h-5">
-          <input id="live" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="live" class="font-medium text-white">Live</label>
-        </div>
-        <div class="flex items-center h-5">
-          <input id="musical" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="musical" class="font-medium text-white">Musical</label>
-        </div>
-
-        <div class="flex items-center h-5">
-          <input id="online" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="online" class="font-medium text-white">Online</label>
-        </div>
-        <div class="flex items-center h-5">
-          <input id="opera" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="opera" class="font-medium text-white">Opera</label>
-        </div>
-        <div class="flex items-center h-5">
-          <input id="seminar" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="seminar" class="font-medium text-white">Seminar</label>
-        </div>
-
-        <div class="flex items-center h-5">
-          <input id="stand-up-comedy" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="stand-up-comedy" class="font-medium text-white">Stand up comedy</label>
-        </div>
-        <div class="flex items-center h-5">
-          <input id="technology" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="technology" class="font-medium text-white">Technology</label>
-        </div>
-        <div class="flex items-center h-5">
-          <input id="variety" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
-          <label for="variety" class="font-medium text-white">Variety</label>
+        <div class="flex items-center h-5" v-for="(tag, i) in eventTagsList" :key="`event-tag-list-checkbox-${i}`">
+          <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gray-600" :value="tag.tag" v-model="selectedEventTags">
+          <label :for="`event-tag-checkbox-input-${tag.tag}`" class="font-medium text-white">{{ tag.name }}</label>
         </div>
       </div>
 
@@ -152,8 +92,7 @@
       <div class="flex justify-center mt-5">
         <div class="rounded-lg lg:w-2/3">
           <div class="m-4">
-            <label class="inline-block mb-2 text-white">Upload
-              Image</label>
+            <label class="inline-block mb-2 text-white">Upload Image</label>
             <div class="flex justify-center items-center w-full">
               <label class="flex flex-col w-full h-56 border-4 border-dashed hover:border-white hover:bg-pale-yellow">
                 <div class="flex flex-col justify-center items-center pt-10 mt-8">
@@ -187,7 +126,7 @@
             step="1"
             v-model="priceRange" disabled>
           <button @click="decreasePrice" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
-            <span class="m-auto text-2xl font-thin">−</span>
+            <span class="m-auto text-2xl font-thin">-</span>
           </button>
           <button @click="increasePrice" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
             <span class="m-auto text-2xl font-thin">+</span>
@@ -195,7 +134,7 @@
         </div>
         <div class="grid grid-cols-1 md:col-span-4">
           <div v-for="price in priceRange" :key="price" class="flex flex-none place-items-center place-self-center mb-4">
-            <input type="color" class="mr-4 cursor-pointer" v-model="colorList[price-1]">
+            <input type="color" class="mr-4 cursor-pointer" v-model="colorList[price - 1]">
             <div class="flex">
               <!-- <label for="price" class="block text-sm font-medium text-gray-700">Price</label> -->
               <div class="relative rounded-md shadow-sm">
@@ -342,7 +281,7 @@ import emoji from 'markdown-it-emoji'
 import { computed, defineComponent, Ref, ref, StyleValue } from 'vue'
 
 import { useAuthStore } from '@/store/use-auth-store'
-import { ReebAEventDatetime } from '@/types'
+import { ReebAEventDatetime, ReebAExtendedEventPrice } from '@/types'
 import { generateEventSections } from '@/utils'
 
 dayjs.extend(customParseFormat)
@@ -362,8 +301,6 @@ export default defineComponent({
     const selectedEventStartTime = ref('')
     const selectedEventEndTime = ref('')
 
-    const selectedEventTags: Ref<Array<string>> = ref([])
-
     const selectedTimes = ref<Array<ReebAEventDatetime>>([])
 
     const selectedSection = ref('A1')
@@ -372,6 +309,27 @@ export default defineComponent({
     const selectedZoneRow = ref('5')
     const selectedZoneColumn = ref('5')
     const priceRange = ref(3)
+
+    const priceRangeList: Ref<Array<ReebAExtendedEventPrice>> = ref([])
+
+    const selectedEventTags: Ref<Array<string>> = ref([])
+    const eventTagsList: Ref<Array<{ name: string, tag: string }>> = ref([
+      { name: 'Amphitheater', tag: 'amphitheater' },
+      { name: 'Business', tag: 'business' },
+      { name: 'Concert', tag: 'concert' },
+      { name: 'Entertainment', tag: 'entertainment' },
+      { name: 'Fan meet', tag: 'fan-meet' },
+      { name: 'Gameshow', tag: 'gameshow' },
+      { name: 'Lifestyle', tag: 'lifestyle' },
+      { name: 'Live', tag: 'live' },
+      { name: 'Musical', tag: 'musical' },
+      { name: 'Online', tag: 'online' },
+      { name: 'Opera', tag: 'opera' },
+      { name: 'Seminar', tag: 'seminar' },
+      { name: 'Stand up comedy', tag: 'stand-up-comedy' },
+      { name: 'Technology', tag: 'technology' },
+      { name: 'Variety', tag: 'variety' }
+    ])
 
     const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
 
@@ -483,11 +441,12 @@ export default defineComponent({
       }
     }
 
-    const colorList = ref<Array<string>>(['#D5A755', '#D5A755', '#D5A755'])
-    const priceList = ref<Array<number>>([1300, 1500, 1700])
+    const colorList: Ref<Array<string>> = ref(['#D5A755', '#D5A755', '#D5A755'])
+    const priceList: Ref<Array<number>> = ref([1300, 1500, 1700])
 
     return {
       sections,
+      eventTagsList,
       onSelectedSection,
       selectedSection,
       selectedSectionRow,
@@ -517,7 +476,8 @@ export default defineComponent({
       decreasePrice,
       colorList,
       priceList,
-      selectedEventTags
+      selectedEventTags,
+      priceRangeList
     }
   }
 })
