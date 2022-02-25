@@ -392,7 +392,7 @@ export default defineComponent({
     const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
 
     const sections = computed(() => generateEventSections(Number(selectedSectionRow.value) || 1, Number(selectedSectionColumn.value) || 1))
-    const initialZone = computed(() => generateEventSections(Number(initiallySelectedZoneRow.value) || 1, Number(initiallySelectedZoneColumn.value) || 1))
+    const initialZone = ref(generateEventSections(Number(initiallySelectedZoneRow.value) || 1, Number(initiallySelectedZoneColumn.value) || 1))
     const zones = computed(() => generateEventSections(Number(selectedZoneRow.value) || 1, Number(selectedZoneColumn.value) || 1))
     const selectedSectionStyles = computed<StyleValue>(() => {
       return {
@@ -511,10 +511,12 @@ export default defineComponent({
 
     const increaseInitialColumn = (): void => {
       initiallySelectedZoneColumn.value = (Number(initiallySelectedZoneColumn.value) + 1).toString()
+      initialZone.value = generateEventSections(Number(initiallySelectedZoneRow.value) || 1, Number(initiallySelectedZoneColumn.value) || 1)
     }
 
     const increaseInitialRow = (): void => {
       initiallySelectedZoneRow.value = (Number(initiallySelectedZoneRow.value) + 1).toString()
+      initialZone.value = generateEventSections(Number(initiallySelectedZoneRow.value) || 1, Number(initiallySelectedZoneColumn.value) || 1)
     }
 
     const decreaseRow = (): void => {
@@ -527,10 +529,12 @@ export default defineComponent({
 
     const decreaseInitialColumn = (): void => {
       if (Number(initiallySelectedZoneColumn.value) - 1 !== 0) initiallySelectedZoneColumn.value = (Number(initiallySelectedZoneColumn.value) - 1).toString()
+      initialZone.value = generateEventSections(Number(initiallySelectedZoneRow.value) || 1, Number(initiallySelectedZoneColumn.value) || 1)
     }
 
     const decreaseInitialRow = (): void => {
       if (Number(initiallySelectedZoneRow.value) - 1 !== 0) initiallySelectedZoneRow.value = (Number(initiallySelectedZoneRow.value) - 1).toString()
+      initialZone.value = generateEventSections(Number(initiallySelectedZoneRow.value) || 1, Number(initiallySelectedZoneColumn.value) || 1)
     }
 
     return {
@@ -656,5 +660,9 @@ input[type=color]::-webkit-color-swatch-wrapper {
 
 .prosing {
   @apply max-w-none prose prose-a:no-underline prose-a:text-blue-700 prose-blockquote:not-italic hover:prose-a:text-blue-500 hover:prose-a:underline;
+}
+
+.initial-price-selector {
+  @apply flex flex-col lg:flex-row;
 }
 </style>
