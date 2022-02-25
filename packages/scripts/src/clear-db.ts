@@ -57,21 +57,24 @@ console.log(chalk.green('deleting data in tables'));
     user_password,
     user_phone_country_code,
     user_phone_number,
-    user_role
+    user_role,
+    user_profile_description
   ) values (
     'aryastark',
     'aryastark@gmail.com',
     '$2b$10$stcsoa28Ym.QM3f3NyQI2Oac7XByJIzv3mjLO/fsmkQjLPBi8HMj2',
     '66',
     '994485893',
-    'user'
+    'user',
+    'I am Arya Stark''s youger sister.'
   ), (
     'tonystark',
     'tonystark@gmail.com',
     '$2b$10$q3l2ArPZWp1tW0twSfBC/OhFUGEFTsvPxQApqB8xTXsJyBnWsa.DC',
     '66',
     '995894833',
-    'admin'
+    'admin',
+    'I am Sansa Stark''s older sister.'
   ) on conflict (user_username) do nothing;`)
 
   await client.end()
