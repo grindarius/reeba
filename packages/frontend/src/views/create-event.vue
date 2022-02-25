@@ -29,9 +29,13 @@
               <div :class="displayedDescription !== '' ? 'input prosing' : 'input prosing h-12'" v-html="displayedDescription" />
             </div>
           </div>
-          <div class="col-span-4 input-box">
+          <div class="col-span-4 md:col-span-3 input-box">
             <label for="event-website-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Website</label>
             <input type="text" id="event-website-name" name="event-website-name" class="appearance-none input" placeholder="https://event.reeba.com">
+          </div>
+          <div class="col-span-4 md:col-span-1 input-box">
+            <label for="event-age" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Minimum age for users to enter the event</label>
+            <input type="text" id="event-age" name="event-age" class="appearance-none input" placeholder="0">
           </div>
           <div class="col-span-4 md:col-span-2 input-box">
             <label for="event-start-datetime" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Start time</label>
