@@ -88,18 +88,11 @@ import { useRouter } from 'vue-router'
 import { POSITION, useToast } from 'vue-toastification'
 
 import { useAuthStore } from '@/store/use-auth-store'
+import { useSignedInGuard } from '@/utils'
 
 export default defineComponent({
   name: 'account',
-  beforeRouteEnter: (_, __, next) => {
-    const authStore = useAuthStore()
-
-    if (authStore.isAuthenticated) {
-      next()
-    } else {
-      next('/signin')
-    }
-  },
+  beforeRouteEnter: useSignedInGuard,
   setup () {
     const authStore = useAuthStore()
     const router = useRouter()
