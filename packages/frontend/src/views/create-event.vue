@@ -92,8 +92,13 @@
       <div class="flex justify-center mt-5">
         <div class="rounded-lg lg:w-2/3">
           <div class="m-4">
-            <label class="inline-block mb-2 text-white">Upload Image</label>
-            <div class="flex justify-center items-center w-full">
+            <div class="flex justify-between">
+              <label class="inline-block mb-2 text-white">Upload Image</label>
+              <button @click="deleteImage">
+                <v-mdi name="mdi-delete" fill="#FF0000" />
+              </button>
+            </div>
+            <div v-if="image == null" class="flex justify-center items-center w-full">
               <label class="flex flex-col w-full h-56 border-4 border-dashed hover:border-white hover:bg-pale-yellow">
                 <div class="flex flex-col justify-center items-center pt-10 mt-8">
                   <svg
@@ -106,11 +111,12 @@
                       clip-rule="evenodd" />
                   </svg>
                   <p class="pt-1 text-sm tracking-wider text-white group-hover:text-white">
-                    Select a photo</p>
+                    Select a image</p>
                 </div>
-                <input type="file" class="opacity-0">
+                <input type="file" ref="inputImage" class="opacity-0" accept="image/jpg, image/JPG, image/png, image/PNG, image/jpeg, image/JPEG" @change="uploadImage">
               </label>
             </div>
+            <img v-else :src="preview" ref="previewImage" width="650">
           </div>
         </div>
       </div>
@@ -571,6 +577,18 @@ export default defineComponent({
       initialZone.value = generateEventSections(Number(initiallySelectedZoneRow.value) || 1, Number(initiallySelectedZoneColumn.value) || 1)
     }
 
+    const image = ref<File | null>()
+    const preview = ref('')
+    const uploadImage = (e: Event): void => {
+      if (((e.target as HTMLInputElement).files) != null) {
+        image.value = (e.target as HTMLInputElement).files[0]
+        preview.value = URL.createObjectURL((e.target as HTMLInputElement).files[0])
+      }
+    }
+    const deleteImage = () => {
+      image.value = null
+    }
+
     return {
       sections,
       eventTagsList,
@@ -612,7 +630,11 @@ export default defineComponent({
       increaseInitialRow,
       decreaseInitialColumn,
       decreaseInitialRow,
-      selctedInitialZoneStyles
+      selctedInitialZoneStyles,
+      uploadImage,
+      image,
+      preview,
+      deleteImage
     }
   }
 })
