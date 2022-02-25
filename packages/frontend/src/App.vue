@@ -90,8 +90,8 @@
   <router-view />
   <footer class="dark:text-black">
     <div class="container flex flex-col justify-center py-10 mx-auto lg:flex-row lg:space-y-center">
-      <div class="lg:w-1/5">
-        <a rel="noopener noreferrer" href="#" class="flex justify-center space-x-3 lg:justify-start">
+      <div class="md:w-1/5">
+        <a rel="noopener noreferrer" href="#" class="flex space-x-3 justify-start">
           <div class="space-y-3">
             <div class="px-4 mt-10 font-bold md:mt-8">
               Follow us
@@ -116,7 +116,7 @@
           </div>
         </a>
       </div>
-      <div class="footer-Need-Customer-Our">
+      <div class="footer-help">
         <div class="space-y-3">
           <h3 class="font-bold text-black-700">
             Need help?
@@ -347,7 +347,7 @@ export default defineComponent({
   @apply inline-block py-2 px-8 text-white rounded-lg bg-pale-gray hover:bg-gray-hover;
 }
 
-.footer-Need-Customer-Our{
+.footer-help {
   @apply grid grid-cols-1 gap-x-3 gap-y-8 px-4 mt-10 text-sm sm:grid-cols-4 lg:w-2/3;
 }
 
