@@ -14,7 +14,7 @@
           <v-mdi name="mdi-check-decagram" fill="#D5A755" />
         </div>
         <p class="text-sm text-center text-pale-yellow">
-          bhattarapongs@nu.ac.th
+          {{ authStore.userData.email }}
         </p>
         <div class="account-settings-menu">
           <ul class="account-settings-menu-wrapper">
