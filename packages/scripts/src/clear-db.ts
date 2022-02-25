@@ -70,7 +70,7 @@ console.log(chalk.green('deleting data in tables'));
   ), (
     'sansastark',
     'sansastark@gmail.com',
-    '$2b$10$q3l2ArPZWp1tW0twSfBC/OhFUGEFTsvPxQApqB8xTXsJyBnWsa.DC',
+    '$2b$10$COLqSOrDQUFMGB1oIr7GUexOf7myts.5YILB868jOA1OIIALEX0KG',
     '66',
     '995894833',
     'admin',
