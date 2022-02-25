@@ -131,10 +131,9 @@
             <span class="m-auto text-2xl font-thin">+</span>
           </button>
         </div>
-        <div class="flex flex-wrap md:col-span-4 justify-center">
-          <div v-for="price in priceRange" :key="price" class="flex flex-none place-items-center mb-4">
-            <button
-              class="mx-2 w-8 h-8 rounded-full bg-pale-yellow" />
+        <div class="grid grid-cols-1 md:col-span-4">
+          <div v-for="price in priceRange" :key="price" class="flex flex-none place-items-center place-self-center mb-4">
+            <input type="color" class="mx-2" v-model="colorList[price-1]">
             <div class="flex">
               <!-- <label for="price" class="block text-sm font-medium text-gray-700">Price</label> -->
               <div class="relative rounded-md shadow-sm">
@@ -384,11 +383,17 @@ export default defineComponent({
 
     const increasePrice = (): void => {
       priceRange.value = priceRange.value + 1
+      colorList.value.push('#D5A755')
     }
 
     const decreasePrice = (): void => {
-      if (priceRange.value > 1) priceRange.value = priceRange.value - 1
+      if (priceRange.value > 1) {
+        priceRange.value = priceRange.value - 1
+        colorList.value.pop()
+      }
     }
+
+    const colorList = ref<Array<string>>(['#D5A755', '#D5A755', '#D5A755'])
 
     return {
       sections,
@@ -418,7 +423,8 @@ export default defineComponent({
       decreaseColumn,
       priceRange,
       increasePrice,
-      decreasePrice
+      decreasePrice,
+      colorList
     }
   }
 })
@@ -471,6 +477,25 @@ input[type=number] {
   &::-webkit-outer-spin-button {
     appearance: none;
   }
+}
+
+input[type=color] {
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+input[type=color]::-webkit-color-swatch {
+  border: none;
+  border-radius: 100%;
+  padding: 0;
+}
+
+input[type=color]::-webkit-color-swatch-wrapper {
+    border: none;
+    border-radius: 100%;
+    padding: 0;
 }
 
 .textarea {
