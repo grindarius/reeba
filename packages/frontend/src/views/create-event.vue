@@ -81,67 +81,67 @@
       </h3>
       <div class="grid grid-cols-1 gap-y-4 gap-x-6 py-4 mt-6 md:grid-cols-3">
         <div class="flex items-center h-5">
-          <input id="amphitheater" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="amphitheater" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="amphitheater" class="font-medium text-white">Amphitheater</label>
         </div>
         <div class="flex items-center h-5">
-          <input id="business" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="business" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="business" class="font-medium text-white">Business</label>
         </div>
         <div class="flex items-center h-5">
-          <input id="concert" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="concert" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="concert" class="font-medium text-white">Concert</label>
         </div>
 
         <div class="flex items-center h-5">
-          <input id="entertainment" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="entertainment" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="entertainment" class="font-medium text-white">Entertainment</label>
         </div>
         <div class="flex items-center h-5">
-          <input id="fan-meet" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="fan-meet" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="fan-meet" class="font-medium text-white">Fan meet</label>
         </div>
         <div class="flex items-center h-5">
-          <input id="gameshow" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="gameshow" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="gameshow" class="font-medium text-white">Gameshow</label>
         </div>
 
         <div class="flex items-center h-5">
-          <input id="lifestyle" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="lifestyle" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="lifestyle" class="font-medium text-white">Lifestyle</label>
         </div>
         <div class="flex items-center h-5">
-          <input id="live" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="live" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="live" class="font-medium text-white">Live</label>
         </div>
         <div class="flex items-center h-5">
-          <input id="musical" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="musical" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="musical" class="font-medium text-white">Musical</label>
         </div>
 
         <div class="flex items-center h-5">
-          <input id="online" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="online" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="online" class="font-medium text-white">Online</label>
         </div>
         <div class="flex items-center h-5">
-          <input id="opera" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="opera" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="opera" class="font-medium text-white">Opera</label>
         </div>
         <div class="flex items-center h-5">
-          <input id="seminar" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="seminar" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="seminar" class="font-medium text-white">Seminar</label>
         </div>
 
         <div class="flex items-center h-5">
-          <input id="stand-up-comedy" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="stand-up-comedy" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="stand-up-comedy" class="font-medium text-white">Stand up comedy</label>
         </div>
         <div class="flex items-center h-5">
-          <input id="technology" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="technology" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="technology" class="font-medium text-white">Technology</label>
         </div>
         <div class="flex items-center h-5">
-          <input id="variety" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 border-gray-600" required>
+          <input id="variety" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gary-600" required>
           <label for="variety" class="font-medium text-white">Variety</label>
         </div>
       </div>
