@@ -7,8 +7,8 @@ import { signin as signinEndpoint, signup as signupEndpoint } from '@/api/endpoi
 
 export const useAuthStore = defineStore('authStore', {
   state: () => {
-    const isAuthenticated: boolean = Object.keys(JSON.parse(sessionStorage.getItem('user') ?? '{}')).length !== 0
-    const userData: SigninReplyBody = JSON.parse(sessionStorage.getItem('user') ?? '{}')
+    const isAuthenticated: boolean = Object.keys(JSON.parse(sessionStorage.getItem('reebaUser') ?? '{}')).length !== 0
+    const userData: SigninReplyBody = JSON.parse(sessionStorage.getItem('reebaUser') ?? '{}')
 
     return {
       isAuthenticated,
@@ -24,7 +24,6 @@ export const useAuthStore = defineStore('authStore', {
           method,
           json: body
         }).json<SigninReplyBody>()
-        console.log(response)
 
         this.userData = response
         this.isAuthenticated = true
