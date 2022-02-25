@@ -15,7 +15,7 @@
         <router-link class="button" to="/create">
           Create event
         </router-link>
-        <router-link class="button" to="/signin">
+        <router-link :class="authStore.isAuthenticated ? 'button hidden' : 'button block'" to="/signin">
           Sign in
         </router-link>
         <button @click="dropdownClicked" class="dropdown-navbar">
@@ -28,19 +28,19 @@
       </div>
     </div>
     <div v-if="dropdownState" class="dropdown-state">
-      <div class="py-1">
+      <div :class="authStore.isAuthenticated ? 'py-1 block' : 'py-1 hidden'">
+        <router-link to="/users" class="dropdown-text">
+          {{ authStore.userData.username }}
+        </router-link>
+      </div>
+      <div :class="!authStore.isAuthenticated ? 'py-1 block' : 'py-1 hidden'">
         <router-link to="/signin" class="dropdown-text" @click="closeDropdown">
-          Login/Sign up
+          Sign in
         </router-link>
       </div>
       <ul class="py-1">
         <li>
-          <router-link to="/users" class="dropdown-text" @click="closeDropdown">
-            My profile
-          </router-link>
-        </li>
-        <li>
-          <router-link to="#" class="dropdown-text" @click="closeDropdown">
+          <router-link to="/account" class="dropdown-text" @click="closeDropdown">
             Settings
           </router-link>
         </li>
@@ -63,7 +63,7 @@
             Create event
           </router-link>
         </li>
-        <li>
+        <li :class="authStore.isAuthenticated ? 'hidden' : 'block'">
           <router-link to="/signin" @click="closeHamburger" class="inline-block py-2 w-full">
             Sign in
           </router-link>
@@ -222,24 +222,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
-import { useModalState } from './composables'
+import { useModalState } from '@/composables'
+import { useAuthStore } from '@/store/use-auth-store'
 
 export default defineComponent({
   name: 'app',
   setup () {
+    const authStore = useAuthStore()
+    const { state: dropdownState, toggle: dropdownClicked, close: closeDropdown } = useModalState()
     const { state: hamburgerState, toggle: toggleHamburger, close: closeHamburger } = useModalState()
-
-    const dropdownState = ref(false)
-
-    const dropdownClicked = (): void => {
-      dropdownState.value = !dropdownState.value
-    }
-
-    const closeDropdown = (): void => {
-      dropdownState.value = false
-    }
 
     return {
       toggleHamburger,
@@ -247,7 +240,8 @@ export default defineComponent({
       closeHamburger,
       dropdownClicked,
       dropdownState,
-      closeDropdown
+      closeDropdown,
+      authStore
     }
   }
 })
@@ -306,7 +300,7 @@ export default defineComponent({
 }
 
 .buttons {
-  @apply hidden justify-center items-center lg:flex;
+  @apply hidden w-96 justify-end items-center lg:flex;
 
   .button {
     @apply p-1 mx-6 w-36 h-8 text-white whitespace-nowrap rounded-lg outline-none bg-pale-gray;

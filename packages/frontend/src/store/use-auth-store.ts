@@ -7,8 +7,8 @@ import { signin as signinEndpoint, signup as signupEndpoint } from '@/api/endpoi
 
 export const useAuthStore = defineStore('authStore', {
   state: () => {
-    const isAuthenticated: boolean = Object.keys(JSON.parse(sessionStorage.getItem('reebaUser') ?? '{}')).length !== 0
-    const userData: SigninReplyBody = JSON.parse(sessionStorage.getItem('reebaUser') ?? '{}')
+    const isAuthenticated: boolean = Object.keys(JSON.parse(localStorage.getItem('reebaUser') ?? '{}')).length !== 0
+    const userData: SigninReplyBody = JSON.parse(localStorage.getItem('reebaUser') ?? '{}')
 
     return {
       isAuthenticated,
@@ -48,7 +48,7 @@ export const useAuthStore = defineStore('authStore', {
       }
     },
     signout (): void {
-      sessionStorage.clear()
+      localStorage.clear()
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       this.userData = {} as SigninReplyBody
       this.isAuthenticated = false
