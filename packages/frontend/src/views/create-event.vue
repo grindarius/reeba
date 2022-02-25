@@ -310,6 +310,39 @@
               </template>
             </template>
           </div>
+          <div class="grid grid-cols-1 mt-8 md:col-span-4">
+            <div class="flex flex-none place-items-center place-self-center mb-4">
+              <input type="color" class="mr-4 cursor-pointer">
+              <div class="flex">
+                <div class="relative rounded-md shadow-sm">
+                  <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                    <span class="text-gray-500 sm:text-sm"> $ </span>
+                  </div>
+                  <input
+                    type="number" name="price"
+                    id="price" class="block h-12 py-3 pr-12 pl-7 w-full rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    placeholder="0.00">
+                  <div class="flex absolute inset-y-0 right-0 items-center">
+                    <label for="currency" class="sr-only">Currency</label>
+                    <select id="currency" name="currency" class="py-0 pr-7 pl-2 h-full text-gray-500 bg-transparent rounded-md border-transparent sm:text-sm focus:border-indigo-500 focus:ring-indigo-500">
+                      <option value="USD">
+                        USD
+                      </option>
+                      <option value="CAD">
+                        CAD
+                      </option>
+                      <option value="EUR">
+                        EUR
+                      </option>
+                      <option value="THB">
+                        THB
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <button
