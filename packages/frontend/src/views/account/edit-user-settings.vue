@@ -8,11 +8,7 @@
         <div class="flex justify-center">
           <img class="object-cover object-center w-24 h-24 rounded-full" src="@/assets/user.png" alt="Avatar Upload">
         </div>
-        <div class="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2">
-          <div>
-            <label class="text-header" for="username">Username</label>
-            <input id="username" type="text" class="box-text">
-          </div>
+        <div class="grid grid-cols-1 gap-6 mt-4">
           <div>
             <label class="text-header" for="emailAddress">Email Address</label>
             <input id="emailAddress" type="email" class="box-text">
