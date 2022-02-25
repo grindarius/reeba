@@ -34,7 +34,7 @@
             <input type="text" id="event-website-name" name="event-website-name" class="appearance-none input" placeholder="https://event.reeba.com">
           </div>
           <div class="col-span-4 md:col-span-1 input-box">
-            <label for="event-age" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Minimum age for users to enter the event</label>
+            <label for="event-age" class="block py-2 text-xs font-bold tracking-wide truncate text-white uppercase">Minimum age for users to enter the event</label>
             <input type="text" id="event-age" name="event-age" class="appearance-none input" placeholder="0">
           </div>
           <div class="col-span-4 md:col-span-2 input-box">
@@ -124,31 +124,31 @@
             type="number" id="event-zone-rows"
             name="event-zone-rows" class="input-button h-12"
             step="1"
-            v-model="priceRange" disabled>
-          <button @click="decreasePrice" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
+            v-model="selectedPrices.length" disabled>
+          <button @click="onPriceRangeDecrement" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
             <span class="m-auto text-2xl font-thin">-</span>
           </button>
-          <button @click="increasePrice" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+          <button @click="onPriceRangeIncrement" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
             <span class="m-auto text-2xl font-thin">+</span>
           </button>
         </div>
         <div class="grid grid-cols-1 md:col-span-4">
-          <div v-for="price in priceRange" :key="price" class="flex flex-none place-items-center place-self-center mb-4">
-            <input type="color" class="mr-4 cursor-pointer" v-model="colorList[price - 1]">
+          <div v-for="(price, i) in selectedPrices" :key="`event-price-selector-${i}`" class="flex flex-none place-items-center place-self-center mb-4">
+            <input type="color" class="mr-4 cursor-pointer" :value="price.color" @change="changeColor($event, i)">
             <div class="flex">
-              <!-- <label for="price" class="block text-sm font-medium text-gray-700">Price</label> -->
               <div class="relative rounded-md shadow-sm">
                 <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                   <span class="text-gray-500 sm:text-sm"> $ </span>
                 </div>
                 <input
-                  type="text" name="price"
+                  type="number" name="price"
                   id="price" class="block h-12 py-3 pr-12 pl-7 w-full rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                   placeholder="0.00"
-                  v-model="priceList[price-1]">
+                  :value="price.price"
+                  @change="changePrice($event, i)">
                 <div class="flex absolute inset-y-0 right-0 items-center">
                   <label for="currency" class="sr-only">Currency</label>
-                  <select id="currency" name="currency" class="py-0 pr-7 pl-2 h-full text-gray-500 bg-transparent rounded-md border-transparent sm:text-sm focus:border-indigo-500 focus:ring-indigo-500">
+                  <select id="currency" :value="price.currency" @change="changeCurrency($event, i)" name="currency" class="py-0 pr-7 pl-2 h-full text-gray-500 bg-transparent rounded-md border-transparent sm:text-sm focus:border-indigo-500 focus:ring-indigo-500">
                     <option value="USD">
                       USD
                     </option>
@@ -225,7 +225,7 @@
                 step="1"
                 v-model="selectedZoneRow" disabled>
               <button @click="decreaseRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
-                <span class="m-auto text-2xl font-thin">−</span>
+                <span class="m-auto text-2xl font-thin">-</span>
               </button>
               <button @click="increaseRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
                 <span class="m-auto text-2xl font-thin">+</span>
@@ -241,7 +241,7 @@
                 step="1"
                 v-model="selectedZoneColumn" disabled>
               <button @click="decreaseColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer">
-                <span class="m-auto text-2xl font-thin">−</span>
+                <span class="m-auto text-2xl font-thin">-</span>
               </button>
               <button @click="increaseColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
                 <span class="m-auto text-2xl font-thin">+</span>
@@ -308,9 +308,14 @@ export default defineComponent({
     const selectedSectionColumn = ref('5')
     const selectedZoneRow = ref('5')
     const selectedZoneColumn = ref('5')
-    const priceRange = ref(3)
 
-    const priceRangeList: Ref<Array<ReebAExtendedEventPrice>> = ref([])
+    const selectedPrices: Ref<Array<ReebAExtendedEventPrice>> = ref([
+      {
+        color: '#D5A755',
+        price: 1000,
+        currency: 'USD' as 'USD' | 'CAD' | 'THB' | 'EUR'
+      }
+    ])
 
     const selectedEventTags: Ref<Array<string>> = ref([])
     const eventTagsList: Ref<Array<{ name: string, tag: string }>> = ref([
@@ -354,8 +359,6 @@ export default defineComponent({
 
     const onSeatChange = (value: string): void => {
       console.log(value)
-      console.log(colorList.value)
-      console.log(priceList.value)
     }
 
     const getTimeString = (time: ReebAEventDatetime): string => {
@@ -411,6 +414,33 @@ export default defineComponent({
       if (newWindow) newWindow.opener = null
     }
 
+    const changeColor = (ev: Event, index: number): void => {
+      selectedPrices.value[index].color = (ev.target as HTMLInputElement).value
+    }
+
+    const changePrice = (ev: Event, index: number): void => {
+      selectedPrices.value[index].price = Number((ev.target as HTMLInputElement).value)
+    }
+
+    const changeCurrency = (ev: Event, index: number): void => {
+      selectedPrices.value[index].currency = (ev.target as HTMLInputElement).value as 'USD' | 'CAD' | 'THB' | 'EUR'
+    }
+
+    const onPriceRangeIncrement = (): void => {
+      selectedPrices.value.push({
+        color: '#D5A755',
+        price: 1000,
+        currency: 'USD'
+      })
+    }
+
+    const onPriceRangeDecrement = (): void => {
+      if (selectedPrices.value.length - 1 === 0) {
+        return
+      }
+      selectedPrices.value.pop()
+    }
+
     const increaseRow = (): void => {
       selectedZoneRow.value = String(Number(selectedZoneRow.value) + 1)
     }
@@ -426,23 +456,6 @@ export default defineComponent({
     const decreaseColumn = (): void => {
       if (Number(selectedZoneColumn.value) > 1) selectedZoneColumn.value = String(Number(selectedZoneColumn.value) - 1)
     }
-
-    const increasePrice = (): void => {
-      priceRange.value = priceRange.value + 1
-      colorList.value.push('#D5A755')
-      priceList.value.push(0)
-    }
-
-    const decreasePrice = (): void => {
-      if (priceRange.value > 1) {
-        priceRange.value = priceRange.value - 1
-        colorList.value.pop()
-        priceList.value.pop()
-      }
-    }
-
-    const colorList: Ref<Array<string>> = ref(['#D5A755', '#D5A755', '#D5A755'])
-    const priceList: Ref<Array<number>> = ref([1300, 1500, 1700])
 
     return {
       sections,
@@ -471,13 +484,13 @@ export default defineComponent({
       increaseColumn,
       decreaseRow,
       decreaseColumn,
-      priceRange,
-      increasePrice,
-      decreasePrice,
-      colorList,
-      priceList,
+      selectedPrices,
+      changeColor,
+      changePrice,
       selectedEventTags,
-      priceRangeList
+      onPriceRangeIncrement,
+      onPriceRangeDecrement,
+      changeCurrency
     }
   }
 })
