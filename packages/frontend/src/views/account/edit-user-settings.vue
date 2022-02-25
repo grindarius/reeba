@@ -13,17 +13,23 @@
             <label class="text-header" for="username">Username</label>
             <input id="username" type="text" class="box-text">
           </div>
+          <label class="block">
+            <div>
+              <label class="text-header" for="password">Password</label>
+              <input id="password" type="password" class="box-text">
+            </div>
+          </label>
           <div>
             <label class="text-header" for="emailAddress">Email Address</label>
             <input id="emailAddress" type="email" class="box-text">
           </div>
           <div>
-            <label class="text-header" for="password">Password</label>
-            <input id="password" type="password" class="box-text">
-          </div>
-          <div>
             <label class="text-header" for="passwordConfirmation">Confirm Password</label>
             <input id="passwordConfirmation" type="password" class="box-text">
+          </div>
+          <div>
+            <label class="text-header" for="birthday">Birthday</label>
+            <input id="birthday" type="password" class="box-text">
           </div>
         </div>
         <div class="flex justify-center mt-6">
