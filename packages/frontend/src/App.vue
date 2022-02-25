@@ -16,7 +16,7 @@
           Create event
         </router-link>
         <button @click="dropdownClicked" class="dropdown-navbar">
-          <img src="@/assets/user.png" class="profile-image">
+          <img src="@/assets/user.png" class="profile-image-navbar">
           <v-mdi class="place-self-center" name="mdi-chevron-down" fill="#423E41" />
         </button>
       </div>
@@ -26,18 +26,26 @@
     </div>
     <div v-if="dropdownState" class="dropdown-state">
       <div class="py-1">
-        <a href="#" class="dropdown-text">Login</a>
+        <router-link to="/signin" class="dropdown-text" @click="closeDropdown">
+          Login/Sign up
+        </router-link>
       </div>
       <ul class="py-1">
         <li>
-          <a href="#" class="dropdown-text">My profile</a>
+          <router-link to="/users" class="dropdown-text" @click="closeDropdown">
+            My profile
+          </router-link>
         </li>
         <li>
-          <a href="#" class="dropdown-text">Settings</a>
+          <router-link to="#" class="dropdown-text" @click="closeDropdown">
+            Settings
+          </router-link>
         </li>
       </ul>
       <div class="py-1">
-        <a href="#" class="dropdown-text">Sign out</a>
+        <router-link to="#" class="dropdown-text" @click="closeDropdown">
+          Sign out
+        </router-link>
       </div>
     </div>
     <div :class="hamburgerState ?'small-navbar block' : 'small-navbar hidden'">
@@ -55,6 +63,27 @@
         <li>
           <router-link to="/signin" @click="closeHamburger" class="inline-block py-2 w-full">
             Login/Sign up
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/users" @click="closeHamburger" class="flex place-items-center">
+            <img src="@/assets/user.png" class="profile-image">
+            grindarius
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/users" @click="closeHamburger" class="inline-block py-2 w-full">
+            My profile
+          </router-link>
+        </li>
+        <li>
+          <router-link to="#" @click="closeHamburger" class="inline-block py-2 w-full">
+            Settings
+          </router-link>
+        </li>
+        <li>
+          <router-link to="#" @click="closeHamburger" class="inline-block py-2 w-full">
+            Sign out
           </router-link>
         </li>
       </ul>
@@ -85,12 +114,17 @@ export default defineComponent({
       hamburgerState.value = false
     }
 
+    const closeDropdown = (): void => {
+      dropdownState.value = false
+    }
+
     return {
       onHamburgerClicked,
       hamburgerState,
       closeHamburger,
       dropdownClicked,
-      dropdownState
+      dropdownState,
+      closeDropdown
     }
   }
 })
@@ -160,22 +194,28 @@ export default defineComponent({
   }
 }
 
-.dropdown-navbar {
-  @apply mr-3 mb-3 md:mb-0 rounded-lg px-4 py-2.5 inline-flex items-center;
-}
-
-.profile-image {
+.profile-image-navbar {
   width: 25px;
   height: 25px;
   @apply rounded-full;
 }
 
+.profile-image {
+  width: 40px;
+  height: 40px;
+  @apply rounded-full mr-4;
+}
+
+.dropdown-navbar {
+  @apply mr-3 mb-3 md:mb-0 px-4 py-2.5 inline-flex items-center;
+}
+
 .dropdown-state {
-  @apply hidden lg:block place-self-end mr-2 z-10 w-44 bg-white divide-y divide-gray-100 shadow dark:bg-gray-700;
+  @apply hidden lg:block place-self-end rounded-lg mt-2 mr-2 z-10 w-44 bg-white divide-y divide-gray-100 shadow dark:bg-zinc-600;
 }
 
 .dropdown-text {
-  @apply block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white;
+  @apply block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-gray-200 dark:hover:text-white;
 }
 
 .buttons-mobile {
