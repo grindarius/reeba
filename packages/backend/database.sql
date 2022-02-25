@@ -119,26 +119,3 @@ insert into event_tags (event_tag_label) values
   ('technology'),
   ('variety')
 on conflict (event_tag_label) do nothing;
-
-insert into users (
-  user_username,
-  user_email,
-  user_password,
-  user_phone_country_code,
-  user_phone_number,
-  user_role
-) values (
-  'aryastark',
-  'aryastark@gmail.com',
-  '$2b$10$stcsoa28Ym.QM3f3NyQI2Oac7XByJIzv3mjLO/fsmkQjLPBi8HMj2',
-  '66',
-  '994485893',
-  'user'
-), (
-  'tonystark',
-  'tonystark@gmail.com',
-  '$2b$10$q3l2ArPZWp1tW0twSfBC/OhFUGEFTsvPxQApqB8xTXsJyBnWsa.DC',
-  '66',
-  '995894833',
-  'admin'
-) on conflict (user_username) do nothing;
