@@ -168,6 +168,56 @@
           </div>
         </div>
       </div>
+
+      <h3 class="my-6 text-4xl font-medium text-white">
+        Section builder
+      </h3>
+      <div class="section-seats-builder">
+        <div class="flex flex-col gap-y-4 gap-x-6 md:flex-row">
+          <div class="input-box grow">
+            <label for="event-initial-zone-rows" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Initial zone row</label>
+            <div class="flex flex-row">
+              <input
+                type="number" id="event-initial-zone-rows"
+                name="event-zone-rows" class="input-button"
+                step="1"
+                v-model="initiallySelectedZoneRow" disabled>
+              <button @click="decreaseInitialRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
+                <span class="m-auto text-2xl font-thin">-</span>
+              </button>
+              <button @click="increaseInitialRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+                <span class="m-auto text-2xl font-thin">+</span>
+              </button>
+            </div>
+          </div>
+          <div class="input-box grow">
+            <label for="event-initial-zone-columns" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Initial zone columns</label>
+            <div class="flex flex-row">
+              <input
+                type="number" id="event-initial-zone-columns"
+                name="event-initial-zone-columns" class="input-button"
+                step="1"
+                v-model="initiallySelectedZoneColumn" disabled>
+              <button @click="decreaseInitialColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer">
+                <span class="m-auto text-2xl font-thin">-</span>
+              </button>
+              <button @click="increaseInitialColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+                <span class="m-auto text-2xl font-thin">+</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="grid overflow-x-auto gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="selctedInitialZoneStyles">
+          <template v-for="row in initialZone" :key="JSON.stringify(row)">
+            <template v-for="seat in row" :key="seat">
+              <button
+                @click="onSeatChange(seat)"
+                class="w-8 h-8 rounded-full bg-pale-yellow" />
+            </template>
+          </template>
+        </div>
+      </div>
+
       <div class="event-sections">
         <h3 class="my-6 text-4xl font-medium text-white">
           Event sections
@@ -336,9 +386,13 @@ export default defineComponent({
       { name: 'Variety', tag: 'variety' }
     ])
 
+    const initiallySelectedZoneColumn = ref('5')
+    const initiallySelectedZoneRow = ref('5')
+
     const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
 
     const sections = computed(() => generateEventSections(Number(selectedSectionRow.value) || 1, Number(selectedSectionColumn.value) || 1))
+    const initialZone = computed(() => generateEventSections(Number(initiallySelectedZoneRow.value) || 1, Number(initiallySelectedZoneColumn.value) || 1))
     const zones = computed(() => generateEventSections(Number(selectedZoneRow.value) || 1, Number(selectedZoneColumn.value) || 1))
     const selectedSectionStyles = computed<StyleValue>(() => {
       return {
@@ -350,6 +404,12 @@ export default defineComponent({
       return {
         'grid-template-columns': `repeat(${selectedZoneColumn.value || '1'}, 32px)`,
         'grid-template-rows': `repeat(${selectedZoneRow.value || '1'}, 32px)`
+      }
+    })
+    const selctedInitialZoneStyles = computed<StyleValue>(() => {
+      return {
+        'grid-template-columns': `repeat(${initiallySelectedZoneColumn.value || '1'}, 32px)`,
+        'grid-template-rows': `repeat(${initiallySelectedZoneRow.value || '1'}, 32px)`
       }
     })
 
@@ -449,12 +509,28 @@ export default defineComponent({
       selectedZoneColumn.value = (Number(selectedZoneColumn.value) + 1).toString()
     }
 
+    const increaseInitialColumn = (): void => {
+      initiallySelectedZoneColumn.value = (Number(initiallySelectedZoneColumn.value) + 1).toString()
+    }
+
+    const increaseInitialRow = (): void => {
+      initiallySelectedZoneRow.value = (Number(initiallySelectedZoneRow.value) + 1).toString()
+    }
+
     const decreaseRow = (): void => {
       if (Number(selectedZoneRow.value) - 1 !== 0) selectedZoneRow.value = (Number(selectedZoneRow.value) - 1).toString()
     }
 
     const decreaseColumn = (): void => {
       if (Number(selectedZoneColumn.value) - 1 !== 0) selectedZoneColumn.value = (Number(selectedZoneColumn.value) - 1).toString()
+    }
+
+    const decreaseInitialColumn = (): void => {
+      if (Number(initiallySelectedZoneColumn.value) - 1 !== 0) initiallySelectedZoneColumn.value = (Number(initiallySelectedZoneColumn.value) - 1).toString()
+    }
+
+    const decreaseInitialRow = (): void => {
+      if (Number(initiallySelectedZoneRow.value) - 1 !== 0) initiallySelectedZoneRow.value = (Number(initiallySelectedZoneRow.value) - 1).toString()
     }
 
     return {
@@ -490,7 +566,15 @@ export default defineComponent({
       selectedEventTags,
       onPriceRangeIncrement,
       onPriceRangeDecrement,
-      changeCurrency
+      changeCurrency,
+      initiallySelectedZoneColumn,
+      initiallySelectedZoneRow,
+      initialZone,
+      increaseInitialColumn,
+      increaseInitialRow,
+      decreaseInitialColumn,
+      decreaseInitialRow,
+      selctedInitialZoneStyles
     }
   }
 })
