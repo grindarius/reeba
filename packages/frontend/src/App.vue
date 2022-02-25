@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar">
-    <div class="flex-1 big-navbar">
+    <div class="big-navbar">
       <div class="w-14 lg:w-96 logo">
         <router-link to="/">
           <img src="@/assets/reeba-logo-2.png" alt="Reeba logo" width="35" class="ml-2 cursor-pointer">
@@ -15,12 +15,40 @@
         <router-link class="button" to="/create">
           Create event
         </router-link>
-        <router-link class="button" to="/signin">
+        <router-link v-show="!authStore.isAuthenticated" class="button" to="/signin">
           Sign in
         </router-link>
+        <button @click="dropdownClicked" :class="authStore.isAuthenticated ?'dropdown-navbar inline-flex' : 'dropdown-navbar hidden'">
+          <img src="@/assets/user.png" class="profile-image-navbar">
+          <v-mdi class="place-self-center" name="mdi-chevron-down" fill="#423E41" />
+        </button>
       </div>
       <div class="buttons-mobile">
         <v-mdi name="mdi-hamburger" class="cursor-pointer" size="40" fill="#423E41" @click="toggleHamburger" />
+      </div>
+    </div>
+    <div v-if="dropdownState" v-show="authStore.isAuthenticated" class="dropdown-state">
+      <div :class="authStore.isAuthenticated ?'py-1 block' : 'py-1 hidden'">
+        <router-link to="/users" class="dropdown-text" @click="closeDropdown">
+          {{ authStore.userData.username }}
+        </router-link>
+      </div>
+      <div :class="!authStore.isAuthenticated ? 'py-1 block' : 'py-1 hidden'">
+        <router-link to="/signin" class="dropdown-text" @click="closeDropdown">
+          Sign in
+        </router-link>
+      </div>
+      <ul class="py-1">
+        <li>
+          <router-link to="/account" class="dropdown-text" @click="closeDropdown">
+            Settings
+          </router-link>
+        </li>
+      </ul>
+      <div class="py-1">
+        <button class="w-full dropdown-text" @click="signout">
+          Sign out
+        </button>
       </div>
     </div>
     <div :class="hamburgerState ?'small-navbar block' : 'small-navbar hidden'">
@@ -35,10 +63,26 @@
             Create event
           </router-link>
         </li>
-        <li>
+        <li v-show="!authStore.isAuthenticated">
           <router-link to="/signin" @click="closeHamburger" class="inline-block py-2 w-full">
             Sign in
           </router-link>
+        </li>
+        <li v-show="authStore.isAuthenticated">
+          <router-link to="/users" @click="closeHamburger" class="flex place-items-center">
+            <img :src="`${getUserAvatar.url}/${authStore.userData.username ?? ''}`" :alt="authStore.userData.username ?? ''" class="profile-image">
+            {{ authStore.userData.username }}
+          </router-link>
+        </li>
+        <li v-show="authStore.isAuthenticated">
+          <router-link to="/account" @click="closeHamburger" class="inline-block py-2 w-full">
+            Settings
+          </router-link>
+        </li>
+        <li v-show="authStore.isAuthenticated">
+          <button @click="signout" class="inline-block py-2 w-full text-left">
+            Sign out
+          </button>
         </li>
       </ul>
     </div>
@@ -46,8 +90,8 @@
   <router-view />
   <footer class="dark:text-black">
     <div class="container flex flex-col justify-center py-10 mx-auto lg:flex-row lg:space-y-center">
-      <div class="lg:w-1/5">
-        <a rel="noopener noreferrer" href="#" class="flex justify-center space-x-3 lg:justify-start">
+      <div class="md:w-1/5">
+        <a rel="noopener noreferrer" href="#" class="flex justify-start space-x-3">
           <div class="space-y-3">
             <div class="px-4 mt-10 font-bold md:mt-8">
               Follow us
@@ -72,7 +116,7 @@
           </div>
         </a>
       </div>
-      <div class="footer-Need-Customer-Our">
+      <div class="footer-help">
         <div class="space-y-3">
           <h3 class="font-bold text-black-700">
             Need help?
@@ -174,18 +218,37 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 
-import { useModalState } from './composables'
+import { getUserAvatar } from '@/api/endpoints'
+import { useModalState } from '@/composables'
+import { useAuthStore } from '@/store/use-auth-store'
 
 export default defineComponent({
   name: 'app',
   setup () {
+    const authStore = useAuthStore()
+    const router = useRouter()
+
+    const { state: dropdownState, toggle: dropdownClicked, close: closeDropdown } = useModalState()
     const { state: hamburgerState, toggle: toggleHamburger, close: closeHamburger } = useModalState()
+
+    const signout = (): void => {
+      authStore.signout()
+      closeDropdown()
+      router.push('/')
+    }
 
     return {
       toggleHamburger,
       hamburgerState,
-      closeHamburger
+      closeHamburger,
+      dropdownClicked,
+      dropdownState,
+      closeDropdown,
+      authStore,
+      getUserAvatar,
+      signout
     }
   }
 })
@@ -205,6 +268,7 @@ export default defineComponent({
 }
 
 .big-navbar {
+  min-height: 48px;
   @apply flex flex-row justify-between;
 }
 
@@ -244,7 +308,7 @@ export default defineComponent({
 }
 
 .buttons {
-  @apply hidden justify-center items-center lg:flex;
+  @apply hidden justify-end items-center w-96 lg:flex;
 
   .button {
     @apply p-1 mx-6 w-36 h-8 text-white whitespace-nowrap rounded-lg outline-none bg-pale-gray;
@@ -255,11 +319,35 @@ export default defineComponent({
   }
 }
 
+.profile-image-navbar {
+  width: 25px;
+  height: 25px;
+  @apply rounded-full;
+}
+
+.profile-image {
+  width: 40px;
+  height: 40px;
+  @apply mr-4 rounded-full;
+}
+
+.dropdown-navbar {
+  @apply items-center py-2.5 px-4 mr-3 mb-3 md:mb-0;
+}
+
+.dropdown-state {
+  @apply hidden z-10 place-self-end mt-2 mr-2 w-44 bg-white rounded-lg divide-y divide-gray-100 shadow lg:block dark:bg-zinc-600;
+}
+
+.dropdown-text {
+  @apply block py-2 px-4 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-500 dark:hover:text-white;
+}
+
 .buy-button {
   @apply inline-block py-2 px-8 text-white rounded-lg bg-pale-gray hover:bg-gray-hover;
 }
 
-.footer-Need-Customer-Our{
+.footer-help {
   @apply grid grid-cols-1 gap-x-3 gap-y-8 px-4 mt-10 text-sm sm:grid-cols-4 lg:w-2/3;
 }
 

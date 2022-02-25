@@ -11,6 +11,7 @@ export type SigninBody = Static<typeof SigninBodySchema>
 export const SigninReplyBodySchema = Type.Object({
   token: Type.String(),
   username: Type.String(),
+  email: Type.String(),
   role: Type.Union([
     Type.Literal(t_user_role.user),
     Type.Literal(t_user_role.admin)
