@@ -66,15 +66,15 @@ console.log(chalk.green('deleting data in tables'));
     '66',
     '994485893',
     'user',
-    'I am Arya Stark''s youger sister.'
+    'I am Sansa Stark''s youger sister.'
   ), (
-    'tonystark',
-    'tonystark@gmail.com',
+    'sansastark',
+    'sansastark@gmail.com',
     '$2b$10$q3l2ArPZWp1tW0twSfBC/OhFUGEFTsvPxQApqB8xTXsJyBnWsa.DC',
     '66',
     '995894833',
     'admin',
-    'I am Sansa Stark''s older sister.'
+    'I am Arya Stark''s older sister.'
   ) on conflict (user_username) do nothing;`)
 
   await client.end()
