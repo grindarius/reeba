@@ -207,12 +207,13 @@
             </div>
           </div>
         </div>
-        <div class="grid overflow-x-auto gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="selctedInitialZoneStyles">
+        <div class="grid col-span-3 overflow-x-auto gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="selctedInitialZoneStyles">
           <template v-for="row in initialZone" :key="JSON.stringify(row)">
             <template v-for="seat in row" :key="seat">
               <button
                 @click="onSeatChange(seat)"
-                class="w-8 h-8 rounded-full bg-pale-yellow" />
+                class="w-8 h-8 rounded-full"
+                :style="{ 'background-color': selectedPrices[0].color }" />
             </template>
           </template>
         </div>
