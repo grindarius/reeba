@@ -210,10 +210,18 @@
                 <div class="flex absolute inset-y-0 right-0 items-center">
                   <label for="currency" class="sr-only">Currency</label>
                   <select id="currency" name="currency" class="py-0 pr-7 pl-2 h-full text-gray-500 bg-transparent rounded-md border-transparent sm:text-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <option>USD</option>
-                    <option>CAD</option>
-                    <option>EUR</option>
-                    <option>TH</option>
+                    <option value="USD">
+                      USD
+                    </option>
+                    <option value="CAD">
+                      CAD
+                    </option>
+                    <option value="EUR">
+                      EUR
+                    </option>
+                    <option value="THB">
+                      THB
+                    </option>
                   </select>
                 </div>
               </div>
@@ -331,7 +339,7 @@ import MarkdownIt from 'markdown-it'
 // @ts-expect-error not have definitelyTyped
 import abbr from 'markdown-it-abbr'
 import emoji from 'markdown-it-emoji'
-import { computed, defineComponent, ref, StyleValue } from 'vue'
+import { computed, defineComponent, Ref, ref, StyleValue } from 'vue'
 
 import { useAuthStore } from '@/store/use-auth-store'
 import { ReebAEventDatetime } from '@/types'
@@ -353,6 +361,8 @@ export default defineComponent({
   setup () {
     const selectedEventStartTime = ref('')
     const selectedEventEndTime = ref('')
+
+    const selectedEventTags: Ref<Array<string>> = ref([])
 
     const selectedTimes = ref<Array<ReebAEventDatetime>>([])
 
@@ -506,7 +516,8 @@ export default defineComponent({
       increasePrice,
       decreasePrice,
       colorList,
-      priceList
+      priceList,
+      selectedEventTags
     }
   }
 })
