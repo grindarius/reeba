@@ -72,7 +72,7 @@
         </div>
       </div>
 
-      <h3 class="text-4xl font-medium text-white">
+      <h3 class="my-6 text-4xl font-medium text-white">
         Stage zone picture
       </h3>
       <div class="flex justify-center mt-5">
@@ -110,11 +110,11 @@
         </div>
       </div>
       <!-- <hr class="col-span-4 mt-8 w-full border border-pale-yellow"> -->
-      <h3 class="text-4xl font-medium text-white">
+      <h3 class="my-6 text-4xl font-medium text-white">
         Price range
       </h3>
       <div class="grid grid-rows-1 md:grid-cols-5">
-        <div class="flex flex-row md:col-span-1 mt-5 justify-center">
+        <div class="flex flex-row md:col-span-1 justify-center">
           <input
             type="number" id="event-zone-rows"
             name="event-zone-rows" class="input h-12"
@@ -128,16 +128,16 @@
           </button>
         </div>
         <div class="flex flex-wrap md:col-span-4 justify-center">
-          <div v-for="price in priceRange" :key="price" class="flex flex-none place-items-center mb-2">
+          <div v-for="price in priceRange" :key="price" class="flex flex-none place-items-center mb-4">
             <button
-              class="mt-5 mr-2 ml-2 w-8 h-8 rounded-full bg-pale-yellow" />
-            <div class="flex mt-5">
+              class="mx-2 w-8 h-8 rounded-full bg-pale-yellow" />
+            <div class="flex">
               <!-- <label for="price" class="block text-sm font-medium text-gray-700">Price</label> -->
               <div class="relative rounded-md shadow-sm">
                 <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                   <span class="text-gray-500 sm:text-sm"> $ </span>
                 </div>
-                <input type="text" name="price" id="price" class="block py-3 pr-12 pl-7 w-full rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0.00">
+                <input type="text" name="price" id="price" class="block h-12 py-3 pr-12 pl-7 w-full rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0.00">
                 <div class="flex absolute inset-y-0 right-0 items-center">
                   <label for="currency" class="sr-only">Currency</label>
                   <select id="currency" name="currency" class="py-0 pr-7 pl-2 h-full text-gray-500 bg-transparent rounded-md border-transparent sm:text-sm focus:border-indigo-500 focus:ring-indigo-500">
