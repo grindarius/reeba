@@ -49,6 +49,13 @@
               placeholder="0"
               v-model="eventMinimumAge">
           </div>
+          <div class="col-span-4 input-box">
+            <label for="event-opening-date" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Opening Date</label>
+            <input
+              type="datetime-local" id="event-opening-date"
+              name="event-opening-date" class="appearance-none input"
+              v-model="eventOpeningDate">
+          </div>
           <div class="col-span-4 md:col-span-2 input-box">
             <label for="event-start-datetime" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Start time</label>
             <input type="datetime-local" id="event-start-datetime" name="event-start-datetime" class="input" v-model="selectedEventStartTime">
@@ -83,13 +90,6 @@
               name="event-location-coords" class="appearance-none input"
               placeholder="latitude,longitude"
               v-model="eventVenueCoordinates">
-          </div>
-          <div class="col-span-4 input-box">
-            <label for="event-opening-date" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Opening Date</label>
-            <input
-              type="datetime-local" id="event-opening-date"
-              name="event-opening-date" class="appearance-none input"
-              v-model="eventOpeningDate">
           </div>
           <hr class="col-span-4 mt-8 w-full border border-pale-yellow">
         </div>
@@ -131,10 +131,10 @@
                   </svg>
                   <p class="pt-1 text-sm tracking-wider text-white group-hover:text-white">Select an image</p>
                 </div>
-                <input type="file" ref="inputImage" class="opacity-0" accept="image/jpg, image/JPG, image/png, image/PNG, image/jpeg, image/JPEG" @change="uploadImage">
+                <input type="file" class="opacity-0" accept=".jpg, .png, .jpeg" @change="onImageSelected">
               </label>
             </div>
-            <img v-else :src="preview" ref="previewImage">
+            <img v-else :src="previewImage">
           </div>
         </div>
       </div>
@@ -432,9 +432,9 @@ import { computed, defineComponent, Ref, ref, StyleValue, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
-import { PostEventBody } from '@reeba/common'
+import { PostEventBody, PostEventReply } from '@reeba/common'
 
-import { postEvent } from '@/api/endpoints'
+import { postEvent, postEventImage } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { ReebAEventDatetime, ReebAEventSeat, ReebAEventSection, ReebAExtendedEventPrice } from '@/types'
 import { decrease2DArrayDimension, generateEventSeats, generateEventSections, increase2DArrayDimension, numberToLetters, randomPastelColor } from '@/utils'
@@ -511,9 +511,49 @@ export default defineComponent({
     const seatTemplate: Ref<Array<Array<ReebAEventSeat>>> = ref(generateEventSeats(5, 5, eventTicketPrices.value[0].price))
     const eventSections: Ref<Array<Array<ReebAEventSection>>> = ref(generateEventSections(Number(eventSectionRowLength.value) || 1, Number(eventSectionColumnLength.value) || 1, seatTemplate.value))
 
+    const eventImage = ref<File | null>(null)
+    const previewImage = ref('')
+    const onImageSelected = (e: Event): void => {
+      const target = e.target as HTMLInputElement
+      eventImage.value = target.files == null ? null : target.files[0]
+      previewImage.value = URL.createObjectURL(target.files == null ? new Blob() : target.files[0])
+      console.log(previewImage.value)
+    }
+    const deleteImage = () => {
+      eventImage.value = null
+    }
+
     const createEvent = async (): Promise<void> => {
-      const { method, url } = postEvent
+      const { method: postEventMethod, url: postEventUrl } = postEvent
+      const { method: postEventImageMethod, url: postEventImageUrl } = postEventImage
       const coordinateString = eventVenueCoordinates.value.split(',')
+
+      if (eventName.value === '') {
+        toast.error('Event name is not defined')
+        return
+      }
+
+      if (coordinateString[0] == null || coordinateString[1] == null || isNaN(Number(coordinateString[0])) || isNaN(Number(coordinateString[1]))) {
+        toast.error('Cannot parse coordinates')
+        return
+      }
+
+      if (eventDatetimes.value.length === 0) {
+        toast.error('There must be at least 1 datetime')
+        return
+      }
+
+      for (const dt of eventDatetimes.value) {
+        if (dt.start.isBefore(dayjs(eventOpeningDate.value, 'YYYY-MM-DDTHH:mm')) || dt.end.isBefore(dayjs(eventOpeningDate.value, 'YYYY-MM-DDTHH:mm'))) {
+          toast.error('One of datetimes is before opening date')
+          return
+        }
+
+        if (dt.end.isBefore(dt.start)) {
+          toast.error('One of datetimes, end time is before start time')
+          return
+        }
+      }
 
       const ev: PostEventBody = {
         eventName: eventName.value,
@@ -544,15 +584,31 @@ export default defineComponent({
       }
 
       try {
-        await ky(url, {
-          method,
-          json: ev
-        })
+        const response = await ky(postEventUrl, {
+          method: postEventMethod,
+          json: ev,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        }).json<PostEventReply>()
+
+        const form = new FormData()
+
+        if (eventImage.value != null) {
+          form.append('image', eventImage.value)
+
+          await ky(postEventImageUrl + `/${response.eventId}`, {
+            method: postEventImageMethod,
+            body: form
+          })
+        }
 
         toast.success('Event created!')
         router.push('/')
       } catch (error) {
-        toast.error(error as string)
+        // @ts-expect-error error is unknown
+        const json = await error.response.json()
+        toast.error(json.message)
       }
     }
 
@@ -793,21 +849,6 @@ export default defineComponent({
       eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = decrease2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'column')
     }
 
-    const eventImage = ref<File | null>(null)
-    const preview = ref('')
-    const uploadImage = (e: Event): void => {
-      if ((e.target as HTMLInputElement).files != null) {
-        // @ts-expect-error file probably null event after checked
-        eventImage.value = (e.target as HTMLInputElement).files[0]
-
-        // @ts-expect-error file probably null event after checked
-        preview.value = URL.createObjectURL((e.target as HTMLInputElement).files[0])
-      }
-    }
-    const deleteImage = () => {
-      eventImage.value = null
-    }
-
     watch(seatTemplate, (newInitialZone) => {
       for (let i = 0; i < eventSections.value.length; i++) {
         for (let j = 0; j < eventSections.value[i].length; j++) {
@@ -861,9 +902,9 @@ export default defineComponent({
       decreaseSeatTemplateColumn,
       decreaseSeatTemplateRow,
       seatTemplateStyles,
-      uploadImage,
+      onImageSelected,
       eventImage,
-      preview,
+      previewImage,
       deleteImage,
       actualSeatPlanSelectedSeat,
       seatTemplateSelectedSeat,
