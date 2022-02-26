@@ -307,44 +307,38 @@
           </div>
         </div>
         <div class="seatings">
-          <div class="grid overflow-x-auto gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="selectedZoneStyles">
-            <template v-for="row in zones" :key="JSON.stringify(row)">
-              <template v-for="seat in row" :key="seat">
-                <button
-                  @click="onSeatChange(seat)"
-                  class="w-8 h-8 rounded-full bg-pale-yellow" />
-              </template>
-            </template>
-          </div>
-          <div class="grid grid-cols-1 mt-8 md:col-span-4">
-            <div class="flex flex-none place-items-center place-self-center mb-4">
-              <input type="color" class="mr-4 cursor-pointer">
-              <div class="flex">
-                <div class="relative rounded-md shadow-sm">
-                  <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                    <span class="text-gray-500 sm:text-sm"> $ </span>
-                  </div>
-                  <input
-                    type="number" name="price"
-                    id="price" class="block h-12 py-3 pr-12 pl-7 w-full rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    placeholder="0.00">
-                  <div class="flex absolute inset-y-0 right-0 items-center">
-                    <label for="currency" class="sr-only">Currency</label>
-                    <select id="currency" name="currency" class="py-0 pr-7 pl-2 h-full text-gray-500 bg-transparent rounded-md border-transparent sm:text-sm focus:border-indigo-500 focus:ring-indigo-500">
-                      <option value="USD">
-                        USD
-                      </option>
-                      <option value="CAD">
-                        CAD
-                      </option>
-                      <option value="EUR">
-                        EUR
-                      </option>
-                      <option value="THB">
-                        THB
-                      </option>
-                    </select>
-                  </div>
+          <div class="grid grid-rows-1 md:grid-cols-4 ">
+            <div class="overflow-x-auto md:col-span-3">
+              <div class="grid gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="selectedZoneStyles">
+                <template v-for="row in zones" :key="JSON.stringify(row)">
+                  <template v-for="seat in row" :key="seat">
+                    <button
+                      @click="onSeatChange(seat)"
+                      class="w-8 h-8 rounded-full bg-pale-yellow" />
+                  </template>
+                </template>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:col-span-1">
+              <div class="flex flex-col justify-center place-items-center mt-8 basis-1/3 columns-1">
+                <div class="flex place-content-center w-full h-14 bg-black rounded-t-lg">
+                  <p class="place-self-center text-2xl font-semibold text-center text-white">
+                    Seat prices
+                  </p>
+                </div>
+                <div class="flex place-content-center w-full h-14 bg-white">
+                  <p class="place-self-center text-2xl font-semibold text-center">
+                    {{ selectedSeatNumber }}
+                  </p>
+                </div>
+                <div v-for="(price, index) in selectedPrices" :key="index" class="grid grid-cols-3 place-content-center w-full h-14 bg-white border">
+                  <div class="h-8 w-8 rounded-full place-self-center" :style="{ 'background-color': selectedPrices[index].color }" />
+                  <p class="place-self-center text-lg font-semibold text-center">
+                    {{ price.price }}
+                  </p>
+                  <p class="place-self-center text-lg font-semibold text-center">
+                    {{ price.currency }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -458,6 +452,7 @@ export default defineComponent({
     }
 
     const onSeatChange = (value: string): void => {
+      selectedSeatNumber.value = value
       console.log(value)
     }
 
@@ -589,6 +584,8 @@ export default defineComponent({
       image.value = null
     }
 
+    const selectedSeatNumber = ref('')
+
     return {
       sections,
       eventTagsList,
@@ -634,7 +631,8 @@ export default defineComponent({
       uploadImage,
       image,
       preview,
-      deleteImage
+      deleteImage,
+      selectedSeatNumber
     }
   }
 })
