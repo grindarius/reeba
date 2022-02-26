@@ -331,7 +331,7 @@
       </div>
       <div class="event-seatings">
         <h3 class="my-6 text-4xl font-medium text-white">
-          Zone {{ selectedSection.name }}
+          Section {{ selectedSection.name }}
         </h3>
         <div class="flex flex-col gap-y-4 gap-x-6 md:flex-row">
           <div class="input-box grow">
@@ -489,7 +489,7 @@ export default defineComponent({
     ].join('\n'))
     const eventWebsite = ref('')
     const eventVenueName = ref('')
-    const eventVenueCoordinates = ref('')
+    const eventVenueCoordinates = ref('0, 0')
     const eventOpeningDate = ref('')
     const eventTags: Ref<Array<string>> = ref([])
     const eventTicketPrices: Ref<Array<ReebAExtendedEventPrice>> = ref([
@@ -557,6 +557,13 @@ export default defineComponent({
 
       if (eventOpeningDate.value === '') {
         toast.error('Opening date cannot be blank')
+        return
+      }
+
+      const priceSet = new Set(eventTicketPrices.value.map(p => p.price))
+
+      if (priceSet.size < eventTicketPrices.value.length) {
+        toast.error('There is a redundant price')
         return
       }
 
