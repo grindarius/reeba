@@ -257,20 +257,36 @@
         </h3>
         <div class="flex flex-col gap-y-4 gap-x-6 md:flex-row">
           <div class="input-box grow">
-            <label for="event-section-rows" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Section rows</label>
-            <input
-              type="number" id="event-section-rows"
-              name="event-section-rows" class="input"
-              step="1"
-              :value="sections.length">
+            <label for="event-section-zone-rows" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Section rows</label>
+            <div class="flex flex-row">
+              <input
+                type="number" id="event-section-zone-rows"
+                name="event-zone-rows" class="input-button"
+                step="1"
+                v-model="eventSectionRowLength" disabled>
+              <button @click="decreaseSectionRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
+                <span class="m-auto text-2xl font-thin">-</span>
+              </button>
+              <button @click="increaseSectionRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+                <span class="m-auto text-2xl font-thin">+</span>
+              </button>
+            </div>
           </div>
           <div class="input-box grow">
-            <label for="event-section-columns" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Section columns</label>
-            <input
-              type="number" id="event-section-columns"
-              name="event-section-columns" class="input"
-              step="1"
-              :value="sections[0].length">
+            <label for="event-section-zone-columns" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Section columns</label>
+            <div class="flex flex-row">
+              <input
+                type="number" id="event-section-zone-columns"
+                name="event-initial-zone-columns" class="input-button"
+                step="1"
+                v-model="eventSectionColumnLength" disabled>
+              <button @click="decreaseSectionColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer">
+                <span class="m-auto text-2xl font-thin">-</span>
+              </button>
+              <button @click="increaseSectionColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+                <span class="m-auto text-2xl font-thin">+</span>
+              </button>
+            </div>
           </div>
         </div>
         <div class="grid grid-flow-col gap-4 py-8 px-3 mt-8 -mb-5">
@@ -281,7 +297,7 @@
         <hr class="col-span-4 mb-8 w-full border border-pale-yellow">
         <div class="event-sections-visualize">
           <div class="grid gap-4 my-0 mx-auto max-w-min" :style="selectedSectionStyles">
-            <template v-for="row in sections" :key="JSON.stringify(row)">
+            <template v-for="row in zones" :key="JSON.stringify(row)">
               <template v-for="button in row" :key="button">
                 <button :class="selectedSection.row === button.rowPosition && selectedSection.column === button.columnPosition ?'button-active' : 'button'" @click="onSelectedSection(button)">
                   <h1 class="font-sans text-4xl font-semibold text-black">
@@ -395,7 +411,7 @@ import { POSITION, useToast } from 'vue-toastification'
 
 import { useAuthStore } from '@/store/use-auth-store'
 import { ReebAEventDatetime, ReebAEventSeat, ReebAEventSection, ReebAExtendedEventPrice } from '@/types'
-import { decrease2DArrayDimension, generateEventSeats, generateEventSections, increase2DArrayDimension, numberToLetters } from '@/utils'
+import { decrease2DArrayDimension, generateEventSeats, generateEventSections, increase2DArrayDimension, numberToLetters, randomPastelColor } from '@/utils'
 
 dayjs.extend(customParseFormat)
 
@@ -424,6 +440,9 @@ export default defineComponent({
       toast.success('Event created!', { position: POSITION.BOTTOM_RIGHT, timeout: 2000 })
       router.push('/')
     }
+
+    const eventSectionRowLength = ref('2')
+    const eventSectionColumnLength = ref('2')
 
     const selectedEventStartTime = ref('')
     const selectedEventEndTime = ref('')
@@ -478,13 +497,12 @@ export default defineComponent({
     const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
 
     const initialZone: Ref<Array<Array<ReebAEventSeat>>> = ref(generateEventSeats(5, 5, selectedPrices.value[0].price))
-    const sections: Ref<Array<Array<ReebAEventSection>>> = ref(generateEventSections(2, 2, initialZone.value))
-    const zones: Ref<Array<Array<ReebAEventSection>>> = ref(generateEventSections(2, 2, initialZone.value))
+    const zones: Ref<Array<Array<ReebAEventSection>>> = ref(generateEventSections(Number(eventSectionRowLength.value) || 1, Number(eventSectionColumnLength.value) || 1, initialZone.value))
 
     const selectedSectionStyles = computed<StyleValue>(() => {
       return {
-        'grid-template-columns': `repeat(${sections.value[0].length || '1'}, 100px)`,
-        'grid-template-rows': `repeat(${sections.value.length || '1'}, 100px)`
+        'grid-template-columns': `repeat(${zones.value[0].length || '1'}, 100px)`,
+        'grid-template-rows': `repeat(${zones.value.length || '1'}, 100px)`
       }
     })
     const selectedZoneStyles = computed<StyleValue>(() => {
@@ -598,18 +616,16 @@ export default defineComponent({
 
     const onPriceRangeIncrement = (): void => {
       selectedPrices.value.push({
-        color: '#D5A755',
+        color: randomPastelColor(),
         price: selectedPrices.value[selectedPrices.value.length - 1].price,
         currency: selectedPrices.value[selectedPrices.value.length - 1].currency as 'USD' | 'CAD' | 'THB' | 'EUR'
       })
     }
 
     watch(initialZone, (newInitialZone) => {
-      console.log(newInitialZone)
-
       for (let i = 0; i < zones.value.length; i++) {
         for (let j = 0; j < zones.value[i].length; j++) {
-          zones.value[i][j].seats = newInitialZone
+          zones.value[i][j].seats = JSON.parse(JSON.stringify(newInitialZone))
         }
       }
     }, { deep: true })
@@ -659,6 +675,32 @@ export default defineComponent({
       initialZone.value = increase2DArrayDimension(initialZone.value, 'row')
     }
 
+    const increaseSectionRow = (): void => {
+      eventSectionRowLength.value = (Number(eventSectionRowLength.value) + 1).toString()
+      zones.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), initialZone.value)
+    }
+
+    const increaseSectionColumn = (): void => {
+      eventSectionColumnLength.value = (Number(eventSectionColumnLength.value) + 1).toString()
+      zones.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), initialZone.value)
+    }
+
+    const decreaseSectionRow = (): void => {
+      if (zones.value.length - 1 === 0) {
+        return
+      }
+      eventSectionRowLength.value = (Number(eventSectionRowLength.value) - 1).toString()
+      zones.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), initialZone.value)
+    }
+
+    const decreaseSectionColumn = (): void => {
+      if (zones.value[0].length - 1 === 0) {
+        return
+      }
+      eventSectionColumnLength.value = (Number(eventSectionColumnLength.value) - 1).toString()
+      zones.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), initialZone.value)
+    }
+
     const decreaseRow = (): void => {
       if (zones.value[selectedSection.value.row][selectedSection.value.column].seats.length - 1 === 0) {
         return
@@ -703,7 +745,10 @@ export default defineComponent({
     }
 
     return {
-      sections,
+      increaseSectionRow,
+      increaseSectionColumn,
+      decreaseSectionRow,
+      decreaseSectionColumn,
       eventTagsList,
       onSelectedSection,
       selectedSection,
@@ -748,7 +793,9 @@ export default defineComponent({
       setSelectedInitialSeatToPrice,
       numberToLetters,
       createEvent,
-      setSeatPriceIndividually
+      setSeatPriceIndividually,
+      eventSectionRowLength,
+      eventSectionColumnLength
     }
   }
 })
