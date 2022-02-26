@@ -39,3 +39,13 @@ export const getIndividualEvent: Endpoint = {
   url: url + '/events',
   method: 'get'
 }
+
+export const postEvent: Endpoint = {
+  url: url + '/events',
+  method: 'post'
+}
+
+export const postEventImage: Endpoint = {
+  url: url + '/event-images',
+  method: 'post'
+}
