@@ -491,7 +491,7 @@ export default defineComponent({
     const eventVenueName = ref('')
     const eventVenueCoordinates = ref('')
     const eventOpeningDate = ref('')
-    const eventTags: Ref<Array<{ name: string, tag: string }>> = ref([])
+    const eventTags: Ref<Array<string>> = ref([])
     const eventTicketPrices: Ref<Array<ReebAExtendedEventPrice>> = ref([
       {
         color: '#D5A755',
@@ -555,6 +555,11 @@ export default defineComponent({
         }
       }
 
+      if (eventOpeningDate.value === '') {
+        toast.error('Opening date cannot be blank')
+        return
+      }
+
       const ev: PostEventBody = {
         eventName: eventName.value,
         createdBy: authStore.userData.username,
@@ -566,7 +571,7 @@ export default defineComponent({
           y: coordinateString[1]
         },
         openingDate: dayjs(eventOpeningDate.value, 'YYYY-MM-DDTHH:mm').toISOString(),
-        tags: eventTags.value.map(tag => tag.tag),
+        tags: eventTags.value,
         ticketPrices: eventTicketPrices.value.map(p => {
           return {
             color: p.color,
