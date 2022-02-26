@@ -226,12 +226,27 @@
               </template>
             </div>
           </div>
-          <div class="col-span-4 lg:col-span-1">
-            <div class="bg-slate-500 p-3 cursor-pointer" v-for="(price, i) in selectedPrices" :key="`section-builder-price-selector-${i}`">
-              <div class="w-8 h-8 rounded-full" :style="{ 'background-color': price.color }" />
-              <h1 class="text-white text-2xl font-sans">
-                {{ `${price.price} ${price.currency}` }}
-              </h1>
+          <div class="grid grid-cols-1 md:col-span-1">
+            <div class="flex flex-col justify-center place-items-center mt-8 basis-1/3 columns-1">
+              <div class="flex place-content-center w-full h-14 bg-black rounded-t-lg">
+                <p class="place-self-center text-2xl font-semibold text-center text-white">
+                  Seat prices
+                </p>
+              </div>
+              <div class="flex place-content-center w-full h-14 bg-white">
+                <p class="place-self-center text-2xl font-semibold text-center">
+                  {{ selectedSeatNumber }}
+                </p>
+              </div>
+              <div v-for="(price, index) in selectedPrices" :key="index" class="grid grid-cols-3 place-content-center w-full h-14 bg-white border">
+                <div class="h-8 w-8 rounded-full place-self-center" :style="{ 'background-color': selectedPrices[index].color }" />
+                <p class="place-self-center text-lg font-semibold text-center">
+                  {{ price.price }}
+                </p>
+                <p class="place-self-center text-lg font-semibold text-center">
+                  {{ price.currency }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
