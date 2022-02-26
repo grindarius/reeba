@@ -138,7 +138,7 @@
           </button>
         </div>
         <div class="grid grid-cols-1 md:col-span-4">
-          <div v-for="(price, i) in selectedPrices" :key="`event-price-selector-${i}`" class="flex flex-none place-items-center place-self-center mb-4">
+          <div v-for="(price, i) in selectedPrices.sort((a, b) => a.price - b.price)" :key="`event-price-selector-${i}`" class="flex flex-none place-items-center place-self-center mb-4">
             <input type="color" class="mr-4 cursor-pointer" :value="price.color" @change="changeColor($event, i)">
             <div class="flex">
               <div class="relative rounded-md shadow-sm">
@@ -147,7 +147,7 @@
                 </div>
                 <input
                   type="number" name="price"
-                  id="price" class="block h-12 py-3 pr-12 pl-7 w-full rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  id="price-range-selector-input" class="block h-12 py-3 pr-12 pl-7 w-full rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                   placeholder="0.00"
                   :value="price.price"
                   @change="changePrice($event, i)">
@@ -574,6 +574,20 @@ export default defineComponent({
       if (selectedPrices.value.length - 1 === 0) {
         return
       }
+
+      const firstElement = JSON.parse(JSON.stringify(selectedPrices.value[0])) as ReebAExtendedEventPrice
+      const lastElement = JSON.parse(JSON.stringify(selectedPrices.value[selectedPrices.value.length - 1])) as ReebAExtendedEventPrice
+
+      initialZone.value = initialZone.value.map((u) => {
+        return u.map(v => {
+          if (v.price === lastElement.price) {
+            v.price = firstElement.price
+          }
+
+          return v
+        })
+      })
+
       selectedPrices.value.pop()
     }
 
