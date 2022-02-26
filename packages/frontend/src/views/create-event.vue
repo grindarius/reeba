@@ -129,7 +129,7 @@
                       d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
                       clip-rule="evenodd" />
                   </svg>
-                  <p class="pt-1 text-sm tracking-wider text-white group-hover:text-white">Select an eventImage</p>
+                  <p class="pt-1 text-sm tracking-wider text-white group-hover:text-white">Select an image</p>
                 </div>
                 <input type="file" ref="inputImage" class="opacity-0" accept="image/jpg, image/JPG, image/png, image/PNG, image/jpeg, image/JPEG" @change="uploadImage">
               </label>
@@ -145,8 +145,8 @@
       <div class="grid grid-rows-1 md:grid-cols-5">
         <div class="flex flex-row mb-4 md:col-span-1 justify-center">
           <input
-            type="number" id="event-zone-rows"
-            name="event-zone-rows" class="input-button h-12"
+            type="number" id="event-price-range"
+            name="event-price-range" class="input-button h-12"
             step="1"
             v-model="eventTicketPrices.length" disabled>
           <button @click="decreasePriceRangeAmount" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
