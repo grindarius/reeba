@@ -357,7 +357,7 @@
                 <template v-for="(row, i) in zones[selectedSection.row][selectedSection.column].seats" :key="`zone-button-selector-${i}`">
                   <template v-for="(seat, j) in row" :key="`zone-button-selector-${j}`">
                     <button
-                      @click="onSeatChange(seat, i, j)"
+                      @click="onSeatChange(i, j)"
                       :style="{ 'background-color': selectedPrices.find(s => s.price === seat.price)!.color }"
                       class="w-8 h-8 rounded-full" />
                   </template>
@@ -435,6 +435,12 @@ export default defineComponent({
   setup () {
     const router = useRouter()
     const toast = useToast()
+
+    const defaults: Selected = {
+      name: 'A1',
+      row: 0,
+      column: 0
+    }
 
     const createEvent = (): void => {
       toast.success('Event created!', { position: POSITION.BOTTOM_RIGHT, timeout: 2000 })
@@ -539,14 +545,13 @@ export default defineComponent({
       selectedSection.value = modifiedSection
     }
 
-    const onSeatChange = (value: ReebAEventSeat, row: number, column: number): void => {
+    const onSeatChange = (row: number, column: number): void => {
       const modifiedSeat: Selected = {
         name: numberToLetters(row) + (column + 1),
         row: row,
         column: column
       }
       selectedSeatNumber.value = modifiedSeat
-      console.log(value)
     }
 
     const getTimeString = (time: ReebAEventDatetime): string => {
@@ -689,6 +694,7 @@ export default defineComponent({
       if (zones.value.length - 1 === 0) {
         return
       }
+      selectedSection.value = defaults
       eventSectionRowLength.value = (Number(eventSectionRowLength.value) - 1).toString()
       zones.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), initialZone.value)
     }
@@ -697,6 +703,7 @@ export default defineComponent({
       if (zones.value[0].length - 1 === 0) {
         return
       }
+      selectedSection.value = defaults
       eventSectionColumnLength.value = (Number(eventSectionColumnLength.value) - 1).toString()
       zones.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), initialZone.value)
     }
