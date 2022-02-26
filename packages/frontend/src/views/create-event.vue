@@ -342,7 +342,8 @@
                   <template v-for="(seat, j) in row" :key="`zone-button-selector-${j}`">
                     <button
                       @click="onSeatChange(seat, i, j)"
-                      class="w-8 h-8 rounded-full bg-pale-yellow" />
+                      :style="{ 'background-color': selectedPrices.find(s => s.price === seat.price)!.color }"
+                      class="w-8 h-8 rounded-full" />
                   </template>
                 </template>
               </div>
@@ -359,7 +360,7 @@
                     {{ selectedSeatNumber.name }}
                   </p>
                 </div>
-                <div v-for="(price, index) in selectedPrices" :key="index" class="grid grid-cols-3 place-content-center w-full h-14 bg-white border">
+                <div v-for="(price, index) in selectedPrices" :key="index" @click="setSeatPriceIndividually(price)" class="cursor-pointer grid grid-cols-3 place-content-center w-full h-14 bg-white border">
                   <div class="h-8 w-8 rounded-full place-self-center" :style="{ 'background-color': selectedPrices[index].color }" />
                   <p class="place-self-center text-lg font-semibold text-center">
                     {{ price.price }}
@@ -605,12 +606,21 @@ export default defineComponent({
 
     watch(initialZone, (newInitialZone) => {
       console.log(newInitialZone)
-      zones.value[selectedSection.value.row][selectedSection.value.column].seats = newInitialZone
+
+      for (let i = 0; i < zones.value.length; i++) {
+        for (let j = 0; j < zones.value[i].length; j++) {
+          zones.value[i][j].seats = newInitialZone
+        }
+      }
     }, { deep: true })
 
     watch(zones, (newZone) => {
       console.log(newZone)
     }, { deep: true })
+
+    const setSeatPriceIndividually = (price: ReebAExtendedEventPrice): void => {
+      zones.value[selectedSection.value.row][selectedSection.value.column].seats[selectedSeatNumber.value.row][selectedSeatNumber.value.column].price = price.price
+    }
 
     const onPriceRangeDecrement = (): void => {
       if (selectedPrices.value.length - 1 === 0) {
@@ -674,7 +684,6 @@ export default defineComponent({
       if (initialZone.value.length - 1 === 0) {
         return
       }
-
       initialZone.value = decrease2DArrayDimension(initialZone.value, 'row')
     }
 
@@ -738,7 +747,8 @@ export default defineComponent({
       onSectionBuilderSeatClicked,
       setSelectedInitialSeatToPrice,
       numberToLetters,
-      createEvent
+      createEvent,
+      setSeatPriceIndividually
     }
   }
 })
