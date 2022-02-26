@@ -12,8 +12,8 @@ export const generateEventSections = (row: number, column: number, initialSeats:
   return Array.from<Array<ReebAEventSection>, Array<ReebAEventSection>>({ length: Math.floor(row) }, (_, u) => {
     return Array.from<ReebAEventSection, ReebAEventSection>({ length: Math.floor(column) }, (_, v) => {
       return {
-        rowPosition: u,
-        columnPosition: v,
+        sectionRowPosition: u,
+        sectionColumnPosition: v,
         seats: initialSeats
       }
     })
@@ -32,9 +32,9 @@ export const generateEventSeats = (row: number, column: number, initialPrice: nu
   return Array.from<Array<ReebAEventSeat>, Array<ReebAEventSeat>>({ length: Math.floor(row) }, (_, u) => {
     return Array.from<ReebAEventSeat, ReebAEventSeat>({ length: Math.floor(column) }, (_, v) => {
       return {
-        rowPosition: u,
-        columnPosition: v,
-        price: initialPrice
+        seatRowPosition: u,
+        seatColumnPosition: v,
+        seatPrice: initialPrice
       }
     })
   })
