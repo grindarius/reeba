@@ -42,7 +42,7 @@
               v-model="eventWebsite">
           </div>
           <div class="col-span-4 md:col-span-1 input-box">
-            <label for="event-age" class="block py-2 text-xs font-bold tracking-wide truncate text-white uppercase">Minimum age for users to enter the event</label>
+            <label for="event-age" class="block py-2 text-xs font-bold tracking-wide text-white uppercase truncate">Minimum age for users to enter the event</label>
             <input
               type="number" id="event-age"
               name="event-age" class="appearance-none input"
@@ -100,7 +100,7 @@
       </h3>
       <div class="grid grid-cols-1 gap-y-4 gap-x-6 py-4 mt-6 md:grid-cols-3">
         <div class="flex items-center h-5" v-for="(tag, i) in eventTagsSelectors" :key="`event-tag-list-checkbox-${i}`">
-          <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gray-600" :value="tag.tag" v-model="eventTags">
+          <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-pink-500 focus:ring-3" :value="tag.tag" v-model="eventTags">
           <label :for="`event-tag-checkbox-input-${tag.tag}`" class="font-medium text-white">{{ tag.name }}</label>
         </div>
       </div>
@@ -143,16 +143,16 @@
         Price range
       </h3>
       <div class="grid grid-rows-1 md:grid-cols-5">
-        <div class="flex flex-row mb-4 md:col-span-1 justify-center">
+        <div class="flex flex-row justify-center mb-4 md:col-span-1">
           <input
             type="number" id="event-price-range"
-            name="event-price-range" class="input-button h-12"
+            name="event-price-range" class="h-12 input-button"
             step="1"
             v-model="eventTicketPrices.length" disabled>
-          <button @click="decreasePriceRangeAmount" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
+          <button @click="decreasePriceRangeAmount" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 border cursor-pointer outline-none hover:text-gray-700 hover:bg-gray-400 border-x-black">
             <span class="m-auto text-2xl font-thin">-</span>
           </button>
-          <button @click="increasePriceRangeAmount" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+          <button @click="increasePriceRangeAmount" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 rounded-r cursor-pointer hover:text-gray-700 hover:bg-gray-400">
             <span class="m-auto text-2xl font-thin">+</span>
           </button>
         </div>
@@ -166,7 +166,7 @@
                 </div>
                 <input
                   type="number" name="price"
-                  id="price-range-selector-input" class="block h-12 py-3 pr-12 pl-7 w-full rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  id="price-range-selector-input" class="block py-3 pr-12 pl-7 w-full h-12 rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                   placeholder="0.00"
                   :value="price.price"
                   @change="onPriceRangePriceChange($event, i)">
@@ -206,10 +206,10 @@
                 name="event-zone-rows" class="input-button"
                 step="1"
                 :value="seatTemplate.length" disabled>
-              <button @click="decreaseSeatTemplateRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
+              <button @click="decreaseSeatTemplateRow" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 border cursor-pointer outline-none hover:text-gray-700 hover:bg-gray-400 border-x-black">
                 <span class="m-auto text-2xl font-thin">-</span>
               </button>
-              <button @click="increaseSeatTemplateRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+              <button @click="increaseSeatTemplateRow" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 rounded-r cursor-pointer hover:text-gray-700 hover:bg-gray-400">
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
             </div>
@@ -222,16 +222,16 @@
                 name="event-initial-zone-columns" class="input-button"
                 step="1"
                 :value="seatTemplate[0].length" disabled>
-              <button @click="decreaseSeatTemplateColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer">
+              <button @click="decreaseSeatTemplateColumn" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 border cursor-pointer hover:text-gray-700 hover:bg-gray-400 border-x-black">
                 <span class="m-auto text-2xl font-thin">-</span>
               </button>
-              <button @click="increaseSeatTemplateColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+              <button @click="increaseSeatTemplateColumn" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 rounded-r cursor-pointer hover:text-gray-700 hover:bg-gray-400">
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
             </div>
           </div>
         </div>
-        <div class="grid grid-cols-1 mt-4 gap-6 lg:grid-cols-4">
+        <div class="grid grid-cols-1 gap-6 mt-4 lg:grid-cols-4">
           <div class="overflow-x-auto col-span-4 lg:col-span-3">
             <div class="grid gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="seatTemplateStyles">
               <template v-for="(row, i) in seatTemplate" :key="`initial-zone-visualization-row-${i}`">
@@ -256,8 +256,8 @@
                   {{ seatTemplateSelectedSeat.name }}
                 </p>
               </div>
-              <div v-for="(price, index) in eventTicketPrices" :key="index" @click="setSelectedSeatTemplatePrice(price)" class="cursor-pointer grid grid-cols-3 place-content-center w-full h-14 bg-white border">
-                <div class="h-8 w-8 rounded-full place-self-center" :style="{ 'background-color': eventTicketPrices[index].color }" />
+              <div v-for="(price, index) in eventTicketPrices" :key="index" @click="setSelectedSeatTemplatePrice(price)" class="grid grid-cols-3 place-content-center w-full h-14 bg-white border cursor-pointer">
+                <div class="place-self-center w-8 h-8 rounded-full" :style="{ 'background-color': eventTicketPrices[index].color }" />
                 <p class="place-self-center text-lg font-semibold text-center">
                   {{ price.price }}
                 </p>
@@ -283,10 +283,10 @@
                 name="event-zone-rows" class="input-button"
                 step="1"
                 v-model="eventSectionRowLength" disabled>
-              <button @click="decreaseSectionRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
+              <button @click="decreaseSectionRow" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 border cursor-pointer outline-none hover:text-gray-700 hover:bg-gray-400 border-x-black">
                 <span class="m-auto text-2xl font-thin">-</span>
               </button>
-              <button @click="increaseSectionRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+              <button @click="increaseSectionRow" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 rounded-r cursor-pointer hover:text-gray-700 hover:bg-gray-400">
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
             </div>
@@ -299,10 +299,10 @@
                 name="event-initial-zone-columns" class="input-button"
                 step="1"
                 v-model="eventSectionColumnLength" disabled>
-              <button @click="decreaseSectionColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer">
+              <button @click="decreaseSectionColumn" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 border cursor-pointer hover:text-gray-700 hover:bg-gray-400 border-x-black">
                 <span class="m-auto text-2xl font-thin">-</span>
               </button>
-              <button @click="increaseSectionColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+              <button @click="increaseSectionColumn" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 rounded-r cursor-pointer hover:text-gray-700 hover:bg-gray-400">
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
             </div>
@@ -343,10 +343,10 @@
                 step="1"
                 :value="eventSections[selectedSection.row][selectedSection.column].seats[0].length"
                 disabled>
-              <button @click="decreaseActualSeatPlanRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
+              <button @click="decreaseActualSeatPlanRow" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 border cursor-pointer outline-none hover:text-gray-700 hover:bg-gray-400 border-x-black">
                 <span class="m-auto text-2xl font-thin">-</span>
               </button>
-              <button @click="increaseActualSeatPlanRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+              <button @click="increaseActualSeatPlanRow" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 rounded-r cursor-pointer hover:text-gray-700 hover:bg-gray-400">
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
             </div>
@@ -360,10 +360,10 @@
                 step="1"
                 :value="eventSections[selectedSection.row][selectedSection.column].seats.length"
                 disabled>
-              <button @click="decreaseActualSeatPlanColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer">
+              <button @click="decreaseActualSeatPlanColumn" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 border cursor-pointer hover:text-gray-700 hover:bg-gray-400 border-x-black">
                 <span class="m-auto text-2xl font-thin">-</span>
               </button>
-              <button @click="increaseActualSeatPlanColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+              <button @click="increaseActualSeatPlanColumn" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 rounded-r cursor-pointer hover:text-gray-700 hover:bg-gray-400">
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
             </div>
@@ -398,8 +398,8 @@
                 <div
                   v-for="(price, index) in eventTicketPrices" :key="`zone-price-selector-${index}`"
                   @click="setActualSeatPlanPriceIndividually(price)"
-                  class="cursor-pointer grid grid-cols-3 place-content-center w-full h-14 bg-white border">
-                  <div class="h-8 w-8 rounded-full place-self-center" :style="{ 'background-color': eventTicketPrices[index].color }" />
+                  class="grid grid-cols-3 place-content-center w-full h-14 bg-white border cursor-pointer">
+                  <div class="place-self-center w-8 h-8 rounded-full" :style="{ 'background-color': eventTicketPrices[index].color }" />
                   <p class="place-self-center text-lg font-semibold text-center">
                     {{ price.price }}
                   </p>
