@@ -96,17 +96,17 @@
       </div>
 
       <h3 class="my-6 text-4xl font-medium text-white">
-        Checkbox tags
+        Tags
       </h3>
       <div class="grid grid-cols-1 gap-y-4 gap-x-6 py-4 mt-6 md:grid-cols-3">
-        <div class="flex items-center h-5" v-for="(tag, i) in eventTags" :key="`event-tag-list-checkbox-${i}`">
-          <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gray-600" :value="tag.tag" v-model="selectedEventTags">
+        <div class="flex items-center h-5" v-for="(tag, i) in eventTagsSelectors" :key="`event-tag-list-checkbox-${i}`">
+          <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gray-600" :value="tag.tag" v-model="eventTags">
           <label :for="`event-tag-checkbox-input-${tag.tag}`" class="font-medium text-white">{{ tag.name }}</label>
         </div>
       </div>
 
       <h3 class="my-6 text-4xl font-medium text-white">
-        Stage zone picture
+        Event image
       </h3>
       <div class="flex justify-center mt-5">
         <div class="rounded-lg lg:w-2/3">
@@ -149,16 +149,16 @@
             name="event-zone-rows" class="input-button h-12"
             step="1"
             v-model="eventTicketPrices.length" disabled>
-          <button @click="onPriceRangeDecrement" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
+          <button @click="decreasePriceRangeAmount" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
             <span class="m-auto text-2xl font-thin">-</span>
           </button>
-          <button @click="onPriceRangeIncrement" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+          <button @click="increasePriceRangeAmount" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
             <span class="m-auto text-2xl font-thin">+</span>
           </button>
         </div>
         <div class="grid grid-cols-1 md:col-span-4">
           <div v-for="(price, i) in eventTicketPrices.sort((a, b) => a.price - b.price)" :key="`event-price-selector-${i}`" class="flex flex-none place-items-center place-self-center mb-4">
-            <input type="color" class="mr-4 cursor-pointer" :value="price.color" @change="changeColor($event, i)">
+            <input type="color" class="mr-4 cursor-pointer" :value="price.color" @change="onPriceRangeColorChange($event, i)">
             <div class="flex">
               <div class="relative rounded-md shadow-sm">
                 <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -169,10 +169,10 @@
                   id="price-range-selector-input" class="block h-12 py-3 pr-12 pl-7 w-full rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                   placeholder="0.00"
                   :value="price.price"
-                  @change="changePrice($event, i)">
+                  @change="onPriceRangePriceChange($event, i)">
                 <div class="flex absolute inset-y-0 right-0 items-center">
                   <label for="currency" class="sr-only">Currency</label>
-                  <select id="currency" :value="price.currency" @change="changeCurrency($event, i)" name="currency" class="py-0 pr-7 pl-2 h-full text-gray-500 bg-transparent rounded-md border-transparent sm:text-sm focus:border-indigo-500 focus:ring-indigo-500">
+                  <select id="currency" :value="price.currency" @change="onPriceRangeCurrencyChange($event, i)" name="currency" class="py-0 pr-7 pl-2 h-full text-gray-500 bg-transparent rounded-md border-transparent sm:text-sm focus:border-indigo-500 focus:ring-indigo-500">
                     <option value="USD">
                       USD
                     </option>
@@ -194,7 +194,7 @@
       </div>
 
       <h3 class="my-6 text-4xl font-medium text-white">
-        Section builder
+        Seat template
       </h3>
       <div class="section-seats-builder">
         <div class="flex flex-col gap-y-4 gap-x-6 md:flex-row">
@@ -205,11 +205,11 @@
                 type="number" id="event-initial-zone-rows"
                 name="event-zone-rows" class="input-button"
                 step="1"
-                :value="initialZone.length" disabled>
-              <button @click="decreaseInitialRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
+                :value="seatTemplate.length" disabled>
+              <button @click="decreaseSeatTemplateRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
                 <span class="m-auto text-2xl font-thin">-</span>
               </button>
-              <button @click="increaseInitialRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+              <button @click="increaseSeatTemplateRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
             </div>
@@ -221,11 +221,11 @@
                 type="number" id="event-initial-zone-columns"
                 name="event-initial-zone-columns" class="input-button"
                 step="1"
-                :value="initialZone[0].length" disabled>
-              <button @click="decreaseInitialColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer">
+                :value="seatTemplate[0].length" disabled>
+              <button @click="decreaseSeatTemplateColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer">
                 <span class="m-auto text-2xl font-thin">-</span>
               </button>
-              <button @click="increaseInitialColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+              <button @click="increaseSeatTemplateColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
             </div>
@@ -233,11 +233,11 @@
         </div>
         <div class="grid grid-cols-1 mt-4 gap-6 lg:grid-cols-4">
           <div class="overflow-x-auto col-span-4 lg:col-span-3">
-            <div class="grid gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="selctedInitialZoneStyles">
-              <template v-for="(row, i) in initialZone" :key="`initial-zone-visualization-row-${i}`">
+            <div class="grid gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="seatTemplateStyles">
+              <template v-for="(row, i) in seatTemplate" :key="`initial-zone-visualization-row-${i}`">
                 <template v-for="(seat, j) in row" :key="`initial-zone-visualization-column-${j}`">
                   <button
-                    @click="onSectionBuilderSeatClicked(i, j)"
+                    @click="onSeatTemplateClick(i, j)"
                     class="w-8 h-8 rounded-full"
                     :style="{ 'background-color': eventTicketPrices.find((s) => s.price === seat.seatPrice)!.color }" />
                 </template>
@@ -253,10 +253,10 @@
               </div>
               <div class="flex place-content-center w-full h-14 bg-white">
                 <p class="place-self-center text-2xl font-semibold text-center">
-                  {{ sectionBuilderSelectedSeat.name }}
+                  {{ seatTemplateSelectedSeat.name }}
                 </p>
               </div>
-              <div v-for="(price, index) in eventTicketPrices" :key="index" @click="setSelectedInitialSeatToPrice(price)" class="cursor-pointer grid grid-cols-3 place-content-center w-full h-14 bg-white border">
+              <div v-for="(price, index) in eventTicketPrices" :key="index" @click="setSelectedSeatTemplatePrice(price)" class="cursor-pointer grid grid-cols-3 place-content-center w-full h-14 bg-white border">
                 <div class="h-8 w-8 rounded-full place-self-center" :style="{ 'background-color': eventTicketPrices[index].color }" />
                 <p class="place-self-center text-lg font-semibold text-center">
                   {{ price.price }}
@@ -315,10 +315,10 @@
         </div>
         <hr class="col-span-4 mb-8 w-full border border-pale-yellow">
         <div class="event-sections-visualize">
-          <div class="grid gap-4 my-0 mx-auto max-w-min" :style="selectedSectionStyles">
-            <template v-for="row in zones" :key="JSON.stringify(row)">
+          <div class="grid gap-4 my-0 mx-auto max-w-min" :style="sectionsStyles">
+            <template v-for="row in eventSections" :key="JSON.stringify(row)">
               <template v-for="button in row" :key="button">
-                <button :class="selectedSection.row === button.sectionRowPosition && selectedSection.column === button.sectionColumnPosition ? 'button-active' : 'button'" @click="onSelectedSection(button)">
+                <button :class="selectedSection.row === button.sectionRowPosition && selectedSection.column === button.sectionColumnPosition ? 'button-active' : 'button'" @click="onSectionClick(button)">
                   <h1 class="font-sans text-4xl font-semibold text-black">
                     {{ `${numberToLetters(button.sectionRowPosition)}${button.sectionColumnPosition + 1}` }}
                   </h1>
@@ -341,12 +341,12 @@
                 type="number" id="event-zone-rows"
                 name="event-zone-rows" class="input-button"
                 step="1"
-                :value="zones[selectedSection.row][selectedSection.column].seats[0].length"
+                :value="eventSections[selectedSection.row][selectedSection.column].seats[0].length"
                 disabled>
-              <button @click="decreaseRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
+              <button @click="decreaseActualSeatPlanRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
                 <span class="m-auto text-2xl font-thin">-</span>
               </button>
-              <button @click="increaseRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+              <button @click="increaseActualSeatPlanRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
             </div>
@@ -358,12 +358,12 @@
                 type="number" id="event-zone-columns"
                 name="event-zone-columns" class="input-button"
                 step="1"
-                :value="zones[selectedSection.row][selectedSection.column].seats.length"
+                :value="eventSections[selectedSection.row][selectedSection.column].seats.length"
                 disabled>
-              <button @click="decreaseColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer">
+              <button @click="decreaseActualSeatPlanColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer">
                 <span class="m-auto text-2xl font-thin">-</span>
               </button>
-              <button @click="increaseColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
+              <button @click="increaseActualSeatPlanColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 rounded-r cursor-pointer">
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
             </div>
@@ -372,11 +372,11 @@
         <div class="seatings">
           <div class="grid grid-rows-1 md:grid-cols-4">
             <div class="overflow-x-auto md:col-span-3">
-              <div class="grid gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="selectedZoneStyles">
-                <template v-for="(row, i) in zones[selectedSection.row][selectedSection.column].seats" :key="`zone-button-selector-${i}`">
+              <div class="grid gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="actualSeatPlanStyles">
+                <template v-for="(row, i) in eventSections[selectedSection.row][selectedSection.column].seats" :key="`zone-button-selector-${i}`">
                   <template v-for="(seat, j) in row" :key="`zone-button-selector-${j}`">
                     <button
-                      @click="onSeatChange(i, j)"
+                      @click="onActualSeatPlanChange(i, j)"
                       :style="{ 'background-color': eventTicketPrices.find(s => s.price === seat.seatPrice)!.color }"
                       class="w-8 h-8 rounded-full" />
                   </template>
@@ -392,10 +392,13 @@
                 </div>
                 <div class="flex place-content-center w-full h-14 bg-white">
                   <p class="place-self-center text-2xl font-semibold text-center">
-                    {{ selectedSeatNumber.name }}
+                    {{ actualSeatPlanSelectedSeat.name }}
                   </p>
                 </div>
-                <div v-for="(price, index) in eventTicketPrices" :key="index" @click="setSeatPriceIndividually(price)" class="cursor-pointer grid grid-cols-3 place-content-center w-full h-14 bg-white border">
+                <div
+                  v-for="(price, index) in eventTicketPrices" :key="`zone-price-selector-${index}`"
+                  @click="setActualSeatPlanPriceIndividually(price)"
+                  class="cursor-pointer grid grid-cols-3 place-content-center w-full h-14 bg-white border">
                   <div class="h-8 w-8 rounded-full place-self-center" :style="{ 'background-color': eventTicketPrices[index].color }" />
                   <p class="place-self-center text-lg font-semibold text-center">
                     {{ price.price }}
@@ -460,6 +463,12 @@ export default defineComponent({
     const toast = useToast()
     const authStore = useAuthStore()
 
+    const defaults: Selected = {
+      name: 'A1',
+      row: 0,
+      column: 0
+    }
+
     const eventName = ref('')
     const eventDescription = ref([
       '## Heading 8-)\n',
@@ -482,6 +491,7 @@ export default defineComponent({
     const eventVenueName = ref('')
     const eventVenueCoordinates = ref('')
     const eventOpeningDate = ref('')
+    const eventTags: Ref<Array<{ name: string, tag: string }>> = ref([])
     const eventTicketPrices: Ref<Array<ReebAExtendedEventPrice>> = ref([
       {
         color: '#D5A755',
@@ -492,20 +502,14 @@ export default defineComponent({
     const eventDatetimes = ref<Array<ReebAEventDatetime>>([])
     const eventMinimumAge = ref('0')
 
-    const defaults: Selected = {
-      name: 'A1',
-      row: 0,
-      column: 0
-    }
+    const selectedEventStartTime = ref('')
+    const selectedEventEndTime = ref('')
 
     const eventSectionRowLength = ref('2')
     const eventSectionColumnLength = ref('2')
 
-    const selectedEventStartTime = ref('')
-    const selectedEventEndTime = ref('')
-
-    const initialZone: Ref<Array<Array<ReebAEventSeat>>> = ref(generateEventSeats(5, 5, eventTicketPrices.value[0].price))
-    const zones: Ref<Array<Array<ReebAEventSection>>> = ref(generateEventSections(Number(eventSectionRowLength.value) || 1, Number(eventSectionColumnLength.value) || 1, initialZone.value))
+    const seatTemplate: Ref<Array<Array<ReebAEventSeat>>> = ref(generateEventSeats(5, 5, eventTicketPrices.value[0].price))
+    const eventSections: Ref<Array<Array<ReebAEventSection>>> = ref(generateEventSections(Number(eventSectionRowLength.value) || 1, Number(eventSectionColumnLength.value) || 1, seatTemplate.value))
 
     const createEvent = async (): Promise<void> => {
       const { method, url } = postEvent
@@ -521,7 +525,7 @@ export default defineComponent({
           x: coordinateString[0],
           y: coordinateString[1]
         },
-        openingDate: eventOpeningDate.value,
+        openingDate: dayjs(eventOpeningDate.value, 'YYYY-MM-DDTHH:mm').toISOString(),
         tags: eventTags.value.map(tag => tag.tag),
         ticketPrices: eventTicketPrices.value.map(p => {
           return {
@@ -536,7 +540,7 @@ export default defineComponent({
           }
         }),
         minimumAge: Number(eventMinimumAge.value),
-        sections: zones.value
+        sections: eventSections.value
       }
 
       try {
@@ -558,20 +562,19 @@ export default defineComponent({
       column: 0
     })
 
-    const sectionBuilderSelectedSeat: Ref<Selected> = ref({
+    const seatTemplateSelectedSeat: Ref<Selected> = ref({
       name: 'A1',
       row: 0,
       column: 0
     })
 
-    const selectedSeatNumber: Ref<Selected> = ref({
+    const actualSeatPlanSelectedSeat: Ref<Selected> = ref({
       name: 'A1',
       row: 0,
       column: 0
     })
 
-    const selectedEventTags: Ref<Array<string>> = ref([])
-    const eventTags: Ref<Array<{ name: string, tag: string }>> = ref([
+    const eventTagsSelectors: Ref<Array<{ name: string, tag: string }>> = ref([
       { name: 'Amphitheater', tag: 'amphitheater' },
       { name: 'Business', tag: 'business' },
       { name: 'Concert', tag: 'concert' },
@@ -590,39 +593,41 @@ export default defineComponent({
     ])
 
     const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
-
-    const selectedSectionStyles = computed<StyleValue>(() => {
-      return {
-        'grid-template-columns': `repeat(${zones.value[0].length || '1'}, 100px)`,
-        'grid-template-rows': `repeat(${zones.value.length || '1'}, 100px)`
-      }
-    })
-    const selectedZoneStyles = computed<StyleValue>(() => {
-      return {
-        'grid-template-columns': `repeat(${zones.value[selectedSection.value.row][selectedSection.value.column].seats[0].length || '1'}, 32px)`,
-        'grid-template-rows': `repeat(${zones.value[selectedSection.value.row][selectedSection.value.column].seats.length || '1'}, 32px)`
-      }
-    })
-    const selctedInitialZoneStyles = computed<StyleValue>(() => {
-      return {
-        'grid-template-columns': `repeat(${initialZone.value[0].length || '1'}, 32px)`,
-        'grid-template-rows': `repeat(${initialZone.value.length || '1'}, 32px)`
-      }
+    const updateMarkdown = debounce((e: Event): void => {
+      eventDescription.value = (e.target as HTMLSpanElement).innerText
+    }, 500)
+    const displayedDescription = computed<string>(() => {
+      return markdown.value.render(eventDescription.value)
     })
 
-    const onSectionBuilderSeatClicked = (row: number, column: number) => {
-      sectionBuilderSelectedSeat.value = {
+    const sectionsStyles = computed<StyleValue>(() => {
+      return {
+        'grid-template-columns': `repeat(${eventSections.value[0].length || '1'}, 100px)`,
+        'grid-template-rows': `repeat(${eventSections.value.length || '1'}, 100px)`
+      }
+    })
+    const actualSeatPlanStyles = computed<StyleValue>(() => {
+      return {
+        'grid-template-columns': `repeat(${eventSections.value[selectedSection.value.row][selectedSection.value.column].seats[0].length || '1'}, 32px)`,
+        'grid-template-rows': `repeat(${eventSections.value[selectedSection.value.row][selectedSection.value.column].seats.length || '1'}, 32px)`
+      }
+    })
+    const seatTemplateStyles = computed<StyleValue>(() => {
+      return {
+        'grid-template-columns': `repeat(${seatTemplate.value[0].length || '1'}, 32px)`,
+        'grid-template-rows': `repeat(${seatTemplate.value.length || '1'}, 32px)`
+      }
+    })
+
+    const onSeatTemplateClick = (row: number, column: number) => {
+      seatTemplateSelectedSeat.value = {
         name: numberToLetters(row) + (column + 1),
         row,
         column
       }
     }
 
-    const setSelectedInitialSeatToPrice = (price: ReebAExtendedEventPrice): void => {
-      initialZone.value[sectionBuilderSelectedSeat.value.row][sectionBuilderSelectedSeat.value.column].seatPrice = price.price
-    }
-
-    const onSelectedSection = (value: ReebAEventSection): void => {
+    const onSectionClick = (value: ReebAEventSection): void => {
       const modifiedSection = {
         name: numberToLetters(value.sectionRowPosition) + (value.sectionColumnPosition + 1),
         row: value.sectionRowPosition,
@@ -631,18 +636,23 @@ export default defineComponent({
       selectedSection.value = modifiedSection
     }
 
-    const onSeatChange = (row: number, column: number): void => {
+    const setSelectedSeatTemplatePrice = (price: ReebAExtendedEventPrice): void => {
+      seatTemplate.value[seatTemplateSelectedSeat.value.row][seatTemplateSelectedSeat.value.column].seatPrice = price.price
+    }
+
+    const onActualSeatPlanChange = (row: number, column: number): void => {
       const modifiedSeat: Selected = {
         name: numberToLetters(row) + (column + 1),
         row: row,
         column: column
       }
-      selectedSeatNumber.value = modifiedSeat
+      actualSeatPlanSelectedSeat.value = modifiedSeat
     }
 
     const getTimeString = (time: ReebAEventDatetime): string => {
       return `${time.start.format('MMMM D, YYYY HH:mm')} to ${time.end.format('MMMM D, YYYY HH:mm')}`
     }
+
     const addEventTime = (): void => {
       if (!dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm', true).isValid()) {
         return
@@ -662,32 +672,28 @@ export default defineComponent({
       eventDatetimes.value.splice(index, 1)
     }
 
-    const updateMarkdown = debounce((e: Event): void => {
-      eventDescription.value = (e.target as HTMLSpanElement).innerText
-    }, 500)
-
-    const displayedDescription = computed<string>(() => {
-      return markdown.value.render(eventDescription.value)
-    })
-
     const openMarkdownRef = (url: string) => {
       const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
       if (newWindow) newWindow.opener = null
     }
 
-    const changeColor = (ev: Event, index: number): void => {
+    const onPriceRangeColorChange = (ev: Event, index: number): void => {
       eventTicketPrices.value[index].color = (ev.target as HTMLInputElement).value
     }
 
-    const changePrice = (ev: Event, index: number): void => {
+    const onPriceRangePriceChange = (ev: Event, index: number): void => {
       eventTicketPrices.value[index].price = Number((ev.target as HTMLInputElement).value)
     }
 
-    const changeCurrency = (ev: Event, index: number): void => {
+    const onPriceRangeCurrencyChange = (ev: Event, index: number): void => {
       eventTicketPrices.value[index].currency = (ev.target as HTMLInputElement).value as 'USD' | 'CAD' | 'THB' | 'EUR'
     }
 
-    const onPriceRangeIncrement = (): void => {
+    const setActualSeatPlanPriceIndividually = (price: ReebAExtendedEventPrice): void => {
+      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats[actualSeatPlanSelectedSeat.value.row][actualSeatPlanSelectedSeat.value.column].seatPrice = price.price
+    }
+
+    const increasePriceRangeAmount = (): void => {
       eventTicketPrices.value.push({
         color: randomPastelColor(),
         price: eventTicketPrices.value[eventTicketPrices.value.length - 1].price,
@@ -695,23 +701,7 @@ export default defineComponent({
       })
     }
 
-    watch(initialZone, (newInitialZone) => {
-      for (let i = 0; i < zones.value.length; i++) {
-        for (let j = 0; j < zones.value[i].length; j++) {
-          zones.value[i][j].seats = JSON.parse(JSON.stringify(newInitialZone))
-        }
-      }
-    }, { deep: true })
-
-    watch(zones, (newZone) => {
-      console.log(newZone)
-    }, { deep: true })
-
-    const setSeatPriceIndividually = (price: ReebAExtendedEventPrice): void => {
-      zones.value[selectedSection.value.row][selectedSection.value.column].seats[selectedSeatNumber.value.row][selectedSeatNumber.value.column].seatPrice = price.price
-    }
-
-    const onPriceRangeDecrement = (): void => {
+    const decreasePriceRangeAmount = (): void => {
       if (eventTicketPrices.value.length - 1 === 0) {
         return
       }
@@ -719,7 +709,7 @@ export default defineComponent({
       const firstElement = JSON.parse(JSON.stringify(eventTicketPrices.value[0])) as ReebAExtendedEventPrice
       const lastElement = JSON.parse(JSON.stringify(eventTicketPrices.value[eventTicketPrices.value.length - 1])) as ReebAExtendedEventPrice
 
-      initialZone.value = initialZone.value.map((u) => {
+      seatTemplate.value = seatTemplate.value.map((u) => {
         return u.map(v => {
           if (v.seatPrice === lastElement.price) {
             v.seatPrice = firstElement.price
@@ -732,76 +722,76 @@ export default defineComponent({
       eventTicketPrices.value.pop()
     }
 
-    const increaseRow = (): void => {
-      zones.value[selectedSection.value.row][selectedSection.value.column].seats = increase2DArrayDimension(zones.value[selectedSection.value.row][selectedSection.value.column].seats, 'row')
+    const increaseActualSeatPlanRow = (): void => {
+      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = increase2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'row')
     }
 
-    const increaseColumn = (): void => {
-      zones.value[selectedSection.value.row][selectedSection.value.column].seats = increase2DArrayDimension(zones.value[selectedSection.value.row][selectedSection.value.column].seats, 'column')
+    const increaseActualSeatPlanColumn = (): void => {
+      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = increase2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'column')
     }
 
-    const increaseInitialColumn = (): void => {
-      initialZone.value = increase2DArrayDimension(initialZone.value, 'column')
+    const increaseSeatTemplateColumn = (): void => {
+      seatTemplate.value = increase2DArrayDimension(seatTemplate.value, 'column')
     }
 
-    const increaseInitialRow = (): void => {
-      initialZone.value = increase2DArrayDimension(initialZone.value, 'row')
+    const increaseSeatTemplateRow = (): void => {
+      seatTemplate.value = increase2DArrayDimension(seatTemplate.value, 'row')
     }
 
     const increaseSectionRow = (): void => {
       eventSectionRowLength.value = (Number(eventSectionRowLength.value) + 1).toString()
-      zones.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), initialZone.value)
+      eventSections.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), seatTemplate.value)
     }
 
     const increaseSectionColumn = (): void => {
       eventSectionColumnLength.value = (Number(eventSectionColumnLength.value) + 1).toString()
-      zones.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), initialZone.value)
+      eventSections.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), seatTemplate.value)
     }
 
     const decreaseSectionRow = (): void => {
-      if (zones.value.length - 1 === 0) {
+      if (eventSections.value.length - 1 === 0) {
         return
       }
       selectedSection.value = defaults
       eventSectionRowLength.value = (Number(eventSectionRowLength.value) - 1).toString()
-      zones.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), initialZone.value)
+      eventSections.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), seatTemplate.value)
     }
 
     const decreaseSectionColumn = (): void => {
-      if (zones.value[0].length - 1 === 0) {
+      if (eventSections.value[0].length - 1 === 0) {
         return
       }
       selectedSection.value = defaults
       eventSectionColumnLength.value = (Number(eventSectionColumnLength.value) - 1).toString()
-      zones.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), initialZone.value)
+      eventSections.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), seatTemplate.value)
     }
 
-    const decreaseRow = (): void => {
-      if (zones.value[selectedSection.value.row][selectedSection.value.column].seats.length - 1 === 0) {
+    const decreaseActualSeatPlanRow = (): void => {
+      if (eventSections.value[selectedSection.value.row][selectedSection.value.column].seats.length - 1 === 0) {
         return
       }
-      zones.value[selectedSection.value.row][selectedSection.value.column].seats = decrease2DArrayDimension(zones.value[selectedSection.value.row][selectedSection.value.column].seats, 'row')
+      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = decrease2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'row')
     }
 
-    const decreaseColumn = (): void => {
-      if (zones.value[selectedSection.value.row][selectedSection.value.column].seats[0].length - 1 === 0) {
+    const decreaseActualSeatPlanColumn = (): void => {
+      if (eventSections.value[selectedSection.value.row][selectedSection.value.column].seats[0].length - 1 === 0) {
         return
       }
-      zones.value[selectedSection.value.row][selectedSection.value.column].seats = decrease2DArrayDimension(zones.value[selectedSection.value.row][selectedSection.value.column].seats, 'row')
+      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = decrease2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'row')
     }
 
-    const decreaseInitialColumn = (): void => {
-      if (initialZone.value[0].length - 1 === 0) {
+    const decreaseSeatTemplateColumn = (): void => {
+      if (seatTemplate.value[0].length - 1 === 0) {
         return
       }
-      initialZone.value = decrease2DArrayDimension(initialZone.value, 'column')
+      seatTemplate.value = decrease2DArrayDimension(seatTemplate.value, 'column')
     }
 
-    const decreaseInitialRow = (): void => {
-      if (initialZone.value.length - 1 === 0) {
+    const decreaseSeatTemplateRow = (): void => {
+      if (seatTemplate.value.length - 1 === 0) {
         return
       }
-      initialZone.value = decrease2DArrayDimension(initialZone.value, 'row')
+      seatTemplate.value = decrease2DArrayDimension(seatTemplate.value, 'row')
     }
 
     const eventImage = ref<File | null>(null)
@@ -819,7 +809,20 @@ export default defineComponent({
       eventImage.value = null
     }
 
+    watch(seatTemplate, (newInitialZone) => {
+      for (let i = 0; i < eventSections.value.length; i++) {
+        for (let j = 0; j < eventSections.value[i].length; j++) {
+          eventSections.value[i][j].seats = JSON.parse(JSON.stringify(newInitialZone))
+        }
+      }
+    }, { deep: true })
+
+    watch(eventSections, (newZone) => {
+      console.log(newZone)
+    }, { deep: true })
+
     return {
+      eventTags,
       eventName,
       eventWebsite,
       eventVenueName,
@@ -832,14 +835,14 @@ export default defineComponent({
       increaseSectionColumn,
       decreaseSectionRow,
       decreaseSectionColumn,
-      eventTags,
-      onSelectedSection,
+      eventTagsSelectors,
+      onSectionClick,
       selectedSection,
-      selectedSectionStyles,
-      selectedZoneStyles,
-      zones,
+      sectionsStyles,
+      actualSeatPlanStyles,
+      eventSections,
       getTimeString,
-      onSeatChange,
+      onActualSeatPlanChange,
       selectedEventStartTime,
       selectedEventEndTime,
       addEventTime,
@@ -848,33 +851,32 @@ export default defineComponent({
       eventDescription,
       displayedDescription,
       openMarkdownRef,
-      increaseRow,
-      increaseColumn,
-      decreaseRow,
-      decreaseColumn,
-      changeColor,
-      changePrice,
-      selectedEventTags,
-      onPriceRangeIncrement,
-      onPriceRangeDecrement,
-      changeCurrency,
-      initialZone,
-      increaseInitialColumn,
-      increaseInitialRow,
-      decreaseInitialColumn,
-      decreaseInitialRow,
-      selctedInitialZoneStyles,
+      increaseActualSeatPlanRow,
+      increaseActualSeatPlanColumn,
+      decreaseActualSeatPlanRow,
+      decreaseActualSeatPlanColumn,
+      onPriceRangeColorChange,
+      onPriceRangePriceChange,
+      increasePriceRangeAmount,
+      decreasePriceRangeAmount,
+      onPriceRangeCurrencyChange,
+      seatTemplate,
+      increaseSeatTemplateColumn,
+      increaseSeatTemplateRow,
+      decreaseSeatTemplateColumn,
+      decreaseSeatTemplateRow,
+      seatTemplateStyles,
       uploadImage,
       eventImage,
       preview,
       deleteImage,
-      selectedSeatNumber,
-      sectionBuilderSelectedSeat,
-      onSectionBuilderSeatClicked,
-      setSelectedInitialSeatToPrice,
+      actualSeatPlanSelectedSeat,
+      seatTemplateSelectedSeat,
+      onSeatTemplateClick,
+      setSelectedSeatTemplatePrice,
       numberToLetters,
       createEvent,
-      setSeatPriceIndividually,
+      setActualSeatPlanPriceIndividually,
       eventSectionRowLength,
       eventSectionColumnLength
     }
