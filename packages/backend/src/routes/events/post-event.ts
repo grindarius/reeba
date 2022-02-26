@@ -13,6 +13,8 @@ import {
   events,
   PostEventBody,
   PostEventBodySchema,
+  PostEventReply,
+  PostEventReplySchema,
   t_event_status
 } from '@reeba/common'
 
@@ -21,15 +23,17 @@ dayjs.extend(customParseFormat)
 const schema: FastifySchema = {
   body: PostEventBodySchema,
   response: {
+    200: PostEventReplySchema,
     400: BadRequestReplySchema
   }
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.post<{ Body: PostEventBody }>(
+  instance.post<{ Body: PostEventBody, Response: PostEventReply }>(
     '/',
     {
       schema,
+      onRequest: instance.authenticate,
       preValidation: async (request, reply) => {
         const {
           eventName,
@@ -45,6 +49,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           minimumAge,
           sections
         } = request.body
+
         if (eventName == null || eventName === '') {
           void reply.code(400)
           throw new Error('body should have required property \'eventName\'')
@@ -253,7 +258,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       }
 
       return {
-        message: 'complete'
+        eventId: eventId.rows[0].event_id
       }
     }
   )

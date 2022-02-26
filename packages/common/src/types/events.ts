@@ -33,6 +33,11 @@ export const PostEventBodySchema = Type.Object({
 })
 export type PostEventBody = Static<typeof PostEventBodySchema>
 
+export const PostEventReplySchema = Type.Object({
+  eventId: Type.String()
+})
+export type PostEventReply = Static<typeof PostEventReplySchema>
+
 export const RootPageEventSchema = Type.Object({
   id: Type.String(),
   name: Type.String(),
