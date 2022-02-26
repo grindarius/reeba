@@ -110,8 +110,7 @@
                       d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
                       clip-rule="evenodd" />
                   </svg>
-                  <p class="pt-1 text-sm tracking-wider text-white group-hover:text-white">
-                    Select a image</p>
+                  <p class="pt-1 text-sm tracking-wider text-white group-hover:text-white">Select an image</p>
                 </div>
                 <input type="file" ref="inputImage" class="opacity-0" accept="image/jpg, image/JPG, image/png, image/PNG, image/jpeg, image/JPEG" @change="uploadImage">
               </label>
@@ -187,7 +186,7 @@
                 type="number" id="event-initial-zone-rows"
                 name="event-zone-rows" class="input-button"
                 step="1"
-                v-model="initiallySelectedZoneRow" disabled>
+                :value="initialZone.length" disabled>
               <button @click="decreaseInitialRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
                 <span class="m-auto text-2xl font-thin">-</span>
               </button>
@@ -203,7 +202,7 @@
                 type="number" id="event-initial-zone-columns"
                 name="event-initial-zone-columns" class="input-button"
                 step="1"
-                v-model="initiallySelectedZoneColumn" disabled>
+                :value="initialZone[0].length" disabled>
               <button @click="decreaseInitialColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer">
                 <span class="m-auto text-2xl font-thin">-</span>
               </button>
@@ -216,12 +215,12 @@
         <div class="grid grid-cols-1 mt-8 gap-6 lg:grid-cols-4">
           <div class="overflow-x-auto col-span-4 lg:col-span-3">
             <div class="grid gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="selctedInitialZoneStyles">
-              <template v-for="row in initialZone" :key="JSON.stringify(row)">
-                <template v-for="seat in row" :key="seat">
+              <template v-for="(row, i) in initialZone" :key="`initial-zone-visualization-row-${i}`">
+                <template v-for="(seat, j) in row" :key="`initial-zone-visualization-column-${j}`">
                   <button
-                    @click="onSeatChange(seat)"
+                    @click="onSectionBuilderSeatClicked(i, j)"
                     class="w-8 h-8 rounded-full"
-                    :style="{ 'background-color': selectedPrices[0].color }" />
+                    :style="{ 'background-color': selectedPrices.find((s) => s.price === seat.price)!.color }" />
                 </template>
               </template>
             </div>
@@ -235,10 +234,10 @@
               </div>
               <div class="flex place-content-center w-full h-14 bg-white">
                 <p class="place-self-center text-2xl font-semibold text-center">
-                  {{ selectedSeatNumber }}
+                  {{ sectionBuilderSelectedSeatPrice.name }}
                 </p>
               </div>
-              <div v-for="(price, index) in selectedPrices" :key="index" class="grid grid-cols-3 place-content-center w-full h-14 bg-white border">
+              <div v-for="(price, index) in selectedPrices" :key="index" @click="setSelectedInitialSeatToPrice(price)" class="grid grid-cols-3 place-content-center w-full h-14 bg-white border">
                 <div class="h-8 w-8 rounded-full place-self-center" :style="{ 'background-color': selectedPrices[index].color }" />
                 <p class="place-self-center text-lg font-semibold text-center">
                   {{ price.price }}
@@ -393,7 +392,7 @@ import { computed, defineComponent, Ref, ref, StyleValue } from 'vue'
 
 import { useAuthStore } from '@/store/use-auth-store'
 import { ReebAEventDatetime, ReebAExtendedEventPrice } from '@/types'
-import { generateEventSections } from '@/utils'
+import { decrease2DArrayDimension, generateEventSeats, generateEventSections, increase2DArrayDimension, numberToLetters } from '@/utils'
 
 dayjs.extend(customParseFormat)
 
@@ -428,6 +427,12 @@ export default defineComponent({
       }
     ])
 
+    const sectionBuilderSelectedSeatPrice: Ref<{ name: string, row: number, column: number }> = ref({
+      name: 'A1',
+      row: 0,
+      column: 0
+    })
+
     const selectedEventTags: Ref<Array<string>> = ref([])
     const eventTagsList: Ref<Array<{ name: string, tag: string }>> = ref([
       { name: 'Amphitheater', tag: 'amphitheater' },
@@ -447,13 +452,10 @@ export default defineComponent({
       { name: 'Variety', tag: 'variety' }
     ])
 
-    const initiallySelectedZoneColumn = ref('5')
-    const initiallySelectedZoneRow = ref('5')
-
     const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
 
     const sections = computed(() => generateEventSections(Number(selectedSectionRow.value) || 1, Number(selectedSectionColumn.value) || 1))
-    const initialZone = ref(generateEventSections(Number(initiallySelectedZoneRow.value) || 1, Number(initiallySelectedZoneColumn.value) || 1))
+    const initialZone = ref(generateEventSeats(5, 5, selectedPrices.value[0].price))
     const zones = computed(() => generateEventSections(Number(selectedZoneRow.value) || 1, Number(selectedZoneColumn.value) || 1))
     const selectedSectionStyles = computed<StyleValue>(() => {
       return {
@@ -469,10 +471,22 @@ export default defineComponent({
     })
     const selctedInitialZoneStyles = computed<StyleValue>(() => {
       return {
-        'grid-template-columns': `repeat(${initiallySelectedZoneColumn.value || '1'}, 32px)`,
-        'grid-template-rows': `repeat(${initiallySelectedZoneRow.value || '1'}, 32px)`
+        'grid-template-columns': `repeat(${initialZone.value[0].length || '1'}, 32px)`,
+        'grid-template-rows': `repeat(${initialZone.value.length || '1'}, 32px)`
       }
     })
+
+    const onSectionBuilderSeatClicked = (row: number, column: number) => {
+      sectionBuilderSelectedSeatPrice.value = {
+        name: numberToLetters(row) + (column + 1),
+        row,
+        column
+      }
+    }
+
+    const setSelectedInitialSeatToPrice = (price: ReebAExtendedEventPrice): void => {
+      initialZone.value[sectionBuilderSelectedSeatPrice.value.row][sectionBuilderSelectedSeatPrice.value.column].price = price.price
+    }
 
     const onSelectedSection = (value: string): void => {
       selectedSection.value = value
@@ -551,7 +565,7 @@ export default defineComponent({
     const onPriceRangeIncrement = (): void => {
       selectedPrices.value.push({
         color: '#D5A755',
-        price: 1000,
+        price: selectedPrices.value[selectedPrices.value.length - 1].price,
         currency: 'USD'
       })
     }
@@ -572,13 +586,11 @@ export default defineComponent({
     }
 
     const increaseInitialColumn = (): void => {
-      initiallySelectedZoneColumn.value = (Number(initiallySelectedZoneColumn.value) + 1).toString()
-      initialZone.value = generateEventSections(Number(initiallySelectedZoneRow.value) || 1, Number(initiallySelectedZoneColumn.value) || 1)
+      initialZone.value = increase2DArrayDimension(initialZone.value, 'column')
     }
 
     const increaseInitialRow = (): void => {
-      initiallySelectedZoneRow.value = (Number(initiallySelectedZoneRow.value) + 1).toString()
-      initialZone.value = generateEventSections(Number(initiallySelectedZoneRow.value) || 1, Number(initiallySelectedZoneColumn.value) || 1)
+      initialZone.value = increase2DArrayDimension(initialZone.value, 'row')
     }
 
     const decreaseRow = (): void => {
@@ -590,13 +602,19 @@ export default defineComponent({
     }
 
     const decreaseInitialColumn = (): void => {
-      if (Number(initiallySelectedZoneColumn.value) - 1 !== 0) initiallySelectedZoneColumn.value = (Number(initiallySelectedZoneColumn.value) - 1).toString()
-      initialZone.value = generateEventSections(Number(initiallySelectedZoneRow.value) || 1, Number(initiallySelectedZoneColumn.value) || 1)
+      if (initialZone.value[0].length - 1 === 0) {
+        return
+      }
+
+      initialZone.value = decrease2DArrayDimension(initialZone.value, 'column')
     }
 
     const decreaseInitialRow = (): void => {
-      if (Number(initiallySelectedZoneRow.value) - 1 !== 0) initiallySelectedZoneRow.value = (Number(initiallySelectedZoneRow.value) - 1).toString()
-      initialZone.value = generateEventSections(Number(initiallySelectedZoneRow.value) || 1, Number(initiallySelectedZoneColumn.value) || 1)
+      if (initialZone.value.length - 1 === 0) {
+        return
+      }
+
+      initialZone.value = decrease2DArrayDimension(initialZone.value, 'row')
     }
 
     const image = ref<File | null>(null)
@@ -650,8 +668,6 @@ export default defineComponent({
       onPriceRangeIncrement,
       onPriceRangeDecrement,
       changeCurrency,
-      initiallySelectedZoneColumn,
-      initiallySelectedZoneRow,
       initialZone,
       increaseInitialColumn,
       increaseInitialRow,
@@ -662,7 +678,10 @@ export default defineComponent({
       image,
       preview,
       deleteImage,
-      selectedSeatNumber
+      selectedSeatNumber,
+      sectionBuilderSelectedSeatPrice,
+      onSectionBuilderSeatClicked,
+      setSelectedInitialSeatToPrice
     }
   }
 })

@@ -25,6 +25,7 @@ export const useAuthStore = defineStore('authStore', {
           json: body
         }).json<SigninReplyBody>()
 
+        localStorage.setItem('reebaUser', JSON.stringify(response))
         this.userData = response
         this.isAuthenticated = true
       } catch (error) {
