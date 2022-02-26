@@ -199,7 +199,7 @@
       <div class="section-seats-builder">
         <div class="flex flex-col gap-y-4 gap-x-6 md:flex-row">
           <div class="input-box grow">
-            <label for="event-initial-zone-rows" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Initial zone row</label>
+            <label for="event-initial-zone-rows" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Template seat row</label>
             <div class="flex flex-row">
               <input
                 type="number" id="event-initial-zone-rows"
@@ -215,7 +215,7 @@
             </div>
           </div>
           <div class="input-box grow">
-            <label for="event-initial-zone-columns" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Initial zone columns</label>
+            <label for="event-initial-zone-columns" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Template seat columns</label>
             <div class="flex flex-row">
               <input
                 type="number" id="event-initial-zone-columns"
