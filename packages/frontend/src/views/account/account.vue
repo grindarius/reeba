@@ -85,7 +85,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
-import { POSITION, useToast } from 'vue-toastification'
+import { useToast } from 'vue-toastification'
 
 import { getUserAvatar } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
@@ -101,7 +101,7 @@ export default defineComponent({
 
     const signout = (): void => {
       authStore.signout()
-      toast.success('Signed out successfully!', { position: POSITION.BOTTOM_RIGHT, timeout: 2000 })
+      toast.success('Signed out successfully!')
       router.push('/')
     }
 

@@ -4,8 +4,8 @@ import { Dayjs } from 'dayjs'
  * Store event start and end time as a pair in create event page
  */
 export interface ReebAEventDatetime {
-  from: Dayjs
-  to: Dayjs
+  start: Dayjs
+  end: Dayjs
 }
 
 export interface ReebAEventPrice {
@@ -18,14 +18,14 @@ export interface ReebAExtendedEventPrice extends ReebAEventPrice {
 }
 
 export interface ReebAEventSeat {
-  rowPosition: number
-  columnPosition: number
-  price: number
+  seatRowPosition: number
+  seatColumnPosition: number
+  seatPrice: number
 }
 
 export interface ReebAEventSection {
-  rowPosition: number
-  columnPosition: number
+  sectionRowPosition: number
+  sectionColumnPosition: number
   seats: Array<Array<ReebAEventSeat>>
 }
 

@@ -93,7 +93,7 @@
 import { countries } from 'countries-list'
 import { computed, defineComponent, Ref, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { POSITION, useToast } from 'vue-toastification'
+import { useToast } from 'vue-toastification'
 
 import { SignupBody } from '@reeba/common'
 
@@ -150,11 +150,11 @@ export default defineComponent({
 
       try {
         await authStore.signup(signupCredentials)
-        toast.success('Signup completed', { timeout: 2000, position: POSITION.BOTTOM_RIGHT })
+        toast.success('Signup completed')
         router.push({ name: 'Signin' })
       } catch (error) {
         // @ts-expect-error unknown error
-        toast.error(error.message, { timeout: 2000, position: POSITION.BOTTOM_RIGHT })
+        toast.error(error.message)
       }
     }
 

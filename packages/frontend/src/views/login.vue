@@ -41,7 +41,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { POSITION, useToast } from 'vue-toastification'
+import { useToast } from 'vue-toastification'
 
 import { useAuthStore } from '@/store/use-auth-store'
 
@@ -57,17 +57,17 @@ export default defineComponent({
 
     const signin = async (): Promise<void> => {
       if (emailField.value.length === 0 || passwordField.value.length === 0) {
-        toast.error('Email or password cannot be empty', { position: POSITION.BOTTOM_RIGHT, timeout: 2000 })
+        toast.error('Email or password cannot be empty')
         return
       }
 
       try {
         await authStore.signin({ email: emailField.value, password: passwordField.value })
-        toast.success('Authentication completed', { position: POSITION.BOTTOM_RIGHT, timeout: 2000 })
+        toast.success('Authentication completed')
         router.push('/')
       } catch (error) {
         // @ts-expect-error error is unknown
-        toast.error(error.message, { position: POSITION.BOTTOM_RIGHT, timeout: 2000 })
+        toast.error(error.message)
       }
     }
 
