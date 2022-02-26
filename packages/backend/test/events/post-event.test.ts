@@ -708,7 +708,7 @@ void t.test('post event', async t => {
       })
 
       t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().message, 'complete')
+      t.type(response.json().eventId, String)
     } catch (error) {
       t.error(error)
       t.fail()
