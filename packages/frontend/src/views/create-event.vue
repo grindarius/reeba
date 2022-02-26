@@ -634,11 +634,11 @@ export default defineComponent({
     }
 
     const increaseRow = (): void => {
-      zones.value = increase2DArrayDimension(zones.value, 'row')
+      zones.value[selectedSection.value.row][selectedSection.value.column].seats = increase2DArrayDimension(zones.value[selectedSection.value.row][selectedSection.value.column].seats, 'row')
     }
 
     const increaseColumn = (): void => {
-      zones.value = increase2DArrayDimension(zones.value, 'column')
+      zones.value[selectedSection.value.row][selectedSection.value.column].seats = increase2DArrayDimension(zones.value[selectedSection.value.row][selectedSection.value.column].seats, 'column')
     }
 
     const increaseInitialColumn = (): void => {
@@ -650,24 +650,23 @@ export default defineComponent({
     }
 
     const decreaseRow = (): void => {
-      if (zones.value.length - 1 === 0) {
+      if (zones.value[selectedSection.value.row][selectedSection.value.column].seats.length - 1 === 0) {
         return
       }
-      zones.value = decrease2DArrayDimension(zones.value, 'row')
+      zones.value[selectedSection.value.row][selectedSection.value.column].seats = decrease2DArrayDimension(zones.value[selectedSection.value.row][selectedSection.value.column].seats, 'row')
     }
 
     const decreaseColumn = (): void => {
-      if (zones.value[0].length - 1 === 0) {
+      if (zones.value[selectedSection.value.row][selectedSection.value.column].seats[0].length - 1 === 0) {
         return
       }
-      zones.value = decrease2DArrayDimension(zones.value, 'column')
+      zones.value[selectedSection.value.row][selectedSection.value.column].seats = decrease2DArrayDimension(zones.value[selectedSection.value.row][selectedSection.value.column].seats, 'row')
     }
 
     const decreaseInitialColumn = (): void => {
       if (initialZone.value[0].length - 1 === 0) {
         return
       }
-
       initialZone.value = decrease2DArrayDimension(initialZone.value, 'column')
     }
 
