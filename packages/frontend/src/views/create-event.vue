@@ -157,7 +157,7 @@
           </button>
         </div>
         <div class="grid grid-cols-1 md:col-span-4">
-          <div v-for="(price, i) in eventTicketPrices.sort((a, b) => a.price - b.price)" :key="`event-price-selector-${i}`" class="flex flex-none place-items-center place-self-center mb-4">
+          <div v-for="(price, i) in eventTicketPrices" :key="`event-price-selector-${i}`" class="flex flex-none place-items-center place-self-center mb-4">
             <input type="color" class="mr-4 cursor-pointer" :value="price.color" @change="onPriceRangeColorChange($event, i)">
             <div class="flex">
               <div class="relative rounded-md shadow-sm">
@@ -592,7 +592,23 @@ export default defineComponent({
           }
         }),
         minimumAge: Number(eventMinimumAge.value),
-        sections: eventSections.value
+        sections: eventSections.value.map((sectionArray, i) => {
+          return sectionArray.map((sec, j) => {
+            return {
+              sectionRowPosition: i,
+              sectionColumnPosition: j,
+              seats: sec.seats.map((seatRow, k) => {
+                return seatRow.map((seat, l) => {
+                  return {
+                    seatRowPosition: k,
+                    seatColumnPosition: l,
+                    seatPrice: seat.seatPrice
+                  }
+                })
+              })
+            }
+          })
+        })
       }
 
       try {

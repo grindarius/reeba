@@ -60,14 +60,6 @@ export const increase2DArrayDimension = <T>(initialArray: Array<Array<T>>, direc
 }
 
 export const decrease2DArrayDimension = <T>(initialArray: Array<Array<T>>, direction: 'row' | 'column'): Array<Array<T>> => {
-  if (initialArray.length - 1 === 0) {
-    throw new Error('index will run out of range')
-  }
-
-  if (initialArray[0].length - 1 === 0) {
-    throw new Error('index will run out of range')
-  }
-
   if (direction === 'row') {
     initialArray.pop()
     return initialArray
