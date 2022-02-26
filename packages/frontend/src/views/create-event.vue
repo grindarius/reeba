@@ -234,7 +234,7 @@
               </div>
               <div class="flex place-content-center w-full h-14 bg-white">
                 <p class="place-self-center text-2xl font-semibold text-center">
-                  {{ sectionBuilderSelectedSeatPrice.name }}
+                  {{ sectionBuilderSelectedSeat.name }}
                 </p>
               </div>
               <div v-for="(price, index) in selectedPrices" :key="index" @click="setSelectedInitialSeatToPrice(price)" class="grid grid-cols-3 place-content-center w-full h-14 bg-white border">
@@ -262,7 +262,7 @@
               type="number" id="event-section-rows"
               name="event-section-rows" class="input"
               step="1"
-              v-model="selectedSectionRow">
+              :value="sections.length">
           </div>
           <div class="input-box grow">
             <label for="event-section-columns" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Section columns</label>
@@ -270,7 +270,7 @@
               type="number" id="event-section-columns"
               name="event-section-columns" class="input"
               step="1"
-              v-model="selectedSectionColumn">
+              :value="sections[0].length">
           </div>
         </div>
         <div class="grid grid-flow-col gap-4 py-8 px-3 mt-8 -mb-5">
@@ -283,9 +283,9 @@
           <div class="grid gap-4 my-0 mx-auto max-w-min" :style="selectedSectionStyles">
             <template v-for="row in sections" :key="JSON.stringify(row)">
               <template v-for="button in row" :key="button">
-                <button :class="selectedSection === button ?'button-active' : 'button'" @click="onSelectedSection(button)">
+                <button :class="selectedSection.row === button.rowPosition && selectedSection.column === button.columnPosition ?'button-active' : 'button'" @click="onSelectedSection(button)">
                   <h1 class="font-sans text-4xl font-semibold text-black">
-                    {{ button }}
+                    {{ `${numberToLetters(button.rowPosition)}${button.columnPosition + 1}` }}
                   </h1>
                 </button>
               </template>
@@ -296,7 +296,7 @@
       </div>
       <div class="event-seatings">
         <h3 class="my-6 text-4xl font-medium text-white">
-          Zone {{ selectedSection }}
+          Zone {{ selectedSection.name }}
         </h3>
         <div class="flex flex-col gap-y-4 gap-x-6 md:flex-row">
           <div class="input-box grow">
@@ -306,7 +306,7 @@
                 type="number" id="event-zone-rows"
                 name="event-zone-rows" class="input-button"
                 step="1"
-                v-model="selectedZoneRow" disabled>
+                disabled>
               <button @click="decreaseRow" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
                 <span class="m-auto text-2xl font-thin">-</span>
               </button>
@@ -322,7 +322,7 @@
                 type="number" id="event-zone-columns"
                 name="event-zone-columns" class="input-button"
                 step="1"
-                v-model="selectedZoneColumn" disabled>
+                disabled>
               <button @click="decreaseColumn" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer">
                 <span class="m-auto text-2xl font-thin">-</span>
               </button>
@@ -336,10 +336,10 @@
           <div class="grid grid-rows-1 md:grid-cols-4">
             <div class="overflow-x-auto md:col-span-3">
               <div class="grid gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="selectedZoneStyles">
-                <template v-for="row in zones" :key="JSON.stringify(row)">
-                  <template v-for="seat in row" :key="seat">
+                <template v-for="(row, i) in zones" :key="`zone-button-selector-${i}`">
+                  <template v-for="(seat, j) in row" :key="`zone-button-selector-${j}`">
                     <button
-                      @click="onSeatChange(seat)"
+                      @click="onSeatChange(seat, i, j)"
                       class="w-8 h-8 rounded-full bg-pale-yellow" />
                   </template>
                 </template>
@@ -354,7 +354,7 @@
                 </div>
                 <div class="flex place-content-center w-full h-14 bg-white">
                   <p class="place-self-center text-2xl font-semibold text-center">
-                    {{ selectedSeatNumber }}
+                    {{ selectedSeatNumber.name }}
                   </p>
                 </div>
                 <div v-for="(price, index) in selectedPrices" :key="index" class="grid grid-cols-3 place-content-center w-full h-14 bg-white border">
@@ -371,9 +371,7 @@
           </div>
         </div>
       </div>
-      <button
-        type="submit"
-        class="flex flex-row justify-center py-2 mt-8 w-full tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray disabled:bg-red-disabled">
+      <button class="flex flex-row justify-center py-2 mt-8 w-full tracking-wide rounded-lg outline-none bg-pale-yellow hover:bg-yellow-hover focus:ring-pale-gray disabled:bg-red-disabled">
         <span>Submit</span>
       </button>
     </div>
@@ -388,13 +386,19 @@ import MarkdownIt from 'markdown-it'
 // @ts-expect-error not have definitelyTyped
 import abbr from 'markdown-it-abbr'
 import emoji from 'markdown-it-emoji'
-import { computed, defineComponent, Ref, ref, StyleValue } from 'vue'
+import { computed, defineComponent, Ref, ref, StyleValue, watch } from 'vue'
 
 import { useAuthStore } from '@/store/use-auth-store'
-import { ReebAEventDatetime, ReebAExtendedEventPrice } from '@/types'
+import { ReebAEventDatetime, ReebAEventSeat, ReebAEventSection, ReebAExtendedEventPrice } from '@/types'
 import { decrease2DArrayDimension, generateEventSeats, generateEventSections, increase2DArrayDimension, numberToLetters } from '@/utils'
 
 dayjs.extend(customParseFormat)
+
+interface Selected {
+  name: string
+  row: number
+  column: number
+}
 
 export default defineComponent({
   name: 'create-event',
@@ -413,21 +417,27 @@ export default defineComponent({
 
     const selectedTimes = ref<Array<ReebAEventDatetime>>([])
 
-    const selectedSection = ref('A1')
-    const selectedSectionRow = ref('5')
-    const selectedSectionColumn = ref('5')
-    const selectedZoneRow = ref('5')
-    const selectedZoneColumn = ref('5')
+    const selectedSection: Ref<Selected> = ref({
+      name: 'A1',
+      row: 0,
+      column: 0
+    })
 
     const selectedPrices: Ref<Array<ReebAExtendedEventPrice>> = ref([
       {
         color: '#D5A755',
         price: 1000,
-        currency: 'USD' as 'USD' | 'CAD' | 'THB' | 'EUR'
+        currency: 'THB' as 'USD' | 'CAD' | 'THB' | 'EUR'
       }
     ])
 
-    const sectionBuilderSelectedSeatPrice: Ref<{ name: string, row: number, column: number }> = ref({
+    const sectionBuilderSelectedSeat: Ref<Selected> = ref({
+      name: 'A1',
+      row: 0,
+      column: 0
+    })
+
+    const selectedSeatNumber: Ref<Selected> = ref({
       name: 'A1',
       row: 0,
       column: 0
@@ -454,19 +464,19 @@ export default defineComponent({
 
     const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
 
-    const sections = computed(() => generateEventSections(Number(selectedSectionRow.value) || 1, Number(selectedSectionColumn.value) || 1))
-    const initialZone = ref(generateEventSeats(5, 5, selectedPrices.value[0].price))
-    const zones = computed(() => generateEventSections(Number(selectedZoneRow.value) || 1, Number(selectedZoneColumn.value) || 1))
+    const initialZone: Ref<Array<Array<ReebAEventSeat>>> = ref(generateEventSeats(5, 5, selectedPrices.value[0].price))
+    const sections: Ref<Array<Array<ReebAEventSection>>> = ref(generateEventSections(2, 2, initialZone.value))
+    const zones: Ref<Array<Array<ReebAEventSeat>>> = ref(generateEventSeats(5, 5, selectedPrices.value[0].price))
     const selectedSectionStyles = computed<StyleValue>(() => {
       return {
-        'grid-template-columns': `repeat(${selectedSectionColumn.value || '1'}, 100px)`,
-        'grid-template-rows': `repeat(${selectedSectionRow.value || '1'}, 100px)`
+        'grid-template-columns': `repeat(${sections.value[0].length || '1'}, 100px)`,
+        'grid-template-rows': `repeat(${sections.value.length || '1'}, 100px)`
       }
     })
     const selectedZoneStyles = computed<StyleValue>(() => {
       return {
-        'grid-template-columns': `repeat(${selectedZoneColumn.value || '1'}, 32px)`,
-        'grid-template-rows': `repeat(${selectedZoneRow.value || '1'}, 32px)`
+        'grid-template-columns': `repeat(${zones.value[0].length || '1'}, 32px)`,
+        'grid-template-rows': `repeat(${zones.value.length || '1'}, 32px)`
       }
     })
     const selctedInitialZoneStyles = computed<StyleValue>(() => {
@@ -477,7 +487,7 @@ export default defineComponent({
     })
 
     const onSectionBuilderSeatClicked = (row: number, column: number) => {
-      sectionBuilderSelectedSeatPrice.value = {
+      sectionBuilderSelectedSeat.value = {
         name: numberToLetters(row) + (column + 1),
         row,
         column
@@ -485,15 +495,25 @@ export default defineComponent({
     }
 
     const setSelectedInitialSeatToPrice = (price: ReebAExtendedEventPrice): void => {
-      initialZone.value[sectionBuilderSelectedSeatPrice.value.row][sectionBuilderSelectedSeatPrice.value.column].price = price.price
+      initialZone.value[sectionBuilderSelectedSeat.value.row][sectionBuilderSelectedSeat.value.column].price = price.price
     }
 
-    const onSelectedSection = (value: string): void => {
-      selectedSection.value = value
+    const onSelectedSection = (value: ReebAEventSection): void => {
+      const modifiedSection = {
+        name: numberToLetters(value.rowPosition) + (value.columnPosition + 1),
+        row: value.rowPosition,
+        column: value.columnPosition
+      }
+      selectedSection.value = modifiedSection
     }
 
-    const onSeatChange = (value: string): void => {
-      selectedSeatNumber.value = value
+    const onSeatChange = (value: ReebAEventSeat, row: number, column: number): void => {
+      const modifiedSeat: Selected = {
+        name: numberToLetters(row) + (column + 1),
+        row: row,
+        column: column
+      }
+      selectedSeatNumber.value = modifiedSeat
       console.log(value)
     }
 
@@ -566,9 +586,14 @@ export default defineComponent({
       selectedPrices.value.push({
         color: '#D5A755',
         price: selectedPrices.value[selectedPrices.value.length - 1].price,
-        currency: 'USD'
+        currency: selectedPrices.value[selectedPrices.value.length - 1].currency as 'USD' | 'CAD' | 'THB' | 'EUR'
       })
     }
+
+    watch(initialZone, (newInitialZone) => {
+      console.log(newInitialZone)
+      zones.value = newInitialZone
+    }, { deep: true })
 
     const onPriceRangeDecrement = (): void => {
       if (selectedPrices.value.length - 1 === 0) {
@@ -592,11 +617,11 @@ export default defineComponent({
     }
 
     const increaseRow = (): void => {
-      selectedZoneRow.value = (Number(selectedZoneRow.value) + 1).toString()
+      zones.value = increase2DArrayDimension(zones.value, 'row')
     }
 
     const increaseColumn = (): void => {
-      selectedZoneColumn.value = (Number(selectedZoneColumn.value) + 1).toString()
+      zones.value = increase2DArrayDimension(zones.value, 'column')
     }
 
     const increaseInitialColumn = (): void => {
@@ -608,11 +633,17 @@ export default defineComponent({
     }
 
     const decreaseRow = (): void => {
-      if (Number(selectedZoneRow.value) - 1 !== 0) selectedZoneRow.value = (Number(selectedZoneRow.value) - 1).toString()
+      if (zones.value.length - 1 === 0) {
+        return
+      }
+      zones.value = decrease2DArrayDimension(zones.value, 'row')
     }
 
     const decreaseColumn = (): void => {
-      if (Number(selectedZoneColumn.value) - 1 !== 0) selectedZoneColumn.value = (Number(selectedZoneColumn.value) - 1).toString()
+      if (zones.value[0].length - 1 === 0) {
+        return
+      }
+      zones.value = decrease2DArrayDimension(zones.value, 'column')
     }
 
     const decreaseInitialColumn = (): void => {
@@ -646,17 +677,11 @@ export default defineComponent({
       image.value = null
     }
 
-    const selectedSeatNumber = ref('')
-
     return {
       sections,
       eventTagsList,
       onSelectedSection,
       selectedSection,
-      selectedSectionRow,
-      selectedSectionColumn,
-      selectedZoneRow,
-      selectedZoneColumn,
       selectedSectionStyles,
       selectedZoneStyles,
       zones,
@@ -693,9 +718,10 @@ export default defineComponent({
       preview,
       deleteImage,
       selectedSeatNumber,
-      sectionBuilderSelectedSeatPrice,
+      sectionBuilderSelectedSeat,
       onSectionBuilderSeatClicked,
-      setSelectedInitialSeatToPrice
+      setSelectedInitialSeatToPrice,
+      numberToLetters
     }
   }
 })
