@@ -116,7 +116,7 @@
                 <input type="file" ref="inputImage" class="opacity-0" accept="image/jpg, image/JPG, image/png, image/PNG, image/jpeg, image/JPEG" @change="uploadImage">
               </label>
             </div>
-            <img v-else :src="preview" ref="previewImage" width="650">
+            <img v-else :src="preview" ref="previewImage">
           </div>
         </div>
       </div>
