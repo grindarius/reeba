@@ -599,6 +599,10 @@ export default defineComponent({
     const displayedDescription = computed<string>(() => {
       return markdown.value.render(eventDescription.value)
     })
+    const openMarkdownRef = (url: string) => {
+      const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+      if (newWindow) newWindow.opener = null
+    }
 
     const sectionsStyles = computed<StyleValue>(() => {
       return {
@@ -618,6 +622,25 @@ export default defineComponent({
         'grid-template-rows': `repeat(${seatTemplate.value.length || '1'}, 32px)`
       }
     })
+
+    const getTimeString = (time: ReebAEventDatetime): string => {
+      return `${time.start.format('MMMM D, YYYY HH:mm')} to ${time.end.format('MMMM D, YYYY HH:mm')}`
+    }
+
+    const addEventTime = (): void => {
+      if (!dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm', true).isValid()) {
+        return
+      }
+
+      if (!dayjs(selectedEventEndTime.value, 'YYYY-MM-DDTHH:mm', true).isValid()) {
+        return
+      }
+
+      eventDatetimes.value.push({
+        start: dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm'),
+        end: dayjs(selectedEventEndTime.value, 'YYYY-MM-DDTHH:mm')
+      })
+    }
 
     const onSeatTemplateClick = (row: number, column: number) => {
       seatTemplateSelectedSeat.value = {
@@ -649,32 +672,8 @@ export default defineComponent({
       actualSeatPlanSelectedSeat.value = modifiedSeat
     }
 
-    const getTimeString = (time: ReebAEventDatetime): string => {
-      return `${time.start.format('MMMM D, YYYY HH:mm')} to ${time.end.format('MMMM D, YYYY HH:mm')}`
-    }
-
-    const addEventTime = (): void => {
-      if (!dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm', true).isValid()) {
-        return
-      }
-
-      if (!dayjs(selectedEventEndTime.value, 'YYYY-MM-DDTHH:mm', true).isValid()) {
-        return
-      }
-
-      eventDatetimes.value.push({
-        start: dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm'),
-        end: dayjs(selectedEventEndTime.value, 'YYYY-MM-DDTHH:mm')
-      })
-    }
-
     const removeEventTime = (index: number): void => {
       eventDatetimes.value.splice(index, 1)
-    }
-
-    const openMarkdownRef = (url: string) => {
-      const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-      if (newWindow) newWindow.opener = null
     }
 
     const onPriceRangeColorChange = (ev: Event, index: number): void => {
@@ -722,20 +721,26 @@ export default defineComponent({
       eventTicketPrices.value.pop()
     }
 
-    const increaseActualSeatPlanRow = (): void => {
-      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = increase2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'row')
-    }
-
-    const increaseActualSeatPlanColumn = (): void => {
-      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = increase2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'column')
+    const increaseSeatTemplateRow = (): void => {
+      seatTemplate.value = increase2DArrayDimension(seatTemplate.value, 'row')
     }
 
     const increaseSeatTemplateColumn = (): void => {
       seatTemplate.value = increase2DArrayDimension(seatTemplate.value, 'column')
     }
 
-    const increaseSeatTemplateRow = (): void => {
-      seatTemplate.value = increase2DArrayDimension(seatTemplate.value, 'row')
+    const decreaseSeatTemplateRow = (): void => {
+      if (seatTemplate.value.length - 1 === 0) {
+        return
+      }
+      seatTemplate.value = decrease2DArrayDimension(seatTemplate.value, 'row')
+    }
+
+    const decreaseSeatTemplateColumn = (): void => {
+      if (seatTemplate.value[0].length - 1 === 0) {
+        return
+      }
+      seatTemplate.value = decrease2DArrayDimension(seatTemplate.value, 'column')
     }
 
     const increaseSectionRow = (): void => {
@@ -766,6 +771,14 @@ export default defineComponent({
       eventSections.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), seatTemplate.value)
     }
 
+    const increaseActualSeatPlanRow = (): void => {
+      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = increase2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'row')
+    }
+
+    const increaseActualSeatPlanColumn = (): void => {
+      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = increase2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'column')
+    }
+
     const decreaseActualSeatPlanRow = (): void => {
       if (eventSections.value[selectedSection.value.row][selectedSection.value.column].seats.length - 1 === 0) {
         return
@@ -777,21 +790,7 @@ export default defineComponent({
       if (eventSections.value[selectedSection.value.row][selectedSection.value.column].seats[0].length - 1 === 0) {
         return
       }
-      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = decrease2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'row')
-    }
-
-    const decreaseSeatTemplateColumn = (): void => {
-      if (seatTemplate.value[0].length - 1 === 0) {
-        return
-      }
-      seatTemplate.value = decrease2DArrayDimension(seatTemplate.value, 'column')
-    }
-
-    const decreaseSeatTemplateRow = (): void => {
-      if (seatTemplate.value.length - 1 === 0) {
-        return
-      }
-      seatTemplate.value = decrease2DArrayDimension(seatTemplate.value, 'row')
+      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = decrease2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'column')
     }
 
     const eventImage = ref<File | null>(null)
@@ -815,10 +814,6 @@ export default defineComponent({
           eventSections.value[i][j].seats = JSON.parse(JSON.stringify(newInitialZone))
         }
       }
-    }, { deep: true })
-
-    watch(eventSections, (newZone) => {
-      console.log(newZone)
     }, { deep: true })
 
     return {
