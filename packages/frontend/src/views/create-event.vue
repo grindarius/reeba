@@ -213,15 +213,27 @@
             </div>
           </div>
         </div>
-        <div class="grid col-span-3 overflow-x-auto gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="selctedInitialZoneStyles">
-          <template v-for="row in initialZone" :key="JSON.stringify(row)">
-            <template v-for="seat in row" :key="seat">
-              <button
-                @click="onSeatChange(seat)"
-                class="w-8 h-8 rounded-full"
-                :style="{ 'background-color': selectedPrices[0].color }" />
-            </template>
-          </template>
+        <div class="grid grid-cols-1 mt-8 gap-6 lg:grid-cols-4">
+          <div class="overflow-x-auto col-span-4 lg:col-span-3">
+            <div class="grid gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="selctedInitialZoneStyles">
+              <template v-for="row in initialZone" :key="JSON.stringify(row)">
+                <template v-for="seat in row" :key="seat">
+                  <button
+                    @click="onSeatChange(seat)"
+                    class="w-8 h-8 rounded-full"
+                    :style="{ 'background-color': selectedPrices[0].color }" />
+                </template>
+              </template>
+            </div>
+          </div>
+          <div class="col-span-4 lg:col-span-1">
+            <div class="bg-slate-500 p-3 cursor-pointer" v-for="(price, i) in selectedPrices" :key="`section-builder-price-selector-${i}`">
+              <div class="w-8 h-8 rounded-full" :style="{ 'background-color': price.color }" />
+              <h1 class="text-white text-2xl font-sans">
+                {{ `${price.price} ${price.currency}` }}
+              </h1>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -307,7 +319,7 @@
           </div>
         </div>
         <div class="seatings">
-          <div class="grid grid-rows-1 md:grid-cols-4 ">
+          <div class="grid grid-rows-1 md:grid-cols-4">
             <div class="overflow-x-auto md:col-span-3">
               <div class="grid gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="selectedZoneStyles">
                 <template v-for="row in zones" :key="JSON.stringify(row)">
@@ -572,11 +584,14 @@ export default defineComponent({
       initialZone.value = generateEventSections(Number(initiallySelectedZoneRow.value) || 1, Number(initiallySelectedZoneColumn.value) || 1)
     }
 
-    const image = ref<File | null>()
+    const image = ref<File | null>(null)
     const preview = ref('')
     const uploadImage = (e: Event): void => {
-      if (((e.target as HTMLInputElement).files) != null) {
+      if ((e.target as HTMLInputElement).files != null) {
+        // @ts-expect-error file probably null event after checked
         image.value = (e.target as HTMLInputElement).files[0]
+
+        // @ts-expect-error file probably null event after checked
         preview.value = URL.createObjectURL((e.target as HTMLInputElement).files[0])
       }
     }
