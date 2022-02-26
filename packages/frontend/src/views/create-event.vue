@@ -8,7 +8,11 @@
         <div class="grid grid-cols-2 gap-y-4 gap-x-6 py-4 mt-6 md:grid-cols-4">
           <div class="col-span-4 input-box">
             <label for="event-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Event name</label>
-            <input type="text" id="event-name" name="event-name" class="appearance-none input" placeholder="LOVE YOUR SELF">
+            <input
+              type="text" id="event-name"
+              name="event-name" class="appearance-none input"
+              placeholder="Natus Vincere"
+              v-model="eventName">
           </div>
           <div class="grid overflow-x-auto col-span-4 grid-rows-1 gap-y-4 gap-x-6 md:grid-cols-2">
             <div class="input-box">
@@ -21,7 +25,7 @@
               <span
                 class="overflow-x-auto font-mono textarea" id="description"
                 role="textbox" contenteditable="true"
-                v-text="rawInput"
+                v-text="eventDescription"
                 @input="updateMarkdown" />
             </div>
             <div class="input-box">
@@ -31,11 +35,19 @@
           </div>
           <div class="col-span-4 md:col-span-3 input-box">
             <label for="event-website-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Website</label>
-            <input type="text" id="event-website-name" name="event-website-name" class="appearance-none input" placeholder="https://event.reeba.com">
+            <input
+              type="text" id="event-website-name"
+              name="event-website-name" class="appearance-none input"
+              placeholder="https://event.reeba.com"
+              v-model="eventWebsite">
           </div>
           <div class="col-span-4 md:col-span-1 input-box">
             <label for="event-age" class="block py-2 text-xs font-bold tracking-wide truncate text-white uppercase">Minimum age for users to enter the event</label>
-            <input type="text" id="event-age" name="event-age" class="appearance-none input" placeholder="0">
+            <input
+              type="number" id="event-age"
+              name="event-age" class="appearance-none input"
+              placeholder="0"
+              v-model="eventMinimumAge">
           </div>
           <div class="col-span-4 md:col-span-2 input-box">
             <label for="event-start-datetime" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Start time</label>
@@ -49,7 +61,7 @@
             </div>
           </div>
           <div class="col-span-4">
-            <div v-for="(time, i) in selectedTimes" :key="`selected-event-time-${i}`">
+            <div v-for="(time, i) in eventDatetimes" :key="`selected-event-time-${i}`">
               <div class="add-list-remove">
                 {{ getTimeString(time) }}
                 <v-mdi name="mdi-minus-circle" class="mx-3 cursor-pointer" size="36" fill="#D5A755" @click="removeEventTime(i)" />
@@ -58,19 +70,26 @@
           </div>
           <div class="col-span-4 md:col-span-1 input-box">
             <label for="event-location-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Location name</label>
-            <input type="text" id="event-location-name" name="event-location-name" class="appearance-none input" placeholder="Rajamangkala National Stadium">
+            <input
+              type="text" id="event-location-name"
+              name="event-location-name" class="appearance-none input"
+              placeholder="Rajamangkala National Stadium"
+              v-model="eventVenueName">
           </div>
           <div class="col-span-4 md:col-span-3 input-box">
             <label for="event-location-coords" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Location coordinates</label>
-            <input type="text" id="event-location-coords" name="event-location-coords" class="appearance-none input" placeholder="latitude,longitude">
+            <input
+              type="text" id="event-location-coords"
+              name="event-location-coords" class="appearance-none input"
+              placeholder="latitude,longitude"
+              v-model="eventVenueCoordinates">
           </div>
           <div class="col-span-4 input-box">
-            <label for="event-contact" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Who to contact</label>
-            <input type="text" id="event-contact" name="event-contact" class="appearance-none input" placeholder="Ms. Sopaphorn Jamyoo">
-          </div>
-          <div class="col-span-4 input-box">
-            <label for="event-contact-credentials" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Credentials</label>
-            <input type="text" id="event-contact-credentials" name="event-contact-credentials" class="appearance-none input" placeholder="092-3245423">
+            <label for="event-opening-date" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Opening Date</label>
+            <input
+              type="datetime-local" id="event-opening-date"
+              name="event-opening-date" class="appearance-none input"
+              v-model="eventOpeningDate">
           </div>
           <hr class="col-span-4 mt-8 w-full border border-pale-yellow">
         </div>
@@ -80,7 +99,7 @@
         Checkbox tags
       </h3>
       <div class="grid grid-cols-1 gap-y-4 gap-x-6 py-4 mt-6 md:grid-cols-3">
-        <div class="flex items-center h-5" v-for="(tag, i) in eventTagsList" :key="`event-tag-list-checkbox-${i}`">
+        <div class="flex items-center h-5" v-for="(tag, i) in eventTags" :key="`event-tag-list-checkbox-${i}`">
           <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="w-4 h-4 mr-10 accent-pink-500 rounded border border-gray-300 focus:ring-3 focus:border-gray-600" :value="tag.tag" v-model="selectedEventTags">
           <label :for="`event-tag-checkbox-input-${tag.tag}`" class="font-medium text-white">{{ tag.name }}</label>
         </div>
@@ -98,7 +117,7 @@
                 <v-mdi name="mdi-delete" fill="#FF0000" />
               </button>
             </div>
-            <div v-if="image == null" class="flex justify-center items-center w-full">
+            <div v-if="eventImage == null" class="flex justify-center items-center w-full">
               <label class="flex flex-col w-full h-56 border-4 border-dashed hover:border-white hover:bg-pale-yellow">
                 <div class="flex flex-col justify-center items-center pt-10 mt-8">
                   <svg
@@ -110,9 +129,9 @@
                       d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
                       clip-rule="evenodd" />
                   </svg>
-                  <p class="pt-1 text-sm tracking-wider text-white group-hover:text-white">Select an image</p>
+                  <p class="pt-1 text-sm tracking-wider text-white group-hover:text-white">Select an eventImage</p>
                 </div>
-                <input type="file" ref="inputImage" class="opacity-0" accept="image/jpg, image/JPG, image/png, image/PNG, image/jpeg, image/JPEG" @change="uploadImage">
+                <input type="file" ref="inputImage" class="opacity-0" accept="eventImage/jpg, eventImage/JPG, eventImage/png, eventImage/PNG, eventImage/jpeg, eventImage/JPEG" @change="uploadImage">
               </label>
             </div>
             <img v-else :src="preview" ref="previewImage">
@@ -129,7 +148,7 @@
             type="number" id="event-zone-rows"
             name="event-zone-rows" class="input-button h-12"
             step="1"
-            v-model="selectedPrices.length" disabled>
+            v-model="eventTicketPrices.length" disabled>
           <button @click="onPriceRangeDecrement" class="flex-none bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-12 w-12 border border-x-black cursor-pointer outline-none">
             <span class="m-auto text-2xl font-thin">-</span>
           </button>
@@ -138,7 +157,7 @@
           </button>
         </div>
         <div class="grid grid-cols-1 md:col-span-4">
-          <div v-for="(price, i) in selectedPrices.sort((a, b) => a.price - b.price)" :key="`event-price-selector-${i}`" class="flex flex-none place-items-center place-self-center mb-4">
+          <div v-for="(price, i) in eventTicketPrices.sort((a, b) => a.price - b.price)" :key="`event-price-selector-${i}`" class="flex flex-none place-items-center place-self-center mb-4">
             <input type="color" class="mr-4 cursor-pointer" :value="price.color" @change="changeColor($event, i)">
             <div class="flex">
               <div class="relative rounded-md shadow-sm">
@@ -220,7 +239,7 @@
                   <button
                     @click="onSectionBuilderSeatClicked(i, j)"
                     class="w-8 h-8 rounded-full"
-                    :style="{ 'background-color': selectedPrices.find((s) => s.price === seat.price)!.color }" />
+                    :style="{ 'background-color': eventTicketPrices.find((s) => s.price === seat.price)!.color }" />
                 </template>
               </template>
             </div>
@@ -237,8 +256,8 @@
                   {{ sectionBuilderSelectedSeat.name }}
                 </p>
               </div>
-              <div v-for="(price, index) in selectedPrices" :key="index" @click="setSelectedInitialSeatToPrice(price)" class="cursor-pointer grid grid-cols-3 place-content-center w-full h-14 bg-white border">
-                <div class="h-8 w-8 rounded-full place-self-center" :style="{ 'background-color': selectedPrices[index].color }" />
+              <div v-for="(price, index) in eventTicketPrices" :key="index" @click="setSelectedInitialSeatToPrice(price)" class="cursor-pointer grid grid-cols-3 place-content-center w-full h-14 bg-white border">
+                <div class="h-8 w-8 rounded-full place-self-center" :style="{ 'background-color': eventTicketPrices[index].color }" />
                 <p class="place-self-center text-lg font-semibold text-center">
                   {{ price.price }}
                 </p>
@@ -358,7 +377,7 @@
                   <template v-for="(seat, j) in row" :key="`zone-button-selector-${j}`">
                     <button
                       @click="onSeatChange(i, j)"
-                      :style="{ 'background-color': selectedPrices.find(s => s.price === seat.price)!.color }"
+                      :style="{ 'background-color': eventTicketPrices.find(s => s.price === seat.price)!.color }"
                       class="w-8 h-8 rounded-full" />
                   </template>
                 </template>
@@ -376,8 +395,8 @@
                     {{ selectedSeatNumber.name }}
                   </p>
                 </div>
-                <div v-for="(price, index) in selectedPrices" :key="index" @click="setSeatPriceIndividually(price)" class="cursor-pointer grid grid-cols-3 place-content-center w-full h-14 bg-white border">
-                  <div class="h-8 w-8 rounded-full place-self-center" :style="{ 'background-color': selectedPrices[index].color }" />
+                <div v-for="(price, index) in eventTicketPrices" :key="index" @click="setSeatPriceIndividually(price)" class="cursor-pointer grid grid-cols-3 place-content-center w-full h-14 bg-white border">
+                  <div class="h-8 w-8 rounded-full place-self-center" :style="{ 'background-color': eventTicketPrices[index].color }" />
                   <p class="place-self-center text-lg font-semibold text-center">
                     {{ price.price }}
                   </p>
@@ -436,6 +455,38 @@ export default defineComponent({
     const router = useRouter()
     const toast = useToast()
 
+    const eventName = ref('')
+    const eventDescription = ref([
+      '## Heading 8-)\n',
+      '**This is bold text**\n',
+      '__This is bold text__\n',
+      '*This is italic text*\n',
+      '~~Strikethrough~~\n',
+      '> Blockquotes can also be nested...',
+      '> > ...by using additional greater-than signs right next to each other...',
+      '> > > ...by using additional greater-than signs right next to each other...\n',
+      '+ Create a list by starting a line with +',
+      '+ Very easy!\n',
+      '1. Lorem ipsum dolor sit amet\n2. Consectetur adipiscing elit',
+      '2. Consectetur adipiscing elit',
+      '3. Integer molestie lorem at massa\n',
+      '1. You can use sequential numbers...',
+      '1. ...or keep all the numbers as 1.'
+    ].join('\n'))
+    const eventWebsite = ref('')
+    const eventVenueName = ref('')
+    const eventVenueCoordinates = ref('')
+    const eventOpeningDate = ref('')
+    const eventTicketPrices: Ref<Array<ReebAExtendedEventPrice>> = ref([
+      {
+        color: '#D5A755',
+        price: 1000,
+        currency: 'THB' as 'USD' | 'CAD' | 'THB' | 'EUR'
+      }
+    ])
+    const eventDatetimes = ref<Array<ReebAEventDatetime>>([])
+    const eventMinimumAge = ref('0')
+
     const defaults: Selected = {
       name: 'A1',
       row: 0,
@@ -453,21 +504,11 @@ export default defineComponent({
     const selectedEventStartTime = ref('')
     const selectedEventEndTime = ref('')
 
-    const selectedTimes = ref<Array<ReebAEventDatetime>>([])
-
     const selectedSection: Ref<Selected> = ref({
       name: 'A1',
       row: 0,
       column: 0
     })
-
-    const selectedPrices: Ref<Array<ReebAExtendedEventPrice>> = ref([
-      {
-        color: '#D5A755',
-        price: 1000,
-        currency: 'THB' as 'USD' | 'CAD' | 'THB' | 'EUR'
-      }
-    ])
 
     const sectionBuilderSelectedSeat: Ref<Selected> = ref({
       name: 'A1',
@@ -482,7 +523,7 @@ export default defineComponent({
     })
 
     const selectedEventTags: Ref<Array<string>> = ref([])
-    const eventTagsList: Ref<Array<{ name: string, tag: string }>> = ref([
+    const eventTags: Ref<Array<{ name: string, tag: string }>> = ref([
       { name: 'Amphitheater', tag: 'amphitheater' },
       { name: 'Business', tag: 'business' },
       { name: 'Concert', tag: 'concert' },
@@ -502,7 +543,7 @@ export default defineComponent({
 
     const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
 
-    const initialZone: Ref<Array<Array<ReebAEventSeat>>> = ref(generateEventSeats(5, 5, selectedPrices.value[0].price))
+    const initialZone: Ref<Array<Array<ReebAEventSeat>>> = ref(generateEventSeats(5, 5, eventTicketPrices.value[0].price))
     const zones: Ref<Array<Array<ReebAEventSection>>> = ref(generateEventSections(Number(eventSectionRowLength.value) || 1, Number(eventSectionColumnLength.value) || 1, initialZone.value))
 
     const selectedSectionStyles = computed<StyleValue>(() => {
@@ -566,40 +607,22 @@ export default defineComponent({
         return
       }
 
-      selectedTimes.value.push({
+      eventDatetimes.value.push({
         from: dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm'),
         to: dayjs(selectedEventEndTime.value, 'YYYY-MM-DDTHH:mm')
       })
     }
 
     const removeEventTime = (index: number): void => {
-      selectedTimes.value.splice(index, 1)
+      eventDatetimes.value.splice(index, 1)
     }
 
-    const rawInput = ref([
-      '## Heading 8-)\n',
-      '**This is bold text**\n',
-      '__This is bold text__\n',
-      '*This is italic text*\n',
-      '~~Strikethrough~~\n',
-      '> Blockquotes can also be nested...',
-      '> > ...by using additional greater-than signs right next to each other...',
-      '> > > ...by using additional greater-than signs right next to each other...\n',
-      '+ Create a list by starting a line with +',
-      '+ Very easy!\n',
-      '1. Lorem ipsum dolor sit amet\n2. Consectetur adipiscing elit',
-      '2. Consectetur adipiscing elit',
-      '3. Integer molestie lorem at massa\n',
-      '1. You can use sequential numbers...',
-      '1. ...or keep all the numbers as 1.'
-    ].join('\n'))
-
     const updateMarkdown = debounce((e: Event): void => {
-      rawInput.value = (e.target as HTMLSpanElement).innerText
+      eventDescription.value = (e.target as HTMLSpanElement).innerText
     }, 500)
 
     const displayedDescription = computed<string>(() => {
-      return markdown.value.render(rawInput.value)
+      return markdown.value.render(eventDescription.value)
     })
 
     const openMarkdownRef = (url: string) => {
@@ -608,22 +631,22 @@ export default defineComponent({
     }
 
     const changeColor = (ev: Event, index: number): void => {
-      selectedPrices.value[index].color = (ev.target as HTMLInputElement).value
+      eventTicketPrices.value[index].color = (ev.target as HTMLInputElement).value
     }
 
     const changePrice = (ev: Event, index: number): void => {
-      selectedPrices.value[index].price = Number((ev.target as HTMLInputElement).value)
+      eventTicketPrices.value[index].price = Number((ev.target as HTMLInputElement).value)
     }
 
     const changeCurrency = (ev: Event, index: number): void => {
-      selectedPrices.value[index].currency = (ev.target as HTMLInputElement).value as 'USD' | 'CAD' | 'THB' | 'EUR'
+      eventTicketPrices.value[index].currency = (ev.target as HTMLInputElement).value as 'USD' | 'CAD' | 'THB' | 'EUR'
     }
 
     const onPriceRangeIncrement = (): void => {
-      selectedPrices.value.push({
+      eventTicketPrices.value.push({
         color: randomPastelColor(),
-        price: selectedPrices.value[selectedPrices.value.length - 1].price,
-        currency: selectedPrices.value[selectedPrices.value.length - 1].currency as 'USD' | 'CAD' | 'THB' | 'EUR'
+        price: eventTicketPrices.value[eventTicketPrices.value.length - 1].price,
+        currency: eventTicketPrices.value[eventTicketPrices.value.length - 1].currency as 'USD' | 'CAD' | 'THB' | 'EUR'
       })
     }
 
@@ -644,12 +667,12 @@ export default defineComponent({
     }
 
     const onPriceRangeDecrement = (): void => {
-      if (selectedPrices.value.length - 1 === 0) {
+      if (eventTicketPrices.value.length - 1 === 0) {
         return
       }
 
-      const firstElement = JSON.parse(JSON.stringify(selectedPrices.value[0])) as ReebAExtendedEventPrice
-      const lastElement = JSON.parse(JSON.stringify(selectedPrices.value[selectedPrices.value.length - 1])) as ReebAExtendedEventPrice
+      const firstElement = JSON.parse(JSON.stringify(eventTicketPrices.value[0])) as ReebAExtendedEventPrice
+      const lastElement = JSON.parse(JSON.stringify(eventTicketPrices.value[eventTicketPrices.value.length - 1])) as ReebAExtendedEventPrice
 
       initialZone.value = initialZone.value.map((u) => {
         return u.map(v => {
@@ -661,7 +684,7 @@ export default defineComponent({
         })
       })
 
-      selectedPrices.value.pop()
+      eventTicketPrices.value.pop()
     }
 
     const increaseRow = (): void => {
@@ -736,27 +759,35 @@ export default defineComponent({
       initialZone.value = decrease2DArrayDimension(initialZone.value, 'row')
     }
 
-    const image = ref<File | null>(null)
+    const eventImage = ref<File | null>(null)
     const preview = ref('')
     const uploadImage = (e: Event): void => {
       if ((e.target as HTMLInputElement).files != null) {
         // @ts-expect-error file probably null event after checked
-        image.value = (e.target as HTMLInputElement).files[0]
+        eventImage.value = (e.target as HTMLInputElement).files[0]
 
         // @ts-expect-error file probably null event after checked
         preview.value = URL.createObjectURL((e.target as HTMLInputElement).files[0])
       }
     }
     const deleteImage = () => {
-      image.value = null
+      eventImage.value = null
     }
 
     return {
+      eventName,
+      eventWebsite,
+      eventVenueName,
+      eventVenueCoordinates,
+      eventOpeningDate,
+      eventTicketPrices,
+      eventDatetimes,
+      eventMinimumAge,
       increaseSectionRow,
       increaseSectionColumn,
       decreaseSectionRow,
       decreaseSectionColumn,
-      eventTagsList,
+      eventTags,
       onSelectedSection,
       selectedSection,
       selectedSectionStyles,
@@ -766,18 +797,16 @@ export default defineComponent({
       onSeatChange,
       selectedEventStartTime,
       selectedEventEndTime,
-      selectedTimes,
       addEventTime,
       removeEventTime,
       updateMarkdown,
-      rawInput,
+      eventDescription,
       displayedDescription,
       openMarkdownRef,
       increaseRow,
       increaseColumn,
       decreaseRow,
       decreaseColumn,
-      selectedPrices,
       changeColor,
       changePrice,
       selectedEventTags,
@@ -791,7 +820,7 @@ export default defineComponent({
       decreaseInitialRow,
       selctedInitialZoneStyles,
       uploadImage,
-      image,
+      eventImage,
       preview,
       deleteImage,
       selectedSeatNumber,
