@@ -3,6 +3,8 @@ import { resolve } from 'path'
 import { Client } from 'pg'
 import t from 'tap'
 
+import { SigninReplyBody } from '@reeba/common'
+
 import createServer from '../../src/app'
 
 dotenv.config({
@@ -24,6 +26,7 @@ void t.test('post event', async t => {
     await app.close()
     await client.end()
   })
+
   try {
     await client.connect()
     await client.query('delete from "events" where user_username = \'postindiveventtest\'')
@@ -40,7 +43,8 @@ void t.test('post event', async t => {
       [
         'postindiveventtest',
         'postindivevent@gmail.com',
-        'asdfghjkl1234',
+        // * sansastark
+        '$2b$10$stcsoa28Ym.QM3f3NyQI2Oac7XByJIzv3mjLO/fsmkQjLPBi8HMj2',
         '66',
         '0394859403'
       ]
@@ -49,6 +53,17 @@ void t.test('post event', async t => {
     t.error(error)
     t.fail()
   }
+
+  const response = await app.inject({
+    url: '/auth/signin',
+    method: 'POST',
+    payload: {
+      email: 'postindivevent@gmail.com',
+      password: 'aryastark'
+    }
+  })
+
+  const token = response.json<SigninReplyBody>().token
 
   const perfectEvent = {
     eventName: 'BTS',
@@ -288,6 +303,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: emptyStringEventName
       })
 
@@ -304,6 +322,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: undefinedEventName
       })
 
@@ -320,6 +341,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: emptyStringCreatedBy
       })
 
@@ -336,6 +360,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: undefinedCreatedBy
       })
 
@@ -352,6 +379,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: undefinedDescription
       })
 
@@ -368,6 +398,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: undefinedWebsite
       })
 
@@ -384,6 +417,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: emptyStringVenueName
       })
 
@@ -400,6 +436,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: undefinedVenueName
       })
 
@@ -416,6 +455,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: emptyObjectVenueCoordinates
       })
 
@@ -432,6 +474,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: wrongKeyNameOfVenueCoordinates
       })
 
@@ -448,6 +493,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: wrongKeyNameOfVenueCoordinatesForY
       })
 
@@ -464,6 +512,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: wrongTypeVenueCoordinates
       })
 
@@ -480,6 +531,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: undefinedVenueCoordinates
       })
 
@@ -496,6 +550,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: emptyStringOpeningDate
       })
 
@@ -512,6 +569,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: undefinedOpeningDate
       })
 
@@ -528,6 +588,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: undefinedTags
       })
 
@@ -544,6 +607,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: emptyArrayTicketPrices
       })
 
@@ -560,6 +626,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: undefinedTicketPrices
       })
 
@@ -576,6 +645,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: emptyStringDatetimes
       })
 
@@ -592,6 +664,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: containsEmptyStringDatetimes
       })
 
@@ -608,6 +683,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: undefinedDatetimes
       })
 
@@ -624,6 +702,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: negativeMinimumAge
       })
 
@@ -640,6 +721,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: undefinedMinimumAge
       })
 
@@ -656,6 +740,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: emptyArraySections
       })
 
@@ -672,6 +759,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: undefinedSections
       })
 
@@ -688,6 +778,9 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: undefinedSeats
       })
 
@@ -704,11 +797,14 @@ void t.test('post event', async t => {
       const response = await app.inject({
         method: 'POST',
         url: '/events',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         payload: perfectEvent
       })
 
       t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().message, 'complete')
+      t.type(response.json().eventId, 'string')
     } catch (error) {
       t.error(error)
       t.fail()
