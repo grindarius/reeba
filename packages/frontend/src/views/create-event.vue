@@ -131,7 +131,7 @@
                   </svg>
                   <p class="pt-1 text-sm tracking-wider text-white group-hover:text-white">Select an eventImage</p>
                 </div>
-                <input type="file" ref="inputImage" class="opacity-0" accept="eventImage/jpg, eventImage/JPG, eventImage/png, eventImage/PNG, eventImage/jpeg, eventImage/JPEG" @change="uploadImage">
+                <input type="file" ref="inputImage" class="opacity-0" accept="image/jpg, image/JPG, image/png, image/PNG, image/jpeg, image/JPEG" @change="uploadImage">
               </label>
             </div>
             <img v-else :src="preview" ref="previewImage">
@@ -231,7 +231,7 @@
             </div>
           </div>
         </div>
-        <div class="grid grid-cols-1 mt-8 gap-6 lg:grid-cols-4">
+        <div class="grid grid-cols-1 mt-4 gap-6 lg:grid-cols-4">
           <div class="overflow-x-auto col-span-4 lg:col-span-3">
             <div class="grid gap-2 py-5 mx-auto mt-3 mb-6 max-w-min" :style="selctedInitialZoneStyles">
               <template v-for="(row, i) in initialZone" :key="`initial-zone-visualization-row-${i}`">
@@ -239,7 +239,7 @@
                   <button
                     @click="onSectionBuilderSeatClicked(i, j)"
                     class="w-8 h-8 rounded-full"
-                    :style="{ 'background-color': eventTicketPrices.find((s) => s.price === seat.price)!.color }" />
+                    :style="{ 'background-color': eventTicketPrices.find((s) => s.price === seat.seatPrice)!.color }" />
                 </template>
               </template>
             </div>
@@ -318,9 +318,9 @@
           <div class="grid gap-4 my-0 mx-auto max-w-min" :style="selectedSectionStyles">
             <template v-for="row in zones" :key="JSON.stringify(row)">
               <template v-for="button in row" :key="button">
-                <button :class="selectedSection.row === button.rowPosition && selectedSection.column === button.columnPosition ?'button-active' : 'button'" @click="onSelectedSection(button)">
+                <button :class="selectedSection.row === button.sectionRowPosition && selectedSection.column === button.sectionColumnPosition ? 'button-active' : 'button'" @click="onSelectedSection(button)">
                   <h1 class="font-sans text-4xl font-semibold text-black">
-                    {{ `${numberToLetters(button.rowPosition)}${button.columnPosition + 1}` }}
+                    {{ `${numberToLetters(button.sectionRowPosition)}${button.sectionColumnPosition + 1}` }}
                   </h1>
                 </button>
               </template>
@@ -377,7 +377,7 @@
                   <template v-for="(seat, j) in row" :key="`zone-button-selector-${j}`">
                     <button
                       @click="onSeatChange(i, j)"
-                      :style="{ 'background-color': eventTicketPrices.find(s => s.price === seat.price)!.color }"
+                      :style="{ 'background-color': eventTicketPrices.find(s => s.price === seat.seatPrice)!.color }"
                       class="w-8 h-8 rounded-full" />
                   </template>
                 </template>
@@ -420,14 +420,18 @@
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import debounce from 'debounce'
+import ky from 'ky'
 import MarkdownIt from 'markdown-it'
 // @ts-expect-error not have definitelyTyped
 import abbr from 'markdown-it-abbr'
 import emoji from 'markdown-it-emoji'
 import { computed, defineComponent, Ref, ref, StyleValue, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { POSITION, useToast } from 'vue-toastification'
+import { useToast } from 'vue-toastification'
 
+import { PostEventBody } from '@reeba/common'
+
+import { postEvent } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { ReebAEventDatetime, ReebAEventSeat, ReebAEventSection, ReebAExtendedEventPrice } from '@/types'
 import { decrease2DArrayDimension, generateEventSeats, generateEventSections, increase2DArrayDimension, numberToLetters, randomPastelColor } from '@/utils'
@@ -454,6 +458,7 @@ export default defineComponent({
   setup () {
     const router = useRouter()
     const toast = useToast()
+    const authStore = useAuthStore()
 
     const eventName = ref('')
     const eventDescription = ref([
@@ -493,16 +498,59 @@ export default defineComponent({
       column: 0
     }
 
-    const createEvent = (): void => {
-      toast.success('Event created!', { position: POSITION.BOTTOM_RIGHT, timeout: 2000 })
-      router.push('/')
-    }
-
     const eventSectionRowLength = ref('2')
     const eventSectionColumnLength = ref('2')
 
     const selectedEventStartTime = ref('')
     const selectedEventEndTime = ref('')
+
+    const initialZone: Ref<Array<Array<ReebAEventSeat>>> = ref(generateEventSeats(5, 5, eventTicketPrices.value[0].price))
+    const zones: Ref<Array<Array<ReebAEventSection>>> = ref(generateEventSections(Number(eventSectionRowLength.value) || 1, Number(eventSectionColumnLength.value) || 1, initialZone.value))
+
+    const createEvent = async (): Promise<void> => {
+      const { method, url } = postEvent
+      const coordinateString = eventVenueCoordinates.value.split(',')
+
+      const ev: PostEventBody = {
+        eventName: eventName.value,
+        createdBy: authStore.userData.username,
+        description: eventDescription.value,
+        website: eventWebsite.value,
+        venueName: eventVenueName.value,
+        venueCoordinates: {
+          x: coordinateString[0],
+          y: coordinateString[1]
+        },
+        openingDate: eventOpeningDate.value,
+        tags: eventTags.value.map(tag => tag.tag),
+        ticketPrices: eventTicketPrices.value.map(p => {
+          return {
+            color: p.color,
+            price: p.price
+          }
+        }),
+        datetimes: eventDatetimes.value.map(dt => {
+          return {
+            start: dt.start.toISOString(),
+            end: dt.end.toISOString()
+          }
+        }),
+        minimumAge: Number(eventMinimumAge.value),
+        sections: zones.value
+      }
+
+      try {
+        await ky(url, {
+          method,
+          json: ev
+        })
+
+        toast.success('Event created!')
+        router.push('/')
+      } catch (error) {
+        toast.error(error as string)
+      }
+    }
 
     const selectedSection: Ref<Selected> = ref({
       name: 'A1',
@@ -543,9 +591,6 @@ export default defineComponent({
 
     const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
 
-    const initialZone: Ref<Array<Array<ReebAEventSeat>>> = ref(generateEventSeats(5, 5, eventTicketPrices.value[0].price))
-    const zones: Ref<Array<Array<ReebAEventSection>>> = ref(generateEventSections(Number(eventSectionRowLength.value) || 1, Number(eventSectionColumnLength.value) || 1, initialZone.value))
-
     const selectedSectionStyles = computed<StyleValue>(() => {
       return {
         'grid-template-columns': `repeat(${zones.value[0].length || '1'}, 100px)`,
@@ -574,14 +619,14 @@ export default defineComponent({
     }
 
     const setSelectedInitialSeatToPrice = (price: ReebAExtendedEventPrice): void => {
-      initialZone.value[sectionBuilderSelectedSeat.value.row][sectionBuilderSelectedSeat.value.column].price = price.price
+      initialZone.value[sectionBuilderSelectedSeat.value.row][sectionBuilderSelectedSeat.value.column].seatPrice = price.price
     }
 
     const onSelectedSection = (value: ReebAEventSection): void => {
       const modifiedSection = {
-        name: numberToLetters(value.rowPosition) + (value.columnPosition + 1),
-        row: value.rowPosition,
-        column: value.columnPosition
+        name: numberToLetters(value.sectionRowPosition) + (value.sectionColumnPosition + 1),
+        row: value.sectionRowPosition,
+        column: value.sectionColumnPosition
       }
       selectedSection.value = modifiedSection
     }
@@ -596,7 +641,7 @@ export default defineComponent({
     }
 
     const getTimeString = (time: ReebAEventDatetime): string => {
-      return `${time.from.format('MMMM D, YYYY HH:mm')} to ${time.to.format('MMMM D, YYYY HH:mm')}`
+      return `${time.start.format('MMMM D, YYYY HH:mm')} to ${time.end.format('MMMM D, YYYY HH:mm')}`
     }
     const addEventTime = (): void => {
       if (!dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm', true).isValid()) {
@@ -608,8 +653,8 @@ export default defineComponent({
       }
 
       eventDatetimes.value.push({
-        from: dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm'),
-        to: dayjs(selectedEventEndTime.value, 'YYYY-MM-DDTHH:mm')
+        start: dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm'),
+        end: dayjs(selectedEventEndTime.value, 'YYYY-MM-DDTHH:mm')
       })
     }
 
@@ -663,7 +708,7 @@ export default defineComponent({
     }, { deep: true })
 
     const setSeatPriceIndividually = (price: ReebAExtendedEventPrice): void => {
-      zones.value[selectedSection.value.row][selectedSection.value.column].seats[selectedSeatNumber.value.row][selectedSeatNumber.value.column].price = price.price
+      zones.value[selectedSection.value.row][selectedSection.value.column].seats[selectedSeatNumber.value.row][selectedSeatNumber.value.column].seatPrice = price.price
     }
 
     const onPriceRangeDecrement = (): void => {
@@ -676,8 +721,8 @@ export default defineComponent({
 
       initialZone.value = initialZone.value.map((u) => {
         return u.map(v => {
-          if (v.price === lastElement.price) {
-            v.price = firstElement.price
+          if (v.seatPrice === lastElement.price) {
+            v.seatPrice = firstElement.price
           }
 
           return v
