@@ -80,5 +80,15 @@
       "t.error(error)",
       "t.fail()"
     ]
+  },
+  "new metainfo tag": {
+    "prefix": "metainfo",
+    "body": [
+      "<metainfo>",
+      "  <template #title=\"{ content }\">",
+      "    {{ content }} | ReebA: Ticket bookind, Redefined.",
+      "  </template>",
+      "</metainfo>"
+    ]
   }
 }
