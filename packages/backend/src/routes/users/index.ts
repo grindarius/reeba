@@ -6,6 +6,7 @@ import {
   GetUserParamsSchema,
   GetUserReply,
   GetUserReplySchema,
+  t_user_role,
   users
 } from '@reeba/common'
 
@@ -60,7 +61,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       return {
         username: existingUser.rows[0].user_username,
-        verificationStatus: existingUser.rows[0].user_verification_status,
+        verificationStatus: existingUser.rows[0].user_role === t_user_role.admin ? true : existingUser.rows[0].user_verification_status,
         socialMedias: existingUser.rows[0].user_social_medias,
         profileDescription: existingUser.rows[0].user_profile_description,
         eventsCreatedAmount: eventsCreatedAmount.rows[0].events_created_amount,
