@@ -1,5 +1,10 @@
 <template>
   <div class="home-page">
+    <metainfo>
+      <template #title="{ content }">
+        {{ content }} | ReebA: Ticket booking. Redefined.
+      </template>
+    </metainfo>
     <div class="container w-full min-h-screen">
       <div class="official-events-box">
         <div class="event-section">
@@ -7,15 +12,15 @@
             Official events
           </h1>
           <div class="event-grid-box">
-            <div class="event" v-for="({id, name, firstDatetime, venueName}, i) in eventData.official" :key="`root-page-official-event-${i}`">
-              <router-link :to="{ name: 'Event', params: { eventId: id }}">
+            <div class="event" v-for="({username, id: eventId, name: eventName, firstDatetime, venueName}, i) in eventData.official" :key="`root-page-official-event-${i}`">
+              <router-link :to="{ name: 'Event', params: { username, eventId }}">
                 <div class="event-image-box">
-                  <img class="event-image" :src="`${getEventImage.url}/${id}`" alt="event-image">
+                  <img class="event-image" :src="`${getEventImage.url}/${eventId}`" :alt="eventName">
                 </div>
                 <div class="event-info">
                   <div>
                     <h3 class="event-name">
-                      {{ name }}
+                      {{ eventName }}
                     </h3>
                     <p class="event-time">
                       {{ getTimeString(firstDatetime) }}
@@ -37,15 +42,15 @@
             Local events
           </h1>
           <div class="event-grid-box">
-            <div class="event" v-for="({id, name, firstDatetime, venueName}, i) in eventData.local" :key="`root-page-local-event-${i}`">
-              <router-link :to="{ name: 'Event', params: { eventId: id }}">
+            <div class="event" v-for="({username, id: eventId, name: eventName, firstDatetime, venueName}, i) in eventData.local" :key="`root-page-local-event-${i}`">
+              <router-link :to="{ name: 'Event', params: { username, eventId }}">
                 <div class="event-image-box">
-                  <img class="event-image" :src="`${getEventImage.url}/${id}`" alt="event-image">
+                  <img class="event-image" :src="`${getEventImage.url}/${eventId}`" :alt="eventName">
                 </div>
                 <div class="event-info">
                   <div>
                     <h3 class="event-name">
-                      {{ name }}
+                      {{ eventName }}
                     </h3>
                     <p class="event-time">
                       {{ getTimeString(firstDatetime) }}
@@ -68,6 +73,8 @@
 import dayjs from 'dayjs'
 import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { useMeta } from 'vue-meta'
+import { useRoute, useRouter } from 'vue-router'
 
 import { GetEventsReply } from '@reeba/common'
 
@@ -76,6 +83,13 @@ import { getEventImage, getRootPageEvents } from '@/api/endpoints'
 export default defineComponent({
   name: 'home',
   setup () {
+    const router = useRouter()
+    const route = useRoute()
+
+    useMeta({
+      title: 'Home'
+    })
+
     const eventData: Ref<GetEventsReply> = ref({
       official: [],
       local: []
@@ -89,7 +103,7 @@ export default defineComponent({
         eventData.value.official = response.official ?? []
         eventData.value.local = response.local ?? []
       } catch (error) {
-        console.error(error)
+        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
       }
     })
 
