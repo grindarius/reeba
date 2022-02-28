@@ -147,4 +147,3 @@ insert into users (
   'admin',
   'I am Arya Stark''s older sister.'
 ) on conflict (user_username) do nothing;
-
