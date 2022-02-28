@@ -19,7 +19,7 @@ const schema: FastifySchema = {
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.get<{ Params: GetUserParams, Reply: GetUserReply }>(
-    '/',
+    '/:username',
     {
       schema,
       onRequest: instance.authenticate,
@@ -60,6 +60,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       return {
         username: existingUser.rows[0].user_username,
+        verificationStatus: existingUser.rows[0].user_verification_status,
+        socialMedias: existingUser.rows[0].user_social_medias,
         profileDescription: existingUser.rows[0].user_profile_description,
         eventsCreatedAmount: eventsCreatedAmount.rows[0].events_created_amount,
         eventsAttendedAmount: eventsAttendedAmount.rows[0].events_attended_amount,
