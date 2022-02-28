@@ -128,7 +128,17 @@ const generateUserList = async (amount: number): Promise<Array<users>> => {
     const user: users = {
       user_username: card.username.replace(/\./g, ''),
       user_email: card.email,
+      // * aryastark
       user_password: '$2b$10$stcsoa28Ym.QM3f3NyQI2Oac7XByJIzv3mjLO/fsmkQjLPBi8HMj2',
+      user_profile_description: faker.lorem.sentence(),
+      user_social_medias: {
+        facebook: faker.helpers.userCard().website,
+        instagram: faker.helpers.userCard().website,
+        twitter: faker.helpers.userCard().website,
+        tiktok: faker.helpers.userCard().website,
+        email: card.email,
+        website: faker.helpers.userCard().website
+      },
       user_registration_datetime: dayjs(faker.date.between('2020-01-01', '2021-01-01')).toISOString(),
       user_role: faker.mersenne.rand(1, 100) > 60 ? t_user_role.admin : t_user_role.user,
       // user_image_profile_path: await getAndSaveImage(card.avatar),
