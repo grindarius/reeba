@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createMemoryHistory, createRouter, RouteRecordRaw } from 'vue-router'
 
 import * as Page from '@/views'
 
@@ -7,11 +7,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'Home',
     component: Page.Home
-  },
-  {
-    path: '/events/:eventId',
-    name: 'Event',
-    component: Page.Event
   },
   {
     path: '/signup',
@@ -94,9 +89,14 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.Upload
   },
   {
-    path: '/users',
+    path: '/:username',
     name: 'Users',
     component: Page.Users
+  },
+  {
+    path: '/:username/:eventId',
+    name: 'Event',
+    component: Page.Event
   },
   {
     path: '/:pathMatch(.*)*',
@@ -106,7 +106,7 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createMemoryHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior: () => {
     return { top: 0 }
