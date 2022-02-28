@@ -34,6 +34,7 @@
     "topojson-client": "^3.1.0",
     "vue": "^3.2.25",
     "vue-mdijs": "^0.5.12",
+    "vue-meta": "3.0.0-alpha.10",
     "vue-router": "^4.0.11",
     "vue-toastification": "^2.0.0-rc.5"
   },

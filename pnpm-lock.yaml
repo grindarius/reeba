@@ -150,6 +150,7 @@ importers:
       vite: ^2.7.8
       vue: ^3.2.25
       vue-mdijs: ^0.5.12
+      vue-meta: 3.0.0-alpha.10
       vue-router: ^4.0.11
       vue-toastification: ^2.0.0-rc.5
       vue-tsc: ^0.29.8
@@ -171,6 +172,7 @@ importers:
       topojson-client: 3.1.0
       vue: 3.2.29
       vue-mdijs: 0.5.12
+      vue-meta: 3.0.0-alpha.10_vue@3.2.29
       vue-router: 4.0.12_vue@3.2.29
       vue-toastification: 2.0.0-rc.5_vue@3.2.29
     devDependencies:
@@ -6811,6 +6813,14 @@ packages:
 
   /vue-mdijs/0.5.12:
     resolution: {integrity: sha512-q8HmpeEN9+EE/GjgKAVfJtw9xNMcdFbnNeIBC/8IcMeS4MB5qJCY0imSGer+2xZMBYL787bCsz7kAoiMgzkHww==}
+    dev: false
+
+  /vue-meta/3.0.0-alpha.10_vue@3.2.29:
+    resolution: {integrity: sha512-rYeIGkhm1gKBcReEkPHiV6LV2Y6BZTMGTkGw1mQIZTxfFcVJL0srLZsL1zAmLeTGxMrlDYylMQEVSYRkDnwz3A==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.2.29
     dev: false
 
   /vue-router/4.0.12_vue@3.2.29:
