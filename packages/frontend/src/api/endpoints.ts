@@ -49,3 +49,8 @@ export const postEventImage: Endpoint = {
   url: url + '/event-images',
   method: 'post'
 }
+
+export const getUser: Endpoint = {
+  url: url + '/users',
+  method: 'get'
+}
