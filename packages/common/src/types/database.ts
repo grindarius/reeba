@@ -57,6 +57,10 @@ export interface users {
    */
   user_email: string
   /**
+   * User's profile short description of their profile, string, default is `''`. Not null.
+   */
+  user_profile_description: string
+  /**
    * User's password. Not null, cannot be longer than 64 characters but no length limit in database.
    */
   user_password: string
