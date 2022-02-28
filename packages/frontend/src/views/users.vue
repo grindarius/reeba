@@ -43,7 +43,10 @@
             <v-mdi name="mdi-email-plus" fill="#D5A755" />
           </a>
         </div>
-        <button :disabled="userData?.username == null ? true : userData.username === authStore.userData.username ? true : false" class="follow-button hover:bg-yellow-hover disabled:bg-red-disabled disabled:text-white">
+        <button
+          :disabled="userData?.username == null ? true : userData.username === authStore.userData.username ? true : false"
+          class="follow-button hover:bg-yellow-hover disabled:bg-red-disabled disabled:text-white"
+          @click="followUser">
           Follow
         </button>
         <div class="user-stats">
@@ -138,10 +141,17 @@ export default defineComponent({
       }
     })
 
+    const followUser = (): void => {
+      if (route.params.username !== authStore.userData.username) {
+        console.log('following this guy')
+      }
+    }
+
     return {
       userData,
       getUserAvatar,
-      authStore
+      authStore,
+      followUser
     }
   }
 })
