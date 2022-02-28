@@ -86,7 +86,7 @@
     "body": [
       "<metainfo>",
       "  <template #title=\"{ content }\">",
-      "    {{ content }} | ReebA: Ticket bookind, Redefined.",
+      "    {{ content }} | ReebA: Ticket booking. Redefined.",
       "  </template>",
       "</metainfo>"
     ]
