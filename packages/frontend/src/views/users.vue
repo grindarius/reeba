@@ -7,7 +7,7 @@
     </metainfo>
     <div class="users-page-content">
       <section class="profile-descriptions">
-        <img :src="`${getUserAvatar.url}/${userData?.username}`" alt="user-image" class="user-image">
+        <img :src="`${getUserAvatar.url}/${$route.params.username}`" alt="user-image" class="user-image">
         <div class="user-info">
           <div class="mt-3 text-4xl font-bold text-white">
             {{ userData?.username ?? '' }}

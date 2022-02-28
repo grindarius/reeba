@@ -1,4 +1,4 @@
-import { createMemoryHistory, createRouter, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 import * as Page from '@/views'
 
@@ -106,7 +106,7 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createMemoryHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior: () => {
     return { top: 0 }
