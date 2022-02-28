@@ -115,11 +115,27 @@ void t.test('get image', async t => {
     }
   })
 
+  const email = await client.query('select * from "users" where user_username = \'no_image_user\'')
+
+  if (email.rowCount <= 0) {
+    await app.inject({
+      method: 'post',
+      url: '/auth/signup',
+      payload: {
+        username: 'no_image_user',
+        email: 'noimageguy@gmail.com',
+        password: 'noimageguy',
+        phoneCountryCode: '232',
+        phoneNumber: '9384937485'
+      }
+    })
+  }
+
   void t.test('get avatar of a user that doesn\'t have image', async t => {
     try {
       const response = await app.inject({
         method: 'GET',
-        url: '/avatars/login_test_boy'
+        url: '/avatars/no_image_user'
       })
 
       Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, '..', '..', 'uploads', 'default-user-profile.png')))
