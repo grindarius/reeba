@@ -1,5 +1,13 @@
 import { Static, Type } from '@sinclair/typebox'
 
+import { RootPageEventSchema } from './events'
+
+export const RelatedEventToUserSchema = Type.Omit(
+  RootPageEventSchema,
+  ['firstDatetime']
+)
+export type RelatedEventToUser = Static<typeof RelatedEventToUserSchema>
+
 export const GetUserParamsSchema = Type.Object({
   username: Type.String()
 })
@@ -17,8 +25,17 @@ export const GetUserReplySchema = Type.Object({
   }),
   verificationStatus: Type.Boolean(),
   profileDescription: Type.String(),
-  eventsCreatedAmount: Type.Number(),
-  eventsAttendedAmount: Type.Number(),
   followersAmount: Type.Number()
 })
 export type GetUserReply = Static<typeof GetUserReplySchema>
+
+export const GetUserRelatedEventsParamsSchema = Type.Object({
+  username: Type.String()
+})
+export type GetUserRelatedEventsRequest = Static<typeof GetUserRelatedEventsParamsSchema>
+
+export const GetUserRelatedEventsReplySchema = Type.Object({
+  created: Type.Array(RelatedEventToUserSchema),
+  attended: Type.Array(RelatedEventToUserSchema)
+})
+export type GetUserRelatedEventsReply = Static<typeof GetUserRelatedEventsReplySchema>
