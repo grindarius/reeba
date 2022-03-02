@@ -21,11 +21,11 @@
           </label>
           <div>
             <label class="text-header" for="emailAddress">Email Address</label>
-            <input id="emailAddress" type="email" class="box-text">
+            <input id="edit-user-settings-email-input" type="email" class="box-text">
           </div>
           <div>
             <label class="text-header" for="passwordConfirmation">Confirm Password</label>
-            <input id="passwordConfirmation" type="password" class="box-text">
+            <input id="edit-user-settings-password-confirmation-input" type="password" class="box-text">
           </div>
           <div>
             <label class="text-header" for="birthday">Birthday</label>

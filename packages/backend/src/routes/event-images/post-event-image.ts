@@ -26,7 +26,9 @@ const schema: FastifySchema = {
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.post<{ Params: PostEventImageParams }>(
     '/:eventId',
-    { schema },
+    {
+      schema
+    },
     async (request, reply) => {
       const { eventId } = request.params
 

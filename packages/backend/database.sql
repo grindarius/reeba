@@ -11,6 +11,7 @@ create type t_event_status as enum ('open', 'closed');
 create table users (
   user_username text not null unique,
   user_email text not null unique,
+  user_profile_description text not null default '',
   user_password text not null,
   user_registration_datetime timestamptz not null default now(),
   user_role t_user_role not null default 'user',
@@ -119,3 +120,30 @@ insert into event_tags (event_tag_label) values
   ('technology'),
   ('variety')
 on conflict (event_tag_label) do nothing;
+
+insert into users (
+  user_username,
+  user_email,
+  user_password,
+  user_phone_country_code,
+  user_phone_number,
+  user_role,
+  user_profile_description
+) values (
+  'aryastark',
+  'aryastark@gmail.com',
+  '$2b$10$stcsoa28Ym.QM3f3NyQI2Oac7XByJIzv3mjLO/fsmkQjLPBi8HMj2',
+  '66',
+  '994485893',
+  'user',
+  'I am Sansa Stark''s youger sister.'
+), (
+  'sansastark',
+  'sansastark@gmail.com',
+  '$2b$10$COLqSOrDQUFMGB1oIr7GUexOf7myts.5YILB868jOA1OIIALEX0KG',
+  '66',
+  '995894833',
+  'admin',
+  'I am Arya Stark''s older sister.'
+) on conflict (user_username) do nothing;
+

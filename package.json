@@ -30,7 +30,7 @@
     "build:common": "cd packages/common && pnpm build",
     "lint": "eslint **/*.{ts,vue}",
     "lint:css": "pnpm exec ts-node packages/scripts/src/lint-css.ts",
-    "test": "pnpm build:common && pnpm exec tap --rcfile=.taprc.yaml",
+    "test": "pnpm build:common && pnpm clear-db && pnpm exec tap --rcfile=.taprc.yaml",
     "seed": "pnpm exec ts-node packages/scripts/src/seed.ts",
     "clear-uploads": "pnpm exec ts-node packages/scripts/src/clear-uploads-folder.ts",
     "clear-db": "pnpm exec ts-node packages/scripts/src/clear-db.ts"

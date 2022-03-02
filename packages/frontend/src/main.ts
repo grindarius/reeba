@@ -2,7 +2,7 @@ import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 // @ts-expect-error
 import VueMdi from 'vue-mdijs'
-import Toast from 'vue-toastification'
+import Toast, { PluginOptions as ToastOptions, POSITION } from 'vue-toastification'
 
 import * as mdi from '@mdi/js'
 
@@ -14,9 +14,14 @@ import './globals.scss'
 
 VueMdi.add(mdi)
 
+const options: ToastOptions = {
+  position: POSITION.BOTTOM_RIGHT,
+  timeout: 2000
+}
+
 const app = createApp(App)
 app.use(Router)
 app.use(VueMdi)
-app.use(Toast)
+app.use(Toast, options)
 app.use(createPinia())
 app.mount('#app')

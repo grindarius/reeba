@@ -128,7 +128,7 @@ const generateUserList = async (amount: number): Promise<Array<users>> => {
     const user: users = {
       user_username: card.username.replace(/\./g, ''),
       user_email: card.email,
-      user_password: 'asdfghjkl123',
+      user_password: '$2b$10$stcsoa28Ym.QM3f3NyQI2Oac7XByJIzv3mjLO/fsmkQjLPBi8HMj2',
       user_registration_datetime: dayjs(faker.date.between('2020-01-01', '2021-01-01')).toISOString(),
       user_role: faker.mersenne.rand(1, 100) > 60 ? t_user_role.admin : t_user_role.user,
       // user_image_profile_path: await getAndSaveImage(card.avatar),
@@ -180,7 +180,7 @@ const generateEvent = async (userList: Array<users>, amount: number = 30): Promi
     const reebaEvent: CustomEvent = {
       event_id: compatibleExcelNanoid(),
       user_username: faker.random.arrayElement(userList).user_username,
-      event_name: faker.commerce.product(),
+      event_name: faker.commerce.productName(),
       event_description: faker.lorem.paragraphs(5, ''),
       // event_cover_image_path: await getAndSaveImage(faker.image.animals(100, 100, true)),
       event_cover_image_path: '',
