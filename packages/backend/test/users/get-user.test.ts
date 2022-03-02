@@ -47,8 +47,8 @@ void t.test('get user test', async t => {
         website: ''
       })
       t.strictSame(response.json().profileDescription, 'I am Arya Stark\'s older sister.')
-      t.strictSame(response.json().eventsCreatedAmount, 0)
-      t.strictSame(response.json().eventsAttendedAmount, 0)
+      t.strictSame(response.json().eventsCreatedAmount, undefined)
+      t.strictSame(response.json().eventsAttendedAmount, undefined)
       t.strictSame(response.json().followersAmount, 0)
     } catch (error) {
       t.error(error)
@@ -122,8 +122,8 @@ void t.test('get user test', async t => {
         website: ''
       })
       t.strictSame(response.json().profileDescription, 'I am Sansa Stark\'s youger sister.')
-      t.strictSame(response.json().eventsCreatedAmount, 0)
-      t.strictSame(response.json().eventsAttendedAmount, 0)
+      t.strictSame(response.json().eventsCreatedAmount, undefined)
+      t.strictSame(response.json().eventsAttendedAmount, undefined)
       t.strictSame(response.json().followersAmount, 0)
     } catch (error) {
       t.error(error)
