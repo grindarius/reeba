@@ -20,16 +20,16 @@
             </div>
           </label>
           <div>
-            <label class="text-header" for="emailAddress">Email Address</label>
-            <input id="edit-user-settings-email-input" type="email" class="box-text">
+            <label class="text-header" for="birthday">Birthday</label>
+            <input id="birthday" type="date" class="box-text">
           </div>
           <div>
             <label class="text-header" for="passwordConfirmation">Confirm Password</label>
             <input id="edit-user-settings-password-confirmation-input" type="password" class="box-text">
           </div>
           <div>
-            <label class="text-header" for="birthday">Birthday</label>
-            <input id="birthday" type="password" class="box-text">
+            <label class="text-header" for="emailAddress">Email Address</label>
+            <input id="edit-user-settings-email-input" type="email" class="box-text">
           </div>
         </div>
         <div class="flex justify-center mt-6">
