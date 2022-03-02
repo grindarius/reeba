@@ -8,7 +8,8 @@ import { SigninReplyBody } from '@reeba/common'
 import createServer from '../../src/app'
 
 dotenv.config({
-  path: resolve(__dirname, '..', '..')
+  path: resolve(__dirname, '..', '..'),
+  silent: true
 })
 
 const client = new Client({

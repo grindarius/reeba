@@ -5,7 +5,8 @@ import t from 'tap'
 import createServer from '../../src/app'
 
 dotenv.config({
-  path: resolve(__dirname, '..', '..')
+  path: resolve(__dirname, '..', '..'),
+  silent: true
 })
 
 void t.test('get user test', async t => {

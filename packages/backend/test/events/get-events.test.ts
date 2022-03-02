@@ -11,7 +11,8 @@ import createServer from '../../src/app'
 import { localEventsList, officialEventsList } from './get-event-data'
 
 dotenv.config({
-  path: resolve(__dirname, '..', '..', 'src')
+  path: resolve(__dirname, '..', '..', 'src'),
+  silent: true
 })
 
 const client = new Client({

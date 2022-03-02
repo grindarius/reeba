@@ -6,7 +6,8 @@ import t from 'tap'
 import createServer from '../../src/app'
 
 dotenv.config({
-  path: resolve(__dirname, '..', '..')
+  path: resolve(__dirname, '..', '..'),
+  silent: true
 })
 
 const client = new Client({

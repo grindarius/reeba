@@ -10,7 +10,8 @@ import { event_seats, events, t_event_status } from '@reeba/common'
 import createServer from '../../src/app'
 
 dotenv.config({
-  path: resolve(__dirname, '..', '..', 'src')
+  path: resolve(__dirname, '..', '..', 'src'),
+  silent: true
 })
 
 const tagList = [
