@@ -1,6 +1,7 @@
 import dotenv from 'dotenv-flow'
 import fastify, { FastifyInstance } from 'fastify'
 import cors from 'fastify-cors'
+import favicon from 'fastify-favicon'
 import helmet from 'fastify-helmet'
 import multipart from 'fastify-multipart'
 import pg from 'fastify-postgres'
@@ -48,6 +49,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
     throw new Error('missing jwt secret')
   }
 
+  void server.register(favicon, { path: './assets', name: 'favicon.ico' })
   void server.register(multipart)
   void server.register(servestatic, {
     root: join(__dirname, '..', 'uploads'),
