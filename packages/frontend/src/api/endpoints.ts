@@ -54,3 +54,8 @@ export const getUser: Endpoint = {
   url: url + '/users',
   method: 'get'
 }
+
+export const getUserRelatedEvents: Endpoint = {
+  url: url + '/users',
+  method: 'get'
+}
