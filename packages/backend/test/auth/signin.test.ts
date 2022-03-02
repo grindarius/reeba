@@ -33,7 +33,7 @@ void t.test('signin process', async t => {
     const email = await client.query('select * from "users" where user_email = \'logintest@gmail.com\'')
 
     if (email.rowCount <= 0) {
-      const resp = await app.inject({
+      await app.inject({
         method: 'POST',
         url: '/auth/signup',
         payload: {
@@ -44,8 +44,6 @@ void t.test('signin process', async t => {
           phoneNumber: '33442200'
         }
       })
-
-      console.log(resp.json())
     }
   } catch (error) {
     t.error(error)
