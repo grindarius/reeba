@@ -50,8 +50,8 @@
           Follow
         </button>
         <div class="user-stats">
-          <h1>{{ userData?.eventsCreatedAmount || '0' }} events created</h1>
-          <h1>{{ userData?.eventsAttendedAmount || '0' }} events attended</h1>
+          <h1>{{ relatedEvents?.created.length ?? '0' }} events created</h1>
+          <h1>{{ relatedEvents?.attended.length ?? '0' }} events attended</h1>
           <h1>{{ userData?.followersAmount || '0' }} followers</h1>
         </div>
       </section>
@@ -93,9 +93,9 @@ import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
-import { GetUserReply } from '@reeba/common'
+import { GetUserRelatedEventsReply, GetUserReply } from '@reeba/common'
 
-import { getUser, getUserAvatar } from '@/api/endpoints'
+import { getUser, getUserAvatar, getUserRelatedEvents } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 
 export default defineComponent({
@@ -111,20 +111,30 @@ export default defineComponent({
     })
 
     const userData: Ref<GetUserReply | undefined> = ref(undefined)
+    const relatedEvents: Ref<GetUserRelatedEventsReply | undefined> = ref(undefined)
 
     onMounted(async () => {
       try {
-        const response = await ky(`${getUser.url}/${route.params.username}`, {
+        const userDataResponse = await ky(`${getUser.url}/${route.params.username}`, {
           method: getUser.method,
           headers: {
             Authorization: `Bearer ${authStore.userData.token}`
           }
         }).json<GetUserReply>()
 
-        userData.value = response
+        const userRelatedEvents = await ky(`${getUserRelatedEvents.url}/${route.params.username}/events`, {
+          method: getUserRelatedEvents.method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        }).json<GetUserRelatedEventsReply>()
+
+        userData.value = userDataResponse
+        relatedEvents.value = userRelatedEvents
+        console.log(relatedEvents.value)
       } catch (error) {
         // @ts-expect-error error unknown
-        const code = error?.response.statusCode
+        const code = error?.response.status
 
         if (code == null) {
           toast.error('Unexpected error')
@@ -135,6 +145,7 @@ export default defineComponent({
         if (code === 401) {
           toast.error('Token expired')
           router.push('/signin')
+          return
         }
 
         router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
@@ -151,7 +162,8 @@ export default defineComponent({
       userData,
       getUserAvatar,
       authStore,
-      followUser
+      followUser,
+      relatedEvents
     }
   }
 })
@@ -213,6 +225,7 @@ export default defineComponent({
 }
 
 .social-icons {
+  @apply flex mb-6;
 
   & svg {
     @apply mx-2;
@@ -228,6 +241,6 @@ export default defineComponent({
 }
 
 .follow-button {
-  @apply px-3 mt-6 h-10 rounded-lg bg-pale-yellow text-pale-gray;
+  @apply px-3 h-10 rounded-lg bg-pale-yellow text-pale-gray;
 }
 </style>
