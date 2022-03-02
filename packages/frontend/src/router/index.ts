@@ -99,6 +99,11 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.Users
   },
   {
+    path: '/search-result',
+    name: 'Search result',
+    component: Page.SearchResult
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'Not Found',
     component: Page.NotFound
