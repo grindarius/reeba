@@ -131,4 +131,6 @@ void t.test('get user test', async t => {
       t.fail()
     }
   })
+
+  t.end()
 })
