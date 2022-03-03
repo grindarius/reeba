@@ -43,7 +43,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       )
 
       if (existingUser.rowCount === 0) {
-        void reply.code(400)
+        void reply.code(404)
         throw new Error('User not found')
       }
 
@@ -55,13 +55,13 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           events.event_name,
           events.user_username,
           events.event_venue_name
-          from "transactions"
-          inner join "transaction_details" on transactions.transaction_id = transaction_details.transaction_id
-          inner join "event_seats" on transaction_details.event_seat_id = event_seats.event_seat_id
-          inner join "event_sections" on event_seats.event_section_id = event_sections.event_section_id
-          inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
-          inner join "events" on event_datetimes.event_id = events.event_id
-          where events.user_username = $1
+        from "transactions"
+        inner join "transaction_details" on transactions.transaction_id = transaction_details.transaction_id
+        inner join "event_seats" on transaction_details.event_seat_id = event_seats.event_seat_id
+        inner join "event_sections" on event_seats.event_section_id = event_sections.event_section_id
+        inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
+        inner join "events" on event_datetimes.event_id = events.event_id
+        where transactions.user_username = $1
         `,
         [request.params.username]
       )
