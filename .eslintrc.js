@@ -70,7 +70,8 @@ module.exports = {
             '^user_',
             'social_media',
             '^follow|following_',
-            '^transaction_'
+            '^transaction_',
+            'first_start_datetime'
           ],
           ignoreImports: true
         }]
