@@ -1,6 +1,5 @@
 import dotenv from 'dotenv-flow'
 import { resolve } from 'node:path'
-import { Client } from 'pg'
 import t from 'tap'
 
 import createServer from '../../src/app'
@@ -10,13 +9,13 @@ dotenv.config({
   silent: true
 })
 
-const client = new Client({
-  user: process.env.POSTGRES_USERNAME,
-  password: process.env.POSTGRES_PASSWORD,
-  host: process.env.POSTGRES_HOSTNAME,
-  port: Number(process.env.POSTGRES_PORT),
-  database: process.env.POSTGRES_DBNAME
-})
+// const client = new Client({
+//   user: process.env.POSTGRES_USERNAME,
+//   password: process.env.POSTGRES_PASSWORD,
+//   host: process.env.POSTGRES_HOSTNAME,
+//   port: Number(process.env.POSTGRES_PORT),
+//   database: process.env.POSTGRES_DBNAME
+// })
 
 // const ev = {
 //   eventName: 'BTS Army',
@@ -179,12 +178,11 @@ const client = new Client({
 //   ]
 // }
 
-void t.test('get user test', async t => {
+void t.test('get user related events', async t => {
   const app = createServer()
 
   t.teardown(async () => {
     await app.close()
-    await client.end()
   })
 
   const aryaToken = await app.inject({
@@ -196,36 +194,56 @@ void t.test('get user test', async t => {
     }
   })
 
-  const exist = await client.query(
-    'select * from "users" where user_username = $1',
-    ['relatedevents']
-  )
+  void t.test('no username', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/users//events',
+        headers: {
+          Authorization: `Bearer ${aryaToken.json().token as string}`
+        }
+      })
 
-  if (exist.rowCount === 0) {
-    await app.inject({
-      method: 'post',
-      url: '/auth/signup',
-      payload: {
-        username: 'relatedevents',
-        email: 'relatedevents@gmail.com',
-        password: 'relatedevents',
-        phoneCountryCode: '66',
-        phoneNumber: '223344556'
-      }
-    })
-  }
+      t.strictSame(response.statusCode, 400)
+      t.strictSame(response.json().message, 'params should have required property \'username\'')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('unknown username', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/users/asdfcsdfe/events',
+        headers: {
+          Authorization: `Bearer ${aryaToken.json().token as string}`
+        }
+      })
+
+      t.strictSame(response.statusCode, 404)
+      t.strictSame(response.json().message, 'User not found')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
 
   void t.test('get token', async t => {
-    const userToken = await app.inject({
-      method: 'post',
-      url: '/auth/signin',
-      payload: {
-        email: 'relatedevents@gmail.com',
-        password: 'relatedevents'
-      }
-    })
-
-    t.type(aryaToken.json().token, 'string')
-    t.type(userToken.json().token, 'string')
+    try {
+      const resp = await app.inject({
+        method: 'get',
+        url: '/users/aryastark/events',
+        headers: {
+          Authorization: `Bearer ${aryaToken.json().token as string}`
+        }
+      })
+      t.strictSame(resp.json().created.length, 0)
+      t.strictSame(resp.json().attended.length, 0)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
   })
 })
