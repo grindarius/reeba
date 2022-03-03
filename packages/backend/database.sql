@@ -92,7 +92,7 @@ create table event_seats (
 create table transactions (
   transaction_id text not null unique,
   user_username text not null,
-  transaction_time timestamptz not null,
+  transaction_time timestamptz not null default now(),
   primary key (transaction_id),
   foreign key (user_username) references users(user_username)
 );
