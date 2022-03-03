@@ -1,21 +1,13 @@
 import dotenv from 'dotenv-flow'
 import { resolve } from 'path'
-import { Client } from 'pg'
 import t from 'tap'
 
 import createServer from '../../src/app'
+import client from '../pool'
 
 dotenv.config({
   path: resolve(__dirname, '..', '..'),
   silent: true
-})
-
-const client = new Client({
-  user: process.env.POSTGRES_USERNAME,
-  password: process.env.POSTGRES_PASSWORD,
-  host: process.env.POSTGRES_HOSTNAME,
-  port: Number(process.env.POSTGRES_PORT),
-  database: process.env.POSTGRES_DBNAME
 })
 
 void t.test('signin process', async t => {
@@ -23,12 +15,9 @@ void t.test('signin process', async t => {
 
   t.teardown(async () => {
     await app.close()
-    await client.end()
   })
 
   try {
-    await client.connect()
-
     // * Looking for existing logged in user, if not. create one.
     const email = await client.query('select * from "users" where user_email = \'logintest@gmail.com\'')
 

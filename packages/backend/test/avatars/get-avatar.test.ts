@@ -2,23 +2,15 @@ import dotenv from 'dotenv-flow'
 import FormData from 'form-data'
 import { createReadStream, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { Client } from 'pg'
 import Resemble from 'resemblejs'
 import t from 'tap'
 
 import createServer from '../../src/app'
+import client from '../pool'
 
 dotenv.config({
   path: resolve(__dirname, '..', '..'),
   silent: true
-})
-
-const client = new Client({
-  user: process.env.POSTGRES_USERNAME,
-  password: process.env.POSTGRES_PASSWORD,
-  host: process.env.POSTGRES_HOSTNAME,
-  port: Number(process.env.POSTGRES_PORT),
-  database: process.env.POSTGRES_DBNAME
 })
 
 void t.test('get image', async t => {
@@ -26,12 +18,9 @@ void t.test('get image', async t => {
 
   t.teardown(async () => {
     await app.close()
-    await client.end()
   })
 
   try {
-    await client.connect()
-
     // * Looking for existing logged in user, if not. create one (without image path).
     const email = await client.query('select * from "users" where user_username = \'getavatartest\'')
 

@@ -2,12 +2,12 @@ import dayjs from 'dayjs'
 import dotenv from 'dotenv-flow'
 import { nanoid } from 'nanoid'
 import { resolve } from 'node:path'
-import { Client } from 'pg'
 import t from 'tap'
 
 import { event_seats, events, t_event_status } from '@reeba/common'
 
 import createServer from '../../src/app'
+import client from '../pool'
 
 dotenv.config({
   path: resolve(__dirname, '..', '..', 'src'),
@@ -31,14 +31,6 @@ const tagList = [
   'technology',
   'variety'
 ]
-
-const client = new Client({
-  user: process.env.POSTGRES_USERNAME,
-  password: process.env.POSTGRES_PASSWORD,
-  host: process.env.POSTGRES_HOSTNAME,
-  port: Number(process.env.POSTGRES_PORT),
-  database: process.env.POSTGRES_DBNAME
-})
 
 const mockEvent = async (): Promise<void> => {
   const ev = {
@@ -289,11 +281,9 @@ void t.test('get individual event', async t => {
 
   t.teardown(async () => {
     await app.close()
-    await client.end()
   })
 
   try {
-    await client.connect()
     await mockEvent()
   } catch (error) {
     t.error(error)

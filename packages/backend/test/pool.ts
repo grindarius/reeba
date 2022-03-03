@@ -11,14 +11,19 @@ const pool = new Pool({
   password: process.env.POSTGRES_PASSWORD,
   host: process.env.POSTGRES_HOSTNAME,
   port: Number(process.env.POSTGRES_PORT),
-  database: process.env.POSTGRES_DBNAME
+  database: process.env.POSTGRES_DBNAME,
+  allowExitOnIdle: true
 })
 
-export default async <R extends QueryResultRow = any, I extends Array<any> = Array<any>>(text: string | QueryConfig<I>, value?: I): Promise<QueryResult<R>> => {
-  const result = await pool.query<R, I>(
-    text,
-    value
-  )
+const client = {
+  query: async <R extends QueryResultRow = any, I extends Array<any> = Array<any>>(text: string | QueryConfig<I>, value?: I): Promise<QueryResult<R>> => {
+    const result = await pool.query<R, I>(
+      text,
+      value
+    )
 
-  return result
+    return result
+  }
 }
+
+export default client

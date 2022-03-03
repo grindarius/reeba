@@ -15,7 +15,8 @@ import jwt from '@reeba/fastify-check-jwt'
 import routes from './routes'
 
 dotenv.config({
-  path: resolve(__dirname, '..')
+  path: resolve(__dirname, '..'),
+  silent: true
 })
 
 const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse, Logger> => {

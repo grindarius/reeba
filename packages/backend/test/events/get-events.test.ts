@@ -2,25 +2,17 @@ import dayjs from 'dayjs'
 import dotenv from 'dotenv-flow'
 import { nanoid } from 'nanoid'
 import { resolve } from 'node:path'
-import { Client } from 'pg'
 import t from 'tap'
 
 import { event_seats, t_event_status } from '@reeba/common'
 
 import createServer from '../../src/app'
+import client from '../pool'
 import { localEventsList, officialEventsList } from './get-event-data'
 
 dotenv.config({
   path: resolve(__dirname, '..', '..', 'src'),
   silent: true
-})
-
-const client = new Client({
-  user: process.env.POSTGRES_USERNAME,
-  password: process.env.POSTGRES_PASSWORD,
-  host: process.env.POSTGRES_HOSTNAME,
-  port: Number(process.env.POSTGRES_PORT),
-  database: process.env.POSTGRES_DBNAME
 })
 
 const officialUser = {
@@ -50,11 +42,7 @@ void t.test('get front page event test', async t => {
     for (const ev of [...localEventsList, ...officialEventsList]) {
       await client.query('delete from "events" where event_id = $1', [ev.id])
     }
-
-    await client.end()
   })
-
-  await client.connect()
 
   const isThereOfficialUser = await client.query('select * from "users" where user_username = $1', [officialUser.username])
   if (isThereOfficialUser.rowCount === 0) {
