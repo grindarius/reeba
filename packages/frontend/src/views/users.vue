@@ -55,30 +55,53 @@
           <h1>{{ userData?.followersAmount || '0' }} followers</h1>
         </div>
       </section>
-      <section class="profile-events">
-        <h1 class="text-2xl text-white">
-          Events grindarius went to
-        </h1>
-        <div class="event-grid-box">
-          <div class="event">
-            <router-link to="/event">
-              <div class="event-image-box">
-                <img class="event-image" src="@/assets/TK-2-BTS.png" alt="event-image">
-              </div>
-              <div class="event-info">
-                <div>
-                  <h3 class="event-name">
-                    BTS World Tour 'Love Yourself' Bangkok
-                  </h3>
-                  <p class="event-time">
-                    6 - 7 Apr 2021 | 21:00
-                  </p>
-                  <p class="event-location">
-                    Rajamangkala National
-                  </p>
+      <section>
+        <div class="event-section">
+          <h1 class="text-main-event-name">
+            Events {{ $route.params.username ?? '' }} went to
+          </h1>
+          <div class="event-grid-box">
+            <div class="event" v-for="({username, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.attended ?? [])" :key="`user-page-attended-event-${i}`">
+              <router-link :to="{ name: 'Event', params: { username, eventId }}">
+                <div class="event-image-box">
+                  <img class="event-image" :src="`${getEventImage.url}/${eventId}`" :alt="eventName">
                 </div>
-              </div>
-            </router-link>
+                <div class="event-info">
+                  <div>
+                    <h3 class="event-name">
+                      {{ eventName }}
+                    </h3>
+                    <p class="event-location">
+                      {{ venueName }}
+                    </p>
+                  </div>
+                </div>
+              </router-link>
+            </div>
+          </div>
+        </div>
+        <div class="event-section">
+          <h1 class="text-main-event-name">
+            Events {{ $route.params.username ?? '' }} created
+          </h1>
+          <div class="event-grid-box">
+            <div class="event" v-for="({username, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.attended ?? [])" :key="`user-page-created-event-${i}`">
+              <router-link :to="{ name: 'Event', params: { username, eventId }}">
+                <div class="event-image-box">
+                  <img class="event-image" :src="`${getEventImage.url}/${eventId}`" :alt="eventName">
+                </div>
+                <div class="event-info">
+                  <div>
+                    <h3 class="event-name">
+                      {{ eventName }}
+                    </h3>
+                    <p class="event-location">
+                      {{ venueName }}
+                    </p>
+                  </div>
+                </div>
+              </router-link>
+            </div>
           </div>
         </div>
       </section>
@@ -95,7 +118,7 @@ import { useToast } from 'vue-toastification'
 
 import { GetUserRelatedEventsReply, GetUserReply } from '@reeba/common'
 
-import { getUser, getUserAvatar, getUserRelatedEvents } from '@/api/endpoints'
+import { getEventImage, getUser, getUserAvatar, getUserRelatedEvents } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 
 export default defineComponent({
@@ -163,7 +186,8 @@ export default defineComponent({
       getUserAvatar,
       authStore,
       followUser,
-      relatedEvents
+      relatedEvents,
+      getEventImage
     }
   }
 })
@@ -171,10 +195,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .event-location {
-  @apply mt-1 text-sm font-normal text-white truncate;
-}
-
-.event-time {
   @apply mt-1 text-sm font-normal text-white truncate;
 }
 
@@ -194,10 +214,6 @@ export default defineComponent({
   @apply overflow-hidden bg-gray-200 rounded-t-lg group-hover:opacity-75;
 }
 
-.event-grid-box {
-  @apply grid grid-cols-1 gap-x-6 gap-y-10 mt-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8;
-}
-
 .users-page {
   @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
 }
@@ -207,7 +223,7 @@ export default defineComponent({
 }
 
 .users-page-content {
-  @apply container grid grid-rows-2 gap-6 mt-6;
+  @apply container grid gap-6 mt-6;
 }
 
 .user-image {
@@ -242,5 +258,21 @@ export default defineComponent({
 
 .follow-button {
   @apply px-3 h-10 rounded-lg bg-pale-yellow text-pale-gray;
+}
+
+.text-main-event-name {
+  @apply font-sans text-4xl font-bold text-white;
+}
+
+.event-section {
+  @apply py-10 px-10 mx-auto max-w-3xl sm:py-12 sm:px-6 lg:px-8 lg:max-w-7xl;
+}
+
+.event-grid-box {
+  @apply grid grid-cols-1 gap-x-6 gap-y-10 mt-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8;
+}
+
+.event {
+  @apply rounded-lg shadow-xl transition duration-200 ease-in-out delay-100 cursor-pointer hover:scale-105 hover:-translate-y-1;
 }
 </style>
