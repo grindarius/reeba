@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "dev:backend": "pnpm build:common && cd packages/backend && pnpm watch",
+    "dev:backend": "pnpm build:common && cd packages/backend && cross-env BACKEND_TEST_ENV=false pnpm watch",
     "dev:frontend": "cd packages/frontend && pnpm dev",
     "dev:common": "cd packages/common && pnpm watch",
     "build:backend": "cd packages/backend && pnpm build",
@@ -30,7 +30,7 @@
     "build:common": "cd packages/common && pnpm build",
     "lint": "eslint **/*.{ts,vue}",
     "lint:css": "pnpm exec ts-node packages/scripts/src/lint-css.ts",
-    "test": "pnpm build:common && pnpm clear-db && pnpm exec tap --rcfile=.taprc.yaml",
+    "test": "pnpm build:common && pnpm clear-db && cross-env BACKEND_TEST_ENV=true pnpm exec tap --rcfile=.taprc.yaml",
     "seed": "pnpm exec ts-node packages/scripts/src/seed.ts",
     "clear-uploads": "pnpm exec ts-node packages/scripts/src/clear-uploads-folder.ts",
     "clear-db": "pnpm exec ts-node packages/scripts/src/clear-db.ts"
@@ -48,6 +48,7 @@
     "@typescript-eslint/parser": "^4.33.0",
     "@vue/eslint-config-standard": "^6.1.0",
     "@vue/eslint-config-typescript": "^7.0.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-config-standard-with-typescript": "^20.0.0",

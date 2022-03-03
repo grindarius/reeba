@@ -10,6 +10,7 @@ importers:
       '@typescript-eslint/parser': ^4.33.0
       '@vue/eslint-config-standard': ^6.1.0
       '@vue/eslint-config-typescript': ^7.0.0
+      cross-env: ^7.0.3
       eslint: ^7.32.0
       eslint-config-standard: ^16.0.3
       eslint-config-standard-with-typescript: ^20.0.0
@@ -34,6 +35,7 @@ importers:
       '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.6.2
       '@vue/eslint-config-standard': 6.1.0_90225dee0e523eac1a58b65487e71de6
       '@vue/eslint-config-typescript': 7.0.0_f2c1c083ca9f8be5792c7dca889a98e3
+      cross-env: 7.0.3
       eslint: 7.32.0
       eslint-config-standard: 16.0.3_6a48346ff31498e55146b31bc801dc94
       eslint-config-standard-with-typescript: 20.0.0_8479d3a550b5a317143740c14c7e90c3
@@ -2001,6 +2003,14 @@ packages:
 
   /create-require/1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
+    dev: true
+
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
     dev: true
 
   /cross-spawn/7.0.3:

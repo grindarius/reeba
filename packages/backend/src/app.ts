@@ -21,12 +21,14 @@ dotenv.config({
 
 const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse, Logger> => {
   const server = fastify<Server, IncomingMessage, ServerResponse, Logger>({
-    logger: {
-      prettyPrint: {
-        colorize: true,
-        translateTime: 'SYS:standard'
-      }
-    }
+    logger: process.env.BACKEND_TEST_ENV === 'true'
+      ? false
+      : {
+          prettyPrint: {
+            colorize: true,
+            translateTime: 'SYS:standard'
+          }
+        }
   })
 
   const pgUsername = process.env.POSTGRES_USERNAME
