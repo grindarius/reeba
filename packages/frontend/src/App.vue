@@ -87,7 +87,7 @@
       </ul>
     </div>
   </nav>
-  <router-view />
+  <router-view :key="$route.fullPath" />
   <footer class="dark:text-black">
     <div class="container flex flex-col justify-center py-10 mx-auto lg:flex-row lg:space-y-center">
       <div class="md:w-1/5">
