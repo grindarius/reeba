@@ -10,7 +10,7 @@
         <img :src="`${getUserAvatar.url}/${$route.params.username}`" alt="user-image" class="user-image">
         <div class="user-info">
           <div class="mt-3 text-4xl font-bold text-white">
-            {{ userData?.username ?? '' }}
+            {{ $route.params.username }}
             <v-mdi v-show="userData?.verificationStatus" name="mdi-check-decagram" fill="#D5A755" />
           </div>
         </div>
@@ -61,8 +61,8 @@
             Events {{ $route.params.username ?? '' }} went to
           </h1>
           <div class="event-grid-box">
-            <div class="event" v-for="({username, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.attended ?? [])" :key="`user-page-attended-event-${i}`">
-              <router-link :to="{ name: 'Event', params: { username, eventId }}">
+            <div class="event" v-for="({username: attendedUsername, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.attended ?? [])" :key="`user-page-attended-event-${i}`">
+              <router-link :to="{ name: 'Event', params: { attendedUsername, eventId }}">
                 <div class="event-image-box">
                   <img class="event-image" :src="`${getEventImage.url}/${eventId}`" :alt="eventName">
                 </div>
@@ -85,8 +85,8 @@
             Events {{ $route.params.username ?? '' }} created
           </h1>
           <div class="event-grid-box">
-            <div class="event" v-for="({username, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.attended ?? [])" :key="`user-page-created-event-${i}`">
-              <router-link :to="{ name: 'Event', params: { username, eventId }}">
+            <div class="event" v-for="({username: createdUsername, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.created ?? [])" :key="`user-page-created-event-${i}`">
+              <router-link :to="{ name: 'Event', params: { createdUsername, eventId }}" :key="$route.path">
                 <div class="event-image-box">
                   <img class="event-image" :src="`${getEventImage.url}/${eventId}`" :alt="eventName">
                 </div>
@@ -129,14 +129,14 @@ export default defineComponent({
     const authStore = useAuthStore()
     const toast = useToast()
 
+    const userData: Ref<GetUserReply | undefined> = ref(undefined)
+    const relatedEvents: Ref<GetUserRelatedEventsReply | undefined> = ref(undefined)
+
     useMeta({
       title: route.params.username
     })
 
-    const userData: Ref<GetUserReply | undefined> = ref(undefined)
-    const relatedEvents: Ref<GetUserRelatedEventsReply | undefined> = ref(undefined)
-
-    onMounted(async () => {
+    onMounted(async (): Promise<void> => {
       try {
         const userDataResponse = await ky(`${getUser.url}/${route.params.username}`, {
           method: getUser.method,
