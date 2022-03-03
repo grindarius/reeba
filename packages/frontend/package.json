@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@mdi/js": "^6.5.95",
-    "@reeba/common": "^1.0.0",
+    "@reeba/common": "workspace:^1.0.0",
     "countries-list": "^2.6.1",
     "d3": "^7.3.0",
     "dayjs": "^1.10.7",

@@ -5,6 +5,7 @@ import favicon from 'fastify-favicon'
 import helmet from 'fastify-helmet'
 import multipart from 'fastify-multipart'
 import pg from 'fastify-postgres'
+import printRoutes from 'fastify-routes'
 import servestatic from 'fastify-static'
 import { IncomingMessage, Server, ServerResponse } from 'node:http'
 import { join, resolve } from 'node:path'
@@ -66,6 +67,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
   void server.register(jwt, {
     secret: jwtSecret
   })
+  void server.register(printRoutes)
 
   void server.register(routes)
 
