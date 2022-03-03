@@ -19,7 +19,7 @@
           Sign in
         </router-link>
         <button @click="dropdownClicked" :class="authStore.isAuthenticated ? 'dropdown-navbar inline-flex' : 'dropdown-navbar hidden'">
-          <img src="@/assets/user.png" class="profile-image-navbar">
+          <img :src="`${getUserAvatar.url}/${authStore.userData.username ?? ''}`" class="profile-image-navbar">
           <v-mdi class="place-self-center" name="mdi-chevron-down" fill="#423E41" />
         </button>
       </div>
