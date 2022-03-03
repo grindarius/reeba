@@ -18,8 +18,8 @@
         <router-link v-show="!authStore.isAuthenticated" class="button" to="/signin">
           Sign in
         </router-link>
-        <button @click="dropdownClicked" :class="authStore.isAuthenticated ?'dropdown-navbar inline-flex' : 'dropdown-navbar hidden'">
-          <img src="@/assets/user.png" class="profile-image-navbar">
+        <button @click="dropdownClicked" :class="authStore.isAuthenticated ? 'dropdown-navbar inline-flex' : 'dropdown-navbar hidden'">
+          <img :src="`${getUserAvatar.url}/${authStore.userData.username ?? ''}`" class="profile-image-navbar">
           <v-mdi class="place-self-center" name="mdi-chevron-down" fill="#423E41" />
         </button>
       </div>
@@ -28,8 +28,8 @@
       </div>
     </div>
     <div v-if="dropdownState" v-show="authStore.isAuthenticated" class="dropdown-state">
-      <div :class="authStore.isAuthenticated ?'py-1 block' : 'py-1 hidden'">
-        <router-link to="/users" class="dropdown-text" @click="closeDropdown">
+      <div :class="authStore.isAuthenticated ? 'py-1 block' : 'py-1 hidden'">
+        <router-link :to="`/${authStore.userData.username}`" class="dropdown-text" @click="closeDropdown">
           {{ authStore.userData.username }}
         </router-link>
       </div>
@@ -51,7 +51,7 @@
         </button>
       </div>
     </div>
-    <div :class="hamburgerState ?'small-navbar block' : 'small-navbar hidden'">
+    <div :class="hamburgerState ? 'small-navbar block' : 'small-navbar hidden'">
       <ul class="small-navbar-list">
         <li>
           <label>
@@ -69,7 +69,7 @@
           </router-link>
         </li>
         <li v-show="authStore.isAuthenticated">
-          <router-link to="/users" @click="closeHamburger" class="flex place-items-center">
+          <router-link :to="`/${authStore.userData.username}`" @click="closeHamburger" class="flex place-items-center">
             <img :src="`${getUserAvatar.url}/${authStore.userData.username ?? ''}`" :alt="authStore.userData.username ?? ''" class="profile-image">
             {{ authStore.userData.username }}
           </router-link>
@@ -87,7 +87,7 @@
       </ul>
     </div>
   </nav>
-  <router-view />
+  <router-view :key="$route.fullPath" />
   <footer class="dark:text-black">
     <div class="container flex flex-col justify-center py-10 mx-auto lg:flex-row lg:space-y-center">
       <div class="md:w-1/5">

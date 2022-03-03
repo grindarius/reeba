@@ -244,26 +244,17 @@ Open 3 terminals and run these commands from the root of the project.
 You will see the API runs at `http://localhost:3000` and frontend server runs at `http://localhost:8080`
 
 ## Testing
-Our `common` and `backend` module will be tested using [`tap`](https://github.com/tapjs/node-tap). This is how to run the test.
-
-- Build `common` module by running
-  ```
-  pnpm build:common
-  ```
-  from the root of the project.
-
-- Then run
-  ```
-  pnpm test
-  ```
-  to see results.
+Our `common` and `backend` module will be tested using [`tap`](https://github.com/tapjs/node-tap). Type
+```
+pnpm test
+```
+to see results.
 
 **All tests should pass before submitting PRs**
 
-## Database seeding
-In ReebA, there's a command called `seed` and `inject` that you can run to seed your database.
-
-- `pnpm seed` will generate data based on seed (112233) so all the data will be the same.
-- `pnpm inject` will inject the data into the database (please do note that this feature is incomplete and subject to change in the future).
-
-Please bear in mind that `pnpm inject` will only work if backend server is running. You have to run `pnpm dev:backend` from one terminal and use the other terminal to run `pnpm inject`. This hassle is being noted and the change is coming in the future.
+## Seeding
+In ReebA, there's a command called `seed` that you can run to seed your database, running
+```
+pnpm seed
+```
+will generate fake ReebA data and inject into the database.

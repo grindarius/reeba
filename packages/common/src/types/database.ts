@@ -45,6 +45,18 @@ export interface point {
 }
 
 /**
+ * Interface for a json object storing user links.
+ */
+export interface social_media {
+  facebook: string
+  instagram: string
+  twitter: string
+  tiktok: string
+  email: string
+  website: string
+}
+
+/**
  * Table that stores user informations.
  */
 export interface users {
@@ -56,6 +68,14 @@ export interface users {
    * User's email. Not null. Unique.
    */
   user_email: string
+  /**
+   * User's profile short description of their profile, string, default is `''`. Not null.
+   */
+  user_profile_description: string
+  /**
+   * User's social media links, not null for each element, can be emptystring,
+   */
+  user_social_medias: social_media
   /**
    * User's password. Not null, cannot be longer than 64 characters but no length limit in database.
    */

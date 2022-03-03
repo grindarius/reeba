@@ -25,4 +25,6 @@ void t.test('Requesting / route', async t => {
     t.error(error)
     t.fail('Error while requesting the route')
   }
+
+  t.end()
 })

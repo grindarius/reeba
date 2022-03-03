@@ -76,7 +76,7 @@
         </div>
       </nav>
       <div class="account-content">
-        <router-view />
+        <router-view :key="$route.fullPath" />
       </div>
     </div>
   </div>

@@ -1,9 +1,11 @@
 import dotenv from 'dotenv-flow'
 import fastify, { FastifyInstance } from 'fastify'
 import cors from 'fastify-cors'
+import favicon from 'fastify-favicon'
 import helmet from 'fastify-helmet'
 import multipart from 'fastify-multipart'
 import pg from 'fastify-postgres'
+import printRoutes from 'fastify-routes'
 import servestatic from 'fastify-static'
 import { IncomingMessage, Server, ServerResponse } from 'node:http'
 import { join, resolve } from 'node:path'
@@ -14,17 +16,20 @@ import jwt from '@reeba/fastify-check-jwt'
 import routes from './routes'
 
 dotenv.config({
-  path: resolve(__dirname, '..')
+  path: resolve(__dirname, '..'),
+  silent: true
 })
 
 const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse, Logger> => {
   const server = fastify<Server, IncomingMessage, ServerResponse, Logger>({
-    logger: {
-      prettyPrint: {
-        colorize: true,
-        translateTime: 'SYS:standard'
-      }
-    }
+    logger: process.env.BACKEND_TEST_ENV === 'true'
+      ? false
+      : {
+          prettyPrint: {
+            colorize: true,
+            translateTime: 'SYS:standard'
+          }
+        }
   })
 
   const pgUsername = process.env.POSTGRES_USERNAME
@@ -48,6 +53,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
     throw new Error('missing jwt secret')
   }
 
+  void server.register(favicon, { path: './assets', name: 'favicon.ico' })
   void server.register(multipart)
   void server.register(servestatic, {
     root: join(__dirname, '..', 'uploads'),
@@ -61,6 +67,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
   void server.register(jwt, {
     secret: jwtSecret
   })
+  void server.register(printRoutes)
 
   void server.register(routes)
 

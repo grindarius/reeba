@@ -62,7 +62,19 @@ module.exports = {
         'no-redeclare': 'off',
         'no-undef': 'off',
         'no-useless-constructor': 'off',
-        '@typescript-eslint/array-type': ['error', { default: 'generic', readonly: 'generic' }]
+        '@typescript-eslint/array-type': ['error', { default: 'generic', readonly: 'generic' }],
+        'camelcase': ['error', {
+          allow: [
+            '^t_',
+            '^event_',
+            '^user_',
+            'social_media',
+            '^follow|following_',
+            '^transaction_',
+            'first_start_datetime'
+          ],
+          ignoreImports: true
+        }]
       }
     },
     {
@@ -88,7 +100,8 @@ module.exports = {
           }
         ],
         'vue/component-definition-name-casing': ['error', 'kebab-case'],
-        'vue/html-indent': ['error']
+        'vue/html-indent': ['error'],
+        'camelcase': ['error', { ignoreImports: true }]
       }
     }
   ]

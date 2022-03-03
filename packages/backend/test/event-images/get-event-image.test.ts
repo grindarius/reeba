@@ -4,7 +4,6 @@ import FormData from 'form-data'
 import { nanoid } from 'nanoid'
 import { createReadStream, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { Client } from 'pg'
 import Resemble from 'resemblejs'
 import t from 'tap'
 
@@ -12,17 +11,11 @@ import { event_seats, t_event_status } from '@reeba/common'
 
 import createServer from '../../src/app'
 import { officialEventsList } from '../events/get-event-data'
+import client from '../pool'
 
 dotenv.config({
-  path: resolve(__dirname, '..', '..')
-})
-
-const client = new Client({
-  user: process.env.POSTGRES_USERNAME,
-  password: process.env.POSTGRES_PASSWORD,
-  host: process.env.POSTGRES_HOSTNAME,
-  port: Number(process.env.POSTGRES_PORT),
-  database: process.env.POSTGRES_DBNAME
+  path: resolve(__dirname, '..', '..'),
+  silent: true
 })
 
 void t.test('get event image', async t => {
@@ -30,11 +23,9 @@ void t.test('get event image', async t => {
 
   t.teardown(async () => {
     await app.close()
-    await client.end()
   })
 
   try {
-    await client.connect()
     const perfectEV = { ...officialEventsList[0], ...{ eventName: 'test get event image', id: 'test_get_event_image', createdBy: 'geteventimagetest' } }
     const anotherEV = { ...officialEventsList[1], ...{ eventName: 'test get event with emptyString', id: 'empty_string_event_name', createdBy: 'geteventimagetest' } }
 
