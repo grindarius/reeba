@@ -11,6 +11,7 @@ import {
 } from '@reeba/common'
 
 interface SelectRootPageEvent {
+  user_username: events['user_username']
   event_id: events['event_id']
   event_name: events['event_name']
   event_venue_name: events['event_venue_name']
@@ -35,6 +36,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       const allOfficialEventsLastMonth = await instance.pg.query<SelectRootPageEvent, [Date]>(
         `select
+          events.user_username,
           events.event_id,
           events.event_name,
           events.event_venue_name,
@@ -52,6 +54,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       const allLocalEventsLastMonth = await instance.pg.query<SelectRootPageEvent, [Date]>(
         `select
+          events.user_username,
           events.event_id,
           events.event_name,
           events.event_venue_name,
@@ -70,6 +73,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       return {
         official: allOfficialEventsLastMonth.rows.map(ev => {
           const ret: RootPageEvent = {
+            username: ev.user_username,
             id: ev.event_id,
             name: ev.event_name,
             firstDatetime: ev.first_start_datetime,
@@ -80,6 +84,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }),
         local: allLocalEventsLastMonth.rows.map(ev => {
           const ret: RootPageEvent = {
+            username: ev.user_username,
             id: ev.event_id,
             name: ev.event_name,
             firstDatetime: ev.first_start_datetime,

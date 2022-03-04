@@ -9,11 +9,6 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.Home
   },
   {
-    path: '/events/:eventId',
-    name: 'Event',
-    component: Page.Event
-  },
-  {
     path: '/signup',
     name: 'Signup',
     component: Page.Signup
@@ -94,14 +89,19 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.Upload
   },
   {
-    path: '/users',
+    path: '/:username',
     name: 'Users',
     component: Page.Users
   },
   {
-    path: '/search-result',
-    name: 'Search result',
+    path: '/search',
+    name: 'Search',
     component: Page.SearchResult
+  },
+  {
+    path: '/:username/:eventId',
+    name: 'Event',
+    component: Page.Event
   },
   {
     path: '/:pathMatch(.*)*',

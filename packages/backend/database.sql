@@ -12,6 +12,7 @@ create table users (
   user_username text not null unique,
   user_email text not null unique,
   user_profile_description text not null default '',
+  user_social_medias jsonb not null default '{ "facebook": "", "instagram": "", "twitter": "", "tiktok": "", "email": "", "website": "" }'::jsonb,
   user_password text not null,
   user_registration_datetime timestamptz not null default now(),
   user_role t_user_role not null default 'user',
@@ -91,7 +92,7 @@ create table event_seats (
 create table transactions (
   transaction_id text not null unique,
   user_username text not null,
-  transaction_time timestamptz not null,
+  transaction_time timestamptz not null default now(),
   primary key (transaction_id),
   foreign key (user_username) references users(user_username)
 );
@@ -146,4 +147,3 @@ insert into users (
   'admin',
   'I am Arya Stark''s older sister.'
 ) on conflict (user_username) do nothing;
-

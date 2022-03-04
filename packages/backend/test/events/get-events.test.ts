@@ -2,24 +2,17 @@ import dayjs from 'dayjs'
 import dotenv from 'dotenv-flow'
 import { nanoid } from 'nanoid'
 import { resolve } from 'node:path'
-import { Client } from 'pg'
 import t from 'tap'
 
 import { event_seats, t_event_status } from '@reeba/common'
 
 import createServer from '../../src/app'
+import client from '../pool'
 import { localEventsList, officialEventsList } from './get-event-data'
 
 dotenv.config({
-  path: resolve(__dirname, '..', '..', 'src')
-})
-
-const client = new Client({
-  user: process.env.POSTGRES_USERNAME,
-  password: process.env.POSTGRES_PASSWORD,
-  host: process.env.POSTGRES_HOSTNAME,
-  port: Number(process.env.POSTGRES_PORT),
-  database: process.env.POSTGRES_DBNAME
+  path: resolve(__dirname, '..', '..', 'src'),
+  silent: true
 })
 
 const officialUser = {
@@ -49,11 +42,7 @@ void t.test('get front page event test', async t => {
     for (const ev of [...localEventsList, ...officialEventsList]) {
       await client.query('delete from "events" where event_id = $1', [ev.id])
     }
-
-    await client.end()
   })
-
-  await client.connect()
 
   const isThereOfficialUser = await client.query('select * from "users" where user_username = $1', [officialUser.username])
   if (isThereOfficialUser.rowCount === 0) {
@@ -152,41 +141,49 @@ void t.test('get front page event test', async t => {
       t.type(json.official, Array)
       t.type(json.local, Array)
 
+      t.strictSame(json.official[0].username, 'officialrootpageacc')
       t.strictSame(json.official[0].id, 'testgetevent4')
       t.strictSame(json.official[0].name, 'Test get event #4')
       t.strictSame(json.official[0].firstDatetime, dayjs().subtract(21, 'days').set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).toISOString())
       t.strictSame(json.official[0].venueName, 'Rajamangkala Stadium')
 
+      t.strictSame(json.official[1].username, 'officialrootpageacc')
       t.strictSame(json.official[1].id, 'testgetevent3')
       t.strictSame(json.official[1].name, 'Test get event #3')
       t.strictSame(json.official[1].firstDatetime, dayjs().subtract(23, 'days').set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).toISOString())
       t.strictSame(json.official[1].venueName, 'Rajamangkala Stadium')
 
+      t.strictSame(json.official[2].username, 'officialrootpageacc')
       t.strictSame(json.official[2].id, 'testgetevent2')
       t.strictSame(json.official[2].name, 'Test get event #2')
       t.strictSame(json.official[2].firstDatetime, dayjs().subtract(25, 'days').set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).toISOString())
       t.strictSame(json.official[2].venueName, 'Rajamangkala Stadium')
 
+      t.strictSame(json.official[3].username, 'officialrootpageacc')
       t.strictSame(json.official[3].id, 'testgetevent1')
       t.strictSame(json.official[3].name, 'Test get event #1')
       t.strictSame(json.official[3].firstDatetime, dayjs().subtract(27, 'days').set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).toISOString())
       t.strictSame(json.official[3].venueName, 'Rajamangkala Stadium')
 
+      t.strictSame(json.local[0].username, 'localrootpageacc')
       t.strictSame(json.local[0].id, 'testgeteventlocal4')
       t.strictSame(json.local[0].name, 'Test get local event #4')
       t.strictSame(json.local[0].firstDatetime, dayjs().subtract(13, 'days').set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).toISOString())
       t.strictSame(json.local[0].venueName, 'Rajamangkala Stadium')
 
+      t.strictSame(json.local[1].username, 'localrootpageacc')
       t.strictSame(json.local[1].id, 'testgeteventlocal3')
       t.strictSame(json.local[1].name, 'Test get local event #3')
       t.strictSame(json.local[1].firstDatetime, dayjs().subtract(15, 'days').set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).toISOString())
       t.strictSame(json.local[1].venueName, 'Rajamangkala Stadium')
 
+      t.strictSame(json.local[2].username, 'localrootpageacc')
       t.strictSame(json.local[2].id, 'testgeteventlocal2')
       t.strictSame(json.local[2].name, 'Test get local event #2')
       t.strictSame(json.local[2].firstDatetime, dayjs().subtract(17, 'days').set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).toISOString())
       t.strictSame(json.local[2].venueName, 'Rajamangkala Stadium')
 
+      t.strictSame(json.local[3].username, 'localrootpageacc')
       t.strictSame(json.local[3].id, 'testgeteventlocal1')
       t.strictSame(json.local[3].name, 'Test get local event #1')
       t.strictSame(json.local[3].firstDatetime, dayjs().subtract(19, 'days').set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).toISOString())
