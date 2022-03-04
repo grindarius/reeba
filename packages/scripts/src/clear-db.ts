@@ -58,7 +58,8 @@ console.log(chalk.green('deleting data in tables'));
     user_phone_country_code,
     user_phone_number,
     user_role,
-    user_profile_description
+    user_profile_description,
+    user_image_profile_path
   ) values (
     'aryastark',
     'aryastark@gmail.com',
@@ -66,7 +67,8 @@ console.log(chalk.green('deleting data in tables'));
     '66',
     '994485893',
     'user',
-    'I am Sansa Stark''s youger sister.'
+    'I am Sansa Stark''s youger sister.',
+    'arya-stark-profile.png'
   ), (
     'sansastark',
     'sansastark@gmail.com',
@@ -74,7 +76,8 @@ console.log(chalk.green('deleting data in tables'));
     '66',
     '995894833',
     'admin',
-    'I am Arya Stark''s older sister.'
+    'I am Arya Stark''s older sister.',
+    'sansa-stark-profile.jpg'
   ) on conflict (user_username) do nothing;`)
 
   await client.end()

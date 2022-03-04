@@ -53,7 +53,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
     throw new Error('missing jwt secret')
   }
 
-  void server.register(favicon, { path: './assets', name: 'favicon.ico' })
+  void server.register(favicon, { path: join(__dirname, '..', 'assets'), name: 'favicon.ico' })
   void server.register(multipart)
   void server.register(servestatic, {
     root: join(__dirname, '..', 'uploads'),
