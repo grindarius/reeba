@@ -9,10 +9,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import ky from 'ky'
+import { defineComponent, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
-  name: 'search'
+  name: 'search',
+  setup () {
+    const route = useRoute()
+
+    onMounted(async () => {
+      await ky('http://localhost:3000/search', {
+        method: 'get',
+        searchParams: {
+          q: route.query.q == null ? '' : Array.isArray(route.query.q) ? route.query.q.join(',') : route.query.q,
+          pricerange: route.query.pricerange == null ? '' : Array.isArray(route.query.pricerange) ? route.query.pricerange.join(',') : route.query.pricerange,
+          datetime: route.query.datetime == null ? '' : Array.isArray(route.query.datetime) ? route.query.datetime.join(',') : route.query.datetime
+        }
+      })
+    })
+  }
 })
 </script>
 
