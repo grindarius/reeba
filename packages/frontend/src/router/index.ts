@@ -89,14 +89,14 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.Upload
   },
   {
-    path: '/:username',
-    name: 'Users',
-    component: Page.Users
-  },
-  {
     path: '/search',
     name: 'Search',
     component: Page.SearchResult
+  },
+  {
+    path: '/:username',
+    name: 'Users',
+    component: Page.Users
   },
   {
     path: '/:username/:eventId',
