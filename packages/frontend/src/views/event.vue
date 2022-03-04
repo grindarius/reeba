@@ -1,5 +1,10 @@
 <template>
   <div class="event-page">
+    <metainfo>
+      <template #title="{ content }">
+        {{ content }} | ReebA: Ticket booking. Redefined.
+      </template>
+    </metainfo>
     <div class="event-page-content">
       <div class="event-top-part">
         <div class="w-full rounded-lg lg:w-min">
@@ -123,6 +128,7 @@ import MarkdownIt from 'markdown-it'
 import abbr from 'markdown-it-abbr'
 import emoji from 'markdown-it-emoji'
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 
 import { GetIndividualEventReply } from '@reeba/common'
@@ -135,6 +141,12 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const eventData: Ref<GetIndividualEventReply | undefined> = ref(undefined)
+
+    useMeta(computed(() => {
+      return {
+        title: eventData.value?.name ?? ''
+      }
+    }))
 
     const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
 
