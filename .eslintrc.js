@@ -71,7 +71,9 @@ module.exports = {
             'social_media',
             '^follow|following_',
             '^transaction_',
-            'first_start_datetime'
+            'first_start_datetime',
+            '^prices|price_',
+            'country_code'
           ],
           ignoreImports: true
         }]
