@@ -1,7 +1,9 @@
 <template>
-  <div class="-page">
-    <div class="-page-content">
-      <h1 class="text-4xl text-white" />
+  <div class="search-page">
+    <div class="search-page-content">
+      <h1 class="text-4xl text-white">
+        search
+      </h1>
     </div>
   </div>
 </template>
@@ -10,16 +12,16 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'search-result'
+  name: 'search'
 })
 </script>
 
 <style scoped lang="scss">
-.-page {
+.search-page {
   @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
 }
 
-.-page-content {
+.search-page-content {
   @apply container mt-6;
 }
 </style>
