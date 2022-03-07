@@ -3,7 +3,7 @@ import { resolve } from 'path'
 import { Client } from 'pg'
 import t from 'tap'
 
-import { SigninReplyBody } from '@reeba/common'
+import { SigninReply } from '@reeba/common'
 
 import createServer from '../../src/app'
 
@@ -63,7 +63,7 @@ void t.test('post event', async t => {
     }
   })
 
-  const token = response.json<SigninReplyBody>().token
+  const token = response.json<SigninReply>().token
 
   const perfectEvent = {
     eventName: 'BTS',
