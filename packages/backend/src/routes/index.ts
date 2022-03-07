@@ -5,6 +5,7 @@ import avatarRoute from './avatars'
 import eventImagesRoute from './event-images'
 import eventsRoute from './events'
 import usersRoute from './users'
+import searchRoute from './search'
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.all('/', async () => {
@@ -19,4 +20,5 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   void instance.register(eventsRoute, { prefix: '/events' })
   void instance.register(eventImagesRoute, { prefix: '/event-images' })
   void instance.register(usersRoute, { prefix: '/users' })
+  void instance.register(searchRoute, { prefix: '/search' })
 }
