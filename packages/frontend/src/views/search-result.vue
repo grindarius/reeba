@@ -1,9 +1,51 @@
 <template>
   <div class="search-page">
     <div class="search-page-content">
-      <h1 class="text-4xl text-white">
-        search
-      </h1>
+      <div class="flex flex-row">
+        <div class="flex-none">
+          Filter
+          <div class="pt-6" id="filter-section-mobile-0">
+            <div class="space-y-6">
+              <div class="flex items-center">
+                <input id="filter-mobile-color-0" name="color[]" value="white" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
+                <label for="filter-mobile-color-0" class="ml-3 min-w-0 flex-1 text-black"> White </label>
+              </div>
+
+              <div class="flex items-center">
+                <input id="filter-mobile-color-1" name="color[]" value="beige" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
+                <label for="filter-mobile-color-1" class="ml-3 min-w-0 flex-1 text-black"> Beige </label>
+              </div>
+
+              <div class="flex items-center">
+                <input
+                  id="filter-mobile-color-2" name="color[]"
+                  value="blue" type="checkbox"
+                  checked
+                  class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
+                <label for="filter-mobile-color-2" class="ml-3 min-w-0 flex-1 text-black"> Blue </label>
+              </div>
+
+              <div class="flex items-center">
+                <input id="filter-mobile-color-3" name="color[]" value="brown" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
+                <label for="filter-mobile-color-3" class="ml-3 min-w-0 flex-1 text-black"> Brown </label>
+              </div>
+
+              <div class="flex items-center">
+                <input id="filter-mobile-color-4" name="color[]" value="green" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
+                <label for="filter-mobile-color-4" class="ml-3 min-w-0 flex-1 text-black"> Green </label>
+              </div>
+
+              <div class="flex items-center">
+                <input id="filter-mobile-color-5" name="color[]" value="purple" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
+                <label for="filter-mobile-color-5" class="ml-3 min-w-0 flex-1 text-black"> Purple </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="grow pl-20">
+          12 repository results
+        </div>
+      </div>
     </div>
   </div>
 </template>
