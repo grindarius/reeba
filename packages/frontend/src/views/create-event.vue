@@ -1,4 +1,9 @@
 <template>
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
   <div class="create-event-page">
     <div class="create-event-page-content">
       <h3 class="text-4xl font-medium text-white">
@@ -429,6 +434,7 @@ import MarkdownIt from 'markdown-it'
 import abbr from 'markdown-it-abbr'
 import emoji from 'markdown-it-emoji'
 import { computed, defineComponent, Ref, ref, StyleValue, watch } from 'vue'
+import { useMeta } from 'vue-meta'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
@@ -462,6 +468,10 @@ export default defineComponent({
     const router = useRouter()
     const toast = useToast()
     const authStore = useAuthStore()
+
+    useMeta({
+      title: 'Create event'
+    })
 
     const defaults: Selected = {
       name: 'A1',

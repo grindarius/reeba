@@ -4,15 +4,16 @@ import FormData from 'form-data'
 import { nanoid } from 'nanoid'
 import { createReadStream } from 'node:fs'
 import { resolve } from 'node:path'
-import { Client } from 'pg'
 import t from 'tap'
 
 import { event_seats, t_event_status } from '@reeba/common'
 
 import createServer from '../../src/app'
+import client from '../pool'
 
 dotenv.config({
-  path: resolve(__dirname, '..', '..')
+  path: resolve(__dirname, '..', '..'),
+  silent: true
 })
 
 const tagList = [
@@ -32,14 +33,6 @@ const tagList = [
   'technology',
   'variety'
 ]
-
-const client = new Client({
-  user: process.env.POSTGRES_USERNAME,
-  password: process.env.POSTGRES_PASSWORD,
-  host: process.env.POSTGRES_HOSTNAME,
-  port: Number(process.env.POSTGRES_PORT),
-  database: process.env.POSTGRES_DBNAME
-})
 
 const mockEvent = async (): Promise<void> => {
   const user = await client.query('select * from "users" where user_username = \'posteventimageuser\'')
@@ -295,11 +288,9 @@ void t.test('post event image', async t => {
 
   t.teardown(async () => {
     await app.close()
-    await client.end()
   })
 
   try {
-    await client.connect()
     await mockEvent()
   } catch (error) {
     t.error(error)

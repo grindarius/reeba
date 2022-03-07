@@ -1,22 +1,15 @@
 import dotenv from 'dotenv-flow'
 import { resolve } from 'path'
-import { Client } from 'pg'
 import t from 'tap'
 
 import { SigninReply } from '@reeba/common'
 
 import createServer from '../../src/app'
+import client from '../pool'
 
 dotenv.config({
-  path: resolve(__dirname, '..', '..')
-})
-
-const client = new Client({
-  user: process.env.POSTGRES_USERNAME,
-  password: process.env.POSTGRES_PASSWORD,
-  host: process.env.POSTGRES_HOTNAME,
-  port: Number(process.env.POSTGRES_PORT),
-  database: process.env.POSTGRES_DBNAME
+  path: resolve(__dirname, '..', '..'),
+  silent: true
 })
 
 void t.test('post event', async t => {
@@ -24,11 +17,9 @@ void t.test('post event', async t => {
 
   t.teardown(async () => {
     await app.close()
-    await client.end()
   })
 
   try {
-    await client.connect()
     await client.query('delete from "events" where user_username = \'postindiveventtest\'')
 
     await client.query(

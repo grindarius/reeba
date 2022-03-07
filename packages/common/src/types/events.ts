@@ -40,6 +40,7 @@ export const PostEventReplySchema = Type.Object({
 export type PostEventReply = Static<typeof PostEventReplySchema>
 
 export const RootPageEventSchema = Type.Object({
+  username: Type.String(),
   id: Type.String(),
   name: Type.String(),
   firstDatetime: Type.String(),
