@@ -17,7 +17,6 @@ export const PostEventBodySchema = Type.Object({
     price: Type.Number()
   })),
   datetimes: Type.Array(Type.Object({
-    datetimeId: Type.String(),
     start: Type.String(),
     end: Type.String()
   })),
@@ -76,6 +75,7 @@ export const GetIndividualEventReplySchema = Type.Object({
   })),
   tags: Type.Array(Type.String()),
   datetimes: Type.Array(Type.Object({
+    datetimeId: Type.String(),
     start: Type.String(),
     end: Type.String()
   }))
