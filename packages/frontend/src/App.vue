@@ -87,6 +87,10 @@
       </ul>
     </div>
   </nav>
+  <h4>{{ counter }}></h4>
+  <button @click="addOne">
+    Click me
+  </button>
   <router-view :key="$route.fullPath" />
   <footer class="dark:text-black">
     <div class="container flex flex-col justify-center py-10 mx-auto lg:flex-row lg:space-y-center">
@@ -219,10 +223,28 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
+import { storeToRefs, mapActions } from 'pinia'
 
 import { getUserAvatar } from '@/api/endpoints'
 import { useModalState } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
+import { useCounterStore } from './composables/use-counter'
+
+const main = useCounterStore();
+
+const { counter, name, doubleCount } = storeToRefs(main);
+
+const { addOne, reset } = main;
+
+function add (value: number) {
+  main.$patch(state => (state.counter += value))
+  // counter: counter.value + value
+}
+
+main.$subscribe((mutation, state) => {
+  console.log('mutation', mutation)
+  console.log('state', state)
+})
 
 export default defineComponent({
   name: 'app',
