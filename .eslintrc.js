@@ -73,7 +73,8 @@ module.exports = {
             '^transaction_',
             'first_start_datetime',
             '^prices|price_',
-            'country_code'
+            'country_code',
+            '^is_'
           ],
           ignoreImports: true
         }]
