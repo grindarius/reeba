@@ -4,55 +4,23 @@
       <div class="flex flex-row">
         <div class="flex-none">
           Filter
-          <div class="flex flex-col">
-            <label class="inline-flex items-center mt-3">
-              <input type="checkbox" class="form-checkbox h-5 w-5 text-yellow-600" checked><span class="ml-2 text-back">lasssssssssssssssssssbel</span>
-            </label>
-          </div>
-
-          <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
+          <div class="divide-y overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
             <ul class="space-y-2">
               <li>
-                <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <span class="ml-3">Dashboard</span>
+                <a href="#" class="flex items-center p-2 text-xl font-bold text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <span class="ml-3">Official</span>
                 </a>
               </li>
               <li>
-                <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <span class="flex-1 ml-3 whitespace-nowrap">Kanban</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <span class="flex-1 ml-3 whitespace-nowrap">Inbox</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <span class="flex-1 ml-3 whitespace-nowrap">Users</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <span class="flex-1 ml-3 whitespace-nowrap">Products</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <span class="flex-1 ml-3 whitespace-nowrap">Sign In</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <span class="flex-1 ml-3 whitespace-nowrap">Sign Up</span>
+                <a href="#" class="flex items-center p-2 text-xl font-bold text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <span class="ml-3">Local</span>
                 </a>
               </li>
             </ul>
-          </div>
-
-          <div class="flex items-center h-5" v-for="(tag, i) in eventTagsSelectors" :key="`event-tag-list-checkbox-${i}`">
-            <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-pink-500 focus:ring-3" :value="tag.tag" v-model="eventTags">
-            <label :for="`event-tag-checkbox-input-${tag.tag}`" class="font-medium text-white">{{ tag.name }}</label>
+            <div class="flex items-center h-7" v-for="(tag, i) in eventTagsSelectors" :key="`event-tag-list-checkbox-${i}`">
+              <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-bg-pale-yellow focus:ring-3" :value="tag.tag" v-model="eventTags">
+              <label :for="`event-tag-checkbox-input-${tag.tag}`" class="font-light text-white">{{ tag.name }}</label>
+            </div>
           </div>
         </div>
         <div class="grow pl-20">
