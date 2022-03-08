@@ -17,8 +17,8 @@
               </a>
             </div>
           </div>
-          <div class="mt-3 divide-y overflow-y-auto px-3 py-6 rounded text-white dark:bg-gray-800">
-            <div class="flex flex-col p-2">
+          <div class="mt-3 divide-y overflow-y-auto px-3 py-6 rounded text-white text-sm dark:bg-gray-800">
+            <div class="flex flex-col p-2 w-56">
               <input type="range" class="w-full" min="1" max="4" step="1">
               <ul class="flex justify-between px-[10px]">
                 <li class="flex justify-center relative">
