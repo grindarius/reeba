@@ -45,7 +45,7 @@
         </div>
         <button
           :disabled="userData?.username == null ? true : userData.username === authStore.userData.username ? true : false"
-          class="follow-button hover:bg-yellow-hover disabled:bg-red-disabled disabled:text-white"
+          class="disabled:text-white follow-button hover:bg-yellow-hover disabled:bg-red-disabled"
           @click="followUser">
           Follow
         </button>
@@ -249,7 +249,7 @@ export default defineComponent({
 }
 
 .user-stats {
-  @apply flex flex-col items-center mt-6 w-11/12 md:flex-row md:justify-center gap-x-14;
+  @apply flex flex-col gap-x-14 items-center mt-6 w-11/12 md:flex-row md:justify-center;
 
   & h1 {
     @apply text-lg text-white;
