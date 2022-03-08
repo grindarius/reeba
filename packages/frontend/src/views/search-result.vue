@@ -2,25 +2,27 @@
   <div class="search-page">
     <div class="search-page-content">
       <div class="flex flex-row">
-        <div class="flex-none">
+        <div class="flex-none w-56">
           Filter
-          <div class="mt-3 divide-y overflow-y-auto py-4 rounded dark:bg-gray-800">
-            <div>
-              <a href="#" class="flex items-center p-2 text-xl font-bold text-gray-900 dark:text-white dark:hover:bg-gray-700">
-                <span class="ml-3">Official</span>
-              </a>
+          <div class="mt-3 divide-y overflow-y-auto pt-4 rounded text-white dark:bg-gray-800">
+            <div class="text-xl font-bold text-left pl-4 pb-2">
+              Type
+            </div>
+            <div class="py-4 text-xl text-white text-center font-bold dark:hover:bg-gray-700 cursor-pointer">
+              Official
             </div>
 
-            <div>
-              <a href="#" class="flex items-center p-2 text-xl font-bold text-gray-900 dark:text-white dark:hover:bg-gray-700">
-                <span class="ml-3">Local</span>
-              </a>
+            <div class="py-4 text-xl text-white text-center font-bold dark:hover:bg-gray-700 cursor-pointer">
+              Local
             </div>
           </div>
-          <div class="mt-3 divide-y overflow-y-auto px-3 py-6 rounded text-white text-sm dark:bg-gray-800">
-            <div class="flex flex-col p-2 w-56">
+          <div class="mt-3 divide-y overflow-y-auto py-4 rounded text-white dark:bg-gray-800">
+            <div class="text-xl font-bold text-left pl-4 pb-2">
+              Price range
+            </div>
+            <div class="flex flex-col p-2 px-3 py-6 ">
               <input type="range" class="w-full" min="1" max="4" step="1">
-              <ul class="flex justify-between px-[10px]">
+              <ul class="flex justify-between text-sm px-[10px]">
                 <li class="flex justify-center relative">
                   <span class="absolute">>200</span>
                 </li>
@@ -36,7 +38,10 @@
               </ul>
             </div>
           </div>
-          <div class="mt-3 divide-y overflow-y-auto py-4 rounded dark:bg-gray-800">
+          <div class="mt-3 divide-y overflow-y-auto py-4 rounded text-white dark:bg-gray-800">
+            <div class="text-xl font-bold text-left pl-4 pb-2">
+              Type
+            </div>
             <div class="flex items-center py-2 px-3 dark:hover:bg-gray-700" v-for="(tag, i) in eventTagsSelectors" :key="`event-tag-list-checkbox-${i}`">
               <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="cursor-pointer mr-10 w-4 h-4 rounded" :value="tag.tag" v-model="eventTags">
               <label :for="`event-tag-checkbox-input-${tag.tag}`" class="cursor-pointer font-light text-white">{{ tag.name }}</label>
