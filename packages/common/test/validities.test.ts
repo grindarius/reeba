@@ -38,6 +38,19 @@ void t.test('validate username formats', async t => {
   t.strictSame(validateUsername(' sdfdf'), false)
   t.strictSame(validateUsername(''), false)
   t.strictSame(validateUsername('longgggggggggggggggggggggggggggggg'), false)
+
+  t.strictSame(validateUsername('null'), false)
+  t.strictSame(validateUsername('undefined'), false)
+  t.strictSame(validateUsername('event'), false)
+  t.strictSame(validateUsername('search'), false)
+  t.strictSame(validateUsername('docs'), false)
+  t.strictSame(validateUsername('receipt'), false)
+  t.strictSame(validateUsername('create'), false)
+  t.strictSame(validateUsername('developer'), false)
+  t.strictSame(validateUsername('organizer'), false)
+  t.strictSame(validateUsername('account'), false)
+  t.strictSame(validateUsername('edit'), false)
+  t.strictSame(validateUsername('seats'), false)
 })
 
 void t.test('validate file extensions', async t => {
