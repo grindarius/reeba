@@ -327,7 +327,7 @@ void t.test('get individual event', async t => {
         url: '/events/grindarius_event_test'
       })
 
-      const json = response.json()
+      const json = response.json<{ name: string, createdBy: string, description: string, website: string, venueName: string, venueCoordinates: { x: string, y: string }, openingDate: string, tags: Array<string>, datetimes: Array<{ datetimeId: string, start: string, end: string }>}>()
 
       t.strictSame(response.statusCode, 200, 'status code from correct response')
       t.strictSame(json.name, 'BTS Army')
@@ -338,7 +338,12 @@ void t.test('get individual event', async t => {
       t.strictSame(json.venueCoordinates, { x: '13.755313892097984', y: '100.62221451070221' })
       t.strictSame(json.openingDate, '2021-03-01T05:00:00.000Z')
       t.strictSame(json.tags, ['concert', 'stand-up-comedy'])
-      t.strictSame(json.datetimes, [
+      t.strictSame(json.datetimes.map(dt => {
+        return {
+          start: dt.start,
+          end: dt.end
+        }
+      }), [
         {
           start: '2021-03-07T13:00:00.000Z',
           end: '2021-03-07T17:00:00.000Z'
@@ -348,6 +353,9 @@ void t.test('get individual event', async t => {
           end: '2021-03-08T17:00:00.000Z'
         }
       ])
+      json.datetimes.forEach(dt => {
+        t.type(dt.datetimeId, 'string')
+      })
     } catch (error) {
       t.error(error)
       t.fail()

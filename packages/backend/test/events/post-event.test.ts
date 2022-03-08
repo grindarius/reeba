@@ -2,7 +2,7 @@ import dotenv from 'dotenv-flow'
 import { resolve } from 'path'
 import t from 'tap'
 
-import { SigninReplyBody } from '@reeba/common'
+import { SigninReply } from '@reeba/common'
 
 import createServer from '../../src/app'
 import client from '../pool'
@@ -54,7 +54,7 @@ void t.test('post event', async t => {
     }
   })
 
-  const token = response.json<SigninReplyBody>().token
+  const token = response.json<SigninReply>().token
 
   const perfectEvent = {
     eventName: 'BTS',
