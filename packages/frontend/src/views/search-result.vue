@@ -4,42 +4,55 @@
       <div class="flex flex-row">
         <div class="flex-none">
           Filter
-          <div class="pt-6" id="filter-section-mobile-0">
-            <div class="space-y-6">
-              <div class="flex items-center">
-                <input id="filter-mobile-color-0" name="color[]" value="white" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                <label for="filter-mobile-color-0" class="ml-3 min-w-0 flex-1 text-black"> White </label>
-              </div>
+          <div class="flex flex-col">
+            <label class="inline-flex items-center mt-3">
+              <input type="checkbox" class="form-checkbox h-5 w-5 text-yellow-600" checked><span class="ml-2 text-back">lasssssssssssssssssssbel</span>
+            </label>
+          </div>
 
-              <div class="flex items-center">
-                <input id="filter-mobile-color-1" name="color[]" value="beige" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                <label for="filter-mobile-color-1" class="ml-3 min-w-0 flex-1 text-black"> Beige </label>
-              </div>
+          <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <span class="ml-3">Dashboard</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <span class="flex-1 ml-3 whitespace-nowrap">Kanban</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <span class="flex-1 ml-3 whitespace-nowrap">Inbox</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <span class="flex-1 ml-3 whitespace-nowrap">Users</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <span class="flex-1 ml-3 whitespace-nowrap">Products</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <span class="flex-1 ml-3 whitespace-nowrap">Sign In</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <span class="flex-1 ml-3 whitespace-nowrap">Sign Up</span>
+                </a>
+              </li>
+            </ul>
+          </div>
 
-              <div class="flex items-center">
-                <input
-                  id="filter-mobile-color-2" name="color[]"
-                  value="blue" type="checkbox"
-                  checked
-                  class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                <label for="filter-mobile-color-2" class="ml-3 min-w-0 flex-1 text-black"> Blue </label>
-              </div>
-
-              <div class="flex items-center">
-                <input id="filter-mobile-color-3" name="color[]" value="brown" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                <label for="filter-mobile-color-3" class="ml-3 min-w-0 flex-1 text-black"> Brown </label>
-              </div>
-
-              <div class="flex items-center">
-                <input id="filter-mobile-color-4" name="color[]" value="green" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                <label for="filter-mobile-color-4" class="ml-3 min-w-0 flex-1 text-black"> Green </label>
-              </div>
-
-              <div class="flex items-center">
-                <input id="filter-mobile-color-5" name="color[]" value="purple" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                <label for="filter-mobile-color-5" class="ml-3 min-w-0 flex-1 text-black"> Purple </label>
-              </div>
-            </div>
+          <div class="flex items-center h-5" v-for="(tag, i) in eventTagsSelectors" :key="`event-tag-list-checkbox-${i}`">
+            <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-pink-500 focus:ring-3" :value="tag.tag" v-model="eventTags">
+            <label :for="`event-tag-checkbox-input-${tag.tag}`" class="font-medium text-white">{{ tag.name }}</label>
           </div>
         </div>
         <div class="grow pl-20">
@@ -52,13 +65,14 @@
 
 <script lang="ts">
 import ky from 'ky'
-import { defineComponent, onMounted } from 'vue'
+import { defineComponent, onMounted, Ref, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'search',
   setup () {
     const route = useRoute()
+    const eventTags: Ref<Array<string>> = ref([])
 
     onMounted(async () => {
       await ky('http://localhost:3000/search', {
@@ -70,6 +84,27 @@ export default defineComponent({
         }
       })
     })
+    const eventTagsSelectors: Ref<Array<{ name: string, tag: string }>> = ref([
+      { name: 'Amphitheater', tag: 'amphitheater' },
+      { name: 'Business', tag: 'business' },
+      { name: 'Concert', tag: 'concert' },
+      { name: 'Entertainment', tag: 'entertainment' },
+      { name: 'Fan meet', tag: 'fan-meet' },
+      { name: 'Gameshow', tag: 'gameshow' },
+      { name: 'Lifestyle', tag: 'lifestyle' },
+      { name: 'Live', tag: 'live' },
+      { name: 'Musical', tag: 'musical' },
+      { name: 'Online', tag: 'online' },
+      { name: 'Opera', tag: 'opera' },
+      { name: 'Seminar', tag: 'seminar' },
+      { name: 'Stand up comedy', tag: 'stand-up-comedy' },
+      { name: 'Technology', tag: 'technology' },
+      { name: 'Variety', tag: 'variety' }
+    ])
+    return {
+      eventTagsSelectors,
+      eventTags
+    }
   }
 })
 </script>
