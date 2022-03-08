@@ -39,6 +39,22 @@
             </div>
           </div>
           <div class="mt-3 divide-y overflow-y-auto py-4 rounded text-white dark:bg-gray-800">
+            <div class="text-center relative">
+              <select class="dark:bg-gray-800 rounded">
+                <option>Choose date</option>
+                <option>Last week</option>
+                <option>Last month</option>
+                <option>Last year</option>
+                <option>This week</option>
+                <option>This month</option>
+                <option>This Year</option>
+                <option>Next week</option>
+                <option>Next month</option>
+                <option>Next Year</option>
+              </select>
+            </div>
+          </div>
+          <div class="mt-3 divide-y overflow-y-auto py-4 rounded text-white dark:bg-gray-800">
             <div class="text-xl font-bold text-left pl-4 pb-2">
               Type
             </div>
