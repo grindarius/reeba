@@ -5,26 +5,26 @@ import {
   BadRequestReplySchema,
   SigninBody,
   SigninBodySchema,
-  SigninReplyBody,
-  SigninReplyBodySchema,
+  SigninReply,
+  SigninReplySchema,
   users
 } from '@reeba/common'
 
 import { ACCESS_TOKEN_EXPIRES_TIME } from '../../constants'
 
-const signinSchema: FastifySchema = {
+const schema: FastifySchema = {
   body: SigninBodySchema,
   response: {
-    200: SigninReplyBodySchema,
+    200: SigninReplySchema,
     400: BadRequestReplySchema
   }
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.post<{ Body: SigninBody, Reply: SigninReplyBody }>(
+  instance.post<{ Body: SigninBody, Reply: SigninReply }>(
     '/signin',
     {
-      schema: signinSchema,
+      schema,
       preValidation: async (request, reply) => {
         const { email, password } = request.body
 

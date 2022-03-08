@@ -6,8 +6,8 @@ import {
   BCRYPT_GENSALT_ROUNDS,
   SignupBody,
   SignupBodySchema,
-  SignupReplyBody,
-  SignupReplyBodySchema,
+  SignupReply,
+  SignupReplySchema,
   users,
   validateEmail,
   validatePhoneNumber,
@@ -17,13 +17,13 @@ import {
 const schema: FastifySchema = {
   body: SignupBodySchema,
   response: {
-    200: SignupReplyBodySchema,
+    200: SignupReplySchema,
     400: BadRequestReplySchema
   }
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.post<{ Body: SignupBody, Reply: SignupReplyBody }>(
+  instance.post<{ Body: SignupBody, Reply: SignupReply }>(
     '/signup',
     {
       schema,

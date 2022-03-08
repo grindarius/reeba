@@ -8,7 +8,7 @@ export const SigninBodySchema = Type.Object({
 })
 export type SigninBody = Static<typeof SigninBodySchema>
 
-export const SigninReplyBodySchema = Type.Object({
+export const SigninReplySchema = Type.Object({
   token: Type.String(),
   username: Type.String(),
   email: Type.String(),
@@ -18,7 +18,7 @@ export const SigninReplyBodySchema = Type.Object({
   ]),
   verificationStatus: Type.Boolean()
 })
-export type SigninReplyBody = Static<typeof SigninReplyBodySchema>
+export type SigninReply = Static<typeof SigninReplySchema>
 
 export const SignupBodySchema = Type.Object({
   username: Type.String(),
@@ -29,7 +29,7 @@ export const SignupBodySchema = Type.Object({
 })
 export type SignupBody = Static<typeof SignupBodySchema>
 
-export const SignupReplyBodySchema = Type.Object({
+export const SignupReplySchema = Type.Object({
   message: Type.String()
 })
-export type SignupReplyBody = Static<typeof SignupReplyBodySchema>
+export type SignupReply = Static<typeof SignupReplySchema>
