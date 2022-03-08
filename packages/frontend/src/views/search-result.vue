@@ -4,22 +4,23 @@
       <div class="flex flex-row">
         <div class="flex-none">
           Filter
-          <div class="divide-y overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
-            <ul class="space-y-2">
-              <li>
-                <a href="#" class="flex items-center p-2 text-xl font-bold text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <span class="ml-3">Official</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center p-2 text-xl font-bold text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <span class="ml-3">Local</span>
-                </a>
-              </li>
-            </ul>
-            <div class="flex items-center h-7" v-for="(tag, i) in eventTagsSelectors" :key="`event-tag-list-checkbox-${i}`">
-              <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-bg-pale-yellow focus:ring-3" :value="tag.tag" v-model="eventTags">
-              <label :for="`event-tag-checkbox-input-${tag.tag}`" class="font-light text-white">{{ tag.name }}</label>
+          <div class="mt-3 divide-y overflow-y-auto py-4 rounded dark:bg-gray-800">
+            <div>
+              <a href="#" class="flex items-center p-2 text-xl font-bold text-gray-900 dark:text-white dark:hover:bg-gray-700">
+                <span class="ml-3">Official</span>
+              </a>
+            </div>
+
+            <div>
+              <a href="#" class="flex items-center p-2 text-xl font-bold text-gray-900 dark:text-white dark:hover:bg-gray-700">
+                <span class="ml-3">Local</span>
+              </a>
+            </div>
+          </div>
+          <div class="mt-3 divide-y overflow-y-auto py-4 rounded dark:bg-gray-800">
+            <div class="flex items-center py-2 px-3 dark:hover:bg-gray-700" v-for="(tag, i) in eventTagsSelectors" :key="`event-tag-list-checkbox-${i}`">
+              <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="cursor-pointer mr-10 w-4 h-4 rounded" :value="tag.tag" v-model="eventTags">
+              <label :for="`event-tag-checkbox-input-${tag.tag}`" class="cursor-pointer font-light text-white">{{ tag.name }}</label>
             </div>
           </div>
         </div>
