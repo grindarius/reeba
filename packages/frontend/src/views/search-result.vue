@@ -17,6 +17,25 @@
               </a>
             </div>
           </div>
+          <div class="mt-3 divide-y overflow-y-auto px-3 py-6 rounded text-white dark:bg-gray-800">
+            <div class="flex flex-col p-2">
+              <input type="range" class="w-full" min="1" max="4" step="1">
+              <ul class="flex justify-between px-[10px]">
+                <li class="flex justify-center relative">
+                  <span class="absolute">>200</span>
+                </li>
+                <li class="flex justify-center relative">
+                  <span class="absolute">500</span>
+                </li>
+                <li class="flex justify-center relative">
+                  <span class="absolute">1000</span>
+                </li>
+                <li class="flex justify-center relative">
+                  <span class="absolute">>2000</span>
+                </li>
+              </ul>
+            </div>
+          </div>
           <div class="mt-3 divide-y overflow-y-auto py-4 rounded dark:bg-gray-800">
             <div class="flex items-center py-2 px-3 dark:hover:bg-gray-700" v-for="(tag, i) in eventTagsSelectors" :key="`event-tag-list-checkbox-${i}`">
               <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="cursor-pointer mr-10 w-4 h-4 rounded" :value="tag.tag" v-model="eventTags">
