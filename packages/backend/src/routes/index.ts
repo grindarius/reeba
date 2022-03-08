@@ -4,8 +4,8 @@ import authRoute from './auth'
 import avatarRoute from './avatars'
 import eventImagesRoute from './event-images'
 import eventsRoute from './events'
-import usersRoute from './users'
 import searchRoute from './search'
+import usersRoute from './users'
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.all('/', async () => {
