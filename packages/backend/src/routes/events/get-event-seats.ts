@@ -42,7 +42,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
         if (datetimeId == null || datetimeId === '') {
           void reply.code(400)
-          throw new Error('params should have required property \'datetimeId\'')
+          throw new Error('querystring should have required property \'datetimeId\'')
         }
       }
     },
@@ -64,7 +64,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       if (datetimes.rows.length === 0) {
         void reply.code(404)
-        throw new Error('Event\'s datetime not found')
+        throw new Error('Event datetime not found')
       }
 
       type EventSeats = Pick<event_sections, 'event_section_column_position' | 'event_section_row_position'> & Omit<event_seats, 'event_section_id'> & { is_seat_taken: boolean }
