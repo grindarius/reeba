@@ -42,11 +42,11 @@
               <p class="seats-rows-text">
                 {{ alphabet[row - 1] }}
               </p>
-              <label class="flex flex-col justify-center items-center relative cursor-pointer"
+              <label class="seats-label"
                 v-for="column in 15"
                 :key="column">
-                <input type="checkbox" class="appearance-none h-6 w-6 price-color cursor-pointer" @change="seatSelected($event, row, column)" :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}">
-                <v-mdi v-if="isSeatChecked(row, column)" class="absolute" name="mdi-check" size="24" fill="black" />
+                <input type="checkbox" class="seats-checkbox" @change="seatSelected($event, row, column)" :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}">
+                <v-mdi v-if="isSeatChecked(row, column)" class="absolute cursor-pointer" name="mdi-check" size="24" fill="black" />
               </label>
             </div>
           </div>
@@ -179,11 +179,11 @@ export default defineComponent({
 }
 
 .button {
-  @apply py-2 px-4 w-24 h-24 font-bold text-white rounded hover:ring focus:outline-none bg-pale-yellow active:bg-gray-hover;
+  @apply py-2 px-4 w-24 h-24 font-bold rounded focus:outline-none bg-pale-yellow active:bg-gray-hover disabled:bg-red-disabled disabled:cursor-not-allowed;
 }
 
 .button-active {
-  @apply py-2 px-4 w-24 h-24 font-bold text-white rounded bg-yellow-hover;
+  @apply py-2 px-4 w-24 h-24 font-bold rounded bg-yellow-hover;
 }
 
 .zone {
@@ -215,8 +215,8 @@ export default defineComponent({
   @apply py-4 px-4 rounded-full;
 }
 
-.price-color {
-  @apply flex place-self-center rounded-full;
+.seats-checkbox {
+  @apply flex place-self-center rounded-full appearance-none h-6 w-6 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50;
 }
 
 .zone-detail {
@@ -255,10 +255,6 @@ export default defineComponent({
   @apply place-self-center px-1 text-lg text-white;
 }
 
-.blank-space {
-  @apply py-3 px-3 rounded-full hover:ring;
-}
-
 .left-table {
   @apply px-3 font-semibold;
 }
@@ -273,5 +269,9 @@ export default defineComponent({
 
 .submit-button-disable {
   @apply py-2 px-5 w-4/5 text-xl font-semibold text-center text-white uppercase rounded-b-lg pointer-events-none bg-red-disabled;
+}
+
+.seats-label{
+  @apply flex flex-col justify-center items-center relative;
 }
 </style>
