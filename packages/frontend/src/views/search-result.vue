@@ -43,16 +43,14 @@
               Date
             </div>
             <div class="pt-4 text-center relative">
-              <select class="bg-pale-yellow rounded">
-                <option>Choose date</option>
-                <option>Last week</option>
-                <option>Last month</option>
-                <option>Last year</option>
-                <option>This week</option>
-                <option>This month</option>
+              <select class="bg-white rounded">
+                <option>All Dates</option>
+                <option>Today</option>
+                <option>This Week</option>
+                <option>This Month</option>
                 <option>This Year</option>
-                <option>Next week</option>
-                <option>Next month</option>
+                <option>Next Week</option>
+                <option>Next Month</option>
                 <option>Next Year</option>
               </select>
             </div>
