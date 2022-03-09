@@ -42,15 +42,12 @@
               <p class="seats-rows-text">
                 {{ alphabet[row - 1] }}
               </p>
-              <button
-                class="price-color"
-                @click="changeSeat(row, column)"
-                :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}"
+              <label class="flex flex-col justify-center items-center relative cursor-pointer"
                 v-for="column in 15"
                 :key="column">
-                <div class="blank-space" v-if="alphabet[row - 1] + column !== userSelectedSeatNumber" />
-                <v-mdi v-else name="mdi-check" size="24" fill="black" />
-              </button>
+                <input type="checkbox" class="appearance-none h-6 w-6 price-color cursor-pointer" @change="seatSelected($event, row, column)" :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}">
+                <v-mdi v-if="isSeatChecked(row, column)" class="absolute" name="mdi-check" size="24" fill="black" />
+              </label>
             </div>
           </div>
           <div class="seats-details">
@@ -90,7 +87,7 @@
                     Seat
                   </td>
                   <td class="right-table">
-                    {{ userSelectedSeatNumber }}
+                    {{ checkedSeat.join(', ') }}
                   </td>
                 </tr>
               </tbody>
@@ -118,35 +115,51 @@ export default defineComponent({
   name: 'select-seat',
   setup () {
     const userSelectedZone = ref(0)
-    const userSelectedSeatNumber = ref('')
     const ticketPrice = ref(0)
+    const checkedSeat: Ref<Array<string>> = ref([])
 
     const changeZone = (id: number): void => {
       if (userSelectedZone.value !== id) {
         userSelectedZone.value = id
-        userSelectedSeatNumber.value = ''
+        checkedSeat.value = []
         ticketPrice.value = 0
+        document.querySelectorAll('input[type="checkbox"]').forEach(seat => seat.checked = false);
       }
-    }
-
-    const changeSeat = (row: number, column: number): void => {
-      userSelectedSeatNumber.value = alphabet[row - 1] + column
-      ticketPrice.value = zoneData[userSelectedZone.value - 1].ticketPrices[row - 1]
     }
 
     const getTimeString = computed((): string => {
       return dayjs().format('LLLL')
     })
 
+    const seatSelected = (e: Event, row: number, column: number): void => {
+      const target = e.target as HTMLInputElement
+      if(target.checked){
+        checkedSeat.value.push(alphabet[row - 1] + column)
+        ticketPrice.value += zoneData[userSelectedZone.value - 1].ticketPrices[row - 1]
+        checkedSeat.value.sort()
+      }
+      else{
+        checkedSeat.value.forEach((seat,i)=>{
+          if(seat==alphabet[row - 1] + column) checkedSeat.value.splice(i,1)
+        })
+        ticketPrice.value -= zoneData[userSelectedZone.value - 1].ticketPrices[row - 1]
+      }
+    }
+
+    const isSeatChecked = (row: number, column: number): boolean => {
+      return checkedSeat.value.some(x => x == alphabet[row - 1] + column)
+    }
+
     return {
       zoneData,
       userSelectedZone,
       changeZone,
-      changeSeat,
       alphabet,
-      userSelectedSeatNumber,
       ticketPrice,
-      getTimeString
+      getTimeString,
+      checkedSeat,
+      seatSelected,
+      isSeatChecked
     }
   }
 })
