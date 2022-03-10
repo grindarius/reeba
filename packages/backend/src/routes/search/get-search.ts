@@ -1,20 +1,20 @@
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  GetSearchRequestParams,
-  GetSearchRequestParamsSchema,
+  GetSearchResultRequestQuerystring,
+  GetSearchResultRequestQuerystringSchema,
   NotFoundReplySchema
 } from '@reeba/common'
 
 const schema: FastifySchema = {
-  params: GetSearchRequestParamsSchema,
+  params: GetSearchResultRequestQuerystringSchema,
   response: {
     404: NotFoundReplySchema
   }
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Params: GetSearchRequestParams }>(
+  instance.get<{ Params: GetSearchResultRequestQuerystring }>(
     '/',
     {
       schema
