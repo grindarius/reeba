@@ -67,10 +67,11 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         throw new Error('Event datetime not found')
       }
 
-      type EventSeats = Pick<event_sections, 'event_section_column_position' | 'event_section_row_position'> & Omit<event_seats, 'event_section_id'> & { is_seat_taken: boolean }
+      type EventSeats = Omit<event_sections, 'event_datetime_id'> & event_seats & { is_seat_taken: boolean }
 
       const sectionsAndSeats = await instance.pg.query<EventSeats, [events['event_id'], event_datetimes['event_datetime_id']]>(
         `select
+          event_sections.event_section_id,
           event_sections.event_section_row_position,
           event_sections.event_section_column_position,
           event_seats.event_seat_id,
@@ -92,6 +93,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       return {
         sections: sectionsAndSeats.rows.map(s => {
           return {
+            sectionId: s.event_section_id,
             sectionRowPosition: s.event_section_row_position,
             sectionColumnPosition: s.event_section_column_position,
             seatId: s.event_seat_id,
