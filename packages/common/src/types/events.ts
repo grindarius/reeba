@@ -109,6 +109,7 @@ export type GetEventSeatsRequestQuerystring = Static<typeof GetEventSeatsRequest
 
 export const GetEventSeatsReplySchema = Type.Object({
   sections: Type.Array(Type.Object({
+    sectionId: Type.String(),
     sectionRowPosition: Type.Number(),
     sectionColumnPosition: Type.Number(),
     seatId: Type.String(),
