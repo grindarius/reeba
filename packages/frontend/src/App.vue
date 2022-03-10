@@ -18,7 +18,7 @@
         <router-link v-show="!authStore.isAuthenticated" class="button" to="/signin">
           Sign in
         </router-link>
-        <button @click="dropdownClicked" :class="authStore.isAuthenticated ?'dropdown-navbar inline-flex' : 'dropdown-navbar hidden'">
+        <button @click="dropdownClicked" :class="authStore.isAuthenticated ? 'dropdown-navbar inline-flex' : 'dropdown-navbar hidden'">
           <img :src="`${getUserAvatar.url}/${authStore.userData.username ?? ''}`" class="profile-image-navbar">
           <v-mdi class="place-self-center" name="mdi-chevron-down" fill="#423E41" />
         </button>
@@ -28,7 +28,7 @@
       </div>
     </div>
     <div v-if="dropdownState" v-show="authStore.isAuthenticated" class="dropdown-state">
-      <div :class="authStore.isAuthenticated ?'py-1 block' : 'py-1 hidden'">
+      <div :class="authStore.isAuthenticated ? 'py-1 block' : 'py-1 hidden'">
         <router-link :to="`/${authStore.userData.username}`" class="dropdown-text" @click="closeDropdown">
           {{ authStore.userData.username }}
         </router-link>
@@ -51,7 +51,7 @@
         </button>
       </div>
     </div>
-    <div :class="hamburgerState ?'small-navbar block' : 'small-navbar hidden'">
+    <div :class="hamburgerState ? 'small-navbar block' : 'small-navbar hidden'">
       <ul class="small-navbar-list">
         <li>
           <label>

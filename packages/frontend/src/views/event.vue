@@ -76,7 +76,7 @@
           <div class="mb-4 font-sans text-4xl text-white">
             Description
           </div>
-          <div id="markdown-box" ref="markdownBoxRef" class="markdown-box" v-html="renderMarkdown" />
+          <div id="markdown-box" ref="markdownBoxRef" class="markdown-box" v-html="renderedMarkdown" />
         </div>
         <div class="order-1 lg:order-2">
           <div class="mb-4 font-sans text-4xl text-white">
@@ -132,7 +132,7 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const eventData: Ref<GetIndividualEventReply | undefined> = ref(undefined)
-    const { renderMarkdown } = useMarkdown(eventData.value?.description ?? '## No description provided')
+    const { renderedMarkdown } = useMarkdown(eventData.value?.description ?? '## No description provided')
 
     const formatTimeRange = (datetimes: Array<{ start: string, end: string }>): string => {
       const sortedDatetimes = datetimes.sort((a, b) => dayjs(a.start).unix() - dayjs(b.start).unix())
@@ -180,7 +180,7 @@ export default defineComponent({
       formatPrices,
       openGoogle,
       formatOpeningDate,
-      renderMarkdown,
+      renderedMarkdown,
       getEventImage,
       route,
       getUserAvatar

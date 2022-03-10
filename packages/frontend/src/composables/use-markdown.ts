@@ -6,7 +6,7 @@ import { computed, ComputedRef, Ref, ref } from 'vue'
 
 interface UseMarkdown {
   markdown: Ref<MarkdownIt>
-  renderMarkdown: ComputedRef<string>
+  renderedMarkdown: ComputedRef<string>
 }
 
 export const useMarkdown = (description: string): UseMarkdown => {
@@ -20,12 +20,12 @@ export const useMarkdown = (description: string): UseMarkdown => {
       .use(emoji)
       .use(abbr)
   )
-  const renderMarkdown = computed(() => {
-    return markdown.value.render(description)
+  const renderedMarkdown = computed(() => {
+    return markdown.value.render(description ?? '## No description provided')
   })
 
   return {
     markdown,
-    renderMarkdown
+    renderedMarkdown
   }
 }
