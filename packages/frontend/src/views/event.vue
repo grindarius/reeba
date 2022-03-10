@@ -76,7 +76,7 @@
           <div class="mb-4 font-sans text-4xl text-white">
             Description
           </div>
-          <div id="markdown-box" ref="markdownBoxRef" class="markdown-box" v-html="markdownRenderedDescription ?? ''" />
+          <div id="markdown-box" ref="markdownBoxRef" class="markdown-box" v-html="renderMarkdown" />
         </div>
         <div class="order-1 lg:order-2">
           <div class="mb-4 font-sans text-4xl text-white">
@@ -118,16 +118,13 @@
 import { format } from 'd3'
 import dayjs from 'dayjs'
 import ky from 'ky'
-import MarkdownIt from 'markdown-it'
-// @ts-expect-error no definitelytyped module
-import abbr from 'markdown-it-abbr'
-import emoji from 'markdown-it-emoji'
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { defineComponent, onMounted, Ref, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import { GetIndividualEventReply } from '@reeba/common'
 
 import { getEventImage, getIndividualEvent as getIndividualEventEndpoint, getUserAvatar } from '@/api/endpoints'
+import { useMarkdown } from '@/composables'
 
 export default defineComponent({
   name: 'event',
@@ -135,8 +132,7 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const eventData: Ref<GetIndividualEventReply | undefined> = ref(undefined)
-
-    const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
+    const { renderMarkdown } = useMarkdown(eventData.value?.description ?? '## No description provided')
 
     const formatTimeRange = (datetimes: Array<{ start: string, end: string }>): string => {
       const sortedDatetimes = datetimes.sort((a, b) => dayjs(a.start).unix() - dayjs(b.start).unix())
@@ -164,10 +160,6 @@ export default defineComponent({
       return dayjs(openingDate).format('MMMM D, YYYY HH:mm')
     }
 
-    const markdownRenderedDescription = computed(() => {
-      return markdown.value.render(eventData.value?.description ?? '## No description provided')
-    })
-
     onMounted(async () => {
       const { method, url } = getIndividualEventEndpoint
 
@@ -188,7 +180,7 @@ export default defineComponent({
       formatPrices,
       openGoogle,
       formatOpeningDate,
-      markdownRenderedDescription,
+      renderMarkdown,
       getEventImage,
       route,
       getUserAvatar
