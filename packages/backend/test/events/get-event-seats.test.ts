@@ -245,6 +245,11 @@ void t.test('get sections and seats from the API', async t => {
           isSeatTaken: false
         }
       ])
+
+      // @ts-expect-error s being any
+      response.json().sections.forEach(s => {
+        t.type(s.sectionId, 'string')
+      })
     } catch (error) {
       t.error(error)
       t.fail()
@@ -311,6 +316,11 @@ void t.test('get sections and seats from the API', async t => {
           isSeatTaken: true
         }
       ])
+
+      // @ts-expect-error s being any
+      response.json().sections.forEach(s => {
+        t.type(s.sectionId, 'string')
+      })
     } catch (error) {
       t.error(error)
       t.fail()
@@ -363,6 +373,11 @@ void t.test('get sections and seats from the API', async t => {
           isSeatTaken: false
         }
       ])
+
+      // @ts-expect-error s being any
+      response.json().sections.forEach(s => {
+        t.type(s.sectionId, 'string')
+      })
     } catch (error) {
       t.error(error)
       t.fail()

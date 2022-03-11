@@ -4,3 +4,5 @@
 uploads/*
 !uploads/default-user-profile.png
 !uploads/default-event-image.png
+!uploads/arya-stark.png
+!uploads/sansa-stark.png
