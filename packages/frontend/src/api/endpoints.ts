@@ -5,7 +5,7 @@ interface Endpoint {
   method: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'head'
 }
 
-type EndpointFunc<T extends object> = (args: T) => Endpoint
+export type EndpointFunc<T extends object> = (args: T) => Endpoint
 
 export const postAvatar: Endpoint = {
   url: url + '/avatars',
@@ -34,14 +34,18 @@ export const getUserAvatar: EndpointFunc<{ username: string }> = ({ username }):
   }
 }
 
-export const getEventImage: Endpoint = {
-  url: url + '/event-images',
-  method: 'get'
+export const getEventImage: EndpointFunc<{ eventId: string }> = ({ eventId }): Endpoint => {
+  return {
+    url: `${url}/event-images/${eventId}`,
+    method: 'get'
+  }
 }
 
-export const getIndividualEvent: Endpoint = {
-  url: url + '/events',
-  method: 'get'
+export const getIndividualEvent: EndpointFunc<{ eventId: string}> = ({ eventId }): Endpoint => {
+  return {
+    url: `${url}/events/${eventId}`,
+    method: 'get'
+  }
 }
 
 export const postEvent: Endpoint = {
@@ -54,12 +58,16 @@ export const postEventImage: Endpoint = {
   method: 'post'
 }
 
-export const getUser: Endpoint = {
-  url: url + '/users',
-  method: 'get'
+export const getUser: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/users/${username}`,
+    method: 'get'
+  }
 }
 
-export const getUserRelatedEvents: Endpoint = {
-  url: url + '/users',
-  method: 'get'
+export const getUserRelatedEvents: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/users/${username}/events`,
+    method: 'get'
+  }
 }

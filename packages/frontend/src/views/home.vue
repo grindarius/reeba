@@ -15,7 +15,7 @@
             <div class="event" v-for="({username, id: eventId, name: eventName, firstDatetime, venueName}, i) in eventData.official" :key="`root-page-official-event-${i}`">
               <router-link :to="{ name: 'Event', params: { username, eventId }}">
                 <div class="event-image-box">
-                  <img class="event-image" :src="`${getEventImage.url}/${eventId}`" :alt="eventName">
+                  <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
                 </div>
                 <div class="event-info">
                   <div>
@@ -45,7 +45,7 @@
             <div class="event" v-for="({username, id: eventId, name: eventName, firstDatetime, venueName}, i) in eventData.local" :key="`root-page-local-event-${i}`">
               <router-link :to="{ name: 'Event', params: { username, eventId }}">
                 <div class="event-image-box">
-                  <img class="event-image" :src="`${getEventImage.url}/${eventId}`" :alt="eventName">
+                  <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
                 </div>
                 <div class="event-info">
                   <div>
