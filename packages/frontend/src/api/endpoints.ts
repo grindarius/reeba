@@ -5,6 +5,8 @@ interface Endpoint {
   method: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'head'
 }
 
+type EndpointFunc<T extends object> = (args: T) => Endpoint
+
 export const postAvatar: Endpoint = {
   url: url + '/avatars',
   method: 'post'
@@ -25,9 +27,11 @@ export const signup: Endpoint = {
   method: 'post'
 }
 
-export const getUserAvatar: Endpoint = {
-  url: url + '/avatars',
-  method: 'get'
+export const getUserAvatar: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/avatars/${username}`,
+    method: 'get'
+  }
 }
 
 export const getEventImage: Endpoint = {
