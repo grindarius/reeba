@@ -109,9 +109,9 @@
                 and <a href="" class="font-bold underline text-pale-yellow">Event Organizer's Disclaimer.</a>
                 I accept that the items in this order cannot be canceled and payments are non-refundable.
               </label>
-              <router-link to="/account" class="checkout-button">
+              <button class="checkout-button">
                 Pay now
-              </router-link>
+              </button>
             </div>
           </div>
         </div>
@@ -121,10 +121,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import ky from 'ky'
+import { defineComponent, onMounted } from 'vue'
+
+import { postTransaction } from '@/api/endpoints'
+import { useTransactionStore } from '@/store/use-transaction-store'
 
 export default defineComponent({
-  name: 'payment'
+  name: 'payment',
+  setup () {
+    const store = useTransactionStore()
+    onMounted(async () => {
+      const { method, url } = postTransaction
+      await ky(url, { method, json: { eventId: store.transactionStore.eventId, datetimeId: store.transactionStore.datetimeId, sectionId: store.transactionStore.section.id, seatIds: [...store.transactionStore.section.seats.keys()] } })
+    })
+  }
 })
 </script>
 

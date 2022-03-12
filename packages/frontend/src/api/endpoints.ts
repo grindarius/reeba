@@ -71,3 +71,8 @@ export const getUserRelatedEvents: EndpointFunc<{ username: string }> = ({ usern
     method: 'get'
   }
 }
+
+export const postTransaction: Endpoint = {
+  url: url + '/transactions',
+  method: 'post'
+}
