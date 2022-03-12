@@ -21,6 +21,7 @@ console.log(chalk.green('deleting data in tables'));
   await client.connect()
 
   console.log(chalk.green('deleting transactions'))
+  await client.query('delete from transaction_details')
   await client.query('delete from transactions')
   console.log(chalk.green('deleting users'))
   await client.query('delete from users')
