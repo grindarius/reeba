@@ -129,7 +129,8 @@ insert into users (
   user_phone_country_code,
   user_phone_number,
   user_role,
-  user_profile_description
+  user_profile_description,
+  user_image_profile_path
 ) values (
   'aryastark',
   'aryastark@gmail.com',
@@ -137,7 +138,8 @@ insert into users (
   '66',
   '994485893',
   'user',
-  'I am Sansa Stark''s youger sister.'
+  'I am Sansa Stark''s youger sister.',
+  'arya-stark.png'
 ), (
   'sansastark',
   'sansastark@gmail.com',
@@ -145,5 +147,6 @@ insert into users (
   '66',
   '995894833',
   'admin',
-  'I am Arya Stark''s older sister.'
+  'I am Arya Stark''s older sister.',
+  'sansa-stark.png'
 ) on conflict (user_username) do nothing;

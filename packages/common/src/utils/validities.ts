@@ -28,6 +28,54 @@ export const validateUsername = (username: string): boolean => {
     return false
   }
 
+  if (username.toLowerCase() === 'null') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'undefined') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'event') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'search') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'docs') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'receipt') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'create') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'developer') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'organizer') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'account') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'edit') {
+    return false
+  }
+
+  if (username.toLowerCase() === 'seats') {
+    return false
+  }
+
   if (username.toLowerCase() === 'root') {
     return false
   }
