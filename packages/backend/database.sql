@@ -139,7 +139,7 @@ insert into users (
   '994485893',
   'user',
   'I am Sansa Stark''s youger sister.',
-  'arya-stark-profile.png'
+  'arya-stark.png'
 ), (
   'sansastark',
   'sansastark@gmail.com',
@@ -148,5 +148,5 @@ insert into users (
   '995894833',
   'admin',
   'I am Arya Stark''s older sister.',
-  'sansa-stark-profile.jpg'
+  'sansa-stark.png'
 ) on conflict (user_username) do nothing;
