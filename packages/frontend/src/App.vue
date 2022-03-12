@@ -19,7 +19,7 @@
           Sign in
         </router-link>
         <button @click="dropdownClicked" :class="authStore.isAuthenticated ? 'dropdown-navbar inline-flex' : 'dropdown-navbar hidden'">
-          <img :src="`${getUserAvatar.url}/${authStore.userData.username ?? ''}`" class="profile-image-navbar">
+          <img :src="`${getUserAvatar({ username: authStore.userData.username ?? '' }).url}`" class="profile-image-navbar">
           <v-mdi class="place-self-center" name="mdi-chevron-down" fill="#423E41" />
         </button>
       </div>
@@ -70,7 +70,7 @@
         </li>
         <li v-show="authStore.isAuthenticated">
           <router-link :to="`/${authStore.userData.username}`" @click="closeHamburger" class="flex place-items-center">
-            <img :src="`${getUserAvatar.url}/${authStore.userData.username ?? ''}`" :alt="authStore.userData.username ?? ''" class="profile-image">
+            <img :src="`${getUserAvatar({ username: authStore.userData.username ?? '' }).url}`" :alt="authStore.userData.username ?? ''" class="profile-image">
             {{ authStore.userData.username }}
           </router-link>
         </li>

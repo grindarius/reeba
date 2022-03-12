@@ -4,7 +4,7 @@
       <nav class="max-w-xs account-table">
         <div class="account-image-wrapper">
           <div class="w-10/12">
-            <img :src="`${getUserAvatar.url}/${authStore.userData.username ?? ''}`" class="mx-auto w-20 h-20 rounded-full">
+            <img :src="`${getUserAvatar({ username: authStore.userData.username ?? '' }).url}`" class="mx-auto w-20 h-20 rounded-full">
           </div>
         </div>
         <div class="account-info">

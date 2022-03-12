@@ -6,7 +6,7 @@
           <h1 class="block font-sans text-4xl text-white lg:hidden">
             {{ eventData?.name ?? '' }}
           </h1>
-          <img class="mx-auto max-w-md rounded-lg lg:mx-0" :src="`${getEventImage.url}/${route.params.eventId ?? ''}`" :alt="`${eventData?.name ?? '' }`">
+          <img class="mx-auto max-w-md rounded-lg lg:mx-0" :src="`${getEventImage({ eventId: $route.params.eventId as string ?? '' }).url}`" :alt="`${eventData?.name ?? '' }`">
         </div>
         <div class="grow">
           <h1 class="hidden font-sans text-4xl text-white lg:block">
@@ -47,7 +47,7 @@
               </div>
             </div>
             <div class="event-createdby">
-              <img class="rounded-full" width="60" :src="`${getUserAvatar.url}/${eventData?.createdBy ?? ''}`" :alt="eventData?.createdBy ?? ''">
+              <img class="rounded-full" width="60" :src="`${getUserAvatar({ username: $route.params.username as string ?? '' }).url}`" :alt="eventData?.createdBy ?? ''">
               <div class="createdby-content">
                 <h1 class="detail-header">
                   Created by
@@ -161,10 +161,10 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      const { method, url } = getIndividualEventEndpoint
+      const { method, url } = getIndividualEventEndpoint({ eventId: route.params.eventId as string ?? '' })
 
       try {
-        const response = await ky(`${url}/${route.params.eventId ?? ''}`, {
+        const response = await ky(url, {
           method
         }).json<GetIndividualEventReply>()
 
