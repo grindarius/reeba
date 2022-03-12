@@ -197,7 +197,7 @@ export default defineComponent({
 }
 
 .checkout-button {
-  @apply flex justify-center items-center mt-6 h-12 font-sans text-2xl text-white rounded-full bg-pale-yellow hover:bg-yellow-hover;
+  @apply flex justify-center items-center mt-6 h-12 w-full font-sans text-2xl text-white rounded-full bg-pale-yellow hover:bg-yellow-hover;
 }
 
 #card-number-input, #card-name-input, #card-expiration-date-input, #card-cvc-input {
