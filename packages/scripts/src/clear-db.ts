@@ -20,9 +20,8 @@ console.log(chalk.green('deleting data in tables'));
 (async () => {
   await client.connect()
 
-  console.log(chalk.green('deleting transaction details'))
-  await client.query('delete from transaction_details')
   console.log(chalk.green('deleting transactions'))
+  await client.query('delete from transaction_details')
   await client.query('delete from transactions')
   console.log(chalk.green('deleting users'))
   await client.query('delete from users')
@@ -58,7 +57,8 @@ console.log(chalk.green('deleting data in tables'));
     user_phone_country_code,
     user_phone_number,
     user_role,
-    user_profile_description
+    user_profile_description,
+    user_image_profile_path
   ) values (
     'aryastark',
     'aryastark@gmail.com',
@@ -66,7 +66,8 @@ console.log(chalk.green('deleting data in tables'));
     '66',
     '994485893',
     'user',
-    'I am Sansa Stark''s youger sister.'
+    'I am Sansa Stark''s youger sister.',
+    'arya-stark.png'
   ), (
     'sansastark',
     'sansastark@gmail.com',
@@ -74,7 +75,8 @@ console.log(chalk.green('deleting data in tables'));
     '66',
     '995894833',
     'admin',
-    'I am Arya Stark''s older sister.'
+    'I am Arya Stark''s older sister.',
+    'sansa-stark.png'
   ) on conflict (user_username) do nothing;`)
 
   await client.end()

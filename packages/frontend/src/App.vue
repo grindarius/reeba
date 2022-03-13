@@ -19,7 +19,7 @@
           Sign in
         </router-link>
         <button @click="dropdownClicked" :class="authStore.isAuthenticated ? 'dropdown-navbar inline-flex' : 'dropdown-navbar hidden'">
-          <img :src="`${getUserAvatar.url}/${authStore.userData.username ?? ''}`" class="profile-image-navbar">
+          <img :src="`${getUserAvatar({ username: authStore.userData.username ?? '' }).url}`" class="profile-image-navbar">
           <v-mdi class="place-self-center" name="mdi-chevron-down" fill="#423E41" />
         </button>
       </div>
@@ -28,12 +28,12 @@
       </div>
     </div>
     <div v-if="dropdownState" v-show="authStore.isAuthenticated" class="dropdown-state">
-      <div :class="authStore.isAuthenticated ? 'py-1 block' : 'py-1 hidden'">
+      <div :class="dropdownStateClass">
         <router-link :to="`/${authStore.userData.username}`" class="dropdown-text" @click="closeDropdown">
           {{ authStore.userData.username }}
         </router-link>
       </div>
-      <div :class="!authStore.isAuthenticated ? 'py-1 block' : 'py-1 hidden'">
+      <div :class="signinButtonStateClass">
         <router-link to="/signin" class="dropdown-text" @click="closeDropdown">
           Sign in
         </router-link>
@@ -51,7 +51,7 @@
         </button>
       </div>
     </div>
-    <div :class="hamburgerState ? 'small-navbar block' : 'small-navbar hidden'">
+    <div :class="hamburgerStateClass">
       <ul class="small-navbar-list">
         <li>
           <label>
@@ -70,7 +70,7 @@
         </li>
         <li v-show="authStore.isAuthenticated">
           <router-link :to="`/${authStore.userData.username}`" @click="closeHamburger" class="flex place-items-center">
-            <img :src="`${getUserAvatar.url}/${authStore.userData.username ?? ''}`" :alt="authStore.userData.username ?? ''" class="profile-image">
+            <img :src="`${getUserAvatar({ username: authStore.userData.username ?? '' }).url}`" :alt="authStore.userData.username ?? ''" class="profile-image">
             {{ authStore.userData.username }}
           </router-link>
         </li>
@@ -217,7 +217,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { getUserAvatar } from '@/api/endpoints'
@@ -239,16 +239,30 @@ export default defineComponent({
       router.push('/')
     }
 
+    const dropdownStateClass = computed(() => {
+      return authStore.isAuthenticated ? 'py-1 block' : 'py-1 hidden'
+    })
+
+    const signinButtonStateClass = computed(() => {
+      return !authStore.isAuthenticated ? 'py-1 block' : 'py-1 hidden'
+    })
+
+    const hamburgerStateClass = computed(() => {
+      return hamburgerState ? 'small-navbar block' : 'small-navbar hidden'
+    })
+
     return {
       toggleHamburger,
-      hamburgerState,
       closeHamburger,
       dropdownClicked,
       dropdownState,
       closeDropdown,
       authStore,
       getUserAvatar,
-      signout
+      signout,
+      dropdownStateClass,
+      signinButtonStateClass,
+      hamburgerStateClass
     }
   }
 })

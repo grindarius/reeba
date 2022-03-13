@@ -75,6 +75,7 @@ export const GetIndividualEventReplySchema = Type.Object({
   })),
   tags: Type.Array(Type.String()),
   datetimes: Type.Array(Type.Object({
+    datetimeId: Type.String(),
     start: Type.String(),
     end: Type.String()
   }))
@@ -95,3 +96,31 @@ export const PostEventImageReplySchema = Type.Object({
   message: Type.String()
 })
 export type PostEventImageReply = Static<typeof PostEventImageReplySchema>
+
+export const GetEventSeatsRequestParamsSchema = Type.Object({
+  eventId: Type.String()
+})
+export type GetEventSeatsRequestParams = Static<typeof GetEventSeatsRequestParamsSchema>
+
+export const GetEventSeatsRequestQuerystringSchema = Type.Object({
+  datetimeId: Type.String()
+})
+export type GetEventSeatsRequestQuerystring = Static<typeof GetEventSeatsRequestQuerystringSchema>
+
+export const GetEventSeatsReplySchema = Type.Object({
+  sections: Type.Array(Type.Object({
+    sectionId: Type.String(),
+    sectionRowPosition: Type.Number(),
+    sectionColumnPosition: Type.Number(),
+    seatId: Type.String(),
+    seatRowPosition: Type.Number(),
+    seatColumnPosition: Type.Number(),
+    seatPrice: Type.Number(),
+    isSeatTaken: Type.Boolean()
+  })),
+  ticketPrices: Type.Array(Type.Object({
+    color: Type.String(),
+    price: Type.Number()
+  }))
+})
+export type GetEventSeatsReply = Static<typeof GetEventSeatsReplySchema>

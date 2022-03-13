@@ -7,7 +7,7 @@
     </metainfo>
     <div class="users-page-content">
       <section class="profile-descriptions">
-        <img :src="`${getUserAvatar.url}/${$route.params.username}`" alt="user-image" class="user-image">
+        <img :src="`${getUserAvatar({ username: $route.params.username as string}).url}`" alt="user-image" class="user-image">
         <div class="user-info">
           <div class="mt-3 text-4xl font-bold text-white">
             {{ $route.params.username }}
@@ -45,7 +45,7 @@
         </div>
         <button
           :disabled="userData?.username == null ? true : userData.username === authStore.userData.username ? true : false"
-          class="follow-button hover:bg-yellow-hover disabled:bg-red-disabled disabled:text-white"
+          class="disabled:text-white follow-button hover:bg-yellow-hover disabled:bg-red-disabled"
           @click="followUser">
           Follow
         </button>
@@ -64,7 +64,7 @@
             <div class="event" v-for="({username: attendedUsername, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.attended ?? [])" :key="`user-page-attended-event-${i}`">
               <router-link :to="{ name: 'Event', params: { attendedUsername, eventId }}">
                 <div class="event-image-box">
-                  <img class="event-image" :src="`${getEventImage.url}/${eventId}`" :alt="eventName">
+                  <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
                 </div>
                 <div class="event-info">
                   <div>
@@ -88,7 +88,7 @@
             <div class="event" v-for="({username: createdUsername, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.created ?? [])" :key="`user-page-created-event-${i}`">
               <router-link :to="{ name: 'Event', params: { createdUsername, eventId }}" :key="$route.path">
                 <div class="event-image-box">
-                  <img class="event-image" :src="`${getEventImage.url}/${eventId}`" :alt="eventName">
+                  <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
                 </div>
                 <div class="event-info">
                   <div>
@@ -138,15 +138,19 @@ export default defineComponent({
 
     onMounted(async (): Promise<void> => {
       try {
-        const userDataResponse = await ky(`${getUser.url}/${route.params.username}`, {
-          method: getUser.method,
+        const { method: getUserMethod, url: getUserUrl } = getUser({ username: route.params.username as string })
+
+        const userDataResponse = await ky(getUserUrl, {
+          method: getUserMethod,
           headers: {
             Authorization: `Bearer ${authStore.userData.token}`
           }
         }).json<GetUserReply>()
 
-        const userRelatedEvents = await ky(`${getUserRelatedEvents.url}/${route.params.username}/events`, {
-          method: getUserRelatedEvents.method,
+        const { method: getUserRelatedEventsMethod, url: getUserRelatedEventsUrl } = getUserRelatedEvents({ username: route.params.username as string })
+
+        const userRelatedEvents = await ky(getUserRelatedEventsUrl, {
+          method: getUserRelatedEventsMethod,
           headers: {
             Authorization: `Bearer ${authStore.userData.token}`
           }
@@ -249,7 +253,7 @@ export default defineComponent({
 }
 
 .user-stats {
-  @apply flex flex-col items-center mt-6 w-11/12 md:flex-row md:justify-center gap-x-14;
+  @apply flex flex-col gap-x-14 items-center mt-6 w-11/12 md:flex-row md:justify-center;
 
   & h1 {
     @apply text-lg text-white;

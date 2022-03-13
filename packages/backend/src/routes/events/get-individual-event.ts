@@ -75,6 +75,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         tags: queriedTags.rows.map(tag => tag.event_tag_label),
         datetimes: queriedDatetimes.rows.map(datetime => {
           return {
+            datetimeId: datetime.event_datetime_id,
             start: datetime.event_start_datetime,
             end: datetime.event_end_datetime
           }
