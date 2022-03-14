@@ -1,20 +1,26 @@
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import { nanoid } from 'nanoid'
 
 import {
   event_datetimes,
   event_seats,
   event_sections,
   events,
+  PostTransactionReply,
+  PostTransactionReplySchema,
   PostTransactionRequestBody,
   PostTransactionRequestBodySchema
 } from '@reeba/common'
 
 const schema: FastifySchema = {
-  body: PostTransactionRequestBodySchema
+  body: PostTransactionRequestBodySchema,
+  response: {
+    200: PostTransactionReplySchema
+  }
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.post<{ Body: PostTransactionRequestBody }>(
+  instance.post<{ Body: PostTransactionRequestBody, Reply: PostTransactionReply }>(
     '/',
     {
       schema,
@@ -55,13 +61,20 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     async (request, reply) => {
       const { eventId, datetimeId, sectionId, seatIds } = request.body
 
-      type TakenSeats = Pick<events, 'event_id'> & Pick<event_datetimes, 'event_datetime_id'> & Pick<event_sections, 'event_section_id'> & Pick<event_seats, 'event_seat_id'>
+      type TakenSeatsReturn = Pick<events, 'event_id'> & Pick<event_datetimes, 'event_datetime_id'> & Pick<event_sections, 'event_section_id'> & Pick<event_seats, 'event_seat_id'>
+      type TakenSeatsValues = [
+        events['event_id'],
+        event_datetimes['event_datetime_id'],
+        event_sections['event_section_id'],
+        ...Array<event_seats['event_seat_id']>
+      ]
 
       // * check if all seats are taken or not
       // * taken seats will have seat id on both transaction_details and event_seats
       // * available seats will have seat id on event_seats table only
-      // * this function will return an empty array if all seats are available, will return seat ids that are taken
-      const takenSeats = await instance.pg.query<TakenSeats, [events['event_id'], event_datetimes['event_datetime_id'], event_sections['event_section_id'], ...Array<event_seats['event_seat_id']>]>(
+      // * this function will return an empty array if all seats are available,
+      // * will return seat ids that are taken
+      const takenSeats = await instance.pg.query<TakenSeatsReturn, TakenSeatsValues>(
         `select
           events.event_id,
           event_datetimes.event_datetime_id,
@@ -87,10 +100,23 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       }
 
       // * if none is taken, register the transaction.
+      return await instance.pg.transact<PostTransactionReply>(async client => {
+        const transactionId = await client.query<{ transaction_id: string }, [string, string]>(
+          'insert into "transactions" (transaction_id, user_username) values ($1, $2) returning transaction_id',
+          [nanoid(), request.user.username]
+        )
 
-      return {
-        hello: 'world'
-      }
+        for await (const id of seatIds) {
+          await client.query(
+            'insert into transaction_details (transaction_id, event_seat_id) values ($1, $2)',
+            [transactionId.rows[0].transaction_id, id]
+          )
+        }
+
+        return {
+          message: 'complete'
+        }
+      })
     }
   )
 }
