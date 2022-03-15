@@ -163,7 +163,7 @@ void t.test('transaction creation route', async t => {
       event_datetimes.event_datetime_id,
       event_sections.event_section_id,
       event_seats.event_seat_id
-    from "event_seats",
+    from "event_seats"
     inner join "event_sections" on event_seats.event_section_id = event_sections.event_section_id
     inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
     inner join "events" on event_datetimes.event_id = events.event_id
@@ -418,8 +418,8 @@ void t.test('transaction creation route', async t => {
         payload: {
           eventId: submittedEvent.rows[0].event_id,
           datetimeId: submittedEvent.rows[0].event_datetime_id,
-          secitonId: submittedEvent.rows[0].event_section_id,
-          seatIds: submittedEvent.rows.slice(2).map(r => r.event_seat_id)
+          sectionId: submittedEvent.rows[0].event_section_id,
+          seatIds: submittedEvent.rows.slice(0, 2).map(r => r.event_seat_id)
         }
       })
 
@@ -434,13 +434,13 @@ void t.test('transaction creation route', async t => {
         payload: {
           eventId: submittedEvent.rows[0].event_id,
           datetimeId: submittedEvent.rows[0].event_datetime_id,
-          secitonId: submittedEvent.rows[0].event_section_id,
-          seatIds: submittedEvent.rows.slice(2).map(r => r.event_seat_id)
+          sectionId: submittedEvent.rows[0].event_section_id,
+          seatIds: submittedEvent.rows.slice(0, 2).map(r => r.event_seat_id)
         }
       })
 
       t.strictSame(lateGuyResponse.statusCode, 400)
-      t.strictSame(lateGuyResponse.json().message, 'the following seatIds are taken: ' + submittedEvent.rows.slice(2).map(r => r.event_seat_id).join(', '))
+      t.strictSame(lateGuyResponse.json().message, 'the following seatIds are taken: ' + submittedEvent.rows.slice(0, 2).map(r => r.event_seat_id).join(', '))
     } catch (error) {
       t.error(error)
       t.fail()
