@@ -2,6 +2,7 @@ import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 import { nanoid } from 'nanoid'
 
 import {
+  BadRequestReplySchema,
   event_datetimes,
   event_seats,
   event_sections,
@@ -15,7 +16,8 @@ import {
 const schema: FastifySchema = {
   body: PostTransactionRequestBodySchema,
   response: {
-    200: PostTransactionReplySchema
+    200: PostTransactionReplySchema,
+    400: BadRequestReplySchema
   }
 }
 
@@ -24,6 +26,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/',
     {
       schema,
+      onRequest: instance.authenticate,
       preValidation: async (request, reply) => {
         const { eventId, datetimeId, sectionId, seatIds } = request.body
 
@@ -56,10 +59,20 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('body should have required property \'seatIds\'')
         }
+
+        const filteredSeats = seatIds.filter(id => id !== '')
+
+        if (filteredSeats.length === 0) {
+          void reply.code(400)
+          throw new Error('no seatIds available after it\'s filtered for empty string')
+        }
+
+        request.body = { ...request.body, seatIds: filteredSeats }
       }
     },
     async (request, reply) => {
       const { eventId, datetimeId, sectionId, seatIds } = request.body
+      console.log(request.body)
 
       type TakenSeatsReturn = Pick<events, 'event_id'> & Pick<event_datetimes, 'event_datetime_id'> & Pick<event_sections, 'event_section_id'> & Pick<event_seats, 'event_seat_id'>
       type TakenSeatsValues = [
@@ -106,10 +119,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           [nanoid(), request.user.username]
         )
 
-        for await (const id of seatIds) {
+        for await (const seatId of seatIds) {
           await client.query(
             'insert into transaction_details (transaction_id, event_seat_id) values ($1, $2)',
-            [transactionId.rows[0].transaction_id, id]
+            [transactionId.rows[0].transaction_id, seatId]
           )
         }
 
