@@ -13,17 +13,17 @@
               Type
             </div>
             <div class="flex items-center py-2 px-3 dark:hover:bg-yellow-hover" v-for="(tag, i) in eventTypeSelectors" :key="`event-type-list-checkbox-${i}`">
-              <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="cursor-pointer mr-10 w-4 h-4 rounded accent-pink-500" :value="tag.tag" v-model="eventType">
-              <label :for="`event-tag-checkbox-input-${tag.tag}`" class="cursor-pointer font-medium text-black">{{ tag.name }}</label>
+              <input :id="`event-type-checkbox-input-${tag.tag}`" type="checkbox" class="cursor-pointer mr-10 w-4 h-4 rounded accent-pink-500" :value="tag.tag" v-model="eventType">
+              <label :for="`event-type-checkbox-input-${tag.tag}`" class="cursor-pointer font-medium text-black">{{ tag.name }}</label>
             </div>
           </div>
           <div class="primary-hade">
             <div class="primary-hade-text">
               Price range
             </div>
-            <div class="flex items-center py-2 px-3 dark:hover:bg-yellow-hover" v-for="(tag, i) in eventPriceRangeSelectors" :key="`event-price-range-list-checkbox-${i}`">
-              <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="cursor-pointer mr-10 w-4 h-4 rounded accent-pink-500" :value="tag.tag" v-model="eventPrice">
-              <label :for="`event-tag-checkbox-input-${tag.tag}`" class="cursor-pointer font-medium text-black">{{ tag.name }}</label>
+            <div class="flex items-center py-2 px-3 dark:hover:bg-yellow-hover" v-for="(tag, i) in eventPriceRangeSelectors" :key="`event-price-range-list-radio-${i}`">
+              <input :id="`event-price-checkbox-input-${tag.tag}`" type="radio" class="cursor-pointer mr-10 w-4 h-4 rounded accent-pink-500" :value="tag.tag" v-model="eventPrice">
+              <label :for="`event-price-checkbox-input-${tag.tag}`" class="cursor-pointer font-medium text-black">{{ tag.name }}</label>
             </div>
           </div>
           <div class="mt-3 divide-y py-4 rounded text-black bg-pale-yellow">
@@ -103,8 +103,8 @@
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-y-1 gap-x-2 px-2 py-2 mt-2 ">
             <div class="flex items-center px-2 py-2 dark:hover:bg-yellow-hover rounded" v-for="(tag, i) in eventTypeSelectors" :key="`event-tag-list-checkbox-${i}`">
-              <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-pink-500 focus:ring-3" :value="tag.tag" v-model="eventType">
-              <label :for="`event-tag-checkbox-input-${tag.tag}`" class="font-medium text-black">{{ tag.name }}</label>
+              <input :id="`event-type-checkbox-input-${tag.tag}`" type="checkbox" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-pink-500 focus:ring-3" :value="tag.tag" v-model="eventType">
+              <label :for="`event-type-checkbox-input-${tag.tag}`" class="font-medium text-black">{{ tag.name }}</label>
             </div>
           </div>
         </div>
@@ -113,9 +113,9 @@
             Price range
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-y-1 gap-x-2 px-2 py-2 mt-2">
-            <div class="flex items-center px-2 py-2 dark:hover:bg-yellow-hover rounded" v-for="(tag, i) in eventPriceRangeSelectors" :key="`event-tag-list-checkbox-${i}`">
-              <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-pink-500 focus:ring-3" :value="tag.tag" v-model="eventPrice">
-              <label :for="`event-tag-checkbox-input-${tag.tag}`" class="font-medium text-black">{{ tag.name }}</label>
+            <div class="flex items-center px-2 py-2 dark:hover:bg-yellow-hover rounded" v-for="(tag, i) in eventPriceRangeSelectors" :key="`event-tag-list-radio-${i}`">
+              <input :id="`event-price-checkbox-input-${tag.tag}`" type="radio" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-pink-500 focus:ring-3" :value="tag.tag" v-model="eventPrice">
+              <label :for="`event-price-checkbox-input-${tag.tag}`" class="font-medium text-black">{{ tag.name }}</label>
             </div>
           </div>
         </div>
