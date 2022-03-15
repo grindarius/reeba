@@ -21,6 +21,7 @@
     "@reeba/common": "workspace:^1.0.0",
     "countries-list": "^2.6.1",
     "d3": "^7.3.0",
+    "daisyui": "^2.6.2",
     "dayjs": "^1.10.7",
     "debounce": "^1.2.1",
     "i18n-iso-countries": "^7.3.0",

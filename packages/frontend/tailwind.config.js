@@ -20,8 +20,29 @@ module.exports = {
       }
     }
   },
-  variants: {},
   plugins: [
-    require('@tailwindcss/typography')
-  ]
+    require('@tailwindcss/typography'),
+    require('daisyui')
+  ],
+  daisyui: {
+    themes: ['bumblebee']
+  }
 }
+
+// daisyui: {
+//   themes: [
+//     {
+//       mytheme: {
+//         "primary": "#d5a755",
+//         "secondary": "#cf8f1f",
+//         "accent": "#fff",
+//         "neutral": "#d5a755",
+//         "base-100": "#423e41",
+//         "info": "#3ABFF8",
+//         "success": "#36D399",
+//         "warning": "#FBBD23",
+//         "error": "#F87272",
+//       },
+//     },
+//   ],
+//  },
