@@ -67,12 +67,11 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           throw new Error('no seatIds available after it\'s filtered for empty string')
         }
 
-        request.body = { ...request.body, seatIds: filteredSeats }
+        request.body = { ...request.body, ...{ seatIds: filteredSeats } }
       }
     },
     async (request, reply) => {
       const { eventId, datetimeId, sectionId, seatIds } = request.body
-      console.log(request.body)
 
       type TakenSeatsReturn = Pick<events, 'event_id'> & Pick<event_datetimes, 'event_datetime_id'> & Pick<event_sections, 'event_section_id'> & Pick<event_seats, 'event_seat_id'>
       type TakenSeatsValues = [
@@ -83,10 +82,6 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       ]
 
       // * check if all seats are taken or not
-      // * taken seats will have seat id on both transaction_details and event_seats
-      // * available seats will have seat id on event_seats table only
-      // * this function will return an empty array if all seats are available,
-      // * will return seat ids that are taken
       const takenSeats = await instance.pg.query<TakenSeatsReturn, TakenSeatsValues>(
         `select
           events.event_id,
@@ -99,7 +94,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         inner join "events" on event_datetimes.event_id = events.event_id
         left join "transaction_details" on event_seats.event_seat_id = transaction_details.event_seat_id
         where
-          transaction_details.event_seat_id is null and
+          transaction_details.event_seat_id is not null and
           events.event_id = $1 and
           event_datetimes.event_datetime_id = $2 and
           event_sections.event_section_id = $3 and
