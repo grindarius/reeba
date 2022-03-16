@@ -24,7 +24,7 @@
       <div v-show="isAuthenticated" class="dropdown dropdown-end">
         <label tabindex="0" class="btn btn-ghost btn-circle avatar">
           <div class="w-10 rounded-full">
-            <img src="https://api.lorem.space/image/face?hash=33791">
+            <img :src="getUserAvatar({ username: userData.username }).url">
           </div>
         </label>
         <ul tabindex="0" class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-primary text-base-100 font-bold rounded-box w-52">
