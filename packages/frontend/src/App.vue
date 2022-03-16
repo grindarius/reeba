@@ -1,90 +1,50 @@
 <template>
-  <nav class="navbar">
-    <div class="big-navbar">
-      <div class="w-14 lg:w-96 logo">
-        <router-link to="/">
-          <img src="@/assets/reeba-logo-2.png" alt="Reeba logo" width="35" class="ml-2 cursor-pointer">
-        </router-link>
+  <nav class="navbar bg-primary">
+    <div class="navbar-start">
+      <router-link to="/">
+        <img src="@/assets/reeba-logo-2.png" alt="Reeba logo" width="35" class="cursor-pointer">
+      </router-link>
+    </div>
+    <div class="navbar-center">
+      <div class="form-control">
+        <input type="text" placeholder="Search" class="input w-54 input-bordered">
       </div>
-      <div class="searchbar">
-        <label>
-          <input type="text" name="searchbar" id="searchbar-big" placeholder="Search">
+    </div>
+    <div class="navbar-end">
+      <router-link to="/create" custom v-slot="{ navigate }">
+        <button class="btn btn-accent mr-6" @click="navigate">
+          Create Event
+        </button>
+      </router-link>
+      <router-link to="/signin" custom v-slot="{ navigate }">
+        <button v-show="!authStore.isAuthenticated" @click="navigate" class="btn btn-accent">
+          Sign in
+        </button>
+      </router-link>
+      <div v-show="authStore.isAuthenticated" class="dropdown dropdown-end">
+        <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+          <div class="w-10 rounded-full">
+            <img src="https://api.lorem.space/image/face?hash=33791">
+          </div>
         </label>
+        <ul tabindex="0" class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-primary text-base-100 font-bold rounded-box w-52">
+          <li>
+            <router-link :to="`/${authStore.userData.username}`">
+              Profile
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/account">
+              Settings
+            </router-link>
+          </li>
+          <li>
+            <button @click="signout" class="font-bold">
+              Sign out
+            </button>
+          </li>
+        </ul>
       </div>
-      <div class="buttons">
-        <router-link class="button" to="/create">
-          Create event
-        </router-link>
-        <router-link v-show="!authStore.isAuthenticated" class="button" to="/signin">
-          Sign in
-        </router-link>
-        <button @click="dropdownClicked" :class="authStore.isAuthenticated ? 'dropdown-navbar inline-flex' : 'dropdown-navbar hidden'">
-          <img :src="`${getUserAvatar({ username: authStore.userData.username ?? '' }).url}`" class="profile-image-navbar">
-          <v-mdi class="place-self-center" name="mdi-chevron-down" fill="#423E41" />
-        </button>
-      </div>
-      <div class="buttons-mobile">
-        <v-mdi name="mdi-hamburger" class="cursor-pointer" size="40" fill="#423E41" @click="toggleHamburger" />
-      </div>
-    </div>
-    <div v-if="dropdownState" v-show="authStore.isAuthenticated" class="dropdown-state">
-      <div :class="dropdownStateClass">
-        <router-link :to="`/${authStore.userData.username}`" class="dropdown-text" @click="closeDropdown">
-          {{ authStore.userData.username }}
-        </router-link>
-      </div>
-      <div :class="signinButtonStateClass">
-        <router-link to="/signin" class="dropdown-text" @click="closeDropdown">
-          Sign in
-        </router-link>
-      </div>
-      <ul class="py-1">
-        <li>
-          <router-link to="/account" class="dropdown-text" @click="closeDropdown">
-            Settings
-          </router-link>
-        </li>
-      </ul>
-      <div class="py-1">
-        <button class="w-full dropdown-text" @click="signout">
-          Sign out
-        </button>
-      </div>
-    </div>
-    <div :class="hamburgerStateClass">
-      <ul class="small-navbar-list">
-        <li>
-          <label>
-            <input class="pr-2 pl-11 w-full h-7 text-white rounded-lg shadow-lg outline-none bg-pale-gray" type="text" name="searchbar" id="searchbar-small" placeholder="Search">
-          </label>
-        </li>
-        <li>
-          <router-link to="/create" @click="closeHamburger" class="inline-block py-2 w-full">
-            Create event
-          </router-link>
-        </li>
-        <li v-show="!authStore.isAuthenticated">
-          <router-link to="/signin" @click="closeHamburger" class="inline-block py-2 w-full">
-            Sign in
-          </router-link>
-        </li>
-        <li v-show="authStore.isAuthenticated">
-          <router-link :to="`/${authStore.userData.username}`" @click="closeHamburger" class="flex place-items-center">
-            <img :src="`${getUserAvatar({ username: authStore.userData.username ?? '' }).url}`" :alt="authStore.userData.username ?? ''" class="profile-image">
-            {{ authStore.userData.username }}
-          </router-link>
-        </li>
-        <li v-show="authStore.isAuthenticated">
-          <router-link to="/account" @click="closeHamburger" class="inline-block py-2 w-full">
-            Settings
-          </router-link>
-        </li>
-        <li v-show="authStore.isAuthenticated">
-          <button @click="signout" class="inline-block py-2 w-full text-left">
-            Sign out
-          </button>
-        </li>
-      </ul>
     </div>
   </nav>
   <router-view :key="$route.fullPath" />
@@ -263,24 +223,13 @@ export default defineComponent({
       dropdownStateClass,
       signinButtonStateClass,
       hamburgerStateClass
+
     }
   }
 })
 </script>
 
 <style scoped lang="scss">
-.navbar {
-  min-height: 48px;
-  @apply flex flex-col w-full text-center bg-pale-yellow;
-}
-
-@media (min-width: 1024px) {
-
-  .navbar {
-    height: 48px !important;
-  }
-}
-
 .big-navbar {
   min-height: 48px;
   @apply flex flex-row justify-between;
@@ -369,14 +318,14 @@ export default defineComponent({
   @apply flex items-center mr-3 lg:hidden;
 }
 
-label {
-  @apply relative;
+// label {
+//   @apply relative;
 
-  &:before {
-    @apply absolute bottom-0 left-3 w-5;
-    top: 3px;
-    content: '';
-    background: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20version%3D%221.1%22%20id%3D%22mdi-magnify%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%23D5A755%22%20d%3D%22M9.5%2C3A6.5%2C6.5%200%200%2C1%2016%2C9.5C16%2C11.11%2015.41%2C12.59%2014.44%2C13.73L14.71%2C14H15.5L20.5%2C19L19%2C20.5L14%2C15.5V14.71L13.73%2C14.44C12.59%2C15.41%2011.11%2C16%209.5%2C16A6.5%2C6.5%200%200%2C1%203%2C9.5A6.5%2C6.5%200%200%2C1%209.5%2C3M9.5%2C5C7%2C5%205%2C7%205%2C9.5C5%2C12%207%2C14%209.5%2C14C12%2C14%2014%2C12%2014%2C9.5C14%2C7%2012%2C5%209.5%2C5Z%22%2F%3E%3C%2Fsvg%3E');
-  }
-}
+//   &:before {
+//     @apply absolute bottom-0 left-3 w-5;
+//     top: 3px;
+//     content: '';
+//     background: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20version%3D%221.1%22%20id%3D%22mdi-magnify%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%23D5A755%22%20d%3D%22M9.5%2C3A6.5%2C6.5%200%200%2C1%2016%2C9.5C16%2C11.11%2015.41%2C12.59%2014.44%2C13.73L14.71%2C14H15.5L20.5%2C19L19%2C20.5L14%2C15.5V14.71L13.73%2C14.44C12.59%2C15.41%2011.11%2C16%209.5%2C16A6.5%2C6.5%200%200%2C1%203%2C9.5A6.5%2C6.5%200%200%2C1%209.5%2C3M9.5%2C5C7%2C5%205%2C7%205%2C9.5C5%2C12%207%2C14%209.5%2C14C12%2C14%2014%2C12%2014%2C9.5C14%2C7%2012%2C5%209.5%2C5Z%22%2F%3E%3C%2Fsvg%3E');
+//   }
+// }
 </style>
