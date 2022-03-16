@@ -9,23 +9,23 @@
           <h3 class="text-4xl text-center text-white">
             Sign in
           </h3>
-          <div class="mb-4">
-            <label class="block mb-2 font-sans text-sm text-pale-gray" for="email">
-              Email
+          <div class="form-control w-full">
+            <label for="signin-email-input" class="label">
+              <span class="label-text text-base-100">Email</span>
             </label>
-            <input class="py-2 px-3 mb-2 w-full rounded-xl ring-0 shadow-lg outline-none focus:ring-2 shadow-zinc-900 text-grey-darker focus:ring-pale-gray" id="username" type="text" placeholder="Email" v-model="emailField">
-          </div>
-          <div class="mb-6">
-            <label class="block mb-2 font-sans text-sm text-pale-gray" for="password">
-              Password
+            <input type="text" name="signin-email-input" placeholder="example@gmail.com" class="input input-bordered w-full" v-model="emailField">
+            <label class="label">
+              <span class="label-text text-base-100">
+                Password
+              </span>
             </label>
-            <input class="py-2 px-3 mb-3 w-full rounded-xl ring-0 shadow-lg outline-none focus:ring-2 shadow-zinc-900 border-red text-grey-darker focus:ring-pale-gray" id="password" type="password" placeholder="Password" v-model="passwordField">
+            <input type="password" name="signin-email-input" class="input input-bordered w-full" v-model="passwordField">
           </div>
-          <a class="inline-block font-sans text-right text-white align-baseline hover:underline" href="#">
+          <a class="inline-block mt-2 font-sans text-right text-white align-baseline hover:underline" href="#">
             Forgot Password?
           </a>
           <div class="flex justify-center items-center">
-            <button class="py-2 px-8 font-sans text-white rounded-xl bg-pale-gray hover:bg-gray-hover" @click.prevent="signin">
+            <button class="btn btn-secondary" @click.prevent="signin">
               Sign in
             </button>
           </div>
