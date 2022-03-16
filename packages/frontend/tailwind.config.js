@@ -29,7 +29,7 @@ module.exports = {
       {
         reeba: {
           'primary': '#d5a755',
-          'secondary': '#cf8f1f',
+          'secondary': '#423e41',
           'accent': '#423e41',
           'neutral': '#d5a755',
           'base-100': '#423e41',
