@@ -12,8 +12,8 @@
             <div class="primary-hade-text">
               Type
             </div>
-            <div class="flex items-center py-2 px-3 dark:hover:bg-yellow-hover" v-for="(tag, i) in eventTypeSelectors" :key="`event-type-list-checkbox-${i}`">
-              <input :id="`event-type-checkbox-input-${tag.tag}`" type="checkbox" class="cursor-pointer mr-10 w-4 h-4 rounded accent-pink-500" :value="tag.tag" v-model="eventType">
+            <div class="flex items-center py-2 px-3 dark:hover:bg-yellow-hover" v-for="(tag, i) in accountTypeSelectors" :key="`event-type-list-checkbox-${i}`">
+              <input :id="`event-type-checkbox-input-${tag.tag}`" type="checkbox" class="cursor-pointer mr-10 w-4 h-4 rounded accent-pink-500" :value="tag.tag" v-model="accountType">
               <label :for="`event-type-checkbox-input-${tag.tag}`" class="cursor-pointer font-medium text-black">{{ tag.name }}</label>
             </div>
           </div>
@@ -102,8 +102,8 @@
             Type
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-y-1 gap-x-2 px-2 py-2 mt-2 ">
-            <div class="flex items-center px-2 py-2 dark:hover:bg-yellow-hover rounded" v-for="(tag, i) in eventTypeSelectors" :key="`event-tag-list-checkbox-${i}`">
-              <input :id="`event-type-checkbox-input-${tag.tag}`" type="checkbox" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-pink-500 focus:ring-3" :value="tag.tag" v-model="eventType">
+            <div class="flex items-center px-2 py-2 dark:hover:bg-yellow-hover rounded" v-for="(tag, i) in accountTypeSelectors" :key="`event-tag-list-checkbox-${i}`">
+              <input :id="`event-type-checkbox-input-${tag.tag}`" type="checkbox" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-pink-500 focus:ring-3" :value="tag.tag" v-model="accountType">
               <label :for="`event-type-checkbox-input-${tag.tag}`" class="font-medium text-black">{{ tag.name }}</label>
             </div>
           </div>
@@ -209,8 +209,8 @@ export default defineComponent({
   setup () {
     const route = useRoute()
     const eventTags: Ref<Array<string>> = ref([])
-    const eventType: Ref<Array<string>> = ref([])
-    const eventPrice: Ref<Array<string>> = ref([])
+    const accountType: Ref<Array<string>> = ref([])
+    const eventPrice: Ref<string> = ref('')
     const eventDate: Ref<Array<string>> = ref([])
     const { state: dropdownState, toggle: toggleDropdown } = useModalState()
 
@@ -224,7 +224,7 @@ export default defineComponent({
         }
       })
     })
-    const eventTypeSelectors: Ref<Array<{ name: string, tag: string}>> = ref([
+    const accountTypeSelectors: Ref<Array<{ name: string, tag: string}>> = ref([
       { name: 'Official', tag: 'official' },
       { name: 'Local', tag: 'local' }
     ])
@@ -265,12 +265,12 @@ export default defineComponent({
       { name: 'Variety', tag: 'variety' }
     ])
     return {
-      eventTypeSelectors,
+      accountTypeSelectors,
       eventPriceRangeSelectors,
       eventTagsSelectors,
       eventDateSelectors,
       eventTags,
-      eventType,
+      accountType,
       eventPrice,
       eventDate,
       toggleDropdown,
