@@ -36,12 +36,12 @@
           </router-link>
         </li>
         <li v-show="userData.role === 'admin'">
-          <a>
+          <router-link to="/account/developer">
             Developer tools
-          </a>
+          </router-link>
         </li>
         <li class="pl-4" v-show="userData.role === 'admin'">
-          <router-link to="/account/developer/">
+          <router-link to="/account/developer">
             Summary
           </router-link>
         </li>
