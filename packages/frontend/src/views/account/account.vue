@@ -109,34 +109,6 @@ export default defineComponent({
   @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
 }
 
-.account-info {
-  @apply flex flex-row gap-1 justify-center text-center text-white;
-}
-
-.account-table {
-  @apply hidden flex-col px-8 w-72 min-h-screen text-gray-900 border-r-4 lg:flex border-pale-yellow;
-}
-
-.account-image-wrapper {
-  @apply flex flex-row justify-center mt-10;
-}
-
-.account-settings-menu {
-  @apply mt-10 mb-4;
-}
-
-.account-settings-menu-wrapper {
-  @apply ml-4;
-}
-
-.account-settings-menu-list {
-  @apply my-1 text-gray-100 rounded-lg hover:font-bold hover:bg-gray-hover;
-
-  & > * {
-    @apply px-2;
-  }
-}
-
 .account-content {
   @apply p-12 grow;
 }
