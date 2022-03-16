@@ -1,88 +1,77 @@
 <template>
-  <div class="account-page">
-    <div class="container flex flex-row">
-      <nav class="max-w-xs account-table">
-        <div class="account-image-wrapper">
-          <div class="w-10/12">
-            <img :src="`${getUserAvatar({ username: authStore.userData.username ?? '' }).url}`" class="mx-auto w-20 h-20 rounded-full">
-          </div>
+  <div class="h-screen drawer drawer-mobile w-full">
+    <input id="my-drawer-2" type="checkbox" class="drawer-toggle">
+    <div class="drawer-content flex flex-col items-center justify-center">
+      <div class="account-page">
+        <div class="account-content">
+          <router-view :key="$route.fullPath" />
         </div>
-        <div class="account-info">
-          <p class="text-base font-semibold text-center text-white">
-            {{ authStore.userData.username }}
-          </p>
-          <v-mdi name="mdi-check-decagram" fill="#D5A755" />
-        </div>
-        <p class="text-sm text-center text-pale-yellow">
-          {{ authStore.userData.email }}
-        </p>
-        <div class="account-settings-menu">
-          <ul class="account-settings-menu-wrapper">
-            <li class="account-settings-menu-list">
-              <router-link class="link" to="/account">
-                My tickets
-              </router-link>
-            </li>
-            <li class="account-settings-menu-list">
-              <router-link class="link" to="/account/purchase-history">
-                Purchase history
-              </router-link>
-            </li>
-            <li class="account-settings-menu-list">
-              <router-link class="link" to="/account/edit">
-                Edit profile
-              </router-link>
-            </li>
-            <li class="account-settings-menu-list">
-              <router-link class="link" to="/account/organizer">
-                Organizer tools
-              </router-link>
-            </li>
-            <li v-show="authStore.userData.role === 'admin'" class="px-2 my-1 text-gray-100 rounded-lg">
-              <a class="link">
-                Developer tools
-              </a>
-            </li>
-            <li v-show="authStore.userData.role === 'admin'" class="pl-3 ml-2 border-l-2">
-              <ul>
-                <li class="account-settings-menu-list">
-                  <router-link class="link" to="/account/developer/">
-                    Summary
-                  </router-link>
-                </li>
-                <li class="account-settings-menu-list">
-                  <router-link class="link" to="/account/developer/events">
-                    Events
-                  </router-link>
-                </li>
-                <li class="account-settings-menu-list">
-                  <router-link class="link" to="/account/developer/users">
-                    Users
-                  </router-link>
-                </li>
-                <li class="account-settings-menu-list">
-                  <router-link class="link" to="/account/developer/transactions">
-                    Transactions
-                  </router-link>
-                </li>
-              </ul>
-            </li>
-            <li class="account-settings-menu-list">
-              <button class="text-left link" @click="signout">
-                Sign out
-              </button>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <div class="account-content">
-        <router-view :key="$route.fullPath" />
       </div>
+    </div>
+    <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden fixed bottom-10 right-10 rounded-full">
+      <v-mdi name="mdi-menu-open" fill="#000000" />
+    </label>
+    <div class="drawer-side">
+      <label for="my-drawer-2" class="drawer-overlay" />
+      <ul class="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
+        <!-- Sidebar content here -->
+        <li>
+          <router-link to="/account">
+            My tickets
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/account/purchase-history">
+            Purchase history
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/account/edit">
+            Edit profile
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/account/organizer">
+            Organizer tools
+          </router-link>
+        </li>
+        <li v-show="userData.role === 'admin'">
+          <a>
+            Developer tools
+          </a>
+        </li>
+        <li class="pl-4" v-show="userData.role === 'admin'">
+          <router-link to="/account/developer/">
+            Summary
+          </router-link>
+        </li>
+        <li class="pl-4" v-show="userData.role === 'admin'">
+          <router-link to="/account/developer/events">
+            Events
+          </router-link>
+        </li>
+        <li class="pl-4" v-show="userData.role === 'admin'">
+          <router-link to="/account/developer/users">
+            Users
+          </router-link>
+        </li>
+        <li class="pl-4" v-show="userData.role === 'admin'">
+          <router-link to="/account/developer/transactions">
+            Transactions
+          </router-link>
+        </li>
+        <li>
+          <button @click="signout">
+            Sign out
+          </button>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { storeToRefs } from 'pinia'
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -96,6 +85,7 @@ export default defineComponent({
   beforeRouteEnter: useSignedInGuard,
   setup () {
     const authStore = useAuthStore()
+    const { userData } = storeToRefs(authStore)
     const router = useRouter()
     const toast = useToast()
 
@@ -106,7 +96,7 @@ export default defineComponent({
     }
 
     return {
-      authStore,
+      userData,
       signout,
       getUserAvatar
     }
@@ -145,10 +135,6 @@ export default defineComponent({
   & > * {
     @apply px-2;
   }
-}
-
-.link {
-  @apply inline-block py-2 w-full h-full;
 }
 
 .account-content {
