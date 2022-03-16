@@ -14,10 +14,22 @@ const schema: FastifySchema = {
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Params: GetSearchResultRequestQuerystring }>(
-    '/',
+  instance.get<{ Querystring: GetSearchResultRequestQuerystring }>(
+    '/search',
     {
-      schema
+      schema,
+      preValidation: async (request) => {
+        const { q } = request.query
+        const { price } = request.query
+
+        if (q == null) {
+          request.body = { q: '' }
+        }
+
+        if (price == null) {
+          request.body = { price: '' }
+        }
+      }
     },
     async () => {
 
