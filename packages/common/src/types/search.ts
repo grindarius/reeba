@@ -3,9 +3,9 @@ import { Static, Type } from '@sinclair/typebox'
 export const GetSearchResultRequestQuerystringSchema = Type.Object({
   q: Type.String(),
   // this should be enum of some type
-  priceRange: Type.Number(),
+  price: Type.String(),
   tags: Type.Array(Type.String()),
   // this should be enum of some type
-  accountType: Type.String()
+  accountType: Type.Array(Type.String())
 })
 export type GetSearchResultRequestQuerystring = Static<typeof GetSearchResultRequestQuerystringSchema>
