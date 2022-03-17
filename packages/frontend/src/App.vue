@@ -7,7 +7,7 @@
     </div>
     <div class="navbar-center">
       <div class="form-control">
-        <input type="text" placeholder="Search" class="input lg:w-96 input-bordered">
+        <input type="text" placeholder="Search" class="input lg:w-96 input-bordered" v-model="searchText" @keyup.enter="$router.push({ name: 'Search', query: { q: searchText } })">
       </div>
     </div>
     <div class="navbar-end">
@@ -97,7 +97,7 @@
 
 <script lang="ts">
 import { storeToRefs } from 'pinia'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { getUserAvatar } from '@/api/endpoints'
@@ -107,6 +107,7 @@ export default defineComponent({
   name: 'app',
   setup () {
     const authStore = useAuthStore()
+    const searchText = ref('')
     const { isAuthenticated, userData } = storeToRefs(authStore)
 
     const router = useRouter()
@@ -119,6 +120,7 @@ export default defineComponent({
     return {
       getUserAvatar,
       signout,
+      searchText,
       isAuthenticated,
       userData
     }
