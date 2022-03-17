@@ -15,7 +15,7 @@ const schema: FastifySchema = {
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.get<{ Querystring: GetSearchResultRequestQuerystring }>(
-    '/search',
+    '/',
     {
       schema,
       preValidation: async (request) => {
