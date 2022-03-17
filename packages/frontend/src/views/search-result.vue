@@ -21,9 +21,9 @@
             <div class="primary-hade-text">
               Price range
             </div>
-            <div class="flex items-center py-2 px-3 dark:hover:bg-yellow-hover" v-for="(tag, i) in eventPriceRangeSelectors" :key="`event-price-range-list-radio-${i}`">
-              <input :id="`event-price-checkbox-input-${tag.tag}`" type="radio" class="cursor-pointer mr-10 w-4 h-4 rounded accent-pink-500" :value="tag.tag" v-model="eventPrice">
-              <label :for="`event-price-checkbox-input-${tag.tag}`" class="cursor-pointer font-medium text-black">{{ tag.name }}</label>
+            <div class="flex items-center py-2 px-3 dark:hover:bg-yellow-hover" v-for="(EVENT_PRICE) in eventPriceRangeSelectors" :key="`event-price-range-list-radio-${EVENT_PRICE}`">
+              <input :id="`event-price-checkbox-input-${EVENT_PRICE}`" type="radio" class="cursor-pointer mr-10 w-4 h-4 rounded accent-pink-500" :value="EVENT_PRICE" v-model="eventPrice">
+              <label :for="`event-price-checkbox-input-${EVENT_PRICE}`" class="cursor-pointer font-medium text-black">{{ eventPrice }}</label>
             </div>
           </div>
           <div class="mt-3 divide-y py-4 rounded text-black bg-pale-yellow">
@@ -113,9 +113,9 @@
             Price range
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-y-1 gap-x-2 px-2 py-2 mt-2">
-            <div class="flex items-center px-2 py-2 dark:hover:bg-yellow-hover rounded" v-for="(tag, i) in eventPriceRangeSelectors" :key="`event-tag-list-radio-${i}`">
-              <input :id="`event-price-checkbox-input-${tag.tag}`" type="radio" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-pink-500 focus:ring-3" :value="tag.tag" v-model="eventPrice">
-              <label :for="`event-price-checkbox-input-${tag.tag}`" class="font-medium text-black">{{ tag.name }}</label>
+            <div class="flex items-center px-2 py-2 dark:hover:bg-yellow-hover rounded" v-for="(EVENT_PRICE) in eventPriceRangeSelectors" :key="`event-tag-list-radio-${EVENT_PRICE}`">
+              <input :id="`event-price-checkbox-input-${EVENT_PRICE}`" type="radio" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-pink-500 focus:ring-3" :value="EVENT_PRICE" v-model="eventPrice">
+              <label :for="`event-price-checkbox-input-${EVENT_PRICE}`" class="font-medium text-black">{{ EVENT_PRICE }}</label>
             </div>
           </div>
         </div>
@@ -200,6 +200,7 @@ import { useRoute } from 'vue-router'
 
 import RDropdown from '@/components/r-dropdown.vue'
 import { useModalState } from '@/composables'
+import { EVENT_PRICE } from '../types'
 
 export default defineComponent({
   name: 'search',
@@ -209,8 +210,8 @@ export default defineComponent({
   setup () {
     const route = useRoute()
     const eventTags: Ref<Array<string>> = ref([])
+    const eventPrice: Ref<Array<EVENT_PRICE>> = ref([])
     const accountType: Ref<Array<string>> = ref([])
-    const eventPrice: Ref<string> = ref('')
     const eventDate: Ref<Array<string>> = ref([])
     const { state: dropdownState, toggle: toggleDropdown } = useModalState()
 
@@ -228,16 +229,8 @@ export default defineComponent({
       { name: 'Official', tag: 'official' },
       { name: 'Local', tag: 'local' }
     ])
-    const eventPriceRangeSelectors: Ref<Array<{ name: string, tag: string}>> = ref([
-      { name: 'Any', tag: '9999999' },
-      { name: '< 300', tag: '300' },
-      { name: '< 600', tag: '600' },
-      { name: '< 1,200', tag: '1200' },
-      { name: '< 2,400', tag: '2400' },
-      { name: '< 4,800', tag: '4800' },
-      { name: '< 7,200', tag: '7200' },
-      { name: '< 10,000', tag: '10000' }
-    ])
+    const eventPriceRangeSelectors: Ref<Array<EVENT_PRICE>> = ref([])
+
     const eventDateSelectors: Ref<Array<{ name: string, tag: string}>> = ref([
       { name: 'All date', tag: 'alldate' },
       { name: 'Today', tag: 'today' },
@@ -275,7 +268,8 @@ export default defineComponent({
       eventDate,
       toggleDropdown,
       dropdownState,
-      reformattedArrayeventDateSelectors
+      reformattedArrayeventDateSelectors,
+      EVENT_PRICE
     }
   }
 })
