@@ -23,11 +23,11 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         const { price } = request.query
 
         if (q == null) {
-          request.body = { q: '' }
+          request.query = { ...request.query, ...{ q: '' } }
         }
 
         if (price == null) {
-          request.body = { price: '' }
+          request.query = { ...request.query, ...{ price: '' } }
         }
       }
     },
