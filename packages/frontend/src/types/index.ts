@@ -61,3 +61,21 @@ export interface TransactionStore {
   datetimeId: string
   section: TransactionStoreSection
 }
+
+export enum EVENT_PRICE {
+  ANY = 'ANY',
+  // <300
+  PRICE_LEVEL_1 = '<300',
+  // <600
+  PRICE_LEVEL_2 = '<600',
+  // <1,200
+  PRICE_LEVEL_3 = '<1200',
+  // <2,400
+  PRICE_LEVEL_4 = '<2400',
+  // <4,800
+  PRICE_LEVEL_5 = '<4800',
+  // <7,200
+  PRICE_LEVEL_6 = '<7200',
+  // <10,000
+  PRICE_LEVEL_7 = '<10000'
+}
