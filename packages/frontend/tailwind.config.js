@@ -30,7 +30,7 @@ module.exports = {
         reeba: {
           'primary': '#d5a755',
           'secondary': '#423e41',
-          'accent': '#423e41',
+          'accent': '#fff',
           'neutral': '#d5a755',
           'base-100': '#423e41',
           'info': '#3ABFF8',

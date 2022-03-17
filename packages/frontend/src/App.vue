@@ -12,12 +12,12 @@
     </div>
     <div class="navbar-end">
       <router-link to="/create" custom v-slot="{ navigate }">
-        <button class="btn btn-accent mr-6 hidden lg:block" @click="navigate">
+        <button class="btn btn-secondary mr-6 hidden lg:block" @click="navigate">
           Create Event
         </button>
       </router-link>
       <router-link to="/signin" custom v-slot="{ navigate }">
-        <button v-show="!isAuthenticated" @click="navigate" class="btn btn-accent">
+        <button v-show="!isAuthenticated" @click="navigate" class="btn btn-secondary">
           Sign in
         </button>
       </router-link>
