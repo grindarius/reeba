@@ -11,7 +11,10 @@
           <h1 class="text-main-event-name">
             Official events
           </h1>
-          <div class="event-grid-box">
+          <div v-if="eventData.official.length === 0" class="w-full text-center">
+            <span class="text-white text-4xl">No events</span>
+          </div>
+          <div v-else class="event-grid-box">
             <div class="event" v-for="({username, id: eventId, name: eventName, firstDatetime, venueName}, i) in eventData.official" :key="`root-page-official-event-${i}`">
               <router-link :to="{ name: 'Event', params: { username, eventId }}">
                 <div class="event-image-box">
@@ -41,7 +44,10 @@
           <h1 class="text-main-event-name">
             Local events
           </h1>
-          <div class="event-grid-box">
+          <div v-if="eventData.local.length === 0" class="w-full text-center">
+            <span class="text-white text-4xl">No events</span>
+          </div>
+          <div v-else class="event-grid-box">
             <div class="event" v-for="({username, id: eventId, name: eventName, firstDatetime, venueName}, i) in eventData.local" :key="`root-page-local-event-${i}`">
               <router-link :to="{ name: 'Event', params: { username, eventId }}">
                 <div class="event-image-box">

@@ -60,7 +60,10 @@
           <h1 class="text-main-event-name">
             Events {{ $route.params.username ?? '' }} went to
           </h1>
-          <div class="event-grid-box">
+          <div v-if="relatedEvents.attended.length === 0" class="w-full text-center mt-6">
+            <span class="text-white text-4xl">{{ $route.params.username }} hasn't gone to any events.</span>
+          </div>
+          <div v-else class="event-grid-box">
             <div class="event" v-for="({username: attendedUsername, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.attended ?? [])" :key="`user-page-attended-event-${i}`">
               <router-link :to="{ name: 'Event', params: { attendedUsername, eventId }}">
                 <div class="event-image-box">
@@ -84,6 +87,9 @@
           <h1 class="text-main-event-name">
             Events {{ $route.params.username ?? '' }} created
           </h1>
+          <div v-if="relatedEvents.attended.length === 0" class="w-full text-center mt-6">
+            <span class="text-white text-4xl">{{ $route.params.username }} hasn't created any events.</span>
+          </div>
           <div class="event-grid-box">
             <div class="event" v-for="({username: createdUsername, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.created ?? [])" :key="`user-page-created-event-${i}`">
               <router-link :to="{ name: 'Event', params: { createdUsername, eventId }}" :key="$route.path">
@@ -130,7 +136,10 @@ export default defineComponent({
     const toast = useToast()
 
     const userData: Ref<GetUserReply | undefined> = ref(undefined)
-    const relatedEvents: Ref<GetUserRelatedEventsReply | undefined> = ref(undefined)
+    const relatedEvents: Ref<GetUserRelatedEventsReply> = ref({
+      created: [],
+      attended: []
+    })
 
     useMeta({
       title: route.params.username
@@ -157,8 +166,8 @@ export default defineComponent({
         }).json<GetUserRelatedEventsReply>()
 
         userData.value = userDataResponse
-        relatedEvents.value = userRelatedEvents
-        console.log(relatedEvents.value)
+        relatedEvents.value.created = userRelatedEvents.created
+        relatedEvents.value.attended = userRelatedEvents.attended
       } catch (error) {
         // @ts-expect-error error unknown
         const code = error?.response.status
