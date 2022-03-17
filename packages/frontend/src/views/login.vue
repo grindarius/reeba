@@ -6,7 +6,7 @@
           <div class="flex justify-center font-bold scroll-mt-50">
             <img class="mb-2 w-64 h-64" src="@/assets/reeba-logo.png" alt="logo-reeba">
           </div>
-          <h3 class="text-4xl text-center text-white">
+          <h3 class="text-4xl font-bold text-center text-white">
             Sign in
           </h3>
           <div class="form-control w-full">
