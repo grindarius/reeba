@@ -156,57 +156,6 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         events['event_minimum_age']
       ]
 
-      const eventId = await instance.pg.query<Pick<events, 'event_id'>, InsertEvent>(
-        `insert into events (
-          event_id,
-          user_username,
-          event_name,
-          event_description,
-          event_website,
-          event_venue_name,
-          event_venue_coordinates,
-          event_creation_date,
-          event_opening_date,
-          event_status,
-          event_ticket_prices,
-          event_minimum_age
-        ) values ($1, $2, $3, $4, $5, $6, $7::point, $8, $9, $10, $11::jsonb, $12) returning event_id`,
-        [
-          nanoid(),
-          createdBy,
-          eventName,
-          description,
-          website,
-          venueName,
-          `${venueCoordinates.x}, ${venueCoordinates.y}`,
-          dayjs().format('YYYY-MM-DD HH:mm:ss.SSS Z'),
-          openingDate,
-          t_event_status.open,
-          ticketPrices.reduce<Record<string, number>>((obj, item) => {
-            obj[item.color] = item.price
-            return obj
-          }, {}),
-          minimumAge
-        ]
-      )
-
-      // * insert newly created tags from user
-      // TODO @grindarius: may need string normalization before this could be executed.
-      for await (const tag of tags) {
-        await instance.pg.query<event_tags, [event_tags['event_tag_label']]>(
-          'insert into event_tags (event_tag_label) values ($1) on conflict (event_tag_label) do nothing',
-          [tag]
-        )
-      }
-
-      // * insert the actual tag from the event
-      for await (const tag of tags) {
-        await instance.pg.query<event_tags_bridge, [event_tags_bridge['event_tag_label'], event_tags_bridge['event_id']]>(
-          'insert into event_tags_bridge (event_tag_label, event_id) values ($1, $2)',
-          [tag, eventId.rows[0].event_id]
-        )
-      }
-
       type InsertDatetimes = [
         event_datetimes['event_datetime_id'],
         event_datetimes['event_id'],
@@ -229,37 +178,90 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         event_seats['event_seat_column_position']
       ]
 
-      // * insert each datetime of an event.
-      for await (const datetime of datetimes) {
-        const datetimeId = await instance.pg.query<Pick<event_datetimes, 'event_datetime_id'>, InsertDatetimes>(
-          'insert into event_datetimes (event_datetime_id, event_id, event_start_datetime, event_end_datetime) values ($1, $2, $3, $4) returning event_datetime_id',
-          [nanoid(), eventId.rows[0].event_id, datetime.start, datetime.end]
+      return await instance.pg.transact<PostEventReply>(async client => {
+        const eventId = await client.query<Pick<events, 'event_id'>, InsertEvent>(
+          `insert into events (
+            event_id,
+            user_username,
+            event_name,
+            event_description,
+            event_website,
+            event_venue_name,
+            event_venue_coordinates,
+            event_creation_date,
+            event_opening_date,
+            event_status,
+            event_ticket_prices,
+            event_minimum_age
+          ) values ($1, $2, $3, $4, $5, $6, $7::point, $8, $9, $10, $11::jsonb, $12) returning event_id`,
+          [
+            nanoid(),
+            createdBy,
+            eventName,
+            description,
+            website,
+            venueName,
+            `${venueCoordinates.x}, ${venueCoordinates.y}`,
+            dayjs().format('YYYY-MM-DD HH:mm:ss.SSS Z'),
+            openingDate,
+            t_event_status.open,
+            ticketPrices.reduce<Record<string, number>>((obj, item) => {
+              obj[item.color] = item.price
+              return obj
+            }, {}),
+            minimumAge
+          ]
         )
 
-        // * insert each section of each datetime
-        for await (const sectionRow of sections) {
-          for await (const section of sectionRow) {
-            const sectionId = await instance.pg.query<Pick<event_sections, 'event_section_id'>, InsertSection>(
-              'insert into event_sections (event_section_id, event_datetime_id, event_section_row_position, event_section_column_position) values ($1, $2, $3, $4) returning event_section_id',
-              [nanoid(), datetimeId.rows[0].event_datetime_id, section.sectionRowPosition, section.sectionColumnPosition]
-            )
+        // * insert newly created tags from user
+        // TODO @grindarius: may need string normalization before this could be executed.
+        for await (const tag of tags) {
+          await client.query<event_tags, [event_tags['event_tag_label']]>(
+            'insert into event_tags (event_tag_label) values ($1) on conflict (event_tag_label) do nothing',
+            [tag]
+          )
+        }
 
-            // * insert each chair of each section of each datetime
-            for await (const seatRow of section.seats) {
-              for await (const seat of seatRow) {
-                await instance.pg.query<event_seats, InsertSeat>(
-                  'insert into event_seats (event_seat_id, event_section_id, event_seat_price, event_seat_row_position, event_seat_column_position) values ($1, $2, $3, $4, $5)',
-                  [nanoid(), sectionId.rows[0].event_section_id, seat.seatPrice, seat.seatRowPosition, seat.seatColumnPosition]
-                )
+        // * insert the actual tag from the event
+        for await (const tag of tags) {
+          await client.query<event_tags_bridge, [event_tags_bridge['event_tag_label'], event_tags_bridge['event_id']]>(
+            'insert into event_tags_bridge (event_tag_label, event_id) values ($1, $2)',
+            [tag, eventId.rows[0].event_id]
+          )
+        }
+
+        // * insert each datetime of an event.
+        for await (const datetime of datetimes) {
+          const datetimeId = await client.query<Pick<event_datetimes, 'event_datetime_id'>, InsertDatetimes>(
+            'insert into event_datetimes (event_datetime_id, event_id, event_start_datetime, event_end_datetime) values ($1, $2, $3, $4) returning event_datetime_id',
+            [nanoid(), eventId.rows[0].event_id, datetime.start, datetime.end]
+          )
+
+          // * insert each section of each datetime
+          for await (const sectionRow of sections) {
+            for await (const section of sectionRow) {
+              const sectionId = await client.query<Pick<event_sections, 'event_section_id'>, InsertSection>(
+                'insert into event_sections (event_section_id, event_datetime_id, event_section_row_position, event_section_column_position) values ($1, $2, $3, $4) returning event_section_id',
+                [nanoid(), datetimeId.rows[0].event_datetime_id, section.sectionRowPosition, section.sectionColumnPosition]
+              )
+
+              // * insert each chair of each section of each datetime
+              for await (const seatRow of section.seats) {
+                for await (const seat of seatRow) {
+                  await client.query<event_seats, InsertSeat>(
+                    'insert into event_seats (event_seat_id, event_section_id, event_seat_price, event_seat_row_position, event_seat_column_position) values ($1, $2, $3, $4, $5)',
+                    [nanoid(), sectionId.rows[0].event_section_id, seat.seatPrice, seat.seatRowPosition, seat.seatColumnPosition]
+                  )
+                }
               }
             }
           }
         }
-      }
 
-      return {
-        eventId: eventId.rows[0].event_id
-      }
+        return {
+          eventId: eventId.rows[0].event_id
+        }
+      })
     }
   )
 }
