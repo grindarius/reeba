@@ -66,7 +66,6 @@ import { useToast } from 'vue-toastification'
 
 import { SignupBody } from '@reeba/common'
 
-import { useModalState } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
 
 interface CountryCode {
@@ -87,8 +86,6 @@ export default defineComponent({
     const phoneNumberField = ref('')
     const passwordField = ref('')
     const confirmPasswordField = ref('')
-
-    const { state: dropdownState, toggle: toggleDropdown } = useModalState()
 
     const phoneCodesList = computed(() => {
       return Object.values(countries).flatMap(ct => {
@@ -148,9 +145,7 @@ export default defineComponent({
       confirmPasswordField,
       signup,
       getDropdownClassname,
-      dropdownState,
       phoneCodesList,
-      toggleDropdown,
       phoneCountryCodeField,
       onPhoneCountryCodeClicked,
       countryCodeString

@@ -13,13 +13,13 @@
             <label for="signin-email-input" class="label">
               <span class="label-text text-base-100">Email</span>
             </label>
-            <input type="text" name="signin-email-input" placeholder="example@gmail.com" class="input input-bordered w-full" v-model="emailField">
+            <input type="text" name="signin-email-input" placeholder="example@gmail.com" class="input input-bordered bg-white text-base-100 w-full" v-model="emailField">
             <label class="label">
               <span class="label-text text-base-100">
                 Password
               </span>
             </label>
-            <input type="password" name="signin-email-input" class="input input-bordered w-full" v-model="passwordField">
+            <input type="password" name="signin-email-input" class="input input-bordered bg-white text-base-100 w-full" v-model="passwordField">
           </div>
           <a class="inline-block mt-2 font-sans text-right text-white align-baseline hover:underline" href="#">
             Forgot Password?
