@@ -187,9 +187,9 @@ export default defineComponent({
       title: route.query.q ?? 'Search'
     })
 
-    const formatQueryString = (query: LocationQueryValue | Array<LocationQueryValue>): string => {
+    const formatQueryString = (query: LocationQueryValue | Array<LocationQueryValue>, defaultValue = ''): string => {
       return query == null
-        ? ''
+        ? defaultValue
         : Array.isArray(query)
           ? query.filter(q => q != null)[0] ?? ''
           : query
@@ -206,10 +206,16 @@ export default defineComponent({
     onMounted(async () => {
       const formattedQ = formatQueryString(route.query.q)
       const formattedCreatorType = formatQueryArray(route.query.creatorType)
-      const formattedPriceRange = formatQueryString(route.query.priceRange)
+      const formattedPriceRange = formatQueryString(route.query.priceRange, 'Any')
       const formattedTags = formatQueryArray(route.query.tags)
-      const formattedDateRange = formatQueryString(route.query.dateRange)
-      const formattedSearchQueryType = formatQueryString(route.query.type)
+      const formattedDateRange = formatQueryString(route.query.dateRange, 'All dates')
+      const formattedSearchQueryType = formatQueryString(route.query.type, 'Events')
+
+      selectedCreatorType.value = formattedCreatorType as Array<CreatorType>
+      selectedPriceRange.value = formattedPriceRange as PriceRange
+      selectedTags.value = formattedTags as Array<EventTags>
+      selectedDateRange.value = formattedDateRange as DateRange
+      selectedSearchQueryType.value = formattedSearchQueryType as SearchType
 
       await ky('http://localhost:3000/search', {
         method: 'get',
