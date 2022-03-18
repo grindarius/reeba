@@ -1,5 +1,7 @@
 import { Static, Type } from '@sinclair/typebox'
 
+import { UserSocialMediaSchema } from './users'
+
 export const creatorType = [
   'Official',
   'Local'
@@ -73,3 +75,24 @@ export const GetSearchResultRequestQuerystringSchema = Type.Object({
   type: SearchTypeSchema
 })
 export type GetSearchResultRequestQuerystring = Static<typeof GetSearchResultRequestQuerystringSchema>
+
+export const GetSearchResultReplySchema = Type.Object({
+  amount: Type.Number(),
+  events: Type.Array(Type.Object({
+    id: Type.String(),
+    name: Type.String(),
+    type: CreatorTypeSchema,
+    firstDatetime: Type.String(),
+    lastDatetime: Type.String(),
+    openingDate: Type.String(),
+    venueName: Type.String(),
+    venueCoordinates: Type.String()
+  })),
+  users: Type.Array(Type.Object({
+    username: Type.String(),
+    description: Type.String(),
+    socialMedias: UserSocialMediaSchema,
+    accountType: Type.String()
+  }))
+})
+export type GetSearchResultReply = Static<typeof GetSearchResultReplySchema>
