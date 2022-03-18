@@ -155,9 +155,9 @@
 
 <script lang="ts">
 import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { defineComponent, onMounted, Ref, ref, watch } from 'vue'
 import { useMeta } from 'vue-meta'
-import { LocationQueryValue, useRoute } from 'vue-router'
+import { LocationQueryValue, useRoute, useRouter } from 'vue-router'
 
 import {
   CreatorType,
@@ -166,6 +166,7 @@ import {
   dateRange,
   EventTags,
   eventTags,
+  GetSearchResultReply,
   PriceRange,
   priceRange,
   SearchType,
@@ -176,12 +177,15 @@ export default defineComponent({
   name: 'search',
   setup () {
     const route = useRoute()
+    const router = useRouter()
 
     const selectedCreatorType: Ref<Array<CreatorType>> = ref([])
     const selectedPriceRange: Ref<PriceRange> = ref('Any')
     const selectedTags: Ref<Array<EventTags>> = ref([])
     const selectedDateRange: Ref<DateRange> = ref('All dates')
     const selectedSearchQueryType: Ref<SearchType> = ref('Events')
+
+    const searchResultResponse: Ref<GetSearchResultReply | undefined> = ref(undefined)
 
     useMeta({
       title: route.query.q ?? 'Search'
@@ -203,7 +207,7 @@ export default defineComponent({
           : [query]
     }
 
-    onMounted(async () => {
+    const getSearchResult = async (): Promise<void> => {
       const formattedQ = formatQueryString(route.query.q)
       const formattedCreatorType = formatQueryArray(route.query.creatorType)
       const formattedPriceRange = formatQueryString(route.query.priceRange, 'Any')
@@ -217,7 +221,7 @@ export default defineComponent({
       selectedDateRange.value = formattedDateRange as DateRange
       selectedSearchQueryType.value = formattedSearchQueryType as SearchType
 
-      await ky('http://localhost:3000/search', {
+      const response = await ky('http://localhost:3000/search', {
         method: 'get',
         searchParams: [
           ['q', formattedQ],
@@ -227,6 +231,62 @@ export default defineComponent({
           ['dateRange', formattedDateRange],
           ['type', formattedSearchQueryType]
         ]
+      }).json<GetSearchResultReply>()
+
+      searchResultResponse.value = response
+    }
+
+    onMounted(async () => {
+      await getSearchResult()
+    })
+
+    watch(selectedCreatorType, (now) => {
+      router.replace({
+        name: 'Search',
+        query: {
+          ...route.query,
+          ...{ creatorType: now }
+        }
+      })
+    })
+
+    watch(selectedPriceRange, (now) => {
+      router.replace({
+        name: 'Search',
+        query: {
+          ...route.query,
+          ...{ priceRange: now }
+        }
+      })
+    })
+
+    watch(selectedTags, (now) => {
+      router.replace({
+        name: 'Search',
+        query: {
+          ...route.query,
+          ...{ tags: now }
+        }
+      })
+    })
+
+    watch(selectedDateRange, (now) => {
+      router.replace({
+        name: 'Search',
+        query: {
+          ...route.query,
+          ...{ dateRange: now }
+        }
+      })
+    })
+
+    watch(selectedSearchQueryType, (now) => {
+      router.replace({
+        name: 'Search',
+        query: {
+          ...route.query,
+          ...{ type: now }
+        }
       })
     })
 
