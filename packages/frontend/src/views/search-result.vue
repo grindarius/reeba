@@ -13,28 +13,30 @@
             <div class="mt-3 py-4 rounded text-base-content text-2xl font-bold px-5">
               12 results
             </div>
-            <div class="hero bg-base-100 place-items-start">
-              <div class="hero-content">
-                <div class="max-w-md">
-                  <h1 class="text-3xl font-bold">
-                    <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
-                    Event name
-                    <span class="badge my-auto">Official</span>
-                  </h1>
-                  <p class="pt-3 pb-1">
-                    first date of the event - last date of the event
-                  </p>
-                  <p>
-                    <v-mdi name="mdi-alarm" fill="#D5A755" />
-                    opening date
-                  </p>
-                  <p class="text-primary py-2">
-                    <v-mdi name="mdi-map-marker-account" fill="#D5A755" />
-                    location name
-                  </p>
+            <router-link to="/">
+              <div class="hero bg-base-100 place-items-start">
+                <div class="hero-content">
+                  <div class="max-w-md">
+                    <h1 class="text-3xl font-bold">
+                      <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
+                      Event name
+                      <span class="badge my-auto">Official</span>
+                    </h1>
+                    <p class="pt-3 pb-1">
+                      first date of the event - last date of the event
+                    </p>
+                    <p>
+                      <v-mdi name="mdi-alarm" fill="#D5A755" />
+                      opening date
+                    </p>
+                    <p class="text-primary py-2">
+                      <v-mdi name="mdi-map-marker-account" fill="#D5A755" />
+                      location name
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </router-link>
             <div class="hero bg-base-100 place-items-start">
               <div class="hero-content">
                 <div class="max-w-md">
