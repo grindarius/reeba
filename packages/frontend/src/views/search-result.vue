@@ -157,7 +157,7 @@
 import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
 import { useMeta } from 'vue-meta'
-import { useRoute } from 'vue-router'
+import { LocationQueryValue, useRoute } from 'vue-router'
 
 import {
   CreatorType,
@@ -178,23 +178,49 @@ export default defineComponent({
     const route = useRoute()
 
     const selectedCreatorType: Ref<Array<CreatorType>> = ref([])
-    const selectedTags: Ref<Array<EventTags>> = ref([])
     const selectedPriceRange: Ref<PriceRange> = ref('Any')
+    const selectedTags: Ref<Array<EventTags>> = ref([])
     const selectedDateRange: Ref<DateRange> = ref('All dates')
-    const selectedSearchQueryType: Ref<Array<SearchType>> = ref([])
+    const selectedSearchQueryType: Ref<SearchType> = ref('Events')
 
     useMeta({
       title: route.query.q ?? 'Search'
     })
 
+    const formatQueryString = (query: LocationQueryValue | Array<LocationQueryValue>): string => {
+      return query == null
+        ? ''
+        : Array.isArray(query)
+          ? query.filter(q => q != null)[0] ?? ''
+          : query
+    }
+
+    const formatQueryArray = (query: LocationQueryValue | Array<LocationQueryValue>): Array<string> => {
+      return query == null
+        ? []
+        : Array.isArray(query)
+          ? query.filter(c => c != null) as Array<string>
+          : [query]
+    }
+
     onMounted(async () => {
+      const formattedQ = formatQueryString(route.query.q)
+      const formattedCreatorType = formatQueryArray(route.query.creatorType)
+      const formattedPriceRange = formatQueryString(route.query.priceRange)
+      const formattedTags = formatQueryArray(route.query.tags)
+      const formattedDateRange = formatQueryString(route.query.dateRange)
+      const formattedSearchQueryType = formatQueryString(route.query.type)
+
       await ky('http://localhost:3000/search', {
         method: 'get',
-        searchParams: {
-          q: route.query.q == null ? '' : Array.isArray(route.query.q) ? route.query.q.join(',') : route.query.q,
-          pricerange: route.query.pricerange == null ? '' : Array.isArray(route.query.pricerange) ? route.query.pricerange.join(',') : route.query.pricerange,
-          datetime: route.query.datetime == null ? '' : Array.isArray(route.query.datetime) ? route.query.datetime.join(',') : route.query.datetime
-        }
+        searchParams: [
+          ['q', formattedQ],
+          ...formattedCreatorType.map(ct => ['creatorType', ct]),
+          ['priceRange', formattedPriceRange],
+          ...formattedTags.map(t => ['tags', t]),
+          ['dateRange', formattedDateRange],
+          ['type', formattedSearchQueryType]
+        ]
       })
     })
 
