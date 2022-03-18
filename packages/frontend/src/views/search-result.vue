@@ -1,194 +1,152 @@
 <template>
-  <div class="search-page">
-    <div class="search-page-content">
-      <div class="hidden primary-menu">
-        <div class="primary-filter">
-          <div class="primary-hade text-2xl font-bold">
-            <div class="primary-hade-text">
-              Filter
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
+  <div class="drawer drawer-mobile w-full">
+    <input type="checkbox" id="search-sidebar" class="drawer-toggle">
+    <div class="drawer-content flex flex-col items-center justify-start" style="max-height: none;">
+      <div class="search-page">
+        <div class="search-page-content">
+          <div class="result-pane">
+            <div class="mt-3 py-4 rounded text-base-content text-2xl font-bold px-5">
+              12 results
             </div>
-          </div>
-          <div class="primary-hade">
-            <div class="primary-hade-text">
-              Type
-            </div>
-            <div class="flex items-center py-2 px-3 dark:hover:bg-yellow-hover" v-for="(tag, i) in accountTypeSelectors" :key="`event-type-list-checkbox-${i}`">
-              <input :id="`event-type-checkbox-input-${tag.tag}`" type="checkbox" class="cursor-pointer mr-10 w-4 h-4 rounded accent-pink-500" :value="tag.tag" v-model="accountType">
-              <label :for="`event-type-checkbox-input-${tag.tag}`" class="cursor-pointer font-medium text-black">{{ tag.name }}</label>
-            </div>
-          </div>
-          <div class="primary-hade">
-            <div class="primary-hade-text">
-              Price range
-            </div>
-            <div class="flex items-center py-2 px-3 dark:hover:bg-yellow-hover" v-for="(EVENT_PRICE) in eventPriceRangeSelectors" :key="`event-price-range-list-radio-${EVENT_PRICE}`">
-              <input :id="`event-price-checkbox-input-${EVENT_PRICE}`" type="radio" class="cursor-pointer mr-10 w-4 h-4 rounded accent-pink-500" :value="EVENT_PRICE" v-model="eventPrice">
-              <label :for="`event-price-checkbox-input-${EVENT_PRICE}`" class="cursor-pointer font-medium text-black">{{ eventPrice }}</label>
-            </div>
-          </div>
-          <div class="mt-3 divide-y py-4 rounded text-black bg-pale-yellow">
-            <div class="primary-hade-text">
-              Date
-            </div>
-            <div>
-              <r-dropdown :values="reformattedArrayeventDateSelectors" v-model:selected="eventDateSelectors" style="padding: 2%;" />
-            </div>
-          </div>
-          <div class="primary-hade">
-            <div class="primary-hade-text">
-              Tag
-            </div>
-            <div class="flex items-center py-2 px-3 dark:hover:bg-yellow-hover" v-for="(tag, i) in eventTagsSelectors" :key="`event-tag-list-checkbox-${i}`">
-              <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="cursor-pointer mr-10 w-4 h-4 rounded accent-pink-500" :value="tag.tag" v-model="eventTags">
-              <label :for="`event-tag-checkbox-input-${tag.tag}`" class="cursor-pointer font-medium text-black">{{ tag.name }}</label>
-            </div>
-          </div>
-        </div>
-        <div class="grow pl-20">
-          <div class="mt-3 divide-y py-4 rounded text-black bg-pale-yellow text-2xl font-bold overflow-y-auto px-5 ">
-            12 event results
-          </div>
-          <div class="mt-3 divide-y py-4 rounded text-black bg-pale-yellow overflow-y-auto px-5 list-inside">
-            <div class="text-xl font-bold text-left pb-2">
-              <div class="">
-                <v-mdi name="mdi-ticket-outline" fill="#666265" />
-                Name
-              </div>
-              <div class=" text-base font-medium pt-3">
-                <li class="px-3">
-                  Date
-                </li>
+            <div class="hero bg-base-100 place-items-start">
+              <div class="hero-content">
+                <div class="max-w-md">
+                  <h1 class="text-3xl font-bold">
+                    <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
+                    Event name
+                    <span class="badge my-auto">Official</span>
+                  </h1>
+                  <p class="pt-3 pb-1">
+                    first date of the event - last date of the event
+                  </p>
+                  <p>
+                    <v-mdi name="mdi-alarm" fill="#D5A755" />
+                    opening date
+                  </p>
+                  <p class="text-primary py-2">
+                    <v-mdi name="mdi-map-marker-account" fill="#D5A755" />
+                    location name
+                  </p>
+                </div>
               </div>
             </div>
-            <div class="text-lg font-medium pt-3 break-all whitespace-pre-line text-ellipsis truncate">
-              Description
-              <div class="text-base font-medium pt-3">
-                <li class="px-3">
-                  location
-                </li>
+            <div class="hero bg-base-100 place-items-start">
+              <div class="hero-content">
+                <div class="max-w-md">
+                  <h1 class="text-3xl font-bold">
+                    <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
+                    Event name
+                    <span class="badge my-auto">Official</span>
+                  </h1>
+                  <p class="pt-3 pb-1">
+                    first date of the event - last date of the event
+                  </p>
+                  <p>
+                    <v-mdi name="mdi-alarm" fill="#D5A755" />
+                    opening date
+                  </p>
+                  <p class="text-primary py-2">
+                    <v-mdi name="mdi-map-marker-account" fill="#D5A755" />
+                    location name
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="hero bg-base-100 place-items-start">
+              <div class="hero-content">
+                <div class="max-w-md">
+                  <h1 class="text-3xl font-bold">
+                    <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
+                    Event name
+                    <span class="badge my-auto">Official</span>
+                  </h1>
+                  <p class="pt-3 pb-1">
+                    first date of the event - last date of the event
+                  </p>
+                  <p>
+                    <v-mdi name="mdi-alarm" fill="#D5A755" />
+                    opening date
+                  </p>
+                  <p class="text-primary py-2">
+                    <v-mdi name="mdi-map-marker-account" fill="#D5A755" />
+                    location name
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col items-center">
-              <span class="text-sm text-white">
-                Showing
-                <span class="font-semibold text-white" />
-                <span class="font-semibold text-white">
-                  10
-                </span>
-                of
-                <span class="font-semibold text-white">
-                  100
-                </span> Entries
-              </span>
-
-              <div class="inline-flex mt-2 xs:mt-0">
-                <button class="py-2 px-4 text-sm font-medium text-back bg-pale-yellow hover:bg-yellow-hover rounded-l">
-                  Prev
-                </button>
-                <button class="py-2 px-4 text-sm font-medium text-back bg-pale-yellow hover:bg-yellow-hover rounded-r border-0 border-l">
-                  Next
-                </button>
-              </div>
-            </div>
+          <div class="btn-group grid grid-cols-2 max-w-xs w-full mx-auto">
+            <button class="btn btn-outline">
+              Previous
+            </button>
+            <button class="btn btn-outline">
+              Next
+            </button>
           </div>
         </div>
       </div>
-
-      <div class="lg:hidden mobile-menu">
-        <div class="mobile-filter-box overflow-y-auto">
-          <div class="text-xl font-bold text-left pl-4">
-            Type
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-y-1 gap-x-2 px-2 py-2 mt-2 ">
-            <div class="flex items-center px-2 py-2 dark:hover:bg-yellow-hover rounded" v-for="(tag, i) in accountTypeSelectors" :key="`event-tag-list-checkbox-${i}`">
-              <input :id="`event-type-checkbox-input-${tag.tag}`" type="checkbox" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-pink-500 focus:ring-3" :value="tag.tag" v-model="accountType">
-              <label :for="`event-type-checkbox-input-${tag.tag}`" class="font-medium text-black">{{ tag.name }}</label>
-            </div>
-          </div>
-        </div>
-        <div class="mobile-filter-box overflow-y-auto">
-          <div class="text-xl font-bold text-left pl-4">
-            Price range
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-y-1 gap-x-2 px-2 py-2 mt-2">
-            <div class="flex items-center px-2 py-2 dark:hover:bg-yellow-hover rounded" v-for="(EVENT_PRICE) in eventPriceRangeSelectors" :key="`event-tag-list-radio-${EVENT_PRICE}`">
-              <input :id="`event-price-checkbox-input-${EVENT_PRICE}`" type="radio" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-pink-500 focus:ring-3" :value="EVENT_PRICE" v-model="eventPrice">
-              <label :for="`event-price-checkbox-input-${EVENT_PRICE}`" class="font-medium text-black">{{ EVENT_PRICE }}</label>
-            </div>
-          </div>
-        </div>
-        <div class="mobile-filter-box">
-          <div class="text-xl font-bold text-left pl-4">
-            Date
-          </div>
-          <div>
-            <r-dropdown :values="reformattedArrayeventDateSelectors" v-model:selected-name="eventDateSelectors" v-model="eventDate" style="padding: 2%;" />
-          </div>
-        </div>
-        <div class="mobile-filter-box overflow-y-auto">
-          <div class="text-xl font-bold text-left pl-4">
-            Tag
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-y-1 gap-x-2 px-2 py-2 mt-2">
-            <div class="flex items-center px-2 py-2 dark:hover:bg-yellow-hover rounded" v-for="(tag, i) in eventTagsSelectors" :key="`event-tag-list-checkbox-${i}`">
-              <input :id="`event-tag-checkbox-input-${tag.tag}`" type="checkbox" class="mr-10 w-4 h-4 rounded border border-gray-300 focus:border-gray-600 accent-pink-500 focus:ring-3" :value="tag.tag" v-model="eventTags">
-              <label :for="`event-tag-checkbox-input-${tag.tag}`" class="font-medium text-black">{{ tag.name }}</label>
-            </div>
-          </div>
-        </div>
-        <div class="grow">
-          <div class="mt-3 divide-y py-4 rounded text-black bg-pale-yellow px-4 text-2xl font-bold overflow-y-auto">
-            12 event results
-          </div>
-          <div class="mt-3 divide-y py-4 rounded text-black bg-pale-yellow overflow-y-auto px-5 list-inside">
-            <div class="text-xl font-bold text-left pb-2">
-              <div class="">
-                <v-mdi name="mdi-ticket-outline" fill="#666265" />
-                Name
-              </div>
-              <div class=" text-base font-medium pt-3">
-                <li class="px-3">
-                  Date
-                </li>
-              </div>
-            </div>
-            <div class="text-lg font-medium pt-3 break-all whitespace-pre-line text-ellipsis truncate">
-              Description
-              <div class="text-base font-medium pt-3">
-                <li class="px-3">
-                  location
-                </li>
-              </div>
-            </div>
-          </div>
-          <div class="px-4 py-4">
-            <div class="flex flex-col items-center">
-              <span class="text-sm text-white">
-                Showing
-                <span class="font-semibold text-white" />
-                <span class="font-semibold text-white">
-                  10
-                </span>
-                of
-                <span class="font-semibold text-white">
-                  100
-                </span> Entries
-              </span>
-
-              <div class="inline-flex mt-2 xs:mt-0">
-                <button class="py-2 px-4 text-sm font-medium text-back bg-pale-yellow hover:bg-yellow-hover rounded-l">
-                  Prev
-                </button>
-                <button class="py-2 px-4 text-sm font-medium text-back bg-pale-yellow hover:bg-yellow-hover rounded-r border-0 border-l">
-                  Next
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    </div>
+    <label for="search-sidebar" class="btn btn-primary drawer-button lg:hidden fixed bottom-10 right-10 rounded-full border-slate-700">
+      <v-mdi name="mdi-menu-open" fill="#fff" />
+    </label>
+    <div class="drawer-side" style="max-height: none;">
+      <label for="search-sidebar" class="drawer-overlay" style="background-color: #00000055;" />
+      <ul class="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content;">
+        <li class="menu-title">
+          Creator type
+        </li>
+        <li class="disabled">
+          <label :for="`search-${selector}-events`" class="label cursor-pointer" v-for="(selector, i) of creatorType" :key="`search-page-creator-type-checkbox-${i}`">
+            <span class="label-text">{{ selector }} events</span>
+            <input :name="`search-${selector}-events`" type="checkbox" class="checkbox checkbox-primary" :value="selector" v-model="selectedCreatorType">
+          </label>
+        </li>
+        <hr class="my-3">
+        <li class="menu-title">
+          Price range
+        </li>
+        <li class="disabled">
+          <label :for="`search-radio-${selector}`" class="label cursor-pointer" v-for="(selector, i) of priceRange" :key="`search-page-price-range-radio-${i}`">
+            <span class="label-text">{{ selector }}</span>
+            <input type="radio" :name="`search-radio-${selector}`" class="radio radio-primary" :value="selector" v-model="selectedPriceRange">
+          </label>
+        </li>
+        <hr class="my-3">
+        <li class="menu-title">
+          Tags
+        </li>
+        <li class="disabled">
+          <label :for="`search-tags-${selector}`" class="label cursor-pointer" v-for="(selector, i) of eventTags" :key="`search-page-tags-checkbox-${i}`">
+            <span class="label-text">{{ selector }}</span>
+            <input type="checkbox" :name="`search-tags-${selector}`" class="checkbox checkbox-primary" :value="selector" v-model="selectedTags">
+          </label>
+        </li>
+        <hr class="my-3">
+        <li class="menu-title">
+          Dates
+        </li>
+        <li class="disabled">
+          <label :for="`search-dates-${selector}`" class="label cursor-pointer" v-for="(selector, i) of dateRange" :key="`search-page-date-range-checkbox-${i}`">
+            <span class="label-text">{{ selector }}</span>
+            <input type="radio" :name="`search-dates-${selector}`" class="radio radio-primary" :value="selector" v-model="selectedDateRange">
+          </label>
+        </li>
+        <hr class="my-3">
+        <li class="menu-title">
+          Types
+        </li>
+        <li class="disabled">
+          <label :for="`search-query-type-${selector}`" class="label cursor-pointer" v-for="(selector, i) of searchType" :key="`search-page-query-type-radio-${i}`">
+            <span class="label-text">{{ selector }}</span>
+            <input type="radio" :name="`search-query-type-${selector}`" class="radio radio-primary" :value="selector" v-model="selectedSearchQueryType">
+          </label>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -196,24 +154,36 @@
 <script lang="ts">
 import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { useMeta } from 'vue-meta'
 import { useRoute } from 'vue-router'
 
-import RDropdown from '@/components/r-dropdown.vue'
-import { useModalState } from '@/composables'
-import { EVENT_PRICE } from '../types'
+import {
+  CreatorType,
+  creatorType,
+  DateRange,
+  dateRange,
+  EventTags,
+  eventTags,
+  PriceRange,
+  priceRange,
+  SearchType,
+  searchType
+} from '@reeba/common'
 
 export default defineComponent({
   name: 'search',
-  components: {
-    'r-dropdown': RDropdown
-  },
   setup () {
     const route = useRoute()
-    const eventTags: Ref<Array<string>> = ref([])
-    const eventPrice: Ref<Array<EVENT_PRICE>> = ref([])
-    const accountType: Ref<Array<string>> = ref([])
-    const eventDate: Ref<Array<string>> = ref([])
-    const { state: dropdownState, toggle: toggleDropdown } = useModalState()
+
+    const selectedCreatorType: Ref<Array<CreatorType>> = ref([])
+    const selectedTags: Ref<Array<EventTags>> = ref([])
+    const selectedPriceRange: Ref<PriceRange> = ref('Any')
+    const selectedDateRange: Ref<DateRange> = ref('All dates')
+    const selectedSearchQueryType: Ref<Array<SearchType>> = ref([])
+
+    useMeta({
+      title: route.query.q ?? 'Search'
+    })
 
     onMounted(async () => {
       await ky('http://localhost:3000/search', {
@@ -225,51 +195,18 @@ export default defineComponent({
         }
       })
     })
-    const accountTypeSelectors: Ref<Array<{ name: string, tag: string}>> = ref([
-      { name: 'Official', tag: 'official' },
-      { name: 'Local', tag: 'local' }
-    ])
-    const eventPriceRangeSelectors: Ref<Array<EVENT_PRICE>> = ref([])
 
-    const eventDateSelectors: Ref<Array<{ name: string, tag: string}>> = ref([
-      { name: 'All date', tag: 'alldate' },
-      { name: 'Today', tag: 'today' },
-      { name: 'This Week', tag: 'thisweek' },
-      { name: 'Next Week', tag: 'nextweek' },
-      { name: 'This Month', tag: 'thismonth' },
-      { name: 'Next Month', tag: 'nextmonth' }
-    ])
-    const reformattedArrayeventDateSelectors = eventDateSelectors.value.map(name => name.name)
-    const eventTagsSelectors: Ref<Array<{ name: string, tag: string}>> = ref([
-      { name: 'Amphitheater', tag: 'amphitheater' },
-      { name: 'Business', tag: 'business' },
-      { name: 'Concert', tag: 'concert' },
-      { name: 'Entertainment', tag: 'entertainment' },
-      { name: 'Fan meet', tag: 'fan-meet' },
-      { name: 'Gameshow', tag: 'gameshow' },
-      { name: 'Lifestyle', tag: 'lifestyle' },
-      { name: 'Live', tag: 'live' },
-      { name: 'Musical', tag: 'musical' },
-      { name: 'Online', tag: 'online' },
-      { name: 'Opera', tag: 'opera' },
-      { name: 'Seminar', tag: 'seminar' },
-      { name: 'Stand up comedy', tag: 'stand-up-comedy' },
-      { name: 'Technology', tag: 'technology' },
-      { name: 'Variety', tag: 'variety' }
-    ])
     return {
-      accountTypeSelectors,
-      eventPriceRangeSelectors,
-      eventTagsSelectors,
-      eventDateSelectors,
-      eventTags,
-      accountType,
-      eventPrice,
-      eventDate,
-      toggleDropdown,
-      dropdownState,
-      reformattedArrayeventDateSelectors,
-      EVENT_PRICE
+      priceRange,
+      dateRange,
+      selectedPriceRange,
+      selectedDateRange,
+      selectedTags,
+      selectedCreatorType,
+      selectedSearchQueryType,
+      creatorType,
+      searchType,
+      eventTags
     }
   }
 })
@@ -281,30 +218,10 @@ export default defineComponent({
 }
 
 .search-page-content {
-  @apply container mx-6 my-6;
+  @apply container m-6 ml-0;
 }
 
-.primary-menu {
-  @apply lg:flex flex-row;
-}
-
-.primary-filter {
-  @apply flex-none w-56;
-}
-
-.primary-hade {
-  @apply mt-3 divide-y overflow-y-auto py-4 rounded text-black bg-pale-yellow;
-}
-
-.primary-hade-text {
-  @apply text-xl font-bold text-left pl-4 pb-2;
-}
-
-.mobile-menu {
-  @apply items-center grow px-2;
-}
-
-.mobile-filter-box {
-  @apply mt-3 divide-y pt-4 rounded text-black bg-pale-yellow;
+.result-pane {
+  @apply grid grid-flow-row divide-y;
 }
 </style>
