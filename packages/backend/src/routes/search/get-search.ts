@@ -1,6 +1,8 @@
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
+  GetSearchResultReply,
+  GetSearchResultReplySchema,
   GetSearchResultRequestQuerystring,
   GetSearchResultRequestQuerystringSchema,
   NotFoundReplySchema
@@ -9,30 +11,58 @@ import {
 const schema: FastifySchema = {
   querystring: GetSearchResultRequestQuerystringSchema,
   response: {
+    200: GetSearchResultReplySchema,
     404: NotFoundReplySchema
   }
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Querystring: GetSearchResultRequestQuerystring }>(
+  instance.get<{ Querystring: GetSearchResultRequestQuerystring, Reply: GetSearchResultReply }>(
     '/',
     {
       schema,
       preValidation: async (request) => {
-        const { q } = request.query
-        const { price } = request.query
+        const { creatorType, tags } = request.query
 
-        if (q == null) {
-          request.query = { ...request.query, ...{ q: '' } }
+        // * in case nothing is sent (ui did not click anything)
+        // * attach empty array to the api
+        if (creatorType == null) {
+          request.query.creatorType = []
         }
 
-        if (price == null) {
-          request.query = { ...request.query, ...{ price: '' } }
+        // * in case there is one value being sent
+        // * node api will convert it to a string
+        // * so we have to create and add it to an array
+        if (!Array.isArray(creatorType)) {
+          request.query.creatorType = []
+
+          if (creatorType != null) {
+            request.query.creatorType.push(creatorType)
+          }
+        }
+
+        // * same goes for other param
+        if (tags == null) {
+          request.query.tags = []
+        }
+
+        if (!Array.isArray(tags)) {
+          request.query.tags = []
+
+          if (tags != null) {
+            request.query.tags.push(tags)
+          }
         }
       }
     },
-    async () => {
+    async (request) => {
+      console.log(request.query)
 
+      return {
+        amount: 0,
+        events: [],
+        users: []
+      }
     }
   )
 }
