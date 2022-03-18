@@ -1,7 +1,7 @@
 <template>
-  <div class="h-screen drawer drawer-mobile w-full">
+  <div class="drawer drawer-mobile w-full">
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle">
-    <div class="drawer-content flex flex-col items-center justify-center">
+    <div class="drawer-content flex flex-col items-center justify-center" style="max-height: none;">
       <div class="account-page">
         <div class="account-content">
           <router-view :key="$route.fullPath" />
