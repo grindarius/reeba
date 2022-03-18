@@ -8,8 +8,8 @@
     <div class="navbar-center">
       <div class="form-control">
         <div class="input-group">
-          <input type="text" placeholder="Search" class="input lg:w-96 input-bordered" v-model="searchText" @keyup.enter="$router.push({ name: 'Search', query: { q: searchText } })">
-          <button class="btn btn-square bg-warning" @click="$router.push({ name: 'Search', query: { q: searchText } })">
+          <input type="text" placeholder="Search" class="input lg:w-96 input-bordered" v-model="searchText" @keyup.enter="$router.push({ name: 'Search', query: { ...$route.query, ...{ q: searchText } } })">
+          <button class="btn btn-square bg-warning" @click="$router.push({ name: 'Search', query: { ...$route.query, ...{ q: searchText } } })">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6"
