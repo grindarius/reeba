@@ -7,7 +7,19 @@
     </div>
     <div class="navbar-center">
       <div class="form-control">
-        <input type="text" placeholder="Search" class="input lg:w-96 input-bordered" v-model="searchText" @keyup.enter="$router.push({ name: 'Search', query: { q: searchText } })">
+        <div class="input-group">
+          <input type="text" placeholder="Search" class="input lg:w-96 input-bordered" v-model="searchText" @keyup.enter="$router.push({ name: 'Search', query: { q: searchText } })">
+          <button class="btn btn-square bg-warning" @click="$router.push({ name: 'Search', query: { q: searchText } })">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
     <div class="navbar-end">
