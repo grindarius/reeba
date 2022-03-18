@@ -1,6 +1,6 @@
 <template>
   <div class="drawer drawer-mobile w-full">
-    <input id="my-drawer-2" type="checkbox" class="drawer-toggle">
+    <input id="account-drawer-toggle" type="checkbox" class="drawer-toggle">
     <div class="drawer-content flex flex-col items-center justify-center" style="max-height: none;">
       <div class="account-page">
         <div class="account-content">
@@ -8,7 +8,7 @@
         </div>
       </div>
     </div>
-    <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden fixed bottom-10 right-10 rounded-full">
+    <label for="account-drawer-toggle" class="btn btn-primary drawer-button lg:hidden fixed bottom-10 right-10 rounded-full">
       <v-mdi name="mdi-menu-open" fill="#000000" />
     </label>
     <div class="drawer-side">
