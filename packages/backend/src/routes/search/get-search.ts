@@ -7,7 +7,7 @@ import {
 } from '@reeba/common'
 
 const schema: FastifySchema = {
-  params: GetSearchResultRequestQuerystringSchema,
+  querystring: GetSearchResultRequestQuerystringSchema,
   response: {
     404: NotFoundReplySchema
   }
