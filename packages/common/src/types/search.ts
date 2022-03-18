@@ -70,6 +70,6 @@ export const GetSearchResultRequestQuerystringSchema = Type.Object({
   priceRange: PriceRangeSchema,
   tags: Type.Optional(EventTagsSchema),
   dateRange: DateRangeSchema,
-  type: Type.Optional(SearchTypeSchema)
+  type: SearchTypeSchema
 })
 export type GetSearchResultRequestQuerystring = Static<typeof GetSearchResultRequestQuerystringSchema>
