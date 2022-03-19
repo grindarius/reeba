@@ -12,7 +12,7 @@
             Official events
           </h1>
           <div v-if="eventData.official.length === 0" class="w-full text-center">
-            <span class="text-white text-4xl">No events</span>
+            <span class="text-4xl text-white">No events</span>
           </div>
           <div v-else class="event-grid-box">
             <div class="event" v-for="({username, id: eventId, name: eventName, firstDatetime, venueName}, i) in eventData.official" :key="`root-page-official-event-${i}`">
@@ -45,7 +45,7 @@
             Local events
           </h1>
           <div v-if="eventData.local.length === 0" class="w-full text-center">
-            <span class="text-white text-4xl">No events</span>
+            <span class="text-4xl text-white">No events</span>
           </div>
           <div v-else class="event-grid-box">
             <div class="event" v-for="({username, id: eventId, name: eventName, firstDatetime, venueName}, i) in eventData.local" :key="`root-page-local-event-${i}`">

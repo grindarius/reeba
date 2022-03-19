@@ -16,7 +16,7 @@
             <input
               type="text" name="signup-username-input"
               id="signup-username-input" placeholder="natusvincere"
-              class="input input-secondary bg-white text-base-100 w-full"
+              class="w-full bg-white input input-secondary text-base-100"
               v-model="usernameField">
             <label for="signup-email-input" class="label">
               <span class="label-text text-base-100">Email</span>
@@ -24,12 +24,12 @@
             <input
               type="text" name="signup-email-input"
               id="signup-email-input" placeholder="example@gmail.com"
-              class="input input-secondary bg-white text-base-100 w-full"
+              class="w-full bg-white input input-secondary text-base-100"
               v-model="emailField">
             <label for="signup-country-code-input" class="label">
               <span class="label-text text-base-100">Phone country code</span>
             </label>
-            <select id="signup-country-code-input" class="select w-full bg-white text-black" v-model="phoneCountryCodeField">
+            <select id="signup-country-code-input" class="w-full text-black bg-white select" v-model="phoneCountryCodeField">
               <option disabled selected :value="{ name: '', phoneCode: '' }">
                 Pick your country code
               </option>
@@ -45,16 +45,16 @@
             <input
               type="tel" name="signup-phone-number-input"
               id="signup-phone-number-input" placeholder="669483943"
-              class="input input-secondary bg-white text-base-100 w-full"
+              class="w-full bg-white input input-secondary text-base-100"
               v-model="phoneNumberField">
             <label for="signup-password-input" class="label">
               <span class="label-text text-base-100">Password</span>
             </label>
-            <input type="password" name="signup-password-input" id="signup-password-input" class="input input-secondary bg-white text-base-100 w-full" v-model="passwordField">
+            <input type="password" name="signup-password-input" id="signup-password-input" class="w-full bg-white input input-secondary text-base-100" v-model="passwordField">
             <label for="signup-password-confirm-input" class="label">
               <span class="label-text text-base-100">Comfirm password</span>
             </label>
-            <input type="password" name="signup-password-confirm-input" id="signup-password-confirm-input" class="input input-secondary bg-white text-base-100 w-full" v-model="confirmPasswordField">
+            <input type="password" name="signup-password-confirm-input" id="signup-password-confirm-input" class="w-full bg-white input input-secondary text-base-100" v-model="confirmPasswordField">
             <div class="register-signup-section">
               <button class="register-button" type="button" @click="signup">
                 Sign up

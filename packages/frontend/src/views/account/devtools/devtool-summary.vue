@@ -48,8 +48,8 @@
         Where
       </h1>
       <div class="dropdown">
-        <label tabindex="0" class="btn m-1">{{ selectedChartType }}</label>
-        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-primary rounded-box w-52 text-black">
+        <label tabindex="0" class="m-1 btn">{{ selectedChartType }}</label>
+        <ul tabindex="0" class="p-2 w-52 text-black shadow dropdown-content menu bg-primary rounded-box">
           <li>
             <a @click="selectedChartType = 'users'">Users</a>
           </li>
