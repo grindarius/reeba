@@ -47,7 +47,17 @@
       <h1 class="page-header">
         Where
       </h1>
-      <r-dropdown :values="['users', 'events']" v-model:selected-value="selectedChartType" style="max-width: 200px;" />
+      <div class="dropdown">
+        <label tabindex="0" class="btn m-1">{{ selectedChartType }}</label>
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-primary rounded-box w-52 text-black">
+          <li>
+            <a @click="selectedChartType = 'users'">Users</a>
+          </li>
+          <li>
+            <a @click="selectedChartType = 'events'">Events</a>
+          </li>
+        </ul>
+      </div>
       <h1 class="page-header">
         came from
       </h1>
@@ -80,16 +90,12 @@ import { GeometryCollection, Topology } from 'topojson-specification'
 import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue'
 
 import countriesJson from '@/assets/world-topo.json'
-import RDropdown from '@/components/r-dropdown.vue'
 import { devtoolsEventsObject, devtoolsUsersObject, popularEventTypes, registrationsPastSixMonths, transactionsPastSixMonths } from '@/constants'
 
 i18nCountries.registerLocale(en)
 
 export default defineComponent({
   name: 'devtool-summary',
-  components: {
-    'r-dropdown': RDropdown
-  },
   setup () {
     const width = 800
     const height = 600
