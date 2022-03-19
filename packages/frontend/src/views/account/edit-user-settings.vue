@@ -14,25 +14,25 @@
               Email address
             </span>
           </label>
-          <input type="text" placeholder="Type here" name="edit-user-password" class="input bg-white w-full">
+          <input type="text" placeholder="Type here" name="edit-user-password" class="input bg-white w-full text-black" v-model="email">
           <label for="edit-user-password" class="label">
             <span class="label-text text-black font-semibold">
               Password
             </span>
           </label>
-          <input type="password" name="edit-user-password" class="input bg-white w-full">
+          <input type="password" name="edit-user-password" class="input bg-white w-full text-black" v-model="password">
           <label for="edit-user-password-confirm" class="label">
             <span class="label-text text-black font-semibold">
               Confirm password
             </span>
           </label>
-          <input type="password" name="edit-user-password-confirm" class="input bg-white w-full">
+          <input type="password" name="edit-user-password-confirm" class="input bg-white w-full text-black" v-model="confirmPassword">
           <label for="edit-user-country-code" class="label">
             <span class="label-text text-black font-semibold">
               Phone country code
             </span>
           </label>
-          <select class="select w-full text-black" v-model="phoneCountryCode">
+          <select class="select w-full bg-white text-black" v-model="phoneCountryCode">
             <option disabled :value="{ name: '', phoneCode: '' }">
               Please select country code
             </option>
@@ -42,19 +42,18 @@
               </option>
             </template>
           </select>
-          <input type="text" placeholder="Type here" name="edit-user-country-code" class="input bg-white w-full">
           <label for="edit-user-phone-number" class="label">
             <span class="label-text text-black font-semibold">
               Phone number
             </span>
           </label>
-          <input type="text" placeholder="Type here" name="edit-user-phone-number" class="input bg-white w-full">
+          <input type="text" placeholder="Type here" name="edit-user-phone-number" class="input bg-white w-full text-black" v-model="phoneNumber">
           <label for="edit-user-birthdate" class="label">
             <span class="label-text text-black font-semibold">
               Birthdate
             </span>
           </label>
-          <input type="text" placeholder="Type here" name="edit-user-birthdate" class="input bg-white w-full">
+          <input type="datetime-local" placeholder="Type here" name="edit-user-birthdate" class="input bg-white w-full text-black" v-model="birthdate">
         </div>
         <div class="flex justify-center mt-10">
           <button class="button-save">
@@ -71,12 +70,11 @@ import ky from 'ky'
 import { storeToRefs } from 'pinia'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
 
-import { GetUserProfileDataReply } from '@reeba/common'
+import { GetProfileDataReply } from '@reeba/common'
 
 import { getUserAvatar, getUserProfileData } from '@/api/endpoints'
 import { usePhoneCodes } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
-import { CountryCode } from '@/types'
 
 export default defineComponent({
   name: 'edit-user-settings',
@@ -88,12 +86,14 @@ export default defineComponent({
       phoneCodesList,
       selectedPhoneCountryCode: phoneCountryCode,
       onPhoneCountryCodeClicked,
-      countryCodeString
+      countryCodeString,
+      findCountryName
     } = usePhoneCodes()
 
-    const birthdate: Ref<string> = ref('')
     const email: Ref<string | undefined> = ref(undefined)
-    const password: Ref<string | undefined> = ref(undefined)
+    const password = ref('')
+    const confirmPassword = ref('')
+    const birthdate: Ref<string> = ref('')
     const phoneNumber: Ref<string | undefined> = ref(undefined)
 
     onMounted(async () => {
@@ -105,14 +105,20 @@ export default defineComponent({
           headers: {
             Authorization: `Bearer ${userData.value.token}`
           }
-        }).json<GetUserProfileDataReply>()
+        }).json<GetProfileDataReply>()
 
         birthdate.value = response.birthdate
         email.value = response.email
-        password.value = response.password
         phoneNumber.value = response.phoneNumber
-        phoneCountryCode.value = response.phoneCountryCode
+        phoneCountryCode.value.phoneCode = response.phoneCountryCode
+
+        if (findCountryName(response.phoneCountryCode) == null) {
+          phoneCountryCode.value = { name: '', phoneCode: '' }
+        }
+
+        phoneCountryCode.value.name = findCountryName(response.phoneCountryCode) ?? ''
       } catch (error) {
+        console.log(error)
       }
     })
 
@@ -120,14 +126,13 @@ export default defineComponent({
       getUserAvatar,
       phoneCodesList,
       userData,
+      password,
+      confirmPassword,
       birthdate,
       email,
-      password,
       phoneNumber,
       phoneCountryCode,
-      phoneCountryCodeField,
       onPhoneCountryCodeClicked,
-      phoneCountryCode,
       countryCodeString
     }
   }
@@ -139,39 +144,11 @@ export default defineComponent({
   @apply text-4xl font-semibold text-white;
 }
 
-.text-header {
-  @apply text-base font-bold text-pale-gray;
-}
-
-.box-text {
-  @apply block py-2 px-4 mt-2 w-full text-gray-700 bg-white rounded-md border border-gray-300 dark:text-black dark:bg-gray-100 dark:border-gray-600 focus:border-blue-500 focus:ring focus:outline-none dark:focus:border-blue-500;
-}
-
 .button-save {
   @apply py-2 px-6 leading-10 text-white rounded-md transition-colors duration-200 transform bg-pale-gray hover:bg-gray-hover;
 }
 
 .setting-bg-content {
   @apply p-6 mx-auto mt-8 w-full rounded-md shadow-md bg-pale-yellow;
-}
-
-.register-input-section {
-  @apply mt-1;
-}
-
-.link-wrapper:first-child > div {
-  @apply rounded-t;
-}
-
-.link-wrapper:last-child > div {
-  @apply rounded-b;
-}
-
-.dropdown-selector {
-  @apply block py-2 px-3 whitespace-normal cursor-pointer text-pale-gray;
-}
-
-.dropdown-list {
-  @apply overflow-y-scroll absolute right-0 left-0 top-auto max-h-52 bg-white rounded-md;
 }
 </style>
