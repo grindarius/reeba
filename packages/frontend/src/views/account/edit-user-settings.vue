@@ -6,55 +6,45 @@
     <section class="setting-bg-content">
       <form>
         <div class="flex justify-center">
-          <img class="object-cover object-center w-24 h-24 rounded-full" src="@/assets/user.png" alt="Avatar Upload">
+          <img class="object-cover object-center w-24 h-24 rounded-full" :src="getUserAvatar({ username: userData.username }).url" alt="Avatar Upload">
         </div>
-        <div class="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2">
-          <div>
-            <label class="text-header" for="username">Username</label>
-            <input id="username" type="text" class="box-text">
-          </div>
-          <div>
-            <label class="text-header" for="emailAddress">Email Address</label>
-            <input id="edit-user-settings-email-input" type="email" class="box-text" v-model="email">
-          </div>
-          <label class="block">
-            <div>
-              <label class="text-header" for="password">Password</label>
-              <input id="password" type="password" class="box-text" v-model="password">
-            </div>
+        <div class="form-control w-full">
+          <label for="edit-user-email" class="label">
+            <span class="label-text text-black font-semibold">
+              Email address
+            </span>
           </label>
-          <div>
-            <label class="text-header" for="passwordConfirmation">Confirm Password</label>
-            <input id="edit-user-settings-password-confirmation-input" type="password" class="box-text">
-          </div>
-          <div>
-            <label class="text-header" for="birthday">Birthday</label>
-            <input id="birthday" type="date" class="box-text cursor-pointer" v-model="birthdate">
-          </div>
-          <div class="register-input-section">
-            <label class="text-header" for="country-code">
+          <input type="text" placeholder="Type here" name="edit-user-password" class="input bg-white w-full">
+          <label for="edit-user-password" class="label">
+            <span class="label-text text-black font-semibold">
+              Password
+            </span>
+          </label>
+          <input type="password" name="edit-user-password" class="input bg-white w-full">
+          <label for="edit-user-password-confirm" class="label">
+            <span class="label-text text-black font-semibold">
+              Confirm password
+            </span>
+          </label>
+          <input type="password" name="edit-user-password-confirm" class="input bg-white w-full">
+          <label for="edit-user-country-code" class="label">
+            <span class="label-text text-black font-semibold">
               Phone country code
-            </label>
-            <div class="inline-block relative bg-white cursor-pointer box-text">
-              <div class="flex justify-between items-center" @click="toggleDropdown">
-                <span>{{ `${phoneCountryCodeField.name} (+${phoneCountryCodeField.phoneCode})` }}</span>
-                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path fill="#000" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </div>
-              <ul :class="dropdownState ?'dropdown-list block' : 'dropdown-list hidden'">
-                <li class="link-wrapper" v-for="(v, i) in phoneCodesList" :key="`country-code-dropdown-${i}`">
-                  <div :class="getDropdownClassname(v)" @click="onPhoneCountryCodeClicked(i)">
-                    {{ countryCodeString(v) }}
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div>
-            <label class="text-header" for="phone-number-input">Phone number</label>
-            <input id="phone-number-input" type="tel" class="box-text" v-model="phoneNumber">
-          </div>
+            </span>
+          </label>
+          <input type="text" placeholder="Type here" name="edit-user-country-code" class="input bg-white w-full">
+          <label for="edit-user-phone-number" class="label">
+            <span class="label-text text-black font-semibold">
+              Phone number
+            </span>
+          </label>
+          <input type="text" placeholder="Type here" name="edit-user-phone-number" class="input bg-white w-full">
+          <label for="edit-user-birthdate" class="label">
+            <span class="label-text text-black font-semibold">
+              Birthdate
+            </span>
+          </label>
+          <input type="text" placeholder="Type here" name="edit-user-birthdate" class="input bg-white w-full">
         </div>
         <div class="flex justify-center mt-10">
           <button class="button-save">
@@ -69,12 +59,13 @@
 <script lang="ts">
 import { countries } from 'countries-list'
 import ky from 'ky'
+import { storeToRefs } from 'pinia'
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
 
 // import { useRoute } from 'vue-router'
 import { GetUserProfileDataReply } from '@reeba/common'
 
-import { getUserProfileData } from '@/api/endpoints'
+import { getUserAvatar, getUserProfileData } from '@/api/endpoints'
 import { useModalState } from '@/composables'
 // import router from '@/router'
 import { useAuthStore } from '@/store/use-auth-store'
@@ -87,6 +78,8 @@ export default defineComponent({
   name: 'edit-user-settings',
   setup () {
     const authStore = useAuthStore()
+    const { userData } = storeToRefs(authStore)
+
     const birthdate: Ref<string | null> = ref(null)
     const email: Ref<string | undefined> = ref(undefined)
     const password: Ref<string | undefined> = ref(undefined)
@@ -151,6 +144,8 @@ export default defineComponent({
     }
 
     return {
+      getUserAvatar,
+      userData,
       birthdate,
       email,
       password,
