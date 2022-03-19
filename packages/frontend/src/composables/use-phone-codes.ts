@@ -8,6 +8,7 @@ export interface UsePhoneCodes {
   phoneCodesList: ComputedRef<Array<CountryCode>>
   onPhoneCountryCodeClicked: (index: number) => void
   countryCodeString: (code: CountryCode) => string
+  findCountryName: (code: string) => string | undefined
 }
 
 export const usePhoneCodes = (defaultCountryCode: CountryCode = { name: '', phoneCode: '' }): UsePhoneCodes => {
@@ -36,10 +37,15 @@ export const usePhoneCodes = (defaultCountryCode: CountryCode = { name: '', phon
     })
   })
 
+  const findCountryName = (code: string): string | undefined => {
+    return phoneCodesList.value.find(p => p.phoneCode === code)?.name
+  }
+
   return {
     selectedPhoneCountryCode,
     phoneCodesList,
     onPhoneCountryCodeClicked,
-    countryCodeString
+    countryCodeString,
+    findCountryName
   }
 }
