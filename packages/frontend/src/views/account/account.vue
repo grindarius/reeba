@@ -11,8 +11,8 @@
     <label for="account-drawer-toggle" class="btn btn-primary drawer-button lg:hidden fixed bottom-10 right-10 rounded-full">
       <v-mdi name="mdi-menu-open" fill="#000000" />
     </label>
-    <div class="drawer-side">
-      <label for="my-drawer-2" class="drawer-overlay" />
+    <div class="drawer-side" style="max-height: none;">
+      <label for="account-drawer-toggle" class="drawer-overlay" style="background-color: #00000055;" />
       <ul class="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
         <li>
           <router-link to="/account">
