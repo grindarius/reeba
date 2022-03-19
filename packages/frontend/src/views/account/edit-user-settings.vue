@@ -32,6 +32,16 @@
               Phone country code
             </span>
           </label>
+          <select class="select w-full text-black" v-model="phoneCountryCode">
+            <option disabled :value="{ name: '', phoneCode: '' }">
+              Please select country code
+            </option>
+            <template v-for="code in phoneCodesList" :key="`edit-user-phone-code-${code.phoneCode}`">
+              <option :value="code">
+                {{ countryCodeString(code) }}
+              </option>
+            </template>
+          </select>
           <input type="text" placeholder="Type here" name="edit-user-country-code" class="input bg-white w-full">
           <label for="edit-user-phone-number" class="label">
             <span class="label-text text-black font-semibold">
@@ -57,65 +67,44 @@
 </template>
 
 <script lang="ts">
-import { countries } from 'countries-list'
 import ky from 'ky'
 import { storeToRefs } from 'pinia'
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { defineComponent, onMounted, Ref, ref } from 'vue'
 
-// import { useRoute } from 'vue-router'
 import { GetUserProfileDataReply } from '@reeba/common'
 
 import { getUserAvatar, getUserProfileData } from '@/api/endpoints'
-import { useModalState } from '@/composables'
-// import router from '@/router'
+import { usePhoneCodes } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
+import { CountryCode } from '@/types'
 
-interface CountryCode {
-  name: string
-  phoneCode: string
-}
 export default defineComponent({
   name: 'edit-user-settings',
   setup () {
     const authStore = useAuthStore()
     const { userData } = storeToRefs(authStore)
 
-    const birthdate: Ref<string | null> = ref(null)
+    const {
+      phoneCodesList,
+      selectedPhoneCountryCode: phoneCountryCode,
+      onPhoneCountryCodeClicked,
+      countryCodeString
+    } = usePhoneCodes()
+
+    const birthdate: Ref<string> = ref('')
     const email: Ref<string | undefined> = ref(undefined)
     const password: Ref<string | undefined> = ref(undefined)
     const phoneNumber: Ref<string | undefined> = ref(undefined)
-    const phoneCountryCode: Ref<CountryCode | undefined> = ref(undefined)
-
-    const { state: dropdownState, toggle: toggleDropdown } = useModalState()
-
-    const phoneCodesList = computed(() => {
-      return Object.values(countries).flatMap(ct => {
-        const phoneCodeArray = ct.phone.split(',')
-
-        return phoneCodeArray.map(code => {
-          const ret: CountryCode = {
-            name: ct.name,
-            phoneCode: code
-          }
-
-          return ret
-        })
-      })
-    })
-
-    const phoneCountryCodeField: Ref<CountryCode> = ref({
-      name: 'Thailand',
-      phoneCode: '66'
-    })
-
-    // const route = useRoute()
 
     onMounted(async () => {
       const { method, url } = getUserProfileData({ username: authStore.userData.username })
 
       try {
         const response = await ky(url, {
-          method
+          method,
+          headers: {
+            Authorization: `Bearer ${userData.value.token}`
+          }
         }).json<GetUserProfileDataReply>()
 
         birthdate.value = response.birthdate
@@ -124,27 +113,12 @@ export default defineComponent({
         phoneNumber.value = response.phoneNumber
         phoneCountryCode.value = response.phoneCountryCode
       } catch (error) {
-      //   router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
       }
     })
-    const onPhoneCountryCodeClicked = (index: number): void => {
-      phoneCountryCodeField.value = phoneCodesList.value[index]
-    }
-
-    const countryCodeString = (code: CountryCode): string => {
-      return `${code.name} (+${code.phoneCode})`
-    }
-
-    const getDropdownClassname = (code: CountryCode) => {
-      if (phoneCountryCodeField.value != null && code.name === phoneCountryCodeField.value.name && code.phoneCode === phoneCountryCodeField.value.phoneCode) {
-        return 'dropdown-selector selected'
-      }
-
-      return 'dropdown-selector not-selected'
-    }
 
     return {
       getUserAvatar,
+      phoneCodesList,
       userData,
       birthdate,
       email,
@@ -152,11 +126,8 @@ export default defineComponent({
       phoneNumber,
       phoneCountryCode,
       phoneCountryCodeField,
-      toggleDropdown,
-      dropdownState,
-      phoneCodesList,
-      getDropdownClassname,
       onPhoneCountryCodeClicked,
+      phoneCountryCode,
       countryCodeString
     }
   }
