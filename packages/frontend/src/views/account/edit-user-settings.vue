@@ -56,7 +56,7 @@
           <input type="datetime-local" placeholder="Type here" name="edit-user-birthdate" class="input bg-white w-full text-black" v-model="birthdate">
         </div>
         <div class="flex justify-center mt-10">
-          <button class="button-save">
+          <button class="button-save" type="button" @click="save">
             Save
           </button>
         </div>
@@ -70,9 +70,9 @@ import ky from 'ky'
 import { storeToRefs } from 'pinia'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
 
-import { GetProfileDataReply } from '@reeba/common'
+import { GetProfileDataReply, PatchProfileDataRequestBody } from '@reeba/common'
 
-import { getUserAvatar, getUserProfileData } from '@/api/endpoints'
+import { getUserAvatar, getUserProfileData, patchUserProfileData } from '@/api/endpoints'
 import { usePhoneCodes } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
 
@@ -96,6 +96,27 @@ export default defineComponent({
     const birthdate: Ref<string> = ref('')
     const phoneNumber: Ref<string | undefined> = ref(undefined)
 
+    const save = async (): Promise<void> => {
+      const saveProfileEdit: PatchUserProfileData = {
+        email: email.value,
+        password: password.value,
+        confirmPassword: confirmPassword.value,
+        birthdate: birthdate,
+        phoneNumber: phoneNumber.value
+      }
+
+      const { method, url } = patchUserProfileData({ username: authStore.userData.username })
+      try {
+        await ky(url, {
+          method,
+          headers: {
+            json: saveProfileEdit, Authorization: `Bearer ${userData.value.token}`
+          }
+        }).json<PatchProfileDataRequestBody>()
+      } catch (error) {
+        console.log(error)
+      }
+    }
     onMounted(async () => {
       const { method, url } = getUserProfileData({ username: authStore.userData.username })
 
@@ -133,7 +154,8 @@ export default defineComponent({
       phoneNumber,
       phoneCountryCode,
       onPhoneCountryCodeClicked,
-      countryCodeString
+      countryCodeString,
+      save
     }
   }
 })
