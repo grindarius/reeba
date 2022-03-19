@@ -39,27 +39,3 @@ export const GetUserRelatedEventsReplySchema = Type.Object({
   attended: Type.Array(RelatedEventToUserSchema)
 })
 export type GetUserRelatedEventsReply = Static<typeof GetUserRelatedEventsReplySchema>
-
-export const GetUserProfileDataReplySchema = Type.Object({
-  birthdate: Type.String(),
-  email: Type.String(),
-  password: Type.String(),
-  phoneNumber: Type.String(),
-  phoneCountryCode: Type.Object({
-    name: Type.String(),
-    phoneCode: Type.String()
-  })
-})
-export type GetUserProfileDataReply = Static<typeof GetUserProfileDataReplySchema>
-
-export const PatchUserProfileDataRequestBodySchema = Type.Object({
-  birthdate: Type.String(),
-  email: Type.String(),
-  password: Type.String(),
-  phoneNumber: Type.String(),
-  phoneCountryCode: Type.Object({
-    name: Type.String(),
-    phoneCode: Type.String()
-  })
-})
-export type PatchUserProfileDataRequestBody = Static<typeof PatchUserProfileDataRequestBodySchema>
