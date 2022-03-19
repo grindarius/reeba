@@ -61,3 +61,8 @@ export interface TransactionStore {
   datetimeId: string
   section: TransactionStoreSection
 }
+
+export interface CountryCode {
+  name: string
+  phoneCode: string
+}
