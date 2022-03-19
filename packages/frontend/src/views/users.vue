@@ -87,10 +87,10 @@
           <h1 class="text-main-event-name">
             Events {{ $route.params.username ?? '' }} created
           </h1>
-          <div v-if="relatedEvents.attended.length === 0" class="mt-6 w-full text-center">
+          <div v-if="relatedEvents.created.length === 0" class="mt-6 w-full text-center">
             <span class="text-4xl text-white">{{ $route.params.username }} hasn't created any events.</span>
           </div>
-          <div class="event-grid-box">
+          <div v-else class="event-grid-box">
             <div class="event" v-for="({username: createdUsername, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.created ?? [])" :key="`user-page-created-event-${i}`">
               <router-link :to="{ name: 'Event', params: { createdUsername, eventId }}" :key="$route.path">
                 <div class="event-image-box">
