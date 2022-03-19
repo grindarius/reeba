@@ -21,7 +21,7 @@
             <label for="signup-country-code-input" class="label">
               <span class="label-text text-base-100">Phone country code</span>
             </label>
-            <select class="select w-full bg-white text-black">
+            <select class="select w-full bg-white text-black" v-model="phoneCountryCodeField">
               <option disabled selected :value="{ name: '', phoneCode: '' }">
                 Pick your country code
               </option>
@@ -59,19 +59,14 @@
 </template>
 
 <script lang="ts">
-import { countries } from 'countries-list'
-import { computed, defineComponent, Ref, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 import { SignupBody } from '@reeba/common'
 
+import { usePhoneCodes } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
-
-interface CountryCode {
-  name: string
-  phoneCode: string
-}
 
 export default defineComponent({
   name: 'register',
@@ -80,27 +75,17 @@ export default defineComponent({
     const toast = useToast()
     const router = useRouter()
 
+    const {
+      phoneCodesList,
+      countryCodeString,
+      selectedPhoneCountryCode: phoneCountryCodeField
+    } = usePhoneCodes()
+
     const usernameField = ref('')
     const emailField = ref('')
-    const phoneCountryCodeField: Ref<CountryCode> = ref({ name: '', phoneCode: '' })
     const phoneNumberField = ref('')
     const passwordField = ref('')
     const confirmPasswordField = ref('')
-
-    const phoneCodesList = computed(() => {
-      return Object.values(countries).flatMap(ct => {
-        const phoneCodeArray = ct.phone.split(',')
-
-        return phoneCodeArray.map(code => {
-          const ret: CountryCode = {
-            name: ct.name,
-            phoneCode: code
-          }
-
-          return ret
-        })
-      })
-    })
 
     const signup = async (): Promise<void> => {
       const signupCredentials: SignupBody = {
@@ -117,24 +102,10 @@ export default defineComponent({
         router.push({ name: 'Signin' })
       } catch (error) {
         // @ts-expect-error unknown error
-        toast.error(error.message)
+        const json = await error.response.json()
+
+        toast.error(json.message)
       }
-    }
-
-    const onPhoneCountryCodeClicked = (index: number): void => {
-      phoneCountryCodeField.value = phoneCodesList.value[index]
-    }
-
-    const countryCodeString = (code: CountryCode): string => {
-      return `${code.name} (+${code.phoneCode})`
-    }
-
-    const getDropdownClassname = (code: CountryCode) => {
-      if (phoneCountryCodeField.value != null && code.name === phoneCountryCodeField.value.name && code.phoneCode === phoneCountryCodeField.value.phoneCode) {
-        return 'dropdown-selector selected'
-      }
-
-      return 'dropdown-selector not-selected'
     }
 
     return {
@@ -144,10 +115,8 @@ export default defineComponent({
       passwordField,
       confirmPasswordField,
       signup,
-      getDropdownClassname,
       phoneCodesList,
       phoneCountryCodeField,
-      onPhoneCountryCodeClicked,
       countryCodeString
     }
   }
