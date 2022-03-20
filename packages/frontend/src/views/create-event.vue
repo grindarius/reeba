@@ -438,12 +438,12 @@ import { useMeta } from 'vue-meta'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
-import { PostEventBody, PostEventReply } from '@reeba/common'
+import { numberToLetters, PostEventBody, PostEventReply } from '@reeba/common'
 
 import { postEvent, postEventImage } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { ReebAEventDatetime, ReebAEventSeat, ReebAEventSection, ReebAExtendedEventPrice } from '@/types'
-import { decrease2DArrayDimension, generateEventSeats, generateEventSections, increase2DArrayDimension, numberToLetters, randomPastelColor } from '@/utils'
+import { decrease2DArrayDimension, generateEventSeats, generateEventSections, increase2DArrayDimension, randomPastelColor } from '@/utils'
 
 dayjs.extend(customParseFormat)
 
