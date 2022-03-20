@@ -440,7 +440,7 @@ void t.test('transaction creation route', async t => {
       })
 
       t.strictSame(lateGuyResponse.statusCode, 400)
-      t.strictSame(lateGuyResponse.json().message, 'the following seatIds are taken: ' + submittedEvent.rows.slice(0, 2).map(r => r.event_seat_id).join(', '))
+      t.strictSame(lateGuyResponse.json<{ message: string }>().message.split(':')[1].split(',').map(s => s.trim()).sort(), submittedEvent.rows.slice(0, 2).map(r => r.event_seat_id).sort())
     } catch (error) {
       t.error(error)
       t.fail()
