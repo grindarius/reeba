@@ -11,6 +11,11 @@ const schema: FastifySchema = {
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  instance.setNotFoundHandler((_, reply) => {
+    return reply.sendFile('default-event-image.png')
+  })
+
   instance.get<{ Params: GetEventImageRequestParams }>(
     '/:eventId',
     { schema },
