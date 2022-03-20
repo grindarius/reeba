@@ -22,6 +22,7 @@ void t.test('get event image', async t => {
   const app = createServer()
 
   t.teardown(async () => {
+    await client.query('update "events" set event_cover_image_path = $1 where event_id = $2', ['', 'empty_string_event_name'])
     await app.close()
   })
 
@@ -182,6 +183,25 @@ void t.test('get event image', async t => {
   })
 
   void t.test('get event image of event with empty string image', async t => {
+    try {
+      const response = await app.inject({
+        method: 'GET',
+        url: '/event-images/empty_string_event_name'
+      })
+
+      Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, '..', '..', 'uploads', 'default-event-image.png')))
+        .onComplete(result => {
+          t.strictSame(result.isSameDimensions, true)
+          t.strictSame(Number(result.misMatchPercentage), 0)
+        })
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  await client.query('update "events" set event_cover_image_path = $1 where event_id = $2', ['unknown-file.png', 'empty_string_event_name'])
+  void t.test('get event image of event with image profile path but file does not exist', async t => {
     try {
       const response = await app.inject({
         method: 'GET',

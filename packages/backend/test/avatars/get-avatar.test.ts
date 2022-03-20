@@ -17,6 +17,7 @@ void t.test('get image', async t => {
   const app = createServer()
 
   t.teardown(async () => {
+    await client.query('update "users" set user_image_profile_path = $1 where user_username = $2', ['', 'no_image_user'])
     await app.close()
   })
 
@@ -60,8 +61,8 @@ void t.test('get image', async t => {
       })
 
       Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, '..', '..', 'uploads', 'default-user-profile.png'))).onComplete((result) => {
-        t.strictSame(result.isSameDimensions, true, 'same image dimension')
-        t.strictSame(Number(result.misMatchPercentage), 0, 'image mismatch percentage')
+        t.strictSame(result.isSameDimensions, true)
+        t.strictSame(Number(result.misMatchPercentage), 0)
       })
     } catch (error) {
       t.error(error)
@@ -78,8 +79,8 @@ void t.test('get image', async t => {
 
       Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, '..', '..', 'uploads', 'default-user-profile.png')))
         .onComplete(result => {
-          t.strictSame(result.isSameDimensions, true, 'same image dimension')
-          t.strictSame(Number(result.misMatchPercentage), 0, 'image mismatch percentage')
+          t.strictSame(result.isSameDimensions, true)
+          t.strictSame(Number(result.misMatchPercentage), 0)
         })
     } catch (error) {
       t.error(error)
@@ -96,8 +97,8 @@ void t.test('get image', async t => {
 
       Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, 'test-get-avatar.png')))
         .onComplete(result => {
-          t.strictSame(result.isSameDimensions, true, 'same image dimension')
-          t.strictSame(Number(result.misMatchPercentage), 0, 'image mismatch percentage')
+          t.strictSame(result.isSameDimensions, true)
+          t.strictSame(Number(result.misMatchPercentage), 0)
         })
     } catch (error) {
       t.error(error)
@@ -130,8 +131,27 @@ void t.test('get image', async t => {
 
       Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, '..', '..', 'uploads', 'default-user-profile.png')))
         .onComplete(result => {
-          t.strictSame(result.isSameDimensions, true, 'same image dimension')
-          t.strictSame(Number(result.misMatchPercentage), 0, 'image mismatch percentage')
+          t.strictSame(result.isSameDimensions, true)
+          t.strictSame(Number(result.misMatchPercentage), 0)
+        })
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  await client.query('update "users" set user_image_profile_path = $1 where user_username = $2', ['unknown-file.png', 'no_image_user'])
+  void t.test('get avatar of user with filename but file does not exist', async t => {
+    try {
+      const response = await app.inject({
+        method: 'GET',
+        url: '/avatars/no_image_user'
+      })
+
+      Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, '..', '..', 'uploads', 'default-user-profile.png')))
+        .onComplete(result => {
+          t.strictSame(result.isSameDimensions, true)
+          t.strictSame(Number(result.misMatchPercentage), 0)
         })
     } catch (error) {
       t.error(error)
