@@ -218,6 +218,7 @@ void t.test('get event image', async t => {
       t.fail()
     }
   })
+  await client.query('update "events" set event_cover_image_path = $1 where event_id = $2', ['', 'empty_string_event_name'])
 
   t.end()
 })

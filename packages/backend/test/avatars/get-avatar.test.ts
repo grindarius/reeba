@@ -122,6 +122,7 @@ void t.test('get image', async t => {
     })
   }
 
+  await client.query('update "users" set user_image_profile_path = $1 where user_username = $2', ['', 'no_image_user'])
   void t.test('get avatar of a user that doesn\'t have image', async t => {
     try {
       const response = await app.inject({
@@ -158,6 +159,7 @@ void t.test('get image', async t => {
       t.fail()
     }
   })
+  await client.query('update "users" set user_image_profile_path = $1 where user_username = $2', ['', 'no_image_user'])
 
   t.end()
 })
