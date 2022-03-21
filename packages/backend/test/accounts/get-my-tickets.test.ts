@@ -179,7 +179,10 @@ void t.test('getting list of user tickets', async t => {
     try {
       const response = await app.inject({
         method: 'get',
-        url: '/accounts//tickets'
+        url: '/accounts//tickets',
+        headers: {
+          Authorization: `Bearer ${seatBuyerToken}`
+        }
       })
 
       t.strictSame(response.statusCode, 400)
@@ -193,7 +196,10 @@ void t.test('getting list of user tickets', async t => {
     try {
       const response = await app.inject({
         method: 'get',
-        url: '/accounts/who/tickets'
+        url: '/accounts/who/tickets',
+        headers: {
+          Authorization: `Bearer ${seatBuyerToken}`
+        }
       })
 
       t.strictSame(response.json(), { events: [] })
@@ -207,7 +213,10 @@ void t.test('getting list of user tickets', async t => {
     try {
       const response = await app.inject({
         method: 'get',
-        url: '/accounts/theseatbuyerguy/tickets'
+        url: '/accounts/theseatbuyerguy/tickets',
+        headers: {
+          Authorization: `Bearer ${seatBuyerToken}`
+        }
       })
 
       t.strictSame(response.json(), {
