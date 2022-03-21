@@ -143,6 +143,7 @@ importers:
       dayjs: ^1.10.7
       debounce: ^1.2.1
       i18n-iso-countries: ^7.3.0
+      just-clone: ^5.0.1
       ky: ^0.28.7
       markdown-it: ^12.3.2
       markdown-it-abbr: ^1.0.4
@@ -170,6 +171,7 @@ importers:
       dayjs: 1.10.7
       debounce: 1.2.1
       i18n-iso-countries: 7.3.0
+      just-clone: 5.0.1
       ky: 0.28.7
       markdown-it: 12.3.2
       markdown-it-abbr: 1.0.4
@@ -4346,6 +4348,10 @@ packages:
       is-promise: 2.2.2
       promise: 7.3.1
     dev: true
+
+  /just-clone/5.0.1:
+    resolution: {integrity: sha512-y6hFQ8X4fhJTZzdNvrE9mnCQX33uN4xV0hZ+5WNgs6yCcrRzs9ieFXuYRKznWqQ/gOSZpJu0yQ6hRHLCU6ezyw==}
+    dev: false
 
   /keyv/3.1.0:
     resolution: {integrity: sha512-9ykJ/46SN/9KPM/sichzQ7OvXyGDYKGTaDlKMGCAlg2UK8KRy4jb0d8sFc+0Tt0YYnThq8X2RZgCg74RPxgcVA==}
