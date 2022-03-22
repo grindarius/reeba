@@ -56,7 +56,16 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       }
     },
     async (request) => {
-      console.log(request.query)
+      const { q } = request.query
+
+      // select count(*) from "events"
+      // http://localhost:3000/search
+      const searchEvent = await instance.pg.query(
+        'select * from events where to_tsvector(event_name) @@ to_tsquery($1)',
+        [q]
+      )
+
+      console.log(searchEvent.rows)
 
       return {
         amount: 0,
