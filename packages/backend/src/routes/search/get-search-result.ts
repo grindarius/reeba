@@ -4,15 +4,13 @@ import {
   GetSearchResultReply,
   GetSearchResultReplySchema,
   GetSearchResultRequestQuerystring,
-  GetSearchResultRequestQuerystringSchema,
-  NotFoundReplySchema
+  GetSearchResultRequestQuerystringSchema
 } from '@reeba/common'
 
 const schema: FastifySchema = {
   querystring: GetSearchResultRequestQuerystringSchema,
   response: {
-    200: GetSearchResultReplySchema,
-    404: NotFoundReplySchema
+    200: GetSearchResultReplySchema
   }
 }
 
