@@ -14,20 +14,27 @@
               12 results
             </div>
             <router-link to="/">
-              <div class="hero bg-base-100 place-items-start">
+              <div class="hero place-items-start hover:bg-base-300 rounded-lg mx-1 my-2">
                 <div class="hero-content">
                   <div class="max-w-md">
-                    <h1 class="text-3xl font-bold">
-                      <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
-                      Event name
-                      <span class="badge my-auto">Official</span>
-                    </h1>
+                    <div class="flex flex-row items-center space-x-2">
+                      <div>
+                        <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
+                      </div>
+                      <h1 class="items-center text-2xl font-bold hover:underline underline-offset-2">
+                        Event name
+                      </h1>
+
+                      <div>
+                        <span class="self-center badge badge-md font-semibold">Official</span>
+                      </div>
+                    </div>
                     <p class="pt-3 pb-1">
                       first date of the event - last date of the event
                     </p>
                     <p>
                       <v-mdi name="mdi-alarm" fill="#D5A755" />
-                      opening date
+                      March 23, 2022 06:20
                     </p>
                     <p class="text-primary py-2">
                       <v-mdi name="mdi-map-marker-account" fill="#D5A755" />
@@ -37,20 +44,27 @@
                 </div>
               </div>
             </router-link>
-            <div class="hero bg-base-100 place-items-start">
+            <div class="hero place-items-start hover:bg-base-300 rounded-lg mx-1 my-2">
               <div class="hero-content">
                 <div class="max-w-md">
-                  <h1 class="text-3xl font-bold">
-                    <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
-                    Event name
-                    <span class="badge my-auto">Official</span>
-                  </h1>
+                  <div class="flex flex-row items-center space-x-2">
+                    <div>
+                      <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
+                    </div>
+                    <h1 class="items-center text-2xl font-bold hover:underline underline-offset-2">
+                      Event name
+                    </h1>
+
+                    <div>
+                      <span class="self-center badge badge-md font-semibold">Official</span>
+                    </div>
+                  </div>
                   <p class="pt-3 pb-1">
                     first date of the event - last date of the event
                   </p>
                   <p>
                     <v-mdi name="mdi-alarm" fill="#D5A755" />
-                    opening date
+                    March 23, 2022 06:20
                   </p>
                   <p class="text-primary py-2">
                     <v-mdi name="mdi-map-marker-account" fill="#D5A755" />
@@ -59,20 +73,27 @@
                 </div>
               </div>
             </div>
-            <div class="hero bg-base-100 place-items-start">
+            <div class="hero place-items-start hover:bg-base-300 rounded-lg mx-1 my-2">
               <div class="hero-content">
                 <div class="max-w-md">
-                  <h1 class="text-3xl font-bold">
-                    <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
-                    Event name
-                    <span class="badge my-auto">Official</span>
-                  </h1>
+                  <div class="flex flex-row items-center space-x-2">
+                    <div>
+                      <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
+                    </div>
+                    <h1 class="items-center text-2xl font-bold hover:underline underline-offset-2">
+                      Event name
+                    </h1>
+
+                    <div>
+                      <span class="self-center badge badge-md font-semibold">Official</span>
+                    </div>
+                  </div>
                   <p class="pt-3 pb-1">
                     first date of the event - last date of the event
                   </p>
                   <p>
                     <v-mdi name="mdi-alarm" fill="#D5A755" />
-                    opening date
+                    March 23, 2022 06:20
                   </p>
                   <p class="text-primary py-2">
                     <v-mdi name="mdi-map-marker-account" fill="#D5A755" />
@@ -103,9 +124,9 @@
           Creator type
         </li>
         <li class="disabled">
-          <label :for="`search-${selector}-events`" class="label cursor-pointer" v-for="(selector, i) of creatorType" :key="`search-page-creator-type-checkbox-${i}`">
+          <label :for="`search-${selector}-events`" class="label" v-for="(selector, i) of creatorType" :key="`search-page-creator-type-checkbox-${i}`">
             <span class="label-text">{{ selector }} events</span>
-            <input :name="`search-${selector}-events`" type="checkbox" class="checkbox checkbox-primary" :value="selector" v-model="selectedCreatorType">
+            <input :name="`search-${selector}-events`" type="checkbox" class="checkbox checkbox-primary bg-base-300 hover:bg-primary" :value="selector" v-model="selectedCreatorType">
           </label>
         </li>
         <hr class="my-3">
@@ -113,9 +134,9 @@
           Price range
         </li>
         <li class="disabled">
-          <label :for="`search-radio-${selector}`" class="label cursor-pointer" v-for="(selector, i) of priceRange" :key="`search-page-price-range-radio-${i}`">
+          <label :for="`search-radio-${selector}`" class="label" v-for="(selector, i) of priceRange" :key="`search-page-price-range-radio-${i}`">
             <span class="label-text">{{ selector }}</span>
-            <input type="radio" :name="`search-radio-${selector}`" class="radio radio-primary" :value="selector" v-model="selectedPriceRange">
+            <input type="radio" :name="`search-radio-${selector}`" class="radio radio-primary bg-base-300 hover:bg-primary" :value="selector" v-model="selectedPriceRange">
           </label>
         </li>
         <hr class="my-3">
@@ -123,9 +144,9 @@
           Tags
         </li>
         <li class="disabled">
-          <label :for="`search-tags-${selector}`" class="label cursor-pointer" v-for="(selector, i) of eventTags" :key="`search-page-tags-checkbox-${i}`">
+          <label :for="`search-tags-${selector}`" class="label" v-for="(selector, i) of eventTags" :key="`search-page-tags-checkbox-${i}`">
             <span class="label-text">{{ selector }}</span>
-            <input type="checkbox" :name="`search-tags-${selector}`" class="checkbox checkbox-primary" :value="selector" v-model="selectedTags">
+            <input type="checkbox" :name="`search-tags-${selector}`" class="checkbox checkbox-primary bg-base-300 hover:bg-primary" :value="selector" v-model="selectedTags">
           </label>
         </li>
         <hr class="my-3">
@@ -133,9 +154,9 @@
           Dates
         </li>
         <li class="disabled">
-          <label :for="`search-dates-${selector}`" class="label cursor-pointer" v-for="(selector, i) of dateRange" :key="`search-page-date-range-checkbox-${i}`">
+          <label :for="`search-dates-${selector}`" class="label" v-for="(selector, i) of dateRange" :key="`search-page-date-range-checkbox-${i}`">
             <span class="label-text">{{ selector }}</span>
-            <input type="radio" :name="`search-dates-${selector}`" class="radio radio-primary" :value="selector" v-model="selectedDateRange">
+            <input type="radio" :name="`search-dates-${selector}`" class="radio radio-primary bg-base-300 hover:bg-primary" :value="selector" v-model="selectedDateRange">
           </label>
         </li>
         <hr class="my-3">
@@ -143,9 +164,9 @@
           Types
         </li>
         <li class="disabled">
-          <label :for="`search-query-type-${selector}`" class="label cursor-pointer" v-for="(selector, i) of searchType" :key="`search-page-query-type-radio-${i}`">
+          <label :for="`search-query-type-${selector}`" class="label" v-for="(selector, i) of searchType" :key="`search-page-query-type-radio-${i}`">
             <span class="label-text">{{ selector }}</span>
-            <input type="radio" :name="`search-query-type-${selector}`" class="radio radio-primary" :value="selector" v-model="selectedSearchQueryType">
+            <input type="radio" :name="`search-query-type-${selector}`" class="radio radio-primary bg-base-300 hover:bg-primary" :value="selector" v-model="selectedSearchQueryType">
           </label>
         </li>
       </ul>
