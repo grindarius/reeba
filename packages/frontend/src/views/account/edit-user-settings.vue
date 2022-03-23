@@ -69,6 +69,7 @@
 import ky from 'ky'
 import { storeToRefs } from 'pinia'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { useToast } from 'vue-toastification'
 
 import { GetProfileDataReply, PatchProfileDataRequestBody } from '@reeba/common'
 
@@ -81,13 +82,13 @@ export default defineComponent({
   setup () {
     const authStore = useAuthStore()
     const { userData } = storeToRefs(authStore)
-
+    const toast = useToast()
     const {
       phoneCodesList,
-      selectedPhoneCountryCode: phoneCountryCode,
       onPhoneCountryCodeClicked,
       countryCodeString,
-      findCountryName
+      findCountryName,
+      selectedPhoneCountryCode: phoneCountryCode
     } = usePhoneCodes()
 
     const email: Ref<string | undefined> = ref(undefined)
@@ -97,21 +98,27 @@ export default defineComponent({
     const phoneNumber: Ref<string | undefined> = ref(undefined)
 
     const save = async (): Promise<void> => {
-      const saveProfileEdit: PatchUserProfileData = {
-        email: email.value,
+      const saveProfileEdit: PatchProfileDataRequestBody = {
+        email: email.value ?? '',
         password: password.value,
-        confirmPassword: confirmPassword.value,
-        birthdate: birthdate,
-        phoneNumber: phoneNumber.value
+        birthdate: birthdate.value ?? '',
+        phoneNumber: phoneNumber.value ?? '',
+        phoneCountryCode: phoneCountryCode.value.phoneCode
       }
 
+      if (password.value !== confirmPassword.value) {
+        toast.error('Password Mistake')
+        return
+      }
+      toast.success('Save Complete')
       const { method, url } = patchUserProfileData({ username: authStore.userData.username })
       try {
         await ky(url, {
           method,
           headers: {
-            json: saveProfileEdit, Authorization: `Bearer ${userData.value.token}`
-          }
+            Authorization: `Bearer ${userData.value.token}`
+          },
+          json: saveProfileEdit
         }).json<PatchProfileDataRequestBody>()
       } catch (error) {
         console.log(error)
@@ -136,7 +143,6 @@ export default defineComponent({
         if (findCountryName(response.phoneCountryCode) == null) {
           phoneCountryCode.value = { name: '', phoneCode: '' }
         }
-
         phoneCountryCode.value.name = findCountryName(response.phoneCountryCode) ?? ''
       } catch (error) {
         console.log(error)
