@@ -28,7 +28,8 @@ create table users (
 
 create index pgroonga_users_index on users using pgroonga (
   user_username pgroonga_text_full_text_search_ops_v2,
-  user_profile_description pgroonga_text_full_text_search_ops_v2
+  user_profile_description pgroonga_text_full_text_search_ops_v2,
+  user_social_medias pgroonga_jsonb_full_text_search_ops_v2
 );
 
 create table user_followers (
@@ -59,6 +60,7 @@ create table events (
 
 create index pgroonga_events_index on events using pgroonga (
   event_name pgroonga_text_full_text_search_ops_v2,
+  user_username pgroonga_text_full_text_search_ops_v2,
   event_description pgroonga_text_full_text_search_ops_v2,
   event_website pgroonga_text_full_text_search_ops_v2
 );
