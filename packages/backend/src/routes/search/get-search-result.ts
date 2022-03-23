@@ -60,7 +60,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       // http://localhost:3000/search
       const searchEvent = await instance.pg.query(
         'select * from events where to_tsvector(event_name) @@ to_tsquery($1)',
-        [q]
+        [q.split(' ').join(' <-> ')]
       )
 
       console.log(searchEvent.rows)
