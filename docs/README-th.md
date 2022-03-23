@@ -24,10 +24,10 @@ ReebA (อ่านว่า รีบ-อะ) เป็นเว็บไซต
 ### ReebA API.
 - [Fastify](https://www.fastify.io/) เป็นฐานสำหรับเซิร์ฟเวอร์ API
 - [PostgreSQL](https://www.postgresql.org/) สำหรับ Database
+- [pgroonga](https://pgroonga.github.io/) สำหรับจัดการด้าน text search ในภาษาอื่น ๆ นอกจากภาษาอังกฤษ
 
-## ก่อนเริ่มงาน.
-ขั้นตอนแรก ตรวจสอบเวอร์ชั่นก่อน
-
+## ก่อนอื่นใด
+### ตรวจสอบเวอร์ชั่น
 - Node.js v14 หรือสูงกว่า
   ตรวจสอบได้โดยการพิมพ์
   ```
@@ -46,15 +46,17 @@ ReebA (อ่านว่า รีบ-อะ) เป็นเว็บไซต
   pnpm -v
   ```
   ลงใน Terminal
-- PostgreSQL v14.1 *ตรงตัวเท่านั้น*
+- `PostgreSQL` v14.1 *ตรงตัวเท่านั้น*
   ตรวจสอบได้โดยการพิมพ์
   ```
   psql -V postgres
   ```
   ลงใน Terminal
+- `pgroonga` v2.3.6 หรือสูงกว่า. ตอนนี้ยังไม่รู้วิธีตรวจสอบเวอร์ชั่นเหมือนกัน
 
 คุณสามารถดาวน์โหลด Node.js ได้[ที่นี่](https://nodejs.org/en/) (ให้โหลดเวอร์ชั่น LTS)
 คุณสามารถดาวน์โหลด PostgreSQL ได้[ที่นี่](https://www.postgresql.org/download/windows/)
+คุณสามารถดาวน์โหลด pgroonga ได้[ที่นี่](https://pgroonga.github.io/install/)
 
 เมื่อติดตั้ง Node.js แล้ว ให้อัพเดตเวอร์ชั่นของ `npm` โดยพิมพ์
 ```
@@ -68,8 +70,8 @@ npm i -g pnpm
 ```
 ใน Terminal
 
-## เริ่มทำงาน
-### ก่อนอื่นใด
+## การติดตั้งครั้งแรก
+### ติดตั้ง `npm` แพคเกจ
 รันคอมมานด์นี้จากโฟลเดอร์แรกของโปรเจกต์
 ```
 pnpm install
@@ -139,6 +141,18 @@ pnpm install --frozen-lockfile
   reeba=# \dt
   ```
 
+- รันคอมมานด์
+  ```
+  CREATE EXTENSION IF NOT EXISTS pgroonga;
+  ```
+  เพื่อติดตั้ง extension `pgroonga` ก่อนที่จะทำการอัพเดต schema ของ database
+
+  คุณจะเห็นข้อความ
+  ```
+  CREATE EXTENSION
+  ```
+  นี่หมายความว่าคุณติดตั้ง extension เรียบร้อยแล้ว
+
 - อัพเดตรายละเอียดภายใน database ด้วยคอมมานด์
   ```
   reeba=# \i database.sql
@@ -167,20 +181,24 @@ pnpm install --frozen-lockfile
   ```
 
   เติมข้อที่ว่างไปทางด้านขวา หลังเครื่องหมายเท่ากับ ในไฟล์ `.env.local`
-  - `JWT_SECRET`: โปรดอีเมลมาเอา
+  - `JWT_SECRET`: โปรดอีเมลมารับ secret หรือรัน
+    ```
+    node -e "console.log(require('crypto').randomBytes(256).toString('base64'))"
+    ```
   - `POSTGRES_USERNAME`: ถ้าคุณล็อกอินเข้า database ด้วยคอมมานด์ `psql -U postgres` ช่องนี้ก็จะเป็น `postgres`
   - `POSTGRES_PASSWORD`: รหัสผ่านของบัญชี `postgres`
 
   ทุกฟิลด์หลังเครื่องหมายเท่ากับ จะต้องห่อไว้ด้วย singlequote มาถึงตรงนี้ คุณพร้อมสำหรับการพัฒนา ReebA API แล้ว
 
-### ReebA.com
+## การเปิดระบบเพื่อพัฒนาในเครื่องตนเอง
+### ReebA.com (frontend)
 รันคอมมานด์นี้จากโฟลเดอร์แรกของโปรเจกต์
 ```
 pnpm build:common && pnpm dev:frontend
 ```
 เว็บไซต์จะเปิดขึ้นมาที่ `http://localhost:8080`
 
-### ReebA API.
+### ReebA API (backend)
 ขั้นตอนแรก จะต้องทำการเปิด PostgreSQL database server ก่อน
 
 - เปิด terminal แยก (ที่ไม่ใช่ใน vscode) ในโฟลเดอร์ `backend` แล้วรันคอมมานด์
@@ -247,7 +265,7 @@ pnpm build:common && pnpm dev:frontend
 คุณจะเห็น API ทำงานที่ `http://localhost:3000` และเว็บไซต์ทำงานที่ `http://localhost:8080`
 
 ## ทดสอบ
-โมดูล `common` และ `backend` ของเราจะถูกทดสอบโดย [`tap`](https://github.com/tapjs/node-tap) รันเทสต์โดยพิมพ์
+หลาย ๆ โมดูลของเราจะถูกทดสอบโดย [`tap`](https://github.com/tapjs/node-tap) รันเทสต์โดยพิมพ์
 
 ```
 pnpm test
