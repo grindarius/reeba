@@ -1,5 +1,7 @@
 -- create database if not exists reeba;
 
+create extension if not exists pgroonga;
+
 drop type if exists t_user_roles cascade;
 drop type if exists t_user_role, t_event_status cascade;
 drop type if exists t_event_price cascade;
@@ -22,6 +24,11 @@ create table users (
   user_phone_number text not null default '',
   user_birthdate date default null,
   primary key (user_username)
+);
+
+create index pgroonga_users_index on users using pgroonga (
+  user_username pgroonga_text_full_text_search_ops_v2,
+  user_profile_description pgroonga_text_full_text_search_ops_v2
 );
 
 create table user_followers (
@@ -48,6 +55,12 @@ create table events (
   event_minimum_age integer not null default 0,
   primary key (event_id),
   foreign key (user_username) references users(user_username) on delete cascade
+);
+
+create index pgroonga_events_index on events using pgroonga (
+  event_name pgroonga_text_full_text_search_ops_v2,
+  event_description pgroonga_text_full_text_search_ops_v2,
+  event_website pgroonga_text_full_text_search_ops_v2
 );
 
 create table event_tags (
