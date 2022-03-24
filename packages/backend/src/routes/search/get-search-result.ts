@@ -22,6 +22,7 @@ const schema: FastifySchema = {
 
 interface QueryBuilder<T extends Array<unknown> = Array<unknown>> {
   where: string
+  having: string
   values: T
 }
 
@@ -50,32 +51,12 @@ const eventQueryBuilder = (query: Required<GetSearchResultRequestQuerystring>): 
   let templateCount = 1
   const queryToReturn: QueryBuilder = {
     where: '',
+    having: '',
     values: []
   }
 
   if (query.creatorType.length !== 0 && query.creatorType.length !== 2) {
     queryToReturn.where += `users.user_verification_status = ${query.creatorType.includes('Official') ? 'true' : 'false'}::boolean and `
-  }
-
-  if (query.dateRange !== 'All dates') {
-    queryToReturn.where += `first_start_datetime >= $${templateCount} and `
-    templateCount += 1
-    queryToReturn.where += `last_start_datetime <= $${templateCount} and `
-    queryToReturn.values.push(...dateRangeList[query.dateRange])
-    templateCount += 1
-  }
-
-  if (query.priceRange !== 'Any') {
-    if (query.priceRange === '10,000 and above') {
-      queryToReturn.where += 'min_seat_price <= 10000::int and '
-    } else {
-      queryToReturn.where += `min_seat_price <= $${templateCount}::int and `
-      templateCount += 1
-      queryToReturn.where += `max_seat_price >= $${templateCount}::int and `
-      templateCount += 1
-
-      queryToReturn.values.push(...priceRangeList[query.priceRange])
-    }
   }
 
   if (query.tags.length !== 0) {
@@ -85,7 +66,39 @@ const eventQueryBuilder = (query: Required<GetSearchResultRequestQuerystring>): 
   }
 
   queryToReturn.where += 'array[events.event_name, events.user_username, events.event_website] &@ $' + templateCount.toString()
+  templateCount += 1
   queryToReturn.values.push(query.q)
+
+  if (query.dateRange !== 'All dates') {
+    if (!queryToReturn.having.includes('having')) {
+      queryToReturn.having += 'having '
+    }
+
+    queryToReturn.having += `min(event_datetimes.event_start_datetime) >= $${templateCount} and `
+    templateCount += 1
+    queryToReturn.having += `max(event_datetimes.event_start_datetime) <= $${templateCount} `
+    queryToReturn.values.push(...dateRangeList[query.dateRange])
+    templateCount += 1
+  }
+
+  if (query.priceRange !== 'Any') {
+    if (!queryToReturn.having.includes('having')) {
+      queryToReturn.having += 'having '
+    } else {
+      queryToReturn.having += ' and '
+    }
+
+    if (query.priceRange === '10,000 and above') {
+      queryToReturn.having += 'min(event_seats.event_seat_price) <= 10000::int'
+    } else {
+      queryToReturn.having += `min(event_seats.event_seat_price) <= $${templateCount}::int and `
+      templateCount += 1
+      queryToReturn.having += `max(event_seats.event_seat_price) >= $${templateCount}::int `
+      templateCount += 1
+
+      queryToReturn.values.push(...priceRangeList[query.priceRange])
+    }
+  }
 
   return queryToReturn
 }
@@ -163,7 +176,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         max_seat_price: Date
       }
 
-      const { where, values } = eventQueryBuilder(request.query as Required<GetSearchResultRequestQuerystring>)
+      const { where, having, values } = eventQueryBuilder(request.query as Required<GetSearchResultRequestQuerystring>)
 
       if (type === 'Events') {
         const searchedResult = await instance.pg.query<SearchedEventResult>(
@@ -181,11 +194,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           inner join "event_tags_bridge" on events.event_id = event_tags_bridge.event_id
           inner join "users" on events.user_username = users.user_username
           where ${where}
-          group by events.event_id, users.user_verification_status`,
+          group by events.event_id, users.user_verification_status
+          ${having}`,
           values
         )
-
-        console.log(searchedResult.rows)
 
         return {
           events: searchedResult.rows.map(s => {
