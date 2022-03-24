@@ -77,7 +77,6 @@ export const GetSearchResultRequestQuerystringSchema = Type.Object({
 export type GetSearchResultRequestQuerystring = Static<typeof GetSearchResultRequestQuerystringSchema>
 
 export const GetSearchResultReplySchema = Type.Object({
-  amount: Type.Number(),
   events: Type.Array(Type.Object({
     id: Type.String(),
     name: Type.String(),
