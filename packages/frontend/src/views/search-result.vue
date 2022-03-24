@@ -4,13 +4,13 @@
       {{ content }} | ReebA: Ticket booking. Redefined.
     </template>
   </metainfo>
-  <div class="drawer drawer-mobile w-full">
+  <div class="w-full drawer drawer-mobile">
     <input type="checkbox" id="search-sidebar" class="drawer-toggle">
-    <div class="drawer-content flex flex-col items-center justify-start" style="max-height: none;">
+    <div class="flex flex-col justify-start items-center drawer-content" style="max-height: none;">
       <div class="search-page">
         <div class="search-page-content">
           <div class="result-pane">
-            <div class="mt-3 py-4 rounded text-base-content text-2xl font-bold px-5">
+            <div class="py-4 px-5 mt-3 text-2xl font-bold rounded text-base-content">
               {{ selectedSearchQueryType === 'Events' ? searchResultResponse.events.length : searchResultResponse.users.length }} results
             </div>
             <router-link
@@ -18,7 +18,7 @@
               :key="`search-result-event-${i}`" custom
               v-slot="{ navigate }"
               :to="`/${result.createdBy}/${result.id}`">
-              <div class="hero place-items-start hover:bg-base-300 mx-1 my-2 cursor-pointer" @click="navigate">
+              <div class="place-items-start my-2 mx-1 cursor-pointer hero hover:bg-base-300" @click="navigate">
                 <div class="hero-content">
                   <div class="max-w-md">
                     <div class="flex flex-row items-center space-x-2">
@@ -29,7 +29,7 @@
                         {{ result.name }}
                       </h1>
                       <div v-show="result.type === 'Official'">
-                        <span class="self-center badge badge-md font-semibold">{{ result.type }}</span>
+                        <span class="self-center font-semibold badge badge-md">{{ result.type }}</span>
                       </div>
                     </div>
                     <p class="pt-3 pb-1">
@@ -39,7 +39,7 @@
                       <v-mdi name="mdi-alarm" fill="#D5A755" />
                       {{ getTimeString(result.openingDate) }}
                     </p>
-                    <p class="text-primary py-2">
+                    <p class="py-2 text-primary">
                       <v-mdi name="mdi-map-marker-account" fill="#D5A755" />
                       {{ result.venueName }}
                     </p>
@@ -52,7 +52,7 @@
               :key="`search-result-user-${i}`" custom
               v-slot="{ navigate }"
               :to="`/${result.username}`">
-              <div class="hero place-items-start hover:bg-base-300 mx-1 my-2 cursor-pointer" @click="navigate">
+              <div class="place-items-start my-2 mx-1 cursor-pointer hero hover:bg-base-300" @click="navigate">
                 <div class="hero-content">
                   <div class="max-w-md">
                     <div class="flex flex-row items-center space-x-2">
@@ -72,7 +72,7 @@
               </div>
             </router-link>
           </div>
-          <div class="btn-group grid grid-cols-2 max-w-xs w-full mx-auto">
+          <div class="grid grid-cols-2 mx-auto w-full max-w-xs btn-group">
             <button :class="getPreviousButtonClassName" @click="goToPreviousPage">
               Previous
             </button>
@@ -83,12 +83,12 @@
         </div>
       </div>
     </div>
-    <label for="search-sidebar" class="btn btn-primary drawer-button lg:hidden fixed bottom-10 right-10 rounded-full border-slate-700">
+    <label for="search-sidebar" class="fixed right-10 bottom-10 rounded-full lg:hidden btn btn-primary drawer-button border-slate-700">
       <v-mdi name="mdi-menu-open" fill="#fff" />
     </label>
     <div class="drawer-side" style="max-height: none;">
       <label for="search-sidebar" class="drawer-overlay" style="background-color: #00000055;" />
-      <ul class="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content;">
+      <ul class="overflow-y-auto p-4 w-80 menu bg-base-100 text-base-content;">
         <li class="menu-title">
           Creator type
         </li>
