@@ -3,7 +3,6 @@ import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
   DateRange,
-  event_tags_bridge,
   events,
   GetSearchResultReply,
   GetSearchResultReplySchema,
@@ -157,7 +156,6 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       type SearchedEventResult = events
       & Pick<users, 'user_verification_status'>
-      & Pick<event_tags_bridge, 'event_tag_label'>
       & {
         first_start_datetime: Date
         last_start_datetime: Date
@@ -175,17 +173,19 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             max(event_datetimes.event_start_datetime) as last_start_datetime,
             min(event_seats.event_seat_price) as min_seat_price,
             max(event_seats.event_seat_price) as max_seat_price,
-            users.user_verification_status,
-            event_tags_bridge.event_tag_label
+            users.user_verification_status
           from "event_seats"
           inner join "event_sections" on event_seats.event_section_id = event_sections.event_section_id
           inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
           inner join "events" on event_datetimes.event_id = events.event_id
-          inner join "event_tags" on events.event_id = event_tags_bridge.event_id
+          inner join "event_tags_bridge" on events.event_id = event_tags_bridge.event_id
           inner join "users" on events.user_username = users.user_username
-          where ${where}`,
+          where ${where}
+          group by events.event_id, users.user_verification_status`,
           values
         )
+
+        console.log(searchedResult.rows)
 
         return {
           events: searchedResult.rows.map(s => {
