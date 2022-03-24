@@ -13,7 +13,11 @@
             <div class="mt-3 py-4 rounded text-base-content text-2xl font-bold px-5">
               {{ selectedSearchQueryType === 'Events' ? searchResultResponse.events.length : searchResultResponse.users.length }} results
             </div>
-            <router-link v-for="(result, i) in searchResultResponse.events" :key="`search-result-event-${i}`" custom v-slot="{ navigate }" :to="`/${result.createdBy}/${result.id}`">
+            <router-link
+              v-show="selectedSearchQueryType === 'Events'" v-for="(result, i) in searchResultResponse.events"
+              :key="`search-result-event-${i}`" custom
+              v-slot="{ navigate }"
+              :to="`/${result.createdBy}/${result.id}`">
               <div class="hero place-items-start hover:bg-base-300 mx-1 my-2 cursor-pointer" @click="navigate">
                 <div class="hero-content">
                   <div class="max-w-md">
@@ -24,8 +28,7 @@
                       <h1 class="items-center text-2xl font-bold hover:underline underline-offset-2">
                         {{ result.name }}
                       </h1>
-
-                      <div>
+                      <div v-show="result.type === 'Official'">
                         <span class="self-center badge badge-md font-semibold">{{ result.type }}</span>
                       </div>
                     </div>
@@ -44,17 +47,22 @@
                 </div>
               </div>
             </router-link>
-            <router-link v-for="(result, i) in searchResultResponse.users" :key="`search-result-user-${i}`">
-              <div class="hero place-items-start hover:bg-base-300 mx-1 my-2 cursor-pointer">
+            <router-link
+              v-show="selectedSearchQueryType === 'Users'" v-for="(result, i) in searchResultResponse.users"
+              :key="`search-result-user-${i}`" custom
+              v-slot="{ navigate }"
+              :to="`/${result.username}`">
+              <div class="hero place-items-start hover:bg-base-300 mx-1 my-2 cursor-pointer" @click="navigate">
                 <div class="hero-content">
                   <div class="max-w-md">
                     <div class="flex flex-row items-center space-x-2">
                       <div>
-                        <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
+                        <img :src="getUserAvatar({ username: result.username }).url" class="w-10 h-10 rounded-lg shadow-2xl">
                       </div>
                       <h1 class="items-center text-2xl font-bold hover:underline underline-offset-2">
                         {{ result.username }}
                       </h1>
+                      <v-mdi name="mdi-check-decagram" fill="#D5A755" v-show="result.accountType" />
                     </div>
                     <p class="pt-3 pb-1">
                       {{ result.description }}
@@ -65,10 +73,10 @@
             </router-link>
           </div>
           <div class="btn-group grid grid-cols-2 max-w-xs w-full mx-auto">
-            <button class="btn btn-outline">
+            <button :class="getPreviousButtonClassName" @click="goToPreviousPage">
               Previous
             </button>
-            <button class="btn btn-outline">
+            <button class="btn btn-outline" @click="goToNextPage">
               Next
             </button>
           </div>
@@ -138,7 +146,7 @@
 <script lang="ts">
 import dayjs from 'dayjs'
 import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref, watch } from 'vue'
+import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue'
 import { useMeta } from 'vue-meta'
 import { LocationQueryValue, useRoute, useRouter } from 'vue-router'
 
@@ -156,6 +164,8 @@ import {
   searchType
 } from '@reeba/common'
 
+import { getUserAvatar } from '@/api/endpoints'
+
 export default defineComponent({
   name: 'search',
   setup () {
@@ -167,6 +177,7 @@ export default defineComponent({
     const selectedTags: Ref<Array<EventTags>> = ref([])
     const selectedDateRange: Ref<DateRange> = ref('All dates')
     const selectedSearchQueryType: Ref<SearchType> = ref('Events')
+    const selectedPage: Ref<number> = ref(1)
 
     const searchResultResponse: Ref<GetSearchResultReply> = ref({ events: [], users: [] })
 
@@ -197,12 +208,14 @@ export default defineComponent({
       const formattedTags = formatQueryArray(route.query.tags)
       const formattedDateRange = formatQueryString(route.query.dateRange, 'All dates')
       const formattedSearchQueryType = formatQueryString(route.query.type, 'Events')
+      const formattedPage = formatQueryString(route.query.page, '1')
 
       selectedCreatorType.value = formattedCreatorType as Array<CreatorType>
       selectedPriceRange.value = formattedPriceRange as PriceRange
       selectedTags.value = formattedTags as Array<EventTags>
       selectedDateRange.value = formattedDateRange as DateRange
       selectedSearchQueryType.value = formattedSearchQueryType as SearchType
+      selectedPage.value = Number(formattedPage)
 
       const response = await ky('http://localhost:3000/search', {
         method: 'get',
@@ -212,7 +225,8 @@ export default defineComponent({
           ['priceRange', formattedPriceRange],
           ...formattedTags.map(t => ['tags', t]),
           ['dateRange', formattedDateRange],
-          ['type', formattedSearchQueryType]
+          ['type', formattedSearchQueryType],
+          ['page', selectedPage.value]
         ]
       }).json<GetSearchResultReply>()
 
@@ -278,19 +292,51 @@ export default defineComponent({
       return dayjs(dateTime).format('MMMM D, YYYY HH:mm')
     }
 
+    const getPreviousButtonClassName = computed(() => {
+      return selectedPage.value - 1 === 0 ? 'btn btn-outline btn-disabled' : 'btn btn-outline'
+    })
+
+    const goToNextPage = (): void => {
+      router.replace({
+        name: 'Search',
+        query: {
+          ...route.query,
+          ...{ page: selectedPage.value += 1 }
+        }
+      })
+    }
+
+    const goToPreviousPage = (): void => {
+      if (selectedPage.value - 1 === 0) {
+        return
+      }
+
+      router.replace({
+        name: 'Search',
+        query: {
+          ...route.query,
+          ...{ page: selectedPage.value -= 1 }
+        }
+      })
+    }
+
     return {
       priceRange,
       dateRange,
       selectedPriceRange,
       selectedDateRange,
       selectedTags,
+      getUserAvatar,
       selectedCreatorType,
       selectedSearchQueryType,
       creatorType,
       searchType,
       eventTags,
       searchResultResponse,
-      getTimeString
+      getTimeString,
+      goToNextPage,
+      goToPreviousPage,
+      getPreviousButtonClassName
     }
   }
 })
