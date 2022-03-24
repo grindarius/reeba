@@ -25,6 +25,7 @@ import {
   mdiPlusCircle,
   mdiPlusCircleOutline,
   mdiQrcodeScan,
+  mdiTicketOutline,
   mdiTwitter,
   mdiWeb
 } from '@mdi/js'
@@ -56,7 +57,8 @@ VueMdi.add({
   mdiWeb,
   mdiEmailPlus,
   mdiMenuOpen,
-  mdiDeleteSweep
+  mdiDeleteSweep,
+  mdiTicketOutline
 })
 
 const options: ToastOptions = {

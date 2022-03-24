@@ -14,7 +14,7 @@
               12 results
             </div>
             <router-link to="/">
-              <div class="hero place-items-start hover:bg-base-300 rounded-lg mx-1 my-2">
+              <div class="hero place-items-start hover:bg-base-300 mx-1 my-2">
                 <div class="hero-content">
                   <div class="max-w-md">
                     <div class="flex flex-row items-center space-x-2">
@@ -44,7 +44,7 @@
                 </div>
               </div>
             </router-link>
-            <div class="hero place-items-start hover:bg-base-300 rounded-lg mx-1 my-2">
+            <div class="hero place-items-start hover:bg-base-300 mx-1 my-2">
               <div class="hero-content">
                 <div class="max-w-md">
                   <div class="flex flex-row items-center space-x-2">
@@ -73,7 +73,7 @@
                 </div>
               </div>
             </div>
-            <div class="hero place-items-start hover:bg-base-300 rounded-lg mx-1 my-2">
+            <div class="hero place-items-start hover:bg-base-300 mx-1 my-2">
               <div class="hero-content">
                 <div class="max-w-md">
                   <div class="flex flex-row items-center space-x-2">
