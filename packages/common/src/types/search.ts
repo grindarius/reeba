@@ -81,17 +81,20 @@ export const GetSearchResultReplySchema = Type.Object({
     id: Type.String(),
     name: Type.String(),
     type: CreatorTypeSchema,
-    firstDatetime: Type.String(),
-    lastDatetime: Type.String(),
+    firstStartDatetime: Type.String(),
+    lastStartDatetime: Type.String(),
     openingDate: Type.String(),
     venueName: Type.String(),
-    venueCoordinates: Type.String()
+    venueCoordinates: Type.Object({
+      x: Type.String(),
+      y: Type.String()
+    })
   })),
   users: Type.Array(Type.Object({
     username: Type.String(),
     description: Type.String(),
     socialMedias: UserSocialMediaSchema,
-    accountType: Type.String()
+    accountType: Type.Boolean()
   }))
 })
 export type GetSearchResultReply = Static<typeof GetSearchResultReplySchema>
