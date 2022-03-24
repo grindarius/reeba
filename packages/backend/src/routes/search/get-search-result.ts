@@ -1,6 +1,8 @@
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
+  event_datetimes,
+  events,
   GetSearchResultReply,
   GetSearchResultReplySchema,
   GetSearchResultRequestQuerystring,
@@ -19,8 +21,17 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/',
     {
       schema,
-      preValidation: async (request) => {
-        const { creatorType, tags } = request.query
+      preValidation: async (request, reply) => {
+        const { q, creatorType, priceRange, tags, dateRange, type } = request.query
+
+        console.log(request.query)
+
+        if (q == null || q === '') {
+          void reply.send({
+            events: [],
+            users: []
+          })
+        }
 
         // * in case nothing is sent (ui did not click anything)
         // * attach empty array to the api
@@ -34,9 +45,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         if (!Array.isArray(creatorType)) {
           request.query.creatorType = []
 
-          if (creatorType != null) {
+          if (creatorType != null && creatorType !== '') {
             request.query.creatorType.push(creatorType)
           }
+        }
+
+        // @ts-expect-error checking if priceRange could be null is valid
+        if (priceRange == null || priceRange === '') {
+          request.query.priceRange = 'Any'
         }
 
         // * same goes for other param
@@ -47,24 +63,42 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         if (!Array.isArray(tags)) {
           request.query.tags = []
 
-          if (tags != null) {
+          if (tags != null && tags !== '') {
             request.query.tags.push(tags)
           }
         }
+
+        // @ts-expect-error checking if dateRange could be null is valid
+        if (dateRange == null || dateRange === '') {
+          request.query.dateRange = 'All dates'
+        }
+
+        // @ts-expect-error checking if type could be null is valid
+        if (type == null || type === '') {
+          request.query.type = 'Events'
+        }
+
+        console.log(request.query)
       }
     },
     async (request) => {
       const { q } = request.query
 
-      const searchEvent = await instance.pg.query(
-        'select * from events where to_tsvector(\'english\', event_name) @@ to_tsquery(\'english\', $1)',
-        [q.split(' ').join(' <-> ')]
+      const searchedResult = await instance.pg.query<events & Pick<event_datetimes, 'event_datetime_id' | 'event_start_datetime' | 'event_end_datetime'>, [string]>(
+        `select
+          events.*,
+          event_datetimes.event_datetime_id,
+          event_datetimes.event_start_datetime,
+          event_datetimes.event_end_datetime
+        from "events"
+        inner join "event_datetimes" on event_datetimes.event_id = events.event_id
+        where array[event_name, user_username, event_website] &@ $1`,
+        [q]
       )
 
-      console.log(searchEvent.rows)
+      console.log(searchedResult.rows)
 
       return {
-        amount: 0,
         events: [],
         users: []
       }
