@@ -13,15 +13,23 @@
             <label for="signup-username-input" class="label">
               <span class="label-text text-base-100">Username</span>
             </label>
-            <input type="text" name="signup-username-input" placeholder="natusvincere" class="input input-secondary bg-white text-base-100 w-full" v-model="usernameField">
+            <input
+              type="text" name="signup-username-input"
+              id="signup-username-input" placeholder="natusvincere"
+              class="w-full bg-white input input-secondary text-base-100"
+              v-model="usernameField">
             <label for="signup-email-input" class="label">
               <span class="label-text text-base-100">Email</span>
             </label>
-            <input type="text" name="signup-email-input" placeholder="example@gmail.com" class="input input-secondary bg-white text-base-100 w-full" v-model="emailField">
+            <input
+              type="text" name="signup-email-input"
+              id="signup-email-input" placeholder="example@gmail.com"
+              class="w-full bg-white input input-secondary text-base-100"
+              v-model="emailField">
             <label for="signup-country-code-input" class="label">
               <span class="label-text text-base-100">Phone country code</span>
             </label>
-            <select class="select w-full bg-white text-black">
+            <select id="signup-country-code-input" class="w-full text-black bg-white select" v-model="phoneCountryCodeField">
               <option disabled selected :value="{ name: '', phoneCode: '' }">
                 Pick your country code
               </option>
@@ -34,15 +42,19 @@
             <label for="signup-phone-number-input" class="label">
               <span class="label-text text-base-100">Phone number</span>
             </label>
-            <input type="tel" name="signup-phone-number-input" placeholder="669483943" class="input input-secondary bg-white text-base-100 w-full" v-model="phoneNumberField">
+            <input
+              type="tel" name="signup-phone-number-input"
+              id="signup-phone-number-input" placeholder="669483943"
+              class="w-full bg-white input input-secondary text-base-100"
+              v-model="phoneNumberField">
             <label for="signup-password-input" class="label">
               <span class="label-text text-base-100">Password</span>
             </label>
-            <input type="password" name="signup-password-input" class="input input-secondary bg-white text-base-100 w-full" v-model="passwordField">
+            <input type="password" name="signup-password-input" id="signup-password-input" class="w-full bg-white input input-secondary text-base-100" v-model="passwordField">
             <label for="signup-password-confirm-input" class="label">
               <span class="label-text text-base-100">Comfirm password</span>
             </label>
-            <input type="password" name="signup-password-confirm-input" class="input input-secondary bg-white text-base-100 w-full" v-model="confirmPasswordField">
+            <input type="password" name="signup-password-confirm-input" id="signup-password-confirm-input" class="w-full bg-white input input-secondary text-base-100" v-model="confirmPasswordField">
             <div class="register-signup-section">
               <button class="register-button" type="button" @click="signup">
                 Sign up
@@ -59,19 +71,14 @@
 </template>
 
 <script lang="ts">
-import { countries } from 'countries-list'
-import { computed, defineComponent, Ref, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 import { SignupBody } from '@reeba/common'
 
+import { usePhoneCodes } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
-
-interface CountryCode {
-  name: string
-  phoneCode: string
-}
 
 export default defineComponent({
   name: 'register',
@@ -80,27 +87,17 @@ export default defineComponent({
     const toast = useToast()
     const router = useRouter()
 
+    const {
+      phoneCodesList,
+      countryCodeString,
+      selectedPhoneCountryCode: phoneCountryCodeField
+    } = usePhoneCodes()
+
     const usernameField = ref('')
     const emailField = ref('')
-    const phoneCountryCodeField: Ref<CountryCode> = ref({ name: '', phoneCode: '' })
     const phoneNumberField = ref('')
     const passwordField = ref('')
     const confirmPasswordField = ref('')
-
-    const phoneCodesList = computed(() => {
-      return Object.values(countries).flatMap(ct => {
-        const phoneCodeArray = ct.phone.split(',')
-
-        return phoneCodeArray.map(code => {
-          const ret: CountryCode = {
-            name: ct.name,
-            phoneCode: code
-          }
-
-          return ret
-        })
-      })
-    })
 
     const signup = async (): Promise<void> => {
       const signupCredentials: SignupBody = {
@@ -117,24 +114,10 @@ export default defineComponent({
         router.push({ name: 'Signin' })
       } catch (error) {
         // @ts-expect-error unknown error
-        toast.error(error.message)
+        const json = await error.response.json()
+
+        toast.error(json.message)
       }
-    }
-
-    const onPhoneCountryCodeClicked = (index: number): void => {
-      phoneCountryCodeField.value = phoneCodesList.value[index]
-    }
-
-    const countryCodeString = (code: CountryCode): string => {
-      return `${code.name} (+${code.phoneCode})`
-    }
-
-    const getDropdownClassname = (code: CountryCode) => {
-      if (phoneCountryCodeField.value != null && code.name === phoneCountryCodeField.value.name && code.phoneCode === phoneCountryCodeField.value.phoneCode) {
-        return 'dropdown-selector selected'
-      }
-
-      return 'dropdown-selector not-selected'
     }
 
     return {
@@ -144,10 +127,8 @@ export default defineComponent({
       passwordField,
       confirmPasswordField,
       signup,
-      getDropdownClassname,
       phoneCodesList,
       phoneCountryCodeField,
-      onPhoneCountryCodeClicked,
       countryCodeString
     }
   }

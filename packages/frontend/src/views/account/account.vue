@@ -1,19 +1,19 @@
 <template>
-  <div class="drawer drawer-mobile w-full">
-    <input id="my-drawer-2" type="checkbox" class="drawer-toggle">
-    <div class="drawer-content flex flex-col items-center justify-center" style="max-height: none;">
+  <div class="w-full drawer drawer-mobile">
+    <input id="account-drawer-toggle" type="checkbox" class="drawer-toggle">
+    <div class="flex flex-col justify-center items-center drawer-content" style="max-height: none;">
       <div class="account-page">
         <div class="account-content">
           <router-view :key="$route.fullPath" />
         </div>
       </div>
     </div>
-    <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden fixed bottom-10 right-10 rounded-full">
+    <label for="account-drawer-toggle" class="fixed right-10 bottom-10 rounded-full lg:hidden btn btn-primary drawer-button">
       <v-mdi name="mdi-menu-open" fill="#000000" />
     </label>
-    <div class="drawer-side">
-      <label for="my-drawer-2" class="drawer-overlay" />
-      <ul class="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
+    <div class="drawer-side" style="max-height: none;">
+      <label for="account-drawer-toggle" class="drawer-overlay" style="background-color: #00000055;" />
+      <ul class="overflow-y-auto p-4 w-80 menu bg-base-100 text-base-content">
         <li>
           <router-link to="/account">
             My tickets

@@ -1,3 +1,5 @@
+import clone from 'just-clone'
+
 import { ReebAEventSeat, ReebAEventSection } from '@/types'
 
 export const generateEventSections = (row: number, column: number, initialSeats: Array<Array<ReebAEventSeat>>): Array<Array<ReebAEventSection>> => {
@@ -43,7 +45,7 @@ export const generateEventSeats = (row: number, column: number, initialPrice: nu
 export const increase2DArrayDimension = <T>(initialArray: Array<Array<T>>, direction: 'row' | 'column'): Array<Array<T>> => {
   if (direction === 'row') {
     const lastRowIndex = initialArray.length
-    const lastRow = JSON.parse(JSON.stringify(initialArray[lastRowIndex - 1]))
+    const lastRow = clone(initialArray[lastRowIndex - 1])
 
     initialArray.push(lastRow)
 
@@ -51,7 +53,7 @@ export const increase2DArrayDimension = <T>(initialArray: Array<Array<T>>, direc
   }
 
   const lastColumnIndex = initialArray[0].length
-  const lastColumn = JSON.parse(JSON.stringify(initialArray.map(item => item[lastColumnIndex - 1])))
+  const lastColumn = clone(initialArray.map(item => item[lastColumnIndex - 1]))
 
   return initialArray.map((elem, index) => {
     elem.push(lastColumn[index])

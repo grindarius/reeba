@@ -9,17 +9,17 @@
           <h3 class="text-4xl font-bold text-center text-white">
             Sign in
           </h3>
-          <div class="form-control w-full">
+          <div class="w-full form-control">
             <label for="signin-email-input" class="label">
               <span class="label-text text-base-100">Email</span>
             </label>
-            <input type="text" name="signin-email-input" placeholder="example@gmail.com" class="input input-bordered bg-white text-base-100 w-full" v-model="emailField">
+            <input type="text" name="signin-email-input" placeholder="example@gmail.com" class="w-full bg-white input input-bordered text-base-100" v-model="emailField">
             <label class="label">
               <span class="label-text text-base-100">
                 Password
               </span>
             </label>
-            <input type="password" name="signin-email-input" class="input input-bordered bg-white text-base-100 w-full" v-model="passwordField">
+            <input type="password" name="signin-email-input" class="w-full bg-white input input-bordered text-base-100" v-model="passwordField">
           </div>
           <a class="inline-block mt-2 font-sans text-right text-white align-baseline hover:underline" href="#">
             Forgot Password?

@@ -24,7 +24,7 @@
     </div>
     <div class="navbar-end">
       <router-link to="/create" custom v-slot="{ navigate }">
-        <button class="btn btn-secondary mr-6 hidden lg:block" @click="navigate">
+        <button class="hidden mr-6 lg:block btn btn-secondary" @click="navigate">
           Create Event
         </button>
       </router-link>
@@ -39,7 +39,7 @@
             <img :src="getUserAvatar({ username: userData.username }).url">
           </div>
         </label>
-        <ul tabindex="0" class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-primary text-base-100 font-bold rounded-box w-52">
+        <ul tabindex="0" class="p-2 mt-3 w-52 font-bold shadow menu menu-compact dropdown-content bg-primary text-base-100 rounded-box">
           <li class="block lg:hidden">
             <router-link to="/create">
               Create event
@@ -65,7 +65,7 @@
     </div>
   </nav>
   <router-view :key="$route.fullPath" />
-  <footer class="footer p-10 bg-white text-neutral-content">
+  <footer class="p-10 bg-white footer text-neutral-content">
     <div>
       <span class="footer-title">Follow us</span>
       <div class="grid grid-flow-col gap-4">

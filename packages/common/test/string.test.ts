@@ -1,6 +1,6 @@
 import t from 'tap'
 
-import { EventTags, normalizeTag } from '../src'
+import { EventTags, normalizeTag, numberToLetters } from '../src'
 
 const tags: Array<[EventTags, string]> = [
   ['Amphitheater', 'amphitheater'],
@@ -23,4 +23,17 @@ const tags: Array<[EventTags, string]> = [
 void t.test('string normalizer', t => {
   t.plan(1)
   t.strictSame(tags.map(x => normalizeTag(x[0])), tags.map(x => x[1]))
+})
+
+void t.test('number to letters', (t) => {
+  t.plan(5)
+
+  t.strictSame(numberToLetters(0), 'A')
+  t.strictSame(numberToLetters(5), 'F')
+  t.strictSame(numberToLetters(25), 'Z')
+  t.strictSame(numberToLetters(26), 'AA')
+
+  t.throws(() => {
+    numberToLetters(-1)
+  }, 'property \'position\' cannot be less than 0')
 })
