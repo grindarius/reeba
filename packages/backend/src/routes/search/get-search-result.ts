@@ -54,27 +54,21 @@ const eventQueryBuilder = (query: Required<GetSearchResultRequestQuerystring>): 
     values: []
   }
 
-  let creatorTypeQuerystring = ''
-
   if (query.creatorType.length !== 0 && query.creatorType.length !== 2) {
-    creatorTypeQuerystring = `users.user_verification_status = ${query.creatorType.includes('Official') ? 'true' : 'false'}::boolean and `
-  } else {
-    creatorTypeQuerystring = ''
+    queryToReturn.where += `users.user_verification_status = ${query.creatorType.includes('Official') ? 'true' : 'false'}::boolean and `
   }
 
-  queryToReturn.where += creatorTypeQuerystring === '' ? '' : creatorTypeQuerystring
-
   if (query.dateRange !== 'All dates') {
-    queryToReturn.where += `first_start_datetime >= $${templateCount}`
+    queryToReturn.where += `first_start_datetime >= $${templateCount} and `
     templateCount += 1
-    queryToReturn.where += ` and last_start_datetime >= $${templateCount} and`
+    queryToReturn.where += `last_start_datetime <= $${templateCount} and `
     queryToReturn.values.push(...dateRangeList[query.dateRange])
     templateCount += 1
   }
 
   if (query.priceRange !== 'Any') {
     if (query.priceRange === '10,000 and above') {
-      queryToReturn.where += 'min_seat_price <= 10000::int'
+      queryToReturn.where += 'min_seat_price <= 10000::int and '
     } else {
       queryToReturn.where += `min_seat_price <= $${templateCount}::int and `
       templateCount += 1
