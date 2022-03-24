@@ -109,7 +109,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     {
       schema,
       preValidation: async (request, reply) => {
-        const { q, creatorType, priceRange, tags, dateRange, type } = request.query
+        const { q, creatorType, priceRange, tags, dateRange, type, page } = request.query
 
         if (q == null || q === '') {
           void reply.send({
@@ -162,10 +162,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         if (type == null || type === '') {
           request.query.type = 'Events'
         }
+
+        if (page == null || page <= 1) {
+          request.query.page = 1
+        }
       }
     },
     async (request) => {
-      const { q, type } = request.query as Required<GetSearchResultRequestQuerystring>
+      const { q, type, page } = request.query as Required<GetSearchResultRequestQuerystring>
 
       type SearchedEventResult = events
       & Pick<users, 'user_verification_status'>
@@ -195,7 +199,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           inner join "users" on events.user_username = users.user_username
           where ${where}
           group by events.event_id, users.user_verification_status
-          ${having}`,
+          ${having}
+          limit 10 offset ${(page * 10) - 10}`,
           values
         )
 
@@ -224,7 +229,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           `select
             *
           from "users"
-          where array[user_username, user_profile_description] &@ $1`,
+          where array[user_username, user_profile_description] &@ $1
+          limit 10 offset ${(page * 10) - 10}`,
           [q]
         )
 

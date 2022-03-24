@@ -458,4 +458,45 @@ void t.test('search function test', async t => {
       t.fail()
     }
   })
+
+  void t.test('searching for next page', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/search',
+        query: {
+          q: 'thatrich',
+          type: 'Users',
+          page: '2'
+        }
+      })
+
+      t.strictSame(response.statusCode, 200)
+      t.strictSame(response.json().events.length, 0)
+      t.strictSame(response.json().users.length, 0)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('searching for next page', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/search',
+        query: {
+          q: 'The rightful',
+          page: '2'
+        }
+      })
+
+      t.strictSame(response.statusCode, 200)
+      t.strictSame(response.json().events.length, 0)
+      t.strictSame(response.json().users.length, 0)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
 })
