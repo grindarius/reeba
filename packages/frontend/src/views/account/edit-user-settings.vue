@@ -8,31 +8,31 @@
         <div class="flex justify-center">
           <img class="object-cover object-center w-24 h-24 rounded-full" :src="getUserAvatar({ username: userData.username }).url" alt="Avatar Upload">
         </div>
-        <div class="form-control w-full">
+        <div class="w-full form-control">
           <label for="edit-user-email" class="label">
-            <span class="label-text text-black font-semibold">
+            <span class="font-semibold text-black label-text">
               Email address
             </span>
           </label>
-          <input type="text" placeholder="Type here" name="edit-user-password" class="input bg-white w-full text-black" v-model="email">
+          <input type="text" placeholder="Type here" name="edit-user-password" class="w-full text-black bg-white input" v-model="email">
           <label for="edit-user-password" class="label">
-            <span class="label-text text-black font-semibold">
+            <span class="font-semibold text-black label-text">
               Password
             </span>
           </label>
-          <input type="password" name="edit-user-password" class="input bg-white w-full text-black" v-model="password">
+          <input type="password" name="edit-user-password" class="w-full text-black bg-white input" v-model="password">
           <label for="edit-user-password-confirm" class="label">
-            <span class="label-text text-black font-semibold">
+            <span class="font-semibold text-black label-text">
               Confirm password
             </span>
           </label>
-          <input type="password" name="edit-user-password-confirm" class="input bg-white w-full text-black" v-model="confirmPassword">
+          <input type="password" name="edit-user-password-confirm" class="w-full text-black bg-white input" v-model="confirmPassword">
           <label for="edit-user-country-code" class="label">
-            <span class="label-text text-black font-semibold">
+            <span class="font-semibold text-black label-text">
               Phone country code
             </span>
           </label>
-          <select class="select w-full bg-white text-black" v-model="phoneCountryCode">
+          <select class="w-full text-black bg-white select" v-model="phoneCountryCode">
             <option disabled :value="{ name: '', phoneCode: '' }">
               Please select country code
             </option>
@@ -43,17 +43,17 @@
             </template>
           </select>
           <label for="edit-user-phone-number" class="label">
-            <span class="label-text text-black font-semibold">
+            <span class="font-semibold text-black label-text">
               Phone number
             </span>
           </label>
-          <input type="text" placeholder="Type here" name="edit-user-phone-number" class="input bg-white w-full text-black" v-model="phoneNumber">
+          <input type="text" placeholder="Type here" name="edit-user-phone-number" class="w-full text-black bg-white input" v-model="phoneNumber">
           <label for="edit-user-birthdate" class="label">
-            <span class="label-text text-black font-semibold">
+            <span class="font-semibold text-black label-text">
               Birthdate
             </span>
           </label>
-          <input type="datetime-local" placeholder="Type here" name="edit-user-birthdate" class="input bg-white w-full text-black" v-model="birthdate">
+          <input type="datetime-local" placeholder="Type here" name="edit-user-birthdate" class="w-full text-black bg-white input" v-model="birthdate">
         </div>
         <div class="flex justify-center mt-10">
           <button class="button-save" type="button" @click="save">
