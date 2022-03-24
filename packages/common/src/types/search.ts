@@ -81,6 +81,7 @@ export const GetSearchResultReplySchema = Type.Object({
   events: Type.Array(Type.Object({
     id: Type.String(),
     name: Type.String(),
+    createdBy: Type.String(),
     type: CreatorTypeSchema,
     firstStartDatetime: Type.String(),
     lastStartDatetime: Type.String(),

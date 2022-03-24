@@ -11,10 +11,10 @@
         <div class="search-page-content">
           <div class="result-pane">
             <div class="mt-3 py-4 rounded text-base-content text-2xl font-bold px-5">
-              12 results
+              {{ selectedSearchQueryType === 'Events' ? searchResultResponse.events.length : searchResultResponse.users.length }} results
             </div>
-            <router-link to="/">
-              <div class="hero place-items-start hover:bg-base-300 mx-1 my-2">
+            <router-link v-for="(result, i) in searchResultResponse.events" :key="`search-result-event-${i}`" custom v-slot="{ navigate }" :to="`/${result.createdBy}/${result.id}`">
+              <div class="hero place-items-start hover:bg-base-300 mx-1 my-2 cursor-pointer" @click="navigate">
                 <div class="hero-content">
                   <div class="max-w-md">
                     <div class="flex flex-row items-center space-x-2">
@@ -22,86 +22,47 @@
                         <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
                       </div>
                       <h1 class="items-center text-2xl font-bold hover:underline underline-offset-2">
-                        Event name
+                        {{ result.name }}
                       </h1>
 
                       <div>
-                        <span class="self-center badge badge-md font-semibold">Official</span>
+                        <span class="self-center badge badge-md font-semibold">{{ result.type }}</span>
                       </div>
                     </div>
                     <p class="pt-3 pb-1">
-                      first date of the event - last date of the event
+                      {{ getTimeString(result.firstStartDatetime) }} - {{ getTimeString(result.lastStartDatetime) }}
                     </p>
                     <p>
                       <v-mdi name="mdi-alarm" fill="#D5A755" />
-                      March 23, 2022 06:20
+                      {{ getTimeString(result.openingDate) }}
                     </p>
                     <p class="text-primary py-2">
                       <v-mdi name="mdi-map-marker-account" fill="#D5A755" />
-                      location name
+                      {{ result.venueName }}
                     </p>
                   </div>
                 </div>
               </div>
             </router-link>
-            <div class="hero place-items-start hover:bg-base-300 mx-1 my-2">
-              <div class="hero-content">
-                <div class="max-w-md">
-                  <div class="flex flex-row items-center space-x-2">
-                    <div>
-                      <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
+            <router-link v-for="(result, i) in searchResultResponse.users" :key="`search-result-user-${i}`">
+              <div class="hero place-items-start hover:bg-base-300 mx-1 my-2 cursor-pointer">
+                <div class="hero-content">
+                  <div class="max-w-md">
+                    <div class="flex flex-row items-center space-x-2">
+                      <div>
+                        <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
+                      </div>
+                      <h1 class="items-center text-2xl font-bold hover:underline underline-offset-2">
+                        {{ result.username }}
+                      </h1>
                     </div>
-                    <h1 class="items-center text-2xl font-bold hover:underline underline-offset-2">
-                      Event name
-                    </h1>
-
-                    <div>
-                      <span class="self-center badge badge-md font-semibold">Official</span>
-                    </div>
+                    <p class="pt-3 pb-1">
+                      {{ result.description }}
+                    </p>
                   </div>
-                  <p class="pt-3 pb-1">
-                    first date of the event - last date of the event
-                  </p>
-                  <p>
-                    <v-mdi name="mdi-alarm" fill="#D5A755" />
-                    March 23, 2022 06:20
-                  </p>
-                  <p class="text-primary py-2">
-                    <v-mdi name="mdi-map-marker-account" fill="#D5A755" />
-                    location name
-                  </p>
                 </div>
               </div>
-            </div>
-            <div class="hero place-items-start hover:bg-base-300 mx-1 my-2">
-              <div class="hero-content">
-                <div class="max-w-md">
-                  <div class="flex flex-row items-center space-x-2">
-                    <div>
-                      <v-mdi name="mdi-ticket-outline" fill="#c4c4c4" />
-                    </div>
-                    <h1 class="items-center text-2xl font-bold hover:underline underline-offset-2">
-                      Event name
-                    </h1>
-
-                    <div>
-                      <span class="self-center badge badge-md font-semibold">Official</span>
-                    </div>
-                  </div>
-                  <p class="pt-3 pb-1">
-                    first date of the event - last date of the event
-                  </p>
-                  <p>
-                    <v-mdi name="mdi-alarm" fill="#D5A755" />
-                    March 23, 2022 06:20
-                  </p>
-                  <p class="text-primary py-2">
-                    <v-mdi name="mdi-map-marker-account" fill="#D5A755" />
-                    location name
-                  </p>
-                </div>
-              </div>
-            </div>
+            </router-link>
           </div>
           <div class="btn-group grid grid-cols-2 max-w-xs w-full mx-auto">
             <button class="btn btn-outline">
@@ -175,6 +136,7 @@
 </template>
 
 <script lang="ts">
+import dayjs from 'dayjs'
 import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref, watch } from 'vue'
 import { useMeta } from 'vue-meta'
@@ -206,7 +168,7 @@ export default defineComponent({
     const selectedDateRange: Ref<DateRange> = ref('All dates')
     const selectedSearchQueryType: Ref<SearchType> = ref('Events')
 
-    const searchResultResponse: Ref<GetSearchResultReply | undefined> = ref(undefined)
+    const searchResultResponse: Ref<GetSearchResultReply> = ref({ events: [], users: [] })
 
     useMeta({
       title: route.query.q ?? 'Search'
@@ -254,7 +216,8 @@ export default defineComponent({
         ]
       }).json<GetSearchResultReply>()
 
-      searchResultResponse.value = response
+      searchResultResponse.value.events = response.events
+      searchResultResponse.value.users = response.users
     }
 
     onMounted(async () => {
@@ -311,6 +274,10 @@ export default defineComponent({
       })
     })
 
+    const getTimeString = (dateTime: string): string => {
+      return dayjs(dateTime).format('MMMM D, YYYY HH:mm')
+    }
+
     return {
       priceRange,
       dateRange,
@@ -321,7 +288,9 @@ export default defineComponent({
       selectedSearchQueryType,
       creatorType,
       searchType,
-      eventTags
+      eventTags,
+      searchResultResponse,
+      getTimeString
     }
   }
 })

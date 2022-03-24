@@ -209,6 +209,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             return {
               id: s.event_id,
               name: s.event_name,
+              createdBy: s.user_username,
               type: s.user_verification_status ? 'Official' : 'Local',
               firstStartDatetime: dayjs(s.first_start_datetime).toISOString(),
               lastStartDatetime: dayjs(s.last_start_datetime).toISOString(),
