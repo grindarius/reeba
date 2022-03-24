@@ -21,7 +21,6 @@ const tags: Array<[EventTags, string]> = [
 ]
 
 void t.test('string normalizer', t => {
-  tags.forEach(tag => {
-    t.strictSame(normalizeTag(tag[0]), tag[1])
-  })
+  t.plan(1)
+  t.strictSame(tags.map(x => normalizeTag(x[0])), tags.map(x => x[1]))
 })
