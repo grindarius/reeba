@@ -169,16 +169,50 @@ void t.test('search function test', async t => {
     }
   })
 
+  const userResponse = await app.inject({
+    method: 'post',
+    url: '/auth/signin',
+    payload: {
+      email: 'thatrich_test_guy@gmail.com',
+      password: 'asdfghjkl123'
+    }
+  })
+
   await app.inject({
     method: 'post',
     url: '/events',
+    headers: {
+      Authorization: `Bearer ${userResponse.json().token as string}`
+    },
     payload: ev
   })
 
   await app.inject({
     method: 'post',
     url: '/events',
+    headers: {
+      Authorization: `Bearer ${userResponse.json().token as string}`
+    },
     payload: ev2
+  })
+
+  void t.test('simple return when q is empty', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/search',
+        query: {
+          q: ''
+        }
+      })
+
+      t.strictSame(response.statusCode, 200)
+      t.strictSame(response.json().events.length, 0)
+      t.strictSame(response.json().users.length, 0)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
   })
 
   void t.test('searching for events with exact name', async t => {
@@ -187,8 +221,128 @@ void t.test('search function test', async t => {
         method: 'get',
         url: '/search',
         query: {
+          q: 'The rightful'
+        }
+      })
+
+      t.strictSame(response.statusCode, 200)
+      t.strictSame(response.json().events.length, 1)
+      t.strictSame(response.json().users.length, 0)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('searching for events with price range', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/search',
+        query: {
           q: 'The rightful',
-          priceRange: '< 1,200',
+          priceRange: '< 2,400'
+        }
+      })
+
+      t.strictSame(response.statusCode, 200)
+      t.strictSame(response.json().events.length, 1)
+      t.strictSame(response.json().users.length, 0)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('searching for events with not match price range', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/search',
+        query: {
+          q: 'The rightful',
+          priceRange: '10,000 and above'
+        }
+      })
+
+      t.strictSame(response.statusCode, 200)
+      t.strictSame(response.json().events.length, 0)
+      t.strictSame(response.json().users.length, 0)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('searching for events with date range', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/search',
+        query: {
+          q: 'The rightful',
+          priceRange: '10,000 and above',
+          dateRange: 'Today'
+        }
+      })
+
+      t.strictSame(response.statusCode, 200)
+      t.strictSame(response.json().events.length, 0)
+      t.strictSame(response.json().users.length, 0)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('searching for events with date range', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/search',
+        query: {
+          q: 'The rightful',
+          priceRange: '10,000 and above',
+          dateRange: 'Next week'
+        }
+      })
+
+      t.strictSame(response.statusCode, 200)
+      t.strictSame(response.json().events.length, 0)
+      t.strictSame(response.json().users.length, 0)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('searching for events with date range for events date not exists', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/search',
+        query: {
+          q: 'The rightful',
+          dateRange: 'This week'
+        }
+      })
+
+      t.strictSame(response.statusCode, 200)
+      t.strictSame(response.json().events.length, 0)
+      t.strictSame(response.json().users.length, 0)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('searching for events with tags', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/search',
+        query: {
+          q: 'The rightful',
           tags: ['Stand up comedy']
         }
       })
@@ -202,19 +356,103 @@ void t.test('search function test', async t => {
     }
   })
 
+  void t.test('searching for events with nonsense tags', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/search',
+        query: {
+          q: 'The rightful',
+          tags: ['Amphitheater', 'Online']
+        }
+      })
+
+      t.strictSame(response.statusCode, 200)
+      t.strictSame(response.json().events.length, 0)
+      t.strictSame(response.json().users.length, 0)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('searching for events with both creator type', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/search',
+        query: {
+          q: 'The rightful',
+          tags: ['Stand up comedy'],
+          creatorType: ['Official', 'Local']
+        }
+      })
+
+      t.strictSame(response.statusCode, 200)
+      t.strictSame(response.json().events.length, 1)
+      t.strictSame(response.json().users.length, 0)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('searching for events with local creator type', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/search',
+        query: {
+          q: 'The rightful',
+          tags: ['Stand up comedy'],
+          creatorType: ['Local']
+        }
+      })
+
+      t.strictSame(response.statusCode, 200)
+      t.strictSame(response.json().events.length, 1)
+      t.strictSame(response.json().users.length, 0)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('searching for events official creator type', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/search',
+        query: {
+          q: 'The rightful',
+          tags: ['Stand up comedy'],
+          creatorType: ['Official']
+        }
+      })
+
+      t.strictSame(response.statusCode, 200)
+      t.strictSame(response.json().events.length, 0)
+      t.strictSame(response.json().users.length, 0)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
   void t.test('searching for event name with username', async t => {
     try {
       const response = await app.inject({
         method: 'get',
         url: '/search',
         query: {
-          q: 'The leftful',
-          priceRange: '10,000 and above',
-          tags: ['Stand up comedy']
+          q: 'thatrich',
+          type: 'Users'
         }
       })
 
       t.strictSame(response.statusCode, 200)
+      t.strictSame(response.json().events.length, 0)
+      t.strictSame(response.json().users.length, 1)
     } catch (error) {
       t.error(error)
       t.fail()

@@ -89,11 +89,11 @@ const eventQueryBuilder = (query: Required<GetSearchResultRequestQuerystring>): 
     }
 
     if (query.priceRange === '10,000 and above') {
-      queryToReturn.having += 'min(event_seats.event_seat_price) <= 10000::int'
+      queryToReturn.having += 'max(event_seats.event_seat_price) >= 10000::int'
     } else {
-      queryToReturn.having += `min(event_seats.event_seat_price) <= $${templateCount}::int and `
+      queryToReturn.having += `min(event_seats.event_seat_price) >= $${templateCount}::int and `
       templateCount += 1
-      queryToReturn.having += `max(event_seats.event_seat_price) >= $${templateCount}::int `
+      queryToReturn.having += `max(event_seats.event_seat_price) <= $${templateCount}::int `
       templateCount += 1
 
       queryToReturn.values.push(...priceRangeList[query.priceRange])
@@ -224,7 +224,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           `select
             *
           from "users"
-          where array[user_username, user_social_medias, user_profile_description] &@ $1`,
+          where array[user_username, user_profile_description] &@ $1`,
           [q]
         )
 
