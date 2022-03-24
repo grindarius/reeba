@@ -26,32 +26,32 @@ interface QueryBuilder<T extends Array<unknown> = Array<unknown>> {
   values: T
 }
 
+const dateRangeList: Record<DateRange, Array<Date>> = {
+  'All dates': [],
+  'Today': [dayjs().startOf('day').toDate(), dayjs().endOf('day').toDate()],
+  'This week': [dayjs().startOf('week').toDate(), dayjs().endOf('week').toDate()],
+  'Next week': [dayjs().add(7, 'days').startOf('week').toDate(), dayjs().add(7, 'days').endOf('week').toDate()],
+  'This month': [dayjs().startOf('month').toDate(), dayjs().endOf('month').toDate()],
+  'Next month': [dayjs().add(1, 'month').startOf('month').toDate(), dayjs().add(1, 'month').endOf('month').toDate()]
+}
+
+const priceRangeList: Record<PriceRange, Array<number>> = {
+  'Any': [],
+  '< 300': [0, 300],
+  '< 600': [0, 600],
+  '< 1,200': [0, 1200],
+  '< 2,400': [0, 2400],
+  '< 4,800': [0, 4800],
+  '< 7,200': [0, 7200],
+  '< 10,000': [0, 10000],
+  '10,000 and above': []
+}
+
 const eventQueryBuilder = (query: Required<GetSearchResultRequestQuerystring>): QueryBuilder => {
   let templateCount = 1
   const queryToReturn: QueryBuilder = {
     where: '',
     values: []
-  }
-
-  const dateRangeList: Record<DateRange, Array<Date>> = {
-    'All dates': [],
-    'Today': [dayjs().startOf('day').toDate(), dayjs().endOf('day').toDate()],
-    'This week': [dayjs().startOf('week').toDate(), dayjs().endOf('week').toDate()],
-    'Next week': [dayjs().add(7, 'days').startOf('week').toDate(), dayjs().add(7, 'days').endOf('week').toDate()],
-    'This month': [dayjs().startOf('month').toDate(), dayjs().endOf('month').toDate()],
-    'Next month': [dayjs().add(1, 'month').startOf('month').toDate(), dayjs().add(1, 'month').endOf('month').toDate()]
-  }
-
-  const priceRangeList: Record<PriceRange, Array<number>> = {
-    'Any': [],
-    '< 300': [0, 300],
-    '< 600': [0, 600],
-    '< 1,200': [0, 1200],
-    '< 2,400': [0, 2400],
-    '< 4,800': [0, 4800],
-    '< 7,200': [0, 7200],
-    '< 10,000': [0, 10000],
-    '10,000 and above': []
   }
 
   let creatorTypeQuerystring = ''
