@@ -100,22 +100,22 @@
         </li>
         <hr class="my-3">
         <li class="menu-title">
+          Types
+        </li>
+        <li class="disabled">
+          <label :for="`search-query-type-${selector}`" class="label" v-for="(selector, i) of searchType" :key="`search-page-query-type-radio-${i}`">
+            <span class="label-text">{{ selector }}</span>
+            <input type="radio" :name="`search-query-type-${selector}`" class="radio radio-primary bg-base-300 hover:bg-primary" :value="selector" v-model="selectedSearchQueryType">
+          </label>
+        </li>
+        <hr class="my-3">
+        <li class="menu-title">
           Price range
         </li>
         <li class="disabled">
           <label :for="`search-radio-${selector}`" class="label" v-for="(selector, i) of priceRange" :key="`search-page-price-range-radio-${i}`">
             <span class="label-text">{{ selector }}</span>
             <input type="radio" :name="`search-radio-${selector}`" class="radio radio-primary bg-base-300 hover:bg-primary" :value="selector" v-model="selectedPriceRange">
-          </label>
-        </li>
-        <hr class="my-3">
-        <li class="menu-title">
-          Tags
-        </li>
-        <li class="disabled">
-          <label :for="`search-tags-${selector}`" class="label" v-for="(selector, i) of eventTags" :key="`search-page-tags-checkbox-${i}`">
-            <span class="label-text">{{ selector }}</span>
-            <input type="checkbox" :name="`search-tags-${selector}`" class="checkbox checkbox-primary bg-base-300 hover:bg-primary" :value="selector" v-model="selectedTags">
           </label>
         </li>
         <hr class="my-3">
@@ -130,12 +130,12 @@
         </li>
         <hr class="my-3">
         <li class="menu-title">
-          Types
+          Tags
         </li>
         <li class="disabled">
-          <label :for="`search-query-type-${selector}`" class="label" v-for="(selector, i) of searchType" :key="`search-page-query-type-radio-${i}`">
+          <label :for="`search-tags-${selector}`" class="label" v-for="(selector, i) of eventTags" :key="`search-page-tags-checkbox-${i}`">
             <span class="label-text">{{ selector }}</span>
-            <input type="radio" :name="`search-query-type-${selector}`" class="radio radio-primary bg-base-300 hover:bg-primary" :value="selector" v-model="selectedSearchQueryType">
+            <input type="checkbox" :name="`search-tags-${selector}`" class="checkbox checkbox-primary bg-base-300 hover:bg-primary" :value="selector" v-model="selectedTags">
           </label>
         </li>
       </ul>
