@@ -61,7 +61,6 @@ create table events (
 create index pgroonga_events_index on events using pgroonga (
   event_name pgroonga_text_full_text_search_ops_v2,
   user_username pgroonga_text_full_text_search_ops_v2,
-  event_description pgroonga_text_full_text_search_ops_v2,
   event_website pgroonga_text_full_text_search_ops_v2
 );
 
