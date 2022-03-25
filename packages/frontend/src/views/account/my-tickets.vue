@@ -19,7 +19,7 @@
           <h2>Thursday, 7 April 2022</h2>
           <div class="flex flex-col">
             <div class="flex justify-center">
-              <label for="transfer-ownership-modal" class="btn modal-button">Transfer Ownership</label>
+              <label for="transfer-ownership-modal" class="btn modal-button command-buttons">Transfer Ownership</label>
               <router-link to="/select-seat" class="command-buttons">
                 Change descriptions
               </router-link>
@@ -35,8 +35,21 @@
   <input type="checkbox" id="transfer-ownership-modal" class="modal-toggle">
   <label for="transfer-ownership-modal" class="cursor-pointer modal" style="background-color: #00000055;">
     <label class="relative modal-box" for="">
-      <h3 class="text-lg font-bold">Congratulations random Interner user!</h3>
-      <p class="py-4">You've been selected for a chance to get one year of subscription to use Wikipedia for free!</p>
+      <h3 class="text-lg font-bold">Enter Receipt Details</h3>
+      <div class="grid grid-cols-1 gap-6 mt-4 ">
+        <div>
+          <label class="text-header" for="Name">Name</label>
+          <input id="edit-user-settings-name-input" type="name" class="box-text">
+          <label class="text-header" for="Email">Email Address</label>
+          <input id="edit-user-settings-email-input" type="email" class="box-text">
+        </div>
+      </div>
+      <div>
+        <div class="modal-action">
+          <label for="my-modal-6" class="btn">Cancel</label>
+          <label for="my-modal-6" class="btn">Send</label>
+        </div>
+      </div>
     </label>
   </label>
 </template>
@@ -97,6 +110,14 @@ export default defineComponent({
 
 .command-buttons {
   @apply py-2 px-3 mr-1 text-xs font-bold text-white rounded-full bg-pale-gray hover:bg-gray-hover;
+}
+
+.box-text {
+  @apply block py-2 px-4 mt-auto mb-5 w-full text-gray-700 bg-white rounded-md border border-gray-300 dark:text-black dark:bg-gray-100 dark:border-gray-600 focus:border-blue-500 focus:ring focus:outline-none dark:focus:border-blue-500;
+}
+
+.text-header {
+  @apply text-base font-normal text-white;
 }
 
 </style>
