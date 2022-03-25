@@ -1,4 +1,5 @@
 <template>
+  <img class="float-none" src="@/assets/hero-logo.jpg">
   <div class="home-page">
     <metainfo>
       <template #title="{ content }">
