@@ -53,10 +53,10 @@
               Birthdate
             </span>
           </label>
-          <input type="datetime-local" placeholder="Type here" name="edit-user-birthdate" class="w-full text-black bg-white input" v-model="birthdate">
+          <input type="date" placeholder="Type here" name="edit-user-birthdate" class="w-full text-black bg-white input" v-model="birthdate">
         </div>
         <div class="flex justify-center mt-10">
-          <button class="button-save" type="button" @click="save">
+          <button class="button-save" type="button" @click="updateUserProfileData">
             Save
           </button>
         </div>
@@ -66,9 +66,11 @@
 </template>
 
 <script lang="ts">
+import dayjs from 'dayjs'
 import ky from 'ky'
 import { storeToRefs } from 'pinia'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 import { GetProfileDataReply, PatchProfileDataRequestBody } from '@reeba/common'
@@ -83,6 +85,8 @@ export default defineComponent({
     const authStore = useAuthStore()
     const { userData } = storeToRefs(authStore)
     const toast = useToast()
+    const router = useRouter()
+
     const {
       phoneCodesList,
       onPhoneCountryCodeClicked,
@@ -91,14 +95,14 @@ export default defineComponent({
       selectedPhoneCountryCode: phoneCountryCode
     } = usePhoneCodes()
 
-    const email: Ref<string | undefined> = ref(undefined)
+    const email: Ref<string> = ref('')
     const password = ref('')
     const confirmPassword = ref('')
     const birthdate: Ref<string> = ref('')
-    const phoneNumber: Ref<string | undefined> = ref(undefined)
+    const phoneNumber: Ref<string> = ref('')
 
-    const save = async (): Promise<void> => {
-      const saveProfileEdit: PatchProfileDataRequestBody = {
+    const updateUserProfileData = async (): Promise<void> => {
+      const editedData: PatchProfileDataRequestBody = {
         email: email.value ?? '',
         password: password.value,
         birthdate: birthdate.value ?? '',
@@ -107,23 +111,36 @@ export default defineComponent({
       }
 
       if (password.value !== confirmPassword.value) {
-        toast.error('Password Mistake')
+        toast.error('Password is not the same')
         return
       }
-      toast.success('Save Complete')
+
       const { method, url } = patchUserProfileData({ username: authStore.userData.username })
+
       try {
         await ky(url, {
           method,
           headers: {
             Authorization: `Bearer ${userData.value.token}`
           },
-          json: saveProfileEdit
+          json: editedData
         }).json<PatchProfileDataRequestBody>()
+
+        toast.success('Successfully updated!')
       } catch (error) {
-        console.log(error)
+        // @ts-expect-error error is unknown
+        const json = await error.response?.json()
+
+        if (json.status === 401) {
+          toast.error('Token expired')
+          router.push({ name: 'Login' })
+          return
+        }
+
+        toast.error('Unexpedted error occured')
       }
     }
+
     onMounted(async () => {
       const { method, url } = getUserProfileData({ username: authStore.userData.username })
 
@@ -135,7 +152,7 @@ export default defineComponent({
           }
         }).json<GetProfileDataReply>()
 
-        birthdate.value = response.birthdate
+        birthdate.value = dayjs(response.birthdate).format('YYYY-MM-DD')
         email.value = response.email
         phoneNumber.value = response.phoneNumber
         phoneCountryCode.value.phoneCode = response.phoneCountryCode
@@ -143,9 +160,10 @@ export default defineComponent({
         if (findCountryName(response.phoneCountryCode) == null) {
           phoneCountryCode.value = { name: '', phoneCode: '' }
         }
+
         phoneCountryCode.value.name = findCountryName(response.phoneCountryCode) ?? ''
       } catch (error) {
-        console.log(error)
+        toast.error('Unexpected error')
       }
     })
 
@@ -161,7 +179,7 @@ export default defineComponent({
       phoneCountryCode,
       onPhoneCountryCodeClicked,
       countryCodeString,
-      save
+      updateUserProfileData
     }
   }
 })
