@@ -38,10 +38,8 @@
       <h3 class="text-lg font-bold">Enter Receipt Details</h3>
       <div class="grid grid-cols-1 gap-6 mt-4 ">
         <div>
-          <label class="text-header" for="Name">Name</label>
-          <input id="edit-user-settings-name-input" type="name" class="box-text">
-          <label class="text-header" for="Email">Email Address</label>
-          <input id="edit-user-settings-email-input" type="email" class="box-text">
+          <label class="text-header" for="Name">username</label>
+          <input id="edit-user-settings-username-input" type="username" class="box-text">
         </div>
       </div>
       <div>
