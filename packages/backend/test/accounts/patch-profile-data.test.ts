@@ -233,7 +233,197 @@ void t.test('patch profile data', async t => {
     }
   })
 
-  const newBirthdate = dayjs().subtract(30, 'years').toDate()
+  const newBirthdate = dayjs().subtract(30, 'years').format('YYYY-MM-DD')
+
+  void t.test('sending empty string should not change value', async t => {
+    try {
+      const response = await app.inject({
+        method: 'patch',
+        url: '/accounts/patchprofiledataguy/profile-data',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        payload: {
+          email: '',
+          password: '',
+          phoneCountryCode: '',
+          phoneNumber: '',
+          birthdate: ''
+        }
+      })
+
+      const newUserData = await client.query<users>(
+        'select * from "users" where user_username = $1',
+        ['patchprofiledataguy']
+      )
+
+      const isSamePassword = await bcrypt.compare('asdfghjkl123', newUserData.rows[0].user_password)
+
+      t.strictSame(response.json(), { message: 'complete' })
+      t.strictSame(newUserData.rows[0].user_email, 'patchprofiledataguy@gmail.com')
+      t.ok(isSamePassword)
+      t.strictSame(newUserData.rows[0].user_phone_country_code, '66')
+      t.strictSame(newUserData.rows[0].user_phone_number, '4589403342')
+      t.throws(() => {
+        dayjs(newUserData.rows[0].user_birthdate).toISOString()
+      })
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('changing email', async t => {
+    try {
+      const response = await app.inject({
+        method: 'patch',
+        url: '/accounts/patchprofiledataguy/profile-data',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        payload: {
+          email: 'patchprofiledataguy2@gmail.com',
+          password: '',
+          phoneCountryCode: '',
+          phoneNumber: '',
+          birthdate: ''
+        }
+      })
+
+      const newUserData = await client.query<users>(
+        'select * from "users" where user_username = $1',
+        ['patchprofiledataguy']
+      )
+
+      const isSamePassword = await bcrypt.compare('asdfghjkl123', newUserData.rows[0].user_password)
+
+      t.strictSame(response.json(), { message: 'complete' })
+      t.strictSame(newUserData.rows[0].user_email, 'patchprofiledataguy2@gmail.com')
+      t.ok(isSamePassword)
+      t.strictSame(newUserData.rows[0].user_phone_country_code, '66')
+      t.strictSame(newUserData.rows[0].user_phone_number, '4589403342')
+      t.throws(() => {
+        dayjs(newUserData.rows[0].user_birthdate).toISOString()
+      })
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('changing phone country code', async t => {
+    try {
+      const response = await app.inject({
+        method: 'patch',
+        url: '/accounts/patchprofiledataguy/profile-data',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        payload: {
+          email: '',
+          password: '',
+          phoneCountryCode: '44',
+          phoneNumber: '',
+          birthdate: ''
+        }
+      })
+
+      const newUserData = await client.query<users>(
+        'select * from "users" where user_username = $1',
+        ['patchprofiledataguy']
+      )
+
+      const isSamePassword = await bcrypt.compare('asdfghjkl123', newUserData.rows[0].user_password)
+
+      t.strictSame(response.json(), { message: 'complete' })
+      t.strictSame(newUserData.rows[0].user_email, 'patchprofiledataguy2@gmail.com')
+      t.ok(isSamePassword)
+      t.strictSame(newUserData.rows[0].user_phone_country_code, '44')
+      t.strictSame(newUserData.rows[0].user_phone_number, '4589403342')
+      t.throws(() => {
+        dayjs(newUserData.rows[0].user_birthdate).toISOString()
+      })
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  void t.test('changing phone number', async t => {
+    try {
+      const response = await app.inject({
+        method: 'patch',
+        url: '/accounts/patchprofiledataguy/profile-data',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        payload: {
+          email: '',
+          password: '',
+          phoneCountryCode: '',
+          phoneNumber: '949504939',
+          birthdate: ''
+        }
+      })
+
+      const newUserData = await client.query<users>(
+        'select * from "users" where user_username = $1',
+        ['patchprofiledataguy']
+      )
+
+      const isSamePassword = await bcrypt.compare('asdfghjkl123', newUserData.rows[0].user_password)
+
+      t.strictSame(response.json(), { message: 'complete' })
+      t.strictSame(newUserData.rows[0].user_email, 'patchprofiledataguy2@gmail.com')
+      t.ok(isSamePassword)
+      t.strictSame(newUserData.rows[0].user_phone_country_code, '44')
+      t.strictSame(newUserData.rows[0].user_phone_number, '949504939')
+      t.throws(() => {
+        dayjs(newUserData.rows[0].user_birthdate).toISOString()
+      })
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+  void t.test('changing birthdate', async t => {
+    try {
+      const response = await app.inject({
+        method: 'patch',
+        url: '/accounts/patchprofiledataguy/profile-data',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        payload: {
+          email: '',
+          password: '',
+          phoneCountryCode: '',
+          phoneNumber: '949504939',
+          birthdate: dayjs(newBirthdate).toISOString()
+        }
+      })
+
+      const newUserData = await client.query<users>(
+        'select * from "users" where user_username = $1',
+        ['patchprofiledataguy']
+      )
+
+      const isSamePassword = await bcrypt.compare('asdfghjkl123', newUserData.rows[0].user_password)
+
+      t.strictSame(response.json(), { message: 'complete' })
+      t.strictSame(newUserData.rows[0].user_email, 'patchprofiledataguy2@gmail.com')
+      t.ok(isSamePassword)
+      t.strictSame(newUserData.rows[0].user_phone_country_code, '44')
+      t.strictSame(newUserData.rows[0].user_phone_number, '949504939')
+      t.doesNotThrow(() => {
+        dayjs(newUserData.rows[0].user_birthdate).toISOString()
+      })
+      t.strictSame(dayjs(newUserData.rows[0].user_birthdate).format('YYYY-MM-DD'), dayjs(newBirthdate).format('YYYY-MM-DD'))
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
 
   void t.test('changing things except password', async t => {
     try {
@@ -248,7 +438,7 @@ void t.test('patch profile data', async t => {
           password: 'asdfghjkl123',
           phoneCountryCode: '55',
           phoneNumber: '968483948',
-          birthdate: newBirthdate.toISOString()
+          birthdate: dayjs(newBirthdate).toISOString()
         }
       })
 
