@@ -26,10 +26,10 @@ create table users (
 
 create table user_followers (
   follow_id text not null unique,
-  following_user_id text not null,
-  followed_user_id text not null,
+  following_username text not null,
+  followed_username text not null,
   primary key (follow_id),
-  foreign key (following_user_id) references users(user_username) on delete cascade
+  foreign key (following_username) references users(user_username) on delete cascade
 );
 
 create table events (
