@@ -20,20 +20,19 @@
               v-model="eventName">
           </div>
 
-          <div class="bg-gray-300 col-span-4">
-            <button class="px-3 py-2 text-sm text-blue-100 bg-pale-yellow rounded" @click="isWrite = true">
+          <div class="bg-amber-200 col-span-4">
+            <button class="px-3 py-2 text-sm text-pale-gray hover:bg-pale-yellow bg-amber-200" @click="isWrite = true">
               Write
             </button>
-            <button class="px-3 py-2 text-sm text-blue-100 bg-pale-yellow rounded" @click="isWrite = false">
+            <button class="px-3 py-2 text-sm text-pale-gray hover:bg-pale-yellow bg-amber-200" @click="isWrite = false">
               Preview
             </button>
+            <!-- <div class="grid grid-cols-1"> -->
+            <button @click="openMarkdownRef('https://markdown-it.github.io/')" class="self-center place-self-end">
+              <v-mdi name="mdi-information-outline" fill="#D5A755" class="self-center place-self-end" />
+            </button>
+            <!-- </div> -->
             <div class="input-box" v-if="isWrite">
-              <div class="grid grid-cols-2">
-                <label for="event-description-box" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Description</label>
-                <button @click="openMarkdownRef('https://markdown-it.github.io/')" class="self-center place-self-end">
-                  <v-mdi name="mdi-information-outline" fill="#D5A755" class="self-center place-self-end" />
-                </button>
-              </div>
               <span
                 class="overflow-x-auto font-mono textarea" id="description"
                 role="textbox" contenteditable="true"
@@ -806,8 +805,8 @@ export default defineComponent({
         return
       }
 
-      const firstElement = clone(eventTicketPrices.value[0])
-      const lastElement = clone(eventTicketPrices.value[eventTicketPrices.value.length - 1])
+      const firstElement = eventTicketPrices.value[0]
+      const lastElement = eventTicketPrices.value[eventTicketPrices.value.length - 1]
 
       seatTemplate.value = seatTemplate.value.map((u) => {
         return u.map(v => {
@@ -897,7 +896,7 @@ export default defineComponent({
     watch(seatTemplate, (newInitialZone) => {
       for (let i = 0; i < eventSections.value.length; i++) {
         for (let j = 0; j < eventSections.value[i].length; j++) {
-          eventSections.value[i][j].seats = clone(newInitialZone)
+          eventSections.value[i][j].seats = newInitialZone
         }
       }
     }, { deep: true })
