@@ -14,7 +14,7 @@
             <h3>Seat</h3>
             <h2>{{ e.section.name }}</h2>
             <h3>Prices</h3>
-            <h2>{{ e.totalPrice }} THB</h2>
+            <h2>{{ format(',')(e.totalPrice) }} THB</h2>
             <h3>Show date</h3>
             <h2 class="mb-2">
               {{ formatTimeString(e.time.start) }}
@@ -51,6 +51,7 @@
 </template>
 
 <script lang="ts">
+import { format } from 'd3'
 import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
 
@@ -85,7 +86,8 @@ export default defineComponent({
       life,
       getEventImage,
       eventsList,
-      formatTimeString
+      formatTimeString,
+      format
     }
   }
 })
