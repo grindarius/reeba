@@ -64,7 +64,7 @@
             <span class="text-4xl text-white">{{ $route.params.username }} hasn't gone to any events.</span>
           </div>
           <div v-else class="event-grid-box">
-            <div class="event" v-for="({username: attendedUsername, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.attended ?? [])" :key="`user-page-attended-event-${i}`">
+            <div class="event" v-for="({ username: attendedUsername, id: eventId, name: eventName, venueName }, i) in (relatedEvents?.attended ?? [])" :key="`user-page-attended-event-${i}`">
               <router-link :to="{ name: 'Event', params: { attendedUsername, eventId }}">
                 <div class="event-image-box">
                   <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
@@ -91,7 +91,7 @@
             <span class="text-4xl text-white">{{ $route.params.username }} hasn't created any events.</span>
           </div>
           <div v-else class="event-grid-box">
-            <div class="event" v-for="({username: createdUsername, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.created ?? [])" :key="`user-page-created-event-${i}`">
+            <div class="event" v-for="({ username: createdUsername, id: eventId, name: eventName, venueName }, i) in (relatedEvents?.created ?? [])" :key="`user-page-created-event-${i}`">
               <router-link :to="{ name: 'Event', params: { createdUsername, eventId }}" :key="$route.path">
                 <div class="event-image-box">
                   <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">

@@ -72,6 +72,20 @@ export const getUserRelatedEvents: EndpointFunc<{ username: string }> = ({ usern
   }
 }
 
+export const getUserProfileData: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/profile-data`,
+    method: 'get'
+  }
+}
+
+export const patchUserProfileData: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/profile-data`,
+    method: 'patch'
+  }
+}
+
 export const getSearchResult: Endpoint = {
   url: url + '/search',
   method: 'get'
