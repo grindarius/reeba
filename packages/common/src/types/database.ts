@@ -193,6 +193,14 @@ export interface events {
    */
   event_ticket_prices: Record<string, number>
   /**
+   * cheapest ticket price from the object
+   */
+  event_min_ticket_price: number
+  /**
+   * Most expensive ticket price from the object
+   */
+  event_max_ticket_price: number
+  /**
    * Minimum age of a user, cannot be null, cannot be less than 0, default is 0
    */
   event_minimum_age: number

@@ -53,6 +53,8 @@ create table events (
   event_opening_date timestamptz not null,
   event_status t_event_status not null default 'closed',
   event_ticket_prices jsonb not null default '{}'::jsonb,
+  event_min_ticket_price int not null,
+  event_max_ticket_price int not null,
   event_minimum_age integer not null default 0,
   primary key (event_id),
   foreign key (user_username) references users(user_username) on delete cascade
