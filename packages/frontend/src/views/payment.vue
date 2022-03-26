@@ -102,7 +102,7 @@
                 THB {{ [...transactionStore.transactionStore.section.seats.values()].reduce((prev, curr) => prev + curr.price,0) + 45 }}
               </h1>
             </div>
-            <div class="mt-5 agree-check text-black">
+            <div class="mt-5 text-black agree-check">
               <input type="checkbox" id="scales" name="scales" unchecked>
               <label for="scales">
                 By checking out, I agree to <a href="#" class="font-bold underline text-pale-yellow">ReebA's Terms of Service</a>
@@ -236,7 +236,7 @@ export default defineComponent({
 }
 
 .checkout-button {
-  @apply flex justify-center items-center mt-6 h-12 w-full font-sans text-2xl text-white rounded-full bg-pale-yellow hover:bg-yellow-hover;
+  @apply flex justify-center items-center mt-6 w-full h-12 font-sans text-2xl text-white rounded-full bg-pale-yellow hover:bg-yellow-hover;
 }
 
 #card-number-input, #card-name-input, #card-expiration-date-input, #card-cvc-input {
