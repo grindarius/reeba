@@ -35,7 +35,7 @@
   <input type="checkbox" id="transfer-ownership-modal" class="modal-toggle">
   <label for="transfer-ownership-modal" class="cursor-pointer modal" style="background-color: #00000055;">
     <label class="relative modal-box" for="">
-      <h3 class="text-lg font-bold">Enter Recipient To Transfer</h3>
+      <h3 class="text-lg font-bold">Enter Recipient Username To Transfer</h3>
       <div class="grid grid-cols-1 gap-6 mt-4 ">
         <div>
           <label class="text-header" for="Name">username</label>
