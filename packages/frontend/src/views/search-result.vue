@@ -33,11 +33,11 @@
                       </div>
                     </div>
                     <p class="pt-3 pb-1">
-                      {{ getTimeString(result.firstStartDatetime) }} - {{ getTimeString(result.lastStartDatetime) }}
+                      {{ formatTimeString(result.firstStartDatetime) }} - {{ formatTimeString(result.lastStartDatetime) }}
                     </p>
                     <p>
                       <v-mdi name="mdi-alarm" fill="#D5A755" />
-                      {{ getTimeString(result.openingDate) }}
+                      {{ formatTimeString(result.openingDate) }}
                     </p>
                     <p class="py-2 text-primary">
                       <v-mdi name="mdi-map-marker-account" fill="#D5A755" />
@@ -144,7 +144,6 @@
 </template>
 
 <script lang="ts">
-import dayjs from 'dayjs'
 import ky from 'ky'
 import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue'
 import { useMeta } from 'vue-meta'
@@ -165,6 +164,7 @@ import {
 } from '@reeba/common'
 
 import { getSearchResult as getSearchResultEndpoint, getUserAvatar } from '@/api/endpoints'
+import { formatTimeString } from '@/utils'
 
 export default defineComponent({
   name: 'search',
@@ -290,10 +290,6 @@ export default defineComponent({
       })
     })
 
-    const getTimeString = (dateTime: string): string => {
-      return dayjs(dateTime).format('MMMM D, YYYY HH:mm')
-    }
-
     const getPreviousButtonClassName = computed(() => {
       return selectedPage.value - 1 === 0 ? 'btn btn-outline btn-disabled' : 'btn btn-outline'
     })
@@ -335,7 +331,7 @@ export default defineComponent({
       searchType,
       eventTags,
       searchResultResponse,
-      getTimeString,
+      formatTimeString,
       goToNextPage,
       goToPreviousPage,
       getPreviousButtonClassName
