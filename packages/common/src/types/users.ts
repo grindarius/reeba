@@ -13,16 +13,19 @@ export const GetUserParamsSchema = Type.Object({
 })
 export type GetUserParams = Static<typeof GetUserParamsSchema>
 
+export const UserSocialMediaSchema = Type.Object({
+  facebook: Type.String(),
+  instagram: Type.String(),
+  twitter: Type.String(),
+  tiktok: Type.String(),
+  email: Type.String(),
+  website: Type.String()
+})
+export type UserSocialMedia = Static<typeof UserSocialMediaSchema>
+
 export const GetUserReplySchema = Type.Object({
   username: Type.String(),
-  socialMedias: Type.Object({
-    facebook: Type.String(),
-    instagram: Type.String(),
-    twitter: Type.String(),
-    tiktok: Type.String(),
-    email: Type.String(),
-    website: Type.String()
-  }),
+  socialMedias: UserSocialMediaSchema,
   verificationStatus: Type.Boolean(),
   profileDescription: Type.String(),
   followersAmount: Type.Number()

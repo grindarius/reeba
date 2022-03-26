@@ -6,6 +6,7 @@ import avatarRoute from './avatars'
 import eventImagesRoute from './event-images'
 import eventsRoute from './events'
 import followingsRoute from './followings'
+import searchRoute from './search'
 import transactionsRoute from './transactions'
 import usersRoute from './users'
 
@@ -23,6 +24,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   void instance.register(eventImagesRoute, { prefix: '/event-images' })
   void instance.register(eventsRoute, { prefix: '/events' })
   void instance.register(followingsRoute, { prefix: '/followings' })
+  void instance.register(searchRoute, { prefix: '/search' })
   void instance.register(transactionsRoute, { prefix: '/transactions' })
   void instance.register(usersRoute, { prefix: '/users' })
 }
