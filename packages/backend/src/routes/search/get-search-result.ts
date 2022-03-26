@@ -20,6 +20,8 @@ const schema: FastifySchema = {
   }
 }
 
+const PAGE_SIZE = 10
+
 interface QueryBuilder<T extends Array<unknown> = Array<unknown>> {
   where: string
   having: string
@@ -65,6 +67,19 @@ const eventQueryBuilder = (query: Required<GetSearchResultRequestQuerystring>): 
     queryToReturn.values.push(...query.tags.map(q => normalizeTag(q)))
   }
 
+  if (query.priceRange !== 'Any') {
+    if (query.priceRange === '10,000 and above') {
+      queryToReturn.where += 'event_max_ticket_price >= 10000::int and '
+    } else {
+      queryToReturn.where += `event_min_ticket_price >= $${templateCount}::int and `
+      templateCount += 1
+      queryToReturn.where += `event_max_ticket_price <= $${templateCount}::int and `
+      templateCount += 1
+
+      queryToReturn.values.push(...priceRangeList[query.priceRange])
+    }
+  }
+
   queryToReturn.where += 'array[events.event_name, events.user_username, events.event_website] &@ $' + templateCount.toString()
   templateCount += 1
   queryToReturn.values.push(query.q)
@@ -79,25 +94,6 @@ const eventQueryBuilder = (query: Required<GetSearchResultRequestQuerystring>): 
     queryToReturn.having += `max(event_datetimes.event_start_datetime) <= $${templateCount} `
     queryToReturn.values.push(...dateRangeList[query.dateRange])
     templateCount += 1
-  }
-
-  if (query.priceRange !== 'Any') {
-    if (!queryToReturn.having.includes('having')) {
-      queryToReturn.having += 'having '
-    } else {
-      queryToReturn.having += ' and '
-    }
-
-    if (query.priceRange === '10,000 and above') {
-      queryToReturn.having += 'max(event_seats.event_seat_price) >= 10000::int'
-    } else {
-      queryToReturn.having += `min(event_seats.event_seat_price) >= $${templateCount}::int and `
-      templateCount += 1
-      queryToReturn.having += `max(event_seats.event_seat_price) <= $${templateCount}::int `
-      templateCount += 1
-
-      queryToReturn.values.push(...priceRangeList[query.priceRange])
-    }
   }
 
   return queryToReturn
@@ -182,25 +178,23 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       const { where, having, values } = eventQueryBuilder(request.query as Required<GetSearchResultRequestQuerystring>)
 
+      console.log(where, having, values)
+
       if (type === 'Events') {
         const searchedResult = await instance.pg.query<SearchedEventResult>(
           `select
             events.*,
             min(event_datetimes.event_start_datetime) as first_start_datetime,
             max(event_datetimes.event_start_datetime) as last_start_datetime,
-            min(event_seats.event_seat_price) as min_seat_price,
-            max(event_seats.event_seat_price) as max_seat_price,
             users.user_verification_status
-          from "event_seats"
-          inner join "event_sections" on event_seats.event_section_id = event_sections.event_section_id
-          inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
+          from "event_datetimes"
           inner join "events" on event_datetimes.event_id = events.event_id
           inner join "event_tags_bridge" on events.event_id = event_tags_bridge.event_id
           inner join "users" on events.user_username = users.user_username
           where ${where}
           group by events.event_id, users.user_verification_status
           ${having}
-          limit 10 offset ${(page * 10) - 10}`,
+          limit ${PAGE_SIZE} offset ${(page * PAGE_SIZE) - PAGE_SIZE}`,
           values
         )
 
@@ -231,7 +225,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             *
           from "users"
           where array[user_username, user_profile_description] &@ $1
-          limit 10 offset ${(page * 10) - 10}`,
+          limit ${PAGE_SIZE} offset ${(page * PAGE_SIZE) - PAGE_SIZE}`,
           [q]
         )
 
