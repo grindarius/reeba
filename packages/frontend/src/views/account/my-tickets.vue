@@ -1,4 +1,9 @@
 <template>
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
   <div class="my-tickets-page">
     <h2 class="page-header">
       My tickets
@@ -52,25 +57,28 @@
 
 <script lang="ts">
 import { format } from 'd3'
+import dayjs from 'dayjs'
 import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { useMeta } from 'vue-meta'
 
 import { GetMyTicketsReply } from '@reeba/common'
 
 import { getEventImage, getMyTickets } from '@/api/endpoints'
-import { useCounter } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
 import { formatTimeString } from '@/utils'
 
 export default defineComponent({
   name: 'my-tickets',
   setup () {
-    const { life } = useCounter()
     const store = useAuthStore()
     const eventsList:Ref<GetMyTicketsReply> = ref({ events: [] })
 
+    useMeta({
+      title: 'My tickets'
+    })
+
     onMounted(async () => {
-      console.log(life.value)
       const { method, url } = getMyTickets({ username: store.userData.username })
 
       const response = await ky(url, {
@@ -79,11 +87,10 @@ export default defineComponent({
           Authorization: `Bearer ${store.userData.token}`
         }
       }).json<GetMyTicketsReply>()
-      eventsList.value.events = response.events ?? []
+      eventsList.value.events = (response.events ?? []).sort((a, b) => dayjs(b.time.start).diff(a.time.start))
     })
 
     return {
-      life,
       getEventImage,
       eventsList,
       formatTimeString,
