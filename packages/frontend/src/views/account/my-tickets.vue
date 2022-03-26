@@ -10,9 +10,9 @@
     </h2>
     <section class="mt-8">
       <div class="hero" v-for="e in eventsList.events" :key="`my-ticket-event-list-${e.id}`">
-        <div class="hero-content flex-col lg:flex-row">
+        <div class="flex-col lg:flex-row hero-content">
           <div class="content-box-setting-image">
-            <img class="content-box-picture rounded-lg shadow-2xl" :src="`${getEventImage({ eventId: e.id}).url}`">
+            <img class="rounded-lg shadow-2xl content-box-picture" :src="`${getEventImage({ eventId: e.id}).url}`">
           </div>
           <div class="content-box-textbox">
             <h1>{{ e.name }}</h1>
@@ -25,9 +25,9 @@
               {{ formatTimeString(e.time.start) }}
             </h2>
 
-            <div class="flex flex-col lg:flex-row space-y-1 space-x-0 lg:space-y-0 lg:space-x-1">
+            <div class="flex flex-col space-y-1 space-x-0 lg:flex-row lg:space-y-0 lg:space-x-1">
               <button class="btn">
-                <label for="transfer-ownership-modal" class="modal-button rounded-r-none">Transfer Ownership</label>
+                <label for="transfer-ownership-modal" class="rounded-r-none modal-button">Transfer Ownership</label>
               </button>
               <router-link to="/select-seat" custom v-slot="{ navigate }">
                 <button class="btn" @click="navigate">
@@ -125,7 +125,7 @@ export default defineComponent({
   }
 
   & h3 {
-    @apply text-base font-bold text-white ;
+    @apply text-base font-bold text-white;
   }
 }
 

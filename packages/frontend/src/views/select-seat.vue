@@ -42,15 +42,19 @@
               <p class="seats-rows-text">
                 {{ alphabet[row - 1] }}
               </p>
-              <button
-                class="price-color"
-                @click="changeSeat(row, column)"
-                :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}"
+              <label
+                class="seats-label"
                 v-for="column in 15"
                 :key="column">
-                <div class="blank-space" v-if="alphabet[row - 1] + column !== userSelectedSeatNumber" />
-                <v-mdi v-else name="mdi-check" size="24" fill="black" />
-              </button>
+                <input
+                  :disabled="disabledOtherRow(row)||isSeatTaken(row, column)" type="checkbox"
+                  @change="seatSelected($event, row)"
+                  class="seats-checkbox" :value="alphabet[row - 1] + column"
+                  v-model="checkedSeat"
+                  :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}">
+                <v-mdi v-if="isSeatChecked(row, column)" class="absolute cursor-pointer" name="mdi-check" size="24" fill="black" />
+                <v-mdi v-else-if="isSeatTaken(row, column)" class="absolute cursor-not-allowed" name="mdi-close" size="24" fill="black" />
+              </label>
             </div>
           </div>
           <div class="seats-details">
@@ -90,7 +94,7 @@
                     Seat
                   </td>
                   <td class="right-table">
-                    {{ userSelectedSeatNumber }}
+                    {{ checkedSeat.join(', ') }}
                   </td>
                 </tr>
               </tbody>
@@ -108,7 +112,7 @@
 <script lang="ts">
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, Ref, ref } from 'vue'
 
 import { alphabet, zoneData } from '@/constants'
 
@@ -118,35 +122,67 @@ export default defineComponent({
   name: 'select-seat',
   setup () {
     const userSelectedZone = ref(0)
-    const userSelectedSeatNumber = ref('')
     const ticketPrice = ref(0)
+    const checkedSeat: Ref<Array<string>> = ref([])
+    const selectedRow = ref('')
 
     const changeZone = (id: number): void => {
       if (userSelectedZone.value !== id) {
         userSelectedZone.value = id
-        userSelectedSeatNumber.value = ''
+        checkedSeat.value = []
         ticketPrice.value = 0
+        selectedRow.value = ''
       }
-    }
-
-    const changeSeat = (row: number, column: number): void => {
-      userSelectedSeatNumber.value = alphabet[row - 1] + column
-      ticketPrice.value = zoneData[userSelectedZone.value - 1].ticketPrices[row - 1]
     }
 
     const getTimeString = computed((): string => {
       return dayjs().format('LLLL')
     })
 
+    const seatSelected = (e: Event, row: number): void => {
+      const target = e.target as HTMLInputElement
+      if (selectedRow.value === '') {
+        selectedRow.value = alphabet[row - 1]
+      }
+      if (target.checked) {
+        ticketPrice.value += zoneData[userSelectedZone.value - 1].ticketPrices[row - 1]
+        checkedSeat.value = checkedSeat.value.map(s => s.slice(1)).map(i => Number(i)).sort((n1, n2) => n1 - n2).map(i => selectedRow.value + i)
+      } else {
+        ticketPrice.value -= zoneData[userSelectedZone.value - 1].ticketPrices[row - 1]
+        if (!checkedSeat.value.length) {
+          selectedRow.value = ''
+        }
+      }
+    }
+
+    const isSeatChecked = (row: number, column: number): boolean => {
+      return checkedSeat.value.some((x:string) => x === alphabet[row - 1] + column)
+    }
+
+    const disabledOtherRow = (row:number): boolean => {
+      if (selectedRow.value !== '') {
+        return selectedRow.value !== alphabet[row - 1]
+      } else {
+        return false
+      }
+    }
+
+    const isSeatTaken = (row: number, column: number): boolean => {
+      return ['A9', 'B2', 'C5', 'D6', 'F2', 'A6', 'B10', 'C1', 'D12', 'F3'].some((x:string) => x === alphabet[row - 1] + column)
+    }
+
     return {
       zoneData,
       userSelectedZone,
       changeZone,
-      changeSeat,
       alphabet,
-      userSelectedSeatNumber,
       ticketPrice,
-      getTimeString
+      getTimeString,
+      checkedSeat,
+      seatSelected,
+      isSeatChecked,
+      disabledOtherRow,
+      isSeatTaken
     }
   }
 })
@@ -166,11 +202,11 @@ export default defineComponent({
 }
 
 .button {
-  @apply py-2 px-4 w-24 h-24 font-bold text-white rounded hover:ring focus:outline-none bg-pale-yellow active:bg-gray-hover;
+  @apply py-2 px-4 w-24 h-24 font-bold rounded focus:outline-none disabled:cursor-not-allowed bg-pale-yellow active:bg-gray-hover disabled:bg-red-disabled;
 }
 
 .button-active {
-  @apply py-2 px-4 w-24 h-24 font-bold text-white rounded bg-yellow-hover;
+  @apply py-2 px-4 w-24 h-24 font-bold rounded bg-yellow-hover;
 }
 
 .zone {
@@ -202,8 +238,8 @@ export default defineComponent({
   @apply py-4 px-4 rounded-full;
 }
 
-.price-color {
-  @apply flex place-self-center rounded-full;
+.seats-checkbox {
+  @apply flex place-self-center w-6 h-6 rounded-full appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
 }
 
 .zone-detail {
@@ -242,23 +278,23 @@ export default defineComponent({
   @apply place-self-center px-1 text-lg text-white;
 }
 
-.blank-space {
-  @apply py-3 px-3 rounded-full hover:ring;
-}
-
 .left-table {
-  @apply px-3 font-semibold;
+  @apply px-3 font-semibold text-black;
 }
 
 .right-table {
-  @apply px-3 font-medium text-right;
+  @apply px-3 font-medium text-right text-black;
 }
 
 .submit-button-active {
-  @apply py-2 px-5 w-4/5 text-xl font-semibold text-center uppercase rounded-b-lg bg-pale-yellow hover:bg-yellow-hover;
+  @apply py-2 px-5 w-4/5 text-xl font-semibold text-center text-black uppercase rounded-b-lg bg-pale-yellow hover:bg-yellow-hover;
 }
 
 .submit-button-disable {
   @apply py-2 px-5 w-4/5 text-xl font-semibold text-center text-white uppercase rounded-b-lg pointer-events-none bg-red-disabled;
+}
+
+.seats-label{
+  @apply flex relative flex-col justify-center items-center;
 }
 </style>

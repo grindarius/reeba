@@ -10,6 +10,7 @@ import {
   mdiCalendarBlank,
   mdiCheck,
   mdiCheckDecagram,
+  mdiClose,
   mdiCreditCard,
   mdiCurrencyUsd,
   mdiDelete,
@@ -58,7 +59,8 @@ VueMdi.add({
   mdiEmailPlus,
   mdiMenuOpen,
   mdiDeleteSweep,
-  mdiTicketOutline
+  mdiTicketOutline,
+  mdiClose
 })
 
 const options: ToastOptions = {
