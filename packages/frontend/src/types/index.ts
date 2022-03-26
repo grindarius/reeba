@@ -44,3 +44,25 @@ export interface ReebAEvent {
   datetimes: Array<ReebAEventDatetime>
   sections: Array<Array<ReebAEventSection>>
 }
+
+export interface TransactionStoreSection {
+  id: string
+  rowPosition: number
+  columnPosition: number
+  seats: Map<string, TransactionStoreSeat>
+}
+
+export type TransactionStoreSeat = Omit<TransactionStoreSection, 'id' | 'seats'> & {
+  price: number
+}
+
+export interface TransactionStore {
+  eventId: string
+  datetimeId: string
+  section: TransactionStoreSection
+}
+
+export interface CountryCode {
+  name: string
+  phoneCode: string
+}

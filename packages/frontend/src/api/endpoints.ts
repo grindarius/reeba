@@ -5,6 +5,8 @@ interface Endpoint {
   method: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'head'
 }
 
+export type EndpointFunc<T extends object> = (args: T) => Endpoint
+
 export const postAvatar: Endpoint = {
   url: url + '/avatars',
   method: 'post'
@@ -25,19 +27,25 @@ export const signup: Endpoint = {
   method: 'post'
 }
 
-export const getUserAvatar: Endpoint = {
-  url: url + '/avatars',
-  method: 'get'
+export const getUserAvatar: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/avatars/${username}`,
+    method: 'get'
+  }
 }
 
-export const getEventImage: Endpoint = {
-  url: url + '/event-images',
-  method: 'get'
+export const getEventImage: EndpointFunc<{ eventId: string }> = ({ eventId }): Endpoint => {
+  return {
+    url: `${url}/event-images/${eventId}`,
+    method: 'get'
+  }
 }
 
-export const getIndividualEvent: Endpoint = {
-  url: url + '/events',
-  method: 'get'
+export const getIndividualEvent: EndpointFunc<{ eventId: string }> = ({ eventId }): Endpoint => {
+  return {
+    url: `${url}/events/${eventId}`,
+    method: 'get'
+  }
 }
 
 export const postEvent: Endpoint = {
@@ -50,12 +58,47 @@ export const postEventImage: Endpoint = {
   method: 'post'
 }
 
-export const getUser: Endpoint = {
-  url: url + '/users',
+export const getUser: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/users/${username}`,
+    method: 'get'
+  }
+}
+
+export const getUserRelatedEvents: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/users/${username}/events`,
+    method: 'get'
+  }
+}
+
+export const getUserProfileData: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/profile-data`,
+    method: 'get'
+  }
+}
+
+export const patchUserProfileData: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/profile-data`,
+    method: 'patch'
+  }
+}
+
+export const getSearchResult: Endpoint = {
+  url: url + '/search',
   method: 'get'
 }
 
-export const getUserRelatedEvents: Endpoint = {
-  url: url + '/users',
-  method: 'get'
+export const postTransaction: Endpoint = {
+  url: url + '/transactions',
+  method: 'post'
+}
+
+export const getMyTickets: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/tickets`,
+    method: 'get'
+  }
 }

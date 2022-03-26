@@ -21,6 +21,7 @@ console.log(chalk.green('deleting data in tables'));
   await client.connect()
 
   console.log(chalk.green('deleting transactions'))
+  await client.query('delete from transaction_details')
   await client.query('delete from transactions')
   console.log(chalk.green('deleting users'))
   await client.query('delete from users')
@@ -28,8 +29,30 @@ console.log(chalk.green('deleting data in tables'));
   await client.query('delete from user_followers')
   console.log(chalk.green('deleting events'))
   await client.query('delete from events')
+  console.log(chalk.green('deleting event tags'))
+  await client.query('delete from event_tags_bridge')
+  await client.query('delete from event_tags')
 
   console.log(chalk.green('successfully removes data from the db'))
+  const usersCount = await client.query('select count(*) as users_count from "users"')
+  const eventsCount = await client.query('select count(*) as events_count from "events"')
+  const eventDatetimesCount = await client.query('select count(*) as event_datetimes_count from "event_datetimes"')
+  const eventSectionsCount = await client.query('select count(*) as event_sections_count from "event_sections"')
+  const eventSeatsCount = await client.query('select count(*) as event_seats_count from "event_seats"')
+  const transactionsCount = await client.query('select count(*) as transactions_count from "transactions"')
+  const transactionDetailsCount = await client.query('select count(*) as transaction_details_count from "transaction_details"')
+  const eventTagsCount = await client.query('select count(*) as event_tags_count from "event_tags"')
+  const eventTagsBridgeCount = await client.query('select count(*) as event_tags_bridge_count from "event_tags_bridge"')
+
+  console.log(chalk.green('users_count'), usersCount.rows[0].users_count)
+  console.log(chalk.green('events_count'), eventsCount.rows[0].events_count)
+  console.log(chalk.green('event_datetimes_count'), eventDatetimesCount.rows[0].event_datetimes_count)
+  console.log(chalk.green('event_sections_count'), eventSectionsCount.rows[0].event_sections_count)
+  console.log(chalk.green('event_seats_count'), eventSeatsCount.rows[0].event_seats_count)
+  console.log(chalk.green('transactions_count'), transactionsCount.rows[0].transactions_count)
+  console.log(chalk.green('transaction_details_count'), transactionDetailsCount.rows[0].transaction_details_count)
+  console.log(chalk.green('event_tags_count'), eventTagsCount.rows[0].event_tags_count)
+  console.log(chalk.green('event_tags_bridge_count'), eventTagsBridgeCount.rows[0].event_tags_bridge_count)
 
   await client.query(`insert into event_tags (event_tag_label) values
     ('amphitheater'),
@@ -56,7 +79,8 @@ console.log(chalk.green('deleting data in tables'));
     user_phone_country_code,
     user_phone_number,
     user_role,
-    user_profile_description
+    user_profile_description,
+    user_image_profile_path
   ) values (
     'aryastark',
     'aryastark@gmail.com',
@@ -64,7 +88,8 @@ console.log(chalk.green('deleting data in tables'));
     '66',
     '994485893',
     'user',
-    'I am Sansa Stark''s youger sister.'
+    'I am Sansa Stark''s youger sister.',
+    'arya-stark.png'
   ), (
     'sansastark',
     'sansastark@gmail.com',
@@ -72,7 +97,8 @@ console.log(chalk.green('deleting data in tables'));
     '66',
     '995894833',
     'admin',
-    'I am Arya Stark''s older sister.'
+    'I am Arya Stark''s older sister.',
+    'sansa-stark.png'
   ) on conflict (user_username) do nothing;`)
 
   await client.end()

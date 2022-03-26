@@ -24,10 +24,10 @@ Our project consists of
 ### ReebA API.
 - [Fastify](https://www.fastify.io/) for serving our api.
 - [PostgreSQL](https://www.postgresql.org/) for our database.
+- [pgroonga](https://pgroonga.github.io/) for text search optimizations in other languages.
 
 ## Prequistics.
 ### Check the required versions.
-
 - Node.js v14 or higher.
   You can check by typing
   ```
@@ -46,15 +46,17 @@ Our project consists of
   pnpm -v
   ```
   into the terminal.
-- PostgreSQL v14.1 *exact*.
+- `PostgreSQL` v14.1 *exact*.
   You can check by typing
   ```
   psql -V postgres
   ```
   into the terminal.
+- `pgroonga` v2.3.6 or higher. Sadly there's no way to check versions that I've known yet.
 
 You can download Node.js [here](https://nodejs.org/en/) (download the LTS version).
 You can download PostgreSQL [here](https://www.postgresql.org/download/windows/).
+You can download pgroonga [here](https://pgroonga.github.io/install/).
 
 When Node.js is installed, upgrade `npm` by running
 ```
@@ -67,8 +69,8 @@ npm i -g pnpm
 ```
 ใน Terminal
 
-## Running the application.
-### Before anything.
+## First time installation.
+### General `npm` package installations.
 Run this command from the root of the project
 ```
 pnpm install
@@ -138,6 +140,18 @@ If top 3 requirements surpassed. You're ready to develop ReebA's database. These
   reeba=# \dt
   ```
 
+- Run
+  ```
+  CREATE EXTENSION IF NOT EXISTS pgroonga;
+  ```
+  to install `pgroonga` extension before migration.
+
+  You should see
+  ```
+  CREATE EXTENSION
+  ```
+  This means you've successfully installed the extension.
+
 - Migrate the database with schema by running
   ```
   reeba=# \i database.sql
@@ -166,20 +180,24 @@ If top 3 requirements surpassed. You're ready to develop ReebA's database. These
   ```
 
   Fill in the missing variables behind the equal sign into `.env.local` file.
-  - `JWT_SECRET`: Please email me to get the secret.
+  - `JWT_SECRET`: Please email me to get the secret that we use, or run
+    ```
+    node -e "console.log(require('crypto').randomBytes(256).toString('base64'))"
+    ```
   - `POSTGRES_USERNAME`: If you log into the database with command `psql -U postgres`, the username would be `'postgres'`.
   - `POSTGRES_PASSWORD`: The password for `postgres` superuser.
 
   All fields should be wrapped in single quotes. With all these you should be ready to develop the API.
 
-### ReebA.com.
+## Local development
+### ReebA.com (frontend)
 Run this command from the root of the project
 ```
 pnpm build:common && pnpm dev:frontend
 ```
 and you should see the website pop up at `http://localhost:8080`.
 
-### ReebA API.
+### ReebA API (backend)
 First of all, you have to start PostgreSQL database server.
 
 - Open up separate terminal inside `backend` folder. Run
@@ -244,7 +262,7 @@ Open 3 terminals and run these commands from the root of the project.
 You will see the API runs at `http://localhost:3000` and frontend server runs at `http://localhost:8080`
 
 ## Testing
-Our `common` and `backend` module will be tested using [`tap`](https://github.com/tapjs/node-tap). Type
+Several modules will be tested using [`tap`](https://github.com/tapjs/node-tap). Type
 ```
 pnpm test
 ```

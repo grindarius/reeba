@@ -22,6 +22,7 @@ void t.test('get event image', async t => {
   const app = createServer()
 
   t.teardown(async () => {
+    await client.query('update "events" set event_cover_image_path = $1 where event_id = $2', ['', 'empty_string_event_name'])
     await app.close()
   })
 
@@ -61,8 +62,10 @@ void t.test('get event image', async t => {
               event_opening_date,
               event_status,
               event_ticket_prices,
+              event_min_ticket_price,
+              event_max_ticket_price,
               event_minimum_age
-            ) values ($1, $2, $3, $4, $5, $6, $7::point, $8, $9, $10, $11::jsonb, $12) on conflict (event_id) do nothing returning event_id`,
+            ) values ($1, $2, $3, $4, $5, $6, $7::point, $8, $9, $10, $11::jsonb, $12, $13, $14) on conflict (event_id) do nothing returning event_id`,
           [
             ev.id,
             ev.createdBy,
@@ -78,6 +81,8 @@ void t.test('get event image', async t => {
               obj[item.color] = item.price
               return obj
             }, {})),
+            Math.min(...ev.ticketPrices.map(t => t.price)),
+            Math.max(...ev.ticketPrices.map(t => t.price)),
             ev.minimumAge
           ]
         )
@@ -198,6 +203,26 @@ void t.test('get event image', async t => {
       t.fail()
     }
   })
+
+  await client.query('update "events" set event_cover_image_path = $1 where event_id = $2', ['unknown-file.png', 'empty_string_event_name'])
+  void t.test('get event image of event with image profile path but file does not exist', async t => {
+    try {
+      const response = await app.inject({
+        method: 'GET',
+        url: '/event-images/empty_string_event_name'
+      })
+
+      Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, '..', '..', 'uploads', 'default-event-image.png')))
+        .onComplete(result => {
+          t.strictSame(result.isSameDimensions, true)
+          t.strictSame(Number(result.misMatchPercentage), 0)
+        })
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+  await client.query('update "events" set event_cover_image_path = $1 where event_id = $2', ['', 'empty_string_event_name'])
 
   t.end()
 })

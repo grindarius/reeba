@@ -7,7 +7,7 @@
     </metainfo>
     <div class="users-page-content">
       <section class="profile-descriptions">
-        <img :src="`${getUserAvatar.url}/${$route.params.username}`" alt="user-image" class="user-image">
+        <img :src="`${getUserAvatar({ username: $route.params.username as string}).url}`" alt="user-image" class="user-image">
         <div class="user-info">
           <div class="mt-3 text-4xl font-bold text-white">
             {{ $route.params.username }}
@@ -60,11 +60,14 @@
           <h1 class="text-main-event-name">
             Events {{ $route.params.username ?? '' }} went to
           </h1>
-          <div class="event-grid-box">
-            <div class="event" v-for="({username: attendedUsername, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.attended ?? [])" :key="`user-page-attended-event-${i}`">
+          <div v-if="relatedEvents.attended.length === 0" class="mt-6 w-full text-center">
+            <span class="text-4xl text-white">{{ $route.params.username }} hasn't gone to any events.</span>
+          </div>
+          <div v-else class="event-grid-box">
+            <div class="event" v-for="({ username: attendedUsername, id: eventId, name: eventName, venueName }, i) in (relatedEvents?.attended ?? [])" :key="`user-page-attended-event-${i}`">
               <router-link :to="{ name: 'Event', params: { attendedUsername, eventId }}">
                 <div class="event-image-box">
-                  <img class="event-image" :src="`${getEventImage.url}/${eventId}`" :alt="eventName">
+                  <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
                 </div>
                 <div class="event-info">
                   <div>
@@ -84,11 +87,14 @@
           <h1 class="text-main-event-name">
             Events {{ $route.params.username ?? '' }} created
           </h1>
-          <div class="event-grid-box">
-            <div class="event" v-for="({username: createdUsername, id: eventId, name: eventName, venueName}, i) in (relatedEvents?.created ?? [])" :key="`user-page-created-event-${i}`">
+          <div v-if="relatedEvents.created.length === 0" class="mt-6 w-full text-center">
+            <span class="text-4xl text-white">{{ $route.params.username }} hasn't created any events.</span>
+          </div>
+          <div v-else class="event-grid-box">
+            <div class="event" v-for="({ username: createdUsername, id: eventId, name: eventName, venueName }, i) in (relatedEvents?.created ?? [])" :key="`user-page-created-event-${i}`">
               <router-link :to="{ name: 'Event', params: { createdUsername, eventId }}" :key="$route.path">
                 <div class="event-image-box">
-                  <img class="event-image" :src="`${getEventImage.url}/${eventId}`" :alt="eventName">
+                  <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
                 </div>
                 <div class="event-info">
                   <div>
@@ -130,7 +136,10 @@ export default defineComponent({
     const toast = useToast()
 
     const userData: Ref<GetUserReply | undefined> = ref(undefined)
-    const relatedEvents: Ref<GetUserRelatedEventsReply | undefined> = ref(undefined)
+    const relatedEvents: Ref<GetUserRelatedEventsReply> = ref({
+      created: [],
+      attended: []
+    })
 
     useMeta({
       title: route.params.username
@@ -138,23 +147,27 @@ export default defineComponent({
 
     onMounted(async (): Promise<void> => {
       try {
-        const userDataResponse = await ky(`${getUser.url}/${route.params.username}`, {
-          method: getUser.method,
+        const { method: getUserMethod, url: getUserUrl } = getUser({ username: route.params.username as string })
+
+        const userDataResponse = await ky(getUserUrl, {
+          method: getUserMethod,
           headers: {
             Authorization: `Bearer ${authStore.userData.token}`
           }
         }).json<GetUserReply>()
 
-        const userRelatedEvents = await ky(`${getUserRelatedEvents.url}/${route.params.username}/events`, {
-          method: getUserRelatedEvents.method,
+        const { method: getUserRelatedEventsMethod, url: getUserRelatedEventsUrl } = getUserRelatedEvents({ username: route.params.username as string })
+
+        const userRelatedEvents = await ky(getUserRelatedEventsUrl, {
+          method: getUserRelatedEventsMethod,
           headers: {
             Authorization: `Bearer ${authStore.userData.token}`
           }
         }).json<GetUserRelatedEventsReply>()
 
         userData.value = userDataResponse
-        relatedEvents.value = userRelatedEvents
-        console.log(relatedEvents.value)
+        relatedEvents.value.created = userRelatedEvents.created
+        relatedEvents.value.attended = userRelatedEvents.attended
       } catch (error) {
         // @ts-expect-error error unknown
         const code = error?.response.status

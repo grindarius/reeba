@@ -62,6 +62,7 @@ module.exports = {
         'no-redeclare': 'off',
         'no-undef': 'off',
         'no-useless-constructor': 'off',
+        'quote-props': ['error', 'consistent'],
         '@typescript-eslint/array-type': ['error', { default: 'generic', readonly: 'generic' }],
         'camelcase': ['error', {
           allow: [
@@ -71,10 +72,13 @@ module.exports = {
             'social_media',
             '^follow|following_',
             '^transaction_',
-            'first_start_datetime',
             '^prices|price_',
             'country_code',
-            '^is_'
+            '^is_',
+            '^first_',
+            '^last_',
+            '^min_',
+            '^max_'
           ],
           ignoreImports: true
         }]

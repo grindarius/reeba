@@ -125,11 +125,11 @@ export interface user_followers {
   /**
    * username of a user who clicks on the follow button.
    */
-  following_user_id: string
+  following_username: string
   /**
-   * username of a user who `following_user_id` follows.
+   * username of a user who `following_username` follows.
    */
-  followed_user_id: string
+  followed_username: string
 }
 
 /**
@@ -192,6 +192,14 @@ export interface events {
    * Event's ticket prices Will be a record of hex string with value as price of the seat.
    */
   event_ticket_prices: Record<string, number>
+  /**
+   * cheapest ticket price from the object
+   */
+  event_min_ticket_price: number
+  /**
+   * Most expensive ticket price from the object
+   */
+  event_max_ticket_price: number
   /**
    * Minimum age of a user, cannot be null, cannot be less than 0, default is 0
    */

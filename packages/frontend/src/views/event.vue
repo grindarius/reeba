@@ -1,12 +1,17 @@
 <template>
   <div class="event-page">
+    <metainfo>
+      <template #title="{ content }">
+        {{ content }} | ReebA: Ticket booking. Redefined.
+      </template>
+    </metainfo>
     <div class="event-page-content">
       <div class="event-top-part">
         <div class="w-full rounded-lg lg:w-min">
           <h1 class="block font-sans text-4xl text-white lg:hidden">
             {{ eventData?.name ?? '' }}
           </h1>
-          <img class="mx-auto max-w-md rounded-lg lg:mx-0" :src="`${getEventImage.url}/${route.params.eventId ?? ''}`" :alt="`${eventData?.name ?? '' }`">
+          <img class="mx-auto max-w-md rounded-lg lg:mx-0" :src="`${getEventImage({ eventId: $route.params.eventId as string ?? '' }).url}`" :alt="`${eventData?.name ?? '' }`">
         </div>
         <div class="grow">
           <h1 class="hidden font-sans text-4xl text-white lg:block">
@@ -47,7 +52,7 @@
               </div>
             </div>
             <div class="event-createdby">
-              <img class="rounded-full" width="60" :src="`${getUserAvatar.url}/${eventData?.createdBy ?? ''}`" :alt="eventData?.createdBy ?? ''">
+              <img class="rounded-full" width="60" :src="`${getUserAvatar({ username: $route.params.username as string ?? '' }).url}`" :alt="eventData?.createdBy ?? ''">
               <div class="createdby-content">
                 <h1 class="detail-header">
                   Created by
@@ -76,7 +81,7 @@
           <div class="mb-4 font-sans text-4xl text-white">
             Description
           </div>
-          <div id="markdown-box" ref="markdownBoxRef" class="markdown-box" v-html="markdownRenderedDescription ?? ''" />
+          <div id="markdown-box" ref="markdownBoxRef" class="markdown-box" v-html="renderedMarkdown" />
         </div>
         <div class="order-1 lg:order-2">
           <div class="mb-4 font-sans text-4xl text-white">
@@ -118,16 +123,14 @@
 import { format } from 'd3'
 import dayjs from 'dayjs'
 import ky from 'ky'
-import MarkdownIt from 'markdown-it'
-// @ts-expect-error no definitelytyped module
-import abbr from 'markdown-it-abbr'
-import emoji from 'markdown-it-emoji'
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 
 import { GetIndividualEventReply } from '@reeba/common'
 
 import { getEventImage, getIndividualEvent as getIndividualEventEndpoint, getUserAvatar } from '@/api/endpoints'
+import { useMarkdown } from '@/composables'
 
 export default defineComponent({
   name: 'event',
@@ -136,7 +139,13 @@ export default defineComponent({
     const router = useRouter()
     const eventData: Ref<GetIndividualEventReply | undefined> = ref(undefined)
 
-    const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
+    useMeta(computed(() => {
+      return {
+        title: eventData.value?.name ?? ''
+      }
+    }))
+
+    const { renderedMarkdown } = useMarkdown(eventData.value?.description ?? '## No description provided')
 
     const formatTimeRange = (datetimes: Array<{ start: string, end: string }>): string => {
       const sortedDatetimes = datetimes.sort((a, b) => dayjs(a.start).unix() - dayjs(b.start).unix())
@@ -164,15 +173,11 @@ export default defineComponent({
       return dayjs(openingDate).format('MMMM D, YYYY HH:mm')
     }
 
-    const markdownRenderedDescription = computed(() => {
-      return markdown.value.render(eventData.value?.description ?? '## No description provided')
-    })
-
     onMounted(async () => {
-      const { method, url } = getIndividualEventEndpoint
+      const { method, url } = getIndividualEventEndpoint({ eventId: route.params.eventId as string ?? '' })
 
       try {
-        const response = await ky(`${url}/${route.params.eventId ?? ''}`, {
+        const response = await ky(url, {
           method
         }).json<GetIndividualEventReply>()
 
@@ -188,7 +193,7 @@ export default defineComponent({
       formatPrices,
       openGoogle,
       formatOpeningDate,
-      markdownRenderedDescription,
+      renderedMarkdown,
       getEventImage,
       route,
       getUserAvatar
