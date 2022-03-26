@@ -66,6 +66,8 @@ interface CustomEvent {
   event_opening_date: string
   event_status: t_event_status
   event_ticket_prices: string
+  event_min_ticket_price: number
+  event_max_ticket_price: number
   event_minimum_age: string
   prices_array?: Record<string, number>
 }
@@ -205,6 +207,8 @@ const generateEvent = async (userList: Array<users>, amount: number = 30): Promi
         .toISOString(),
       event_status: faker.mersenne.rand(1, 100) > 50 ? t_event_status.open : t_event_status.closed,
       event_ticket_prices: JSON.stringify(pricesArray),
+      event_min_ticket_price: Math.min(...Object.values(pricesArray)),
+      event_max_ticket_price: Math.max(...Object.values(pricesArray)),
       prices_array: pricesArray,
       event_minimum_age: faker.mersenne.rand(1, 100) > 60 ? faker.mersenne.rand(18, 20).toString() : '0'
     }
@@ -600,6 +604,8 @@ const main = async () => {
         event_creation_date,
         event_opening_date,
         event_ticket_prices,
+        event_min_ticket_price,
+        event_max_ticket_price,
         event_minimum_age
       ) values (
         $1,
@@ -613,7 +619,9 @@ const main = async () => {
         $9,
         $10,
         $11,
-        $12
+        $12,
+        $13,
+        $14
       ) returning event_id`,
       [
         ev.event_id,
@@ -627,6 +635,8 @@ const main = async () => {
         dayjs(ev.event_creation_date).toDate(),
         dayjs(ev.event_opening_date).toDate(),
         ev.event_ticket_prices,
+        ev.event_min_ticket_price,
+        ev.event_max_ticket_price,
         ev.event_minimum_age
       ]
     )
