@@ -76,3 +76,8 @@ export const getSearchResult: Endpoint = {
   url: url + '/search',
   method: 'get'
 }
+
+export const postTransaction: Endpoint = {
+  url: url + '/transactions',
+  method: 'post'
+}
