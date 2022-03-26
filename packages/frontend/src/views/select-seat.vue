@@ -159,6 +159,14 @@ export default defineComponent({
       return checkedSeat.value.some((x:string) => x === alphabet[row - 1] + column)
     }
 
+    const disabledOtherRow = (row:number): boolean => {
+      if (selectedRow.value !== '') {
+        return selectedRow.value !== alphabet[row - 1]
+      } else {
+        return false
+      }
+    }
+
     const isSeatTaken = (row: number, column: number): boolean => {
       return ['A9', 'B2', 'C5', 'D6', 'F2', 'A6', 'B10', 'C1', 'D12', 'F3'].some((x:string) => x === alphabet[row - 1] + column)
     }
@@ -173,6 +181,7 @@ export default defineComponent({
       checkedSeat,
       seatSelected,
       isSeatChecked,
+      disabledOtherRow,
       isSeatTaken
     }
   }
