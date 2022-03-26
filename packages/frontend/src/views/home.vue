@@ -26,7 +26,7 @@
                       {{ eventName }}
                     </h3>
                     <p class="event-time">
-                      {{ getTimeString(firstDatetime) }}
+                      {{ formatTimeString(firstDatetime) }}
                     </p>
                     <p class="event-location">
                       {{ venueName }}
@@ -59,7 +59,7 @@
                       {{ eventName }}
                     </h3>
                     <p class="event-time">
-                      {{ getTimeString(firstDatetime) }}
+                      {{ formatTimeString(firstDatetime) }}
                     </p>
                     <p class="event-location">
                       {{ venueName }}
@@ -76,7 +76,6 @@
 </template>
 
 <script lang="ts">
-import dayjs from 'dayjs'
 import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
 import { useMeta } from 'vue-meta'
@@ -85,6 +84,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { GetEventsReply } from '@reeba/common'
 
 import { getEventImage, getRootPageEvents } from '@/api/endpoints'
+import { formatTimeString } from '@/utils'
 
 export default defineComponent({
   name: 'home',
@@ -113,14 +113,10 @@ export default defineComponent({
       }
     })
 
-    const getTimeString = (firstDatetime: string): string => {
-      return dayjs(firstDatetime).format('MMMM D, YYYY HH:mm')
-    }
-
     return {
       eventData,
-      getTimeString,
-      getEventImage
+      getEventImage,
+      formatTimeString
     }
   }
 })

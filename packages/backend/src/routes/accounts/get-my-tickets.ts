@@ -90,14 +90,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             seats: eventGroup.map(eg => {
               return {
                 id: eg.event_seat_id,
-                name: `${numberToLetters(eg.event_seat_row_position)}${eg.event_seat_column_position}`,
+                name: `${numberToLetters(eg.event_seat_row_position)}${eg.event_seat_column_position + 1}`,
                 rowPosition: eg.event_seat_row_position,
                 columnPosition: eg.event_seat_column_position
               }
             }),
             section: {
               id: eventGroup[0].event_section_id,
-              name: `${numberToLetters(eventGroup[0].event_section_row_position)}${eventGroup[0].event_section_column_position}`,
+              name: `${numberToLetters(eventGroup[0].event_section_row_position)}${eventGroup[0].event_section_column_position + 1}`,
               rowPosition: eventGroup[0].event_section_row_position,
               columnPosition: eventGroup[0].event_section_column_position
             },

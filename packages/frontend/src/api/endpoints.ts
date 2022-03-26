@@ -95,3 +95,10 @@ export const postTransaction: Endpoint = {
   url: url + '/transactions',
   method: 'post'
 }
+
+export const getMyTickets: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/tickets`,
+    method: 'get'
+  }
+}

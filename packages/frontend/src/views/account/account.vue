@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full drawer drawer-mobile">
+  <div class="w-full drawer drawer-mobile" style="height: auto;">
     <input id="account-drawer-toggle" type="checkbox" class="drawer-toggle">
     <div class="flex flex-col justify-center items-center drawer-content" style="max-height: none;">
       <div class="account-page">
