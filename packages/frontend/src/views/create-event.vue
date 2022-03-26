@@ -19,8 +19,15 @@
               placeholder="Natus Vincere"
               v-model="eventName">
           </div>
-          <div class="grid overflow-x-auto col-span-4 grid-rows-1 gap-y-4 gap-x-6 md:grid-cols-2">
-            <div class="input-box">
+
+          <div class="bg-gray-300 col-span-4">
+            <button class="px-3 py-2 text-sm text-blue-100 bg-pale-yellow rounded" @click="isWrite = true">
+              Write
+            </button>
+            <button class="px-3 py-2 text-sm text-blue-100 bg-pale-yellow rounded" @click="isWrite = false">
+              Preview
+            </button>
+            <div class="input-box" v-if="isWrite">
               <div class="grid grid-cols-2">
                 <label for="event-description-box" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Description</label>
                 <button @click="openMarkdownRef('https://markdown-it.github.io/')" class="self-center place-self-end">
@@ -33,11 +40,11 @@
                 v-text="eventDescription"
                 @input="updateMarkdown" />
             </div>
-            <div class="input-box">
-              <label for="event-description-box-example" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Example</label>
+            <div class="input-box" v-else>
               <div :class="displayedDescription !== '' ? 'input prosing' : 'input prosing h-12'" v-html="displayedDescription" />
             </div>
           </div>
+
           <div class="col-span-4 md:col-span-3 input-box">
             <label for="event-website-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Website</label>
             <input
@@ -427,7 +434,6 @@
 <script lang="ts">
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-import debounce from 'debounce'
 import ky from 'ky'
 import MarkdownIt from 'markdown-it'
 // @ts-expect-error not have definitelyTyped
@@ -480,6 +486,7 @@ export default defineComponent({
     }
 
     const eventName = ref('')
+    const isWrite = ref(true)
     const eventDescription = ref([
       '## Heading 8-)\n',
       '**This is bold text**\n',
@@ -687,9 +694,9 @@ export default defineComponent({
     ])
 
     const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
-    const updateMarkdown = debounce((e: Event): void => {
+    const updateMarkdown = (e: Event): void => {
       eventDescription.value = (e.target as HTMLSpanElement).innerText
-    }, 500)
+    }
     const displayedDescription = computed<string>(() => {
       return markdown.value.render(eventDescription.value)
     })
@@ -952,7 +959,8 @@ export default defineComponent({
       createEvent,
       setActualSeatPlanPriceIndividually,
       eventSectionRowLength,
-      eventSectionColumnLength
+      eventSectionColumnLength,
+      isWrite
     }
   }
 })
