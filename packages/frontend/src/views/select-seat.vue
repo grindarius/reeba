@@ -202,7 +202,7 @@ export default defineComponent({
 }
 
 .button {
-  @apply py-2 px-4 w-24 h-24 font-bold rounded focus:outline-none bg-pale-yellow active:bg-gray-hover disabled:bg-red-disabled disabled:cursor-not-allowed;
+  @apply py-2 px-4 w-24 h-24 font-bold rounded focus:outline-none disabled:cursor-not-allowed bg-pale-yellow active:bg-gray-hover disabled:bg-red-disabled;
 }
 
 .button-active {
@@ -239,7 +239,7 @@ export default defineComponent({
 }
 
 .seats-checkbox {
-  @apply flex place-self-center rounded-full appearance-none h-6 w-6 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50;
+  @apply flex place-self-center w-6 h-6 rounded-full appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
 }
 
 .zone-detail {
@@ -279,15 +279,15 @@ export default defineComponent({
 }
 
 .left-table {
-  @apply px-3 font-semibold;
+  @apply px-3 font-semibold text-black;
 }
 
 .right-table {
-  @apply px-3 font-medium text-right;
+  @apply px-3 font-medium text-right text-black;
 }
 
 .submit-button-active {
-  @apply py-2 px-5 w-4/5 text-xl font-semibold text-center uppercase rounded-b-lg bg-pale-yellow hover:bg-yellow-hover;
+  @apply py-2 px-5 w-4/5 text-xl font-semibold text-center text-black uppercase rounded-b-lg bg-pale-yellow hover:bg-yellow-hover;
 }
 
 .submit-button-disable {
@@ -295,6 +295,6 @@ export default defineComponent({
 }
 
 .seats-label{
-  @apply flex flex-col justify-center items-center relative;
+  @apply flex relative flex-col justify-center items-center;
 }
 </style>
