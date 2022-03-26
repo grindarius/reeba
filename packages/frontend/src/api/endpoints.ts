@@ -41,7 +41,7 @@ export const getEventImage: EndpointFunc<{ eventId: string }> = ({ eventId }): E
   }
 }
 
-export const getIndividualEvent: EndpointFunc<{ eventId: string}> = ({ eventId }): Endpoint => {
+export const getIndividualEvent: EndpointFunc<{ eventId: string }> = ({ eventId }): Endpoint => {
   return {
     url: `${url}/events/${eventId}`,
     method: 'get'
