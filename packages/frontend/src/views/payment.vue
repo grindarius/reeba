@@ -2,12 +2,12 @@
   <div class="payment-page">
     <div class="payment-section">
       <div class="payment-card">
-        <h1 class="text-4xl font-medium">
+        <h1 class="text-4xl font-medium text-black">
           BTS WORLD TOUR 'LOVE YOURSELF' BANGKOK
         </h1>
         <div class="payment-details">
           <div class="payment-channels">
-            <h1 class="mb-6 font-sans text-2xl">
+            <h1 class="mb-6 font-sans text-2xl text-black">
               Payment Details
             </h1>
             <div class="payment-selectors">
@@ -57,7 +57,7 @@
             </div>
           </div>
           <div class="receipt">
-            <h1 class="mb-6 font-sans text-2xl">
+            <h1 class="mb-6 font-sans text-2xl text-black">
               Payment Receipt
             </h1>
             <div class="payment-small-receipt">
@@ -66,21 +66,21 @@
               </h1>
               <div class="ticket-type">
                 <h1 class="text-white">
-                  C4-C09
+                  {{ showSeat }}
                 </h1>
                 <h1 class="text-white">
-                  THB 6,400.00
+                  THB {{ [...transactionStore.transactionStore.section.seats.values()].reduce((prev, curr) => prev + curr.price,0) }}
                 </h1>
               </div>
               <h1 class="font-sans text-gray-400 text-s">
-                (THB 6,400.00 × 1)
+                (THB {{ transactionStore.currentPrice }} × {{ transactionStore.transactionStore.section.seats.size }})
               </h1>
               <div class="subtotal-detail">
                 <h1 class="font-sans text-lg text-white">
                   Subtotal
                 </h1>
                 <h1 class="font-sans text-lg text-white">
-                  THB 6,400.00
+                  THB {{ [...transactionStore.transactionStore.section.seats.values()].reduce((prev, curr) => prev + curr.price,0) }}
                 </h1>
               </div>
               <div class="font-sans text-white service-fee-detail">
@@ -99,19 +99,19 @@
             <div class="mt-5 font-sans text-2xl text-black total-detail">
               <h1>Total</h1>
               <h1 class="text-gray-600">
-                THB 6,445.00
+                THB {{ [...transactionStore.transactionStore.section.seats.values()].reduce((prev, curr) => prev + curr.price,0) + 45 }}
               </h1>
             </div>
-            <div class="mt-5 agree-check">
+            <div class="mt-5 text-black agree-check">
               <input type="checkbox" id="scales" name="scales" unchecked>
               <label for="scales">
                 By checking out, I agree to <a href="#" class="font-bold underline text-pale-yellow">ReebA's Terms of Service</a>
                 and <a href="" class="font-bold underline text-pale-yellow">Event Organizer's Disclaimer.</a>
                 I accept that the items in this order cannot be canceled and payments are non-refundable.
               </label>
-              <router-link to="/account" class="checkout-button">
+              <button class="checkout-button" @click="checkSeat">
                 Pay now
-              </router-link>
+              </button>
             </div>
           </div>
         </div>
@@ -121,10 +121,60 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import ky from 'ky'
+import { computed, defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
+
+import { numberToLetters } from '@reeba/common'
+
+import { postTransaction } from '@/api/endpoints'
+import { useAuthStore } from '@/store/use-auth-store'
+import { useTransactionStore } from '@/store/use-transaction-store'
 
 export default defineComponent({
-  name: 'payment'
+  name: 'payment',
+  setup () {
+    const transactionStore = useTransactionStore()
+    const router = useRouter()
+    const toast = useToast()
+    const authStore = useAuthStore()
+    const checkSeat = async (): Promise<void> => {
+      const { method, url } = postTransaction
+      try {
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          json: {
+            eventId: transactionStore.transactionStore.eventId,
+            datetimeId: transactionStore.transactionStore.datetimeId,
+            sectionId: transactionStore.transactionStore.section.id,
+            seatIds: [...transactionStore.transactionStore.section.seats.keys()]
+          }
+        })
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const resp = error?.response
+        console.log(resp)
+        if (resp.status === 401) {
+          const json = await resp.json()
+          toast.error(json.message)
+          router.push({ name: 'Signin' })
+        }
+        toast.error('Unexpected Error')
+      }
+    }
+    const showSeat = computed(() => {
+      const section = `${numberToLetters(transactionStore.transactionStore.section.rowPosition)}${transactionStore.transactionStore.section.columnPosition + 1}`
+      const seat = `${[...transactionStore.transactionStore.section.seats.values()].map(t => {
+        return `${numberToLetters(t.rowPosition)}${t.columnPosition + 1}`
+      }).join(', ')}`
+      return section + ' - ' + seat
+    })
+    return { checkSeat, transactionStore, numberToLetters, showSeat }
+  }
 })
 </script>
 
@@ -186,7 +236,7 @@ export default defineComponent({
 }
 
 .checkout-button {
-  @apply flex justify-center items-center mt-6 h-12 font-sans text-2xl text-white rounded-full bg-pale-yellow hover:bg-yellow-hover;
+  @apply flex justify-center items-center mt-6 w-full h-12 font-sans text-2xl text-white rounded-full bg-pale-yellow hover:bg-yellow-hover;
 }
 
 #card-number-input, #card-name-input, #card-expiration-date-input, #card-cvc-input {

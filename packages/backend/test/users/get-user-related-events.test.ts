@@ -212,7 +212,7 @@ void t.test('get user related events', async t => {
     }
   })
 
-  await app.inject({
+  const eventId = await app.inject({
     method: 'post',
     url: '/events',
     headers: {
@@ -227,7 +227,9 @@ void t.test('get user related events', async t => {
      from "event_seats"
      inner join "event_sections" on event_seats.event_section_id = event_sections.event_section_id
      inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
-     inner join "events" on event_datetimes.event_id = events.event_id`
+     inner join "events" on event_datetimes.event_id = events.event_id
+     where events.event_id = $1`,
+    [eventId.json().eventId]
   )
 
   const tid = await client.query(

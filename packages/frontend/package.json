@@ -25,6 +25,7 @@
     "dayjs": "^1.10.7",
     "debounce": "^1.2.1",
     "i18n-iso-countries": "^7.3.0",
+    "just-clone": "^5.0.1",
     "ky": "^0.30.0",
     "markdown-it": "^12.3.2",
     "markdown-it-abbr": "^1.0.4",

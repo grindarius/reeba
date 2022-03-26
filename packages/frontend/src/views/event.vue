@@ -1,5 +1,10 @@
 <template>
   <div class="event-page">
+    <metainfo>
+      <template #title="{ content }">
+        {{ content }} | ReebA: Ticket booking. Redefined.
+      </template>
+    </metainfo>
     <div class="event-page-content">
       <div class="event-top-part">
         <div class="w-full rounded-lg lg:w-min">
@@ -118,7 +123,8 @@
 import { format } from 'd3'
 import dayjs from 'dayjs'
 import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 
 import { GetIndividualEventReply } from '@reeba/common'
@@ -132,6 +138,13 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const eventData: Ref<GetIndividualEventReply | undefined> = ref(undefined)
+
+    useMeta(computed(() => {
+      return {
+        title: eventData.value?.name ?? ''
+      }
+    }))
+
     const { renderedMarkdown } = useMarkdown(eventData.value?.description ?? '## No description provided')
 
     const formatTimeRange = (datetimes: Array<{ start: string, end: string }>): string => {

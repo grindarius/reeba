@@ -16,6 +16,7 @@ import NotFound from './not-found.vue'
 import Payment from './payment.vue'
 import Receipt from './receipt.vue'
 import Signup from './register.vue'
+import SearchResult from './search-result.vue'
 import SelectSeat from './select-seat.vue'
 import Upload from './upload.vue'
 import Users from './users.vue'
@@ -37,6 +38,7 @@ export {
   Payment,
   PurchaseHistory,
   Receipt,
+  SearchResult,
   SelectSeat,
   Signin,
   Signup,

@@ -7,7 +7,19 @@
     </div>
     <div class="navbar-center">
       <div class="form-control">
-        <input type="text" placeholder="Search" class="lg:w-96 input input-bordered">
+        <div class="input-group">
+          <input type="text" placeholder="Search" class="lg:w-96 input input-bordered" v-model="searchText" @keyup.enter="$router.push({ name: 'Search', query: { ...$route.query, ...{ q: searchText } } })">
+          <button class="btn btn-square bg-warning" @click="$router.push({ name: 'Search', query: { ...$route.query, ...{ q: searchText } } })">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
     <div class="navbar-end">
@@ -97,7 +109,7 @@
 
 <script lang="ts">
 import { storeToRefs } from 'pinia'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { getUserAvatar } from '@/api/endpoints'
@@ -107,6 +119,7 @@ export default defineComponent({
   name: 'app',
   setup () {
     const authStore = useAuthStore()
+    const searchText = ref('')
     const { isAuthenticated, userData } = storeToRefs(authStore)
 
     const router = useRouter()
@@ -119,6 +132,7 @@ export default defineComponent({
     return {
       getUserAvatar,
       signout,
+      searchText,
       isAuthenticated,
       userData
     }

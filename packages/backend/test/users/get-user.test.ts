@@ -27,7 +27,7 @@ void t.test('get user test', async t => {
 
   const token = resp.json().token
 
-  void t.test('get data from ceratain user', async t => {
+  void t.test('get data from certain user', async t => {
     try {
       const response = await app.inject({
         method: 'GET',
