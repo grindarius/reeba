@@ -22,7 +22,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   void instance.register(avatarRoute, { prefix: '/avatars' })
   void instance.register(eventImagesRoute, { prefix: '/event-images' })
   void instance.register(eventsRoute, { prefix: '/events' })
+  void instance.register(searchRoute, { prefix: '/search' })
   void instance.register(transactionsRoute, { prefix: '/transactions' })
   void instance.register(usersRoute, { prefix: '/users' })
-  void instance.register(searchRoute, { prefix: '/search' })
 }
