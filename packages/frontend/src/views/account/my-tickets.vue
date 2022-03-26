@@ -56,11 +56,13 @@
           <input id="edit-user-settings-username-input" type="username" class="box-text">
         </div>
       </div>
-      <div>
-        <div class="button-action">
-          <label for="cancel-btn" class="btn">Cancel</label>
-          <label for="send-btn" class="btn">Send</label>
-        </div>
+      <div class="flex flex-col lg:flex-row space-y-1 space-x-0 lg:space-y-0 lg:space-x-1 justify-end">
+        <button class="btn">
+          <label for="cancel" class="modal-button rounded-r-none">Cancel</label>
+        </button>
+        <button class="btn">
+          <label for="send" class="modal-button rounded-r-none">Send</label>
+        </button>
       </div>
     </label>
   </label>
@@ -142,6 +144,10 @@ export default defineComponent({
 
 .page-header {
   @apply text-4xl font-semibold text-white;
+}
+
+.box-text{
+  @apply block py-2 px-4 mt-auto mb-5 w-full text-gray-700 bg-white rounded-md border border-gray-300;
 }
 
 </style>
