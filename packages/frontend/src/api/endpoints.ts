@@ -41,7 +41,7 @@ export const getEventImage: EndpointFunc<{ eventId: string }> = ({ eventId }): E
   }
 }
 
-export const getIndividualEvent: EndpointFunc<{ eventId: string}> = ({ eventId }): Endpoint => {
+export const getIndividualEvent: EndpointFunc<{ eventId: string }> = ({ eventId }): Endpoint => {
   return {
     url: `${url}/events/${eventId}`,
     method: 'get'
@@ -68,6 +68,37 @@ export const getUser: EndpointFunc<{ username: string }> = ({ username }): Endpo
 export const getUserRelatedEvents: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
   return {
     url: `${url}/users/${username}/events`,
+    method: 'get'
+  }
+}
+
+export const getUserProfileData: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/profile-data`,
+    method: 'get'
+  }
+}
+
+export const patchUserProfileData: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/profile-data`,
+    method: 'patch'
+  }
+}
+
+export const getSearchResult: Endpoint = {
+  url: url + '/search',
+  method: 'get'
+}
+
+export const postTransaction: Endpoint = {
+  url: url + '/transactions',
+  method: 'post'
+}
+
+export const getMyTickets: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/tickets`,
     method: 'get'
   }
 }

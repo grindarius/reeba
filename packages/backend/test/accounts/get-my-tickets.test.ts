@@ -233,14 +233,14 @@ void t.test('getting list of user tickets', async t => {
             seats: [
               {
                 id: submittedEvent.rows[0].event_seat_id,
-                name: `${numberToLetters(submittedEvent.rows[0].event_seat_row_position)}${submittedEvent.rows[0].event_seat_column_position as number}`,
+                name: `${numberToLetters(submittedEvent.rows[0].event_seat_row_position)}${submittedEvent.rows[0].event_seat_column_position as number + 1}`,
                 rowPosition: submittedEvent.rows[0].event_seat_row_position,
                 columnPosition: submittedEvent.rows[0].event_seat_column_position
               }
             ],
             section: {
               id: submittedEvent.rows[0].event_section_id,
-              name: `${numberToLetters(submittedEvent.rows[0].event_section_row_position)}${submittedEvent.rows[0].event_section_column_position as number}`,
+              name: `${numberToLetters(submittedEvent.rows[0].event_section_row_position)}${submittedEvent.rows[0].event_section_column_position as number + 1}`,
               rowPosition: submittedEvent.rows[0].event_section_row_position,
               columnPosition: submittedEvent.rows[0].event_section_column_position
             },

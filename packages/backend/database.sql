@@ -1,5 +1,7 @@
 -- create database if not exists reeba;
 
+create extension if not exists pgroonga;
+
 drop type if exists t_user_roles cascade;
 drop type if exists t_user_role, t_event_status cascade;
 drop type if exists t_event_price cascade;
@@ -24,12 +26,18 @@ create table users (
   primary key (user_username)
 );
 
+create index pgroonga_users_index on users using pgroonga (
+  user_username pgroonga_text_full_text_search_ops_v2,
+  user_profile_description pgroonga_text_full_text_search_ops_v2,
+  user_social_medias pgroonga_jsonb_full_text_search_ops_v2
+);
+
 create table user_followers (
   follow_id text not null unique,
-  following_user_id text not null,
-  followed_user_id text not null,
+  following_username text not null,
+  followed_username text not null,
   primary key (follow_id),
-  foreign key (following_user_id) references users(user_username) on delete cascade
+  foreign key (following_username) references users(user_username) on delete cascade
 );
 
 create table events (
@@ -45,9 +53,17 @@ create table events (
   event_opening_date timestamptz not null,
   event_status t_event_status not null default 'closed',
   event_ticket_prices jsonb not null default '{}'::jsonb,
+  event_min_ticket_price int not null,
+  event_max_ticket_price int not null,
   event_minimum_age integer not null default 0,
   primary key (event_id),
   foreign key (user_username) references users(user_username) on delete cascade
+);
+
+create index pgroonga_events_index on events using pgroonga (
+  event_name pgroonga_text_full_text_search_ops_v2,
+  user_username pgroonga_text_full_text_search_ops_v2,
+  event_website pgroonga_text_full_text_search_ops_v2
 );
 
 create table event_tags (
