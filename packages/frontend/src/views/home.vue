@@ -1,4 +1,5 @@
 <template>
+  <img class="float-none" src="@/assets/hero-logo.jpg">
   <div class="home-page">
     <metainfo>
       <template #title="{ content }">
@@ -11,7 +12,10 @@
           <h1 class="text-main-event-name">
             Official events
           </h1>
-          <div class="event-grid-box">
+          <div v-if="eventData.official.length === 0" class="w-full text-center">
+            <span class="text-4xl text-white">No events</span>
+          </div>
+          <div v-else class="event-grid-box">
             <div class="event" v-for="({username, id: eventId, name: eventName, firstDatetime, venueName}, i) in eventData.official" :key="`root-page-official-event-${i}`">
               <router-link :to="{ name: 'Event', params: { username, eventId }}">
                 <div class="event-image-box">
@@ -23,7 +27,7 @@
                       {{ eventName }}
                     </h3>
                     <p class="event-time">
-                      {{ getTimeString(firstDatetime) }}
+                      {{ formatTimeString(firstDatetime) }}
                     </p>
                     <p class="event-location">
                       {{ venueName }}
@@ -41,7 +45,10 @@
           <h1 class="text-main-event-name">
             Local events
           </h1>
-          <div class="event-grid-box">
+          <div v-if="eventData.local.length === 0" class="w-full text-center">
+            <span class="text-4xl text-white">No events</span>
+          </div>
+          <div v-else class="event-grid-box">
             <div class="event" v-for="({username, id: eventId, name: eventName, firstDatetime, venueName}, i) in eventData.local" :key="`root-page-local-event-${i}`">
               <router-link :to="{ name: 'Event', params: { username, eventId }}">
                 <div class="event-image-box">
@@ -53,7 +60,7 @@
                       {{ eventName }}
                     </h3>
                     <p class="event-time">
-                      {{ getTimeString(firstDatetime) }}
+                      {{ formatTimeString(firstDatetime) }}
                     </p>
                     <p class="event-location">
                       {{ venueName }}
@@ -70,7 +77,6 @@
 </template>
 
 <script lang="ts">
-import dayjs from 'dayjs'
 import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
 import { useMeta } from 'vue-meta'
@@ -79,6 +85,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { GetEventsReply } from '@reeba/common'
 
 import { getEventImage, getRootPageEvents } from '@/api/endpoints'
+import { formatTimeString } from '@/utils'
 
 export default defineComponent({
   name: 'home',
@@ -107,14 +114,10 @@ export default defineComponent({
       }
     })
 
-    const getTimeString = (firstDatetime: string): string => {
-      return dayjs(firstDatetime).format('MMMM D, YYYY HH:mm')
-    }
-
     return {
       eventData,
-      getTimeString,
-      getEventImage
+      getEventImage,
+      formatTimeString
     }
   }
 })

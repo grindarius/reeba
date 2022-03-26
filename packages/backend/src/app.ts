@@ -22,6 +22,7 @@ dotenv.config({
 
 const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse, Logger> => {
   const server = fastify<Server, IncomingMessage, ServerResponse, Logger>({
+  /* istanbul ignore if */
     logger: process.env.BACKEND_TEST_ENV === 'true'
       ? false
       : {
@@ -39,6 +40,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
   const pgDBName = process.env.POSTGRES_DBNAME
   const jwtSecret = process.env.JWT_SECRET
 
+  /* istanbul ignore if */
   if (
     pgUsername == null || pgUsername === '' ||
     pgPassword == null || pgPassword === '' ||
@@ -49,11 +51,12 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
     throw new Error('missing one of postgres related credentials')
   }
 
+  /* istanbul ignore if */
   if (jwtSecret == null || jwtSecret === '') {
     throw new Error('missing jwt secret')
   }
 
-  void server.register(favicon, { path: './assets', name: 'favicon.ico' })
+  void server.register(favicon, { path: join(__dirname, '..', 'assets'), name: 'favicon.ico' })
   void server.register(multipart)
   void server.register(servestatic, {
     root: join(__dirname, '..', 'uploads'),

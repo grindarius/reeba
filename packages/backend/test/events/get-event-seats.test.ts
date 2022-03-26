@@ -227,7 +227,8 @@ void t.test('get sections and seats from the API', async t => {
           seatPrice: s.seatPrice,
           isSeatTaken: s.isSeatTaken
         }
-      }), [
+      // @ts-expect-error any
+      }).sort((a, b) => a.seatPrice - b.seatPrice), [
         {
           sectionRowPosition: 0,
           sectionColumnPosition: 0,
@@ -298,7 +299,8 @@ void t.test('get sections and seats from the API', async t => {
           seatPrice: s.seatPrice,
           isSeatTaken: s.isSeatTaken
         }
-      }), [
+      // @ts-expect-error any
+      }).sort((a, b) => a.seatPrice - b.seatPrice), [
         {
           sectionRowPosition: 0,
           sectionColumnPosition: 0,
@@ -355,7 +357,8 @@ void t.test('get sections and seats from the API', async t => {
           seatPrice: s.seatPrice,
           isSeatTaken: s.isSeatTaken
         }
-      }), [
+      // @ts-expect-error any
+      }).sort((a, b) => a.seatPrice - b.seatPrice), [
         {
           sectionRowPosition: 0,
           sectionColumnPosition: 0,

@@ -7,6 +7,11 @@ const schema: FastifySchema = {
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  instance.setNotFoundHandler((_, reply) => {
+    return reply.sendFile('default-user-profile.png')
+  })
+
   instance.get<{ Params: GetAvatarsParams }>(
     '/:username',
     { schema },

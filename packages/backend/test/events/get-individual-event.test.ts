@@ -226,8 +226,10 @@ const mockEvent = async (): Promise<void> => {
           event_opening_date,
           event_status,
           event_ticket_prices,
+          event_min_ticket_price,
+          event_max_ticket_price,
           event_minimum_age
-        ) values ($1, $2, $3, $4, $5, $6, $7::point, $8, $9, $10, $11, $12) returning event_id`,
+        ) values ($1, $2, $3, $4, $5, $6, $7::point, $8, $9, $10, $11::jsonb, $12, $13, $14) returning event_id`,
       [
         'grindarius_event_test',
         ev.createdBy,
@@ -241,6 +243,8 @@ const mockEvent = async (): Promise<void> => {
         t_event_status.open,
         // eslint-disable-next-line
         JSON.stringify(ev.ticketPrices.reduce((obj, item) => (obj[item.color] = item.price, obj) ,{} as Record<string, number>)),
+        Math.min(...ev.ticketPrices.map(t => t.price)),
+        Math.max(...ev.ticketPrices.map(t => t.price)),
         ev.minimumAge
       ]
     )

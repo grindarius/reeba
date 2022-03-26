@@ -444,12 +444,12 @@ import { useMeta } from 'vue-meta'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
-import { PostEventBody, PostEventReply } from '@reeba/common'
+import { numberToLetters, PostEventBody, PostEventReply } from '@reeba/common'
 
 import { postEvent, postEventImage } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { ReebAEventDatetime, ReebAEventSeat, ReebAEventSection, ReebAExtendedEventPrice } from '@/types'
-import { decrease2DArrayDimension, generateEventSeats, generateEventSections, increase2DArrayDimension, numberToLetters, randomPastelColor } from '@/utils'
+import { decrease2DArrayDimension, generateEventSeats, generateEventSections, increase2DArrayDimension, randomPastelColor } from '@/utils'
 
 dayjs.extend(customParseFormat)
 
@@ -806,8 +806,8 @@ export default defineComponent({
         return
       }
 
-      const firstElement = JSON.parse(JSON.stringify(eventTicketPrices.value[0])) as ReebAExtendedEventPrice
-      const lastElement = JSON.parse(JSON.stringify(eventTicketPrices.value[eventTicketPrices.value.length - 1])) as ReebAExtendedEventPrice
+      const firstElement = clone(eventTicketPrices.value[0])
+      const lastElement = clone(eventTicketPrices.value[eventTicketPrices.value.length - 1])
 
       seatTemplate.value = seatTemplate.value.map((u) => {
         return u.map(v => {
@@ -897,7 +897,7 @@ export default defineComponent({
     watch(seatTemplate, (newInitialZone) => {
       for (let i = 0; i < eventSections.value.length; i++) {
         for (let j = 0; j < eventSections.value[i].length; j++) {
-          eventSections.value[i][j].seats = JSON.parse(JSON.stringify(newInitialZone))
+          eventSections.value[i][j].seats = clone(newInitialZone)
         }
       }
     }, { deep: true })

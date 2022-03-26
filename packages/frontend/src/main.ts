@@ -5,7 +5,31 @@ import VueMdi from 'vue-mdijs'
 import { createMetaManager } from 'vue-meta'
 import Toast, { PluginOptions as ToastOptions, POSITION } from 'vue-toastification'
 
-import * as mdi from '@mdi/js'
+import {
+  mdiAlarm,
+  mdiCalendarBlank,
+  mdiCheck,
+  mdiCheckDecagram,
+  mdiClose,
+  mdiCreditCard,
+  mdiCurrencyUsd,
+  mdiDelete,
+  mdiDeleteSweep,
+  mdiEmailPlus,
+  mdiFacebook,
+  mdiGoogle,
+  mdiInformationOutline,
+  mdiInstagram,
+  mdiMapMarkerAccount,
+  mdiMenuOpen,
+  mdiMinusCircle,
+  mdiPlusCircle,
+  mdiPlusCircleOutline,
+  mdiQrcodeScan,
+  mdiTicketOutline,
+  mdiTwitter,
+  mdiWeb
+} from '@mdi/js'
 
 import App from './App.vue'
 import Router from './router'
@@ -13,7 +37,31 @@ import Router from './router'
 import 'vue-toastification/dist/index.css'
 import './globals.scss'
 
-VueMdi.add(mdi)
+VueMdi.add({
+  mdiFacebook,
+  mdiTwitter,
+  mdiInstagram,
+  mdiInformationOutline,
+  mdiPlusCircle,
+  mdiPlusCircleOutline,
+  mdiMinusCircle,
+  mdiDelete,
+  mdiCalendarBlank,
+  mdiAlarm,
+  mdiCurrencyUsd,
+  mdiMapMarkerAccount,
+  mdiCreditCard,
+  mdiGoogle,
+  mdiQrcodeScan,
+  mdiCheck,
+  mdiCheckDecagram,
+  mdiWeb,
+  mdiEmailPlus,
+  mdiMenuOpen,
+  mdiDeleteSweep,
+  mdiTicketOutline,
+  mdiClose
+})
 
 const options: ToastOptions = {
   position: POSITION.BOTTOM_RIGHT,
