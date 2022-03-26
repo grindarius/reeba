@@ -31,7 +31,7 @@
     "lint": "eslint **/*.{ts,vue}",
     "lint:css": "pnpm exec ts-node packages/scripts/src/lint-css.ts",
     "test": "pnpm build:common && pnpm clear-db && cross-env BACKEND_TEST_ENV=true pnpm exec tap --rcfile=.taprc.yaml",
-    "seed": "pnpm exec ts-node packages/scripts/src/seed.ts",
+    "seed": "pnpm clear-db && pnpm exec ts-node packages/scripts/src/seed.ts",
     "clear-uploads": "pnpm exec ts-node packages/scripts/src/clear-uploads-folder.ts",
     "clear-db": "pnpm exec ts-node packages/scripts/src/clear-db.ts"
   },

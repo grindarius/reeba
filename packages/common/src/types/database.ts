@@ -125,11 +125,11 @@ export interface user_followers {
   /**
    * username of a user who clicks on the follow button.
    */
-  following_user_id: string
+  following_username: string
   /**
-   * username of a user who `following_user_id` follows.
+   * username of a user who `following_username` follows.
    */
-  followed_user_id: string
+  followed_username: string
 }
 
 /**

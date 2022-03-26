@@ -25,7 +25,6 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/:username',
     {
       schema,
-      onRequest: instance.authenticate,
       preValidation: async (request, reply) => {
         const { username } = request.params
 
@@ -47,7 +46,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       }
 
       const followersAmount = await instance.pg.query<{ followers_amount: number }, [users['user_username']]>(
-        'select count(*) as followers_amount from "user_followers" where followed_user_id = $1',
+        'select count(*) as followers_amount from "user_followers" where followed_username = $1',
         [request.params.username]
       )
 

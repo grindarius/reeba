@@ -167,8 +167,8 @@ const generateFollowersList = (userList: Array<users>, amount: number = 50): Arr
 
     const followers: user_followers = {
       follow_id: compatibleExcelNanoid(),
-      following_user_id: follower,
-      followed_user_id: following
+      following_username: follower,
+      followed_username: following
     }
     return followers
   })
@@ -583,8 +583,8 @@ const main = async () => {
   console.log(chalk.blue('inserting followers into the database...'))
   for await (const follow of followersList) {
     await client.query(
-      'insert into user_followers (follow_id, followed_user_id, following_user_id) values ($1, $2, $3)',
-      [follow.follow_id, follow.followed_user_id, follow.following_user_id]
+      'insert into user_followers (follow_id, following_username, followed_username) values ($1, $2, $3)',
+      [follow.follow_id, follow.following_username, follow.followed_username]
     )
   }
 

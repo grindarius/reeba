@@ -41,7 +41,7 @@ export const getEventImage: EndpointFunc<{ eventId: string }> = ({ eventId }): E
   }
 }
 
-export const getIndividualEvent: EndpointFunc<{ eventId: string}> = ({ eventId }): Endpoint => {
+export const getIndividualEvent: EndpointFunc<{ eventId: string }> = ({ eventId }): Endpoint => {
   return {
     url: `${url}/events/${eventId}`,
     method: 'get'
@@ -70,4 +70,14 @@ export const getUserRelatedEvents: EndpointFunc<{ username: string }> = ({ usern
     url: `${url}/users/${username}/events`,
     method: 'get'
   }
+}
+
+export const getSearchResult: Endpoint = {
+  url: url + '/search',
+  method: 'get'
+}
+
+export const postTransaction: Endpoint = {
+  url: url + '/transactions',
+  method: 'post'
 }
