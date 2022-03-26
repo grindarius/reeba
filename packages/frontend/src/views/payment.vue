@@ -2,12 +2,12 @@
   <div class="payment-page">
     <div class="payment-section">
       <div class="payment-card">
-        <h1 class="text-4xl font-medium">
+        <h1 class="text-4xl font-medium text-black">
           BTS WORLD TOUR 'LOVE YOURSELF' BANGKOK
         </h1>
         <div class="payment-details">
           <div class="payment-channels">
-            <h1 class="mb-6 font-sans text-2xl">
+            <h1 class="mb-6 font-sans text-2xl text-black">
               Payment Details
             </h1>
             <div class="payment-selectors">
@@ -57,7 +57,7 @@
             </div>
           </div>
           <div class="receipt">
-            <h1 class="mb-6 font-sans text-2xl">
+            <h1 class="mb-6 font-sans text-2xl text-black">
               Payment Receipt
             </h1>
             <div class="payment-small-receipt">
@@ -102,14 +102,14 @@
                 THB 6,445.00
               </h1>
             </div>
-            <div class="mt-5 agree-check">
+            <div class="mt-5 agree-check text-black">
               <input type="checkbox" id="scales" name="scales" unchecked>
               <label for="scales">
                 By checking out, I agree to <a href="#" class="font-bold underline text-pale-yellow">ReebA's Terms of Service</a>
                 and <a href="" class="font-bold underline text-pale-yellow">Event Organizer's Disclaimer.</a>
                 I accept that the items in this order cannot be canceled and payments are non-refundable.
               </label>
-              <button class="checkout-button">
+              <button class="checkout-button" @click="checkSeat">
                 Pay now
               </button>
             </div>
@@ -133,7 +133,15 @@ export default defineComponent({
     const store = useTransactionStore()
     onMounted(async () => {
       const { method, url } = postTransaction
-      await ky(url, { method, json: { eventId: store.transactionStore.eventId, datetimeId: store.transactionStore.datetimeId, sectionId: store.transactionStore.section.id, seatIds: [...store.transactionStore.section.seats.keys()] } })
+      await ky(url, {
+        method,
+        json: {
+          eventId: store.transactionStore.eventId,
+          datetimeId: store.transactionStore.datetimeId,
+          sectionId: store.transactionStore.section.id,
+          seatIds: [...store.transactionStore.section.seats.keys()]
+        }
+      })
     })
   }
 })
