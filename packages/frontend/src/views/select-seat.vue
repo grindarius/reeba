@@ -42,10 +42,16 @@
               <p class="seats-rows-text">
                 {{ alphabet[row - 1] }}
               </p>
-              <label class="seats-label"
+              <label
+                class="seats-label"
                 v-for="column in 15"
                 :key="column">
-                <input type="checkbox" class="seats-checkbox" @change="seatSelected($event, row, column)" :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}">
+                <input
+                  :disabled="disabledOtherRow(row)||isSeatTaken(row, column)" type="checkbox"
+                  @change="seatSelected($event, row)"
+                  class="seats-checkbox" :value="alphabet[row - 1] + column"
+                  v-model="checkedSeat"
+                  :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}">
                 <v-mdi v-if="isSeatChecked(row, column)" class="absolute cursor-pointer" name="mdi-check" size="24" fill="black" />
               </label>
             </div>
@@ -117,13 +123,14 @@ export default defineComponent({
     const userSelectedZone = ref(0)
     const ticketPrice = ref(0)
     const checkedSeat: Ref<Array<string>> = ref([])
+    const selectedRow = ref('')
 
     const changeZone = (id: number): void => {
       if (userSelectedZone.value !== id) {
         userSelectedZone.value = id
         checkedSeat.value = []
         ticketPrice.value = 0
-        document.querySelectorAll('input[type="checkbox"]').forEach(seat => seat.checked = false);
+        selectedRow.value = ''
       }
     }
 
@@ -131,18 +138,19 @@ export default defineComponent({
       return dayjs().format('LLLL')
     })
 
-    const seatSelected = (e: Event, row: number, column: number): void => {
+    const seatSelected = (e: Event, row: number): void => {
       const target = e.target as HTMLInputElement
-      if(target.checked){
-        checkedSeat.value.push(alphabet[row - 1] + column)
-        ticketPrice.value += zoneData[userSelectedZone.value - 1].ticketPrices[row - 1]
-        checkedSeat.value.sort()
+      if (selectedRow.value === '') {
+        selectedRow.value = alphabet[row - 1]
       }
-      else{
-        checkedSeat.value.forEach((seat,i)=>{
-          if(seat==alphabet[row - 1] + column) checkedSeat.value.splice(i,1)
-        })
+      if (target.checked) {
+        ticketPrice.value += zoneData[userSelectedZone.value - 1].ticketPrices[row - 1]
+        checkedSeat.value = checkedSeat.value.map(s => s.slice(1)).map(i => Number(i)).sort((n1, n2) => n1 - n2).map(i => selectedRow.value + i)
+      } else {
         ticketPrice.value -= zoneData[userSelectedZone.value - 1].ticketPrices[row - 1]
+        if (!checkedSeat.value.length) {
+          selectedRow.value = ''
+        }
       }
     }
 
