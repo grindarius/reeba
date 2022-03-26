@@ -77,8 +77,10 @@ void t.test('get front page event test', async t => {
             event_opening_date,
             event_status,
             event_ticket_prices,
+            event_min_ticket_price,
+            event_max_ticket_price,
             event_minimum_age
-          ) values ($1, $2, $3, $4, $5, $6, $7::point, $8, $9, $10, $11::jsonb, $12) on conflict (event_id) do nothing returning event_id`,
+          ) values ($1, $2, $3, $4, $5, $6, $7::point, $8, $9, $10, $11::jsonb, $12, $13, $14) on conflict (event_id) do nothing returning event_id`,
         [
           ev.id,
           ev.createdBy,
@@ -94,6 +96,8 @@ void t.test('get front page event test', async t => {
             obj[item.color] = item.price
             return obj
           }, {})),
+          Math.min(...ev.ticketPrices.map(t => t.price)),
+          Math.max(...ev.ticketPrices.map(t => t.price)),
           ev.minimumAge
         ]
       )
