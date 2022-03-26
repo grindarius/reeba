@@ -71,3 +71,8 @@ export const getUserRelatedEvents: EndpointFunc<{ username: string }> = ({ usern
     method: 'get'
   }
 }
+
+export const getSearchResult: Endpoint = {
+  url: url + '/search',
+  method: 'get'
+}

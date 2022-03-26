@@ -164,7 +164,7 @@ import {
   searchType
 } from '@reeba/common'
 
-import { getUserAvatar } from '@/api/endpoints'
+import { getSearchResult as getSearchResultEndpoint, getUserAvatar } from '@/api/endpoints'
 
 export default defineComponent({
   name: 'search',
@@ -217,8 +217,10 @@ export default defineComponent({
       selectedSearchQueryType.value = formattedSearchQueryType as SearchType
       selectedPage.value = Number(formattedPage)
 
-      const response = await ky('http://localhost:3000/search', {
-        method: 'get',
+      const { method, url } = getSearchResultEndpoint
+
+      const response = await ky(url, {
+        method,
         searchParams: [
           ['q', formattedQ],
           ...formattedCreatorType.map(ct => ['creatorType', ct]),
