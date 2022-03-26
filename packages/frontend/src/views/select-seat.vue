@@ -53,6 +53,7 @@
                   v-model="checkedSeat"
                   :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}">
                 <v-mdi v-if="isSeatChecked(row, column)" class="absolute cursor-pointer" name="mdi-check" size="24" fill="black" />
+                <v-mdi v-else-if="isSeatTaken(row, column)" class="absolute cursor-not-allowed" name="mdi-close" size="24" fill="black" />
               </label>
             </div>
           </div>
@@ -111,7 +112,7 @@
 <script lang="ts">
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, Ref, ref } from 'vue'
 
 import { alphabet, zoneData } from '@/constants'
 
@@ -155,7 +156,11 @@ export default defineComponent({
     }
 
     const isSeatChecked = (row: number, column: number): boolean => {
-      return checkedSeat.value.some(x => x == alphabet[row - 1] + column)
+      return checkedSeat.value.some((x:string) => x === alphabet[row - 1] + column)
+    }
+
+    const isSeatTaken = (row: number, column: number): boolean => {
+      return ['A9', 'B2', 'C5', 'D6', 'F2', 'A6', 'B10', 'C1', 'D12', 'F3'].some((x:string) => x === alphabet[row - 1] + column)
     }
 
     return {
@@ -167,7 +172,8 @@ export default defineComponent({
       getTimeString,
       checkedSeat,
       seatSelected,
-      isSeatChecked
+      isSeatChecked,
+      isSeatTaken
     }
   }
 })
