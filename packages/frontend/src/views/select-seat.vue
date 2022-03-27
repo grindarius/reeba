@@ -17,7 +17,7 @@
             @click="selectSection(i)"
             :key="`section-text-${i}`">
             <h1 class="section-text">
-              {{ formatSectionName(section[0].sectionColumnPosition, section[0].sectionRowPosition) }}
+              {{ formatSectionName(section[0].sectionRowPosition, section[0].sectionColumnPosition) }}
             </h1>
           </button>
         </div>
@@ -26,7 +26,7 @@
         Select the zone
       </h1>
       <h1 class="title" v-else>
-        Section {{ formatSectionName(selectedSection[0].sectionColumnPosition, selectedSection[0].sectionRowPosition) }}
+        Section {{ formatSectionName(selectedSection[0].sectionRowPosition, selectedSection[0].sectionColumnPosition) }}
       </h1>
       <!-- <div v-if="selectedSection.length === 0" /> -->
       <div class="w-full">
@@ -207,8 +207,8 @@ export default defineComponent({
         }).json<GetEventSeatsReply>()
 
         const groupedBySectionId = response.sections.sort((a, b) => {
-          return a.sectionColumnPosition - b.sectionColumnPosition ||
-            a.sectionRowPosition - b.sectionRowPosition ||
+          return a.sectionRowPosition - b.sectionRowPosition ||
+            a.sectionColumnPosition - b.sectionColumnPosition ||
             a.seatRowPosition - b.seatRowPosition ||
             a.seatColumnPosition - b.seatColumnPosition
         })
