@@ -431,6 +431,7 @@
 <script lang="ts">
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import clone from 'just-clone'
 import ky from 'ky'
 import { computed, defineComponent, Ref, ref, StyleValue, watch } from 'vue'
 import { useMeta } from 'vue-meta'
@@ -794,8 +795,8 @@ export default defineComponent({
         return
       }
 
-      const firstElement = eventTicketPrices.value[0]
-      const lastElement = eventTicketPrices.value[eventTicketPrices.value.length - 1]
+      const firstElement = clone(eventTicketPrices.value[0])
+      const lastElement = clone(eventTicketPrices.value[eventTicketPrices.value.length - 1])
 
       seatTemplate.value = seatTemplate.value.map((u) => {
         return u.map(v => {
@@ -885,7 +886,7 @@ export default defineComponent({
     watch(seatTemplate, (newInitialZone) => {
       for (let i = 0; i < eventSections.value.length; i++) {
         for (let j = 0; j < eventSections.value[i].length; j++) {
-          eventSections.value[i][j].seats = newInitialZone
+          eventSections.value[i][j].seats = clone(newInitialZone)
         }
       }
     }, { deep: true })
