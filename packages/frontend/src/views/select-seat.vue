@@ -53,7 +53,15 @@
                   v-model="checkedSeat"
                   :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}">
                 <v-mdi v-if="isSeatChecked(row, column)" class="absolute cursor-pointer" name="mdi-check" size="24" fill="black" />
-                <v-mdi v-else-if="isSeatTaken(row, column)" class="absolute cursor-not-allowed" name="mdi-close" size="24" fill="black" />
+                <v-mdi
+                  v-else-if="isSeatTaken(row, column)" class="absolute cursor-not-allowed"
+                  name="mdi-close" size="24"
+                  fill="black"
+                  @click="seatTaken" />
+                <v-mdi
+                  v-else-if="disabledOtherRow(row)" class="absolute cursor-not-allowed"
+                  name="" size="24"
+                  @click="differentRow" />
               </label>
             </div>
           </div>
@@ -113,6 +121,7 @@
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import { computed, defineComponent, Ref, ref } from 'vue'
+import { useToast } from 'vue-toastification'
 
 import { alphabet, zoneData } from '@/constants'
 
@@ -121,6 +130,7 @@ dayjs.extend(localizedFormat)
 export default defineComponent({
   name: 'select-seat',
   setup () {
+    const toast = useToast()
     const userSelectedZone = ref(0)
     const ticketPrice = ref(0)
     const checkedSeat: Ref<Array<string>> = ref([])
@@ -171,6 +181,14 @@ export default defineComponent({
       return ['A9', 'B2', 'C5', 'D6', 'F2', 'A6', 'B10', 'C1', 'D12', 'F3'].some((x:string) => x === alphabet[row - 1] + column)
     }
 
+    const seatTaken = ():void => {
+      toast.error('The seat is already taken!')
+    }
+
+    const differentRow = ():void => {
+      toast.error('The seat is on diffeerent row!')
+    }
+
     return {
       zoneData,
       userSelectedZone,
@@ -182,7 +200,9 @@ export default defineComponent({
       seatSelected,
       isSeatChecked,
       disabledOtherRow,
-      isSeatTaken
+      isSeatTaken,
+      seatTaken,
+      differentRow
     }
   }
 })
