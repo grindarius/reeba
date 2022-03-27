@@ -1,10 +1,10 @@
 <template>
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
   <div class="event-page">
-    <metainfo>
-      <template #title="{ content }">
-        {{ content }} | ReebA: Ticket booking. Redefined.
-      </template>
-    </metainfo>
     <div class="event-page-content">
       <div class="event-top-part">
         <div class="w-full rounded-lg lg:w-min">
@@ -87,7 +87,7 @@
           <div class="mb-4 font-sans text-4xl text-white">
             Tickets
           </div>
-          <div class="ticket-date-selector">
+          <div class="p-4 rounded-lg bg-pale-yellow">
             <h1 class="font-sans text-2xl font-medium text-pale-gray">
               {{ eventData?.venueName ?? '' }}
             </h1>
@@ -103,11 +103,11 @@
               Schedule
             </h1>
             <div class="date-selector">
-              <div class="show-date" v-for="(datetimes, i) in (eventData?.datetimes?? [])" :key="`event-page-data-selector-${i}`">
-                <div class="show-date-schedule">
+              <div class="flex flex-row justify-between my-2" v-for="(datetimes, i) in (eventData?.datetimes?? [])" :key="`event-page-data-selector-${i}`">
+                <div class="font-sans text-lg font-medium text-pale-gray">
                   {{ formatOpeningDate(datetimes.start) }}
                 </div>
-                <router-link to="/select-seat" class="buy-button">
+                <router-link to="/select-seat" class="btn">
                   Buy
                 </router-link>
               </div>
@@ -223,12 +223,8 @@ export default defineComponent({
   @apply grid grid-cols-1 grid-flow-row gap-4 mt-12 xl:grid-cols-2;
 }
 
-.event-calendar, .event-prices, .event-times, .event-place, .event-organizer, .event-createdby {
+.event-calendar, .event-prices, .event-times, .event-place, .event-createdby {
   @apply flex flex-row gap-3;
-}
-
-.event-organizer {
-  @apply cursor-pointer;
 }
 
 .event-prices, .event-place  {
@@ -241,22 +237,6 @@ export default defineComponent({
 
 .detail-sub-header {
   @apply font-sans text-sm text-white;
-}
-
-.ticket-date-selector {
-  @apply p-4 rounded-lg bg-pale-yellow;
-}
-
-.show-date {
-  @apply flex flex-row justify-between my-2;
-}
-
-.show-date-schedule {
-  @apply font-sans text-lg font-medium text-pale-gray;
-}
-
-.buy-button {
-  @apply inline-block py-2 px-8 w-min text-white rounded-lg h-min bg-pale-gray hover:bg-gray-hover;
 }
 
 .markdown-box {
