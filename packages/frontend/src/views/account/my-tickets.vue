@@ -16,8 +16,8 @@
           </div>
           <div class="content-box-textbox">
             <h1>{{ e.name }}</h1>
-            <h3>Seat</h3>
-            <h2>{{ e.section.name }}</h2>
+            <h3>Seats</h3>
+            <h2>{{ e.section.name }} - {{ e.seats.map(s => s.name).sort().join(', ') }}</h2>
             <h3>Prices</h3>
             <h2>{{ format(',')(e.totalPrice) }} THB</h2>
             <h3>Show date</h3>
