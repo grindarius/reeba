@@ -9,19 +9,18 @@ interface UseMarkdown {
   renderedMarkdown: ComputedRef<string>
 }
 
-export const useMarkdown = (description: string): UseMarkdown => {
+export const useMarkdown = (description: Ref<string>): UseMarkdown => {
   const markdown = ref(
     new MarkdownIt('default', {
       breaks: true,
       linkify: true,
       typographer: true,
       html: true
-    })
-      .use(emoji)
-      .use(abbr)
+    }).use(emoji).use(abbr)
   )
+
   const renderedMarkdown = computed(() => {
-    return markdown.value.render(description ?? '## No description provided')
+    return markdown.value.render(description.value ?? '## No description provided')
   })
 
   return {
