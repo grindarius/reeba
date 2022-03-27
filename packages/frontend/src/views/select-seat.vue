@@ -14,9 +14,10 @@
           <button
             v-for="(section, i) in Object.values(sections)"
             class="btn btn-square h-20 w-20"
+            @click="selectSection(i)"
             :key="`section-text-${i}`">
             <h1 class="section-text">
-              {{ sectionName(section[0].sectionColumnPosition, section[0].sectionRowPosition) }}
+              {{ formatSectionName(section[0].sectionColumnPosition, section[0].sectionRowPosition) }}
             </h1>
           </button>
         </div>
@@ -128,6 +129,7 @@ import { getEventSeats } from '@/api/endpoints'
 import { alphabet, zoneData } from '@/constants'
 import { useAuthStore } from '@/store/use-auth-store'
 import { useTransactionStore } from '@/store/use-transaction-store'
+import { TransactionStoreSeat } from '@/types'
 
 dayjs.extend(localizedFormat)
 
@@ -141,6 +143,7 @@ export default defineComponent({
     const toast = useToast()
 
     const sections: Ref<Record<string, GetEventSeatsReply['sections']>> = ref({})
+    const selectedSection: Ref<GetEventSeatsReply['sections']> = ref([])
 
     const sectionWidth = ref(0)
     const sectionHeight = ref(0)
@@ -163,8 +166,18 @@ export default defineComponent({
       }
     }
 
-    const sectionName = (row: number, column: number): string => {
-      return `${numberToLetters(row)}${column + 1}`
+    const formatSectionName = (alphabetic: number, numeric: number): string => {
+      return `${numberToLetters(alphabetic)}${numeric + 1}`
+    }
+
+    const selectSection = (id: number): void => {
+      selectedSection.value = Object.values(sections.value)[id]
+      transactionStore.setSection({
+        id: selectedSection.value[0].sectionId,
+        rowPosition: selectedSection.value[0].sectionRowPosition,
+        columnPosition: selectedSection.value[0].sectionColumnPosition,
+        seats: new Map<string, TransactionStoreSeat>()
+      })
     }
 
     onMounted(async () => {
@@ -182,11 +195,16 @@ export default defineComponent({
         }).json<GetEventSeatsReply>()
 
         const groupedBySectionId = response.sections.sort((a, b) => {
-          return a.sectionColumnPosition - b.sectionColumnPosition || a.sectionRowPosition - b.sectionRowPosition
+          return a.sectionColumnPosition - b.sectionColumnPosition ||
+            a.sectionRowPosition - b.sectionRowPosition ||
+            a.seatColumnPosition - b.seatColumnPosition ||
+            a.seatRowPosition - b.seatRowPosition
         })
 
         sectionWidth.value = Math.max(...response.sections.map(s => s.sectionRowPosition))
         sectionHeight.value = Math.max(...response.sections.map(s => s.sectionColumnPosition))
+
+        transactionStore.setEventId(route.params.eventId as string ?? '')
 
         console.log(groupBy(groupedBySectionId, r => r.sectionId))
         sections.value = groupBy(groupedBySectionId, r => r.sectionId)
@@ -253,7 +271,8 @@ export default defineComponent({
       disabledOtherRow,
       isSeatTaken,
       sectionWidth,
-      sectionName,
+      formatSectionName,
+      selectSection,
       sectionHeight,
       sections
     }
