@@ -12,11 +12,11 @@
       <div class="py-6 px-10 w-full overflow-x-auto">
         <div class="grid gap-4 mx-auto max-w-min" :style="{ 'grid-template-columns': `repeat(${sectionWidth + 1}, 80px)`, 'grid-template-rows': `repeat(${sectionHeight + 1}, 80px)`}">
           <button
-            v-for="(_, i) in Object.keys(sections)"
+            v-for="(section, i) in Object.values(sections)"
             class="btn btn-square h-20 w-20"
             :key="`section-text-${i}`">
             <h1 class="section-text">
-              {{ 'x' }}
+              {{ sectionName(section[0].sectionColumnPosition, section[0].sectionRowPosition) }}
             </h1>
           </button>
         </div>
@@ -122,7 +122,7 @@ import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
-import { GetEventSeatsReply, groupBy } from '@reeba/common'
+import { GetEventSeatsReply, groupBy, numberToLetters } from '@reeba/common'
 
 import { getEventSeats } from '@/api/endpoints'
 import { alphabet, zoneData } from '@/constants'
@@ -161,6 +161,10 @@ export default defineComponent({
         ticketPrice.value = 0
         selectedRow.value = ''
       }
+    }
+
+    const sectionName = (row: number, column: number): string => {
+      return `${numberToLetters(row)}${column + 1}`
     }
 
     onMounted(async () => {
@@ -249,6 +253,7 @@ export default defineComponent({
       disabledOtherRow,
       isSeatTaken,
       sectionWidth,
+      sectionName,
       sectionHeight,
       sections
     }
