@@ -22,43 +22,50 @@
           </button>
         </div>
       </div>
-      <h1 class="title" v-if="userSelectedZone === 0">
+      <h1 class="title" v-if="selectedSection.length === 0">
         Select the zone
       </h1>
       <h1 class="title" v-else>
-        Zone {{ zoneData[userSelectedZone - 1].zone }}
+        Section {{ formatSectionName(selectedSection[0].sectionColumnPosition, selectedSection[0].sectionRowPosition) }}
       </h1>
-      <div v-if="userSelectedZone === 0" />
-      <div class="selected" v-else>
+      <!-- <div v-if="selectedSection.length === 0" /> -->
+      <div class="w-full">
         <div class="price-list">
           <div
             class="price-rate"
-            v-for="(price, id) in zoneData[userSelectedZone - 1].ticketPrices"
+            v-for="(price, id) in priceList"
             :key="`price-rate-${id}`">
-            <div class="price-rate-color" :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[id]}" />
+            <div class="py-4 px-4 rounded-full" :style="{ 'background-color': price.color }" />
             <p class="ticket-price-text">
-              {{ price }}
+              {{ price.price }}
             </p>
           </div>
         </div>
         <div class="zone-detail">
-          <div class="seats">
-            <div class="seats-rows" v-for="row in 5" :key="row">
-              <p class="seats-rows-text">
-                {{ alphabet[row - 1] }}
-              </p>
-              <label
-                class="seats-label"
-                v-for="column in 15"
-                :key="column">
-                <input
-                  :disabled="disabledOtherRow(row)||isSeatTaken(row, column)" type="checkbox"
-                  @change="seatSelected($event, row)"
-                  class="seats-checkbox" :value="alphabet[row - 1] + column"
-                  v-model="checkedSeat"
-                  :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}">
-                <v-mdi v-if="isSeatChecked(row, column)" class="absolute cursor-pointer" name="mdi-check" size="24" fill="black" />
-                <v-mdi v-else-if="isSeatTaken(row, column)" class="absolute cursor-not-allowed" name="mdi-close" size="24" fill="black" />
+          <div class="flex py-20 basis-1/2 flex-row">
+            <div>
+              <div class="flex flex-col gap-2 py-1 px-10 md:justify-center md:px-0 columns-1" v-for="(_, i) in seatHeight" :key="`section-row-name-display-${i}`">
+                <p class="place-self-center text-lg text-white">
+                  {{ numberToLetters(i) }}
+                </p>
+                <!-- <label
+                  class="seats-label"
+                  v-for="(column, i) in selectedSection"
+                  :key="column">
+                  <input
+                    :disabled="disabledOtherRow(row)||isSeatTaken(row, column)" type="checkbox"
+                    @change="seatSelected($event, row)"
+                    class="seats-checkbox" :value="alphabet[row - 1] + column"
+                    v-model="checkedSeat"
+                    :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}">
+                  <v-mdi v-if="isSeatChecked(row, column)" class="absolute cursor-pointer" name="mdi-check" size="24" fill="black" />
+                  <v-mdi v-else-if="isSeatTaken(row, column)" class="absolute cursor-not-allowed" name="mdi-close" size="24" fill="black" />
+                </label> -->
+              </div>
+            </div>
+            <div class="grid" :style="{ 'grid-template-rows': `repeat(${seatHeight}, 24px)`, 'grid-template-columns': `repeat(${seatWidth}, 24px)`}">
+              <label class="seats-label" v-for="s in selectedSection" :key="s.seatId" :style="{ 'background-color': colorRecord[s.seatPrice] }">
+                s
               </label>
             </div>
           </div>
@@ -143,41 +150,45 @@ export default defineComponent({
     const toast = useToast()
 
     const sections: Ref<Record<string, GetEventSeatsReply['sections']>> = ref({})
+    const priceList: Ref<GetEventSeatsReply['ticketPrices']> = ref([])
+    const sectionAsValues = computed(() => Object.values(sections.value))
     const selectedSection: Ref<GetEventSeatsReply['sections']> = ref([])
+    const colorRecord: Ref<Record<number, string>> = computed(() => priceList.value.reduce<Record<number, string>>((obj, item) => {
+      obj[item.price] = item.color
+      return obj
+    }, {}))
 
     const sectionWidth = ref(0)
     const sectionHeight = ref(0)
+
+    const seatWidth = ref(0)
+    const seatHeight = ref(0)
 
     useMeta({
       title: 'Seats'
     })
 
-    const userSelectedZone = ref(0)
+    const userSelectedZone = ref(1)
     const ticketPrice = ref(0)
     const checkedSeat: Ref<Array<string>> = ref([])
     const selectedRow = ref('')
-
-    const changeZone = (id: number): void => {
-      if (userSelectedZone.value !== id) {
-        userSelectedZone.value = id
-        checkedSeat.value = []
-        ticketPrice.value = 0
-        selectedRow.value = ''
-      }
-    }
 
     const formatSectionName = (alphabetic: number, numeric: number): string => {
       return `${numberToLetters(alphabetic)}${numeric + 1}`
     }
 
     const selectSection = (id: number): void => {
-      selectedSection.value = Object.values(sections.value)[id]
+      selectedSection.value = sectionAsValues.value[id]
       transactionStore.setSection({
         id: selectedSection.value[0].sectionId,
         rowPosition: selectedSection.value[0].sectionRowPosition,
         columnPosition: selectedSection.value[0].sectionColumnPosition,
         seats: new Map<string, TransactionStoreSeat>()
       })
+      seatWidth.value = Math.max(...selectedSection.value.map(s => s.seatColumnPosition)) + 1
+      seatHeight.value = Math.max(...selectedSection.value.map(s => s.seatRowPosition)) + 1
+
+      console.log(seatWidth.value, seatHeight.value, selectedSection.value)
     }
 
     onMounted(async () => {
@@ -205,9 +216,10 @@ export default defineComponent({
         sectionHeight.value = Math.max(...response.sections.map(s => s.sectionColumnPosition))
 
         transactionStore.setEventId(route.params.eventId as string ?? '')
+        transactionStore.setDatetimeId(route.params.datetimeId as string ?? '')
 
-        console.log(groupBy(groupedBySectionId, r => r.sectionId))
         sections.value = groupBy(groupedBySectionId, r => r.sectionId)
+        priceList.value = response.ticketPrices
       } catch (error) {
         // @ts-expect-error error is unknown
         const response = error?.response
@@ -232,10 +244,10 @@ export default defineComponent({
         selectedRow.value = alphabet[row - 1]
       }
       if (target.checked) {
-        ticketPrice.value += zoneData[userSelectedZone.value - 1].ticketPrices[row - 1]
+        ticketPrice.value += zoneData[0 - 1].ticketPrices[row - 1]
         checkedSeat.value = checkedSeat.value.map(s => s.slice(1)).map(i => Number(i)).sort((n1, n2) => n1 - n2).map(i => selectedRow.value + i)
       } else {
-        ticketPrice.value -= zoneData[userSelectedZone.value - 1].ticketPrices[row - 1]
+        ticketPrice.value -= zoneData[0 - 1].ticketPrices[row - 1]
         if (!checkedSeat.value.length) {
           selectedRow.value = ''
         }
@@ -261,8 +273,10 @@ export default defineComponent({
     return {
       zoneData,
       userSelectedZone,
-      changeZone,
+      selectedSection,
+      sectionAsValues,
       alphabet,
+      priceList,
       ticketPrice,
       getTimeString,
       checkedSeat,
@@ -274,7 +288,11 @@ export default defineComponent({
       formatSectionName,
       selectSection,
       sectionHeight,
-      sections
+      sections,
+      seatWidth,
+      seatHeight,
+      colorRecord,
+      numberToLetters
     }
   }
 })
@@ -299,10 +317,6 @@ export default defineComponent({
 
 .section-text {
   @apply font-sans text-2xl font-semibold text-black;
-}
-
-.selected {
-  @apply w-full;
 }
 
 .price-list {
