@@ -10,7 +10,7 @@
         Stage sections
       </h1>
       <div class="py-6 px-10 w-full overflow-x-auto">
-        <div class="grid gap-4 mx-auto max-w-min" :style="{ 'grid-template-columns': `repeat(${sectionWidth + 1}, 80px)`, 'grid-template-rows': `repeat(${sectionHeight + 1}, 80px)`}">
+        <div class="grid gap-4 mx-auto max-w-min" :style="{ 'grid-template-columns': `repeat(${sectionHeight}, 80px)`, 'grid-template-rows': `repeat(${sectionWidth}, 80px)`}">
           <button
             v-for="(section, i) in Object.values(sections)"
             class="btn btn-square h-20 w-20"
@@ -75,18 +75,10 @@
                 </tr>
                 <tr>
                   <td class="left-table">
-                    Zone
+                    Seats
                   </td>
                   <td class="right-table">
-                    {{ zoneData[userSelectedZone - 1].zone }}
-                  </td>
-                </tr>
-                <tr>
-                  <td class="left-table">
-                    Price
-                  </td>
-                  <td class="right-table">
-                    {{ ticketPrice }}
+                    {{ getSectionSummaryString() }}
                   </td>
                 </tr>
                 <tr>
@@ -94,13 +86,21 @@
                     Seat
                   </td>
                   <td class="right-table">
-                    {{ checkedSeat.join(', ') }}
+                    {{ getSeatSummaryString() }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="left-table">
+                    Price
+                  </td>
+                  <td class="right-table">
+                    {{ [...transactionStore.transactionStore.section.seats.values()].reduce((total, current) => current.price + total, 0) }}
                   </td>
                 </tr>
               </tbody>
             </table>
-            <router-link to="/payment" :class="`${ticketPrice !== 0 ? 'submit-button-active' : 'submit-button-disable'}`">
-              {{ ticketPrice === 0 ? "Select seat first":"Submit" }}
+            <router-link to="/payment" :class="`${transactionStore.transactionStore.section.seats.size !== 0 ? 'submit-button-active' : 'submit-button-disable'}`">
+              {{ transactionStore.transactionStore.section.seats.size === 0 ? 'Select seat first' : 'Submit' }}
             </router-link>
           </div>
         </div>
@@ -219,8 +219,8 @@ export default defineComponent({
             a.seatColumnPosition - b.seatColumnPosition
         })
 
-        sectionWidth.value = Math.max(...response.sections.map(s => s.sectionRowPosition))
-        sectionHeight.value = Math.max(...response.sections.map(s => s.sectionColumnPosition))
+        sectionWidth.value = Math.max(...response.sections.map(s => s.sectionRowPosition)) + 1
+        sectionHeight.value = Math.max(...response.sections.map(s => s.sectionColumnPosition)) + 1
 
         transactionStore.setEventId(route.params.eventId as string ?? '')
         transactionStore.setDatetimeId(route.params.datetimeId as string ?? '')
@@ -273,9 +273,28 @@ export default defineComponent({
       return isSeatTaken ? 'seats-label rounded-full hover:cursor-not-allowed' : 'seats-label rounded-full hover:cursor-pointer'
     }
 
+    const getSectionSummaryString = (): string => {
+      if (selectedSection.value.length === 0) {
+        return ''
+      }
+
+      const sectionString = `${formatSectionName(transactionStore.transactionStore.section.rowPosition, transactionStore.transactionStore.section.columnPosition)}`
+      return sectionString
+    }
+
+    const getSeatSummaryString = (): string => {
+      if (transactionStore.transactionStore.section.seats.size === 0) {
+        return ''
+      }
+
+      return `${[...transactionStore.transactionStore.section.seats.values()].map(s => formatSectionName(s.rowPosition, s.columnPosition))}`
+    }
+
     return {
       zoneData,
       selectSeat,
+      getSectionSummaryString,
+      getSeatSummaryString,
       userSelectedZone,
       selectedSection,
       sectionAsValues,
