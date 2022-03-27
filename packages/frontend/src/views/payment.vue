@@ -3,7 +3,7 @@
     <div class="payment-section">
       <div class="payment-card">
         <h1 class="text-4xl font-medium text-black">
-          BTS WORLD TOUR 'LOVE YOURSELF' BANGKOK
+          {{ eventDataResponse?.name ?? '' }}
         </h1>
         <div class="payment-details">
           <div class="payment-channels">
@@ -69,18 +69,18 @@
                   {{ showSeat }}
                 </h1>
                 <h1 class="text-white">
-                  THB {{ [...transactionStore.transactionStore.section.seats.values()].reduce((prev, curr) => prev + curr.price,0) }}
+                  THB {{ format(',')([...transactionStore.transactionStore.section.seats.values()].reduce((prev, curr) => prev + curr.price, 0)) }}
                 </h1>
               </div>
               <h1 class="font-sans text-gray-400 text-s">
-                (THB {{ transactionStore.currentPrice }} × {{ transactionStore.transactionStore.section.seats.size }})
+                (THB {{ format(',')(transactionStore.currentPrice) }} × {{ transactionStore.transactionStore.section.seats.size }})
               </h1>
               <div class="subtotal-detail">
                 <h1 class="font-sans text-lg text-white">
                   Subtotal
                 </h1>
                 <h1 class="font-sans text-lg text-white">
-                  THB {{ [...transactionStore.transactionStore.section.seats.values()].reduce((prev, curr) => prev + curr.price,0) }}
+                  THB {{ format(',')([...transactionStore.transactionStore.section.seats.values()].reduce((prev, curr) => prev + curr.price, 0)) }}
                 </h1>
               </div>
               <div class="font-sans text-white service-fee-detail">
@@ -88,18 +88,18 @@
                   Service Fee
                 </h1>
                 <h1 class="text-lg">
-                  THB 40.00
+                  THB 40
                 </h1>
               </div>
               <div class="font-sans text-lg text-white credit-fee-detail">
                 <h1>Credit Card Fee (VAT incl.)</h1>
-                <h1>THB 5.00</h1>
+                <h1>THB 5</h1>
               </div>
             </div>
             <div class="mt-5 font-sans text-2xl text-black total-detail">
               <h1>Total</h1>
               <h1 class="text-gray-600">
-                THB {{ [...transactionStore.transactionStore.section.seats.values()].reduce((prev, curr) => prev + curr.price,0) + 45 }}
+                THB {{ format(',')([...transactionStore.transactionStore.section.seats.values()].reduce((prev, curr) => prev + curr.price, 0) + 45) }}
               </h1>
             </div>
             <div class="mt-5 text-black agree-check">
@@ -121,26 +121,64 @@
 </template>
 
 <script lang="ts">
+import { format } from 'd3'
 import ky from 'ky'
-import { computed, defineComponent } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
-import { numberToLetters } from '@reeba/common'
+import { GetIndividualEventReply, numberToLetters } from '@reeba/common'
 
-import { postTransaction } from '@/api/endpoints'
+import {
+  getIndividualEvent as getIndividualEventEndpoint,
+  postTransaction as postTransactionEndpoint
+} from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { useTransactionStore } from '@/store/use-transaction-store'
 
 export default defineComponent({
   name: 'payment',
+  beforeRouteEnter (_, from, next) {
+    if (from.name !== 'Select Seat') {
+      next('/')
+    }
+    next()
+  },
   setup () {
     const transactionStore = useTransactionStore()
-    const router = useRouter()
-    const toast = useToast()
     const authStore = useAuthStore()
+
+    const router = useRouter()
+    const route = useRoute()
+    const toast = useToast()
+
+    const eventDataResponse: Ref<GetIndividualEventReply | undefined> = ref(undefined)
+
+    onMounted(async () => {
+      const {
+        method: getIndividualEventMethod,
+        url: getIndividualEventUrl
+      } = getIndividualEventEndpoint({ eventId: route.params.eventId as string ?? '' })
+
+      try {
+        const response = await ky(getIndividualEventUrl, {
+          method: getIndividualEventMethod
+        }).json<GetIndividualEventReply>()
+
+        eventDataResponse.value = response
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const response = error?.response
+
+        if (response.status !== 200) {
+          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        }
+      }
+    })
+
     const checkSeat = async (): Promise<void> => {
-      const { method, url } = postTransaction
+      const { method, url } = postTransactionEndpoint
+
       try {
         await ky(url, {
           method,
@@ -154,6 +192,8 @@ export default defineComponent({
             seatIds: [...transactionStore.transactionStore.section.seats.keys()]
           }
         })
+
+        router.push('/account')
       } catch (error) {
         // @ts-expect-error error is unknown
         const resp = error?.response
@@ -166,6 +206,7 @@ export default defineComponent({
         toast.error('Unexpected Error')
       }
     }
+
     const showSeat = computed(() => {
       const section = `${numberToLetters(transactionStore.transactionStore.section.rowPosition)}${transactionStore.transactionStore.section.columnPosition + 1}`
       const seat = `${[...transactionStore.transactionStore.section.seats.values()].map(t => {
@@ -173,7 +214,15 @@ export default defineComponent({
       }).join(', ')}`
       return section + ' - ' + seat
     })
-    return { checkSeat, transactionStore, numberToLetters, showSeat }
+
+    return {
+      checkSeat,
+      transactionStore,
+      numberToLetters,
+      showSeat,
+      format,
+      eventDataResponse
+    }
   }
 })
 </script>
