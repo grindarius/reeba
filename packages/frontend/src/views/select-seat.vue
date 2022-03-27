@@ -28,8 +28,8 @@
       <h1 class="title" v-else>
         Section {{ formatSectionName(selectedSection[0].sectionRowPosition, selectedSection[0].sectionColumnPosition) }}
       </h1>
-      <!-- <div v-if="selectedSection.length === 0" /> -->
-      <div class="w-full">
+      <div v-if="selectedSection.length === 0" />
+      <div v-else class="w-full">
         <div class="price-list">
           <div
             class="price-rate"
