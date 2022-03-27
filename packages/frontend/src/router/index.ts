@@ -19,11 +19,6 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.Signin
   },
   {
-    path: '/payment',
-    name: 'Payment',
-    component: Page.Payment
-  },
-  {
     path: '/account',
     name: 'Account',
     component: Page.Account,
@@ -102,6 +97,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/:username/:eventId/:datetimeId',
     name: 'Select Seat',
     component: Page.SelectSeat
+  },
+  {
+    path: '/:username/:eventId/:datetimeId/payment',
+    name: 'Payment',
+    component: Page.Payment
   },
   {
     path: '/:pathMatch(.*)*',
