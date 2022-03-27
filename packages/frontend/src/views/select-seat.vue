@@ -99,8 +99,10 @@
                 </tr>
               </tbody>
             </table>
-            <router-link to="/payment" :class="`${transactionStore.transactionStore.section.seats.size !== 0 ? 'submit-button-active' : 'submit-button-disable'}`">
-              {{ transactionStore.transactionStore.section.seats.size === 0 ? 'Select seat first' : 'Submit' }}
+            <router-link :to="`/${$route.params.username as string ?? ''}/${$route.params.eventId as string ?? ''}/${$route.params.datetimeId as string ?? ''}/payment`" custom v-slot="{ navigate }">
+              <button class="btn w-full md:w-4/5 rounded-t-none disabled:bg-red-disabled disabled:text-white" :disabled="transactionStore.transactionStore.section.seats.size === 0" @click="navigate">
+                {{ transactionStore.transactionStore.section.seats.size === 0 ? 'Select seat first' : 'Submit' }}
+              </button>
             </router-link>
           </div>
         </div>
@@ -359,7 +361,7 @@ export default defineComponent({
 }
 
 .zone-detail {
-  @apply flex flex-col justify-between py-3 px-8 w-full lg:flex-row;
+  @apply flex flex-col justify-between py-3 px-8 w-full xl:flex-row;
 }
 
 .seats {
