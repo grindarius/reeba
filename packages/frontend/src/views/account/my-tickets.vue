@@ -48,9 +48,9 @@
 
   <input type="checkbox" id="transfer-ownership-modal" class="modal-toggle">
   <label for="transfer-ownership-modal" class="cursor-pointer modal" style="background-color: #00000055;">
-    <label class="relative modal-box" for="">
+    <label class="relative modal-box">
       <h3 class="text-lg font-bold">Enter recipient username to transfer</h3>
-      <div class="grid grid-cols-1 gap-6 mt-4 ">
+      <div class="grid grid-cols-1 gap-6 mt-4">
         <div>
           <label class="text-header" for="Name">Username</label>
           <input id="edit-user-settings-username-input" type="username" class="box-text">
@@ -114,7 +114,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.hero  {
+.hero {
   @apply flex flex-col rounded-lg md:flex-row bg-base-200;
 }
 
@@ -146,8 +146,7 @@ export default defineComponent({
   @apply text-4xl font-semibold text-white;
 }
 
-.box-text{
+.box-text {
   @apply block py-2 px-4 mt-auto mb-5 w-full text-gray-700 bg-white rounded-md border border-gray-300;
 }
-
 </style>
