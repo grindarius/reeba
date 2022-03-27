@@ -15,7 +15,7 @@
             <label for="event-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Event name</label>
             <input
               type="text" id="event-name"
-              name="event-name" class="appearance-none input"
+              name="event-name" class="placeholder:text-black text-black appearance-none input"
               placeholder="Natus Vincere"
               v-model="eventName">
           </div>
@@ -34,7 +34,7 @@
                 <v-mdi name="mdi-information-outline" fill="#D5A755" class="self-center place-self-end" />
               </button>
             </div>
-            <div class="input-box" v-if="isWrite">
+            <div class="input-box text-black" v-if="isWrite">
               <span
                 class="overflow-x-auto font-mono textarea" id="description"
                 role="textbox" contenteditable="true"
@@ -50,7 +50,7 @@
             <label for="event-website-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Website</label>
             <input
               type="text" id="event-website-name"
-              name="event-website-name" class="appearance-none input"
+              name="event-website-name" class="placeholder:text-black text-black appearance-none input"
               placeholder="https://event.reeba.com"
               v-model="eventWebsite">
           </div>
@@ -58,7 +58,7 @@
             <label for="event-age" class="block py-2 text-xs font-bold tracking-wide text-white uppercase truncate">Minimum age for users to enter the event</label>
             <input
               type="number" id="event-age"
-              name="event-age" class="appearance-none input"
+              name="event-age" class="text-black appearance-none input"
               placeholder="0"
               v-model="eventMinimumAge">
           </div>
@@ -66,17 +66,17 @@
             <label for="event-opening-date" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Opening Date</label>
             <input
               type="datetime-local" id="event-opening-date"
-              name="event-opening-date" class="appearance-none input"
+              name="event-opening-date" class="text-black appearance-none input"
               v-model="eventOpeningDate">
           </div>
           <div class="col-span-4 md:col-span-2 input-box">
             <label for="event-start-datetime" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Start time</label>
-            <input type="datetime-local" id="event-start-datetime" name="event-start-datetime" class="input" v-model="selectedEventStartTime">
+            <input type="datetime-local" id="event-start-datetime" name="event-start-datetime" class="text-black input" v-model="selectedEventStartTime">
           </div>
           <div class="col-span-4 md:col-span-2 input-box">
             <label for="event-end-datetime" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">End time</label>
             <div class="flex flex-row items-center">
-              <input type="datetime-local" id="event-end-datetime" name="event-end-datetime" class="input" v-model="selectedEventEndTime">
+              <input type="datetime-local" id="event-end-datetime" name="event-end-datetime" class="text-black input" v-model="selectedEventEndTime">
               <v-mdi name="mdi-plus-circle" class="mx-3 cursor-pointer" size="36" fill="#D5A755" @click="addEventTime" />
             </div>
           </div>
@@ -92,7 +92,7 @@
             <label for="event-location-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Location name</label>
             <input
               type="text" id="event-location-name"
-              name="event-location-name" class="appearance-none input"
+              name="event-location-name" class="placeholder:text-black text-black appearance-none input"
               placeholder="Rajamangkala National Stadium"
               v-model="eventVenueName">
           </div>
@@ -100,7 +100,7 @@
             <label for="event-location-coords" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Location coordinates</label>
             <input
               type="text" id="event-location-coords"
-              name="event-location-coords" class="appearance-none input"
+              name="event-location-coords" class="text-black appearance-none input"
               placeholder="latitude,longitude"
               v-model="eventVenueCoordinates">
           </div>
@@ -159,7 +159,7 @@
         <div class="flex flex-row justify-center mb-4 md:col-span-1">
           <input
             type="number" id="event-price-range"
-            name="event-price-range" class="h-12 input-button"
+            name="event-price-range" class="text-black h-12 input-button"
             step="1"
             v-model="eventTicketPrices.length" disabled>
           <button @click="decreasePriceRangeAmount" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 border cursor-pointer outline-none hover:text-gray-700 hover:bg-gray-400 border-x-black">
@@ -179,7 +179,7 @@
                 </div>
                 <input
                   type="number" name="price"
-                  id="price-range-selector-input" class="block py-3 pr-12 pl-7 w-full h-12 rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  id="price-range-selector-input" class="text-black block py-3 pr-12 pl-7 w-full h-12 rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                   placeholder="0.00"
                   :value="price.price"
                   @change="onPriceRangePriceChange($event, i)">
@@ -216,7 +216,7 @@
             <div class="flex flex-row">
               <input
                 type="number" id="event-initial-zone-rows"
-                name="event-zone-rows" class="input-button"
+                name="event-zone-rows" class="text-black input-button"
                 step="1"
                 :value="seatTemplate.length" disabled>
               <button @click="decreaseSeatTemplateRow" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 border cursor-pointer outline-none hover:text-gray-700 hover:bg-gray-400 border-x-black">
@@ -232,7 +232,7 @@
             <div class="flex flex-row">
               <input
                 type="number" id="event-initial-zone-columns"
-                name="event-initial-zone-columns" class="input-button"
+                name="event-initial-zone-columns" class="text-black input-button"
                 step="1"
                 :value="seatTemplate[0].length" disabled>
               <button @click="decreaseSeatTemplateColumn" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 border cursor-pointer hover:text-gray-700 hover:bg-gray-400 border-x-black">
@@ -264,12 +264,12 @@
                   Seat prices
                 </p>
               </div>
-              <div class="flex place-content-center w-full h-14 bg-white">
+              <div class="text-black flex place-content-center w-full h-14 bg-white">
                 <p class="place-self-center text-2xl font-semibold text-center">
                   {{ seatTemplateSelectedSeat.name }}
                 </p>
               </div>
-              <div v-for="(price, index) in eventTicketPrices" :key="index" @click="setSelectedSeatTemplatePrice(price)" class="grid grid-cols-3 place-content-center w-full h-14 bg-white border cursor-pointer">
+              <div v-for="(price, index) in eventTicketPrices" :key="index" @click="setSelectedSeatTemplatePrice(price)" class="text-black grid grid-cols-3 place-content-center w-full h-14 bg-white border cursor-pointer">
                 <div class="place-self-center w-8 h-8 rounded-full" :style="{ 'background-color': eventTicketPrices[index].color }" />
                 <p class="place-self-center text-lg font-semibold text-center">
                   {{ price.price }}
@@ -293,7 +293,7 @@
             <div class="flex flex-row">
               <input
                 type="number" id="event-section-zone-rows"
-                name="event-zone-rows" class="input-button"
+                name="event-zone-rows" class="text-black input-button"
                 step="1"
                 v-model="eventSectionRowLength" disabled>
               <button @click="decreaseSectionRow" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 border cursor-pointer outline-none hover:text-gray-700 hover:bg-gray-400 border-x-black">
@@ -309,7 +309,7 @@
             <div class="flex flex-row">
               <input
                 type="number" id="event-section-zone-columns"
-                name="event-initial-zone-columns" class="input-button"
+                name="event-initial-zone-columns" class="text-black input-button"
                 step="1"
                 v-model="eventSectionColumnLength" disabled>
               <button @click="decreaseSectionColumn" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 border cursor-pointer hover:text-gray-700 hover:bg-gray-400 border-x-black">
@@ -352,7 +352,7 @@
             <div class="flex flex-row">
               <input
                 type="number" id="event-zone-rows"
-                name="event-zone-rows" class="input-button"
+                name="event-zone-rows" class="text-black input-button"
                 step="1"
                 :value="eventSections[selectedSection.row][selectedSection.column].seats[0].length"
                 disabled>
@@ -369,7 +369,7 @@
             <div class="flex flex-row">
               <input
                 type="number" id="event-zone-columns"
-                name="event-zone-columns" class="input-button"
+                name="event-zone-columns" class="text-black input-button"
                 step="1"
                 :value="eventSections[selectedSection.row][selectedSection.column].seats.length"
                 disabled>
@@ -403,7 +403,7 @@
                     Seat prices
                   </p>
                 </div>
-                <div class="flex place-content-center w-full h-14 bg-white">
+                <div class="text-black flex place-content-center w-full h-14 bg-white">
                   <p class="place-self-center text-2xl font-semibold text-center">
                     {{ actualSeatPlanSelectedSeat.name }}
                   </p>
@@ -411,7 +411,7 @@
                 <div
                   v-for="(price, index) in eventTicketPrices" :key="`zone-price-selector-${index}`"
                   @click="setActualSeatPlanPriceIndividually(price)"
-                  class="grid grid-cols-3 place-content-center w-full h-14 bg-white border cursor-pointer">
+                  class="text-black grid grid-cols-3 place-content-center w-full h-14 bg-white border cursor-pointer">
                   <div class="place-self-center w-8 h-8 rounded-full" :style="{ 'background-color': eventTicketPrices[index].color }" />
                   <p class="place-self-center text-lg font-semibold text-center">
                     {{ price.price }}
