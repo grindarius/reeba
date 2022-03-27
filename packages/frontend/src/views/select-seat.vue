@@ -12,12 +12,11 @@
       <div class="py-6 px-10 w-full overflow-x-auto">
         <div class="grid gap-4 mx-auto max-w-min" :style="{ 'grid-template-columns': `repeat(${sectionWidth + 1}, 80px)`, 'grid-template-rows': `repeat(${sectionHeight + 1}, 80px)`}">
           <button
-            v-for="(zoneInfo, id) in zoneData"
+            v-for="(_, i) in Object.keys(sections)"
             class="btn btn-square h-20 w-20"
-            @click="changeZone(zoneInfo.id)"
-            :key="`section-text-${id}`">
+            :key="`section-text-${i}`">
             <h1 class="section-text">
-              {{ zoneInfo.zone }}
+              {{ 'x' }}
             </h1>
           </button>
         </div>
@@ -185,6 +184,7 @@ export default defineComponent({
         sectionWidth.value = Math.max(...response.sections.map(s => s.sectionRowPosition))
         sectionHeight.value = Math.max(...response.sections.map(s => s.sectionColumnPosition))
 
+        console.log(groupBy(groupedBySectionId, r => r.sectionId))
         sections.value = groupBy(groupedBySectionId, r => r.sectionId)
       } catch (error) {
         // @ts-expect-error error is unknown
@@ -249,7 +249,8 @@ export default defineComponent({
       disabledOtherRow,
       isSeatTaken,
       sectionWidth,
-      sectionHeight
+      sectionHeight,
+      sections
     }
   }
 })
