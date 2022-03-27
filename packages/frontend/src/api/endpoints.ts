@@ -102,3 +102,10 @@ export const getMyTickets: EndpointFunc<{ username: string }> = ({ username }): 
     method: 'get'
   }
 }
+
+export const getEventSeats: EndpointFunc<{ eventId: string }> = ({ eventId }): Endpoint => {
+  return {
+    url: `${url}/events/${eventId}/seats`,
+    method: 'get'
+  }
+}
