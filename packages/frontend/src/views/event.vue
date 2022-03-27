@@ -1,14 +1,14 @@
 <template>
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
   <div class="event-page">
-    <metainfo>
-      <template #title="{ content }">
-        {{ content }} | ReebA: Ticket booking. Redefined.
-      </template>
-    </metainfo>
     <div class="event-page-content">
       <div class="event-top-part">
         <div class="w-full rounded-lg lg:w-min">
-          <h1 class="block font-sans text-4xl text-white lg:hidden">
+          <h1 class="block mb-4 font-sans text-4xl text-white lg:hidden">
             {{ eventData?.name ?? '' }}
           </h1>
           <img class="mx-auto max-w-md rounded-lg lg:mx-0" :src="`${getEventImage({ eventId: $route.params.eventId as string ?? '' }).url}`" :alt="`${eventData?.name ?? '' }`">
@@ -36,7 +36,7 @@
                   Opening date
                 </h1>
                 <h1 class="detail-sub-header">
-                  {{ eventData?.openingDate == null ? '' : formatOpeningDate(eventData.openingDate) }}
+                  {{ eventData?.openingDate == null ? '' : formatTimeString(eventData.openingDate) }}
                 </h1>
               </div>
             </div>
@@ -51,17 +51,19 @@
                 </h1>
               </div>
             </div>
-            <div class="event-createdby">
-              <img class="rounded-full" width="60" :src="`${getUserAvatar({ username: $route.params.username as string ?? '' }).url}`" :alt="eventData?.createdBy ?? ''">
-              <div class="createdby-content">
-                <h1 class="detail-header">
-                  Created by
-                </h1>
-                <h1 class="detail-sub-header">
-                  {{ eventData?.createdBy ?? '' }}
-                </h1>
+            <router-link :to="`/${$route.params.username as string ?? ''}`" custom v-slot="{ navigate }">
+              <div class="cursor-pointer event-createdby" @click="navigate">
+                <img class="rounded-full" width="60" :src="`${getUserAvatar({ username: $route.params.username as string ?? '' }).url}`" :alt="eventData?.createdBy ?? ''">
+                <div class="createdby-content">
+                  <h1 class="detail-header">
+                    Created by
+                  </h1>
+                  <h1 class="detail-sub-header">
+                    {{ eventData?.createdBy ?? '' }}
+                  </h1>
+                </div>
               </div>
-            </div>
+            </router-link>
             <div class="cursor-pointer event-place" @click="openGoogle(eventData?.venueCoordinates ?? { x: '0', y: '0' })">
               <v-mdi name="mdi-map-marker-account" size="60" fill="#D5A755" />
               <div class="place-content">
@@ -87,7 +89,7 @@
           <div class="mb-4 font-sans text-4xl text-white">
             Tickets
           </div>
-          <div class="ticket-date-selector">
+          <div class="p-4 rounded-lg bg-pale-yellow">
             <h1 class="font-sans text-2xl font-medium text-pale-gray">
               {{ eventData?.venueName ?? '' }}
             </h1>
@@ -96,18 +98,18 @@
                 Prices
               </h1>
               <h1 class="font-sans text-xl font-medium text-pale-gray">
-                {{ formatPrices(eventData?.prices ?? []) ?? 'ราคา' }}
+                {{ formatPrices(eventData?.prices ?? []) ?? '' }}
               </h1>
             </div>
             <h1 class="mt-2 text-2xl font-medium text-pale-gray">
               Schedule
             </h1>
             <div class="date-selector">
-              <div class="show-date" v-for="(datetimes, i) in (eventData?.datetimes?? [])" :key="`event-page-data-selector-${i}`">
-                <div class="show-date-schedule">
-                  {{ formatOpeningDate(datetimes.start) }}
+              <div class="flex flex-row justify-between my-2" v-for="(datetimes, i) in (eventData?.datetimes ?? [])" :key="`event-page-data-selector-${i}`">
+                <div class="font-sans text-lg font-medium text-pale-gray">
+                  {{ formatTimeString(datetimes.start) }}
                 </div>
-                <router-link to="/select-seat" class="buy-button">
+                <router-link :to="`/${$route.params.username as string ?? ''}/${$route.params.eventId as string ?? ''}/${datetimes.datetimeId}`" class="text-white btn btn-secondary">
                   Buy
                 </router-link>
               </div>
@@ -131,6 +133,7 @@ import { GetIndividualEventReply } from '@reeba/common'
 
 import { getEventImage, getIndividualEvent as getIndividualEventEndpoint, getUserAvatar } from '@/api/endpoints'
 import { useMarkdown } from '@/composables'
+import { formatTimeString } from '@/utils'
 
 export default defineComponent({
   name: 'event',
@@ -166,11 +169,9 @@ export default defineComponent({
     const formatPrices = (prices: Array<{ color: string, value: number }>): string => {
       return prices.map(p => p.value).sort((a, b) => a - b).map(p => format(',')(p)).join(' / ') + ' THB'
     }
+
     const openGoogle = (place: {x: string, y: string}): void => {
       window.open(`https://www.google.com/maps/search/?api=1&query=${place.x},${place.y}`, '_blank', 'noopener')
-    }
-    const formatOpeningDate = (openingDate: string): string => {
-      return dayjs(openingDate).format('MMMM D, YYYY HH:mm')
     }
 
     onMounted(async () => {
@@ -192,7 +193,7 @@ export default defineComponent({
       formatTimeRange,
       formatPrices,
       openGoogle,
-      formatOpeningDate,
+      formatTimeString,
       renderedMarkdown,
       getEventImage,
       route,
@@ -223,12 +224,8 @@ export default defineComponent({
   @apply grid grid-cols-1 grid-flow-row gap-4 mt-12 xl:grid-cols-2;
 }
 
-.event-calendar, .event-prices, .event-times, .event-place, .event-organizer, .event-createdby {
+.event-calendar, .event-prices, .event-times, .event-place, .event-createdby {
   @apply flex flex-row gap-3;
-}
-
-.event-organizer {
-  @apply cursor-pointer;
 }
 
 .event-prices, .event-place  {
@@ -241,22 +238,6 @@ export default defineComponent({
 
 .detail-sub-header {
   @apply font-sans text-sm text-white;
-}
-
-.ticket-date-selector {
-  @apply p-4 rounded-lg bg-pale-yellow;
-}
-
-.show-date {
-  @apply flex flex-row justify-between my-2;
-}
-
-.show-date-schedule {
-  @apply font-sans text-lg font-medium text-pale-gray;
-}
-
-.buy-button {
-  @apply inline-block py-2 px-8 w-min text-white rounded-lg h-min bg-pale-gray hover:bg-gray-hover;
 }
 
 .markdown-box {

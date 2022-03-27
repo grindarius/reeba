@@ -16,8 +16,8 @@
           </div>
           <div class="content-box-textbox">
             <h1>{{ e.name }}</h1>
-            <h3>Seat</h3>
-            <h2>{{ e.section.name }}</h2>
+            <h3>Seats</h3>
+            <h2>{{ e.section.name }} - {{ e.seats.map(s => s.name).sort().join(', ') }}</h2>
             <h3>Prices</h3>
             <h2>{{ format(',')(e.totalPrice) }} THB</h2>
             <h3>Show date</h3>
@@ -56,12 +56,12 @@
           <input id="edit-user-settings-username-input" type="username" class="box-text">
         </div>
       </div>
-      <div class="flex flex-col lg:flex-row space-y-1 space-x-0 lg:space-y-0 lg:space-x-1 justify-end">
+      <div class="flex flex-col justify-end space-y-1 space-x-0 lg:flex-row lg:space-y-0 lg:space-x-1">
         <button class="btn">
-          <label for="transfer-ownership-modal" class="modal-button rounded-r-none">Cancel</label>
+          <label for="transfer-ownership-modal" class="rounded-r-none modal-button">Cancel</label>
         </button>
         <button class="btn">
-          <label for="transfer-ownership-modal" class="modal-button rounded-r-none">Send</label>
+          <label for="transfer-ownership-modal" class="rounded-r-none modal-button">Send</label>
         </button>
       </div>
     </label>
