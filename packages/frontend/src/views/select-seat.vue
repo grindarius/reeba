@@ -51,22 +51,9 @@
               </div>
             </div>
             <div class="grid gap-3" :style="{ 'grid-template-rows': `repeat(${seatHeight}, 24px)`, 'grid-template-columns': `repeat(${seatWidth}, 24px)`}">
-              <!-- <label
-                  class="seats-label"
-                  v-for="(column, i) in selectedSection"
-                  :key="column">
-                  <input
-                    :disabled="disabledOtherRow(row)||isSeatTaken(row, column)" type="checkbox"
-                    @change="seatSelected($event, row)"
-                    class="seats-checkbox" :value="alphabet[row - 1] + column"
-                    v-model="checkedSeat"
-                    :style="{'background-color': zoneData[userSelectedZone - 1].ticketPriceColors[row - 1]}">
-                  <v-mdi v-if="isSeatChecked(row, column)" class="absolute cursor-pointer" name="mdi-check" size="24" fill="black" />
-                  <v-mdi v-else-if="isSeatTaken(row, column)" class="absolute cursor-not-allowed" name="mdi-close" size="24" fill="black" />
-                </label> -->
-              <label class="seats-label" v-for="s in selectedSection" :key="s.seatId" :style="{ 'background-color': colorRecord[s.seatPrice] }">
-                <input type="checkbox" class="seats-checkbox" :style="{ 'background-color': colorRecord[s.seatPrice] }">
-                s
+              <label :class="seatLabelClassName(s.isSeatTaken)" v-for="(s, i) in selectedSection" :key="s.seatId" :style="{ 'background-color': colorRecord[s.seatPrice] }" @click="selectSeat(i)">
+                <v-mdi v-if="transactionStore.transactionStore.section.seats.has(s.seatId)" class="absolute cursor-pointer" name="mdi-check" size="24" fill="black" />
+                <v-mdi v-else-if="s.isSeatTaken" class="absolute cursor-not-allowed" name="mdi-close" size="24" fill="black" />
               </label>
             </div>
           </div>
@@ -178,8 +165,8 @@ export default defineComponent({
       return `${numberToLetters(alphabetic)}${numeric + 1}`
     }
 
-    const selectSection = (id: number): void => {
-      selectedSection.value = sectionAsValues.value[id]
+    const selectSection = (i: number): void => {
+      selectedSection.value = sectionAsValues.value[i]
       transactionStore.setSection({
         id: selectedSection.value[0].sectionId,
         rowPosition: selectedSection.value[0].sectionRowPosition,
@@ -188,8 +175,23 @@ export default defineComponent({
       })
       seatWidth.value = Math.max(...selectedSection.value.map(s => s.seatColumnPosition)) + 1
       seatHeight.value = Math.max(...selectedSection.value.map(s => s.seatRowPosition)) + 1
+    }
 
-      console.log(seatWidth.value, seatHeight.value, selectedSection.value)
+    const selectSeat = (i: number): void => {
+      if (transactionStore.transactionStore.section.seats.has(selectedSection.value[i].seatId)) {
+        transactionStore.transactionStore.section.seats.delete(selectedSection.value[i].seatId)
+        return
+      }
+
+      try {
+        transactionStore.setSeat(selectedSection.value[i].seatId, {
+          rowPosition: selectedSection.value[i].seatRowPosition,
+          columnPosition: selectedSection.value[i].seatColumnPosition,
+          price: selectedSection.value[i].seatPrice
+        })
+      } catch (error) {
+        toast.error('Cannot set other seat price')
+      }
     }
 
     onMounted(async () => {
@@ -255,10 +257,6 @@ export default defineComponent({
       }
     }
 
-    const isSeatChecked = (row: number, column: number): boolean => {
-      return checkedSeat.value.some((x:string) => x === alphabet[row - 1] + column)
-    }
-
     const disabledOtherRow = (row:number): boolean => {
       if (selectedRow.value !== '') {
         return selectedRow.value !== alphabet[row - 1]
@@ -267,12 +265,13 @@ export default defineComponent({
       }
     }
 
-    const isSeatTaken = (row: number, column: number): boolean => {
-      return ['A9', 'B2', 'C5', 'D6', 'F2', 'A6', 'B10', 'C1', 'D12', 'F3'].some((x:string) => x === alphabet[row - 1] + column)
+    const seatLabelClassName = (isSeatTaken: boolean): string => {
+      return isSeatTaken ? 'seats-label rounded-full hover:cursor-not-allowed' : 'seats-label rounded-full hover:cursor-pointer'
     }
 
     return {
       zoneData,
+      selectSeat,
       userSelectedZone,
       selectedSection,
       sectionAsValues,
@@ -282,9 +281,8 @@ export default defineComponent({
       getTimeString,
       checkedSeat,
       seatSelected,
-      isSeatChecked,
       disabledOtherRow,
-      isSeatTaken,
+      transactionStore,
       sectionWidth,
       formatSectionName,
       selectSection,
@@ -293,7 +291,8 @@ export default defineComponent({
       seatWidth,
       seatHeight,
       colorRecord,
-      numberToLetters
+      numberToLetters,
+      seatLabelClassName
     }
   }
 })
