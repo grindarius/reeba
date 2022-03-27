@@ -1,14 +1,19 @@
 <template>
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
   <div class="select-seat-page">
-    <div class="base">
-      <h1 class="title">
-        Stage zones
+    <div class="container my-10">
+      <h1 class="font-sans text-4xl font-semibold text-white">
+        Stage sections
       </h1>
-      <div class="zone">
-        <div class="section">
+      <div class="py-6 px-10 w-full overflow-x-auto">
+        <div class="grid gap-4 mx-auto max-w-min" :style="{ 'grid-template-columns': `repeat(${sectionWidth + 1}, 80px)`, 'grid-template-rows': `repeat(${sectionHeight + 1}, 80px)`}">
           <button
             v-for="(zoneInfo, id) in zoneData"
-            :class="`${zoneInfo.id === userSelectedZone ? 'button-active' : 'button'}`"
+            class="btn btn-square h-20 w-20"
             @click="changeZone(zoneInfo.id)"
             :key="`section-text-${id}`">
             <h1 class="section-text">
@@ -114,6 +119,7 @@ import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import ky from 'ky'
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
@@ -134,6 +140,15 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const toast = useToast()
+
+    const sections: Ref<Record<string, GetEventSeatsReply['sections']>> = ref({})
+
+    const sectionWidth = ref(0)
+    const sectionHeight = ref(0)
+
+    useMeta({
+      title: 'Seats'
+    })
 
     const userSelectedZone = ref(0)
     const ticketPrice = ref(0)
@@ -167,7 +182,10 @@ export default defineComponent({
           return a.sectionColumnPosition - b.sectionColumnPosition || a.sectionRowPosition - b.sectionRowPosition
         })
 
-        
+        sectionWidth.value = Math.max(...response.sections.map(s => s.sectionRowPosition))
+        sectionHeight.value = Math.max(...response.sections.map(s => s.sectionColumnPosition))
+
+        sections.value = groupBy(groupedBySectionId, r => r.sectionId)
       } catch (error) {
         // @ts-expect-error error is unknown
         const response = error?.response
@@ -229,7 +247,9 @@ export default defineComponent({
       seatSelected,
       isSeatChecked,
       disabledOtherRow,
-      isSeatTaken
+      isSeatTaken,
+      sectionWidth,
+      sectionHeight
     }
   }
 })
@@ -240,12 +260,8 @@ export default defineComponent({
   @apply flex justify-center w-full min-h-screen bg-pale-gray;
 }
 
-.base {
-  @apply container py-6;
-}
-
 .title {
-  @apply py-2 font-sans text-4xl font-semibold text-white;
+  @apply font-sans text-4xl font-semibold text-white;
 }
 
 .button {
@@ -256,17 +272,8 @@ export default defineComponent({
   @apply py-2 px-4 w-24 h-24 font-bold rounded bg-yellow-hover;
 }
 
-.zone {
-  @apply flex py-6 px-10 w-full md:justify-center;
-}
-
-.section {
-  @apply grid gap-4;
-  grid-template-columns: repeat(5, 100px);
-}
-
 .section-text {
-  @apply font-sans text-4xl font-semibold text-black;
+  @apply font-sans text-2xl font-semibold text-black;
 }
 
 .selected {
