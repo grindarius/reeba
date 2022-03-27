@@ -117,7 +117,7 @@ import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
-import { GetEventSeatsReply } from '@reeba/common'
+import { GetEventSeatsReply, groupBy } from '@reeba/common'
 
 import { getEventSeats } from '@/api/endpoints'
 import { alphabet, zoneData } from '@/constants'
@@ -164,9 +164,10 @@ export default defineComponent({
         }).json<GetEventSeatsReply>()
 
         const groupedBySectionId = response.sections.sort((a, b) => {
-          return a.sectionColumnPosition - b.sectionRowPosition
+          return a.sectionColumnPosition - b.sectionColumnPosition || a.sectionRowPosition - b.sectionRowPosition
         })
-        console.log(groupedBySectionId)
+
+        
       } catch (error) {
         // @ts-expect-error error is unknown
         const response = error?.response
