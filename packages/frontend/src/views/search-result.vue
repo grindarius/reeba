@@ -147,7 +147,7 @@
 import ky from 'ky'
 import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue'
 import { useMeta } from 'vue-meta'
-import { LocationQueryValue, useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 import {
   CreatorType,
@@ -164,7 +164,7 @@ import {
 } from '@reeba/common'
 
 import { getSearchResult as getSearchResultEndpoint, getUserAvatar } from '@/api/endpoints'
-import { formatTimeString } from '@/utils'
+import { formatQueryArray, formatQueryString, formatTimeString } from '@/utils'
 
 export default defineComponent({
   name: 'search',
@@ -184,22 +184,6 @@ export default defineComponent({
     useMeta({
       title: route.query.q ?? 'Search'
     })
-
-    const formatQueryString = (query: LocationQueryValue | Array<LocationQueryValue>, defaultValue = ''): string => {
-      return query == null
-        ? defaultValue
-        : Array.isArray(query)
-          ? query.filter(q => q != null)[0] ?? ''
-          : query
-    }
-
-    const formatQueryArray = (query: LocationQueryValue | Array<LocationQueryValue>): Array<string> => {
-      return query == null
-        ? []
-        : Array.isArray(query)
-          ? query.filter(c => c != null) as Array<string>
-          : [query]
-    }
 
     const getSearchResult = async (): Promise<void> => {
       const formattedQ = formatQueryString(route.query.q)
