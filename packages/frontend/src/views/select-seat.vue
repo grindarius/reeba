@@ -45,10 +45,13 @@
           <div class="flex py-20 basis-1/2 flex-row">
             <div>
               <div class="flex flex-col gap-2 py-1 px-10 md:justify-center md:px-0 columns-1" v-for="(_, i) in seatHeight" :key="`section-row-name-display-${i}`">
-                <p class="place-self-center text-lg text-white">
+                <p class="place-self-center text-lg text-white mr-10">
                   {{ numberToLetters(i) }}
                 </p>
-                <!-- <label
+              </div>
+            </div>
+            <div class="grid gap-3" :style="{ 'grid-template-rows': `repeat(${seatHeight}, 24px)`, 'grid-template-columns': `repeat(${seatWidth}, 24px)`}">
+              <!-- <label
                   class="seats-label"
                   v-for="(column, i) in selectedSection"
                   :key="column">
@@ -61,10 +64,8 @@
                   <v-mdi v-if="isSeatChecked(row, column)" class="absolute cursor-pointer" name="mdi-check" size="24" fill="black" />
                   <v-mdi v-else-if="isSeatTaken(row, column)" class="absolute cursor-not-allowed" name="mdi-close" size="24" fill="black" />
                 </label> -->
-              </div>
-            </div>
-            <div class="grid" :style="{ 'grid-template-rows': `repeat(${seatHeight}, 24px)`, 'grid-template-columns': `repeat(${seatWidth}, 24px)`}">
               <label class="seats-label" v-for="s in selectedSection" :key="s.seatId" :style="{ 'background-color': colorRecord[s.seatPrice] }">
+                <input type="checkbox" class="seats-checkbox" :style="{ 'background-color': colorRecord[s.seatPrice] }">
                 s
               </label>
             </div>
@@ -208,8 +209,8 @@ export default defineComponent({
         const groupedBySectionId = response.sections.sort((a, b) => {
           return a.sectionColumnPosition - b.sectionColumnPosition ||
             a.sectionRowPosition - b.sectionRowPosition ||
-            a.seatColumnPosition - b.seatColumnPosition ||
-            a.seatRowPosition - b.seatRowPosition
+            a.seatRowPosition - b.seatRowPosition ||
+            a.seatColumnPosition - b.seatColumnPosition
         })
 
         sectionWidth.value = Math.max(...response.sections.map(s => s.sectionRowPosition))
