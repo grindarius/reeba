@@ -20,18 +20,20 @@
               v-model="eventName">
           </div>
 
-          <div class="bg-amber-200 col-span-4">
-            <button class="px-3 py-2 text-sm text-pale-gray hover:bg-pale-yellow bg-amber-200" @click="isWrite = true">
-              Write
-            </button>
-            <button class="px-3 py-2 text-sm text-pale-gray hover:bg-pale-yellow bg-amber-200" @click="isWrite = false">
-              Preview
-            </button>
-            <!-- <div class="grid grid-cols-1"> -->
-            <button @click="openMarkdownRef('https://markdown-it.github.io/')" class="self-center place-self-end">
-              <v-mdi name="mdi-information-outline" fill="#D5A755" class="self-center place-self-end" />
-            </button>
-            <!-- </div> -->
+          <div class="col-span-4">
+            <div class="flex flex-row justify-between">
+              <div>
+                <button class="px-3 py-2 text-sm text-white hover:bg-pale-yellow" @click="isWrite = true">
+                  Write
+                </button>
+                <button class="px-3 py-2 text-sm text-white hover:bg-pale-yellow" @click="isWrite = false">
+                  Preview
+                </button>
+              </div>
+              <button @click="openMarkdownRef('https://markdown-it.github.io/')" class="self-center place-self-end">
+                <v-mdi name="mdi-information-outline" fill="#D5A755" class="self-center place-self-end" />
+              </button>
+            </div>
             <div class="input-box" v-if="isWrite">
               <span
                 class="overflow-x-auto font-mono textarea" id="description"
