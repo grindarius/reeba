@@ -145,7 +145,8 @@ export default defineComponent({
       }
     }))
 
-    const { renderedMarkdown } = useMarkdown(eventData.value?.description ?? '## No description provided')
+    const markdownString = ref(eventData.value?.description ?? '## No description provided')
+    const { renderedMarkdown } = useMarkdown(markdownString)
 
     const formatTimeRange = (datetimes: Array<{ start: string, end: string }>): string => {
       const sortedDatetimes = datetimes.sort((a, b) => dayjs(a.start).unix() - dayjs(b.start).unix())
@@ -182,6 +183,7 @@ export default defineComponent({
         }).json<GetIndividualEventReply>()
 
         eventData.value = response
+        markdownString.value = response.description
       } catch (error) {
         router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
       }
