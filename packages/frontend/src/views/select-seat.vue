@@ -33,7 +33,7 @@
         <div class="price-list">
           <div
             class="price-rate"
-            v-for="(price, id) in priceList"
+            v-for="(price, id) in priceList.sort((a, b) => a.price - b.price)"
             :key="`price-rate-${id}`">
             <div class="py-4 px-4 rounded-full" :style="{ 'background-color': price.color }" />
             <p class="ticket-price-text">

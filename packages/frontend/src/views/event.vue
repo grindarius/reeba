@@ -8,7 +8,7 @@
     <div class="event-page-content">
       <div class="event-top-part">
         <div class="w-full rounded-lg lg:w-min">
-          <h1 class="block font-sans text-4xl text-white lg:hidden">
+          <h1 class="block font-sans text-4xl text-white lg:hidden mb-4">
             {{ eventData?.name ?? '' }}
           </h1>
           <img class="mx-auto max-w-md rounded-lg lg:mx-0" :src="`${getEventImage({ eventId: $route.params.eventId as string ?? '' }).url}`" :alt="`${eventData?.name ?? '' }`">
@@ -109,7 +109,7 @@
                 <div class="font-sans text-lg font-medium text-pale-gray">
                   {{ formatTimeString(datetimes.start) }}
                 </div>
-                <router-link :to="`/${$route.params.username as string ?? ''}/${$route.params.eventId as string ?? ''}/${datetimes.datetimeId}`" class="btn">
+                <router-link :to="`/${$route.params.username as string ?? ''}/${$route.params.eventId as string ?? ''}/${datetimes.datetimeId}`" class="btn btn-secondary text-white">
                   Buy
                 </router-link>
               </div>
