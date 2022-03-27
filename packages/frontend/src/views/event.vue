@@ -36,7 +36,7 @@
                   Opening date
                 </h1>
                 <h1 class="detail-sub-header">
-                  {{ eventData?.openingDate == null ? '' : formatOpeningDate(eventData.openingDate) }}
+                  {{ eventData?.openingDate == null ? '' : formatTimeString(eventData.openingDate) }}
                 </h1>
               </div>
             </div>
@@ -51,17 +51,19 @@
                 </h1>
               </div>
             </div>
-            <div class="event-createdby">
-              <img class="rounded-full" width="60" :src="`${getUserAvatar({ username: $route.params.username as string ?? '' }).url}`" :alt="eventData?.createdBy ?? ''">
-              <div class="createdby-content">
-                <h1 class="detail-header">
-                  Created by
-                </h1>
-                <h1 class="detail-sub-header">
-                  {{ eventData?.createdBy ?? '' }}
-                </h1>
+            <router-link :to="`/${$route.params.username as string ?? ''}`" custom v-slot="{ navigate }">
+              <div class="event-createdby cursor-pointer" @click="navigate">
+                <img class="rounded-full" width="60" :src="`${getUserAvatar({ username: $route.params.username as string ?? '' }).url}`" :alt="eventData?.createdBy ?? ''">
+                <div class="createdby-content">
+                  <h1 class="detail-header">
+                    Created by
+                  </h1>
+                  <h1 class="detail-sub-header">
+                    {{ eventData?.createdBy ?? '' }}
+                  </h1>
+                </div>
               </div>
-            </div>
+            </router-link>
             <div class="cursor-pointer event-place" @click="openGoogle(eventData?.venueCoordinates ?? { x: '0', y: '0' })">
               <v-mdi name="mdi-map-marker-account" size="60" fill="#D5A755" />
               <div class="place-content">
@@ -96,18 +98,18 @@
                 Prices
               </h1>
               <h1 class="font-sans text-xl font-medium text-pale-gray">
-                {{ formatPrices(eventData?.prices ?? []) ?? 'ราคา' }}
+                {{ formatPrices(eventData?.prices ?? []) ?? '' }}
               </h1>
             </div>
             <h1 class="mt-2 text-2xl font-medium text-pale-gray">
               Schedule
             </h1>
             <div class="date-selector">
-              <div class="flex flex-row justify-between my-2" v-for="(datetimes, i) in (eventData?.datetimes?? [])" :key="`event-page-data-selector-${i}`">
+              <div class="flex flex-row justify-between my-2" v-for="(datetimes, i) in (eventData?.datetimes ?? [])" :key="`event-page-data-selector-${i}`">
                 <div class="font-sans text-lg font-medium text-pale-gray">
-                  {{ formatOpeningDate(datetimes.start) }}
+                  {{ formatTimeString(datetimes.start) }}
                 </div>
-                <router-link to="/select-seat" class="btn">
+                <router-link :to="`/${$route.params.username as string ?? ''}/${$route.params.eventId as string ?? ''}/${datetimes.datetimeId}`" class="btn">
                   Buy
                 </router-link>
               </div>
@@ -131,6 +133,7 @@ import { GetIndividualEventReply } from '@reeba/common'
 
 import { getEventImage, getIndividualEvent as getIndividualEventEndpoint, getUserAvatar } from '@/api/endpoints'
 import { useMarkdown } from '@/composables'
+import { formatTimeString } from '@/utils'
 
 export default defineComponent({
   name: 'event',
@@ -166,11 +169,9 @@ export default defineComponent({
     const formatPrices = (prices: Array<{ color: string, value: number }>): string => {
       return prices.map(p => p.value).sort((a, b) => a - b).map(p => format(',')(p)).join(' / ') + ' THB'
     }
+
     const openGoogle = (place: {x: string, y: string}): void => {
       window.open(`https://www.google.com/maps/search/?api=1&query=${place.x},${place.y}`, '_blank', 'noopener')
-    }
-    const formatOpeningDate = (openingDate: string): string => {
-      return dayjs(openingDate).format('MMMM D, YYYY HH:mm')
     }
 
     onMounted(async () => {
@@ -192,7 +193,7 @@ export default defineComponent({
       formatTimeRange,
       formatPrices,
       openGoogle,
-      formatOpeningDate,
+      formatTimeString,
       renderedMarkdown,
       getEventImage,
       route,
