@@ -22,27 +22,23 @@
 
           <div class="col-span-4">
             <div class="flex flex-row justify-between">
-              <div>
-                <button class="px-3 py-2 text-sm text-white hover:bg-pale-yellow" @click="isWrite = true">
-                  Write
-                </button>
-                <button class="px-3 py-2 text-sm text-white hover:bg-pale-yellow" @click="isWrite = false">
-                  Preview
-                </button>
+              <div class="tabs">
+                <a :class="isWrite ? 'tab tab-bordered tab-active' : 'tab tab-bordered'" @click="isWrite = true">Write</a>
+                <a :class="!isWrite ? 'tab tab-bordered tab-active' : 'tab tab-bordered'" @click="isWrite = false">Preview</a>
               </div>
               <button @click="openMarkdownRef('https://markdown-it.github.io/')" class="self-center place-self-end">
                 <v-mdi name="mdi-information-outline" fill="#D5A755" class="self-center place-self-end" />
               </button>
             </div>
-            <div class="input-box text-black" v-if="isWrite">
-              <span
-                class="overflow-x-auto font-mono textarea" id="description"
-                role="textbox" contenteditable="true"
-                v-text="eventDescription"
-                @input="updateMarkdown" />
+            <div v-if="isWrite">
+              <textarea
+                class="textarea w-full bg-white text-black"
+                v-model="eventDescription"
+                style="height: auto;"
+                :rows="eventDescription.split(/\r\n|\r|\n/).length" />
             </div>
-            <div class="input-box" v-else>
-              <div :class="displayedDescription !== '' ? 'input prosing' : 'input prosing h-12'" v-html="displayedDescription" class="overflow-x-auto font-mono textarea" id="description" />
+            <div v-else>
+              <div :class="renderedMarkdown !== '' ? 'prosing bg-white p-4 rounded-lg' : 'prosing h-12'" v-html="renderedMarkdown" />
             </div>
           </div>
 
@@ -436,10 +432,6 @@
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import ky from 'ky'
-import MarkdownIt from 'markdown-it'
-// @ts-expect-error not have definitelyTyped
-import abbr from 'markdown-it-abbr'
-import emoji from 'markdown-it-emoji'
 import { computed, defineComponent, Ref, ref, StyleValue, watch } from 'vue'
 import { useMeta } from 'vue-meta'
 import { useRouter } from 'vue-router'
@@ -448,6 +440,7 @@ import { useToast } from 'vue-toastification'
 import { numberToLetters, PostEventBody, PostEventReply } from '@reeba/common'
 
 import { postEvent, postEventImage } from '@/api/endpoints'
+import { useMarkdown } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
 import { ReebAEventDatetime, ReebAEventSeat, ReebAEventSection, ReebAExtendedEventPrice } from '@/types'
 import { decrease2DArrayDimension, generateEventSeats, generateEventSections, increase2DArrayDimension, randomPastelColor } from '@/utils'
@@ -519,6 +512,7 @@ export default defineComponent({
     ])
     const eventDatetimes = ref<Array<ReebAEventDatetime>>([])
     const eventMinimumAge = ref('0')
+    const { renderedMarkdown } = useMarkdown(eventDescription)
 
     const selectedEventStartTime = ref('')
     const selectedEventEndTime = ref('')
@@ -694,13 +688,6 @@ export default defineComponent({
       { name: 'Variety', tag: 'variety' }
     ])
 
-    const markdown = ref(new MarkdownIt('default', { breaks: true, linkify: true, typographer: true, html: true }).use(emoji).use(abbr))
-    const updateMarkdown = (e: Event): void => {
-      eventDescription.value = (e.target as HTMLSpanElement).innerText
-    }
-    const displayedDescription = computed<string>(() => {
-      return markdown.value.render(eventDescription.value)
-    })
     const openMarkdownRef = (url: string) => {
       const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
       if (newWindow) newWindow.opener = null
@@ -929,9 +916,7 @@ export default defineComponent({
       selectedEventEndTime,
       addEventTime,
       removeEventTime,
-      updateMarkdown,
       eventDescription,
-      displayedDescription,
       openMarkdownRef,
       increaseActualSeatPlanRow,
       increaseActualSeatPlanColumn,
@@ -961,7 +946,8 @@ export default defineComponent({
       setActualSeatPlanPriceIndividually,
       eventSectionRowLength,
       eventSectionColumnLength,
-      isWrite
+      isWrite,
+      renderedMarkdown
     }
   }
 })
@@ -1037,12 +1023,8 @@ input[type=color]::-webkit-color-swatch-wrapper {
     padding: 0;
 }
 
-.textarea {
-  @apply inline-block whitespace-pre input;
-}
-
 .prosing {
-  @apply max-w-none prose prose-a:no-underline prose-a:text-blue-700 prose-blockquote:not-italic hover:prose-a:text-blue-500 hover:prose-a:underline;
+  @apply max-w-none prose prose-a:no-underline prose-a:text-blue-700 prose-blockquote:not-italic hover:prose-a:text-blue-500 hover:prose-a:underline prose-headings:text-black prose-p:text-black prose-strong:text-black prose-em:text-black prose-li:text-black prose-blockquote:border-l-zinc-400 prose-li:marker:text-zinc-400;
 }
 
 .initial-price-selector {
