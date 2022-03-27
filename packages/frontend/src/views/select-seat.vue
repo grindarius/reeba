@@ -51,7 +51,7 @@
               </div>
             </div>
             <div class="grid gap-3" :style="{ 'grid-template-rows': `repeat(${seatHeight}, 24px)`, 'grid-template-columns': `repeat(${seatWidth}, 24px)`}">
-              <label :class="seatLabelClassName(s.isSeatTaken)" v-for="(s, i) in selectedSection" :key="s.seatId" :style="{ 'background-color': colorRecord[s.seatPrice] }" @click="selectSeat(i)">
+              <label :class="seatLabelClassName(s.isSeatTaken)" v-for="(s, i) in selectedSection" :key="s.seatId" :style="{ 'background-color': colorRecord[s.seatPrice] }" @click="selectSeat(i, s.isSeatTaken)">
                 <v-mdi v-if="transactionStore.transactionStore.section.seats.has(s.seatId)" class="absolute cursor-pointer" name="mdi-check" size="24" fill="black" />
                 <v-mdi v-else-if="s.isSeatTaken" class="absolute cursor-not-allowed" name="mdi-close" size="24" fill="black" />
               </label>
@@ -177,7 +177,11 @@ export default defineComponent({
       seatHeight.value = Math.max(...selectedSection.value.map(s => s.seatRowPosition)) + 1
     }
 
-    const selectSeat = (i: number): void => {
+    const selectSeat = (i: number, isSeatTaken: boolean): void => {
+      if (isSeatTaken) {
+        return
+      }
+
       if (transactionStore.transactionStore.section.seats.has(selectedSection.value[i].seatId)) {
         transactionStore.transactionStore.section.seats.delete(selectedSection.value[i].seatId)
         return
