@@ -9,11 +9,11 @@
       <h1 class="font-sans text-4xl font-semibold text-white">
         Stage sections
       </h1>
-      <div class="py-6 px-10 w-full overflow-x-auto">
+      <div class="overflow-x-auto py-6 px-10 w-full">
         <div class="grid gap-4 mx-auto max-w-min" :style="{ 'grid-template-columns': `repeat(${sectionHeight}, 80px)`, 'grid-template-rows': `repeat(${sectionWidth}, 80px)`}">
           <button
             v-for="(section, i) in Object.values(sections)"
-            class="btn btn-square h-20 w-20"
+            class="w-20 h-20 btn btn-square"
             @click="selectSection(i)"
             :key="`section-text-${i}`">
             <h1 class="section-text">
@@ -42,10 +42,10 @@
           </div>
         </div>
         <div class="zone-detail">
-          <div class="flex py-20 basis-1/2 flex-row">
+          <div class="flex flex-row py-20 basis-1/2">
             <div>
               <div class="flex flex-col gap-2 py-1 px-10 md:justify-center md:px-0 columns-1" v-for="(_, i) in seatHeight" :key="`section-row-name-display-${i}`">
-                <p class="place-self-center text-lg text-white mr-10">
+                <p class="place-self-center mr-10 text-lg text-white">
                   {{ numberToLetters(i) }}
                 </p>
               </div>
@@ -100,7 +100,7 @@
               </tbody>
             </table>
             <router-link :to="`/${$route.params.username as string ?? ''}/${$route.params.eventId as string ?? ''}/${$route.params.datetimeId as string ?? ''}/payment`" custom v-slot="{ navigate }">
-              <button class="btn w-full md:w-4/5 rounded-t-none disabled:bg-red-disabled disabled:text-white" :disabled="transactionStore.transactionStore.section.seats.size === 0" @click="navigate">
+              <button class="w-full rounded-t-none md:w-4/5 disabled:text-white btn disabled:bg-red-disabled" :disabled="transactionStore.transactionStore.section.seats.size === 0" @click="navigate">
                 {{ transactionStore.transactionStore.section.seats.size === 0 ? 'Select seat first' : 'Submit' }}
               </button>
             </router-link>

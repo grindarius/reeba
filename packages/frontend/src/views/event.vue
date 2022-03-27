@@ -52,7 +52,7 @@
               </div>
             </div>
             <router-link :to="`/${$route.params.username as string ?? ''}`" custom v-slot="{ navigate }">
-              <div class="event-createdby cursor-pointer" @click="navigate">
+              <div class="cursor-pointer event-createdby" @click="navigate">
                 <img class="rounded-full" width="60" :src="`${getUserAvatar({ username: $route.params.username as string ?? '' }).url}`" :alt="eventData?.createdBy ?? ''">
                 <div class="createdby-content">
                   <h1 class="detail-header">

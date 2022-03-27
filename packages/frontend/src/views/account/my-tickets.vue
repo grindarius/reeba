@@ -56,12 +56,12 @@
           <input id="edit-user-settings-username-input" type="username" class="box-text">
         </div>
       </div>
-      <div class="flex flex-col lg:flex-row space-y-1 space-x-0 lg:space-y-0 lg:space-x-1 justify-end">
+      <div class="flex flex-col justify-end space-y-1 space-x-0 lg:flex-row lg:space-y-0 lg:space-x-1">
         <button class="btn">
-          <label for="transfer-ownership-modal" class="modal-button rounded-r-none">Cancel</label>
+          <label for="transfer-ownership-modal" class="rounded-r-none modal-button">Cancel</label>
         </button>
         <button class="btn">
-          <label for="transfer-ownership-modal" class="modal-button rounded-r-none">Send</label>
+          <label for="transfer-ownership-modal" class="rounded-r-none modal-button">Send</label>
         </button>
       </div>
     </label>
