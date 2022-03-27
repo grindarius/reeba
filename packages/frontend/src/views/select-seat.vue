@@ -112,15 +112,29 @@
 <script lang="ts">
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
-import { computed, defineComponent, Ref, ref } from 'vue'
+import ky from 'ky'
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
+import { GetEventSeatsReply } from '@reeba/common'
+
+import { getEventSeats } from '@/api/endpoints'
 import { alphabet, zoneData } from '@/constants'
+import { useAuthStore } from '@/store/use-auth-store'
+import { useTransactionStore } from '@/store/use-transaction-store'
 
 dayjs.extend(localizedFormat)
 
 export default defineComponent({
   name: 'select-seat',
   setup () {
+    const transactionStore = useTransactionStore()
+    const authStore = useAuthStore()
+    const route = useRoute()
+    const router = useRouter()
+    const toast = useToast()
+
     const userSelectedZone = ref(0)
     const ticketPrice = ref(0)
     const checkedSeat: Ref<Array<string>> = ref([])
@@ -134,6 +148,38 @@ export default defineComponent({
         selectedRow.value = ''
       }
     }
+
+    onMounted(async () => {
+      const { method, url } = getEventSeats({ eventId: route.params.eventId as string ?? '' })
+
+      try {
+        const response = await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          searchParams: [
+            ['datetimeId', route.params.datetimeId as string ?? '']
+          ]
+        }).json<GetEventSeatsReply>()
+
+        const groupedBySectionId = response.sections.sort((a, b) => {
+          return a.sectionColumnPosition - b.sectionRowPosition
+        })
+        console.log(groupedBySectionId)
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const response = error?.response
+
+        if (response.status === 401) {
+          toast.error('Token expired')
+          router.push({ name: 'Signin' })
+        }
+
+        const json = await response.json()
+        toast.error(json.message)
+      }
+    })
 
     const getTimeString = computed((): string => {
       return dayjs().format('LLLL')
