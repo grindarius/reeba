@@ -145,6 +145,7 @@ const generateUserList = async (amount: number): Promise<Array<users>> => {
       user_role: faker.mersenne.rand(1, 100) > 60 ? t_user_role.admin : t_user_role.user,
       // user_image_profile_path: await getAndSaveImage(card.avatar),
       user_image_profile_path: '',
+      user_iso_31662_code: faker.address.countryCode('alpha-2'),
       user_verification_status: faker.mersenne.rand(1, 100) < 70,
       user_phone_country_code: faker.random.arrayElement(countriesValues).phone.split(',')[0],
       user_phone_number: faker.phone.phoneNumber('9########'),

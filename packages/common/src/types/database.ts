@@ -100,6 +100,12 @@ export interface users {
    */
   user_verification_status: boolean
   /**
+   * ISO-3166-2 code of a country that users live in. got the code from their phone number. default is 'TH'
+   *
+   * @see https://en.wikipedia.org/wiki/ISO_3166-2
+   */
+  user_iso_31662_code: string
+  /**
    * User's telephone country code. not null, stored as country code without plus sign. we can traceback the country of user later.
    * Will be very helpful in statistics
    */

@@ -20,6 +20,7 @@ create table users (
   user_role t_user_role not null default 'user',
   user_image_profile_path text not null default '',
   user_verification_status boolean not null default false,
+  user_iso_31662_code text not null default 'TH',
   user_phone_country_code text not null default '66',
   user_phone_number text not null default '',
   user_birthdate date default null,
