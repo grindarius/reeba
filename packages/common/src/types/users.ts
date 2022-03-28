@@ -13,6 +13,11 @@ export const GetUserParamsSchema = Type.Object({
 })
 export type GetUserParams = Static<typeof GetUserParamsSchema>
 
+export const GetUserQuerystringSchema = Type.Object({
+  u: Type.String({ default: '' })
+})
+export type GetUserQuerystring = Static<typeof GetUserQuerystringSchema>
+
 export const UserSocialMediaSchema = Type.Object({
   facebook: Type.String(),
   instagram: Type.String(),
@@ -28,7 +33,8 @@ export const GetUserReplySchema = Type.Object({
   socialMedias: UserSocialMediaSchema,
   verificationStatus: Type.Boolean(),
   profileDescription: Type.String(),
-  followersAmount: Type.Number()
+  followersAmount: Type.Number(),
+  isCurrentUserFollowing: Type.Boolean()
 })
 export type GetUserReply = Static<typeof GetUserReplySchema>
 

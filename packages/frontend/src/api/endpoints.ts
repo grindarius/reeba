@@ -109,3 +109,8 @@ export const getEventSeats: EndpointFunc<{ eventId: string }> = ({ eventId }): E
     method: 'get'
   }
 }
+
+export const postFollow: Endpoint = {
+  url: `${url}/followings/follow`,
+  method: 'post'
+}

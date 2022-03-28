@@ -4,7 +4,7 @@
       {{ content }} | ReebA: Ticket booking. Redefined.
     </template>
   </metainfo>
-  <div class="w-full drawer drawer-mobile">
+  <div class="w-full drawer drawer-mobile" style="height: auto;">
     <input type="checkbox" id="search-sidebar" class="drawer-toggle">
     <div class="flex flex-col justify-start items-center drawer-content" style="max-height: none;">
       <div class="search-page">
@@ -88,7 +88,7 @@
     </label>
     <div class="drawer-side" style="max-height: none;">
       <label for="search-sidebar" class="drawer-overlay" style="background-color: #00000055;" />
-      <ul class="overflow-y-auto p-4 w-80 menu bg-base-100 text-base-content;">
+      <ul class="overflow-y-auto p-4 w-80 menu bg-base-100 text-base-content">
         <li class="menu-title">
           Creator type
         </li>
