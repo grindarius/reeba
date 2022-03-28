@@ -71,7 +71,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
       }
     }, async (request, reply) => {
-      const { username, email, password, phoneCountryCode, phoneNumber } = request.body
+      const { username, email, password, phoneCountryCode, phoneNumber, iso31662 } = request.body
 
       const possibleDuplicateEmails = await instance.pg.query<users, [users['user_email']]>(
         'select * from users where user_email = $1',
@@ -101,12 +101,13 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         users['user_email'],
         users['user_password'],
         users['user_phone_country_code'],
-        users['user_phone_number']
+        users['user_phone_number'],
+        users['user_iso_31662_code']
       ]
 
       await instance.pg.query<users, InsertUserValues>(
-        'insert into users (user_username, user_email, user_password, user_phone_country_code, user_phone_number) values ($1, $2, $3, $4, $5)',
-        [username, email, encryptedPassword, phoneCountryCode, phoneNumber]
+        'insert into users (user_username, user_email, user_password, user_phone_country_code, user_phone_number, user_iso_31662_code) values ($1, $2, $3, $4, $5, $6)',
+        [username, email, encryptedPassword, phoneCountryCode, phoneNumber, iso31662]
       )
 
       return {
