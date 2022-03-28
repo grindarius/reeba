@@ -25,6 +25,7 @@
   "dependencies": {
     "@reeba/common": "workspace:^1.0.0",
     "@reeba/fastify-check-jwt": "workspace:^1.0.0",
+    "@reeba/fastify-local-reverse-geocoder": "workspace:^1.0.0",
     "bcrypt": "^5.0.1",
     "dayjs": "^1.10.8",
     "dotenv-flow": "^3.2.0",
