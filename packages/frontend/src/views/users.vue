@@ -44,10 +44,10 @@
           </a>
         </div>
         <button
-          :disabled="userData?.username == null ? true : userData.username === authStore.userData.username ? true : false"
-          class="disabled:text-white follow-button hover:bg-yellow-hover disabled:bg-red-disabled"
+          :disabled="userData?.username == null || userData?.username === authStore.userData.username"
+          class="btn btn-primary disabled:text-white hover:bg-yellow-hover disabled:bg-red-disabled"
           @click="followUser">
-          Follow
+          {{ isFollowing ? 'Following' : 'Follow' }}
         </button>
         <div class="user-stats">
           <h1>{{ relatedEvents?.created.length ?? '0' }} events created</h1>
@@ -122,9 +122,9 @@ import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
-import { GetUserRelatedEventsReply, GetUserReply } from '@reeba/common'
+import { GetUserRelatedEventsReply, GetUserReply, PostFollowReply } from '@reeba/common'
 
-import { getEventImage, getUser, getUserAvatar, getUserRelatedEvents } from '@/api/endpoints'
+import { getEventImage, getUser, getUserAvatar, getUserRelatedEvents, postFollow } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 
 export default defineComponent({
@@ -140,6 +140,7 @@ export default defineComponent({
       created: [],
       attended: []
     })
+    const isFollowing = ref(false)
 
     useMeta({
       title: route.params.username
@@ -151,26 +152,27 @@ export default defineComponent({
 
         const userDataResponse = await ky(getUserUrl, {
           method: getUserMethod,
-          headers: {
-            Authorization: `Bearer ${authStore.userData.token}`
-          }
+          searchParams: [
+            ['u', authStore.userData.username ?? '']
+          ]
         }).json<GetUserReply>()
 
         const { method: getUserRelatedEventsMethod, url: getUserRelatedEventsUrl } = getUserRelatedEvents({ username: route.params.username as string })
 
         const userRelatedEvents = await ky(getUserRelatedEventsUrl, {
           method: getUserRelatedEventsMethod,
-          headers: {
-            Authorization: `Bearer ${authStore.userData.token}`
-          }
+          searchParams: [
+            ['u', authStore.userData.username ?? '']
+          ]
         }).json<GetUserRelatedEventsReply>()
 
         userData.value = userDataResponse
+        isFollowing.value = userDataResponse.isCurrentUserFollowing
         relatedEvents.value.created = userRelatedEvents.created
         relatedEvents.value.attended = userRelatedEvents.attended
       } catch (error) {
         // @ts-expect-error error unknown
-        const code = error?.response.status
+        const code = error?.response?.status
 
         if (code == null) {
           toast.error('Unexpected error')
@@ -178,19 +180,41 @@ export default defineComponent({
           return
         }
 
-        if (code === 401) {
-          toast.error('Token expired')
-          router.push('/signin')
-          return
-        }
-
         router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
       }
     })
 
-    const followUser = (): void => {
-      if (route.params.username !== authStore.userData.username) {
-        console.log('following this guy')
+    const followUser = async (): Promise<void> => {
+      if (!authStore.isAuthenticated) {
+        toast.error('Unauthenticated')
+        router.push({ name: 'Signin' })
+        return
+      }
+
+      const { method, url } = postFollow
+
+      try {
+        const response = await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          json: {
+            anotherUsername: route.params.username as string ?? ''
+          }
+        }).json<PostFollowReply>()
+
+        isFollowing.value = response.isFollowingCurrentUser
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const response = error?.response
+
+        if (response?.status === 401) {
+          toast.error('Unauthenticated')
+          router.push({ name: 'Signin ' })
+        }
+
+        toast.error('Unexpected error')
       }
     }
 
@@ -200,7 +224,8 @@ export default defineComponent({
       authStore,
       followUser,
       relatedEvents,
-      getEventImage
+      getEventImage,
+      isFollowing
     }
   }
 })
@@ -267,10 +292,6 @@ export default defineComponent({
   & h1 {
     @apply text-lg text-white;
   }
-}
-
-.follow-button {
-  @apply px-3 h-10 rounded-lg bg-pale-yellow text-pale-gray;
 }
 
 .text-main-event-name {
