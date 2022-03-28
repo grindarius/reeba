@@ -25,6 +25,7 @@ export const SignupBodySchema = Type.Object({
   email: Type.String(),
   password: Type.String(),
   phoneCountryCode: Type.String(),
+  iso31662: Type.String(),
   phoneNumber: Type.String()
 })
 export type SignupBody = Static<typeof SignupBodySchema>

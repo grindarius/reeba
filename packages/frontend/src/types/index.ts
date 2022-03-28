@@ -65,4 +65,5 @@ export interface TransactionStore {
 export interface CountryCode {
   name: string
   phoneCode: string
+  iso31662: string
 }
