@@ -9,6 +9,7 @@ export const GetProfileDataReplySchema = Type.Object({
   email: Type.String(),
   phoneCountryCode: Type.String(),
   phoneNumber: Type.String(),
+  iso31662: Type.String(),
   birthdate: Type.String()
 })
 export type GetProfileDataReply = Static<typeof GetProfileDataReplySchema>
