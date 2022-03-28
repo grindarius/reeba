@@ -70,6 +70,7 @@ interface CustomEvent {
   event_max_ticket_price: number
   event_minimum_age: string
   prices_array?: Record<string, number>
+  event_venue_country_code_alpha_2: string
 }
 
 function * range (start: number, stop?: number, step: number = 1): IterableIterator<number> {
@@ -121,11 +122,12 @@ const generateEventPrices = (): Record<string, number> => {
 
 const generateUserList = async (amount: number): Promise<Array<users>> => {
   const userList: Array<users> = []
-  const countriesValues = Object.values(countries)
+  const countriesValues = Object.entries(countries)
 
   // eslint-disable-next-line
   for await (const _ of [...range(amount)]) {
     const card = faker.helpers.contextualCard()
+    const randomCountry = faker.random.arrayElement(countriesValues)
 
     const user: users = {
       user_username: card.username.replace(/\./g, ''),
@@ -142,13 +144,13 @@ const generateUserList = async (amount: number): Promise<Array<users>> => {
         website: faker.helpers.userCard().website
       },
       user_registration_datetime: dayjs(faker.date.between('2020-01-01', '2021-01-01')).toISOString(),
-      user_role: faker.mersenne.rand(1, 100) > 60 ? t_user_role.admin : t_user_role.user,
+      user_role: faker.mersenne.rand(1, 100) > 90 ? t_user_role.admin : t_user_role.user,
       // user_image_profile_path: await getAndSaveImage(card.avatar),
       user_image_profile_path: '',
-      user_iso_31662_code: faker.address.countryCode('alpha-2'),
       user_verification_status: faker.mersenne.rand(1, 100) < 70,
-      user_phone_country_code: faker.random.arrayElement(countriesValues).phone.split(',')[0],
+      user_phone_country_code: randomCountry[1].phone.split(',')[0],
       user_phone_number: faker.phone.phoneNumber('9########'),
+      user_iso_31662_code: randomCountry[0],
       user_birthdate: dayjs(faker.date.between('1960-01-01', '2006-01-01')).format('YYYY-MM-DD')
     }
 
@@ -211,7 +213,8 @@ const generateEvent = async (userList: Array<users>, amount: number = 30): Promi
       event_min_ticket_price: Math.min(...Object.values(pricesArray)),
       event_max_ticket_price: Math.max(...Object.values(pricesArray)),
       prices_array: pricesArray,
-      event_minimum_age: faker.mersenne.rand(1, 100) > 60 ? faker.mersenne.rand(18, 20).toString() : '0'
+      event_minimum_age: faker.mersenne.rand(1, 100) > 60 ? faker.mersenne.rand(18, 20).toString() : '0',
+      event_venue_country_code_alpha_2: faker.address.countryCode('alpha-2')
     }
 
     eventList.push(reebaEvent)
@@ -564,8 +567,9 @@ const main = async () => {
         user_verification_status,
         user_phone_country_code,
         user_phone_number,
-        user_birthdate
-      ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) on conflict (user_username) do nothing`,
+        user_birthdate,
+        user_iso_31662_code
+      ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) on conflict (user_username) do nothing`,
       [
         user.user_username,
         user.user_email,
@@ -576,7 +580,8 @@ const main = async () => {
         user.user_verification_status,
         user.user_phone_country_code,
         user.user_phone_number,
-        dayjs(user.user_birthdate).toDate()
+        dayjs(user.user_birthdate).toDate(),
+        user.user_iso_31662_code
       ]
     )
   }
@@ -607,7 +612,8 @@ const main = async () => {
         event_ticket_prices,
         event_min_ticket_price,
         event_max_ticket_price,
-        event_minimum_age
+        event_minimum_age,
+        event_venue_country_code_alpha_2
       ) values (
         $1,
         $2,
@@ -622,7 +628,8 @@ const main = async () => {
         $11,
         $12,
         $13,
-        $14
+        $14,
+        $15
       ) returning event_id`,
       [
         ev.event_id,
@@ -638,7 +645,8 @@ const main = async () => {
         ev.event_ticket_prices,
         ev.event_min_ticket_price,
         ev.event_max_ticket_price,
-        ev.event_minimum_age
+        ev.event_minimum_age,
+        ev.event_venue_country_code_alpha_2
       ]
     )
 
