@@ -191,6 +191,10 @@ export interface events {
    */
   event_opening_date: string
   /**
+   * Alpha 2 code of where the event is located. got the value by doing local reverse geocode, default is ''
+   */
+  event_venue_country_code_alpha_2: string
+  /**
    * Event's status, either `'open'` or `'closed'`. default for when opening an event is `closed`.
    */
   event_status: t_event_status

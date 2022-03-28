@@ -20,7 +20,7 @@ create table users (
   user_role t_user_role not null default 'user',
   user_image_profile_path text not null default '',
   user_verification_status boolean not null default false,
-  user_iso_31662_code text not null default 'TH',
+  user_iso_31662_code text not null default '',
   user_phone_country_code text not null default '66',
   user_phone_number text not null default '',
   user_birthdate date default null,
@@ -29,8 +29,7 @@ create table users (
 
 create index pgroonga_users_index on users using pgroonga (
   user_username pgroonga_text_full_text_search_ops_v2,
-  user_profile_description pgroonga_text_full_text_search_ops_v2,
-  user_social_medias pgroonga_jsonb_full_text_search_ops_v2
+  user_profile_description pgroonga_text_full_text_search_ops_v2
 );
 
 create table user_followers (
@@ -52,6 +51,7 @@ create table events (
   event_venue_coordinates point not null default '0,0'::point,
   event_creation_date timestamptz default now(),
   event_opening_date timestamptz not null,
+  event_venue_country_code_alpha_2 text not null default '',
   event_status t_event_status not null default 'closed',
   event_ticket_prices jsonb not null default '{}'::jsonb,
   event_min_ticket_price int not null,
