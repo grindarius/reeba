@@ -3,7 +3,7 @@ import t from 'tap'
 import createServer from '../../src/app'
 import client from '../pool'
 
-void t.test('following user', async t => {
+void t.test('following and unfollowing user', async t => {
   const app = createServer()
 
   t.teardown(async () => {
@@ -54,12 +54,12 @@ void t.test('following user', async t => {
           Authorization: `Bearer ${baseguyToken.json().token as string}`
         },
         payload: {
-          usernameToFollow: ''
+          anotherUsername: ''
         }
       })
 
       t.strictSame(response.statusCode, 400)
-      t.strictSame(response.json().message, 'body should have required property \'usernameToFollow\'')
+      t.strictSame(response.json().message, 'body should have required property \'anotherUsername\'')
     } catch (error) {
       t.error(error)
       t.fail()
@@ -75,7 +75,7 @@ void t.test('following user', async t => {
           Authorization: `Bearer ${baseguyToken.json().token as string}`
         },
         payload: {
-          usernameToFollow: 'whodis'
+          anotherUsername: 'whodis'
         }
       })
 
@@ -96,19 +96,19 @@ void t.test('following user', async t => {
           Authorization: `Bearer ${baseguyToken.json().token as string}`
         },
         payload: {
-          usernameToFollow: 'followerguy'
+          anotherUsername: 'followerguy'
         }
       })
 
       t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json(), { message: 'complete' })
+      t.strictSame(response.json(), { isFollowingCurrentUser: true })
     } catch (error) {
       t.error(error)
       t.fail()
     }
   })
 
-  void t.test('following redundant username', async t => {
+  void t.test('following same username should unfollow', async t => {
     try {
       const response = await app.inject({
         method: 'post',
@@ -117,75 +117,33 @@ void t.test('following user', async t => {
           Authorization: `Bearer ${baseguyToken.json().token as string}`
         },
         payload: {
-          usernameToFollow: 'followerguy'
-        }
-      })
-
-      t.strictSame(response.statusCode, 400)
-      t.strictSame(response.json().message, 'already following this username')
-    } catch (error) {
-      t.error(error)
-      t.fail()
-    }
-  })
-
-  void t.test('unfollowing user without body username to unfollow', async t => {
-    try {
-      const response = await app.inject({
-        method: 'post',
-        url: '/followings/unfollow',
-        headers: {
-          Authorization: `Bearer ${baseguyToken.json().token as string}`
-        },
-        payload: {
-          usernameToUnfollow: ''
-        }
-      })
-
-      t.strictSame(response.statusCode, 400)
-      t.strictSame(response.json().message, 'body should have required property \'usernameToUnfollow\'')
-    } catch (error) {
-      t.error(error)
-      t.fail()
-    }
-  })
-
-  void t.test('successful deletion', async t => {
-    try {
-      const response = await app.inject({
-        method: 'post',
-        url: '/followings/unfollow',
-        headers: {
-          Authorization: `Bearer ${baseguyToken.json().token as string}`
-        },
-        payload: {
-          usernameToUnfollow: 'followerguy'
+          anotherUsername: 'followerguy'
         }
       })
 
       t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json(), { message: 'complete' })
+      t.strictSame(response.json(), { isFollowingCurrentUser: false })
     } catch (error) {
       t.error(error)
       t.fail()
     }
   })
 
-  void t.test('redundant call to unfollow user should not result in anything', async t => {
+  void t.test('unfollowing same username should follow', async t => {
     try {
       const response = await app.inject({
         method: 'post',
-        url: '/followings/unfollow',
+        url: '/followings/follow',
         headers: {
           Authorization: `Bearer ${baseguyToken.json().token as string}`
         },
         payload: {
-          usernameToUnfollow: 'followerguy'
+          anotherUsername: 'followerguy'
         }
       })
 
       t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json(), { message: 'complete' })
+      t.strictSame(response.json(), { isFollowingCurrentUser: true })
     } catch (error) {
       t.error(error)
       t.fail()
