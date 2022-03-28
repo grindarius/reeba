@@ -33,7 +33,7 @@
             </span>
           </label>
           <select class="w-full text-black bg-white select" v-model="phoneCountryCode">
-            <option disabled :value="{ name: '', phoneCode: '' }">
+            <option disabled :value="{ name: '', phoneCode: '', iso31662: '' }">
               Please select country code
             </option>
             <template v-for="code in phoneCodesList" :key="`edit-user-phone-code-${code.phoneCode}`">
@@ -129,7 +129,7 @@ export default defineComponent({
         toast.success('Successfully updated!')
       } catch (error) {
         // @ts-expect-error error is unknown
-        const json = await error.response?.json()
+        const json = await error?.response
 
         if (json.status === 401) {
           toast.error('Token expired')
@@ -152,18 +152,28 @@ export default defineComponent({
           }
         }).json<GetProfileDataReply>()
 
-        birthdate.value = dayjs(response.birthdate).format('YYYY-MM-DD')
+        birthdate.value = response.birthdate !== '' ? dayjs(response.birthdate).format('YYYY-MM-DD') : ''
         email.value = response.email
         phoneNumber.value = response.phoneNumber
         phoneCountryCode.value.phoneCode = response.phoneCountryCode
 
         if (findCountryName(response.phoneCountryCode) == null) {
-          phoneCountryCode.value = { name: '', phoneCode: '' }
+          phoneCountryCode.value = { name: '', phoneCode: '', iso31662: '' }
         }
 
         phoneCountryCode.value.name = findCountryName(response.phoneCountryCode) ?? ''
+        phoneCountryCode.value.iso31662 = response.iso31662
       } catch (error) {
-        toast.error('Unexpected error')
+        // @ts-expect-error error is unknown
+        const json = await error?.response
+
+        if (json.status === 401) {
+          toast.error('Token expired')
+          router.push({ name: 'Login' })
+          return
+        }
+
+        toast.error('Unexpedted error occured')
       }
     })
 
