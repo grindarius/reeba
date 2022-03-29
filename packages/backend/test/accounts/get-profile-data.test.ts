@@ -89,7 +89,8 @@ void t.test('get profile data', async t => {
         email: 'aryastark@gmail.com',
         phoneCountryCode: '66',
         phoneNumber: '994485893',
-        birthdate: ''
+        birthdate: '',
+        iso31662: ''
       })
     } catch (error) {
       t.error(error)
@@ -111,7 +112,8 @@ void t.test('get profile data', async t => {
         email: 'profiledataguy@gmail.com',
         phoneCountryCode: '66',
         phoneNumber: '4589403342',
-        birthdate: dayjs(birthdate).set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).toISOString()
+        birthdate: dayjs(birthdate).set('hour', 0).set('minute', 0).set('second', 0).set('millisecond', 0).toISOString(),
+        iso31662: ''
       })
     } catch (error) {
       t.error(error)

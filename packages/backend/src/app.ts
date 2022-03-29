@@ -12,6 +12,7 @@ import { join, resolve } from 'node:path'
 import { Logger } from 'pino'
 
 import jwt from '@reeba/fastify-check-jwt'
+import geocoder from '@reeba/fastify-local-reverse-geocoder'
 
 import routes from './routes'
 
@@ -71,6 +72,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
     secret: jwtSecret
   })
   void server.register(printRoutes)
+  void server.register(geocoder)
 
   void server.register(routes)
 
