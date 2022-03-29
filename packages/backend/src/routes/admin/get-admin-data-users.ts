@@ -21,6 +21,26 @@ const schema: FastifySchema = {
 
 const PAGE_SIZE = 30
 
+const buildOrderQuery = (query: AdminGetUserDataRequestQuerystring): string => {
+  if (query.sort === 'name-asc') {
+    return 'user_username asc'
+  }
+
+  if (query.sort === 'name-desc') {
+    return 'user_username desc'
+  }
+
+  if (query.sort === 'regis-asc') {
+    return 'user_registration_datetime asc'
+  }
+
+  if (query.sort === 'regis-desc') {
+    return 'user_registration_datetime desc'
+  }
+
+  return 'user_username asc'
+}
+
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.get<{ Querystring: AdminGetUserDataRequestQuerystring, Reply: AdminGetUserDataReply }>(
     '/users',
@@ -43,13 +63,18 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         if (isNaN(Number(request.query.page))) {
           request.query.page = 1
         }
+
+        // @ts-expect-error sort could be empty string
+        if (request.query.sort === '') {
+          request.query.sort = 'name-asc'
+        }
       }
     },
     async (request) => {
-      const page = request.query.page
+      const { page } = request.query
 
       const usersList = await instance.pg.query<users & { total_users: number }, [number, number]>(
-        'select *, count(*) over() as total_users from "users" order by user_registration_datetime limit $1 offset $2',
+        'select *, count(*) over() as total_users from "users" order by ' + buildOrderQuery(request.query) + ' limit $1 offset $2',
         [PAGE_SIZE, (PAGE_SIZE * page) - PAGE_SIZE]
       )
 
