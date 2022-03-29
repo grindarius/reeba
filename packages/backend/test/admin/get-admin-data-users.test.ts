@@ -55,7 +55,8 @@ void t.test('getting admin data about user', async t => {
           Authorization: `Bearer ${token}`
         },
         query: {
-          page: '1'
+          page: '1',
+          sort: 'name-asc'
         }
       })
 
@@ -95,7 +96,7 @@ void t.test('getting admin data about user', async t => {
         },
         query: {
           page: '',
-          sort: 'name-asc'
+          sort: 'name-desc'
         }
       })
 
@@ -117,7 +118,7 @@ void t.test('getting admin data about user', async t => {
         },
         query: {
           page: 'null',
-          sort: 'name-asc'
+          sort: 'regis-asc'
         }
       })
 
@@ -139,7 +140,7 @@ void t.test('getting admin data about user', async t => {
         },
         query: {
           page: '0',
-          sort: 'name-asc'
+          sort: 'regis-desc'
         }
       })
 
