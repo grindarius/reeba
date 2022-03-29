@@ -22,23 +22,16 @@ const schema: FastifySchema = {
 const PAGE_SIZE = 30
 
 const buildOrderQuery = (query: AdminGetUserDataRequestQuerystring): string => {
-  if (query.sort === 'name-asc') {
-    return 'user_username asc'
+  switch (query.sort) {
+    case 'name-asc':
+      return 'user_username asc'
+    case 'name-desc':
+      return 'user_username desc'
+    case 'regis-asc':
+      return 'user_registration_datetime asc'
+    case 'regis-desc':
+      return 'user_registration_datetime desc'
   }
-
-  if (query.sort === 'name-desc') {
-    return 'user_username desc'
-  }
-
-  if (query.sort === 'regis-asc') {
-    return 'user_registration_datetime asc'
-  }
-
-  if (query.sort === 'regis-desc') {
-    return 'user_registration_datetime desc'
-  }
-
-  return 'user_username asc'
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
