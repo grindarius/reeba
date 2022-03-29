@@ -118,6 +118,10 @@ export interface users {
    * Users's birthdate, string, NULLABLE, stores as a string in `YYYY-MM-DD` format. default is `null`.
    */
   user_birthdate: string | null
+  /**
+   * Display whether a user is deleted, default is false
+   */
+  user_deletion_status: boolean
 }
 
 /**
