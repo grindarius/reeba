@@ -7,6 +7,10 @@ import Toast, { PluginOptions as ToastOptions, POSITION } from 'vue-toastificati
 
 import {
   mdiAlarm,
+  mdiArrowDownThin,
+  mdiArrowLeftThin,
+  mdiArrowRightThin,
+  mdiArrowUpThin,
   mdiCalendarBlank,
   mdiCheck,
   mdiCheckDecagram,
@@ -40,6 +44,10 @@ import './globals.scss'
 
 VueMdi.add({
   mdiAlarm,
+  mdiArrowDownThin,
+  mdiArrowLeftThin,
+  mdiArrowRightThin,
+  mdiArrowUpThin,
   mdiCalendarBlank,
   mdiCheck,
   mdiCheckDecagram,
