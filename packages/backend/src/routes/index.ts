@@ -1,6 +1,7 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify'
 
 import accountsRoute from './accounts'
+import adminRoute from './admin'
 import authRoute from './auth'
 import avatarRoute from './avatars'
 import eventImagesRoute from './event-images'
@@ -19,6 +20,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   })
 
   void instance.register(accountsRoute, { prefix: '/accounts' })
+  void instance.register(adminRoute, { prefix: '/admin' })
   void instance.register(authRoute, { prefix: '/auth' })
   void instance.register(avatarRoute, { prefix: '/avatars' })
   void instance.register(eventImagesRoute, { prefix: '/event-images' })

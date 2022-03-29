@@ -1,4 +1,5 @@
 export * from './accounts'
+export * from './admins'
 export * from './auth'
 export * from './avatars'
 export * from './bad-request'
