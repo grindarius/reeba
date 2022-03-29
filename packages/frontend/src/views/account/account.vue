@@ -13,7 +13,7 @@
     </label>
     <div class="drawer-side" style="max-height: none;">
       <label for="account-drawer-toggle" class="drawer-overlay" style="background-color: #00000055;" />
-      <ul class="overflow-y-auto p-4 w-80 menu bg-base-100 text-base-content">
+      <ul class="overflow-y-auto p-4 w-56 menu bg-base-100 text-base-content">
         <li>
           <router-link to="/account">
             My tickets

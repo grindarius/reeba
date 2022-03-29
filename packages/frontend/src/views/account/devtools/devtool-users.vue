@@ -45,7 +45,7 @@
           </select>
         </div>
       </div>
-      <div class="block lg:hidden">
+      <div class="block xl:hidden">
         <table class="table w-full">
           <thead>
             <tr>
@@ -81,6 +81,12 @@
                     </div>
                   </div>
                 </div>
+                <h1 class="font-bold text-gray-300 mt-4">
+                  Registration date
+                </h1>
+                <h1 class="font-normal text-white">
+                  {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY H:mm:ss') }}
+                </h1>
               </td>
               <td>
                 <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
@@ -118,7 +124,7 @@
           </tbody>
         </table>
       </div>
-      <div class="hidden lg:block">
+      <div class="hidden xl:block">
         <table class="table w-full">
           <thead>
             <tr>
@@ -155,7 +161,7 @@
                 </div>
               </td>
               <td>
-                {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY HH:mm:ss') }}
+                {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY H:mm:ss') }}
               </td>
               <td>
                 <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
