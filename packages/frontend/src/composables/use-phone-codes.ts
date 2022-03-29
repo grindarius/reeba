@@ -11,7 +11,7 @@ export interface UsePhoneCodes {
   findCountryName: (code: string) => string | undefined
 }
 
-export const usePhoneCodes = (defaultCountryCode: CountryCode = { name: '', phoneCode: '' }): UsePhoneCodes => {
+export const usePhoneCodes = (defaultCountryCode: CountryCode = { name: '', phoneCode: '', iso31662: '' }): UsePhoneCodes => {
   const selectedPhoneCountryCode = ref(defaultCountryCode)
 
   const onPhoneCountryCodeClicked = (index: number): void => {
@@ -23,13 +23,14 @@ export const usePhoneCodes = (defaultCountryCode: CountryCode = { name: '', phon
   }
 
   const phoneCodesList = computed(() => {
-    return Object.values(countries).flatMap(ct => {
-      const phoneCodeArray = ct.phone.split(',')
+    return Object.entries(countries).flatMap(ct => {
+      const phoneCodeArray = ct[1].phone.split(',')
 
       return phoneCodeArray.map(code => {
         const ret: CountryCode = {
-          name: ct.name,
-          phoneCode: code
+          name: ct[1].name,
+          phoneCode: code,
+          iso31662: ct[0]
         }
 
         return ret

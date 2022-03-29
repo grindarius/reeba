@@ -17,6 +17,9 @@
     },
     {
       "path": "packages/fastify-check-jwt"
+    },
+    {
+      "path": "packages/fastify-local-reverse-geocoder"
     }
   ],
   "settings": {

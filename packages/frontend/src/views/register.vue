@@ -30,7 +30,7 @@
               <span class="label-text text-base-100">Phone country code</span>
             </label>
             <select id="signup-country-code-input" class="w-full text-black bg-white select" v-model="phoneCountryCodeField">
-              <option disabled selected :value="{ name: '', phoneCode: '' }">
+              <option disabled selected :value="{ name: '', phoneCode: '', iso31662: '' }">
                 Pick your country code
               </option>
               <template v-for="code in phoneCodesList" :key="`signup-phone-code-list-${code.phoneCode}`">
@@ -105,6 +105,7 @@ export default defineComponent({
         email: emailField.value,
         password: passwordField.value,
         phoneCountryCode: phoneCountryCodeField.value.phoneCode,
+        iso31662: phoneCountryCodeField.value.iso31662,
         phoneNumber: phoneNumberField.value
       }
 

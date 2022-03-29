@@ -155,7 +155,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         events['event_ticket_prices'],
         events['event_min_ticket_price'],
         events['event_max_ticket_price'],
-        events['event_minimum_age']
+        events['event_minimum_age'],
+        events['event_venue_country_code_alpha_2']
       ]
 
       type InsertDatetimes = [
@@ -196,8 +197,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             event_ticket_prices,
             event_min_ticket_price,
             event_max_ticket_price,
-            event_minimum_age
-          ) values ($1, $2, $3, $4, $5, $6, $7::point, $8, $9, $10, $11::jsonb, $12, $13, $14) returning event_id`,
+            event_minimum_age,
+            event_venue_country_code_alpha_2
+          ) values ($1, $2, $3, $4, $5, $6, $7::point, $8, $9, $10, $11::jsonb, $12, $13, $14, $15) returning event_id`,
           [
             nanoid(),
             createdBy,
@@ -215,7 +217,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             }, {}),
             Math.min(...ticketPrices.map(t => t.price)),
             Math.max(...ticketPrices.map(t => t.price)),
-            minimumAge
+            minimumAge,
+            venueCoordinates.x === '0' && venueCoordinates.y === '0' ? '' : instance.lookup({ latitude: Number(venueCoordinates.x), longitude: Number(venueCoordinates.y) }).record.countryCode
           ]
         )
 
