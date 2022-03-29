@@ -4,7 +4,7 @@ export const formatQueryString = (query: LocationQueryValue | Array<LocationQuer
   return query == null
     ? defaultValue
     : Array.isArray(query)
-      ? query.filter(q => q != null)[0] ?? ''
+      ? query.filter(q => q != null)[0] ?? defaultValue
       : query
 }
 

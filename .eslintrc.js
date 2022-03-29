@@ -78,7 +78,8 @@ module.exports = {
             '^first_',
             '^last_',
             '^min_',
-            '^max_'
+            '^max_',
+            '^total_'
           ],
           ignoreImports: true
         }]

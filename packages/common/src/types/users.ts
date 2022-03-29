@@ -32,6 +32,7 @@ export const GetUserReplySchema = Type.Object({
   username: Type.String(),
   socialMedias: UserSocialMediaSchema,
   verificationStatus: Type.Boolean(),
+  isAdmin: Type.Boolean(),
   profileDescription: Type.String(),
   followersAmount: Type.Number(),
   isCurrentUserFollowing: Type.Boolean()

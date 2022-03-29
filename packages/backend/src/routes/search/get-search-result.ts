@@ -10,6 +10,7 @@ import {
   GetSearchResultRequestQuerystringSchema,
   normalizeTag,
   PriceRange,
+  t_user_role,
   users
 } from '@reeba/common'
 
@@ -220,13 +221,13 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       }
 
       if (type === 'Users') {
-        const searchedResult = await instance.pg.query<users, [string]>(
+        const searchedResult = await instance.pg.query<users, [string, boolean]>(
           `select
             *
           from "users"
-          where array[user_username, user_profile_description] &@ $1
+          where array[user_username, user_profile_description] &@ $1 and user_deletion_status != $2
           limit ${PAGE_SIZE} offset ${(page * PAGE_SIZE) - PAGE_SIZE}`,
-          [q]
+          [q, true]
         )
 
         return {
@@ -236,7 +237,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
               username: s.user_username,
               description: s.user_profile_description,
               socialMedias: s.user_social_medias,
-              accountType: s.user_verification_status
+              isVerified: s.user_role === t_user_role.admin ? true : s.user_verification_status,
+              isAdmin: s.user_role === t_user_role.admin
             }
           })
         }

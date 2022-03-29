@@ -25,38 +25,47 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
+        name: 'Account Tickets',
         component: Page.MyTickets
       },
       {
         path: 'purchase-history',
+        name: 'Account Purchase History',
         component: Page.PurchaseHistory
       },
       {
         path: 'edit',
+        name: 'Edit Account Settings',
         component: Page.EditUserSettings
       },
       {
         path: 'organizer',
+        name: 'Organizer Settings',
         component: Page.OrganizerTools
       },
       {
         path: 'developer',
+        name: 'Developer Settings',
         component: Page.DeveloperTools,
         children: [
           {
             path: '',
+            name: 'Developer Summary',
             component: Page.DevtoolSummary
           },
           {
             path: 'users',
+            name: 'Developer Users',
             component: Page.DevtoolUsers
           },
           {
             path: 'events',
+            name: 'Developer Events',
             component: Page.DevtoolEvents
           },
           {
             path: 'transactions',
+            name: 'Developer Transactions',
             component: Page.DevtoolTransactions
           }
         ]

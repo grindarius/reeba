@@ -9,9 +9,10 @@
       <section class="profile-descriptions">
         <img :src="`${getUserAvatar({ username: $route.params.username as string}).url}`" alt="user-image" class="user-image">
         <div class="user-info">
-          <div class="mt-3 text-4xl font-bold text-white">
+          <div class="mt-3 text-4xl font-bold text-white" :title="($route.params.username as string)">
             {{ $route.params.username }}
-            <v-mdi v-show="userData?.verificationStatus" name="mdi-check-decagram" fill="#D5A755" />
+            <v-mdi v-if="isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
+            <v-mdi v-if="isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
           </div>
         </div>
         <div class="mt-3 mb-5 text-white text-md">
@@ -117,7 +118,7 @@
 
 <script lang="ts">
 import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
 import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -141,6 +142,28 @@ export default defineComponent({
       attended: []
     })
     const isFollowing = ref(false)
+    const isVerified = computed(() => {
+      if (userData.value?.verificationStatus == null) {
+        return false
+      }
+
+      if (userData.value?.isAdmin == null) {
+        return false
+      }
+
+      if (userData.value.isAdmin === true) {
+        return false
+      }
+
+      return userData.value.verificationStatus
+    })
+    const isAdmin = computed(() => {
+      if (userData.value?.isAdmin == null) {
+        return false
+      }
+
+      return userData.value.isAdmin
+    })
 
     useMeta({
       title: route.params.username
@@ -225,7 +248,9 @@ export default defineComponent({
       followUser,
       relatedEvents,
       getEventImage,
-      isFollowing
+      isFollowing,
+      isAdmin,
+      isVerified
     }
   }
 })

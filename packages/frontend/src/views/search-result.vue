@@ -1,10 +1,10 @@
 <template>
-  <metainfo>
-    <template #title="{ content }">
-      {{ content }} | ReebA: Ticket booking. Redefined.
-    </template>
-  </metainfo>
   <div class="w-full drawer drawer-mobile" style="height: auto;">
+    <metainfo>
+      <template #title="{ content }">
+        {{ content }} | ReebA: Ticket booking. Redefined.
+      </template>
+    </metainfo>
     <input type="checkbox" id="search-sidebar" class="drawer-toggle">
     <div class="flex flex-col justify-start items-center drawer-content" style="max-height: none;">
       <div class="search-page">
@@ -15,10 +15,9 @@
             </div>
             <router-link
               v-show="selectedSearchQueryType === 'Events'" v-for="(result, i) in searchResultResponse.events"
-              :key="`search-result-event-${i}`" custom
-              v-slot="{ navigate }"
-              :to="`/${result.createdBy}/${result.id}`">
-              <div class="place-items-start my-2 mx-1 cursor-pointer hero hover:bg-base-300" @click="navigate">
+              :key="`search-result-event-${i}`"
+              :to="{ name: 'Event', params: { username: result.createdBy, eventId: result.id } }">
+              <div class="place-items-start my-2 mx-1 cursor-pointer hero hover:bg-base-300">
                 <div class="hero-content">
                   <div class="max-w-md">
                     <div class="flex flex-row items-center space-x-2">
@@ -49,10 +48,9 @@
             </router-link>
             <router-link
               v-show="selectedSearchQueryType === 'Users'" v-for="(result, i) in searchResultResponse.users"
-              :key="`search-result-user-${i}`" custom
-              v-slot="{ navigate }"
-              :to="`/${result.username}`">
-              <div class="place-items-start my-2 mx-1 cursor-pointer hero hover:bg-base-300" @click="navigate">
+              :key="`search-result-user-${i}`"
+              :to="{ name: 'Users', params: { username: result.username } }">
+              <div class="place-items-start my-2 mx-1 cursor-pointer hero hover:bg-base-300">
                 <div class="hero-content">
                   <div class="max-w-md">
                     <div class="flex flex-row items-center space-x-2">
@@ -62,7 +60,8 @@
                       <h1 class="items-center text-2xl font-bold hover:underline underline-offset-2">
                         {{ result.username }}
                       </h1>
-                      <v-mdi name="mdi-check-decagram" fill="#D5A755" v-show="result.accountType" />
+                      <v-mdi name="mdi-check-decagram" fill="#D5A755" v-show="isVerified(result.isVerified, result.isAdmin)" />
+                      <v-mdi name="mdi-crown" fill="#D5A755" v-show="result.isAdmin" />
                     </div>
                     <p class="pt-3 pb-1">
                       {{ result.description }}
@@ -178,6 +177,14 @@ export default defineComponent({
     const selectedDateRange: Ref<DateRange> = ref('All dates')
     const selectedSearchQueryType: Ref<SearchType> = ref('Events')
     const selectedPage: Ref<number> = ref(1)
+
+    const isVerified = (isVerified: boolean, isAdmin: boolean): boolean => {
+      if (isAdmin === true) {
+        return false
+      }
+
+      return isVerified
+    }
 
     const searchResultResponse: Ref<GetSearchResultReply> = ref({ events: [], users: [] })
 
@@ -318,6 +325,7 @@ export default defineComponent({
       formatTimeString,
       goToNextPage,
       goToPreviousPage,
+      isVerified,
       getPreviousButtonClassName
     }
   }
@@ -330,7 +338,7 @@ export default defineComponent({
 }
 
 .search-page-content {
-  @apply container m-6 ml-0;
+  @apply container m-6 lg:ml-0;
 }
 
 .result-pane {

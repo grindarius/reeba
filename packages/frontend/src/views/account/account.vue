@@ -1,7 +1,7 @@
 <template>
   <div class="w-full drawer drawer-mobile" style="height: auto;">
     <input id="account-drawer-toggle" type="checkbox" class="drawer-toggle">
-    <div class="flex flex-col justify-center items-center drawer-content" style="max-height: none;">
+    <div class="flex flex-col justify-center items-center drawer-content" style="max-height: none; overflow-y: unset;">
       <div class="account-page">
         <div class="account-content">
           <router-view :key="$route.fullPath" />
@@ -13,7 +13,7 @@
     </label>
     <div class="drawer-side" style="max-height: none;">
       <label for="account-drawer-toggle" class="drawer-overlay" style="background-color: #00000055;" />
-      <ul class="overflow-y-auto p-4 w-80 menu bg-base-100 text-base-content">
+      <ul class="overflow-y-auto p-4 w-56 menu bg-base-100 text-base-content">
         <li>
           <router-link to="/account">
             My tickets
@@ -109,6 +109,6 @@ export default defineComponent({
 }
 
 .account-content {
-  @apply p-12 grow;
+  @apply m-12 grow;
 }
 </style>

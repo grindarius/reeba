@@ -114,3 +114,43 @@ export const postFollow: Endpoint = {
   url: `${url}/followings/follow`,
   method: 'post'
 }
+
+export const adminGetUserData: Endpoint = {
+  url: `${url}/admin/users`,
+  method: 'get'
+}
+
+export const adminGrantAdmin: EndpointFunc<{ username: string }> = ({ username }) => {
+  return {
+    url: `${url}/users/${username}/admin`,
+    method: 'patch'
+  }
+}
+
+export const adminRevokeAdmin: EndpointFunc<{ username: string }> = ({ username }) => {
+  return {
+    url: `${url}/users/${username}/admin`,
+    method: 'delete'
+  }
+}
+
+export const adminGrantVerification: EndpointFunc<{ username: string }> = ({ username }) => {
+  return {
+    url: `${url}/users/${username}/verification`,
+    method: 'patch'
+  }
+}
+
+export const adminRevokeVerification: EndpointFunc<{ username: string }> = ({ username }) => {
+  return {
+    url: `${url}/users/${username}/verification`,
+    method: 'delete'
+  }
+}
+
+export const adminRemoveUser: EndpointFunc<{ username: string }> = ({ username }) => {
+  return {
+    url: `${url}/users/${username}`,
+    method: 'delete'
+  }
+}

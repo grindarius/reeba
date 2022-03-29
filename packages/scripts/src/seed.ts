@@ -151,7 +151,8 @@ const generateUserList = async (amount: number): Promise<Array<users>> => {
       user_phone_country_code: randomCountry[1].phone.split(',')[0],
       user_phone_number: faker.phone.phoneNumber('9########'),
       user_iso_31662_code: randomCountry[0],
-      user_birthdate: dayjs(faker.date.between('1960-01-01', '2006-01-01')).format('YYYY-MM-DD')
+      user_birthdate: dayjs(faker.date.between('1960-01-01', '2006-01-01')).format('YYYY-MM-DD'),
+      user_deletion_status: faker.mersenne.rand(1, 100) < 5
     }
 
     userList.push(user)
@@ -568,8 +569,9 @@ const main = async () => {
         user_phone_country_code,
         user_phone_number,
         user_birthdate,
-        user_iso_31662_code
-      ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) on conflict (user_username) do nothing`,
+        user_iso_31662_code,
+        user_deletion_status
+      ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) on conflict (user_username) do nothing`,
       [
         user.user_username,
         user.user_email,
@@ -581,7 +583,8 @@ const main = async () => {
         user.user_phone_country_code,
         user.user_phone_number,
         dayjs(user.user_birthdate).toDate(),
-        user.user_iso_31662_code
+        user.user_iso_31662_code,
+        user.user_deletion_status
       ]
     )
   }

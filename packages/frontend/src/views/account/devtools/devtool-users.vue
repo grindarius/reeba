@@ -1,105 +1,421 @@
 <template>
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
   <div class="devtool-users-page">
     <div class="container">
-      <h1 class="page-header">
-        Users
-      </h1>
-      <div class="user-table">
-        <div class="uppercase border-t border-b border-collapse table-cell-string border-t-black border-b-black">
-          Name
+      <div class="flex flex-row justify-between mb-4">
+        <h1 class="page-header">
+          {{ userData.total }} users
+        </h1>
+        <div class="flex flex-row gap-3">
+          <router-link custom :to="{ name: 'Developer Users', query: { ...$route.query, ...{ page: page - 1 } } }" v-slot="{ navigate }">
+            <button class="btn btn-circle btn-outline" :disabled="page - 1 === 0" @click="navigate">
+              <v-mdi name="mdi-arrow-left-thin" fill="#D5A755" />
+            </button>
+          </router-link>
+          <router-link custom :to="{ name: 'Developer Users', query: { ...$route.query, ...{ page: page + 1 } } }" v-slot="{ navigate }">
+            <button class="btn btn-circle btn-outline" :disabled="(page * 30) > userData.total" @click="navigate">
+              <v-mdi name="mdi-arrow-right-thin" fill="#D5A755" />
+            </button>
+          </router-link>
+          <select class="select select-ghost max-w-xs" v-model="sortOptions">
+            <option value="name-asc">
+              <h1 class="font-bold">
+                Sort by
+              </h1> name ↑
+            </option>
+            <option value="name-desc">
+              <h1 class="font-bold">
+                Sort by
+              </h1> name ↓
+            </option>
+            <option value="regis-asc">
+              <h1 class="font-bold">
+                Sort by
+              </h1> registration date ↑
+            </option>
+            <option value="regis-desc">
+              <h1 class="font-bold">
+                Sort by
+              </h1> registration date ↓
+            </option>
+          </select>
         </div>
-        <div class="uppercase border-t border-b border-collapse table-cell-string border-t-black border-b-black">
-          Birthdate
-        </div>
-        <div class="uppercase border-t border-b border-collapse table-cell-string border-t-black border-b-black">
-          Role
-        </div>
-        <div class="uppercase border-t border-b border-collapse table-cell-string border-t-black border-b-black" />
-        <template v-for="(user, i) in userRef" :key="JSON.stringify(user)">
-          <div class="flex flex-row gap-4 items-center py-4 px-5 cursor-pointer" @click="goToUsersPage(i)">
-            <img src="@/assets/user.png" :alt="user.username" class="w-8 h-8 rounded-full">
-            <div>
-              <h1 class="font-sans text-sm font-medium text-black">
-                {{ user.username }}
-              </h1>
-              <h1 class="font-sans text-sm font-normal text-gray-500">
-                {{ user.email }}
-              </h1>
-            </div>
-          </div>
-          <h1 class="font-mono text-sm font-medium text-black table-cell-string">
-            {{ formatBirthdate(user.birthdate) }}
-          </h1>
-          <div class="flex flex-row justify-start self-start py-4 px-5">
-            <span v-if="user.role === 0" class="inline-flex px-2 text-sm text-red-500 bg-red-100 rounded-2xl">
-              Admin
-            </span>
-            <span v-else class="inline-flex px-2 text-sm text-green-800 bg-green-100 rounded-2xl">
-              User
-            </span>
-          </div>
-          <div class="table-cell-string">
-            <v-mdi class="cursor-pointer" name="mdi-delete-sweep" fill="#423E41" @click="deleteUser(i)" />
-          </div>
-        </template>
+      </div>
+      <div class="block xl:hidden">
+        <table class="table w-full">
+          <thead>
+            <tr>
+              <th>
+                Data
+              </th>
+              <th>
+                <div class="ml-4">
+                  Options
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in userData.users" :key="`developer-user-table-small-${user.username}`">
+              <td>
+                <div class="flex items-center space-x-3">
+                  <div class="avatar">
+                    <div class="mask mask-squircle w-12 h-12">
+                      <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
+                    </div>
+                  </div>
+                  <div>
+                    <router-link :to="{ name: 'Users', params: { username: user.username } }">
+                      <div class="font-bold">
+                        {{ user.username }}
+                        <v-mdi v-if="user.isAdmin ? false : user.isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
+                        <v-mdi v-if="user.isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
+                      </div>
+                    </router-link>
+                    <div class="text-sm opacity-50">
+                      {{ user.email }}
+                    </div>
+                  </div>
+                </div>
+                <h1 class="font-bold text-gray-300 mt-4">
+                  Registration date
+                </h1>
+                <h1 class="font-normal text-white">
+                  {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY H:mm:ss') }}
+                </h1>
+              </td>
+              <td>
+                <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
+                  <label tabindex="0" class="btn btn-ghost">Options</label>
+                  <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
+                    <li>
+                      <a @click="grantAdmin(user.username)">
+                        Make admin
+                      </a>
+                    </li>
+                    <li>
+                      <a @click="revokeAdmin(user.username)">
+                        Remove admin
+                      </a>
+                    </li>
+                    <li>
+                      <a @click="grantVerification(user.username)">
+                        Make verified account
+                      </a>
+                    </li>
+                    <li>
+                      <a @click="revokeVerification(user.username)">
+                        Unverify account
+                      </a>
+                    </li>
+                    <li>
+                      <a @click="removeUser(user.username)">
+                        Remove from ReebA
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="hidden xl:block">
+        <table class="table w-full">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Registration date</th>
+              <th>
+                <div class="ml-4">
+                  Options
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in userData.users" :key="`developer-table-big-${user.username}`">
+              <td>
+                <div class="flex items-center space-x-3">
+                  <div class="avatar">
+                    <div class="mask mask-squircle w-12 h-12">
+                      <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
+                    </div>
+                  </div>
+                  <div>
+                    <router-link :to="{ name: 'Users', params: { username: user.username } }">
+                      <div class="font-bold">
+                        {{ user.username }}
+                        <v-mdi v-if="user.isAdmin ? false : user.isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
+                        <v-mdi v-if="user.isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
+                      </div>
+                    </router-link>
+                    <div class="text-sm opacity-50">
+                      {{ user.email }}
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY H:mm:ss') }}
+              </td>
+              <td>
+                <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
+                  <label tabindex="0" class="btn btn-ghost">Options</label>
+                  <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
+                    <li>
+                      <a @click="grantAdmin(user.username)">
+                        Make admin
+                      </a>
+                    </li>
+                    <li>
+                      <a @click="revokeAdmin(user.username)">
+                        Remove admin
+                      </a>
+                    </li>
+                    <li>
+                      <a @click="grantVerification(user.username)">
+                        Make verified account
+                      </a>
+                    </li>
+                    <li>
+                      <a @click="revokeVerification(user.username)">
+                        Unverify account
+                      </a>
+                    </li>
+                    <li>
+                      <a @click="removeUser(user.username)">
+                        Remove from ReebA
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import dayjs from 'dayjs'
-import { defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import ky from 'ky'
+import { defineComponent, onMounted, Ref, ref, watch } from 'vue'
+import { useMeta } from 'vue-meta'
+import { useRoute, useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
-import { users } from '@/constants/devtools-users'
+import { AdminGetUserDataOptions, AdminGetUserDataReply } from '@reeba/common'
+
+import {
+  adminGetUserData,
+  adminGrantAdmin,
+  adminGrantVerification,
+  adminRemoveUser,
+  adminRevokeAdmin,
+  adminRevokeVerification,
+  getUserAvatar
+} from '@/api/endpoints'
+import { useAuthStore } from '@/store/use-auth-store'
+import { formatQueryString, formatTimeString } from '@/utils'
 
 export default defineComponent({
   name: 'devtool-users',
   setup () {
     const router = useRouter()
+    const route = useRoute()
+    const authStore = useAuthStore()
+    const toast = useToast()
 
-    const userRef = ref(users)
+    useMeta({
+      title: 'Developer tools: Users'
+    })
 
-    const formatBirthdate = (birthdate: string): string => {
-      return dayjs(birthdate).format('MMMM D, YYYY')
-    }
+    const sortOptions: Ref<AdminGetUserDataOptions> = ref('name-asc')
+    const userData: Ref<AdminGetUserDataReply> = ref({ total: 0, users: [] })
+    const page = ref(1)
 
-    const deleteUser = (index: number): void => {
-      if (userRef.value[index].role === 0) {
-        return
+    watch(sortOptions, async (now) => {
+      router.replace({
+        name: 'Developer Users',
+        query: {
+          ...route.query,
+          ...{ sort: now }
+        }
+      })
+    })
+
+    const getAdminUsers = async (): Promise<void> => {
+      const formattedPage = Number(formatQueryString(route.query.page, '1'))
+      const formattedSortOptions = formatQueryString(route.query.sort, 'name-asc')
+      page.value = formattedPage
+      sortOptions.value = formattedSortOptions as AdminGetUserDataOptions
+
+      try {
+        const { method, url } = adminGetUserData
+
+        const response = await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          searchParams: [
+            ['page', page.value],
+            ['sort', sortOptions.value]
+          ]
+        }).json<AdminGetUserDataReply>()
+
+        userData.value.total = response.total
+        userData.value.users = response.users
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const resp = error?.response
+
+        if (resp.status == null) {
+          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        }
+
+        if (resp.status === 401) {
+          router.push({ name: 'Signin' })
+        }
+
+        if (resp.status === 403) {
+          router.push({ name: 'Home' })
+        }
+
+        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
       }
-
-      userRef.value.splice(index, 1)
     }
 
-    const goToUsersPage = (index: number): void => {
-      router.push('/users')
-      console.log(index)
+    const grantAdmin = async (username: string): Promise<void> => {
+      try {
+        const { method, url } = adminGrantAdmin({ username })
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        })
+
+        toast.success('Granted admin successfully')
+        router.replace({ name: 'Developer Users', query: { ...route.query } })
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const json = await error?.response.json()
+        toast.error(json.message)
+      }
     }
+
+    const revokeAdmin = async (username: string): Promise<void> => {
+      try {
+        const { method, url } = adminRevokeAdmin({ username })
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        })
+
+        toast.success('Revoke admin successfully')
+        router.replace({ name: 'Developer Users', query: { ...route.query } })
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const json = await error?.response.json()
+        toast.error(json.message)
+      }
+    }
+
+    const grantVerification = async (username: string): Promise<void> => {
+      try {
+        const { method, url } = adminGrantVerification({ username })
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        })
+
+        toast.success('Grant verified status successfully')
+        router.replace({ name: 'Developer Users', query: { ...route.query } })
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const json = await error?.response.json()
+        toast.error(json.message)
+      }
+    }
+
+    const revokeVerification = async (username: string): Promise<void> => {
+      try {
+        const { method, url } = adminRevokeVerification({ username })
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        })
+
+        toast.success('Revoke verified status successfully')
+        router.replace({ name: 'Developer Users', query: { ...route.query } })
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const json = await error?.response.json()
+        toast.error(json.message)
+      }
+    }
+
+    const removeUser = async (username: string): Promise<void> => {
+      try {
+        const { method, url } = adminRemoveUser({ username })
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        })
+
+        toast.success('User removed successfully')
+        router.replace({ name: 'Developer Users', query: { ...route.query } })
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const json = await error?.response.json()
+        toast.error(json.message)
+      }
+    }
+
+    onMounted(async () => {
+      await getAdminUsers()
+    })
 
     return {
-      userRef,
-      formatBirthdate,
-      deleteUser,
-      goToUsersPage
+      page,
+      getUserAvatar,
+      userData,
+      authStore,
+      sortOptions,
+      formatTimeString,
+      grantAdmin,
+      revokeAdmin,
+      grantVerification,
+      revokeVerification,
+      removeUser
     }
   }
 })
 </script>
 
 <style scoped lang="scss">
-.user-table {
-  @apply grid mt-8 w-full rounded-lg bg-pale-yellow;
-  grid-template-columns: 2fr 1fr 0.5fr 0.5fr;
-}
-
 .devtool-users-page {
   @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
-}
-
-.table-cell-string {
-  @apply py-4 px-5 text-sm text-left;
 }
 
 .page-header {

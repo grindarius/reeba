@@ -24,6 +24,7 @@ create table users (
   user_phone_country_code text not null default '66',
   user_phone_number text not null default '',
   user_birthdate date default null,
+  user_deletion_status boolean default false,
   primary key (user_username)
 );
 

@@ -96,7 +96,8 @@ export const GetSearchResultReplySchema = Type.Object({
     username: Type.String(),
     description: Type.String(),
     socialMedias: UserSocialMediaSchema,
-    accountType: Type.Boolean()
+    isVerified: Type.Boolean(),
+    isAdmin: Type.Boolean()
   }))
 })
 export type GetSearchResultReply = Static<typeof GetSearchResultReplySchema>
