@@ -114,3 +114,8 @@ export const postFollow: Endpoint = {
   url: `${url}/followings/follow`,
   method: 'post'
 }
+
+export const adminGetUserData: Endpoint = {
+  url: `${url}/admin/users`,
+  method: 'get'
+}
