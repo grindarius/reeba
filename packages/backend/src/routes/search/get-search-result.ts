@@ -221,13 +221,13 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       }
 
       if (type === 'Users') {
-        const searchedResult = await instance.pg.query<users, [string]>(
+        const searchedResult = await instance.pg.query<users, [string, boolean]>(
           `select
             *
           from "users"
-          where array[user_username, user_profile_description] &@ $1
+          where array[user_username, user_profile_description] &@ $1 and user_deletion_status != $2
           limit ${PAGE_SIZE} offset ${(page * PAGE_SIZE) - PAGE_SIZE}`,
-          [q]
+          [q, true]
         )
 
         return {

@@ -65,7 +65,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
 
         // @ts-expect-error sort could be empty string
-        if (request.query.sort === '') {
+        if (request.query.sort == null || request.query.sort === '') {
           request.query.sort = 'name-asc'
         }
       }
@@ -74,7 +74,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const { page } = request.query
 
       const usersList = await instance.pg.query<users & { total_users: number }, [number, number]>(
-        'select *, count(*) over() as total_users from "users" order by ' + buildOrderQuery(request.query) + ' limit $1 offset $2',
+        'select *, count(*) over() as total_users from "users" where user_deletion_status != \'true\'::boolean order by ' + buildOrderQuery(request.query) + ' limit $1 offset $2',
         [PAGE_SIZE, (PAGE_SIZE * page) - PAGE_SIZE]
       )
 
