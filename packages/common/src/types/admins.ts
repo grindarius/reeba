@@ -7,7 +7,11 @@ export type AdminGetUserDataRequestQuerystring = Static<typeof AdminGetUserDataR
 
 export const AdminGetUserDataReplySchema = Type.Object({
   users: Type.Array(Type.Object({
-    x: Type.String()
+    username: Type.String(),
+    email: Type.String(),
+    isAdmin: Type.Boolean(),
+    isVerified: Type.Boolean(),
+    registrationDatetime: Type.String()
   }))
 })
 export type AdminGetUserDataReply = Static<typeof AdminGetUserDataReplySchema>
