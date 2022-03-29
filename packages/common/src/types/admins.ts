@@ -25,3 +25,53 @@ export const AdminGetUserDataReplySchema = Type.Object({
   }))
 })
 export type AdminGetUserDataReply = Static<typeof AdminGetUserDataReplySchema>
+
+export const AdminGrantAdminRequestParamsSchema = Type.Object({
+  username: Type.String()
+})
+export type AdminGrantAdminRequestParams = Static<typeof AdminGrantAdminRequestParamsSchema>
+
+export const AdminGrantAdminReplySchema = Type.Object({
+  message: Type.String()
+})
+export type AdminGrantAdminReply = Static<typeof AdminGrantAdminReplySchema>
+
+export const AdminRevokeAdminRequestParamsSchema = Type.Object({
+  username: Type.String()
+})
+export type AdminRevokeAdminRequestParams = Static<typeof AdminRevokeAdminRequestParamsSchema>
+
+export const AdminRevokeAdminReplySchema = Type.Object({
+  message: Type.String()
+})
+export type AdminRevokeAdminReply = Static<typeof AdminRevokeAdminReplySchema>
+
+export const AdminGrantVerificationRequestParamsSchema = Type.Object({
+  username: Type.String()
+})
+export type AdminGrantVerificationRequestParams = Static<typeof AdminGrantVerificationRequestParamsSchema>
+
+export const AdminGrantVerificationReplySchema = Type.Object({
+  message: Type.String()
+})
+export type AdminGrantVerificationReply = Static<typeof AdminGrantVerificationReplySchema>
+
+export const AdminRevokeVerificationRequestParamsSchema = Type.Object({
+  username: Type.String()
+})
+export type AdminRevokeVerificationRequestParams = Static<typeof AdminRevokeVerificationRequestParamsSchema>
+
+export const AdminRevokeVerificationReplySchema = Type.Object({
+  message: Type.String()
+})
+export type AdminRevokeVerificationReply = Static<typeof AdminRevokeVerificationReplySchema>
+
+export const AdminRemoveUserRequestParamsSchema = Type.Object({
+  username: Type.String()
+})
+export type AdminRemoveUserRequestParams = Static<typeof AdminRemoveUserRequestParamsSchema>
+
+export const AdminRemoveUserReplySchema = Type.Object({
+  message: Type.String()
+})
+export type AdminRemoveUserReply = Static<typeof AdminRemoveUserReplySchema>

@@ -83,31 +83,33 @@
                 </div>
               </td>
               <td>
-                <div class="dropdown dropdown-end">
+                <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
                   <label tabindex="0" class="btn btn-ghost">Options</label>
                   <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
                     <li>
-                      <a>
+                      <a @click="grantAdmin(user.username)">
                         Make admin
                       </a>
                     </li>
                     <li>
-                      <a>
+                      <a @click="revokeAdmin(user.username)">
                         Remove admin
                       </a>
                     </li>
                     <li>
-                      <a>
+                      <a @click="grantVerification(user.username)">
                         Make verified account
                       </a>
                     </li>
                     <li>
-                      <a>
+                      <a @click="revokeVerification(user.username)">
                         Unverify account
                       </a>
                     </li>
                     <li>
-                      <a>Remove from ReebA</a>
+                      <a @click="removeUser(user.username)">
+                        Remove from ReebA
+                      </a>
                     </li>
                   </ul>
                 </div>
@@ -156,31 +158,33 @@
                 {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY HH:mm:ss') }}
               </td>
               <td>
-                <div class="dropdown dropdown-end">
+                <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
                   <label tabindex="0" class="btn btn-ghost">Options</label>
                   <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
                     <li>
-                      <a>
+                      <a @click="grantAdmin(user.username)">
                         Make admin
                       </a>
                     </li>
                     <li>
-                      <a>
+                      <a @click="revokeAdmin(user.username)">
                         Remove admin
                       </a>
                     </li>
                     <li>
-                      <a>
+                      <a @click="grantVerification(user.username)">
                         Make verified account
                       </a>
                     </li>
                     <li>
-                      <a>
+                      <a @click="revokeVerification(user.username)">
                         Unverify account
                       </a>
                     </li>
                     <li>
-                      <a>Remove from ReebA</a>
+                      <a @click="removeUser(user.username)">
+                        Remove from ReebA
+                      </a>
                     </li>
                   </ul>
                 </div>
@@ -198,10 +202,19 @@ import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref, watch } from 'vue'
 import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
 import { AdminGetUserDataOptions, AdminGetUserDataReply } from '@reeba/common'
 
-import { adminGetUserData, getUserAvatar } from '@/api/endpoints'
+import {
+  adminGetUserData,
+  adminGrantAdmin,
+  adminGrantVerification,
+  adminRemoveUser,
+  adminRevokeAdmin,
+  adminRevokeVerification,
+  getUserAvatar
+} from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { formatQueryString, formatTimeString } from '@/utils'
 
@@ -211,6 +224,7 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const authStore = useAuthStore()
+    const toast = useToast()
 
     useMeta({
       title: 'Developer tools: Users'
@@ -272,6 +286,106 @@ export default defineComponent({
       }
     }
 
+    const grantAdmin = async (username: string): Promise<void> => {
+      try {
+        const { method, url } = adminGrantAdmin({ username })
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        })
+
+        toast.success('Granted admin successfully')
+        router.replace({ name: 'Developer Users', query: { ...route.query } })
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const json = await error?.response.json()
+        toast.error(json.message)
+      }
+    }
+
+    const revokeAdmin = async (username: string): Promise<void> => {
+      try {
+        const { method, url } = adminRevokeAdmin({ username })
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        })
+
+        toast.success('Revoke admin successfully')
+        router.replace({ name: 'Developer Users', query: { ...route.query } })
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const json = await error?.response.json()
+        toast.error(json.message)
+      }
+    }
+
+    const grantVerification = async (username: string): Promise<void> => {
+      try {
+        const { method, url } = adminGrantVerification({ username })
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        })
+
+        toast.success('Grant verified status successfully')
+        router.replace({ name: 'Developer Users', query: { ...route.query } })
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const json = await error?.response.json()
+        toast.error(json.message)
+      }
+    }
+
+    const revokeVerification = async (username: string): Promise<void> => {
+      try {
+        const { method, url } = adminRevokeVerification({ username })
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        })
+
+        toast.success('Revoke verified status successfully')
+        router.replace({ name: 'Developer Users', query: { ...route.query } })
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const json = await error?.response.json()
+        toast.error(json.message)
+      }
+    }
+
+    const removeUser = async (username: string): Promise<void> => {
+      try {
+        const { method, url } = adminRemoveUser({ username })
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        })
+
+        toast.success('User removed successfully')
+        router.replace({ name: 'Developer Users', query: { ...route.query } })
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const json = await error?.response.json()
+        toast.error(json.message)
+      }
+    }
+
     onMounted(async () => {
       await getAdminUsers()
     })
@@ -280,8 +394,14 @@ export default defineComponent({
       page,
       getUserAvatar,
       userData,
+      authStore,
       sortOptions,
-      formatTimeString
+      formatTimeString,
+      grantAdmin,
+      revokeAdmin,
+      grantVerification,
+      revokeVerification,
+      removeUser
     }
   }
 })
