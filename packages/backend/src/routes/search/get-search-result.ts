@@ -10,6 +10,7 @@ import {
   GetSearchResultRequestQuerystringSchema,
   normalizeTag,
   PriceRange,
+  t_user_role,
   users
 } from '@reeba/common'
 
@@ -236,7 +237,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
               username: s.user_username,
               description: s.user_profile_description,
               socialMedias: s.user_social_medias,
-              accountType: s.user_verification_status
+              isVerified: s.user_role === t_user_role.admin ? true : s.user_verification_status,
+              isAdmin: s.user_role === t_user_role.admin
             }
           })
         }
