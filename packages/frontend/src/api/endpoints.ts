@@ -154,3 +154,8 @@ export const adminRemoveUser: EndpointFunc<{ username: string }> = ({ username }
     method: 'delete'
   }
 }
+
+export const adminGetTransactionData: Endpoint = {
+  url: `${url}/admin/transactions`,
+  method: 'get'
+}
