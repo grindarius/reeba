@@ -164,6 +164,7 @@ importers:
       pinia: ^2.0.12
       postcss: ^8.4.5
       postcss-import: ^14.0.2
+      qrcode.vue: ^3.3.3
       sass: ^1.44.0
       tailwindcss: ^3.0.16
       tinycolor2: ^1.4.2
@@ -191,6 +192,7 @@ importers:
       markdown-it-emoji: 2.0.0
       pinia: 2.0.12_typescript@4.6.2+vue@3.2.29
       postcss-import: 14.0.2_postcss@8.4.5
+      qrcode.vue: 3.3.3_vue@3.2.29
       tinycolor2: 1.4.2
       topojson-client: 3.1.0
       vue: 3.2.29
@@ -5599,6 +5601,14 @@ packages:
     dependencies:
       escape-goat: 2.1.1
     dev: true
+
+  /qrcode.vue/3.3.3_vue@3.2.29:
+    resolution: {integrity: sha512-OsD4tQjIbxg/K6D5ZkWjBdYI9eg9K2i8qeYILdEAX5mdAydSAxV7xKmmZSP/hA12olLqEMZ9ryqDQrwa9jEMgw==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.2.29
+    dev: false
 
   /qs/6.5.3:
     resolution: {integrity: sha512-qxXIEh4pCGfHICj1mAJQ2/2XVZkjCDTcEgfoSQxc/fYivUZxTkk7L3bDBJSoNrEzXI17oUO5Dp07ktqE5KzczA==}
