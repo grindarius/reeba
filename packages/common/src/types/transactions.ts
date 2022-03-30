@@ -21,6 +21,8 @@ export type GetTransactionRequestParams = Static<typeof GetTransactionRequestPar
 export const GetTransactionReplySchema = Type.Object({
   transactionId: Type.String(),
   time: Type.String(),
+  username: Type.String(),
+  eventName: Type.String(),
   venueName: Type.String(),
   firstStartDatetime: Type.String(),
   sectionRowPosition: Type.Number(),
@@ -31,3 +33,4 @@ export const GetTransactionReplySchema = Type.Object({
     seatColumnPosition: Type.Number()
   }))
 })
+export type GetTransactionReply = Static<typeof GetTransactionReplySchema>

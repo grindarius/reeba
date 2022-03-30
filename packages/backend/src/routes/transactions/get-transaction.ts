@@ -1,14 +1,44 @@
 import dayjs from 'dayjs'
-import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
-import { event_datetimes, event_sections, events, transactions } from '@reeba/common'
+import {
+  BadRequestReplySchema,
+  event_datetimes,
+  event_sections,
+  events,
+  GetTransactionReply,
+  GetTransactionReplySchema,
+  GetTransactionRequestParams,
+  GetTransactionRequestParamsSchema,
+  NotFoundReplySchema,
+  transactions
+} from '@reeba/common'
+
+const schema: FastifySchema = {
+  params: GetTransactionRequestParamsSchema,
+  response: {
+    200: GetTransactionReplySchema,
+    400: BadRequestReplySchema,
+    404: NotFoundReplySchema
+  }
+}
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Params: { transactionId: string } }>(
+  instance.get<{ Params: GetTransactionRequestParams, Reply: GetTransactionReply }>(
     '/:transactionId',
+    {
+      schema,
+      onRequest: instance.authenticate,
+      preValidation: async (request, reply) => {
+        if (request.params.transactionId == null || request.params.transactionId === '') {
+          void reply.code(400)
+          throw new Error('params should have required property \'transactionId\'')
+        }
+      }
+    },
     async (request) => {
       type GetTransaction = transactions &
-      Pick<events, 'event_venue_name' | 'event_venue_country_code_alpha_2'> &
+      Pick<events, 'event_venue_name' | 'event_venue_country_code_alpha_2' | 'event_name'> &
       Pick<event_datetimes, 'event_start_datetime'> &
       Pick<event_sections, 'event_section_row_position' | 'event_section_column_position'> &
       {
@@ -18,6 +48,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const transaction = await instance.pg.query<GetTransaction, [string]>(
         `select
           transactions.*,
+          events.event_name,
           events.event_venue_name,
           events.event_venue_country_code_alpha_2,
           event_datetimes.event_start_datetime,
@@ -42,6 +73,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         group by
           transactions.transaction_id,
           transactions.transaction_time,
+          transactions.user_username,
+          events.event_name,
           events.event_venue_name,
           events.event_venue_country_code_alpha_2,
           event_datetimes.event_start_datetime,
@@ -57,8 +90,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       return {
         transactionId: transaction.rows[0].transaction_id,
         time: dayjs(transaction.rows[0].transaction_time).toISOString(),
+        username: transaction.rows[0].user_username,
+        eventName: transaction.rows[0].event_name,
         venueName: transaction.rows[0].event_venue_name,
-        firstStartDatetime: dayjs(transaction.rows[0].event_start_datetime),
+        firstStartDatetime: dayjs(transaction.rows[0].event_start_datetime).toISOString(),
         sectionRowPosition: transaction.rows[0].event_section_row_position,
         sectionColumnPosition: transaction.rows[0].event_section_column_position,
         seatDetail: transaction.rows[0].seat_detail.map(s => {
