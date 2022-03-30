@@ -83,7 +83,9 @@
                   Transaction ID
                 </h1>
                 <h1 class="font-normal text-white">
-                  {{ transaction.transactionId }}
+                  <router-link :to="{ name: 'Receipt', params: { transactionId: transaction.transactionId } }" title="See transaction" class="link">
+                    {{ transaction.transactionId }}
+                  </router-link>
                 </h1>
                 <h1 class="font-bold text-gray-300 mt-4">
                   Transaction time
@@ -97,16 +99,6 @@
                 <h1 class="font-normal text-white">
                   THB {{ format(',')(transaction.totalPriceWithVat) }}
                 </h1>
-                <div class="dropdown dropdown-end" v-show="authStore.userData.username !== transaction.username">
-                  <label tabindex="0" class="btn btn-ghost">Options</label>
-                  <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
-                    <li>
-                      <router-link :to="{ name: 'Receipt', params: { transactionId: transaction.transactionId } }">
-                        See transaction
-                      </router-link>
-                    </li>
-                  </ul>
-                </div>
               </td>
             </tr>
           </tbody>
@@ -120,7 +112,6 @@
               <th>Transaction ID</th>
               <th>Transaction time</th>
               <th>Price</th>
-              <th />
             </tr>
           </thead>
           <tbody>
@@ -140,7 +131,9 @@
                 </div>
               </td>
               <td>
-                {{ transaction.transactionId }}
+                <router-link :to="{ name: 'Receipt', params: { transactionId: transaction.transactionId } }" title="See transaction" class="link">
+                  {{ transaction.transactionId }}
+                </router-link>
               </td>
               <td>
                 {{ formatTimeString(transaction.time, 'MMMM D, YYYY H:mm:ss') }}
@@ -148,18 +141,6 @@
               <td>
                 THB {{ format(',')(transaction.totalPriceWithVat) }}
               </td>
-              <th>
-                <div class="dropdown dropdown-end" v-show="authStore.userData.username !== transaction.username">
-                  <label tabindex="0" class="btn btn-ghost">Options</label>
-                  <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
-                    <li>
-                      <router-link :to="{ name: 'Receipt', params: { transactionId: transaction.transactionId } }">
-                        See transaction
-                      </router-link>
-                    </li>
-                  </ul>
-                </div>
-              </th>
             </tr>
           </tbody>
         </table>
