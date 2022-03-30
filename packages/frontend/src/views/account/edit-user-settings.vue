@@ -10,25 +10,25 @@
         </div>
         <div class="w-full form-control">
           <label for="edit-user-email" class="label">
-            <span class="font-semibold text-black label-text">
+            <span class="font-semibold label-text">
               Email address
             </span>
           </label>
           <input type="text" placeholder="Type here" name="edit-user-password" class="w-full text-black bg-white input" v-model="email">
           <label for="edit-user-password" class="label">
-            <span class="font-semibold text-black label-text">
+            <span class="font-semibold label-text">
               Password
             </span>
           </label>
           <input type="password" name="edit-user-password" class="w-full text-black bg-white input" v-model="password">
           <label for="edit-user-password-confirm" class="label">
-            <span class="font-semibold text-black label-text">
+            <span class="font-semibold label-text">
               Confirm password
             </span>
           </label>
           <input type="password" name="edit-user-password-confirm" class="w-full text-black bg-white input" v-model="confirmPassword">
           <label for="edit-user-country-code" class="label">
-            <span class="font-semibold text-black label-text">
+            <span class="font-semibold label-text">
               Phone country code
             </span>
           </label>
@@ -43,13 +43,13 @@
             </template>
           </select>
           <label for="edit-user-phone-number" class="label">
-            <span class="font-semibold text-black label-text">
+            <span class="font-semibold label-text">
               Phone number
             </span>
           </label>
           <input type="text" placeholder="Type here" name="edit-user-phone-number" class="w-full text-black bg-white input" v-model="phoneNumber">
           <label for="edit-user-birthdate" class="label">
-            <span class="font-semibold text-black label-text">
+            <span class="font-semibold label-text">
               Birthdate
             </span>
           </label>
@@ -205,6 +205,6 @@ export default defineComponent({
 }
 
 .setting-bg-content {
-  @apply p-6 mx-auto mt-8 w-full rounded-md shadow-md bg-pale-yellow;
+  @apply p-6 mx-auto mt-8 w-full rounded-md shadow-md;
 }
 </style>
