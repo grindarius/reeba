@@ -80,7 +80,7 @@ module.exports = {
             '^min_',
             '^max_',
             '^total_',
-            'seat_list'
+            '^seat_'
           ],
           ignoreImports: true
         }]
