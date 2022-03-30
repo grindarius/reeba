@@ -159,3 +159,10 @@ export const adminGetTransactionData: Endpoint = {
   url: `${url}/admin/transactions`,
   method: 'get'
 }
+
+export const getTransaction: EndpointFunc<{ transactionId: string }> = ({ transactionId }): Endpoint => {
+  return {
+    url: `${url}/transactions/${transactionId}`,
+    method: 'get'
+  }
+}
