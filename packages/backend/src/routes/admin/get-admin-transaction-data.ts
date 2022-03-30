@@ -23,6 +23,23 @@ const schema: FastifySchema = {
   }
 }
 
+const sortByQueryBuilder = (query: AdminGetTransactionDataRequestQuerystring): string => {
+  switch (query.sort) {
+    case 'time-asc':
+      return 'transactions.transaction_time asc'
+    case 'time-desc':
+      return 'transactions.transaction_time desc'
+    case 'price-asc':
+      return 'total_price asc'
+    case 'price-desc':
+      return 'total_price desc'
+    case 'username-asc':
+      return 'transactions.user_username asc'
+    case 'username-desc':
+      return 'transactions.user_username desc'
+  }
+}
+
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.get<{ Querystring: AdminGetTransactionDataRequestQuerystring, Reply: AdminGetTransactionDataReply }>(
     '/transactions',
@@ -38,7 +55,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
       ],
       preValidation: async (request) => {
-        if (Number(request.query.page) === 0) {
+        if (Number(request.query.page) <= 0) {
           request.query.page = 1
         }
 
@@ -65,6 +82,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         inner join "transactions" on transaction_details.transaction_id = transactions.transaction_id
         inner join "event_seats" on transaction_details.event_seat_id = event_seats.event_seat_id
         group by transactions.transaction_id
+        order by ${sortByQueryBuilder(request.query)}
         limit $1 offset $2`,
         [PAGE_SIZE, (PAGE_SIZE * page) - PAGE_SIZE]
       )
