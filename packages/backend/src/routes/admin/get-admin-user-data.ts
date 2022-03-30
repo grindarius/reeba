@@ -49,7 +49,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
       ],
       preValidation: async (request) => {
-        if (Number(request.query.page) === 0) {
+        if (Number(request.query.page) <= 0) {
           request.query.page = 1
         }
 
