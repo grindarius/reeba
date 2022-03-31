@@ -36,6 +36,14 @@
             </span>
           </div>
           <h1 class="receipt-header">
+            Transaction time
+          </h1>
+          <div class="receipt-description-box">
+            <span class="receipt-description-box-text">
+              {{ formatTimeString(receiptData?.time ?? dayjs().toISOString(), 'D MMMM YYYY H:mm:ss') }}
+            </span>
+          </div>
+          <h1 class="receipt-header">
             Date & Time
           </h1>
           <div class="receipt-description-box">
@@ -101,6 +109,11 @@
       </div>
     </div>
   </div>
+  <div class="flex flex-row container justify-end mx-auto pb-8 px-32">
+    <button class="btn btn-primary" @click="downloadPDF">
+      Download invoice
+    </button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -113,7 +126,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 import { GetTransactionReply, numberToLetters } from '@reeba/common'
 
-import { getTransaction, url } from '@/api/endpoints'
+import { getTransaction, getTransactionInvoice, url } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { formatTimeString } from '@/utils'
 
@@ -168,6 +181,14 @@ export default defineComponent({
       await getReceiptData()
     })
 
+    const downloadPDF = async (): Promise<void> => {
+      const { url } = getTransactionInvoice({ transactionId: route.params.transactionId as string })
+      const newWindow = window.open(url, '_blank', 'noopener')
+      if (newWindow != null) {
+        newWindow.opener = null
+      }
+    }
+
     return {
       authStore,
       receiptData,
@@ -175,7 +196,8 @@ export default defineComponent({
       numberToLetters,
       dayjs,
       formatTimeString,
-      format
+      format,
+      downloadPDF
     }
   }
 })
