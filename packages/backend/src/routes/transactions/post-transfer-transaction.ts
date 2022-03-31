@@ -9,7 +9,9 @@ import {
 const schema: FastifySchema = {
   params: PostTransferTransactionRequestParamsSchema,
   body: PostTransferTransactionRequestBodySchema,
-  response: PostTransferTransactionReplySchema
+  response: {
+    200: PostTransferTransactionReplySchema
+  }
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {

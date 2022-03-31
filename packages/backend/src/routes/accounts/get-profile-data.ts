@@ -1,21 +1,17 @@
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  BadRequestReplySchema,
   GetProfileDataReply,
   GetProfileDataReplySchema,
   GetProfileDataRequestParams,
   GetProfileDataRequestParamsSchema,
-  NotFoundReplySchema,
   users
 } from '@reeba/common'
 
 const schema: FastifySchema = {
   params: GetProfileDataRequestParamsSchema,
   response: {
-    200: GetProfileDataReplySchema,
-    400: BadRequestReplySchema,
-    404: NotFoundReplySchema
+    200: GetProfileDataReplySchema
   }
 }
 

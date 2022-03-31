@@ -3,7 +3,6 @@ import dayjs from 'dayjs'
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  BadRequestReplySchema,
   BCRYPT_GENSALT_ROUNDS,
   PatchProfileDataReply,
   PatchProfileDataReplySchema,
@@ -20,8 +19,7 @@ const schema: FastifySchema = {
   params: PatchProfileDataRequestParamsSchema,
   body: PatchProfileDataRequestBodySchema,
   response: {
-    200: PatchProfileDataReplySchema,
-    400: BadRequestReplySchema
+    200: PatchProfileDataReplySchema
   }
 }
 

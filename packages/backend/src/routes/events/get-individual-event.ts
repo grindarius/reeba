@@ -1,23 +1,19 @@
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  BadRequestReplySchema,
   event_datetimes,
   event_tags_bridge,
   events,
   GetIndividualEventReply,
   GetIndividualEventReplySchema,
   GetIndividualEventRequestParams,
-  GetIndividualEventRequestParamsSchema,
-  NotFoundReplySchema
+  GetIndividualEventRequestParamsSchema
 } from '@reeba/common'
 
 const schema: FastifySchema = {
   params: GetIndividualEventRequestParamsSchema,
   response: {
-    200: GetIndividualEventReplySchema,
-    400: BadRequestReplySchema,
-    404: NotFoundReplySchema
+    200: GetIndividualEventReplySchema
   }
 }
 

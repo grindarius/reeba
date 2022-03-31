@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt'
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  BadRequestReplySchema,
   BCRYPT_GENSALT_ROUNDS,
   SignupBody,
   SignupBodySchema,
@@ -17,8 +16,7 @@ import {
 const schema: FastifySchema = {
   body: SignupBodySchema,
   response: {
-    200: SignupReplySchema,
-    400: BadRequestReplySchema
+    200: SignupReplySchema
   }
 }
 

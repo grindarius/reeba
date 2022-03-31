@@ -2,7 +2,6 @@ import dayjs from 'dayjs'
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  BadRequestReplySchema,
   event_datetimes,
   event_seats,
   event_sections,
@@ -20,8 +19,7 @@ import {
 const schema: FastifySchema = {
   params: GetMyTicketsRequestParamsSchema,
   response: {
-    200: GetMyTicketsReplySchema,
-    400: BadRequestReplySchema
+    200: GetMyTicketsReplySchema
   }
 }
 

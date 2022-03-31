@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt'
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  BadRequestReplySchema,
   SigninBody,
   SigninBodySchema,
   SigninReply,
@@ -15,8 +14,7 @@ import { ACCESS_TOKEN_EXPIRES_TIME } from '../../constants'
 const schema: FastifySchema = {
   body: SigninBodySchema,
   response: {
-    200: SigninReplySchema,
-    400: BadRequestReplySchema
+    200: SigninReplySchema
   }
 }
 

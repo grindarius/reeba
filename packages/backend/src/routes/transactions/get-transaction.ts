@@ -6,7 +6,6 @@ import puppeteer from 'puppeteer'
 import qrcode from 'qrcode'
 
 import {
-  BadRequestReplySchema,
   event_datetimes,
   event_sections,
   events,
@@ -15,7 +14,6 @@ import {
   GetTransactionReplySchema,
   GetTransactionRequestParams,
   GetTransactionRequestParamsSchema,
-  NotFoundReplySchema,
   transactions
 } from '@reeba/common'
 
@@ -34,9 +32,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       schema: {
         params: GetTransactionRequestParamsSchema,
         response: {
-          200: GetTransactionReplySchema,
-          400: BadRequestReplySchema,
-          404: NotFoundReplySchema
+          200: GetTransactionReplySchema
         }
       },
       onRequest: instance.authenticate,

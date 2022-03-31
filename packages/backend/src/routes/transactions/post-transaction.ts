@@ -2,7 +2,6 @@ import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 import { nanoid } from 'nanoid'
 
 import {
-  BadRequestReplySchema,
   event_datetimes,
   event_seats,
   event_sections,
@@ -16,8 +15,7 @@ import {
 const schema: FastifySchema = {
   body: PostTransactionRequestBodySchema,
   response: {
-    200: PostTransactionReplySchema,
-    400: BadRequestReplySchema
+    200: PostTransactionReplySchema
   }
 }
 
