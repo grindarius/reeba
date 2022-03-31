@@ -34,3 +34,8 @@ export const GetTransactionReplySchema = Type.Object({
   }))
 })
 export type GetTransactionReply = Static<typeof GetTransactionReplySchema>
+
+export const GetTransactionPDFRequestParamsSchema = Type.Object({
+  transactionId: Type.String()
+})
+export type GetTransactionPDFRequestParams = Static<typeof GetTransactionPDFRequestParamsSchema>
