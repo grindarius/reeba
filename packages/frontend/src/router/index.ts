@@ -73,7 +73,7 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
-    path: '/receipt',
+    path: '/receipt/:transactionId',
     name: 'Receipt',
     component: Page.Receipt
   },

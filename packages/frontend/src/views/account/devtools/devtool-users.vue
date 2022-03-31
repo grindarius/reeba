@@ -21,7 +21,7 @@
               <v-mdi name="mdi-arrow-right-thin" fill="#D5A755" />
             </button>
           </router-link>
-          <select class="select select-ghost max-w-xs" v-model="sortOptions">
+          <select class="max-w-xs select select-ghost" v-model="sortOptions">
             <option value="name-asc">
               <h1 class="font-bold">
                 Sort by
@@ -52,11 +52,6 @@
               <th>
                 Data
               </th>
-              <th>
-                <div class="ml-4">
-                  Options
-                </div>
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -64,7 +59,7 @@
               <td>
                 <div class="flex items-center space-x-3">
                   <div class="avatar">
-                    <div class="mask mask-squircle w-12 h-12">
+                    <div class="w-12 h-12 mask mask-squircle">
                       <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
                     </div>
                   </div>
@@ -81,50 +76,52 @@
                     </div>
                   </div>
                 </div>
-                <h1 class="font-bold text-gray-300 mt-4">
-                  Registration date
-                </h1>
-                <h1 class="font-normal text-white">
-                  {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY H:mm:ss') }}
-                </h1>
-              </td>
-              <td>
-                <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
-                  <label tabindex="0" class="btn btn-ghost">Options</label>
-                  <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
-                    <li>
-                      <a @click="grantAdmin(user.username)">
-                        Make admin
-                      </a>
-                    </li>
-                    <li>
-                      <a @click="revokeAdmin(user.username)">
-                        Remove admin
-                      </a>
-                    </li>
-                    <li>
-                      <a @click="grantVerification(user.username)">
-                        Make verified account
-                      </a>
-                    </li>
-                    <li>
-                      <a @click="revokeVerification(user.username)">
-                        Unverify account
-                      </a>
-                    </li>
-                    <li>
-                      <a @click="removeUser(user.username)">
-                        Remove from ReebA
-                      </a>
-                    </li>
-                  </ul>
+                <div class="flex flex-row justify-between">
+                  <div>
+                    <h1 class="mt-4 font-bold text-gray-300">
+                      Registration date
+                    </h1>
+                    <h1 class="font-normal text-white">
+                      {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY H:mm:ss') }}
+                    </h1>
+                  </div>
+                  <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
+                    <label tabindex="0" class="btn btn-ghost">Options</label>
+                    <ul tabindex="0" class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
+                      <li>
+                        <a @click="grantAdmin(user.username)">
+                          Make admin
+                        </a>
+                      </li>
+                      <li>
+                        <a @click="revokeAdmin(user.username)">
+                          Remove admin
+                        </a>
+                      </li>
+                      <li>
+                        <a @click="grantVerification(user.username)">
+                          Make verified account
+                        </a>
+                      </li>
+                      <li>
+                        <a @click="revokeVerification(user.username)">
+                          Unverify account
+                        </a>
+                      </li>
+                      <li>
+                        <a @click="removeUser(user.username)">
+                          Remove from ReebA
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="hidden xl:block">
+      <div class="hidden w-full xl:block">
         <table class="table w-full">
           <thead>
             <tr>
@@ -142,7 +139,7 @@
               <td>
                 <div class="flex items-center space-x-3">
                   <div class="avatar">
-                    <div class="mask mask-squircle w-12 h-12">
+                    <div class="w-12 h-12 mask mask-squircle">
                       <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
                     </div>
                   </div>
@@ -166,7 +163,7 @@
               <td>
                 <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
                   <label tabindex="0" class="btn btn-ghost">Options</label>
-                  <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
+                  <ul tabindex="0" class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
                     <li>
                       <a @click="grantAdmin(user.username)">
                         Make admin
@@ -253,6 +250,7 @@ export default defineComponent({
     const getAdminUsers = async (): Promise<void> => {
       const formattedPage = Number(formatQueryString(route.query.page, '1'))
       const formattedSortOptions = formatQueryString(route.query.sort, 'name-asc')
+
       page.value = formattedPage
       sortOptions.value = formattedSortOptions as AdminGetUserDataOptions
 
@@ -278,14 +276,17 @@ export default defineComponent({
 
         if (resp.status == null) {
           router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          return
         }
 
         if (resp.status === 401) {
           router.push({ name: 'Signin' })
+          return
         }
 
         if (resp.status === 403) {
           router.push({ name: 'Home' })
+          return
         }
 
         router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
@@ -304,7 +305,9 @@ export default defineComponent({
         })
 
         toast.success('Granted admin successfully')
-        router.replace({ name: 'Developer Users', query: { ...route.query } })
+        setTimeout(() => {
+          router.go(0)
+        }, 2050)
       } catch (error) {
         // @ts-expect-error error is unknown
         const json = await error?.response.json()
@@ -324,7 +327,9 @@ export default defineComponent({
         })
 
         toast.success('Revoke admin successfully')
-        router.replace({ name: 'Developer Users', query: { ...route.query } })
+        setTimeout(() => {
+          router.go(0)
+        }, 2050)
       } catch (error) {
         // @ts-expect-error error is unknown
         const json = await error?.response.json()
@@ -344,7 +349,9 @@ export default defineComponent({
         })
 
         toast.success('Grant verified status successfully')
-        router.replace({ name: 'Developer Users', query: { ...route.query } })
+        setTimeout(() => {
+          router.go(0)
+        }, 2050)
       } catch (error) {
         // @ts-expect-error error is unknown
         const json = await error?.response.json()
@@ -364,7 +371,9 @@ export default defineComponent({
         })
 
         toast.success('Revoke verified status successfully')
-        router.replace({ name: 'Developer Users', query: { ...route.query } })
+        setTimeout(() => {
+          router.go(0)
+        }, 2050)
       } catch (error) {
         // @ts-expect-error error is unknown
         const json = await error?.response.json()
@@ -384,7 +393,9 @@ export default defineComponent({
         })
 
         toast.success('User removed successfully')
-        router.replace({ name: 'Developer Users', query: { ...route.query } })
+        setTimeout(() => {
+          router.go(0)
+        }, 2050)
       } catch (error) {
         // @ts-expect-error error is unknown
         const json = await error?.response.json()

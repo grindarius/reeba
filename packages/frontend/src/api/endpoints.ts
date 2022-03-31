@@ -154,3 +154,22 @@ export const adminRemoveUser: EndpointFunc<{ username: string }> = ({ username }
     method: 'delete'
   }
 }
+
+export const adminGetTransactionData: Endpoint = {
+  url: `${url}/admin/transactions`,
+  method: 'get'
+}
+
+export const getTransaction: EndpointFunc<{ transactionId: string }> = ({ transactionId }): Endpoint => {
+  return {
+    url: `${url}/transactions/${transactionId}`,
+    method: 'get'
+  }
+}
+
+export const getTransactionInvoice: EndpointFunc<{ transactionId: string }> = ({ transactionId }): Endpoint => {
+  return {
+    url: `${url}/transactions/${transactionId}/pdf`,
+    method: 'get'
+  }
+}

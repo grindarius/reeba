@@ -46,7 +46,7 @@
         </div>
         <button
           :disabled="userData?.username == null || userData?.username === authStore.userData.username"
-          class="btn btn-primary disabled:text-white hover:bg-yellow-hover disabled:bg-red-disabled"
+          class="disabled:text-white btn btn-primary hover:bg-yellow-hover disabled:bg-red-disabled"
           @click="followUser">
           {{ isFollowing ? 'Following' : 'Follow' }}
         </button>

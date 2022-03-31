@@ -412,13 +412,13 @@ const main = async () => {
   await client.connect()
 
   console.log(chalk.blue('Generating users...'))
-  const users = await generateUserList(100)
+  const users = await generateUserList(320)
 
   console.log(chalk.blue('Generating users followers...'))
-  const followersList = generateFollowersList(users, 1000)
+  const followersList = generateFollowersList(users, 2000)
 
   console.log(chalk.blue('Generating events related data...'))
-  const eventData = await generateEvent(users, 20)
+  const eventData = await generateEvent(users, 40)
 
   console.log(chalk.blue('Generating transactions...'))
   const transactions = generateTransactions(users, eventData)

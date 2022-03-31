@@ -1,4 +1,9 @@
 <template>
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
   <div class="receipt-page">
     <div class="receipt-page-content">
       <div class="receipt-section">
@@ -8,74 +13,88 @@
               Payment receipt
             </h1>
           </div>
-          <img src="@/assets/sample-qr-code.png" alt="QR code">
+          <qrcode-vue :value="'http://localhost:8080' + $route.fullPath" :margin="1" :size="250" level="M" />
         </div>
         <div class="receipt-section-description">
           <h1 class="receipt-header">
             Event name
           </h1>
           <div class="receipt-description-box">
-            <span class="receipt-description-box-text">BTS WORLD TOUR 'LOVE YOURSELF' BANGKOK</span>
+            <span class="receipt-description-box-text">
+              {{ receiptData?.eventName ?? '' }}
+            </span>
+          </div>
+          <h1 class="receipt-header">
+            Username
+          </h1>
+          <div class="receipt-description-box">
+            <span class="receipt-description-box-text">
+              {{ receiptData?.username ?? '' }}
+            </span>
           </div>
           <h1 class="receipt-header">
             Venue
           </h1>
           <div class="receipt-description-box">
-            <span class="receipt-description-box-text">Rajamangkala National Stadium</span>
+            <span class="receipt-description-box-text">
+              {{ receiptData?.venueName ?? '' }}
+            </span>
+          </div>
+          <h1 class="receipt-header">
+            Transaction time
+          </h1>
+          <div class="receipt-description-box">
+            <span class="receipt-description-box-text">
+              {{ formatTimeString(receiptData?.time ?? dayjs().toISOString(), 'D MMMM YYYY H:mm:ss') }}
+            </span>
           </div>
           <h1 class="receipt-header">
             Date & Time
           </h1>
           <div class="receipt-description-box">
-            <span class="receipt-description-box-text">6 April 2022 19:00</span>
+            <span class="receipt-description-box-text">
+              {{ formatTimeString(receiptData?.firstStartDatetime ?? dayjs().toISOString(), 'D MMMM YYYY H:mm') }}
+            </span>
           </div>
           <h1 class="receipt-header">
-            Zone
+            Section
           </h1>
           <div class="receipt-description-box">
-            <span class="receipt-description-box-text">C4</span>
+            <span class="receipt-description-box-text">
+              {{ `${numberToLetters(receiptData?.sectionRowPosition ?? 0)}${(receiptData?.sectionColumnPosition ?? 0) + 1}` }}
+            </span>
           </div>
           <h1 class="receipt-header">
             Seat number
           </h1>
           <div class="receipt-description-box">
-            <span class="receipt-description-box-text">C09</span>
-          </div>
-          <h1 class="receipt-header">
-            Reserve ID
-          </h1>
-          <div class="receipt-description-box">
-            <span class="receipt-description-box-text">RB1234567890</span>
+            <span class="receipt-description-box-text">
+              {{ (receiptData?.seatDetail ?? []).sort((a, b) => a.seatRowPosition - b.seatRowPosition || a.seatColumnPosition - b.seatColumnPosition).map(s => `${numberToLetters(s.seatRowPosition)}${s.seatColumnPosition + 1}`).join(', ') }}
+            </span>
           </div>
           <h1 class="receipt-header">
             Quantity
           </h1>
           <div class="receipt-description-box">
-            <span class="receipt-description-box-text">1</span>
+            <span class="receipt-description-box-text">
+              {{ (receiptData?.seatDetail ?? []).length }}
+            </span>
           </div>
           <h1 class="receipt-header">
             Unit price (THB)
           </h1>
           <div class="receipt-description-box">
-            <span class="receipt-description-box-text">6400</span>
-          </div>
-          <h1 class="receipt-header">
-            Discount
-          </h1>
-          <div class="receipt-description-box">
-            <span class="receipt-description-box-text">0</span>
+            <span class="receipt-description-box-text">
+              {{ format(',')((receiptData?.seatDetail ?? []).reduce((total, curr) => curr.seatPrice + total, 0)) }}
+            </span>
           </div>
           <h1 class="receipt-header">
             Service fee (40 THB/ticket)
           </h1>
           <div class="receipt-description-box">
-            <span class="receipt-description-box-text">40</span>
-          </div>
-          <h1 class="receipt-header">
-            Shipping cost (THB)
-          </h1>
-          <div class="receipt-description-box">
-            <span class="receipt-description-box-text">50</span>
+            <span class="receipt-description-box-text">
+              {{ format(',')((receiptData?.seatDetail ?? []).length * 40) }}
+            </span>
           </div>
           <h1 class="receipt-header">
             Credit card fee (THB)
@@ -84,22 +103,113 @@
             <span class="receipt-description-box-text">5</span>
           </div>
           <h1 class="receipt-header">
-            Shipping information
+            Total price (THB)
           </h1>
           <div class="receipt-description-box">
-            <span class="receipt-description-box-text">123, Singhawat, Phitsanulok, 65000</span>
+            <span class="receipt-description-box-text">
+              {{ format(',')((receiptData?.seatDetail ?? []).reduce((total, curr) => curr.seatPrice + total + 40, 0) + 5) }}
+            </span>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="container flex flex-row justify-end px-32 pb-8 mx-auto">
+    <button class="btn btn-primary" @click="downloadPDF">
+      Download invoice
+    </button>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { format } from 'd3'
+import dayjs from 'dayjs'
+import ky from 'ky'
+import QRcodeVue from 'qrcode.vue'
+import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { useMeta } from 'vue-meta'
+import { useRoute, useRouter } from 'vue-router'
+
+import { GetTransactionReply, numberToLetters } from '@reeba/common'
+
+import { getTransaction, getTransactionInvoice, url } from '@/api/endpoints'
+import { useAuthStore } from '@/store/use-auth-store'
+import { formatTimeString } from '@/utils'
 
 export default defineComponent({
-  name: 'receipt'
+  name: 'receipt',
+  components: {
+    'qrcode-vue': QRcodeVue
+  },
+  setup () {
+    const router = useRouter()
+    const route = useRoute()
+    const authStore = useAuthStore()
+
+    useMeta({
+      title: 'Invoice'
+    })
+
+    const receiptData: Ref<GetTransactionReply | undefined> = ref(undefined)
+
+    const getReceiptData = async (): Promise<void> => {
+      try {
+        const { method, url } = getTransaction({ transactionId: route.params.transactionId as string ?? '' })
+
+        const response = await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        }).json<GetTransactionReply>()
+
+        receiptData.value = response
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const resp = error?.response
+
+        if (resp?.status == null) {
+          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          return
+        }
+
+        if (resp?.status === 400) {
+          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          return
+        }
+
+        if (resp?.status === 401) {
+          router.push({ name: 'Signin' })
+          return
+        }
+
+        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+      }
+    }
+
+    onMounted(async () => {
+      await getReceiptData()
+    })
+
+    const downloadPDF = async (): Promise<void> => {
+      const { url } = getTransactionInvoice({ transactionId: route.params.transactionId as string })
+      const newWindow = window.open(url, '_blank', 'noopener')
+      if (newWindow != null) {
+        newWindow.opener = null
+      }
+    }
+
+    return {
+      authStore,
+      receiptData,
+      url,
+      numberToLetters,
+      dayjs,
+      formatTimeString,
+      format,
+      downloadPDF
+    }
+  }
 })
 </script>
 
@@ -113,11 +223,11 @@ export default defineComponent({
 }
 
 .receipt-section {
-  @apply p-8 w-full h-full rounded-md bg-zinc-600;
+  @apply p-8 w-full h-full rounded-md bg-base-300;
 }
 
 .receipt-section-header {
-  @apply flex flex-col justify-start mb-6 sm:flex-row sm:justify-between;
+  @apply flex flex-col justify-start items-center mb-6 sm:flex-row sm:justify-between;
 }
 
 .receipt-section-description {
@@ -133,6 +243,6 @@ export default defineComponent({
 }
 
 .receipt-description-box-text {
-  @apply text-xl leading-loose;
+  @apply text-xl leading-loose text-base-100;
 }
 </style>
