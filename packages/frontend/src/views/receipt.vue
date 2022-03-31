@@ -1,4 +1,9 @@
 <template>
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
   <div class="receipt-page">
     <div class="receipt-page-content">
       <div class="receipt-section">
@@ -8,7 +13,7 @@
               Payment receipt
             </h1>
           </div>
-          <qrcode-vue :value="url + $route.fullPath" :margin="1" :size="250" level="M" />
+          <qrcode-vue :value="'http://localhost:8080' + $route.fullPath" :margin="1" :size="250" level="M" />
         </div>
         <div class="receipt-section-description">
           <h1 class="receipt-header">
@@ -122,6 +127,7 @@ import dayjs from 'dayjs'
 import ky from 'ky'
 import QRcodeVue from 'qrcode.vue'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 
 import { GetTransactionReply, numberToLetters } from '@reeba/common'
@@ -139,6 +145,10 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const authStore = useAuthStore()
+
+    useMeta({
+      title: 'Invoice'
+    })
 
     const receiptData: Ref<GetTransactionReply | undefined> = ref(undefined)
 
