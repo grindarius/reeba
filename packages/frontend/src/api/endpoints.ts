@@ -166,3 +166,10 @@ export const getTransaction: EndpointFunc<{ transactionId: string }> = ({ transa
     method: 'get'
   }
 }
+
+export const getTransactionInvoice: EndpointFunc<{ transactionId: string }> = ({ transactionId }): Endpoint => {
+  return {
+    url: `${url}/transactions/${transactionId}/pdf`,
+    method: 'get'
+  }
+}
