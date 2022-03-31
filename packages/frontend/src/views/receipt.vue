@@ -109,7 +109,7 @@
       </div>
     </div>
   </div>
-  <div class="flex flex-row container justify-end mx-auto pb-8 px-32">
+  <div class="container flex flex-row justify-end px-32 pb-8 mx-auto">
     <button class="btn btn-primary" @click="downloadPDF">
       Download invoice
     </button>

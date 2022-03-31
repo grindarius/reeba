@@ -21,7 +21,7 @@
               <v-mdi name="mdi-arrow-right-thin" fill="#D5A755" />
             </button>
           </router-link>
-          <select class="select select-ghost max-w-xs" v-model="sort">
+          <select class="max-w-xs select select-ghost" v-model="sort">
             <option value="time-asc">
               <h1 class="font-bold">
                 Sort by
@@ -67,7 +67,7 @@
               <td>
                 <div class="flex items-center space-x-3">
                   <div class="avatar">
-                    <div class="mask mask-squircle w-12 h-12">
+                    <div class="w-12 h-12 mask mask-squircle">
                       <img :src="getUserAvatar({ username: transaction.username }).url" :alt="transaction.username">
                     </div>
                   </div>
@@ -79,7 +79,7 @@
                     </router-link>
                   </div>
                 </div>
-                <h1 class="font-bold text-gray-300 mt-4">
+                <h1 class="mt-4 font-bold text-gray-300">
                   Transaction ID
                 </h1>
                 <h1 class="font-normal text-white">
@@ -87,13 +87,13 @@
                     {{ transaction.transactionId }}
                   </router-link>
                 </h1>
-                <h1 class="font-bold text-gray-300 mt-4">
+                <h1 class="mt-4 font-bold text-gray-300">
                   Transaction time
                 </h1>
                 <h1 class="font-normal text-white">
                   {{ formatTimeString(transaction.time, 'MMMM D, YYYY H:mm:ss') }}
                 </h1>
-                <h1 class="font-bold text-gray-300 mt-4">
+                <h1 class="mt-4 font-bold text-gray-300">
                   Price
                 </h1>
                 <h1 class="font-normal text-white">
@@ -119,7 +119,7 @@
               <td>
                 <div class="flex items-center space-x-3">
                   <div class="avatar">
-                    <div class="mask mask-squircle w-12 h-12">
+                    <div class="w-12 h-12 mask mask-squircle">
                       <img :src="getUserAvatar({ username: transaction.username }).url" :alt="transaction.username">
                     </div>
                   </div>
@@ -260,7 +260,7 @@ export default defineComponent({
 }
 
 .page-header {
-  @apply text-4xl font-semibold text-white mb-6;
+  @apply mb-6 text-4xl font-semibold text-white;
 }
 
 .table-cell-string {

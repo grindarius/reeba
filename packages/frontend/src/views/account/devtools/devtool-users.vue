@@ -21,7 +21,7 @@
               <v-mdi name="mdi-arrow-right-thin" fill="#D5A755" />
             </button>
           </router-link>
-          <select class="select select-ghost max-w-xs" v-model="sortOptions">
+          <select class="max-w-xs select select-ghost" v-model="sortOptions">
             <option value="name-asc">
               <h1 class="font-bold">
                 Sort by
@@ -59,7 +59,7 @@
               <td>
                 <div class="flex items-center space-x-3">
                   <div class="avatar">
-                    <div class="mask mask-squircle w-12 h-12">
+                    <div class="w-12 h-12 mask mask-squircle">
                       <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
                     </div>
                   </div>
@@ -78,7 +78,7 @@
                 </div>
                 <div class="flex flex-row justify-between">
                   <div>
-                    <h1 class="font-bold text-gray-300 mt-4">
+                    <h1 class="mt-4 font-bold text-gray-300">
                       Registration date
                     </h1>
                     <h1 class="font-normal text-white">
@@ -87,7 +87,7 @@
                   </div>
                   <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
                     <label tabindex="0" class="btn btn-ghost">Options</label>
-                    <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
+                    <ul tabindex="0" class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
                       <li>
                         <a @click="grantAdmin(user.username)">
                           Make admin
@@ -121,7 +121,7 @@
           </tbody>
         </table>
       </div>
-      <div class="hidden xl:block w-full">
+      <div class="hidden w-full xl:block">
         <table class="table w-full">
           <thead>
             <tr>
@@ -139,7 +139,7 @@
               <td>
                 <div class="flex items-center space-x-3">
                   <div class="avatar">
-                    <div class="mask mask-squircle w-12 h-12">
+                    <div class="w-12 h-12 mask mask-squircle">
                       <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
                     </div>
                   </div>
@@ -163,7 +163,7 @@
               <td>
                 <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
                   <label tabindex="0" class="btn btn-ghost">Options</label>
-                  <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
+                  <ul tabindex="0" class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
                     <li>
                       <a @click="grantAdmin(user.username)">
                         Make admin
