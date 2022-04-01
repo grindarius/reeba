@@ -1,11 +1,11 @@
 import { Static, Type } from '@sinclair/typebox'
 
-export const GetFollowRequestParamsSchema = Type.Object({
+export const GetFollowersRequestParamsSchema = Type.Object({
   anoterUsername: Type.String()
 })
-export type GetFollowRequestParams = Static<typeof GetFollowRequestParamsSchema>
+export type GetFollowersRequestParams = Static<typeof GetFollowersRequestParamsSchema>
 
-export const GetFollowReplySchema = Type.Object({
+export const GetFollowersReplySchema = Type.Object({
   isFollowingCurrentUser: Type.Boolean()
 })
-export type GetFollowReply = Static<typeof GetFollowReplySchema>
+export type GetFollowersReply = Static<typeof GetFollowersReplySchema>
