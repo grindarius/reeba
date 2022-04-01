@@ -45,7 +45,7 @@
   <input type="checkbox" id="transfer-ownership-modal" class="modal-toggle" ref="transferOwnershipButtonRef">
   <label for="transfer-ownership-modal" class="cursor-pointer modal" style="background-color: #00000055;">
     <label class="relative modal-box">
-      <h3 class="text-lg font-bold mb-3">Transfering ticket.</h3>
+      <h3 class="mb-3 text-lg font-bold">Transfering ticket.</h3>
       <h3 class="text-lg font-bold">Disclaimer</h3>
       <p>
         After you have transferred the ticket to a user, you <strong>cannot</strong> reverse this from your side anymore.
@@ -53,11 +53,11 @@
         the seat will be transferred with the exact same seat configuration.
       </p>
       <div class="grid grid-cols-1 gap-6 mt-4">
-        <div class="form-control mb-4">
+        <div class="mb-4 form-control">
           <label class="label">
             <label class="label-text" for="transfer-ticket-username-input">Destination username</label>
           </label>
-          <input id="transfer-ticket-username-input" type="text" class="input bg-white text-black" v-model="usernameToTransfer">
+          <input id="transfer-ticket-username-input" type="text" class="text-black bg-white input" v-model="usernameToTransfer">
         </div>
       </div>
       <div class="flex flex-row justify-center space-y-1 space-x-0 lg:flex-row lg:space-y-0 lg:space-x-1">
