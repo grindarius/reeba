@@ -56,6 +56,11 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         [transactionId]
       )
 
+      if (eventIdOfTransaction.rows.length === 0) {
+        void reply.code(404)
+        throw new Error('event related to transactionId not found')
+      }
+
       // * check if there is any transaction by destination user that contains the given event id, this should return empty array
       // * if a user got a transaction tied to an event id, that means the user already have an event tied to the given transaction id
       const allTransactionsOfDestinationUsername = await instance.pg.query<
