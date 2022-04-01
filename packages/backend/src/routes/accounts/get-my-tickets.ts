@@ -41,7 +41,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     async (request) => {
       const { username } = request.params
 
-      type EventIdsThatUsersWentTo = Pick<events, 'event_id' | 'event_name' | 'event_venue_name'>
+      type EventIdsThatUsersWentTo = Pick<events, 'event_id' | 'event_name' | 'event_venue_name' | 'user_username'>
       & Omit<event_datetimes, 'event_id'>
       & Pick<transactions, 'transaction_id'>
       & Pick<transaction_details, 'event_seat_id'>
@@ -53,6 +53,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           events.event_id,
           events.event_name,
           events.event_venue_name,
+          events.user_username,
           event_datetimes.event_datetime_id,
           event_datetimes.event_start_datetime,
           event_datetimes.event_end_datetime,
@@ -78,6 +79,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         .map(eventGroup => {
           return {
             id: eventGroup[0].event_id,
+            username: eventGroup[0].user_username,
             transactionId: eventGroup[0].transaction_id,
             name: eventGroup[0].event_name,
             venueName: eventGroup[0].event_venue_name,

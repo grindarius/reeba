@@ -41,6 +41,7 @@ export type GetMyTicketsRequestParams = Static<typeof GetMyTicketsRequestParamsS
 export const GetMyTicketsReplySchema = Type.Object({
   events: Type.Array(Type.Object({
     id: Type.String(),
+    username: Type.String(),
     transactionId: Type.String(),
     name: Type.String(),
     venueName: Type.String(),
