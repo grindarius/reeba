@@ -148,7 +148,7 @@ void t.test('transaction creation route', async t => {
     }
   })
 
-  await app.inject({
+  const eventId = await app.inject({
     method: 'post',
     url: '/events',
     headers: {
@@ -167,11 +167,11 @@ void t.test('transaction creation route', async t => {
     inner join "event_sections" on event_seats.event_section_id = event_sections.event_section_id
     inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
     inner join "events" on event_datetimes.event_id = events.event_id
-    where events.user_username = $1`,
-    ['posttransactiontest']
+    where events.event_id = $1`,
+    [eventId.json<{ eventId: string }>().eventId]
   )
 
-  void t.test('test missing eventId', async t => {
+  await t.test('test missing eventId', async t => {
     try {
       const response = await app.inject({
         method: 'post',
@@ -195,7 +195,7 @@ void t.test('transaction creation route', async t => {
     }
   })
 
-  void t.test('test missing eventId as no property', async t => {
+  await t.test('test missing eventId as no property', async t => {
     try {
       const response = await app.inject({
         method: 'post',
@@ -218,7 +218,7 @@ void t.test('transaction creation route', async t => {
     }
   })
 
-  void t.test('test missing datetimeId', async t => {
+  await t.test('test missing datetimeId', async t => {
     try {
       const response = await app.inject({
         method: 'post',
@@ -242,7 +242,7 @@ void t.test('transaction creation route', async t => {
     }
   })
 
-  void t.test('test missing id as no property', async t => {
+  await t.test('test missing id as no property', async t => {
     try {
       const response = await app.inject({
         method: 'post',
@@ -265,7 +265,7 @@ void t.test('transaction creation route', async t => {
     }
   })
 
-  void t.test('missing sectionId', async t => {
+  await t.test('missing sectionId', async t => {
     try {
       const response = await app.inject({
         method: 'post',
@@ -289,7 +289,7 @@ void t.test('transaction creation route', async t => {
     }
   })
 
-  void t.test('missing sectionId as no property', async t => {
+  await t.test('missing sectionId as no property', async t => {
     try {
       const response = await app.inject({
         method: 'post',
@@ -312,7 +312,7 @@ void t.test('transaction creation route', async t => {
     }
   })
 
-  void t.test('missing seatIds', async t => {
+  await t.test('missing seatIds', async t => {
     try {
       const response = await app.inject({
         method: 'post',
@@ -335,7 +335,7 @@ void t.test('transaction creation route', async t => {
     }
   })
 
-  void t.test('seatIds of different type', async t => {
+  await t.test('seatIds of different type', async t => {
     try {
       const response = await app.inject({
         method: 'post',
@@ -359,7 +359,7 @@ void t.test('transaction creation route', async t => {
     }
   })
 
-  void t.test('empty array seatIds', async t => {
+  await t.test('empty array seatIds', async t => {
     try {
       const response = await app.inject({
         method: 'post',
@@ -383,7 +383,7 @@ void t.test('transaction creation route', async t => {
     }
   })
 
-  void t.test('all empty seats', async t => {
+  await t.test('all empty seats', async t => {
     try {
       const response = await app.inject({
         method: 'post',
@@ -407,7 +407,7 @@ void t.test('transaction creation route', async t => {
     }
   })
 
-  void t.test('same seats being bought', async t => {
+  await t.test('same seats being bought', async t => {
     try {
       const response = await app.inject({
         method: 'post',
@@ -441,6 +441,90 @@ void t.test('transaction creation route', async t => {
 
       t.strictSame(lateGuyResponse.statusCode, 400)
       t.strictSame(lateGuyResponse.json<{ message: string }>().message.split(':')[1].split(',').map(s => s.trim()).sort(), submittedEvent.rows.slice(0, 2).map(r => r.event_seat_id).sort())
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  const transactionId = await client.query('select * from "transactions" where user_username = $1', ['thattransactionguy'])
+
+  await t.test('viewing invoice: no transaction id', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/transactions/',
+        headers: {
+          Authorization: `Bearer ${ticketBuyerToken.json<{ token: string }>().token}`
+        }
+      })
+
+      t.strictSame(response.statusCode, 400)
+      t.strictSame(response.json().message, 'params should have required property \'transactionId\'')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  await t.test('viewing invoice: nonexistent transaction id', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: '/transactions/1234',
+        headers: {
+          Authorization: `Bearer ${ticketBuyerToken.json<{ token: string }>().token}`
+        }
+      })
+
+      t.strictSame(response.statusCode, 404)
+      t.strictSame(response.json().message, 'transaction not found')
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  await t.test('viewing invoice: successful call', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: `/transactions/${transactionId.rows[0].transaction_id as string}`,
+        headers: {
+          Authorization: `Bearer ${ticketBuyerToken.json<{ token: string }>().token}`
+        }
+      })
+
+      t.strictSame(response.statusCode, 200)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  await t.test('viewing invoice: successful call to get pdf', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: `/transactions/${transactionId.rows[0].transaction_id as string}/pdf`
+      })
+
+      t.strictSame(response.statusCode, 200)
+    } catch (error) {
+      t.error(error)
+      t.fail()
+    }
+  })
+
+  await t.test('viewing invoice: transaction not found', async t => {
+    try {
+      const response = await app.inject({
+        method: 'get',
+        url: `/transactions/${'3948483'}/pdf`
+      })
+
+      t.strictSame(response.statusCode, 404)
+      t.strictSame(response.json().message, 'transaction not found')
     } catch (error) {
       t.error(error)
       t.fail()

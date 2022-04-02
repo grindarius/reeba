@@ -32,6 +32,7 @@
     "markdown-it-emoji": "^2.0.0",
     "pinia": "^2.0.12",
     "postcss-import": "^14.0.2",
+    "qrcode.vue": "^3.3.3",
     "tinycolor2": "^1.4.2",
     "topojson-client": "^3.1.0",
     "vue": "^3.2.29",

@@ -15,7 +15,7 @@
             <label for="event-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Event name</label>
             <input
               type="text" id="event-name"
-              name="event-name" class="placeholder:text-black text-black appearance-none input"
+              name="event-name" class="text-black appearance-none placeholder:text-black input"
               placeholder="Natus Vincere"
               v-model="eventName">
           </div>
@@ -23,7 +23,7 @@
           <div class="col-span-4">
             <div class="flex flex-row justify-between">
               <div class="tabs">
-                <a :class="isWrite ? 'tab tab-bordered tab-active' : 'tab tab-bordered'" @click="isWrite = true">Write</a>
+                <a :class="isWrite ?'tab tab-bordered tab-active' : 'tab tab-bordered'" @click="isWrite = true">Write</a>
                 <a :class="!isWrite ? 'tab tab-bordered tab-active' : 'tab tab-bordered'" @click="isWrite = false">Preview</a>
               </div>
               <button @click="openMarkdownRef('https://markdown-it.github.io/')" class="self-center place-self-end">
@@ -32,7 +32,7 @@
             </div>
             <div v-if="isWrite">
               <textarea
-                class="textarea w-full bg-white text-black"
+                class="w-full text-black bg-white textarea"
                 v-model="eventDescription"
                 style="height: auto;"
                 :rows="eventDescription.split(/\r\n|\r|\n/).length" />
@@ -46,7 +46,7 @@
             <label for="event-website-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Website</label>
             <input
               type="text" id="event-website-name"
-              name="event-website-name" class="placeholder:text-black text-black appearance-none input"
+              name="event-website-name" class="text-black appearance-none placeholder:text-black input"
               placeholder="https://event.reeba.com"
               v-model="eventWebsite">
           </div>
@@ -88,7 +88,7 @@
             <label for="event-location-name" class="block py-2 text-xs font-bold tracking-wide text-white uppercase">Location name</label>
             <input
               type="text" id="event-location-name"
-              name="event-location-name" class="placeholder:text-black text-black appearance-none input"
+              name="event-location-name" class="text-black appearance-none placeholder:text-black input"
               placeholder="Rajamangkala National Stadium"
               v-model="eventVenueName">
           </div>
@@ -155,7 +155,7 @@
         <div class="flex flex-row justify-center mb-4 md:col-span-1">
           <input
             type="number" id="event-price-range"
-            name="event-price-range" class="text-black h-12 input-button"
+            name="event-price-range" class="h-12 text-black input-button"
             step="1"
             v-model="eventTicketPrices.length" disabled>
           <button @click="decreasePriceRangeAmount" class="flex-none w-12 h-12 text-gray-600 bg-gray-300 border cursor-pointer outline-none hover:text-gray-700 hover:bg-gray-400 border-x-black">
@@ -175,7 +175,7 @@
                 </div>
                 <input
                   type="number" name="price"
-                  id="price-range-selector-input" class="text-black block py-3 pr-12 pl-7 w-full h-12 rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  id="price-range-selector-input" class="block py-3 pr-12 pl-7 w-full h-12 text-black rounded-md border-gray-300 sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                   placeholder="0.00"
                   :value="price.price"
                   @change="onPriceRangePriceChange($event, i)">
@@ -260,12 +260,12 @@
                   Seat prices
                 </p>
               </div>
-              <div class="text-black flex place-content-center w-full h-14 bg-white">
+              <div class="flex place-content-center w-full h-14 text-black bg-white">
                 <p class="place-self-center text-2xl font-semibold text-center">
                   {{ seatTemplateSelectedSeat.name }}
                 </p>
               </div>
-              <div v-for="(price, index) in eventTicketPrices" :key="index" @click="setSelectedSeatTemplatePrice(price)" class="text-black grid grid-cols-3 place-content-center w-full h-14 bg-white border cursor-pointer">
+              <div v-for="(price, index) in eventTicketPrices" :key="index" @click="setSelectedSeatTemplatePrice(price)" class="grid grid-cols-3 place-content-center w-full h-14 text-black bg-white border cursor-pointer">
                 <div class="place-self-center w-8 h-8 rounded-full" :style="{ 'background-color': eventTicketPrices[index].color }" />
                 <p class="place-self-center text-lg font-semibold text-center">
                   {{ price.price }}
@@ -399,7 +399,7 @@
                     Seat prices
                   </p>
                 </div>
-                <div class="text-black flex place-content-center w-full h-14 bg-white">
+                <div class="flex place-content-center w-full h-14 text-black bg-white">
                   <p class="place-self-center text-2xl font-semibold text-center">
                     {{ actualSeatPlanSelectedSeat.name }}
                   </p>
@@ -407,7 +407,7 @@
                 <div
                   v-for="(price, index) in eventTicketPrices" :key="`zone-price-selector-${index}`"
                   @click="setActualSeatPlanPriceIndividually(price)"
-                  class="text-black grid grid-cols-3 place-content-center w-full h-14 bg-white border cursor-pointer">
+                  class="grid grid-cols-3 place-content-center w-full h-14 text-black bg-white border cursor-pointer">
                   <div class="place-self-center w-8 h-8 rounded-full" :style="{ 'background-color': eventTicketPrices[index].color }" />
                   <p class="place-self-center text-lg font-semibold text-center">
                     {{ price.price }}
@@ -1025,7 +1025,7 @@ input[type=color]::-webkit-color-swatch-wrapper {
 }
 
 .prosing {
-  @apply max-w-none prose prose-a:no-underline prose-a:text-blue-700 prose-blockquote:not-italic hover:prose-a:text-blue-500 hover:prose-a:underline prose-headings:text-black prose-p:text-black prose-strong:text-black prose-em:text-black prose-li:text-black prose-blockquote:border-l-zinc-400 prose-li:marker:text-zinc-400;
+  @apply max-w-none prose prose-a:no-underline prose-a:text-blue-700 prose-blockquote:not-italic prose-headings:text-black prose-p:text-black prose-strong:text-black prose-em:text-black prose-li:text-black prose-blockquote:border-l-zinc-400 prose-li:marker:text-zinc-400 hover:prose-a:text-blue-500 hover:prose-a:underline;
 }
 
 .initial-price-selector {

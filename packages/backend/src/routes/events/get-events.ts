@@ -2,7 +2,6 @@ import dayjs from 'dayjs'
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  BadRequestReplySchema,
   event_datetimes,
   events,
   GetEventsReply,
@@ -20,8 +19,7 @@ interface SelectRootPageEvent {
 
 const schema: FastifySchema = {
   response: {
-    200: GetEventsReplySchema,
-    400: BadRequestReplySchema
+    200: GetEventsReplySchema
   }
 }
 

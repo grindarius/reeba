@@ -7,7 +7,6 @@ import DevtoolUsers from './account/devtools/devtool-users.vue'
 import EditUserSettings from './account/edit-user-settings.vue'
 import MyTickets from './account/my-tickets.vue'
 import OrganizerTools from './account/organizer-tools.vue'
-import PurchaseHistory from './account/purchase-history.vue'
 import CreateEvent from './create-event.vue'
 import Event from './event.vue'
 import Home from './home.vue'
@@ -36,7 +35,6 @@ export {
   NotFound,
   OrganizerTools,
   Payment,
-  PurchaseHistory,
   Receipt,
   SearchResult,
   SelectSeat,

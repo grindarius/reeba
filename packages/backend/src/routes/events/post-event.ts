@@ -4,7 +4,6 @@ import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 import { nanoid } from 'nanoid'
 
 import {
-  BadRequestReplySchema,
   event_datetimes,
   event_seats,
   event_sections,
@@ -23,8 +22,7 @@ dayjs.extend(customParseFormat)
 const schema: FastifySchema = {
   body: PostEventBodySchema,
   response: {
-    200: PostEventReplySchema,
-    400: BadRequestReplySchema
+    200: PostEventReplySchema
   }
 }
 

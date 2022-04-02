@@ -2,7 +2,6 @@ import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 import { nanoid } from 'nanoid'
 
 import {
-  BadRequestReplySchema,
   PostFollowReply,
   PostFollowReplySchema,
   PostFollowRequestBody,
@@ -14,8 +13,7 @@ import {
 const schema: FastifySchema = {
   body: PostFollowRequestBodySchema,
   response: {
-    200: PostFollowReplySchema,
-    400: BadRequestReplySchema
+    200: PostFollowReplySchema
   }
 }
 

@@ -6,7 +6,6 @@ import {
   AdminGetUserDataReplySchema,
   AdminGetUserDataRequestQuerystring,
   AdminGetUserDataRequestQuerystringSchema,
-  ForbiddenReplySchema,
   t_user_role,
   users
 } from '@reeba/common'
@@ -14,8 +13,7 @@ import {
 const schema: FastifySchema = {
   querystring: AdminGetUserDataRequestQuerystringSchema,
   response: {
-    200: AdminGetUserDataReplySchema,
-    403: ForbiddenReplySchema
+    200: AdminGetUserDataReplySchema
   }
 }
 
@@ -49,7 +47,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
       ],
       preValidation: async (request) => {
-        if (Number(request.query.page) === 0) {
+        if (Number(request.query.page) <= 0) {
           request.query.page = 1
         }
 

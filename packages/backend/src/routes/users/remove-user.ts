@@ -5,17 +5,13 @@ import {
   AdminRemoveUserReplySchema,
   AdminRemoveUserRequestParams,
   AdminRemoveUserRequestParamsSchema,
-  BadRequestReplySchema,
-  ForbiddenReplySchema,
   t_user_role
 } from '@reeba/common'
 
 const schema: FastifySchema = {
   params: AdminRemoveUserRequestParamsSchema,
   response: {
-    200: AdminRemoveUserReplySchema,
-    400: BadRequestReplySchema,
-    403: ForbiddenReplySchema
+    200: AdminRemoveUserReplySchema
   }
 }
 

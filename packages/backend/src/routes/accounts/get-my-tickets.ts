@@ -2,7 +2,6 @@ import dayjs from 'dayjs'
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  BadRequestReplySchema,
   event_datetimes,
   event_seats,
   event_sections,
@@ -20,8 +19,7 @@ import {
 const schema: FastifySchema = {
   params: GetMyTicketsRequestParamsSchema,
   response: {
-    200: GetMyTicketsReplySchema,
-    400: BadRequestReplySchema
+    200: GetMyTicketsReplySchema
   }
 }
 
@@ -43,7 +41,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     async (request) => {
       const { username } = request.params
 
-      type EventIdsThatUsersWentTo = Pick<events, 'event_id' | 'event_name' | 'event_venue_name'>
+      type EventIdsThatUsersWentTo = Pick<events, 'event_id' | 'event_name' | 'event_venue_name' | 'user_username'>
       & Omit<event_datetimes, 'event_id'>
       & Pick<transactions, 'transaction_id'>
       & Pick<transaction_details, 'event_seat_id'>
@@ -55,6 +53,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           events.event_id,
           events.event_name,
           events.event_venue_name,
+          events.user_username,
           event_datetimes.event_datetime_id,
           event_datetimes.event_start_datetime,
           event_datetimes.event_end_datetime,
@@ -66,12 +65,12 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           event_sections.event_section_id,
           event_sections.event_section_row_position,
           event_sections.event_section_column_position
-        from transaction_details
-        inner join transactions on transaction_details.transaction_id = transactions.transaction_id
-        inner join event_seats on transaction_details.event_seat_id = event_seats.event_seat_id
-        inner join event_sections on event_seats.event_section_id = event_sections.event_section_id
-        inner join event_datetimes on event_sections.event_datetime_id = event_datetimes.event_datetime_id
-        inner join events on event_datetimes.event_id = events.event_id
+        from "transaction_details"
+        inner join "transactions" on transaction_details.transaction_id = transactions.transaction_id
+        inner join "event_seats" on transaction_details.event_seat_id = event_seats.event_seat_id
+        inner join "event_sections" on event_seats.event_section_id = event_sections.event_section_id
+        inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
+        inner join "events" on event_datetimes.event_id = events.event_id
         where transactions.user_username = $1`,
         [username]
       )
@@ -80,6 +79,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         .map(eventGroup => {
           return {
             id: eventGroup[0].event_id,
+            username: eventGroup[0].user_username,
+            transactionId: eventGroup[0].transaction_id,
             name: eventGroup[0].event_name,
             venueName: eventGroup[0].event_venue_name,
             time: {
