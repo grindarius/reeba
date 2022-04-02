@@ -23,12 +23,21 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/:eventId/manipulate',
     {
       schema,
-      preValidation: [
+      onRequest: [
         instance.authenticate,
         async (request, reply) => {
           if (request.user.role !== t_user_role.admin) {
             void reply.code(403)
             throw new Error('forbidden')
+          }
+        }
+      ],
+      preValidation: [
+        async (request, reply) => {
+          // @ts-expect-error this could be empty string
+          if (request.body.targetStatus == null || request.body.targetStatus === '') {
+            void reply.code(404)
+            throw new Error('body should have required property \'targetStatus\'')
           }
         }
       ]
