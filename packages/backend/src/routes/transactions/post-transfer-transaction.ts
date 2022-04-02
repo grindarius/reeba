@@ -1,11 +1,11 @@
 import dayjs from 'dayjs'
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
-import { PostTransferTransactionRequestBody } from 'packages/common/dist'
 
 import {
   events,
   PostTransferTransactionReply,
   PostTransferTransactionReplySchema,
+  PostTransferTransactionRequestBody,
   PostTransferTransactionRequestBodySchema,
   PostTransferTransactionRequestParams,
   PostTransferTransactionRequestParamsSchema,
