@@ -107,9 +107,137 @@
           </select>
         </div>
       </div>
-      <!-- <div class="block lg:hidden">
-        lol
-      </div> -->
+      <div class="block lg:hidden">
+        <table class="table w-full">
+          <thead>
+            <tr>
+              <th>
+                Data
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(ev, i) in eventsList.events" :key="`developer-events-small-table-${ev.id}`">
+              <td>
+                <div class="flex items-center space-x-3">
+                  <div class="avatar">
+                    <div class="w-12 h-12 mask mask-squircle">
+                      <img :src="getEventImage({ eventId: ev.id }).url" :alt="ev.name">
+                    </div>
+                  </div>
+                  <div>
+                    <router-link :to="{ name: 'Event', params: { username: ev.username, eventId: ev.id } }">
+                      <div class="font-bold">
+                        {{ ev.name }}
+                      </div>
+                    </router-link>
+                    <router-link :to="{ name: 'Users', params: { username: ev.username } }">
+                      <div class="text-sm opacity-50">
+                        {{ ev.username }}
+                      </div>
+                    </router-link>
+                  </div>
+                </div>
+                <div class="flex flex-col justify-between">
+                  <div class="mt-4">
+                    <h1 class="font-bold text-gray-300">
+                      Event name
+                    </h1>
+                    <h1 class="font-normal text-white">
+                      {{ ev.name }}
+                    </h1>
+                  </div>
+                  <div class="mt-4">
+                    <h1 class="font-bold text-gray-300">
+                      Creation date
+                    </h1>
+                    <h1 class="font-normal text-white">
+                      {{ formatTimeString(ev.creationDate, 'MMMM D, YYYY H:mm:ss') }}
+                    </h1>
+                  </div>
+                  <div class="mt-4">
+                    <h1 class="font-bold text-gray-300">
+                      Opening date
+                    </h1>
+                    <h1 class="font-normal text-white">
+                      {{ formatTimeString(ev.openingDate, 'MMMM D, YYYY H:mm:ss') }}
+                    </h1>
+                  </div>
+                  <div class="mt-4">
+                    <h1 class="font-bold text-gray-300">
+                      Ticket price range
+                    </h1>
+                    <h1 class="font-normal text-white">
+                      {{ format(',')(ev.minTicketPrice) }} / {{ format(',')(ev.maxTicketPrice) }}
+                    </h1>
+                  </div>
+                  <div class="mt-4">
+                    <h1 class="font-bold text-gray-300">
+                      Minimum age
+                    </h1>
+                    <h1 class="font-normal text-white">
+                      {{ ev.minimumAge === 0 ? 'None' : ev.minimumAge }}
+                    </h1>
+                  </div>
+                  <div class="mt-4">
+                    <h1 class="font-bold text-gray-300">
+                      Taken / Total seats
+                    </h1>
+                    <h1 class="font-normal text-white">
+                      <div class="radial-progress mt-2" :style="`--value: ${Math.round(ev.seatFullnessPercentage)};`">
+                        {{ Math.round(ev.seatFullnessPercentage) }}%
+                      </div>
+                      {{ format(',')(ev.totalTakenSeats) }} / {{ format(',')(ev.totalSeats) }}
+                    </h1>
+                  </div>
+                  <div>
+                    <h1 class="font-bold text-gray-300">
+                      Event status
+                    </h1>
+                    <h1 class="font-normal text-white">
+                      <span v-show="ev.status === 'open'" class="badge">
+                        Open
+                      </span>
+                      <span v-show="ev.status === 'closed'" class="badge badge-error">
+                        Closed
+                      </span>
+                    </h1>
+                  </div>
+                  <div class="mt-4">
+                    <h1 class="font-bold text-gray-300">
+                      Event venue
+                    </h1>
+                    <h1 class="font-normal text-white">
+                      <a :href="`https://www.google.com/maps/search/?api=1&query=${ev.venueCoordinates.x},${ev.venueCoordinates.y}`" class="link" target="_blank" rel="noopener">
+                        {{ ev.venueName }}
+                      </a>
+                    </h1>
+                  </div>
+                </div>
+                <div class="flex flex-row justify-end">
+                  <div :class="dropdownClass(i)">
+                    <label tabindex="0" class="btn btn-ghost">
+                      Options
+                    </label>
+                    <ul tabindex="0" class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
+                      <li>
+                        <a @click="manipulateEvent(ev.id, 'closed')">
+                          Close event
+                        </a>
+                      </li>
+                      <li>
+                        <a @click="manipulateEvent(ev.id, 'open')">
+                          Open event
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <div class="hidden lg:block overflow-x-auto">
         <table class="table w-full">
           <thead>
@@ -126,7 +254,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="ev in eventsList.events" :key="`developer-events-big-table-${ev.id}`">
+            <tr v-for="(ev, i) in eventsList.events" :key="`developer-events-big-table-${ev.id}`">
               <td>
                 <div class="flex items-center space-x-3">
                   <div class="avatar">
@@ -180,14 +308,19 @@
                 </a>
               </td>
               <td>
-                <div class="dropdown dropdown-end">
+                <div :class="dropdownClass(i)">
                   <label tabindex="0" class="btn btn-ghost">
                     Options
                   </label>
-                  <ul class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
+                  <ul tabindex="0" class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
                     <li>
-                      <a>
+                      <a @click="manipulateEvent(ev.id, 'closed')">
                         Close event
+                      </a>
+                    </li>
+                    <li>
+                      <a @click="manipulateEvent(ev.id, 'open')">
+                        Open event
                       </a>
                     </li>
                   </ul>
@@ -209,13 +342,14 @@ import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref, watch } from 'vue'
 import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
 import {
   AdminGetEventDataReply,
   AdminGetEventDataSortByOption
 } from '@reeba/common'
 
-import { adminGetEventData, getEventImage } from '@/api/endpoints'
+import { adminGetEventData, getEventImage, postManipulateEvent } from '@/api/endpoints'
 import { eventsDatatable } from '@/constants'
 import { useAuthStore } from '@/store/use-auth-store'
 import {
@@ -229,6 +363,7 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const authStore = useAuthStore()
+    const toast = useToast()
 
     const eventsList: Ref<AdminGetEventDataReply> = ref({
       total: 0,
@@ -302,18 +437,62 @@ export default defineComponent({
       }
     }
 
-    const goToEventPage = (): void => {
-      router.push('/event')
+    const dropdownClass = (i: number): string => {
+      if (eventsList.value.events.length - i < 6) {
+        return 'dropdown dropdown-end dropdown-top'
+      }
+
+      return 'dropdown dropdown-end'
+    }
+
+    const manipulateEvent = async (eventId: string, targetStatus: 'open' | 'closed'): Promise<void> => {
+      console.log('lol')
+
+      try {
+        const { method, url } = postManipulateEvent({ eventId })
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          json: {
+            targetStatus
+          }
+        })
+
+        toast.success('Succesfully updated')
+        setTimeout(() => {
+          router.go(0)
+        }, 2050)
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const resp = error?.response
+        const json = await resp?.json()
+
+        if (resp.status === 401) {
+          router.push({ name: 'Signin' })
+          return
+        }
+
+        if (resp.status === 403) {
+          router.push({ name: 'Home' })
+          return
+        }
+
+        toast.error(json.message)
+      }
     }
 
     return {
       eventsRef,
       eventsList,
-      goToEventPage,
+      dropdownClass,
       getEventImage,
       format,
       formatTimeString,
       page,
+      manipulateEvent,
       sortOptions
     }
   }
@@ -325,20 +504,7 @@ export default defineComponent({
   @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
 }
 
-.devtool-events-page-content {
-  @apply container;
-}
-
 .page-header {
   @apply text-4xl font-semibold text-white;
-}
-
-.table-cell-string {
-  @apply py-4 px-5 text-sm text-left;
-}
-
-.events-table {
-  @apply grid mt-8 w-full rounded-lg bg-pale-yellow;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
 }
 </style>
