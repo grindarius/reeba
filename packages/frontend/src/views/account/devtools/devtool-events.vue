@@ -6,11 +6,11 @@
   </metainfo>
   <div class="devtool-events-page">
     <div class="container">
-      <div class="flex flex-col md:flex-row justify-between mb-4 w-full">
+      <div class="flex flex-col justify-between mb-4 w-full md:flex-row">
         <h1 class="page-header">
           Events
         </h1>
-        <div class="flex flex-col md:flex-row gap-3">
+        <div class="flex flex-col gap-3 md:flex-row">
           <div class="flex flex-row gap-3">
             <router-link custom :to="{ name: 'Developer Events', query: { ...$route.query, ...{ page: page - 1 } } }" v-slot="{ navigate }">
               <button class="btn btn-circle btn-outline" :disabled="page - 1 === 0" @click="navigate">
@@ -184,7 +184,7 @@
                       Taken / Total seats
                     </h1>
                     <h1 class="font-normal text-white">
-                      <div class="radial-progress mt-2" :style="`--value: ${Math.round(ev.seatFullnessPercentage)};`">
+                      <div class="mt-2 radial-progress" :style="`--value: ${Math.round(ev.seatFullnessPercentage)};`">
                         {{ Math.round(ev.seatFullnessPercentage) }}%
                       </div>
                       {{ format(',')(ev.totalTakenSeats) }} / {{ format(',')(ev.totalSeats) }}
@@ -238,7 +238,7 @@
           </tbody>
         </table>
       </div>
-      <div class="hidden lg:block overflow-x-auto">
+      <div class="hidden overflow-x-auto lg:block">
         <table class="table w-full">
           <thead>
             <tr>
