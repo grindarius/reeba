@@ -155,7 +155,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       if (transaction.rowCount === 0) {
         void reply.code(404)
-        throw new Error('event not found')
+        throw new Error('transaction not found')
       }
 
       const browser = await puppeteer.launch()
