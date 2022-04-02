@@ -20,11 +20,6 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/account/purchase-history">
-            Purchase history
-          </router-link>
-        </li>
-        <li>
           <router-link to="/account/edit">
             Edit profile
           </router-link>

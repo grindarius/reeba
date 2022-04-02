@@ -1,13 +1,11 @@
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  BadRequestReplySchema,
   events,
   GetUserRelatedEventsParamsSchema,
   GetUserRelatedEventsReply,
   GetUserRelatedEventsReplySchema,
   GetUserRelatedEventsRequest,
-  NotFoundReplySchema,
   RelatedEventToUser,
   users
 } from '@reeba/common'
@@ -15,9 +13,7 @@ import {
 const schema: FastifySchema = {
   params: GetUserRelatedEventsParamsSchema,
   response: {
-    200: GetUserRelatedEventsReplySchema,
-    400: BadRequestReplySchema,
-    404: NotFoundReplySchema
+    200: GetUserRelatedEventsReplySchema
   }
 }
 

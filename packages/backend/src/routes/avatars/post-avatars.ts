@@ -5,9 +5,7 @@ import { resolve } from 'node:path'
 import { pipeline as pump } from 'node:stream/promises'
 
 import {
-  BadRequestReplySchema,
   getFileExtension,
-  NotFoundReplySchema,
   PostAvatarsParams,
   PostAvatarsParamsSchema,
   PostAvatarsReplyBodySchema,
@@ -17,9 +15,7 @@ import {
 const schema: FastifySchema = {
   params: PostAvatarsParamsSchema,
   response: {
-    200: PostAvatarsReplyBodySchema,
-    400: BadRequestReplySchema,
-    404: NotFoundReplySchema
+    200: PostAvatarsReplyBodySchema
   }
 }
 

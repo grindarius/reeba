@@ -39,3 +39,18 @@ export const GetTransactionPDFRequestParamsSchema = Type.Object({
   transactionId: Type.String()
 })
 export type GetTransactionPDFRequestParams = Static<typeof GetTransactionPDFRequestParamsSchema>
+
+export const PostTransferTransactionRequestParamsSchema = Type.Object({
+  transactionId: Type.String()
+})
+export type PostTransferTransactionRequestParams = Static<typeof PostTransferTransactionRequestParamsSchema>
+
+export const PostTransferTransactionRequestBodySchema = Type.Object({
+  username: Type.String()
+})
+export type PostTransferTransactionRequestBody = Static<typeof PostTransferTransactionRequestBodySchema>
+
+export const PostTransferTransactionReplySchema = Type.Object({
+  message: Type.String()
+})
+export type PostTransferTransactionReply = Static<typeof PostTransactionReplySchema>

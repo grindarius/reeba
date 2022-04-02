@@ -169,13 +169,14 @@ create table transactions (
   user_username text not null,
   transaction_time timestamptz not null default now(),
   primary key (transaction_id),
-  foreign key (user_username) references users(user_username)
+  foreign key (user_username) references users(user_username) on update cascade on delete cascade
 );
 
 create table transaction_details (
   event_seat_id text not null unique,
   transaction_id text not null,
   primary key (event_seat_id),
+  foreign key (transaction_id) references transactions(transaction_id) on delete cascade,
   constraint fk_event_seat_id foreign key (event_seat_id) references event_seats(event_seat_id)
 );
 

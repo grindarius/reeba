@@ -178,3 +178,10 @@ export const adminGetEventData = {
   url: `${url}/admin/events`,
   method: 'get'
 }
+
+export const postTransferTransaction: EndpointFunc<{ transactionId: string }> = ({ transactionId }): Endpoint => {
+  return {
+    url: `${url}/transactions/${transactionId}/transfer`,
+    method: 'post'
+  }
+}

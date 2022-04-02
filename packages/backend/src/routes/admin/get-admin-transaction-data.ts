@@ -6,8 +6,6 @@ import {
   AdminGetTransactionDataReplySchema,
   AdminGetTransactionDataRequestQuerystring,
   AdminGetTransactionDataRequestQuerystringSchema,
-  BadRequestReplySchema,
-  ForbiddenReplySchema,
   t_user_role,
   transactions
 } from '@reeba/common'
@@ -17,9 +15,7 @@ const PAGE_SIZE = 30
 const schema: FastifySchema = {
   querystring: AdminGetTransactionDataRequestQuerystringSchema,
   response: {
-    200: AdminGetTransactionDataReplySchema,
-    400: BadRequestReplySchema,
-    403: ForbiddenReplySchema
+    200: AdminGetTransactionDataReplySchema
   }
 }
 

@@ -133,7 +133,7 @@ export default defineComponent({
 
         if (json.status === 401) {
           toast.error('Token expired')
-          router.push({ name: 'Login' })
+          router.push({ name: 'Signin' })
           return
         }
 
@@ -169,7 +169,7 @@ export default defineComponent({
 
         if (json.status === 401) {
           toast.error('Token expired')
-          router.push({ name: 'Login' })
+          router.push({ name: 'Signin' })
           return
         }
 

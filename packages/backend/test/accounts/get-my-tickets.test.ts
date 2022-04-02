@@ -209,7 +209,7 @@ void t.test('getting list of user tickets', async t => {
     }
   })
 
-  void t.test('successful call', async t => {
+  await t.test('successful call', async t => {
     try {
       const response = await app.inject({
         method: 'get',
@@ -219,32 +219,63 @@ void t.test('getting list of user tickets', async t => {
         }
       })
 
+      t.strictSame(response.statusCode, 200)
+
+      const checks = await client.query(
+        `select
+          events.event_id,
+          events.event_name,
+          events.event_venue_name,
+          events.user_username,
+          event_datetimes.event_datetime_id,
+          event_datetimes.event_start_datetime,
+          event_datetimes.event_end_datetime,
+          transactions.transaction_id,
+          transaction_details.event_seat_id,
+          event_seats.event_seat_price,
+          event_seats.event_seat_row_position,
+          event_seats.event_seat_column_position,
+          event_sections.event_section_id,
+          event_sections.event_section_row_position,
+          event_sections.event_section_column_position
+        from "transaction_details"
+        inner join "transactions" on transaction_details.transaction_id = transactions.transaction_id
+        inner join "event_seats" on transaction_details.event_seat_id = event_seats.event_seat_id
+        inner join "event_sections" on event_seats.event_section_id = event_sections.event_section_id
+        inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
+        inner join "events" on event_datetimes.event_id = events.event_id
+        where transactions.user_username = $1`,
+        ['theseatbuyerguy']
+      )
+
       t.strictSame(response.json(), {
         events: [
           {
-            id: submittedEvent.rows[0].event_id,
-            name: submittedEvent.rows[0].event_name,
-            venueName: submittedEvent.rows[0].event_venue_name,
+            id: checks.rows[0].event_id,
+            name: checks.rows[0].event_name,
+            username: checks.rows[0].user_username,
+            transactionId: checks.rows[0].transaction_id,
+            venueName: checks.rows[0].event_venue_name,
             time: {
-              id: submittedEvent.rows[0].event_datetime_id,
-              start: dayjs(submittedEvent.rows[0].event_start_datetime).toISOString(),
-              end: dayjs(submittedEvent.rows[0].event_end_datetime).toISOString()
+              id: checks.rows[0].event_datetime_id,
+              start: dayjs(checks.rows[0].event_start_datetime).toISOString(),
+              end: dayjs(checks.rows[0].event_end_datetime).toISOString()
             },
             seats: [
               {
-                id: submittedEvent.rows[0].event_seat_id,
-                name: `${numberToLetters(submittedEvent.rows[0].event_seat_row_position)}${submittedEvent.rows[0].event_seat_column_position as number + 1}`,
-                rowPosition: submittedEvent.rows[0].event_seat_row_position,
-                columnPosition: submittedEvent.rows[0].event_seat_column_position
+                id: checks.rows[0].event_seat_id,
+                name: `${numberToLetters(checks.rows[0].event_seat_row_position)}${checks.rows[0].event_seat_column_position as number + 1}`,
+                rowPosition: checks.rows[0].event_seat_row_position,
+                columnPosition: checks.rows[0].event_seat_column_position
               }
             ],
             section: {
-              id: submittedEvent.rows[0].event_section_id,
-              name: `${numberToLetters(submittedEvent.rows[0].event_section_row_position)}${submittedEvent.rows[0].event_section_column_position as number + 1}`,
-              rowPosition: submittedEvent.rows[0].event_section_row_position,
-              columnPosition: submittedEvent.rows[0].event_section_column_position
+              id: checks.rows[0].event_section_id,
+              name: `${numberToLetters(checks.rows[0].event_section_row_position)}${checks.rows[0].event_section_column_position as number + 1}`,
+              rowPosition: checks.rows[0].event_section_row_position,
+              columnPosition: checks.rows[0].event_section_column_position
             },
-            totalPrice: submittedEvent.rows[0].event_seat_price
+            totalPrice: checks.rows[0].event_seat_price
           }]
       })
     } catch (error) {
