@@ -185,3 +185,10 @@ export const postTransferTransaction: EndpointFunc<{ transactionId: string }> = 
     method: 'post'
   }
 }
+
+export const postManipulateEvent: EndpointFunc<{ eventId: string }> = ({ eventId }): Endpoint => {
+  return {
+    url: `${url}/events/${eventId}/manipulate`,
+    method: 'post'
+  }
+}

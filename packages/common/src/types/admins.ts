@@ -159,9 +159,25 @@ export const AdminGetEventDataReplySchema = Type.Object({
     minimumAge: Type.Number(),
     totalTakenSeats: Type.Number(),
     totalSeats: Type.Number(),
-    seatFullnessPercentage: Type.Number(),
-    totalShowRound: Type.Number(),
-    totalSection: Type.Number()
+    seatFullnessPercentage: Type.Number()
   }))
 })
 export type AdminGetEventDataReply = Static<typeof AdminGetEventDataReplySchema>
+
+export const PostManipulateEventRequestParamsSchema = Type.Object({
+  eventId: Type.String()
+})
+export type PostManipulateEventRequestParams = Static<typeof PostManipulateEventRequestParamsSchema>
+
+export const PostManipulateEventRequestBodySchema = Type.Object({
+  targetStatus: Type.Union([
+    Type.Literal(t_event_status.closed),
+    Type.Literal(t_event_status.open)
+  ])
+})
+export type PostManipulateEventRequestBody = Static<typeof PostManipulateEventRequestBodySchema>
+
+export const PostManipulateEventReplySchema = Type.Object({
+  message: Type.String()
+})
+export type PostManipulateEventReply = Static<typeof PostManipulateEventReplySchema>
