@@ -21,7 +21,6 @@ const schema: FastifySchema = {
 
 type EventsList = events & {
   total_events: number
-  total_datetimes: number
   total_taken_seats: number
   total_seats: number
   seat_fullness_percentage: number
@@ -101,7 +100,6 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const eventsList = await instance.pg.query<EventsList, [number, number]>(
         `select
           count(events.event_id) over() as total_events,
-          count(event_datetimes.event_datetime_id) as total_datetimes,
           events.event_id,
           events.event_name,
           events.user_username,
@@ -116,25 +114,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           events.event_minimum_age,
           count(transaction_details.event_seat_id) as total_taken_seats,
           count(event_seats.event_seat_id) as total_seats,
-          count(transaction_details.event_seat_id) / count(event_seats.event_seat_id) as seat_fullness_percentage
+          (count(transaction_details.event_seat_id)::float / count(event_seats.event_seat_id)::float) * 100::float as seat_fullness_percentage
         from "event_seats"
         inner join "event_sections" on event_seats.event_section_id = event_sections.event_section_id
         inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
         inner join "events" on event_datetimes.event_id = events.event_id
         left join "transaction_details" on event_seats.event_seat_id = transaction_details.event_seat_id
         group by
-          events.event_id,
-          events.event_name,
-          events.user_username,
-          events.event_opening_date,
-          events.event_creation_date,
-          events.event_venue_name,
-          events.event_venue_coordinates,
-          events.event_venue_country_code_alpha_2,
-          events.event_status,
-          events.event_min_ticket_price,
-          events.event_max_ticket_price,
-          events.event_minimum_age
+          events.event_id
         order by ${buildOrderQuery(request.query)}
         limit $1 offset $2`,
         [PAGE_SIZE, (page * PAGE_SIZE) - PAGE_SIZE]
@@ -148,7 +135,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             name: e.event_name,
             username: e.user_username,
             openingDate: dayjs(e.event_opening_date).toISOString(),
-            creationDate: dayjs(e.event_creation_date).toString(),
+            creationDate: dayjs(e.event_creation_date).toISOString(),
             venueName: e.event_venue_name,
             venueCoordinates: {
               x: e.event_venue_coordinates.x.toString(),
@@ -161,9 +148,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             minimumAge: e.event_minimum_age,
             totalTakenSeats: e.total_taken_seats,
             totalSeats: e.total_seats,
-            seatFullnessPercentage: e.seat_fullness_percentage,
-            totalShowRound: e.total_datetimes,
-            totalSection: 0
+            seatFullnessPercentage: e.seat_fullness_percentage
           }
         })
       }
