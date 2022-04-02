@@ -36,7 +36,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         async (request, reply) => {
           // @ts-expect-error this could be empty string
           if (request.body.targetStatus == null || request.body.targetStatus === '') {
-            void reply.code(404)
+            void reply.code(400)
             throw new Error('body should have required property \'targetStatus\'')
           }
         }
