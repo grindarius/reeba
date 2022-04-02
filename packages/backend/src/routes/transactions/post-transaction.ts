@@ -114,7 +114,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
         for await (const seatId of seatIds) {
           await client.query(
-            'insert into transaction_details (transaction_id, event_seat_id) values ($1, $2)',
+            'insert into "transaction_details" (transaction_id, event_seat_id) values ($1, $2)',
             [transactionId.rows[0].transaction_id, seatId]
           )
         }

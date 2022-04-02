@@ -81,7 +81,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       if (allTransactionsOfDestinationUsername.rowCount > 0) {
         void reply.code(400)
-        throw new Error('this user already have a ticket for this event')
+        throw new Error('this user already had a ticket for this event')
       }
 
       await instance.pg.query(
