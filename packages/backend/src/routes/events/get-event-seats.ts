@@ -1,7 +1,6 @@
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  BadRequestReplySchema,
   event_datetimes,
   event_seats,
   event_sections,
@@ -11,17 +10,14 @@ import {
   GetEventSeatsRequestParams,
   GetEventSeatsRequestParamsSchema,
   GetEventSeatsRequestQuerystring,
-  GetEventSeatsRequestQuerystringSchema,
-  NotFoundReplySchema
+  GetEventSeatsRequestQuerystringSchema
 } from '@reeba/common'
 
 const schema: FastifySchema = {
   params: GetEventSeatsRequestParamsSchema,
   querystring: GetEventSeatsRequestQuerystringSchema,
   response: {
-    200: GetEventSeatsReplySchema,
-    400: BadRequestReplySchema,
-    404: NotFoundReplySchema
+    200: GetEventSeatsReplySchema
   }
 }
 

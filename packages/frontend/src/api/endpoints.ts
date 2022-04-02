@@ -173,3 +173,10 @@ export const getTransactionInvoice: EndpointFunc<{ transactionId: string }> = ({
     method: 'get'
   }
 }
+
+export const postTransferTransaction: EndpointFunc<{ transactionId: string }> = ({ transactionId }): Endpoint => {
+  return {
+    url: `${url}/transactions/${transactionId}/transfer`,
+    method: 'post'
+  }
+}

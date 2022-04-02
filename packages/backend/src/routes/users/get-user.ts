@@ -1,14 +1,12 @@
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  BadRequestReplySchema,
   GetUserParams,
   GetUserParamsSchema,
   GetUserQuerystring,
   GetUserQuerystringSchema,
   GetUserReply,
   GetUserReplySchema,
-  NotFoundReplySchema,
   t_user_role,
   user_followers,
   users
@@ -18,9 +16,7 @@ const schema: FastifySchema = {
   params: GetUserParamsSchema,
   querystring: GetUserQuerystringSchema,
   response: {
-    200: GetUserReplySchema,
-    400: BadRequestReplySchema,
-    404: NotFoundReplySchema
+    200: GetUserReplySchema
   }
 }
 

@@ -6,7 +6,6 @@ import {
   AdminGetUserDataReplySchema,
   AdminGetUserDataRequestQuerystring,
   AdminGetUserDataRequestQuerystringSchema,
-  ForbiddenReplySchema,
   t_user_role,
   users
 } from '@reeba/common'
@@ -14,8 +13,7 @@ import {
 const schema: FastifySchema = {
   querystring: AdminGetUserDataRequestQuerystringSchema,
   response: {
-    200: AdminGetUserDataReplySchema,
-    403: ForbiddenReplySchema
+    200: AdminGetUserDataReplySchema
   }
 }
 

@@ -2,7 +2,6 @@ import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 import { nanoid } from 'nanoid'
 
 import {
-  BadRequestReplySchema,
   event_datetimes,
   event_seats,
   event_sections,
@@ -16,8 +15,7 @@ import {
 const schema: FastifySchema = {
   body: PostTransactionRequestBodySchema,
   response: {
-    200: PostTransactionReplySchema,
-    400: BadRequestReplySchema
+    200: PostTransactionReplySchema
   }
 }
 
@@ -116,7 +114,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
         for await (const seatId of seatIds) {
           await client.query(
-            'insert into transaction_details (transaction_id, event_seat_id) values ($1, $2)',
+            'insert into "transaction_details" (transaction_id, event_seat_id) values ($1, $2)',
             [transactionId.rows[0].transaction_id, seatId]
           )
         }

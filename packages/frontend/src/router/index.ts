@@ -29,11 +29,6 @@ const routes: Array<RouteRecordRaw> = [
         component: Page.MyTickets
       },
       {
-        path: 'purchase-history',
-        name: 'Account Purchase History',
-        component: Page.PurchaseHistory
-      },
-      {
         path: 'edit',
         name: 'Edit Account Settings',
         component: Page.EditUserSettings

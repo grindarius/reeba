@@ -6,7 +6,6 @@ import puppeteer from 'puppeteer'
 import qrcode from 'qrcode'
 
 import {
-  BadRequestReplySchema,
   event_datetimes,
   event_sections,
   events,
@@ -15,7 +14,6 @@ import {
   GetTransactionReplySchema,
   GetTransactionRequestParams,
   GetTransactionRequestParamsSchema,
-  NotFoundReplySchema,
   transactions
 } from '@reeba/common'
 
@@ -34,9 +32,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       schema: {
         params: GetTransactionRequestParamsSchema,
         response: {
-          200: GetTransactionReplySchema,
-          400: BadRequestReplySchema,
-          404: NotFoundReplySchema
+          200: GetTransactionReplySchema
         }
       },
       onRequest: instance.authenticate,
@@ -159,7 +155,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       if (transaction.rowCount === 0) {
         void reply.code(404)
-        throw new Error('event not found')
+        throw new Error('transaction not found')
       }
 
       const browser = await puppeteer.launch()

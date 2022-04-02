@@ -9,8 +9,6 @@ import {
   AdminRevokeAdminReplySchema,
   AdminRevokeAdminRequestParams,
   AdminRevokeAdminRequestParamsSchema,
-  BadRequestReplySchema,
-  ForbiddenReplySchema,
   t_user_role
 } from '@reeba/common'
 
@@ -21,9 +19,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       schema: {
         params: AdminGrantAdminRequestParamsSchema,
         response: {
-          200: AdminGrantAdminReplySchema,
-          400: BadRequestReplySchema,
-          403: ForbiddenReplySchema
+          200: AdminGrantAdminReplySchema
         }
       },
       onRequest: [
@@ -60,9 +56,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       schema: {
         params: AdminRevokeAdminRequestParamsSchema,
         response: {
-          200: AdminRevokeAdminReplySchema,
-          400: BadRequestReplySchema,
-          403: ForbiddenReplySchema
+          200: AdminRevokeAdminReplySchema
         }
       },
       onRequest: [
