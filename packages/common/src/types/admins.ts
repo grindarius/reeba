@@ -1,6 +1,8 @@
 
 import { Static, Type } from '@sinclair/typebox'
 
+import { t_event_status } from './database'
+
 export const AdminGetUserDataSortByOptionSchema = Type.Union([
   Type.Literal('name-asc'),
   Type.Literal('name-desc'),
@@ -104,3 +106,62 @@ export const AdminGetTransactionDataReplySchema = Type.Object({
   }))
 })
 export type AdminGetTransactionDataReply = Static<typeof AdminGetTransactionDataReplySchema>
+
+export const AdminGetEventDataSortByOptionSchema = Type.Union([
+  Type.Literal('event-name-asc'),
+  Type.Literal('event-name-desc'),
+  Type.Literal('username-asc'),
+  Type.Literal('username-desc'),
+  Type.Literal('creation-date-asc'),
+  Type.Literal('creation-date-desc'),
+  Type.Literal('opening-date-asc'),
+  Type.Literal('opening-date-desc'),
+  Type.Literal('status-asc'),
+  Type.Literal('status-desc'),
+  Type.Literal('seat-fullness-percentage-asc'),
+  Type.Literal('seat-fullness-percentage-desc'),
+  Type.Literal('total-seats-asc'),
+  Type.Literal('total-seats-desc'),
+  Type.Literal('total-taken-seats-asc'),
+  Type.Literal('total-taken-seats-desc')
+])
+export type AdminGetEventDataSortByOption = Static<typeof AdminGetEventDataSortByOptionSchema>
+
+export const EventStatusSchema = Type.Union([
+  Type.Literal(t_event_status.open),
+  Type.Literal(t_event_status.closed)
+])
+export type EventStatus = Static<typeof EventStatusSchema>
+
+export const AdminGetEventDataRequestQuerystringSchema = Type.Object({
+  page: Type.Number({ default: 1 }),
+  sort: AdminGetEventDataSortByOptionSchema
+})
+export type AdminGetEventDataRequestQuerystring = Static<typeof AdminGetEventDataRequestQuerystringSchema>
+
+export const AdminGetEventDataReplySchema = Type.Object({
+  total: Type.Number(),
+  events: Type.Array(Type.Object({
+    id: Type.String(),
+    name: Type.String(),
+    username: Type.String(),
+    openingDate: Type.String(),
+    creationDate: Type.String(),
+    venueName: Type.String(),
+    venueCoordinates: Type.Object({
+      x: Type.String(),
+      y: Type.String()
+    }),
+    countryCode: Type.String(),
+    status: EventStatusSchema,
+    minTicketPrice: Type.Number(),
+    maxTicketPrice: Type.Number(),
+    minimumAge: Type.Number(),
+    totalTakenSeats: Type.Number(),
+    totalSeats: Type.Number(),
+    seatFullnessPercentage: Type.Number(),
+    totalShowRound: Type.Number(),
+    totalSection: Type.Number()
+  }))
+})
+export type AdminGetEventDataReply = Static<typeof AdminGetEventDataReplySchema>

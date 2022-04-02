@@ -173,3 +173,8 @@ export const getTransactionInvoice: EndpointFunc<{ transactionId: string }> = ({
     method: 'get'
   }
 }
+
+export const adminGetEventData = {
+  url: `${url}/admin/events`,
+  method: 'get'
+}

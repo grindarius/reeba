@@ -1,4 +1,9 @@
 <template>
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
   <div class="devtool-events-page">
     <div class="devtool-events-page-content">
       <h1 class="page-header">
@@ -47,16 +52,87 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import ky from 'ky'
+import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { useMeta } from 'vue-meta'
+import { useRoute, useRouter } from 'vue-router'
 
+import { AdminGetEventDataReply, AdminGetEventDataSortByOption } from '@reeba/common'
+
+import { adminGetEventData } from '@/api/endpoints'
 import { eventsDatatable } from '@/constants'
+import { useAuthStore } from '@/store/use-auth-store'
+import { formatQueryString } from '@/utils'
 
 export default defineComponent({
   name: 'devtool-events',
   setup () {
     const eventsRef = ref(eventsDatatable)
     const router = useRouter()
+    const route = useRoute()
+    const authStore = useAuthStore()
+
+    const eventsList: Ref<AdminGetEventDataReply> = ref({
+      total: 0,
+      events: []
+    })
+
+    const page = ref(1)
+    const sortOption: Ref<AdminGetEventDataSortByOption> = ref('event-name-asc')
+
+    useMeta({
+      title: 'Developer tools: Events'
+    })
+
+    onMounted(async () => {
+      await getAdminEvents()
+    })
+
+    const getAdminEvents = async (): Promise<void> => {
+      const formattedPage = Number(formatQueryString(route.query.page, '1'))
+      const formattedSortOptions = formatQueryString(route.query.sort, 'username-asc')
+
+      page.value = formattedPage
+      sortOption.value = formattedSortOptions as AdminGetEventDataSortByOption
+
+      try {
+        const { method, url } = adminGetEventData
+
+        const response = await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          searchParams: [
+            ['page', page.value],
+            ['sort', sortOption.value]
+          ]
+        }).json<AdminGetEventDataReply>()
+
+        eventsList.value.total = response.total
+        eventsList.value.events = response.events
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const resp = error?.response
+
+        if (resp.status == null) {
+          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          return
+        }
+
+        if (resp.status === 401) {
+          router.push({ name: 'Signin' })
+          return
+        }
+
+        if (resp.status === 403) {
+          router.push({ name: 'Home' })
+          return
+        }
+
+        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+      }
+    }
 
     const goToEventPage = (): void => {
       router.push('/event')
@@ -64,6 +140,7 @@ export default defineComponent({
 
     return {
       eventsRef,
+      eventsList,
       goToEventPage
     }
   }
