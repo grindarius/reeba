@@ -44,7 +44,7 @@
         </select>
       </div>
     </div>
-    <div class="block xl:hidden">
+    <div class="block lg:hidden">
       <table class="table w-full">
         <thead>
           <tr>
@@ -120,7 +120,7 @@
         </tbody>
       </table>
     </div>
-    <div class="hidden w-full xl:block overflow-x-auto">
+    <div class="hidden overflow-x-auto w-full lg:block">
       <table class="table w-full">
         <thead>
           <tr>

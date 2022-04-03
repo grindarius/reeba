@@ -237,7 +237,7 @@
         </tbody>
       </table>
     </div>
-    <div class="hidden overflow-x-auto lg:block w-full">
+    <div class="hidden overflow-x-auto w-full lg:block">
       <table class="table w-full">
         <thead>
           <tr>

@@ -1,7 +1,7 @@
 <template>
   <div class="drawer" style="height: auto; min-height: 100vh;">
     <input id="account-drawer-toggle" type="checkbox" class="drawer-toggle">
-    <div class="drawer-content m-4" style="max-height: none; overflow-y: unset;">
+    <div class="m-4 drawer-content" style="max-height: none; overflow-y: unset;">
       <router-view :key="$route.fullPath" />
     </div>
     <label for="account-drawer-toggle" class="fixed right-10 bottom-10 rounded-full btn btn-primary drawer-button">

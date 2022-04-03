@@ -103,7 +103,7 @@
         </tbody>
       </table>
     </div>
-    <div class="hidden lg:block overflow-x-auto">
+    <div class="hidden overflow-x-auto w-full lg:block">
       <table class="table w-full">
         <thead>
           <tr>
