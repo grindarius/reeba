@@ -10,6 +10,63 @@ drop table if exists users, user_followers, user_roles, events, event_tags, even
 create type t_user_role as enum ('user', 'admin');
 create type t_event_status as enum ('open', 'closed');
 
+drop operator class if exists point_ops using btree cascade;
+drop function btreepointcmp(point, point);
+drop operator if exists = (point, point);
+drop operator if exists < (point, point);
+drop operator if exists > (point, point);
+drop operator if exists <= (point, point);
+drop operator if exists >= (point, point);
+
+drop function if exists point_lt(point, point);
+drop function if exists point_gt(point, point);
+drop function if exists point_lte(point, point);
+drop function if exists point_gte(point, point);
+
+create operator = (leftarg = point, rightarg = point, procedure = point_eq, commutator = =);
+
+create function point_lt(point, point)
+returns boolean language sql immutable as $$
+    select $1[0] < $2[0] and $1[1] < $2[1]
+$$;
+create operator < (leftarg = point, rightarg = point, procedure = point_lt, commutator = >);
+
+create function point_gt(point, point)
+returns boolean language sql immutable as $$
+  select $1[0] > $2[0] and $1[1] > $2[1]
+$$;
+create operator > (leftarg = point, rightarg = point, procedure = point_gt, commutator = <);
+
+create function point_lte(point, point)
+returns boolean language sql immutable as $$
+  select $1[0] >= $2[0] and $1[1] >= $2[1]
+$$;
+create operator >= (leftarg = point, rightarg = point, procedure = point_lte, commutator = <=);
+
+create function point_gte(point, point)
+returns boolean language sql immutable as $$
+  select $1[0] <= $2[0] and $1[1] <= $2[1]
+$$;
+create operator <= (leftarg = point, rightarg = point, procedure = point_gte, commutator = >=);
+
+create function btreepointcmp(point, point)
+returns integer language sql immutable as $$
+  select case 
+    when $1 = $2 then 0
+    when $1 < $2 then -1
+    else 1
+  end
+$$;
+
+create operator class point_ops
+  default for type point using btree as
+    operator 1 <,
+    operator 2 <=,
+    operator 3 =,
+    operator 4 >=,
+    operator 5 >,
+    function 1 btpointcmp(point, point);
+
 create table users (
   user_username text not null unique,
   user_email text not null unique,

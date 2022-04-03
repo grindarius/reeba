@@ -174,9 +174,21 @@ export const getTransactionInvoice: EndpointFunc<{ transactionId: string }> = ({
   }
 }
 
+export const adminGetEventData = {
+  url: `${url}/admin/events`,
+  method: 'get'
+}
+
 export const postTransferTransaction: EndpointFunc<{ transactionId: string }> = ({ transactionId }): Endpoint => {
   return {
     url: `${url}/transactions/${transactionId}/transfer`,
+    method: 'post'
+  }
+}
+
+export const postManipulateEvent: EndpointFunc<{ eventId: string }> = ({ eventId }): Endpoint => {
+  return {
+    url: `${url}/events/${eventId}/manipulate`,
     method: 'post'
   }
 }

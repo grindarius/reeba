@@ -135,7 +135,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="user in userData.users" :key="`developer-table-big-${user.username}`">
+            <tr v-for="(user, i) in userData.users" :key="`developer-table-big-${user.username}`">
               <td>
                 <div class="flex items-center space-x-3">
                   <div class="avatar">
@@ -161,7 +161,7 @@
                 {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY H:mm:ss') }}
               </td>
               <td>
-                <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
+                <div :class="dropdownClass(i)" v-show="authStore.userData.username !== user.username">
                   <label tabindex="0" class="btn btn-ghost">Options</label>
                   <ul tabindex="0" class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
                     <li>
@@ -403,6 +403,14 @@ export default defineComponent({
       }
     }
 
+    const dropdownClass = (i: number) => {
+      if (userData.value.users.length - i < 6) {
+        return 'dropdown dropdown-end dropdown-top'
+      }
+
+      return 'dropdown dropdown-end'
+    }
+
     onMounted(async () => {
       await getAdminUsers()
     })
@@ -410,6 +418,7 @@ export default defineComponent({
     return {
       page,
       getUserAvatar,
+      dropdownClass,
       userData,
       authStore,
       sortOptions,
