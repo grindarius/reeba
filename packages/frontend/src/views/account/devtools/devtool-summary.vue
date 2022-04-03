@@ -1,45 +1,62 @@
 <template>
-  <div class="devtool-summary-page">
-    <h1 class="page-header">
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
+  <div class="container mx-auto">
+    <h1 class="text-4xl font-semibold text-white mb-4">
       Statistics summary
     </h1>
-    <div class="mt-8">
-      <div class="flex object-center flex-wrap -mx-6">
-        <div class="px-6 w-full sm:w-1/2 xl:w-1/3">
-          <div class="box-bg-text-header">
-            <div class="mx-5">
-              <h4 class="box-text-secondary">
-                {{ totalUsers }}
-              </h4>
-              <div class="box-total">
-                total users
-              </div>
-            </div>
-          </div>
+    <div class="stats stats-vertical lg:stats-horizontal shadow bg-base-300">
+      <div class="stat">
+        <div class="stat-figure text-primary">
+          <v-mdi name="mdi-account-group" size="30" fill="#D5A755" />
         </div>
-        <div class="px-6 mt-6 w-full sm:mt-0 sm:w-1/2 xl:w-1/3">
-          <div class="box-bg-text-header">
-            <div class="mx-5">
-              <h4 class="box-text-secondary">
-                230
-              </h4>
-              <div class="box-total">
-                new events this month
-              </div>
-            </div>
-          </div>
+        <div class="stat-title">
+          Total users
         </div>
-        <div class="px-6 mt-6 w-full sm:w-1/2 xl:mt-0 xl:w-1/3">
-          <div class="box-bg-text-header">
-            <div class="mx-5">
-              <h4 class="box-text-secondary">
-                500
-              </h4>
-              <div class="box-total">
-                new users this month
-              </div>
-            </div>
-          </div>
+        <div class="stat-value text-primary" :title="summaryResponse.totalUsers.toString() || '0'">
+          {{ numberFormat.format(summaryResponse.totalUsers) }}
+        </div>
+        <div class="stat-desc">
+          users
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-figure text-primary">
+          <v-mdi name="mdi-calendar" size="30" fill="#D5A755" />
+        </div>
+        <div class="stat-title">
+          Total events
+        </div>
+        <div class="stat-value text-primary" :title="summaryResponse.totalEvents.toString() || '0'">
+          {{ numberFormat.format(summaryResponse.totalEvents) }}
+        </div>
+        <div class="stat-desc">
+          events
+        </div>
+      </div>
+      <div class="stat place-items-center">
+        <div class="stat-title">
+          New users this month
+        </div>
+        <div class="stat-value text-primary" :title="summaryResponse.newUsersThisMonth.toString() || '0'">
+          {{ numberFormat.format(summaryResponse.newUsersThisMonth) }}
+        </div>
+        <div class="stat-desc" :title="`last month: ${summaryResponse.newUsersPastMonth}`">
+          {{ d3.format('+0.4')(summaryResponse.newUsersPercentageDifferenceToLastMonth) }}% from last month
+        </div>
+      </div>
+      <div class="stat place-items-center">
+        <div class="stat-title">
+          New events this month
+        </div>
+        <div class="stat-value text-primary" :title="summaryResponse.newEventsThisMonth.toString() || '0'">
+          {{ numberFormat.format(summaryResponse.newEventsThisMonth) }}
+        </div>
+        <div class="stat-desc" :title="`last month: ${summaryResponse.newEventsPastMonth}`">
+          {{ d3.format('+0.4')(summaryResponse.newEventsPercentageDifferenceToLastMonth) }}% from last month
         </div>
       </div>
     </div>
@@ -82,15 +99,23 @@
 <script lang="ts">
 import { countries } from 'countries-list'
 import * as d3 from 'd3'
+import dayjs from 'dayjs'
 import { FeatureCollection, Geometry } from 'geojson'
 import i18nCountries from 'i18n-iso-countries'
 import en from 'i18n-iso-countries/langs/en.json'
+import ky from 'ky'
 import * as topojson from 'topojson-client'
 import { GeometryCollection, Topology } from 'topojson-specification'
 import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue'
+import { useMeta } from 'vue-meta'
+import { useRoute, useRouter } from 'vue-router'
 
+import { AdminGetStatisticsSummaryReply } from '@reeba/common'
+
+import { adminGetStatisticsSummary } from '@/api/endpoints'
 import countriesJson from '@/assets/world-topo.json'
 import { devtoolsEventsObject, devtoolsUsersObject, popularEventTypes, registrationsPastSixMonths, transactionsPastSixMonths } from '@/constants'
+import { useAuthStore } from '@/store/use-auth-store'
 
 i18nCountries.registerLocale(en)
 
@@ -101,7 +126,33 @@ export default defineComponent({
     const height = 600
     const colorRange: [string, string] = ['#222', '#D5A755']
 
+    const route = useRoute()
+    const router = useRouter()
+    const authStore = useAuthStore()
+
+    const numberFormat = ref(Intl.NumberFormat('en', { notation: 'compact' }))
+
+    const startDate = ref(dayjs().toISOString())
+    const endDate = ref(dayjs().subtract(1, 'week').toISOString())
+
+    const summaryResponse: Ref<AdminGetStatisticsSummaryReply> = ref({
+      totalUsers: 0,
+      newUsersThisMonth: 0,
+      newUsersPastMonth: 0,
+      newUsersPercentageDifferenceToLastMonth: 0,
+      newUsersInTimeRange: 0,
+      totalEvents: 0,
+      newEventsThisMonth: 0,
+      newEventsPastMonth: 0,
+      newEventsPercentageDifferenceToLastMonth: 0,
+      newEventsInTimeRange: 0
+    })
+
     const selectedChartType = ref('users')
+
+    useMeta({
+      title: 'Developer tools: Summary'
+    })
 
     const worldMapRef: Ref<HTMLDivElement | undefined> = ref(undefined)
     const land = ref({}) as Ref<FeatureCollection<Geometry, { name: string }>>
@@ -121,6 +172,45 @@ export default defineComponent({
     const totalUsers = computed(() => {
       return d3.format(',.2r')(Object.values(devtoolsUsersObject).reduce((total, users) => total + users, 0))
     })
+
+    const getStatisticsSummary = async (): Promise<void> => {
+      try {
+        const { method, url } = adminGetStatisticsSummary
+
+        const response = await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          searchParams: [
+            ['start', startDate.value],
+            ['end', endDate.value]
+          ]
+        }).json<AdminGetStatisticsSummaryReply>()
+
+        summaryResponse.value = response
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const resp = error?.response
+
+        if (resp.status == null) {
+          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          return
+        }
+
+        if (resp.status === 401) {
+          router.push({ name: 'Signin' })
+          return
+        }
+
+        if (resp.status === 403) {
+          router.push({ name: 'Home' })
+          return
+        }
+
+        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+      }
+    }
 
     const createWorldMap = (): void => {
       svg.value = d3.select('div#world-map')
@@ -147,7 +237,6 @@ export default defineComponent({
         .attr('fill', (d) => {
           if (selectedChartType.value === 'users') {
             // * d.id is iso-3166 numeric
-
             return colorUsers.value(countries[i18nCountries.numericToAlpha2(d.id ?? '') as keyof typeof countries] == null ? 0 : devtoolsUsersObject[i18nCountries.numericToAlpha2(d.id ?? '') ?? ''] ?? 0)
           }
 
@@ -354,6 +443,8 @@ export default defineComponent({
       createPieChart()
       createTransactionsHistoryChart()
       createRegistrationHistoryChart()
+
+      await getStatisticsSummary()
     })
 
     watch(selectedChartType, () => {
@@ -362,8 +453,11 @@ export default defineComponent({
 
     return {
       worldMapRef,
+      d3,
       totalUsers,
-      selectedChartType
+      selectedChartType,
+      numberFormat,
+      summaryResponse
     }
   }
 })
@@ -372,17 +466,5 @@ export default defineComponent({
 <style scoped lang="scss">
 .page-header {
   @apply text-4xl font-semibold text-white;
-}
-
-.box-bg-text-header {
-  @apply flex items-center py-6 px-5 rounded-md shadow-sm bg-pale-yellow text-pale-gray;
-}
-
-.box-text-secondary {
-  @apply text-2xl font-semibold text-pale-gray;
-}
-
-.box-total {
-  @apply uppercase text-pale-gray;
 }
 </style>
