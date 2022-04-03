@@ -65,7 +65,7 @@ create operator class point_ops
     operator 3 =,
     operator 4 >=,
     operator 5 >,
-    function 1 btpointcmp(point, point);
+    function 1 btreepointcmp(point, point);
 
 create table users (
   user_username text not null unique,
