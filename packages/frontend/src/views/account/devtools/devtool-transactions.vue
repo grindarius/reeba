@@ -4,147 +4,145 @@
       {{ content }} | ReebA: Ticket booking. Redefined.
     </template>
   </metainfo>
-  <div class="devtool-transactions-page">
-    <div class="container">
-      <div class="flex flex-row justify-between">
-        <h1 class="page-header">
-          {{ transactionData.total }} transactions
-        </h1>
-        <div class="flex flex-row gap-3">
-          <router-link custom :to="{ name: 'Developer Transactions', query: { ...$route.query, ...{ page: page - 1 } } }" v-slot="{ navigate }">
-            <button class="btn btn-circle btn-outline" :disabled="page - 1 === 0" @click="navigate">
-              <v-mdi name="mdi-arrow-left-thin" fill="#D5A755" />
-            </button>
-          </router-link>
-          <router-link custom :to="{ name: 'Developer Transactions', query: { ...$route.query, ...{ page: page + 1 } } }" v-slot="{ navigate }">
-            <button class="btn btn-circle btn-outline" :disabled="(page * 30) > transactionData.total" @click="navigate">
-              <v-mdi name="mdi-arrow-right-thin" fill="#D5A755" />
-            </button>
-          </router-link>
-          <select class="max-w-xs select select-ghost" v-model="sort">
-            <option value="time-asc">
-              <h1 class="font-bold">
-                Sort by
-              </h1> transaction time ↑
-            </option>
-            <option value="time-desc">
-              <h1 class="font-bold">
-                Sort by
-              </h1> transaction time ↓
-            </option>
-            <option value="price-asc">
-              <h1 class="font-bold">
-                Sort by
-              </h1> price ↑
-            </option>
-            <option value="price-desc">
-              <h1 class="font-bold">
-                Sort by
-              </h1> price ↓
-            </option>
-            <option value="username-asc">
-              <h1 class="font-bold">
-                Sort by
-              </h1> username ↑
-            </option>
-            <option value="username-desc">
-              <h1 class="font-bold">
-                Sort by
-              </h1> username ↓
-            </option>
-          </select>
-        </div>
+  <div class="container mx-auto">
+    <div class="flex flex-row justify-between">
+      <h1 class="page-header">
+        {{ transactionData.total }} transactions
+      </h1>
+      <div class="flex flex-row gap-3">
+        <router-link custom :to="{ name: 'Developer Transactions', query: { ...$route.query, ...{ page: page - 1 } } }" v-slot="{ navigate }">
+          <button class="btn btn-circle btn-outline" :disabled="page - 1 === 0" @click="navigate">
+            <v-mdi name="mdi-arrow-left-thin" fill="#D5A755" />
+          </button>
+        </router-link>
+        <router-link custom :to="{ name: 'Developer Transactions', query: { ...$route.query, ...{ page: page + 1 } } }" v-slot="{ navigate }">
+          <button class="btn btn-circle btn-outline" :disabled="(page * 30) > transactionData.total" @click="navigate">
+            <v-mdi name="mdi-arrow-right-thin" fill="#D5A755" />
+          </button>
+        </router-link>
+        <select class="max-w-xs select select-ghost" v-model="sort">
+          <option value="time-asc">
+            <h1 class="font-bold">
+              Sort by
+            </h1> transaction time ↑
+          </option>
+          <option value="time-desc">
+            <h1 class="font-bold">
+              Sort by
+            </h1> transaction time ↓
+          </option>
+          <option value="price-asc">
+            <h1 class="font-bold">
+              Sort by
+            </h1> price ↑
+          </option>
+          <option value="price-desc">
+            <h1 class="font-bold">
+              Sort by
+            </h1> price ↓
+          </option>
+          <option value="username-asc">
+            <h1 class="font-bold">
+              Sort by
+            </h1> username ↑
+          </option>
+          <option value="username-desc">
+            <h1 class="font-bold">
+              Sort by
+            </h1> username ↓
+          </option>
+        </select>
       </div>
-      <div class="block lg:hidden">
-        <table class="table w-full">
-          <thead>
-            <tr>
-              <th>Data</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="transaction in transactionData.transactions" :key="`developer-transactions-table-small-${transaction.transactionId}`">
-              <td>
-                <div class="flex items-center space-x-3">
-                  <div class="avatar">
-                    <div class="w-12 h-12 mask mask-squircle">
-                      <img :src="getUserAvatar({ username: transaction.username }).url" :alt="transaction.username">
-                    </div>
-                  </div>
-                  <div>
-                    <router-link :to="{ name: 'Users', params: { username: transaction.username } }">
-                      <div class="font-bold">
-                        {{ transaction.username }}
-                      </div>
-                    </router-link>
+    </div>
+    <div class="block lg:hidden">
+      <table class="table w-full">
+        <thead>
+          <tr>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="transaction in transactionData.transactions" :key="`developer-transactions-table-small-${transaction.transactionId}`">
+            <td>
+              <div class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="w-12 h-12 mask mask-squircle">
+                    <img :src="getUserAvatar({ username: transaction.username }).url" :alt="transaction.username">
                   </div>
                 </div>
-                <h1 class="mt-4 font-bold text-gray-300">
-                  Transaction ID
-                </h1>
-                <h1 class="font-normal text-white">
-                  <router-link :to="{ name: 'Receipt', params: { transactionId: transaction.transactionId } }" title="See transaction" class="link">
-                    {{ transaction.transactionId }}
-                  </router-link>
-                </h1>
-                <h1 class="mt-4 font-bold text-gray-300">
-                  Transaction time
-                </h1>
-                <h1 class="font-normal text-white">
-                  {{ formatTimeString(transaction.time, 'MMMM D, YYYY H:mm:ss') }}
-                </h1>
-                <h1 class="mt-4 font-bold text-gray-300">
-                  Price
-                </h1>
-                <h1 class="font-normal text-white">
-                  THB {{ format(',')(transaction.totalPriceWithVat) }}
-                </h1>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="hidden lg:block">
-        <table class="table w-full">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Transaction ID</th>
-              <th>Transaction time</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="transaction in transactionData.transactions" :key="`developer-transactions-table-big-${transaction.transactionId}`">
-              <td>
-                <div class="flex items-center space-x-3">
-                  <div class="avatar">
-                    <div class="w-12 h-12 mask mask-squircle">
-                      <img :src="getUserAvatar({ username: transaction.username }).url" :alt="transaction.username">
-                    </div>
-                  </div>
-                  <div>
+                <div>
+                  <router-link :to="{ name: 'Users', params: { username: transaction.username } }">
                     <div class="font-bold">
                       {{ transaction.username }}
                     </div>
-                  </div>
+                  </router-link>
                 </div>
-              </td>
-              <td>
+              </div>
+              <h1 class="mt-4 font-bold text-gray-300">
+                Transaction ID
+              </h1>
+              <h1 class="font-normal text-white">
                 <router-link :to="{ name: 'Receipt', params: { transactionId: transaction.transactionId } }" title="See transaction" class="link">
                   {{ transaction.transactionId }}
                 </router-link>
-              </td>
-              <td>
+              </h1>
+              <h1 class="mt-4 font-bold text-gray-300">
+                Transaction time
+              </h1>
+              <h1 class="font-normal text-white">
                 {{ formatTimeString(transaction.time, 'MMMM D, YYYY H:mm:ss') }}
-              </td>
-              <td>
+              </h1>
+              <h1 class="mt-4 font-bold text-gray-300">
+                Price
+              </h1>
+              <h1 class="font-normal text-white">
                 THB {{ format(',')(transaction.totalPriceWithVat) }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+              </h1>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="hidden overflow-x-auto w-full lg:block">
+      <table class="table w-full">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Transaction ID</th>
+            <th>Transaction time</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="transaction in transactionData.transactions" :key="`developer-transactions-table-big-${transaction.transactionId}`">
+            <td>
+              <div class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="w-12 h-12 mask mask-squircle">
+                    <img :src="getUserAvatar({ username: transaction.username }).url" :alt="transaction.username">
+                  </div>
+                </div>
+                <div>
+                  <div class="font-bold">
+                    {{ transaction.username }}
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <router-link :to="{ name: 'Receipt', params: { transactionId: transaction.transactionId } }" title="See transaction" class="link">
+                {{ transaction.transactionId }}
+              </router-link>
+            </td>
+            <td>
+              {{ formatTimeString(transaction.time, 'MMMM D, YYYY H:mm:ss') }}
+            </td>
+            <td>
+              THB {{ format(',')(transaction.totalPriceWithVat) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>

@@ -4,164 +4,87 @@
       {{ content }} | ReebA: Ticket booking. Redefined.
     </template>
   </metainfo>
-  <div class="devtool-users-page">
-    <div class="container">
-      <div class="flex flex-row justify-between mb-4">
-        <h1 class="page-header">
-          {{ userData.total }} users
-        </h1>
-        <div class="flex flex-row gap-3">
-          <router-link custom :to="{ name: 'Developer Users', query: { ...$route.query, ...{ page: page - 1 } } }" v-slot="{ navigate }">
-            <button class="btn btn-circle btn-outline" :disabled="page - 1 === 0" @click="navigate">
-              <v-mdi name="mdi-arrow-left-thin" fill="#D5A755" />
-            </button>
-          </router-link>
-          <router-link custom :to="{ name: 'Developer Users', query: { ...$route.query, ...{ page: page + 1 } } }" v-slot="{ navigate }">
-            <button class="btn btn-circle btn-outline" :disabled="(page * 30) > userData.total" @click="navigate">
-              <v-mdi name="mdi-arrow-right-thin" fill="#D5A755" />
-            </button>
-          </router-link>
-          <select class="max-w-xs select select-ghost" v-model="sortOptions">
-            <option value="name-asc">
-              <h1 class="font-bold">
-                Sort by
-              </h1> name ↑
-            </option>
-            <option value="name-desc">
-              <h1 class="font-bold">
-                Sort by
-              </h1> name ↓
-            </option>
-            <option value="regis-asc">
-              <h1 class="font-bold">
-                Sort by
-              </h1> registration date ↑
-            </option>
-            <option value="regis-desc">
-              <h1 class="font-bold">
-                Sort by
-              </h1> registration date ↓
-            </option>
-          </select>
-        </div>
+  <div class="container mx-auto">
+    <div class="flex flex-row justify-between mb-4">
+      <h1 class="page-header">
+        {{ userData.total }} users
+      </h1>
+      <div class="flex flex-row gap-3">
+        <router-link custom :to="{ name: 'Developer Users', query: { ...$route.query, ...{ page: page - 1 } } }" v-slot="{ navigate }">
+          <button class="btn btn-circle btn-outline" :disabled="page - 1 === 0" @click="navigate">
+            <v-mdi name="mdi-arrow-left-thin" fill="#D5A755" />
+          </button>
+        </router-link>
+        <router-link custom :to="{ name: 'Developer Users', query: { ...$route.query, ...{ page: page + 1 } } }" v-slot="{ navigate }">
+          <button class="btn btn-circle btn-outline" :disabled="(page * 30) > userData.total" @click="navigate">
+            <v-mdi name="mdi-arrow-right-thin" fill="#D5A755" />
+          </button>
+        </router-link>
+        <select class="max-w-xs select select-ghost" v-model="sortOptions">
+          <option value="name-asc">
+            <h1 class="font-bold">
+              Sort by
+            </h1> name ↑
+          </option>
+          <option value="name-desc">
+            <h1 class="font-bold">
+              Sort by
+            </h1> name ↓
+          </option>
+          <option value="regis-asc">
+            <h1 class="font-bold">
+              Sort by
+            </h1> registration date ↑
+          </option>
+          <option value="regis-desc">
+            <h1 class="font-bold">
+              Sort by
+            </h1> registration date ↓
+          </option>
+        </select>
       </div>
-      <div class="block xl:hidden">
-        <table class="table w-full">
-          <thead>
-            <tr>
-              <th>
-                Data
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="user in userData.users" :key="`developer-user-table-small-${user.username}`">
-              <td>
-                <div class="flex items-center space-x-3">
-                  <div class="avatar">
-                    <div class="w-12 h-12 mask mask-squircle">
-                      <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
-                    </div>
-                  </div>
-                  <div>
-                    <router-link :to="{ name: 'Users', params: { username: user.username } }">
-                      <div class="font-bold">
-                        {{ user.username }}
-                        <v-mdi v-if="user.isAdmin ? false : user.isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
-                        <v-mdi v-if="user.isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
-                      </div>
-                    </router-link>
-                    <div class="text-sm opacity-50">
-                      {{ user.email }}
-                    </div>
+    </div>
+    <div class="block lg:hidden">
+      <table class="table w-full">
+        <thead>
+          <tr>
+            <th>
+              Data
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in userData.users" :key="`developer-user-table-small-${user.username}`">
+            <td>
+              <div class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="w-12 h-12 mask mask-squircle">
+                    <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
                   </div>
                 </div>
-                <div class="flex flex-row justify-between">
-                  <div>
-                    <h1 class="mt-4 font-bold text-gray-300">
-                      Registration date
-                    </h1>
-                    <h1 class="font-normal text-white">
-                      {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY H:mm:ss') }}
-                    </h1>
-                  </div>
-                  <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
-                    <label tabindex="0" class="btn btn-ghost">Options</label>
-                    <ul tabindex="0" class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
-                      <li>
-                        <a @click="grantAdmin(user.username)">
-                          Make admin
-                        </a>
-                      </li>
-                      <li>
-                        <a @click="revokeAdmin(user.username)">
-                          Remove admin
-                        </a>
-                      </li>
-                      <li>
-                        <a @click="grantVerification(user.username)">
-                          Make verified account
-                        </a>
-                      </li>
-                      <li>
-                        <a @click="revokeVerification(user.username)">
-                          Unverify account
-                        </a>
-                      </li>
-                      <li>
-                        <a @click="removeUser(user.username)">
-                          Remove from ReebA
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="hidden w-full xl:block">
-        <table class="table w-full">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Registration date</th>
-              <th>
-                <div class="ml-4">
-                  Options
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(user, i) in userData.users" :key="`developer-table-big-${user.username}`">
-              <td>
-                <div class="flex items-center space-x-3">
-                  <div class="avatar">
-                    <div class="w-12 h-12 mask mask-squircle">
-                      <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
+                <div>
+                  <router-link :to="{ name: 'Users', params: { username: user.username } }">
+                    <div class="font-bold">
+                      {{ user.username }}
+                      <v-mdi v-if="user.isAdmin ? false : user.isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
+                      <v-mdi v-if="user.isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
                     </div>
-                  </div>
-                  <div>
-                    <router-link :to="{ name: 'Users', params: { username: user.username } }">
-                      <div class="font-bold">
-                        {{ user.username }}
-                        <v-mdi v-if="user.isAdmin ? false : user.isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
-                        <v-mdi v-if="user.isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
-                      </div>
-                    </router-link>
-                    <div class="text-sm opacity-50">
-                      {{ user.email }}
-                    </div>
+                  </router-link>
+                  <div class="text-sm opacity-50">
+                    {{ user.email }}
                   </div>
                 </div>
-              </td>
-              <td>
-                {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY H:mm:ss') }}
-              </td>
-              <td>
-                <div :class="dropdownClass(i)" v-show="authStore.userData.username !== user.username">
+              </div>
+              <div class="flex flex-row justify-between">
+                <div>
+                  <h1 class="mt-4 font-bold text-gray-300">
+                    Registration date
+                  </h1>
+                  <h1 class="font-normal text-white">
+                    {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY H:mm:ss') }}
+                  </h1>
+                </div>
+                <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
                   <label tabindex="0" class="btn btn-ghost">Options</label>
                   <ul tabindex="0" class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
                     <li>
@@ -191,11 +114,86 @@
                     </li>
                   </ul>
                 </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="hidden overflow-x-auto w-full lg:block">
+      <table class="table w-full">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Registration date</th>
+            <th>
+              <div class="ml-4">
+                Options
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(user, i) in userData.users" :key="`developer-users-table-big-${user.username}`">
+            <td>
+              <div class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="w-12 h-12 mask mask-squircle">
+                    <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
+                  </div>
+                </div>
+                <div>
+                  <router-link :to="{ name: 'Users', params: { username: user.username } }">
+                    <div class="font-bold">
+                      {{ user.username }}
+                      <v-mdi v-if="user.isAdmin ? false : user.isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
+                      <v-mdi v-if="user.isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
+                    </div>
+                  </router-link>
+                  <div class="text-sm opacity-50">
+                    {{ user.email }}
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY H:mm:ss') }}
+            </td>
+            <td>
+              <div :class="dropdownClass(i)" v-show="authStore.userData.username !== user.username">
+                <label tabindex="0" class="btn btn-ghost">Options</label>
+                <ul tabindex="0" class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
+                  <li>
+                    <a @click="grantAdmin(user.username)">
+                      Make admin
+                    </a>
+                  </li>
+                  <li>
+                    <a @click="revokeAdmin(user.username)">
+                      Remove admin
+                    </a>
+                  </li>
+                  <li>
+                    <a @click="grantVerification(user.username)">
+                      Make verified account
+                    </a>
+                  </li>
+                  <li>
+                    <a @click="revokeVerification(user.username)">
+                      Unverify account
+                    </a>
+                  </li>
+                  <li>
+                    <a @click="removeUser(user.username)">
+                      Remove from ReebA
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>

@@ -158,7 +158,7 @@ importers:
       autoprefixer: ^10.4.2
       countries-list: ^2.6.1
       d3: ^7.3.0
-      daisyui: ^2.13.2
+      daisyui: ^2.13.6
       dayjs: ^1.10.7
       debounce: ^1.2.1
       i18n-iso-countries: ^7.3.0
@@ -187,7 +187,7 @@ importers:
       '@reeba/common': link:../common
       countries-list: 2.6.1
       d3: 7.3.0
-      daisyui: 2.13.3_762f10266527bf9fb9352bafd42e41e1
+      daisyui: 2.13.6_762f10266527bf9fb9352bafd42e41e1
       dayjs: 1.10.7
       debounce: 1.2.1
       i18n-iso-countries: 7.3.0
@@ -2360,8 +2360,8 @@ packages:
       d3-zoom: 3.0.0
     dev: false
 
-  /daisyui/2.13.3_762f10266527bf9fb9352bafd42e41e1:
-    resolution: {integrity: sha512-tYoczVQz2DtM1frqxnkXN+T8xMyMIA3ePdIdP/ScnDrdlHRlUaOTa6/UXlBfoeqCmD8AI27bCUFrQygoQ1t2oA==}
+  /daisyui/2.13.6_762f10266527bf9fb9352bafd42e41e1:
+    resolution: {integrity: sha512-Z3DOqNwIKxp4og9qd64i8/eS4i3TccmmfcaKKXM/Y619FmRjKXRmKAm/GTu9qH+4W7GcVdL8IRxuw0z5GQSqvQ==}
     peerDependencies:
       autoprefixer: ^10.0.2
       postcss: ^8.1.6
