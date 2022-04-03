@@ -1,19 +1,18 @@
 <template>
-  <div class="w-full drawer drawer-mobile" style="height: auto;">
+  <div class="drawer" style="height: auto; min-height: 100vh;">
     <input id="account-drawer-toggle" type="checkbox" class="drawer-toggle">
-    <div class="flex flex-col justify-center items-center drawer-content" style="max-height: none; overflow-y: unset;">
-      <div class="account-page">
-        <div class="account-content">
-          <router-view :key="$route.fullPath" />
-        </div>
-      </div>
+    <div class="m-4 drawer-content" style="max-height: none; overflow-y: unset;">
+      <router-view :key="$route.fullPath" />
     </div>
-    <label for="account-drawer-toggle" class="fixed right-10 bottom-10 rounded-full lg:hidden btn btn-primary drawer-button">
+    <label for="account-drawer-toggle" class="fixed right-10 bottom-10 rounded-full btn btn-primary drawer-button">
       <v-mdi name="mdi-menu-open" fill="#000000" />
     </label>
     <div class="drawer-side" style="max-height: none;">
       <label for="account-drawer-toggle" class="drawer-overlay" style="background-color: #00000055;" />
-      <ul class="overflow-y-auto p-4 w-56 menu bg-base-100 text-base-content">
+      <ul class="overflow-y-auto p-4 w-80 menu bg-base-100 text-base-content">
+        <li class="menu-title">
+          User settings
+        </li>
         <li>
           <router-link to="/account">
             My tickets
@@ -29,27 +28,25 @@
             Organizer tools
           </router-link>
         </li>
-        <li v-show="userData.role === 'admin'">
-          <router-link to="/account/developer">
-            Developer tools
-          </router-link>
+        <li v-show="userData.role === 'admin'" class="disabled">
+          Developer tools
         </li>
-        <li class="pl-4" v-show="userData.role === 'admin'">
+        <li v-show="userData.role === 'admin'">
           <router-link to="/account/developer">
             Summary
           </router-link>
         </li>
-        <li class="pl-4" v-show="userData.role === 'admin'">
+        <li v-show="userData.role === 'admin'">
           <router-link to="/account/developer/events">
             Events
           </router-link>
         </li>
-        <li class="pl-4" v-show="userData.role === 'admin'">
+        <li v-show="userData.role === 'admin'">
           <router-link to="/account/developer/users">
             Users
           </router-link>
         </li>
-        <li class="pl-4" v-show="userData.role === 'admin'">
+        <li v-show="userData.role === 'admin'">
           <router-link to="/account/developer/transactions">
             Transactions
           </router-link>
@@ -97,13 +94,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped lang="scss">
-.account-page {
-  @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
-}
-
-.account-content {
-  @apply m-12 grow;
-}
-</style>

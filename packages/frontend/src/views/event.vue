@@ -172,7 +172,10 @@ export default defineComponent({
     }
 
     const openGoogle = (place: {x: string, y: string}): void => {
-      window.open(`https://www.google.com/maps/search/?api=1&query=${place.x},${place.y}`, '_blank', 'noopener')
+      const w = window.open(`https://www.google.com/maps/search/?api=1&query=${place.x},${place.y}`, '_blank', 'noopener')
+      if (w != null) {
+        w.opener = null
+      }
     }
 
     onMounted(async () => {

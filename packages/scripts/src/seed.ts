@@ -616,7 +616,8 @@ const main = async () => {
         event_min_ticket_price,
         event_max_ticket_price,
         event_minimum_age,
-        event_venue_country_code_alpha_2
+        event_venue_country_code_alpha_2,
+        event_status
       ) values (
         $1,
         $2,
@@ -632,7 +633,8 @@ const main = async () => {
         $12,
         $13,
         $14,
-        $15
+        $15,
+        $16
       ) returning event_id`,
       [
         ev.event_id,
@@ -649,7 +651,8 @@ const main = async () => {
         ev.event_min_ticket_price,
         ev.event_max_ticket_price,
         ev.event_minimum_age,
-        ev.event_venue_country_code_alpha_2
+        ev.event_venue_country_code_alpha_2,
+        ev.event_status
       ]
     )
 
