@@ -181,3 +181,23 @@ export const PostManipulateEventReplySchema = Type.Object({
   message: Type.String()
 })
 export type PostManipulateEventReply = Static<typeof PostManipulateEventReplySchema>
+
+export const AdminGetStatisticsSummaryRequestQuerystringSchema = Type.Object({
+  start: Type.String(),
+  end: Type.String()
+})
+export type AdminGetStatisticsSummaryRequestQuerystring = Static<typeof AdminGetStatisticsSummaryRequestQuerystringSchema>
+
+export const AdminGetStatisticsSummaryReplySchema = Type.Object({
+  totalUsers: Type.Number(),
+  newUsersThisMonth: Type.Number(),
+  newUsersPastMonth: Type.Number(),
+  newUsersPercentageDifferenceToLastMonth: Type.Number(),
+  newUsersInTimeRange: Type.Number(),
+  totalEvents: Type.Number(),
+  newEventsThisMonth: Type.Number(),
+  newEventsPastMonth: Type.Number(),
+  newEventsPercentageDifferenceToLastMonth: Type.Number(),
+  newEventsInTimeRange: Type.Number()
+})
+export type AdminGetStatisticsSummaryReply = Static<typeof AdminGetStatisticsSummaryReplySchema>

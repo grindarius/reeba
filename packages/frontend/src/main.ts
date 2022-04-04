@@ -6,11 +6,14 @@ import { createMetaManager } from 'vue-meta'
 import Toast, { PluginOptions as ToastOptions, POSITION } from 'vue-toastification'
 
 import {
+  mdiAccountGroup,
+  mdiAccountMultiplePlus,
   mdiAlarm,
   mdiArrowDownThin,
   mdiArrowLeftThin,
   mdiArrowRightThin,
   mdiArrowUpThin,
+  mdiCalendar,
   mdiCalendarBlank,
   mdiCheck,
   mdiCheckDecagram,
@@ -43,11 +46,14 @@ import 'vue-toastification/dist/index.css'
 import './globals.scss'
 
 VueMdi.add({
+  mdiAccountGroup,
+  mdiAccountMultiplePlus,
   mdiAlarm,
   mdiArrowDownThin,
   mdiArrowLeftThin,
   mdiArrowRightThin,
   mdiArrowUpThin,
+  mdiCalendar,
   mdiCalendarBlank,
   mdiCheck,
   mdiCheckDecagram,

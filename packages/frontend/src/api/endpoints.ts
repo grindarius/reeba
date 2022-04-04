@@ -192,3 +192,8 @@ export const postManipulateEvent: EndpointFunc<{ eventId: string }> = ({ eventId
     method: 'post'
   }
 }
+
+export const adminGetStatisticsSummary: Endpoint = {
+  url: `${url}/admin/summary`,
+  method: 'get'
+}
