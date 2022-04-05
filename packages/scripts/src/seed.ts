@@ -368,19 +368,20 @@ const generateTransactions = (users: Array<users>, eventData: EventGroup): {
 
 const generateEventTags = (): Array<event_tags> => {
   const tags: Array<event_tags> = [
-    'sports',
+    'amphitheater',
     'business',
-    'stand-up-comedy',
-    'technology',
     'concert',
     'entertainment',
     'fan-meet',
     'gameshow',
     'lifestyle',
+    'live',
     'musical',
     'online',
-    'live',
+    'opera',
     'seminar',
+    'stand-p-comedy',
+    'technology',
     'variety'
   ].map(t => { return { event_tag_label: t } })
 
