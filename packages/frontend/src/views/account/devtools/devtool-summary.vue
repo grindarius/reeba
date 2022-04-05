@@ -71,10 +71,10 @@
         <label tabindex="0" class="btn btn-ghost">{{ selectedChartType }}</label>
         <ul tabindex="0" class="p-2 w-52 text-white shadow dropdown-content menu bg-base-200 rounded-box">
           <li>
-            <a @click="selectedChartType = 'users'">Users</a>
+            <a @click="updateWorldMapSelector('users')">Users</a>
           </li>
           <li>
-            <a @click="selectedChartType = 'events'">Events</a>
+            <a @click="updateWorldMapSelector('events')">Events</a>
           </li>
         </ul>
       </div>
@@ -86,6 +86,34 @@
     </div>
     <div id="world-map-tooltip" />
     <div id="world-map" ref="worldMapRef" />
+    <div class="overflow-x-auto mt-8">
+      <table class="table table-compact w-full" v-show="worldMapResponse.users.length === 0 || worldMapResponse.events.length === 0">
+        <thead>
+          <tr>
+            <th>Country</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-show="selectedChartType === 'users'" v-for="(u, i) in worldMapResponse.users" :key="`world-map-users-table-${i}`">
+            <th>
+              {{ getCountryName(u.country) }} ({{ u.country }})
+            </th>
+            <td>
+              {{ u.amount }}
+            </td>
+          </tr>
+          <tr v-show="selectedChartType === 'events'" v-for="(e, i) in worldMapResponse.events" :key="`world-map-events-table-${i}`">
+            <th>
+              {{ getCountryName(e.country) }} ({{ e.country }})
+            </th>
+            <td>
+              {{ e.amount }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <h1 class="mt-8 page-header">
       Transaction amount past 6 months (THB)
     </h1>
@@ -110,7 +138,7 @@ import en from 'i18n-iso-countries/langs/en.json'
 import ky from 'ky'
 import * as topojson from 'topojson-client'
 import { GeometryCollection, Topology } from 'topojson-specification'
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue'
 import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -214,7 +242,7 @@ export default defineComponent({
     })
 
     const colorEvents = computed(() => {
-      return d3.scaleLinear([0, Math.max(...worldMapResponse.value.events.map(e => e.amount))], colorRange)
+      return d3.scaleLinear([0, Number.isFinite(Math.max(...worldMapResponse.value.events.map(e => e.amount))) ? Math.max(...worldMapResponse.value.events.map(e => e.amount)) : 0], colorRange)
     })
 
     const getStatisticsSummary = async (): Promise<void> => {
@@ -426,10 +454,11 @@ export default defineComponent({
     }
 
     const updateWorldMap = (): void => {
-      svg.value.selectAll('svg#world-map-svg')
+      svg.value.selectAll('path.world-map-path')
         .data(land.value.features)
         .join('path')
         .attr('d', path.value)
+        .attr('class', 'world-map-path')
         .attr('stroke', '#ddd')
         .attr('stroke-width', '0.5px')
         .attr('fill', (d) => {
@@ -476,7 +505,7 @@ export default defineComponent({
           const alpha2 = i18nCountries.numericToAlpha2(d.id ?? '')
 
           const tooltipTemplate = `
-            <div class="py-1 px-4 h-16 rounded-lg bg-pale-yellow">
+            <div class="py-1 px-4 h-16 rounded-lg bg-pale-yellow border-black">
               <h3 class="font-mono text-black">$1</h3>
               <h3 class="font-mono text-black text-xl">$2</h3>
             </div>
@@ -702,6 +731,20 @@ export default defineComponent({
         .attr('fill', d => color(d.money))
     }
 
+    const updateWorldMapSelector = (type: 'users' | 'events'): void => {
+      selectedChartType.value = type
+      updateWorldMap()
+    }
+
+    const getCountryName = (name: string): string => {
+      return i18nCountries.getName(name, 'en') ?? 'unknown'
+    }
+
+    watch([worldMapStartDate, worldMapEndDate], async () => {
+      await getWorldMapData()
+      updateWorldMap()
+    })
+
     onMounted(async () => {
       await Promise.all([
         getStatisticsSummary(),
@@ -733,6 +776,9 @@ export default defineComponent({
       transactionsChartGroupBy,
       registrationChartStartDate,
       registrationChartEndDate,
+      worldMapResponse,
+      getCountryName,
+      updateWorldMapSelector,
       registrationChartGroupBy,
       registrationsSummaryResponse
     }
