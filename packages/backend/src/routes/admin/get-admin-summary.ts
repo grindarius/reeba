@@ -119,16 +119,16 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         response: {
           200: AdminGetMapsDataReplySchema
         }
-      }
-      // onRequest: [
-      //   instance.authenticate,
-      //   async (request, reply) => {
-      //     if (request.user.role !== t_user_role.admin) {
-      //       void reply.code(403)
-      //       throw new Error('forbidden')
-      //     }
-      //   }
-      // ]
+      },
+      onRequest: [
+        instance.authenticate,
+        async (request, reply) => {
+          if (request.user.role !== t_user_role.admin) {
+            void reply.code(403)
+            throw new Error('forbidden')
+          }
+        }
+      ]
     },
     async (request) => {
       const { start, end } = request.query
@@ -178,16 +178,16 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         response: {
           200: AdminGetTransactionSummaryReplySchema
         }
-      }
-      // onRequest: [
-      //   instance.authenticate,
-      //   async (request, reply) => {
-      //     if (request.user.role !== t_user_role.admin) {
-      //       void reply.code(403)
-      //       throw new Error('forbidden')
-      //     }
-      //   }
-      // ]
+      },
+      onRequest: [
+        instance.authenticate,
+        async (request, reply) => {
+          if (request.user.role !== t_user_role.admin) {
+            void reply.code(403)
+            throw new Error('forbidden')
+          }
+        }
+      ]
     },
     async (request) => {
       const { start, end, group } = request.query
@@ -236,16 +236,16 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         response: {
           200: AdminGetRegistrationSummaryReplySchema
         }
-      }
-      // onRequest: [
-      //   instance.authenticate,
-      //   async (request, reply) => {
-      //     if (request.user.role !== t_user_role.admin) {
-      //       void reply.code(403)
-      //       throw new Error('forbidden')
-      //     }
-      //   }
-      // ]
+      },
+      onRequest: [
+        instance.authenticate,
+        async (request, reply) => {
+          if (request.user.role !== t_user_role.admin) {
+            void reply.code(403)
+            throw new Error('forbidden')
+          }
+        }
+      ]
     },
     async (request) => {
       const { start, end, group } = request.query
@@ -287,16 +287,16 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         response: {
           200: AdminGetTopEventTagsOfAllTimeReplySchema
         }
-      }
-      // onRequest: [
-      //   instance.authenticate,
-      //   async (request, reply) => {
-      //     if (request.user.role !== t_user_role.admin) {
-      //       void reply.code(403)
-      //       throw new Error('forbidden')
-      //     }
-      //   }
-      // ]
+      },
+      onRequest: [
+        instance.authenticate,
+        async (request, reply) => {
+          if (request.user.role !== t_user_role.admin) {
+            void reply.code(403)
+            throw new Error('forbidden')
+          }
+        }
+      ]
     },
     async (request) => {
       const { top } = request.query
