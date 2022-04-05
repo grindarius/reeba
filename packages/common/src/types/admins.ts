@@ -193,11 +193,29 @@ export const AdminGetStatisticsSummaryReplySchema = Type.Object({
   newUsersThisMonth: Type.Number(),
   newUsersPastMonth: Type.Number(),
   newUsersPercentageDifferenceToLastMonth: Type.Number(),
-  newUsersInTimeRange: Type.Number(),
   totalEvents: Type.Number(),
   newEventsThisMonth: Type.Number(),
   newEventsPastMonth: Type.Number(),
-  newEventsPercentageDifferenceToLastMonth: Type.Number(),
-  newEventsInTimeRange: Type.Number()
+  newEventsPercentageDifferenceToLastMonth: Type.Number()
 })
 export type AdminGetStatisticsSummaryReply = Static<typeof AdminGetStatisticsSummaryReplySchema>
+
+export const AdminGetMapsDataRequestQuerystringSchema = Type.Object({
+  start: Type.String(),
+  end: Type.String()
+})
+export type AdminGetMapsDataRequestQuerystring = Static<typeof AdminGetMapsDataRequestQuerystringSchema>
+
+export const MapsDataSchema = Type.Array(
+  Type.Object({
+    country: Type.String(),
+    amount: Type.Number()
+  })
+)
+export type MapsData = Static<typeof MapsDataSchema>
+
+export const AdminGetMapsDataReplySchema = Type.Object({
+  users: MapsDataSchema,
+  events: MapsDataSchema
+})
+export type AdminGetMapsDataReply = Static<typeof AdminGetMapsDataReplySchema>
