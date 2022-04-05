@@ -102,7 +102,6 @@
 </template>
 
 <script lang="ts">
-import { countries } from 'countries-list'
 import * as d3 from 'd3'
 import dayjs from 'dayjs'
 import { FeatureCollection, Geometry } from 'geojson'
@@ -111,7 +110,7 @@ import en from 'i18n-iso-countries/langs/en.json'
 import ky from 'ky'
 import * as topojson from 'topojson-client'
 import { GeometryCollection, Topology } from 'topojson-specification'
-import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue'
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
 import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -132,7 +131,7 @@ import {
   adminGetTransactionSummary
 } from '@/api/endpoints'
 import countriesJson from '@/assets/world-topo.json'
-import { devtoolsEventsObject, devtoolsUsersObject, popularEventTypes, registrationsPastSixMonths, transactionsPastSixMonths } from '@/constants'
+import { popularEventTypes, registrationsPastSixMonths, transactionsPastSixMonths } from '@/constants'
 import { useAuthStore } from '@/store/use-auth-store'
 
 i18nCountries.registerLocale(en)
@@ -197,7 +196,7 @@ export default defineComponent({
       tags: []
     })
 
-    const selectedChartType = ref('users')
+    const selectedChartType: Ref<'users' | 'events'> = ref('users')
 
     useMeta({
       title: 'Developer tools: Summary'
@@ -211,11 +210,11 @@ export default defineComponent({
     const path = ref(d3.geoPath().projection(projection.value))
 
     const colorUsers = computed(() => {
-      return d3.scaleLinear([0, Math.max(...Object.values(devtoolsUsersObject))], colorRange)
+      return d3.scaleLinear([0, Math.max(...worldMapResponse.value.users.map(u => u.amount))], colorRange)
     })
 
     const colorEvents = computed(() => {
-      return d3.scaleLinear([0, Math.max(...Object.values(devtoolsEventsObject))], colorRange)
+      return d3.scaleLinear([0, Math.max(...worldMapResponse.value.events.map(e => e.amount))], colorRange)
     })
 
     const getStatisticsSummary = async (): Promise<void> => {
@@ -436,35 +435,101 @@ export default defineComponent({
         .attr('fill', (d) => {
           if (selectedChartType.value === 'users') {
             // * d.id is iso-3166 numeric
-            return colorUsers.value(countries[i18nCountries.numericToAlpha2(d.id ?? '') as keyof typeof countries] == null ? 0 : devtoolsUsersObject[i18nCountries.numericToAlpha2(d.id ?? '') ?? ''] ?? 0)
+            const alpha2 = i18nCountries.numericToAlpha2(d.id ?? '')
+
+            if (alpha2 == null || alpha2 === '') {
+              return colorUsers.value(0)
+            }
+
+            const countryInResponse = worldMapResponse.value.users.find(u => u.country === alpha2)
+
+            if (countryInResponse == null) {
+              return colorUsers.value(0)
+            }
+
+            return colorUsers.value(countryInResponse.amount)
           }
 
-          return colorEvents.value(countries[i18nCountries.numericToAlpha2(d.id ?? '') as keyof typeof countries] == null ? 0 : devtoolsEventsObject[i18nCountries.numericToAlpha2(d.id ?? '') ?? ''] ?? 0)
+          if (selectedChartType.value === 'events') {
+            const alpha2 = i18nCountries.numericToAlpha2(d.id ?? '')
+
+            if (alpha2 == null || alpha2 === '') {
+              return colorEvents.value(0)
+            }
+
+            const countryInResponse = worldMapResponse.value.events.find(e => e.country === alpha2)
+
+            if (countryInResponse == null) {
+              return colorEvents.value(0)
+            }
+
+            return colorEvents.value(countryInResponse.amount)
+          }
+
+          return colorUsers.value(0)
         })
         .on('mouseover', () => {
           tooltip.value.style('visibility', 'visible')
         })
         .on('mousemove', (event, d) => {
           const xy = d3.pointer(event, d3.select('svg#world-map-svg'))
-          const alpha2Key = i18nCountries.numericToAlpha2(d.id ?? '')
+          const alpha2 = i18nCountries.numericToAlpha2(d.id ?? '')
 
-          const usersHTMLString = `
+          const tooltipTemplate = `
             <div class="py-1 px-4 h-16 rounded-lg bg-pale-yellow">
-              <h3 class="font-mono">${countries[alpha2Key as keyof typeof countries].name ?? 'No data'}</h3>
-              <h3 :style="{ visibility: countries[alpha2Key as keyof typeof countries].name == null ? 'hidden' : 'visible' }" class="font-mono text-xl">${devtoolsUsersObject[alpha2Key] == null ? 'No data' : devtoolsUsersObject[alpha2Key] + ' users'}</h3>
+              <h3 class="font-mono text-black">$1</h3>
+              <h3 class="font-mono text-black text-xl">$2</h3>
             </div>
           `
 
-          const eventsHTMLString = `
-            <div class="py-1 px-4 h-16 rounded-lg bg-pale-yellow">
-              <h3 class="font-mono">${countries[alpha2Key as keyof typeof countries].name ?? 'No data'}</h3>
-              <h3 :style="{ visibility: countries[alpha2Key as keyof typeof countries].name == null ? 'hidden' : 'visible' }" class="font-mono text-xl">${devtoolsEventsObject[alpha2Key] == null ? 'No data' : devtoolsEventsObject[alpha2Key] + ' events'}</h3>
-            </div>
-          `
+          if (alpha2 == null || alpha2 === '') {
+            tooltip.value
+              .style('top', `${xy[1] + 10}px`)
+              .style('left', `${xy[0] + 10}px`)
+              .html(tooltipTemplate.replace('$1', 'Unknown').replace('$2', 'No data'))
+            return
+          }
 
-          tooltip.value.style('top', `${xy[1] + 10}px`)
+          if (selectedChartType.value === 'users') {
+            const countryInResponse = worldMapResponse.value.users.find(u => u.country === alpha2)
+
+            if (countryInResponse == null) {
+              tooltip.value
+                .style('top', `${xy[1] + 10}px`)
+                .style('left', `${xy[0] + 10}px`)
+                .html(tooltipTemplate.replace('$1', i18nCountries.getName(alpha2, 'en')).replace('$2', 'No data'))
+              return
+            }
+
+            tooltip.value
+              .style('top', `${xy[1] + 10}px`)
+              .style('left', `${xy[0] + 10}px`)
+              .html(tooltipTemplate.replace('$1', i18nCountries.getName(alpha2, 'en')).replace('$2', countryInResponse.amount.toString()))
+            return
+          }
+
+          if (selectedChartType.value === 'events') {
+            const countryInResponse = worldMapResponse.value.events.find(e => e.country === alpha2)
+
+            if (countryInResponse == null) {
+              tooltip.value
+                .style('top', `${xy[1] + 10}px`)
+                .style('left', `${xy[0] + 10}px`)
+                .html(tooltipTemplate.replace('$1', i18nCountries.getName(alpha2, 'en')).replace('$2', 'No data'))
+              return
+            }
+
+            tooltip.value
+              .style('top', `${xy[1] + 10}px`)
+              .style('left', `${xy[0] + 10}px`)
+              .html(tooltipTemplate.replace('$1', i18nCountries.getName(alpha2, 'en')).replace('$2', countryInResponse.amount.toString()))
+            return
+          }
+
+          tooltip.value
+            .style('top', `${xy[1] + 10}px`)
             .style('left', `${xy[0] + 10}px`)
-            .html(selectedChartType.value === 'users' ? usersHTMLString : eventsHTMLString)
+            .html(tooltipTemplate.replace('$1', 'Unknown').replace('$2', 'No data'))
         })
         .on('mouseleave', () => {
           tooltip.value.style('visibility', 'hidden')
@@ -650,10 +715,6 @@ export default defineComponent({
       createPieChart()
       createTransactionsHistoryChart()
       createRegistrationHistoryChart()
-    })
-
-    watch(selectedChartType, () => {
-      updateWorldMap()
     })
 
     return {
