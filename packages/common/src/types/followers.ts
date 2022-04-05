@@ -6,6 +6,6 @@ export const GetFollowersRequestParamsSchema = Type.Object({
 export type GetFollowersRequestParams = Static<typeof GetFollowersRequestParamsSchema>
 
 export const GetFollowersReplySchema = Type.Object({
-  isFollowingCurrentUser: Type.Boolean()
+  isFollowersCurrentUser: Type.Boolean()
 })
 export type GetFollowersReply = Static<typeof GetFollowersReplySchema>
