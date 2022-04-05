@@ -380,7 +380,7 @@ const generateEventTags = (): Array<event_tags> => {
     'online',
     'opera',
     'seminar',
-    'stand-p-comedy',
+    'stand-up-comedy',
     'technology',
     'variety'
   ].map(t => { return { event_tag_label: t } })
