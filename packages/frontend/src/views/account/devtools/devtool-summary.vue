@@ -78,7 +78,7 @@
           </li>
         </ul>
       </div>
-      <h1 class="page-header">
+      <h1 class="text-4xl font-semibold text-white">
         origin map between
       </h1>
       <input type="date" class="input" v-model="worldMapStartDate">
@@ -87,7 +87,7 @@
     <div id="world-map-tooltip" />
     <div id="world-map" ref="worldMapRef" />
     <div class="overflow-x-auto mt-8">
-      <table class="table table-compact w-full" v-show="worldMapResponse.users.length === 0 || worldMapResponse.events.length === 0">
+      <table class="table table-compact w-full" v-show="worldMapResponse[selectedChartType].length !== 0">
         <thead>
           <tr>
             <th>Country</th>
@@ -114,15 +114,36 @@
         </tbody>
       </table>
     </div>
-    <h1 class="mt-8 page-header">
-      Transaction amount past 6 months (THB)
-    </h1>
-    <div id="transaction-bar-chart" />
-    <h1 class="mt-8 page-header">
+    <div class="mt-8 flex flex-row gap-2">
+      <h1 class="text-4xl font-semibold text-white">
+        Transactions chart between
+      </h1>
+      <input type="date" class="input" v-model="transactionsChartStartDate">
+      <input type="date" class="input" v-model="transactionsChartEndDate">
+      <h1 class="text-4xl font-semibold text-white">
+        group by
+      </h1>
+      <div class="dropdown">
+        <label tabindex="0" class="btn btn-ghost m-1">{{ transactionsChartGroupBy }}</label>
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
+          <li @click="transactionsChartGroupBy = 'day'">
+            <a>Day</a>
+          </li>
+          <li @click="transactionsChartGroupBy = 'month'">
+            <a>Month</a>
+          </li>
+          <li @click="transactionsChartGroupBy = 'year'">
+            <a>Year</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="transaction-bar-chart" class="overflow-x-auto" />
+    <h1 class="mt-8 text-4xl font-semibold text-white">
       Registration amount past 6 months (people)
     </h1>
     <div id="registration-bar-chart" />
-    <h1 class="mt-8 page-header">
+    <h1 class="mt-8 text-4xl font-semibold text-white">
       Popular events this month
     </h1>
     <div id="pie-chart" class="max-w-4xl" />
@@ -159,7 +180,7 @@ import {
   adminGetTransactionSummary
 } from '@/api/endpoints'
 import countriesJson from '@/assets/world-topo.json'
-import { popularEventTypes, registrationsPastSixMonths, transactionsPastSixMonths } from '@/constants'
+import { registrationsPastSixMonths } from '@/constants'
 import { useAuthStore } from '@/store/use-auth-store'
 
 i18nCountries.registerLocale(en)
@@ -330,9 +351,9 @@ export default defineComponent({
             Authorization: `Bearer ${authStore.userData.token}`
           },
           searchParams: [
-            ['start', dayjs(transactionsChartStartDate.value).toISOString()],
-            ['end', dayjs(transactionsChartEndDate.value).toISOString()],
-            ['group', 'day']
+            ['start', dayjs(transactionsChartStartDate.value).startOf(transactionsChartGroupBy.value).toISOString()],
+            ['end', dayjs(transactionsChartEndDate.value).startOf(transactionsChartGroupBy.value).toISOString()],
+            ['group', transactionsChartGroupBy.value]
           ]
         }).json<AdminGetTransactionSummaryReply>()
 
@@ -565,126 +586,61 @@ export default defineComponent({
         })
     }
 
-    const piesvg = ref() as Ref<d3.Selection<SVGGElement, unknown, HTMLElement, unknown>>
-
-    const pieWidth = 350
-    const pieHeight = 350
-    const pieMargin = 30
-    const radius = Math.min(pieWidth, pieHeight) / 2 - pieMargin
-
-    const pieColor = computed(() => {
-      return d3.scaleSequential(d3.interpolateInferno)
-        .domain([0, Math.max(...Object.values(popularEventTypes))])
-    })
-
-    const createPieChart = (): void => {
-      d3.select('svg#pie-chart-svg').remove()
-
-      piesvg.value = d3.select('div#pie-chart')
-        .append('svg')
-        .attr('id', 'pie-chart-svg')
-        .attr('viewBox', `0 0 ${pieWidth} ${pieHeight}`)
-        .append('g')
-        .attr('transform', `translate(${pieWidth / 2}, ${pieHeight / 2.8})`)
-
-      const pie = d3.pie<Array<[string, number]>, [string, number]>().sort(null).value(d => d[1])
-      // @ts-expect-error missing generics
-      const loadedPie = pie(Object.entries(popularEventTypes))
-      const arc = d3.arc<d3.PieArcDatum<[string, number]>>().innerRadius(radius * 0.4).outerRadius(radius * 0.6)
-      const outerArc = d3.arc().innerRadius(radius * 0.7).outerRadius(radius * 0.7)
-
-      piesvg.value
-        .selectAll('allSlices')
-        .data(loadedPie)
-        .join('path')
-        // eslint-disable-next-line
-        .attr('d', arc as unknown as any)
-        .attr('fill', d => pieColor.value(d.data[1]))
-        .attr('stroke', 'white')
-        .style('stroke-width', '0.5px')
-        .style('opacity', 0.7)
-
-      piesvg.value
-        .selectAll('allPolylines')
-        .data(loadedPie)
-        .join('polyline')
-        .attr('stroke', 'white')
-        .style('fill', 'none')
-        .attr('stroke-width', '0.5px')
-        // @ts-expect-error type error
-        .attr('points', (d) => {
-          const posA = arc.centroid(d)
-          // @ts-expect-error type error
-          const posB = outerArc.centroid(d)
-          // @ts-expect-error type error
-          const posC = outerArc.centroid(d)
-          const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
-          posC[0] = radius * 0.66 * (midangle < Math.PI ? 1 : -1)
-          return [posA, posB, posC]
-        })
-
-      piesvg.value
-        .selectAll('allLabels')
-        .data(loadedPie)
-        .join('text')
-        .text(d => `${d.data[0]} (${d.data[1]})`)
-        .attr('transform', function (d) {
-        // @ts-expect-error type error
-          const pos = outerArc.centroid(d)
-          const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
-          pos[0] = radius * 0.7 * (midangle < Math.PI ? 1 : -1)
-          return `translate(${pos})`
-        })
-        .style('text-anchor', function (d) {
-          const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
-          return (midangle < Math.PI ? 'start' : 'end')
-        })
-        .style('fill', '#fff')
-        .style('font-size', '8px')
+    const transactionChartMargins = {
+      top: 30,
+      right: 30,
+      bottom: 50,
+      left: 80
     }
 
-    const createTransactionsHistoryChart = (): void => {
-      d3.select('svg#transaction-bar-chart-svg').remove()
+    const transactionChartWidth = 1530 - transactionChartMargins.left - transactionChartMargins.right
+    const transactionChartHeight = 500 - transactionChartMargins.top - transactionChartMargins.bottom
 
-      const margins = {
-        top: 30,
-        right: 30,
-        bottom: 50,
-        left: 80
-      }
-      const width = 1000 - margins.left - margins.right
-      const height = 500 - margins.top - margins.bottom
+    const transactionChartSVG = ref() as Ref<d3.Selection<SVGGElement, unknown, HTMLElement, unknown>>
+    const transactionChartX = ref() as Ref<d3.ScaleBand<string>>
+    const transactionChartY = ref() as Ref<d3.ScaleLinear<number, number, never>>
+    const transactionChartXAxis = ref() as Ref<d3.Selection<SVGGElement, unknown, HTMLElement, unknown>>
+    const transactionChartYAxis = ref() as Ref<d3.Selection<SVGGElement, unknown, HTMLElement, unknown>>
 
-      const color = d3.scaleLinear([0, Math.max(...Object.values(transactionsPastSixMonths))], colorRange)
-
-      const svg = d3.select('div#transaction-bar-chart')
+    const createTransactionChart = (): void => {
+      transactionChartSVG.value = d3.select('div#transaction-bar-chart')
         .append('svg')
         .attr('id', 'transaction-bar-chart-svg')
-        .attr('preserveAspectRatio', 'xMidYMin slice')
-        .attr('viewBox', `0 0 ${width + margins.left + margins.right} ${height + margins.top + margins.bottom}`)
+        .attr('width', transactionChartWidth + transactionChartMargins.left + transactionChartMargins.right)
+        .attr('height', transactionChartHeight + transactionChartMargins.top + transactionChartMargins.bottom)
         .append('g')
-        .attr('transform', `translate(${margins.left}, ${margins.top})`)
+        .attr('transform', `translate(${transactionChartMargins.left}, ${transactionChartMargins.top})`)
 
-      const x = d3.scaleBand().range([0, width]).domain(Object.keys(transactionsPastSixMonths).sort((a, b) => new Date(a).getTime() - new Date(b).getTime())).padding(0.5)
+      transactionChartX.value = d3.scaleBand()
+        .range([0, transactionChartWidth]).domain(transactionsSummaryResponse.value.transactions.map(t => t.date)).padding(0.5)
 
-      svg.append('g')
-        .attr('transform', `translate(0, ${height})`)
-        .classed('x-axis', true)
-        .call(d3.axisBottom(x))
+      transactionChartY.value = d3.scaleLinear([0, Number.isFinite(Math.max(...transactionsSummaryResponse.value.transactions.map(t => t.amount))) ? Math.max(...transactionsSummaryResponse.value.transactions.map(t => t.amount)) : 0], [transactionChartHeight, 0])
 
-      const y = d3.scaleLinear([0, Math.max(...Object.values(transactionsPastSixMonths))], [height, 0])
-      svg.append('g')
-        .classed('y-axis', true)
-        .call(d3.axisLeft(y))
+      transactionChartXAxis.value = transactionChartSVG.value.append('g')
+        .classed('transaction-chart-x-axis', true)
+        .attr('transform', `translate(0, ${transactionChartHeight})`)
+      transactionChartYAxis.value = transactionChartSVG.value.append('g')
+        .classed('transaction-chart-x-axis', true)
 
-      svg.selectAll('svg#transaction-bar-chart-svg')
-        .data(Object.entries(transactionsPastSixMonths).map((a) => { return { time: a[0], money: a[1] } }).sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()))
+      updateTransactionChart()
+    }
+
+    const updateTransactionChart = (): void => {
+      transactionChartX.value.domain(transactionsSummaryResponse.value.transactions.map(t => t.date))
+      transactionChartY.value.domain([0, Number.isFinite(Math.max(...transactionsSummaryResponse.value.transactions.map(t => t.amount))) ? Math.max(...transactionsSummaryResponse.value.transactions.map(t => t.amount)) : 0])
+
+      transactionChartXAxis.value.call(d3.axisBottom(transactionChartX.value))
+      transactionChartYAxis.value.call(d3.axisLeft(transactionChartY.value))
+
+      transactionChartSVG.value.selectAll('rect.transaction-bar-chart')
+        .data(transactionsSummaryResponse.value.transactions)
         .join('rect')
-        .attr('x', d => x(d.time) ?? 0)
-        .attr('y', d => y(d.money))
-        .attr('width', x.bandwidth())
-        .attr('height', d => height - y(d.money))
-        .attr('fill', d => color(d.money))
+        .classed('transaction-bar-chart', true)
+        .attr('x', d => transactionChartX.value(d.date) ?? 0)
+        .attr('y', d => transactionChartY.value(d.amount))
+        .attr('width', transactionChartX.value.bandwidth())
+        .attr('height', d => transactionChartHeight - transactionChartY.value(d.amount))
+        .attr('fill', d => '#d5a755')
     }
 
     const createRegistrationHistoryChart = (): void => {
@@ -745,6 +701,11 @@ export default defineComponent({
       updateWorldMap()
     })
 
+    watch([transactionsChartStartDate, transactionsChartEndDate, transactionsChartGroupBy], async () => {
+      await getTransactionsData()
+      updateTransactionChart()
+    })
+
     onMounted(async () => {
       await Promise.all([
         getStatisticsSummary(),
@@ -755,8 +716,8 @@ export default defineComponent({
       ])
 
       createWorldMap()
-      createPieChart()
-      createTransactionsHistoryChart()
+      createTransactionChart()
+      updateTransactionChart()
       createRegistrationHistoryChart()
     })
 
@@ -785,9 +746,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped lang="scss">
-.page-header {
-  @apply text-4xl font-semibold text-white;
-}
-</style>
