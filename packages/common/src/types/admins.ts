@@ -219,3 +219,53 @@ export const AdminGetMapsDataReplySchema = Type.Object({
   events: MapsDataSchema
 })
 export type AdminGetMapsDataReply = Static<typeof AdminGetMapsDataReplySchema>
+
+export const AdminGetSummaryGroupByOptionSchema = Type.Union([
+  Type.Literal('day'),
+  Type.Literal('month'),
+  Type.Literal('year')
+])
+export type AdminGetTransactionSummaryDataGroupByOption = Static<typeof AdminGetSummaryGroupByOptionSchema>
+
+export const AdminGetTransactionSummaryRequestQuerystringSchema = Type.Object({
+  start: Type.String(),
+  end: Type.String(),
+  group: AdminGetSummaryGroupByOptionSchema
+})
+export type AdminGetTransactionSummaryRequestQuerystring = Static<typeof AdminGetTransactionSummaryRequestQuerystringSchema>
+
+export const AdminGetTransactionSummaryReplySchema = Type.Object({
+  transactions: Type.Array(Type.Object({
+    date: Type.String(),
+    amount: Type.Number()
+  }))
+})
+export type AdminGetTransactionSummaryReply = Static<typeof AdminGetTransactionSummaryReplySchema>
+
+export const AdminGetRegistrationSummaryRequestQuerystringSchema = Type.Object({
+  start: Type.String(),
+  end: Type.String(),
+  group: AdminGetSummaryGroupByOptionSchema
+})
+export type AdminGetRegistrationSummaryRequestQuerystring = Static<typeof AdminGetRegistrationSummaryRequestQuerystringSchema>
+
+export const AdminGetRegistrationSummaryReplySchema = Type.Object({
+  registrations: Type.Array(Type.Object({
+    date: Type.String(),
+    amount: Type.Number()
+  }))
+})
+export type AdminGetRegistrationSummaryReply = Static<typeof AdminGetRegistrationSummaryReplySchema>
+
+export const AdminGetTopEventTagsOfAllTimeRequestQuerystringSchema = Type.Object({
+  top: Type.Number({ default: 10, minimum: 1, maximum: 15 })
+})
+export type AdminGetTopEventTagsOfAllTimeRequestQuerystring = Static<typeof AdminGetTopEventTagsOfAllTimeRequestQuerystringSchema>
+
+export const AdminGetTopEventTagsOfAllTimeReplySchema = Type.Object({
+  tags: Type.Array(Type.Object({
+    tag: Type.String(),
+    amount: Type.Number()
+  }))
+})
+export type AdminGetTopEventTagsOfAllTimeReply = Static<typeof AdminGetTopEventTagsOfAllTimeReplySchema>

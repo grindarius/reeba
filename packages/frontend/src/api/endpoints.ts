@@ -197,3 +197,23 @@ export const adminGetStatisticsSummary: Endpoint = {
   url: `${url}/admin/summary`,
   method: 'get'
 }
+
+export const adminGetMapsData: Endpoint = {
+  url: `${url}/admin/maps`,
+  method: 'get'
+}
+
+export const adminGetTransactionSummary: Endpoint = {
+  url: `${url}/admin/transaction-summary`,
+  method: 'get'
+}
+
+export const adminGetRegistrationSummary: Endpoint = {
+  url: `${url}/admin/registration-summary`,
+  method: 'get'
+}
+
+export const adminGetTopEventTagsOfAllTime: Endpoint = {
+  url: `${url}/admin/top-event-tags`,
+  method: 'get'
+}

@@ -6,8 +6,20 @@ import {
   AdminGetMapsDataReplySchema,
   AdminGetMapsDataRequestQuerystring,
   AdminGetMapsDataRequestQuerystringSchema,
+  AdminGetRegistrationSummaryReply,
+  AdminGetRegistrationSummaryReplySchema,
+  AdminGetRegistrationSummaryRequestQuerystring,
+  AdminGetRegistrationSummaryRequestQuerystringSchema,
   AdminGetStatisticsSummaryReply,
   AdminGetStatisticsSummaryReplySchema,
+  AdminGetTopEventTagsOfAllTimeReply,
+  AdminGetTopEventTagsOfAllTimeReplySchema,
+  AdminGetTopEventTagsOfAllTimeRequestQuerystring,
+  AdminGetTopEventTagsOfAllTimeRequestQuerystringSchema,
+  AdminGetTransactionSummaryReply,
+  AdminGetTransactionSummaryReplySchema,
+  AdminGetTransactionSummaryRequestQuerystring,
+  AdminGetTransactionSummaryRequestQuerystringSchema,
   events,
   t_user_role,
   users
@@ -154,6 +166,154 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             amount: e.event_count
           }
         })
+      }
+    }
+  )
+
+  instance.get<{ Querystring: AdminGetTransactionSummaryRequestQuerystring, Reply: AdminGetTransactionSummaryReply }>(
+    '/transaction-summary',
+    {
+      schema: {
+        querystring: AdminGetTransactionSummaryRequestQuerystringSchema,
+        response: {
+          200: AdminGetTransactionSummaryReplySchema
+        }
+      }
+      // onRequest: [
+      //   instance.authenticate,
+      //   async (request, reply) => {
+      //     if (request.user.role !== t_user_role.admin) {
+      //       void reply.code(403)
+      //       throw new Error('forbidden')
+      //     }
+      //   }
+      // ]
+    },
+    async (request) => {
+      const { start, end, group } = request.query
+
+      const transactions = await instance.pg.query<{ date: string, amount: number | null }, [Date, Date, string, string]>(
+        `select
+          *
+        from (
+          select to_char(date, 'YYYY-MM-DD') as date
+          from generate_series(
+            $1::date,
+            $2::date,
+            $3::interval
+          ) date
+        ) d
+        left join (
+          select
+            to_char(date_trunc($4, transactions.transaction_time), 'YYYY-MM-DD') as date,
+            coalesce(sum(event_seats.event_seat_price), 0)::int as amount
+          from "transactions"
+          inner join "transaction_details" on transactions.transaction_id = transaction_details.transaction_id
+          inner join "event_seats" on transaction_details.event_seat_id = event_seats.event_seat_id
+          where $1::date <= transactions.transaction_time and transactions.transaction_time <= $2::date
+          group by date
+        ) t using (date)
+        order by date`,
+        [dayjs(start).toDate(), dayjs(end).toDate(), `1 ${group}`, group]
+      )
+
+      return {
+        transactions: transactions.rows.map(t => {
+          return {
+            date: t.date,
+            amount: t.amount ?? 0
+          }
+        })
+      }
+    }
+  )
+
+  instance.get<{ Querystring: AdminGetRegistrationSummaryRequestQuerystring, Reply: AdminGetRegistrationSummaryReply }>(
+    '/registration-summary',
+    {
+      schema: {
+        querystring: AdminGetRegistrationSummaryRequestQuerystringSchema,
+        response: {
+          200: AdminGetRegistrationSummaryReplySchema
+        }
+      }
+      // onRequest: [
+      //   instance.authenticate,
+      //   async (request, reply) => {
+      //     if (request.user.role !== t_user_role.admin) {
+      //       void reply.code(403)
+      //       throw new Error('forbidden')
+      //     }
+      //   }
+      // ]
+    },
+    async (request) => {
+      const { start, end, group } = request.query
+
+      const registrations = await instance.pg.query<{ date: string, amount: number }, [Date, Date, string, string]>(
+        `select
+          *
+        from (
+          select to_char(date, 'YYYY-MM-DD') as date
+          from generate_series(
+            $1::date,
+            $2::date,
+            $3::interval
+          ) date
+        ) d
+        left join (
+          select
+            to_char(date_trunc($4, users.user_registration_datetime), 'YYYY-MM-DD') as date,
+            count(users.user_username)::int as amount
+          from "users"
+          where $1::date <= users.user_registration_datetime and users.user_registration_datetime <= $2::date
+          group by date
+        ) t using (date)
+        order by date`,
+        [dayjs(start).toDate(), dayjs(end).toDate(), `1 ${group}`, group]
+      )
+
+      return {
+        registrations: registrations.rows
+      }
+    }
+  )
+
+  instance.get<{ Querystring: AdminGetTopEventTagsOfAllTimeRequestQuerystring, Reply: AdminGetTopEventTagsOfAllTimeReply }>(
+    '/top-event-tags',
+    {
+      schema: {
+        querystring: AdminGetTopEventTagsOfAllTimeRequestQuerystringSchema,
+        response: {
+          200: AdminGetTopEventTagsOfAllTimeReplySchema
+        }
+      }
+      // onRequest: [
+      //   instance.authenticate,
+      //   async (request, reply) => {
+      //     if (request.user.role !== t_user_role.admin) {
+      //       void reply.code(403)
+      //       throw new Error('forbidden')
+      //     }
+      //   }
+      // ]
+    },
+    async (request) => {
+      const { top } = request.query
+
+      const topEventTags = await instance.pg.query<{ tag: string, amount: number }>(
+        `select
+          event_tag_label as tag,
+          count(event_tag_label) as amount
+        from "event_tags_bridge"
+        group by event_tag_label
+        order by amount desc
+        limit $1`,
+        [top]
+      )
+
+      return {
+        tags: topEventTags.rows
       }
     }
   )
