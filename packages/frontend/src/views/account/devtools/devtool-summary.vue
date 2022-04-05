@@ -116,7 +116,7 @@
     </div>
     <div class="mt-8 flex flex-row gap-2">
       <h1 class="text-4xl font-semibold text-white">
-        Transactions chart between
+        Transactions amount between
       </h1>
       <input type="date" class="input" v-model="transactionsChartStartDate">
       <input type="date" class="input" v-model="transactionsChartEndDate">
@@ -139,14 +139,31 @@
       </div>
     </div>
     <div id="transaction-bar-chart" class="overflow-x-auto" />
-    <h1 class="mt-8 text-4xl font-semibold text-white">
-      Registration amount past 6 months (people)
-    </h1>
-    <div id="registration-bar-chart" />
-    <h1 class="mt-8 text-4xl font-semibold text-white">
-      Popular events this month
-    </h1>
-    <div id="pie-chart" class="max-w-4xl" />
+    <div class="mt-8 flex flex-row gap-2">
+      <h1 class="text-4xl font-semibold text-white">
+        Registration amount between
+      </h1>
+      <input type="date" class="input" v-model="registrationChartStartDate">
+      <input type="date" class="input" v-model="registrationChartEndDate">
+      <h1 class="text-4xl font-semibold text-white">
+        group by
+      </h1>
+      <div class="dropdown">
+        <label tabindex="0" class="btn btn-ghost m-1">{{ registrationChartGroupBy }}</label>
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
+          <li @click="registrationChartGroupBy = 'day'">
+            <a>Day</a>
+          </li>
+          <li @click="registrationChartGroupBy = 'month'">
+            <a>Month</a>
+          </li>
+          <li @click="registrationChartGroupBy = 'year'">
+            <a>Year</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="registration-bar-chart" class="overflow-x-auto" />
   </div>
 </template>
 
@@ -180,7 +197,6 @@ import {
   adminGetTransactionSummary
 } from '@/api/endpoints'
 import countriesJson from '@/assets/world-topo.json'
-import { registrationsPastSixMonths } from '@/constants'
 import { useAuthStore } from '@/store/use-auth-store'
 
 i18nCountries.registerLocale(en)
@@ -391,8 +407,8 @@ export default defineComponent({
             Authorization: `Bearer ${authStore.userData.token}`
           },
           searchParams: [
-            ['start', dayjs(registrationChartStartDate.value).toISOString()],
-            ['end', dayjs(registrationChartEndDate.value).toISOString()],
+            ['start', dayjs(registrationChartStartDate.value).startOf(registrationChartGroupBy.value).toISOString()],
+            ['end', dayjs(registrationChartEndDate.value).startOf(registrationChartGroupBy.value).toISOString()],
             ['group', registrationChartGroupBy.value]
           ]
         }).json<AdminGetRegistrationSummaryReply>()
@@ -586,15 +602,15 @@ export default defineComponent({
         })
     }
 
-    const transactionChartMargins = {
+    const barChartMargins = {
       top: 30,
       right: 30,
       bottom: 50,
       left: 80
     }
 
-    const transactionChartWidth = 1530 - transactionChartMargins.left - transactionChartMargins.right
-    const transactionChartHeight = 500 - transactionChartMargins.top - transactionChartMargins.bottom
+    const transactionChartWidth = 1530 - barChartMargins.left - barChartMargins.right
+    const transactionChartHeight = 500 - barChartMargins.top - barChartMargins.bottom
 
     const transactionChartSVG = ref() as Ref<d3.Selection<SVGGElement, unknown, HTMLElement, unknown>>
     const transactionChartX = ref() as Ref<d3.ScaleBand<string>>
@@ -606,10 +622,10 @@ export default defineComponent({
       transactionChartSVG.value = d3.select('div#transaction-bar-chart')
         .append('svg')
         .attr('id', 'transaction-bar-chart-svg')
-        .attr('width', transactionChartWidth + transactionChartMargins.left + transactionChartMargins.right)
-        .attr('height', transactionChartHeight + transactionChartMargins.top + transactionChartMargins.bottom)
+        .attr('width', transactionChartWidth + barChartMargins.left + barChartMargins.right)
+        .attr('height', transactionChartHeight + barChartMargins.top + barChartMargins.bottom)
         .append('g')
-        .attr('transform', `translate(${transactionChartMargins.left}, ${transactionChartMargins.top})`)
+        .attr('transform', `translate(${barChartMargins.left}, ${barChartMargins.top})`)
 
       transactionChartX.value = d3.scaleBand()
         .range([0, transactionChartWidth]).domain(transactionsSummaryResponse.value.transactions.map(t => t.date)).padding(0.5)
@@ -640,51 +656,57 @@ export default defineComponent({
         .attr('y', d => transactionChartY.value(d.amount))
         .attr('width', transactionChartX.value.bandwidth())
         .attr('height', d => transactionChartHeight - transactionChartY.value(d.amount))
-        .attr('fill', d => '#d5a755')
+        .attr('fill', () => '#d5a755')
     }
 
+    const registrationChartWidth = 1530 - barChartMargins.left - barChartMargins.right
+    const registrationChartHeight = 500 - barChartMargins.top - barChartMargins.bottom
+
+    const registrationChartSVG = ref() as Ref<d3.Selection<SVGGElement, unknown, HTMLElement, unknown>>
+    const registrationChartX = ref() as Ref<d3.ScaleBand<string>>
+    const registrationChartY = ref() as Ref<d3.ScaleLinear<number, number, never>>
+    const registrationChartXAxis = ref() as Ref<d3.Selection<SVGGElement, unknown, HTMLElement, unknown>>
+    const registrationChartYAxis = ref() as Ref<d3.Selection<SVGGElement, unknown, HTMLElement, unknown>>
+
     const createRegistrationHistoryChart = (): void => {
-      d3.select('svg#registration-bar-chart-svg').remove()
-
-      const margins = {
-        top: 30,
-        right: 30,
-        bottom: 50,
-        left: 80
-      }
-      const width = 1000 - margins.left - margins.right
-      const height = 500 - margins.top - margins.bottom
-
-      const color = d3.scaleLinear([0, Math.max(...Object.values(registrationsPastSixMonths))], colorRange)
-
-      const svg = d3.select('div#registration-bar-chart')
+      registrationChartSVG.value = d3.select('div#registration-bar-chart')
         .append('svg')
         .attr('id', 'registration-bar-chart-svg')
-        .attr('preserveAspectRatio', 'xMidYMin slice')
-        .attr('viewBox', `0 0 ${width + margins.left + margins.right} ${height + margins.top + margins.bottom}`)
+        .attr('width', registrationChartWidth + barChartMargins.left + barChartMargins.right)
+        .attr('height', registrationChartHeight + barChartMargins.top + barChartMargins.bottom)
         .append('g')
-        .attr('transform', `translate(${margins.left}, ${margins.top})`)
+        .attr('transform', `translate(${barChartMargins.left}, ${barChartMargins.top})`)
 
-      const x = d3.scaleBand().range([0, width]).domain(Object.keys(registrationsPastSixMonths).sort((a, b) => new Date(a).getTime() - new Date(b).getTime())).padding(0.5)
+      registrationChartX.value = d3.scaleBand()
+        .range([0, registrationChartWidth]).domain(registrationsSummaryResponse.value.registrations.map(r => r.date)).padding(0.5)
 
-      svg.append('g')
-        .attr('transform', `translate(0, ${height})`)
-        .classed('x-axis', true)
-        .call(d3.axisBottom(x))
+      registrationChartY.value = d3.scaleLinear([0, Number.isFinite(Math.max(...registrationsSummaryResponse.value.registrations.map(r => r.amount))) ? Math.max(...registrationsSummaryResponse.value.registrations.map(r => r.amount)) : 0], [registrationChartHeight, 0])
 
-      const y = d3.scaleLinear([0, Math.max(...Object.values(registrationsPastSixMonths))], [height, 0])
-      svg.append('g')
-        .classed('y-axis', true)
-        .call(d3.axisLeft(y))
+      registrationChartXAxis.value = registrationChartSVG.value.append('g')
+        .classed('registration-chart-x-axis', true)
+        .attr('transform', `translate(0, ${registrationChartHeight})`)
+      registrationChartYAxis.value = registrationChartSVG.value.append('g')
+        .classed('registration-chart-x-axis', true)
 
-      svg.selectAll('svg#registration-bar-chart-svg')
-        .data(Object.entries(registrationsPastSixMonths).map((a) => { return { time: a[0], money: a[1] } }).sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()))
+      updateRegistrationChart()
+    }
+
+    const updateRegistrationChart = (): void => {
+      registrationChartX.value.domain(registrationsSummaryResponse.value.registrations.map(r => r.date))
+      registrationChartY.value.domain([0, Number.isFinite(Math.max(...registrationsSummaryResponse.value.registrations.map(r => r.amount))) ? Math.max(...registrationsSummaryResponse.value.registrations.map(r => r.amount)) : 0])
+
+      registrationChartXAxis.value.call(d3.axisBottom(registrationChartX.value))
+      registrationChartYAxis.value.call(d3.axisLeft(registrationChartY.value))
+
+      registrationChartSVG.value.selectAll('rect.registration-bar-chart')
+        .data(registrationsSummaryResponse.value.registrations)
         .join('rect')
-        .attr('x', d => x(d.time) ?? 0)
-        .attr('y', d => y(d.money))
-        .attr('width', x.bandwidth())
-        .attr('height', d => height - y(d.money))
-        .attr('fill', d => color(d.money))
+        .classed('registration-bar-chart', true)
+        .attr('x', d => registrationChartX.value(d.date) ?? 0)
+        .attr('y', d => registrationChartY.value(d.amount))
+        .attr('width', registrationChartX.value.bandwidth())
+        .attr('height', d => registrationChartHeight - registrationChartY.value(d.amount))
+        .attr('fill', () => '#d5a755')
     }
 
     const updateWorldMapSelector = (type: 'users' | 'events'): void => {
@@ -704,6 +726,11 @@ export default defineComponent({
     watch([transactionsChartStartDate, transactionsChartEndDate, transactionsChartGroupBy], async () => {
       await getTransactionsData()
       updateTransactionChart()
+    })
+
+    watch([registrationChartStartDate, registrationChartEndDate, registrationChartGroupBy], async () => {
+      await getRegistrationsData()
+      updateRegistrationChart()
     })
 
     onMounted(async () => {
