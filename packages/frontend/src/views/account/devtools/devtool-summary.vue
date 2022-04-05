@@ -8,76 +8,81 @@
     <h1 class="text-4xl font-semibold text-white mb-4">
       Statistics summary
     </h1>
-    <div class="stats stats-vertical lg:stats-horizontal shadow bg-base-300">
-      <div class="stat">
-        <div class="stat-figure text-primary">
-          <v-mdi name="mdi-account-group" size="30" fill="#D5A755" />
+    <div class="w-full flex flex-row justify-center">
+      <div class="stats stats-vertical lg:stats-horizontal shadow bg-base-300">
+        <div class="stat">
+          <div class="stat-figure text-primary">
+            <v-mdi name="mdi-account-group" size="30" fill="#D5A755" />
+          </div>
+          <div class="stat-title">
+            Total users
+          </div>
+          <router-link custom :to="{ name: 'Developer Users' }" v-slot="{ navigate }">
+            <div class="stat-value text-primary cursor-pointer" :title="summaryResponse.totalUsers.toString() || '0'" @click="navigate">
+              {{ numberFormat.format(summaryResponse.totalUsers) }}
+            </div>
+          </router-link>
+          <div class="stat-desc">
+            users
+          </div>
         </div>
-        <div class="stat-title">
-          Total users
+        <div class="stat">
+          <div class="stat-figure text-primary">
+            <v-mdi name="mdi-calendar" size="30" fill="#D5A755" />
+          </div>
+          <div class="stat-title">
+            Total events
+          </div>
+          <router-link custom :to="{ name: 'Developer Events' }" v-slot="{ navigate }">
+            <div class="stat-value text-primary cursor-pointer" :title="summaryResponse.totalEvents.toString() || '0'" @click="navigate">
+              {{ numberFormat.format(summaryResponse.totalEvents) }}
+            </div>
+          </router-link>
+          <div class="stat-desc">
+            events
+          </div>
         </div>
-        <div class="stat-value text-primary" :title="summaryResponse.totalUsers.toString() || '0'">
-          {{ numberFormat.format(summaryResponse.totalUsers) }}
+        <div class="stat place-items-center">
+          <div class="stat-title">
+            New users this month ({{ startOfNow }} - {{ now }})
+          </div>
+          <div class="stat-value text-primary" :title="summaryResponse.newUsersThisMonth.toString() || '0'">
+            {{ numberFormat.format(summaryResponse.newUsersThisMonth) }}
+          </div>
+          <div class="stat-desc" :title="`last month: ${summaryResponse.newUsersPastMonth}`">
+            {{ d3.format('+0.4')(summaryResponse.newUsersPercentageDifferenceToLastMonth) }}% from last month
+          </div>
         </div>
-        <div class="stat-desc">
-          users
-        </div>
-      </div>
-      <div class="stat">
-        <div class="stat-figure text-primary">
-          <v-mdi name="mdi-calendar" size="30" fill="#D5A755" />
-        </div>
-        <div class="stat-title">
-          Total events
-        </div>
-        <div class="stat-value text-primary" :title="summaryResponse.totalEvents.toString() || '0'">
-          {{ numberFormat.format(summaryResponse.totalEvents) }}
-        </div>
-        <div class="stat-desc">
-          events
-        </div>
-      </div>
-      <div class="stat place-items-center">
-        <div class="stat-title">
-          New users this month
-        </div>
-        <div class="stat-value text-primary" :title="summaryResponse.newUsersThisMonth.toString() || '0'">
-          {{ numberFormat.format(summaryResponse.newUsersThisMonth) }}
-        </div>
-        <div class="stat-desc" :title="`last month: ${summaryResponse.newUsersPastMonth}`">
-          {{ d3.format('+0.4')(summaryResponse.newUsersPercentageDifferenceToLastMonth) }}% from last month
-        </div>
-      </div>
-      <div class="stat place-items-center">
-        <div class="stat-title">
-          New events this month
-        </div>
-        <div class="stat-value text-primary" :title="summaryResponse.newEventsThisMonth.toString() || '0'">
-          {{ numberFormat.format(summaryResponse.newEventsThisMonth) }}
-        </div>
-        <div class="stat-desc" :title="`last month: ${summaryResponse.newEventsPastMonth}`">
-          {{ d3.format('+0.4')(summaryResponse.newEventsPercentageDifferenceToLastMonth) }}% from last month
+        <div class="stat place-items-center">
+          <div class="stat-title">
+            New events this month ({{ startOfNow }} - {{ now }})
+          </div>
+          <div class="stat-value text-primary" :title="summaryResponse.newEventsThisMonth.toString() || '0'">
+            {{ numberFormat.format(summaryResponse.newEventsThisMonth) }}
+          </div>
+          <div class="stat-desc" :title="`last month: ${summaryResponse.newEventsPastMonth}`">
+            {{ d3.format('+0.4')(summaryResponse.newEventsPercentageDifferenceToLastMonth) }}% from last month
+          </div>
         </div>
       </div>
     </div>
     <div class="flex flex-row gap-3 mt-8">
-      <h1 class="page-header">
-        Where
-      </h1>
       <div class="dropdown">
         <label tabindex="0" class="m-1 btn">{{ selectedChartType }}</label>
         <ul tabindex="0" class="p-2 w-52 text-black shadow dropdown-content menu bg-primary rounded-box">
           <li>
-            <a @click="selectedChartType = 'users'">Users</a>
+            <a @click="selectedChartType = 'users'">All users</a>
           </li>
           <li>
-            <a @click="selectedChartType = 'events'">Events</a>
+            <a @click="selectedChartType = 'events'">All events</a>
           </li>
         </ul>
       </div>
       <h1 class="page-header">
         came from
       </h1>
+      <input type="date" class="input">
+      <input type="date" class="input">
     </div>
     <div id="world-map-tooltip" />
     <div id="world-map" ref="worldMapRef" />
@@ -132,20 +137,26 @@ export default defineComponent({
 
     const numberFormat = ref(Intl.NumberFormat('en', { notation: 'compact' }))
 
-    const startDate = ref(dayjs().toISOString())
-    const endDate = ref(dayjs().subtract(1, 'week').toISOString())
+    const startDate = ref(dayjs().subtract(1, 'week'))
+    const endDate = ref(dayjs())
+
+    const now = computed(() => {
+      return dayjs().format('D MMM')
+    })
+
+    const startOfNow = computed(() => {
+      return dayjs().startOf('month').format('D MMM')
+    })
 
     const summaryResponse: Ref<AdminGetStatisticsSummaryReply> = ref({
       totalUsers: 0,
       newUsersThisMonth: 0,
       newUsersPastMonth: 0,
       newUsersPercentageDifferenceToLastMonth: 0,
-      newUsersInTimeRange: 0,
       totalEvents: 0,
       newEventsThisMonth: 0,
       newEventsPastMonth: 0,
-      newEventsPercentageDifferenceToLastMonth: 0,
-      newEventsInTimeRange: 0
+      newEventsPercentageDifferenceToLastMonth: 0
     })
 
     const selectedChartType = ref('users')
@@ -181,11 +192,7 @@ export default defineComponent({
           method,
           headers: {
             Authorization: `Bearer ${authStore.userData.token}`
-          },
-          searchParams: [
-            ['start', startDate.value],
-            ['end', endDate.value]
-          ]
+          }
         }).json<AdminGetStatisticsSummaryReply>()
 
         summaryResponse.value = response
@@ -439,12 +446,12 @@ export default defineComponent({
     }
 
     onMounted(async () => {
+      await getStatisticsSummary()
+
       createWorldMap()
       createPieChart()
       createTransactionsHistoryChart()
       createRegistrationHistoryChart()
-
-      await getStatisticsSummary()
     })
 
     watch(selectedChartType, () => {
@@ -454,10 +461,14 @@ export default defineComponent({
     return {
       worldMapRef,
       d3,
+      now,
+      startOfNow,
       totalUsers,
       selectedChartType,
       numberFormat,
-      summaryResponse
+      summaryResponse,
+      startDate,
+      endDate
     }
   }
 })
