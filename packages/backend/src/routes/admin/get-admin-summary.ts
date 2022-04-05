@@ -41,6 +41,10 @@ const percentageDifference = (now: number, then: number): number => {
     if (now - then < 0) {
       return -100
     }
+
+    if (now - then === 0) {
+      return 0
+    }
   }
 
   return (now - then) / then * 100
@@ -71,30 +75,30 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const oneMonthPrior = dayjs().subtract(1, 'month').startOf('month').toDate()
 
       const totalUsers = await instance.pg.query<{ total_users: number }>(
-        'select count(user_username) as total_users from "users"'
+        'select count(user_username)::int as total_users from "users"'
       )
 
       const newUsersThisMonth = await instance.pg.query<{ new_users_this_month: number }, DateInput>(
-        'select count(user_username) as new_users_this_month from "users" where $1 <= user_registration_datetime and user_registration_datetime <= $2',
+        'select count(user_username)::int as new_users_this_month from "users" where $1 <= user_registration_datetime and user_registration_datetime <= $2',
         [startOfNow, now]
       )
 
       const newUsersPastMonth = await instance.pg.query<{ new_users_past_month: number }, DateInput>(
-        'select count(user_username) as new_users_past_month from "users" where $1 <= user_registration_datetime and user_registration_datetime <= $2',
+        'select count(user_username)::int as new_users_past_month from "users" where $1 <= user_registration_datetime and user_registration_datetime <= $2',
         [oneMonthPrior, startOfNow]
       )
 
       const totalEvents = await instance.pg.query<{ total_events: number }>(
-        'select count(events.event_id) as total_events from "events"'
+        'select count(events.event_id)::int as total_events from "events"'
       )
 
       const newEventsThisMonth = await instance.pg.query<{ new_events_this_month: number }, DateInput>(
-        'select count(event_id) as new_events_this_month from "events" where $1 <= event_creation_date and event_creation_date <= $2',
+        'select count(event_id)::int as new_events_this_month from "events" where $1 <= event_creation_date and event_creation_date <= $2',
         [startOfNow, now]
       )
 
       const newEventsPastMonth = await instance.pg.query<{ new_events_past_month: number }>(
-        'select count(event_id) as new_events_past_month from "events" where $1 <= event_creation_date and event_creation_date <= $2',
+        'select count(event_id)::int as new_events_past_month from "events" where $1 <= event_creation_date and event_creation_date <= $2',
         [oneMonthPrior, startOfNow]
       )
 
