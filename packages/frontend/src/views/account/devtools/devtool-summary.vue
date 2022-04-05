@@ -68,21 +68,21 @@
     </div>
     <div class="flex flex-row gap-3 mt-8">
       <div class="dropdown">
-        <label tabindex="0" class="m-1 btn">{{ selectedChartType }}</label>
-        <ul tabindex="0" class="p-2 w-52 text-black shadow dropdown-content menu bg-primary rounded-box">
+        <label tabindex="0" class="btn btn-ghost">{{ selectedChartType }}</label>
+        <ul tabindex="0" class="p-2 w-52 text-white shadow dropdown-content menu bg-base-200 rounded-box">
           <li>
-            <a @click="selectedChartType = 'users'">All users</a>
+            <a @click="selectedChartType = 'users'">Users</a>
           </li>
           <li>
-            <a @click="selectedChartType = 'events'">All events</a>
+            <a @click="selectedChartType = 'events'">Events</a>
           </li>
         </ul>
       </div>
       <h1 class="page-header">
-        came from
+        origin map between
       </h1>
-      <input type="date" class="input">
-      <input type="date" class="input">
+      <input type="date" class="input" v-model="worldMapStartDate">
+      <input type="date" class="input" v-model="worldMapEndDate">
     </div>
     <div id="world-map-tooltip" />
     <div id="world-map" ref="worldMapRef" />
@@ -115,9 +115,22 @@ import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue'
 import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 
-import { AdminGetStatisticsSummaryReply } from '@reeba/common'
+import {
+  AdminGetMapsDataReply,
+  AdminGetRegistrationSummaryReply,
+  AdminGetStatisticsSummaryReply,
+  AdminGetSummaryDataGroupByOption,
+  AdminGetTopEventTagsOfAllTimeReply,
+  AdminGetTransactionSummaryReply
+} from '@reeba/common'
 
-import { adminGetStatisticsSummary } from '@/api/endpoints'
+import {
+  adminGetMapsData,
+  adminGetRegistrationSummary,
+  adminGetStatisticsSummary,
+  adminGetTopEventTagsOfAllTime,
+  adminGetTransactionSummary
+} from '@/api/endpoints'
 import countriesJson from '@/assets/world-topo.json'
 import { devtoolsEventsObject, devtoolsUsersObject, popularEventTypes, registrationsPastSixMonths, transactionsPastSixMonths } from '@/constants'
 import { useAuthStore } from '@/store/use-auth-store'
@@ -137,8 +150,16 @@ export default defineComponent({
 
     const numberFormat = ref(Intl.NumberFormat('en', { notation: 'compact' }))
 
-    const startDate = ref(dayjs().subtract(1, 'week'))
-    const endDate = ref(dayjs())
+    const worldMapStartDate = ref(dayjs().subtract(1, 'week').startOf('day').format('YYYY-MM-DD'))
+    const worldMapEndDate = ref(dayjs().startOf('day').format('YYYY-MM-DD'))
+
+    const transactionsChartStartDate = ref(dayjs().subtract(1, 'week').startOf('day').format('YYYY-MM-DD'))
+    const transactionsChartEndDate = ref(dayjs().startOf('day').format('YYYY-MM-DD'))
+    const transactionsChartGroupBy = ref<AdminGetSummaryDataGroupByOption>('day')
+
+    const registrationChartStartDate = ref(dayjs().subtract(1, 'week').startOf('day').format('YYYY-MM-DD'))
+    const registrationChartEndDate = ref(dayjs().startOf('day').format('YYYY-MM-DD'))
+    const registrationChartGroupBy = ref<AdminGetSummaryDataGroupByOption>('day')
 
     const now = computed(() => {
       return dayjs().format('D MMM')
@@ -157,6 +178,23 @@ export default defineComponent({
       newEventsThisMonth: 0,
       newEventsPastMonth: 0,
       newEventsPercentageDifferenceToLastMonth: 0
+    })
+
+    const worldMapResponse: Ref<AdminGetMapsDataReply> = ref({
+      users: [],
+      events: []
+    })
+
+    const transactionsSummaryResponse: Ref<AdminGetTransactionSummaryReply> = ref({
+      transactions: []
+    })
+
+    const registrationsSummaryResponse: Ref<AdminGetRegistrationSummaryReply> = ref({
+      registrations: []
+    })
+
+    const topEventTagsOfAllTimeResponse: Ref<AdminGetTopEventTagsOfAllTimeReply> = ref({
+      tags: []
     })
 
     const selectedChartType = ref('users')
@@ -180,10 +218,6 @@ export default defineComponent({
       return d3.scaleLinear([0, Math.max(...Object.values(devtoolsEventsObject))], colorRange)
     })
 
-    const totalUsers = computed(() => {
-      return d3.format(',.2r')(Object.values(devtoolsUsersObject).reduce((total, users) => total + users, 0))
-    })
-
     const getStatisticsSummary = async (): Promise<void> => {
       try {
         const { method, url } = adminGetStatisticsSummary
@@ -196,6 +230,164 @@ export default defineComponent({
         }).json<AdminGetStatisticsSummaryReply>()
 
         summaryResponse.value = response
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const resp = error?.response
+
+        if (resp.status == null) {
+          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          return
+        }
+
+        if (resp.status === 401) {
+          router.push({ name: 'Signin' })
+          return
+        }
+
+        if (resp.status === 403) {
+          router.push({ name: 'Home' })
+          return
+        }
+
+        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+      }
+    }
+
+    const getWorldMapData = async (): Promise<void> => {
+      try {
+        const { method, url } = adminGetMapsData
+
+        const response = await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          searchParams: [
+            ['start', dayjs(worldMapStartDate.value).toISOString()],
+            ['end', dayjs(worldMapEndDate.value).toISOString()],
+            ['group', 'day']
+          ]
+        }).json<AdminGetMapsDataReply>()
+
+        worldMapResponse.value = response
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const resp = error?.response
+
+        if (resp.status == null) {
+          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          return
+        }
+
+        if (resp.status === 401) {
+          router.push({ name: 'Signin' })
+          return
+        }
+
+        if (resp.status === 403) {
+          router.push({ name: 'Home' })
+          return
+        }
+
+        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+      }
+    }
+
+    const getTransactionsData = async (): Promise<void> => {
+      try {
+        const { method, url } = adminGetTransactionSummary
+
+        const response = await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          searchParams: [
+            ['start', dayjs(transactionsChartStartDate.value).toISOString()],
+            ['end', dayjs(transactionsChartEndDate.value).toISOString()],
+            ['group', 'day']
+          ]
+        }).json<AdminGetTransactionSummaryReply>()
+
+        transactionsSummaryResponse.value = response
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const resp = error?.response
+
+        if (resp.status == null) {
+          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          return
+        }
+
+        if (resp.status === 401) {
+          router.push({ name: 'Signin' })
+          return
+        }
+
+        if (resp.status === 403) {
+          router.push({ name: 'Home' })
+          return
+        }
+
+        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+      }
+    }
+
+    const getRegistrationsData = async (): Promise<void> => {
+      try {
+        const { method, url } = adminGetRegistrationSummary
+
+        const response = await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          searchParams: [
+            ['start', dayjs(registrationChartStartDate.value).toISOString()],
+            ['end', dayjs(registrationChartEndDate.value).toISOString()],
+            ['group', registrationChartGroupBy.value]
+          ]
+        }).json<AdminGetRegistrationSummaryReply>()
+
+        registrationsSummaryResponse.value = response
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const resp = error?.response
+
+        if (resp.status == null) {
+          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          return
+        }
+
+        if (resp.status === 401) {
+          router.push({ name: 'Signin' })
+          return
+        }
+
+        if (resp.status === 403) {
+          router.push({ name: 'Home' })
+          return
+        }
+
+        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+      }
+    }
+
+    const getTopEventTagsOfAllTime = async (): Promise<void> => {
+      try {
+        const { method, url } = adminGetTopEventTagsOfAllTime
+
+        const response = await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          searchParams: [
+            ['top', 10]
+          ]
+        }).json<AdminGetTopEventTagsOfAllTimeReply>()
+
+        topEventTagsOfAllTimeResponse.value = response
       } catch (error) {
         // @ts-expect-error error is unknown
         const resp = error?.response
@@ -446,7 +638,13 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      await getStatisticsSummary()
+      await Promise.all([
+        getStatisticsSummary(),
+        getWorldMapData(),
+        getTransactionsData(),
+        getRegistrationsData(),
+        getTopEventTagsOfAllTime()
+      ])
 
       createWorldMap()
       createPieChart()
@@ -463,12 +661,19 @@ export default defineComponent({
       d3,
       now,
       startOfNow,
-      totalUsers,
       selectedChartType,
       numberFormat,
       summaryResponse,
-      startDate,
-      endDate
+      worldMapStartDate,
+      worldMapEndDate,
+      transactionsChartStartDate,
+      transactionsSummaryResponse,
+      transactionsChartEndDate,
+      transactionsChartGroupBy,
+      registrationChartStartDate,
+      registrationChartEndDate,
+      registrationChartGroupBy,
+      registrationsSummaryResponse
     }
   }
 })
