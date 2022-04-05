@@ -54,23 +54,25 @@ console.log(chalk.green('deleting data in tables'));
   console.log(chalk.green('event_tags_count'), eventTagsCount.rows[0].event_tags_count)
   console.log(chalk.green('event_tags_bridge_count'), eventTagsBridgeCount.rows[0].event_tags_bridge_count)
 
-  await client.query(`insert into event_tags (event_tag_label) values
-    ('amphitheater'),
-    ('business'),
-    ('concert'),
-    ('entertainment'),
-    ('fan-meet'),
-    ('gameshow'),
-    ('lifestyle'),
-    ('live'),
-    ('musical'),
-    ('online'),
-    ('opera'),
-    ('seminar'),
-    ('stand-up-comedy'),
-    ('technology'),
-    ('variety')
-  on conflict (event_tag_label) do nothing;`)
+  await client.query(
+    `insert into event_tags (event_tag_label) values
+      ('amphitheater'),
+      ('business'),
+      ('concert'),
+      ('entertainment'),
+      ('fan-meet'),
+      ('gameshow'),
+      ('lifestyle'),
+      ('live'),
+      ('musical'),
+      ('online'),
+      ('opera'),
+      ('seminar'),
+      ('stand-up-comedy'),
+      ('technology'),
+      ('variety')
+    on conflict (event_tag_label) do nothing`
+  )
 
   await client.query(
     `insert into users (
@@ -103,7 +105,7 @@ console.log(chalk.green('deleting data in tables'));
       'I am Arya Stark''s older sister.',
       'sansa-stark.png',
       'TH'
-    ) on conflict (user_username) do nothing;`
+    ) on conflict (user_username) do nothing`
   )
 
   await client.end()
