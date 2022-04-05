@@ -5,11 +5,11 @@
     </template>
   </metainfo>
   <div class="container mx-auto">
-    <h1 class="text-4xl font-semibold text-white mb-4">
+    <h1 class="mb-4 text-4xl font-semibold text-white">
       Statistics summary
     </h1>
-    <div class="w-full flex flex-row justify-center">
-      <div class="stats stats-vertical lg:stats-horizontal shadow bg-base-300">
+    <div class="flex flex-row justify-center w-full">
+      <div class="shadow stats stats-vertical bg-base-300 lg:stats-horizontal">
         <div class="stat">
           <div class="stat-figure text-primary">
             <v-mdi name="mdi-account-group" size="30" fill="#D5A755" />
@@ -18,7 +18,7 @@
             Total users
           </div>
           <router-link custom :to="{ name: 'Developer Users' }" v-slot="{ navigate }">
-            <div class="stat-value text-primary cursor-pointer" :title="summaryResponse.totalUsers.toString() || '0'" @click="navigate">
+            <div class="cursor-pointer stat-value text-primary" :title="summaryResponse.totalUsers.toString() || '0'" @click="navigate">
               {{ numberFormat.format(summaryResponse.totalUsers) }}
             </div>
           </router-link>
@@ -34,7 +34,7 @@
             Total events
           </div>
           <router-link custom :to="{ name: 'Developer Events' }" v-slot="{ navigate }">
-            <div class="stat-value text-primary cursor-pointer" :title="summaryResponse.totalEvents.toString() || '0'" @click="navigate">
+            <div class="cursor-pointer stat-value text-primary" :title="summaryResponse.totalEvents.toString() || '0'" @click="navigate">
               {{ numberFormat.format(summaryResponse.totalEvents) }}
             </div>
           </router-link>
@@ -42,7 +42,7 @@
             events
           </div>
         </div>
-        <div class="stat place-items-center">
+        <div class="place-items-center stat">
           <div class="stat-title">
             New users this month ({{ startOfNow }} - {{ now }})
           </div>
@@ -53,7 +53,7 @@
             {{ d3.format('+0.4')(summaryResponse.newUsersPercentageDifferenceToLastMonth) }}% from last month
           </div>
         </div>
-        <div class="stat place-items-center">
+        <div class="place-items-center stat">
           <div class="stat-title">
             New events this month ({{ startOfNow }} - {{ now }})
           </div>
@@ -87,7 +87,7 @@
     <div id="world-map-tooltip" />
     <div id="world-map" ref="worldMapRef" />
     <div class="overflow-x-auto mt-8">
-      <table class="table table-compact w-full" v-show="worldMapResponse[selectedChartType].length !== 0">
+      <table class="table w-full table-compact" v-show="worldMapResponse[selectedChartType].length !== 0">
         <thead>
           <tr>
             <th>Country</th>
@@ -114,7 +114,7 @@
         </tbody>
       </table>
     </div>
-    <div class="mt-8 flex flex-row gap-2">
+    <div class="flex flex-row gap-2 mt-8">
       <h1 class="text-4xl font-semibold text-white">
         Transactions amount between
       </h1>
@@ -124,8 +124,8 @@
         group by
       </h1>
       <div class="dropdown">
-        <label tabindex="0" class="btn btn-ghost m-1">{{ transactionsChartGroupBy }}</label>
-        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
+        <label tabindex="0" class="m-1 btn btn-ghost">{{ transactionsChartGroupBy }}</label>
+        <ul tabindex="0" class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
           <li @click="transactionsChartGroupBy = 'day'">
             <a>Day</a>
           </li>
@@ -139,7 +139,7 @@
       </div>
     </div>
     <div id="transaction-bar-chart" class="overflow-x-auto" />
-    <div class="mt-8 flex flex-row gap-2">
+    <div class="flex flex-row gap-2 mt-8">
       <h1 class="text-4xl font-semibold text-white">
         Registration amount between
       </h1>
@@ -149,8 +149,8 @@
         group by
       </h1>
       <div class="dropdown">
-        <label tabindex="0" class="btn btn-ghost m-1">{{ registrationChartGroupBy }}</label>
-        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
+        <label tabindex="0" class="m-1 btn btn-ghost">{{ registrationChartGroupBy }}</label>
+        <ul tabindex="0" class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
           <li @click="registrationChartGroupBy = 'day'">
             <a>Day</a>
           </li>
@@ -167,7 +167,7 @@
     <h1 class="text-4xl font-semibold text-white">
       Tags and their event amount
     </h1>
-    <table class="table table-compact w-full mt-4">
+    <table class="table mt-4 w-full table-compact">
       <thead>
         <tr>
           <th>Tag</th>
@@ -563,9 +563,9 @@ export default defineComponent({
           const alpha2 = i18nCountries.numericToAlpha2(d.id ?? '')
 
           const tooltipTemplate = `
-            <div class="py-1 px-4 h-16 rounded-lg bg-pale-yellow border-black">
+            <div class="py-1 px-4 h-16 rounded-lg border-black bg-pale-yellow">
               <h3 class="font-mono text-black">$1</h3>
-              <h3 class="font-mono text-black text-xl">$2</h3>
+              <h3 class="font-mono text-xl text-black">$2</h3>
             </div>
           `
 
