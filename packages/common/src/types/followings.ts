@@ -9,3 +9,13 @@ export const PostFollowReplySchema = Type.Object({
   isFollowingCurrentUser: Type.Boolean()
 })
 export type PostFollowReply = Static<typeof PostFollowReplySchema>
+
+export const GetFollowRequestParamsSchema = Type.Object({
+  anotherUsername: Type.String()
+})
+export type GetFollowRequestParams = Static<typeof GetFollowRequestParamsSchema>
+
+export const GetFollowReplySchema = Type.Object({
+  isFollowingCurrentUser: Type.Boolean()
+})
+export type GetFollowReply = Static<typeof GetFollowReplySchema>
