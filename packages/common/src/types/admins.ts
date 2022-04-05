@@ -220,17 +220,17 @@ export const AdminGetMapsDataReplySchema = Type.Object({
 })
 export type AdminGetMapsDataReply = Static<typeof AdminGetMapsDataReplySchema>
 
-export const AdminGetSummaryGroupByOptionSchema = Type.Union([
+export const AdminGetSummaryDataGroupByOptionSchema = Type.Union([
   Type.Literal('day'),
   Type.Literal('month'),
   Type.Literal('year')
 ])
-export type AdminGetTransactionSummaryDataGroupByOption = Static<typeof AdminGetSummaryGroupByOptionSchema>
+export type AdminGetSummaryDataGroupByOption = Static<typeof AdminGetSummaryDataGroupByOptionSchema>
 
 export const AdminGetTransactionSummaryRequestQuerystringSchema = Type.Object({
   start: Type.String(),
   end: Type.String(),
-  group: AdminGetSummaryGroupByOptionSchema
+  group: AdminGetSummaryDataGroupByOptionSchema
 })
 export type AdminGetTransactionSummaryRequestQuerystring = Static<typeof AdminGetTransactionSummaryRequestQuerystringSchema>
 
@@ -245,7 +245,7 @@ export type AdminGetTransactionSummaryReply = Static<typeof AdminGetTransactionS
 export const AdminGetRegistrationSummaryRequestQuerystringSchema = Type.Object({
   start: Type.String(),
   end: Type.String(),
-  group: AdminGetSummaryGroupByOptionSchema
+  group: AdminGetSummaryDataGroupByOptionSchema
 })
 export type AdminGetRegistrationSummaryRequestQuerystring = Static<typeof AdminGetRegistrationSummaryRequestQuerystringSchema>
 
