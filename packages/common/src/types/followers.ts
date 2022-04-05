@@ -1,7 +1,7 @@
 import { Static, Type } from '@sinclair/typebox'
 
 export const GetFollowersRequestParamsSchema = Type.Object({
-  anoterUsername: Type.String()
+  anotherUsername: Type.String()
 })
 export type GetFollowersRequestParams = Static<typeof GetFollowersRequestParamsSchema>
 
