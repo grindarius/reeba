@@ -164,6 +164,27 @@
       </div>
     </div>
     <div id="registration-bar-chart" class="overflow-x-auto" />
+    <h1 class="text-4xl font-semibold text-white">
+      Tags and their event amount
+    </h1>
+    <table class="table table-compact w-full mt-4">
+      <thead>
+        <tr>
+          <th>Tag</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(t, i) in topEventTagsOfAllTimeResponse.tags" :key="`top-event-tags-table-${i}`">
+          <th>
+            {{ formatTagName(t.tag) }}
+          </th>
+          <td>
+            {{ t.amount }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -748,6 +769,11 @@ export default defineComponent({
       createRegistrationHistoryChart()
     })
 
+    const formatTagName = (tagKey: string): string => {
+      const spaced = tagKey.replaceAll('-', ' ')
+      return spaced.charAt(0).toUpperCase() + spaced.slice(1)
+    }
+
     return {
       worldMapRef,
       d3,
@@ -757,6 +783,7 @@ export default defineComponent({
       numberFormat,
       summaryResponse,
       worldMapStartDate,
+      topEventTagsOfAllTimeResponse,
       worldMapEndDate,
       transactionsChartStartDate,
       transactionsSummaryResponse,
@@ -768,7 +795,8 @@ export default defineComponent({
       getCountryName,
       updateWorldMapSelector,
       registrationChartGroupBy,
-      registrationsSummaryResponse
+      registrationsSummaryResponse,
+      formatTagName
     }
   }
 })
