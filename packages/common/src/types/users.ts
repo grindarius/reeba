@@ -50,16 +50,21 @@ export const GetUserRelatedEventsReplySchema = Type.Object({
 })
 export type GetUserRelatedEventsReply = Static<typeof GetUserRelatedEventsReplySchema>
 
-export const GetUserFollowingsListRequestParamsSchema = Type.Object({
+export const GetUserFollowersListRequestParamsSchema = Type.Object({
   username: Type.String()
 })
-export type GetUserFollowingsListRequestParams = Static<typeof GetUserFollowingsListRequestParamsSchema>
+export type GetUserFollowersListRequestParams = Static<typeof GetUserFollowersListRequestParamsSchema>
 
-export const GetUserFollowingsListReplySchema = Type.Object({
-  followings: Type.Array(Type.Object({
+export const GetUserFollowersListRequestQuerystringSchema = Type.Object({
+  u: Type.String({ default: '' })
+})
+export type GetUserFollowersListRequestQuerystring = Static<typeof GetUserFollowersListRequestQuerystringSchema>
+
+export const GetUserFollowersListReplySchema = Type.Object({
+  followers: Type.Array(Type.Object({
     username: Type.String(),
     isAdmin: Type.Boolean(),
     isVerified: Type.Boolean()
   }))
 })
-export type GetUserFollowingsListReply = Static<typeof GetUserFollowingsListReplySchema>
+export type GetUserFollowersListReply = Static<typeof GetUserFollowersListReplySchema>
