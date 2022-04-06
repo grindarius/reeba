@@ -1,5 +1,6 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify'
 
+import getFollowingRoute from './get-following'
 import getUserRoute from './get-user'
 import getUserRelatedEventsRoute from './get-user-related-events'
 import manipulateAdminRoute from './manipulate-admin'
@@ -12,4 +13,5 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   void instance.register(manipulateAdminRoute)
   void instance.register(manipulateVerificationRoute)
   void instance.register(removeUserRoute)
+  void instance.register(getFollowingRoute)
 }

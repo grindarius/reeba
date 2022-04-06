@@ -49,3 +49,13 @@ export const GetUserRelatedEventsReplySchema = Type.Object({
   attended: Type.Array(RelatedEventToUserSchema)
 })
 export type GetUserRelatedEventsReply = Static<typeof GetUserRelatedEventsReplySchema>
+
+export const GetFollowRequestParamsSchema = Type.Object({
+  anotherUsername: Type.String()
+})
+export type GetFollowRequestParams = Static<typeof GetFollowRequestParamsSchema>
+
+export const GetFollowReplySchema = Type.Object({
+  isFollowingCurrentUser: Type.Boolean()
+})
+export type GetFollowReply = Static<typeof GetFollowReplySchema>
