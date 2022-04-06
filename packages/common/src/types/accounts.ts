@@ -1,5 +1,7 @@
 import { Static, Type } from '@sinclair/typebox'
 
+import { t_event_status } from './database'
+
 export const GetProfileDataRequestParamsSchema = Type.Object({
   username: Type.String()
 })
@@ -66,3 +68,31 @@ export const GetMyTicketsReplySchema = Type.Object({
   }))
 })
 export type GetMyTicketsReply = Static<typeof GetMyTicketsReplySchema>
+
+export const GetOrganizerDataRequestParamsSchema = Type.Object({
+  username: Type.String()
+})
+export type GetOrganizerDataRequestParams = Static<typeof GetOrganizerDataRequestParamsSchema>
+
+export const GetOrganizerDataRequestQuerystringSchema = Type.Object({
+  page: Type.Number()
+})
+export type GetOrganizerDataRequestQuerystring = Static<typeof GetOrganizerDataRequestQuerystringSchema>
+
+export const GetOrganizerDataReplySchema = Type.Object({
+  events: Type.Array(Type.Object({
+    id: Type.String(),
+    name: Type.String(),
+    venueName: Type.String(),
+    status: Type.Union([
+      Type.Literal(t_event_status.open),
+      Type.Literal(t_event_status.closed)
+    ]),
+    totalDatetimes: Type.Number(),
+    totalSections: Type.Number(),
+    totalSeats: Type.Number(),
+    totalTakenSeats: Type.Number(),
+    seatFullnessPercentage: Type.Number()
+  }))
+})
+export type GetOrganizerDataReply = Static<typeof GetOrganizerDataReplySchema>
