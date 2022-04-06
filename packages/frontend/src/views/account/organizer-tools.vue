@@ -7,7 +7,7 @@
   <div class="container mx-auto">
     <section class="mt-8">
       <div class="flex flex-row justify-between mb-4">
-        <h1 class="page-header">
+        <h1 class="text-4xl font-semibold text-white">
           Organizer tools
         </h1>
         <div class="flex flex-row gap-3">
@@ -301,21 +301,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped lang="scss">
-.page-header {
-  @apply text-4xl font-semibold text-white;
-}
-
-.box-bg {
-  @apply py-3 px-6 text-xs font-medium tracking-wider leading-4 text-left uppercase border-b border-pale-gray bg-pale-yellow text-pale-gray;
-}
-
-.header-box {
-  @apply inline-block overflow-hidden min-w-full align-middle border-b shadow sm:rounded-lg border-pale-gray;
-}
-
-.active-setting {
-  @apply inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full;
-}
-</style>
