@@ -346,7 +346,6 @@ import {
 } from '@reeba/common'
 
 import { adminGetEventData, getEventImage, postManipulateEvent } from '@/api/endpoints'
-import { eventsDatatable } from '@/constants'
 import { useAuthStore } from '@/store/use-auth-store'
 import {
   formatQueryString, formatTimeString
@@ -355,7 +354,6 @@ import {
 export default defineComponent({
   name: 'devtool-events',
   setup () {
-    const eventsRef = ref(eventsDatatable)
     const router = useRouter()
     const route = useRoute()
     const authStore = useAuthStore()
@@ -481,7 +479,6 @@ export default defineComponent({
     }
 
     return {
-      eventsRef,
       eventsList,
       dropdownClass,
       getEventImage,
