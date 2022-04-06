@@ -1,21 +1,21 @@
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  GetFollowReply,
-  GetFollowReplySchema,
-  GetFollowRequestParams,
-  GetFollowRequestParamsSchema
+  GetUserFollowingsListReply,
+  GetUserFollowingsListReplySchema,
+  GetUserFollowingsListRequestParams,
+  GetUserFollowingsListRequestParamsSchema
 } from '@reeba/common'
 
 const schema: FastifySchema = {
-  params: GetFollowRequestParamsSchema,
+  params: GetUserFollowingsListRequestParamsSchema,
   response: {
-    200: GetFollowReplySchema
+    200: GetUserFollowingsListReplySchema
   }
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Params: GetFollowRequestParams, Reply: GetFollowReply }>(
+  instance.get<{ Params: GetUserFollowingsListRequestParams, Reply: GetUserFollowingsListReply }>(
     '/:username/followings',
     {
       schema,
