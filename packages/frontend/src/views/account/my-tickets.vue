@@ -5,7 +5,7 @@
     </template>
   </metainfo>
   <div class="my-tickets-page">
-    <h2 class="page-header">
+    <h2 class="text-4xl font-semibold text-white">
       My tickets
     </h2>
     <section class="mt-8">
@@ -206,9 +206,5 @@ export default defineComponent({
   & h3 {
     @apply text-base font-bold text-white;
   }
-}
-
-.page-header {
-  @apply text-4xl font-semibold text-white;
 }
 </style>
