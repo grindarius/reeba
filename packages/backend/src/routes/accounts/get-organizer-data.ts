@@ -23,6 +23,7 @@ const PAGE_SIZE = 30
 
 type EventData = Pick<events, 'event_id' | 'event_name' | 'event_venue_name' | 'event_status' | 'event_venue_coordinates' | 'event_opening_date' | 'event_creation_date'> & {
   total_datetimes: number
+  total_events: number
   total_sections: number
   total_taken_seats: number
   total_seats: number
@@ -51,6 +52,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       const eventData = await instance.pg.query<EventData>(
         `select
+          count(events.event_id) over() as total_events,
           events.event_id,
           events.event_name,
           events.event_venue_name,
@@ -76,6 +78,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       )
 
       return {
+        total: eventData.rows[0]?.total_events ?? 0,
         events: eventData.rows.map(e => {
           return {
             id: e.event_id,

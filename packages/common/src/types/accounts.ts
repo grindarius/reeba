@@ -80,6 +80,7 @@ export const GetOrganizerDataRequestQuerystringSchema = Type.Object({
 export type GetOrganizerDataRequestQuerystring = Static<typeof GetOrganizerDataRequestQuerystringSchema>
 
 export const GetOrganizerDataReplySchema = Type.Object({
+  total: Type.Number(),
   events: Type.Array(Type.Object({
     id: Type.String(),
     name: Type.String(),
