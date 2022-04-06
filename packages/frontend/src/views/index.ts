@@ -6,6 +6,7 @@ import DevtoolTransactions from './account/devtools/devtool-transactions.vue'
 import DevtoolUsers from './account/devtools/devtool-users.vue'
 import EditUserSettings from './account/edit-user-settings.vue'
 import MyTickets from './account/my-tickets.vue'
+import OrganizerToolStatistics from './account/organizer-tool-statistics.vue'
 import OrganizerTools from './account/organizer-tools.vue'
 import CreateEvent from './create-event.vue'
 import Event from './event.vue'
@@ -34,6 +35,7 @@ export {
   MyTickets,
   NotFound,
   OrganizerTools,
+  OrganizerToolStatistics,
   Payment,
   Receipt,
   SearchResult,
