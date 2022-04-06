@@ -103,3 +103,22 @@ export const GetOrganizerDataReplySchema = Type.Object({
   }))
 })
 export type GetOrganizerDataReply = Static<typeof GetOrganizerDataReplySchema>
+
+export const GetOrganizerEventStatisticsRequestParamsSchema = Type.Object({
+  username: Type.String(),
+  eventId: Type.String()
+})
+export type GetOrganizerEventStatisticsRequestParams = Static<typeof GetOrganizerEventStatisticsRequestParamsSchema>
+
+export const GetOrganizerEventStatisticsReplySchema = Type.Object({
+  id: Type.String(),
+  name: Type.String(),
+  status: Type.String(),
+  totalSeats: Type.Number(),
+  totalTakenSeats: Type.Number(),
+  seatFullnessPercentage: Type.Number(),
+  grossTicketSales: Type.Number(),
+  reebaTicketFees: Type.Number(),
+  netPayout: Type.Number()
+})
+export type GetOrganizerEventStatisticsReply = Static<typeof GetOrganizerEventStatisticsReplySchema>

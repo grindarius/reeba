@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions } from 'fastify'
 
 import {
   events,
@@ -8,16 +8,12 @@ import {
   GetOrganizerDataRequestParams,
   GetOrganizerDataRequestParamsSchema,
   GetOrganizerDataRequestQuerystring,
-  GetOrganizerDataRequestQuerystringSchema
+  GetOrganizerDataRequestQuerystringSchema,
+  GetOrganizerEventStatisticsReply,
+  GetOrganizerEventStatisticsReplySchema,
+  GetOrganizerEventStatisticsRequestParams,
+  GetOrganizerEventStatisticsRequestParamsSchema
 } from '@reeba/common'
-
-const schema: FastifySchema = {
-  params: GetOrganizerDataRequestParamsSchema,
-  querystring: GetOrganizerDataRequestQuerystringSchema,
-  response: {
-    200: GetOrganizerDataReplySchema
-  }
-}
 
 const PAGE_SIZE = 30
 
@@ -34,7 +30,13 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   instance.get<{ Params: GetOrganizerDataRequestParams, Querystring: GetOrganizerDataRequestQuerystring, Reply: GetOrganizerDataReply }>(
     '/:username/organizer',
     {
-      schema
+      schema: {
+        params: GetOrganizerDataRequestParamsSchema,
+        querystring: GetOrganizerDataRequestQuerystringSchema,
+        response: {
+          200: GetOrganizerDataReplySchema
+        }
+      }
     },
     async (request, reply) => {
       const { username } = request.params
@@ -98,6 +100,55 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             seatFullnessPercentage: e.seat_fullness_percentage
           }
         })
+      }
+    }
+  )
+
+  instance.get<{ Params: GetOrganizerEventStatisticsRequestParams, Reply: GetOrganizerEventStatisticsReply }>(
+    '/:username/organizer/:eventId',
+    {
+      schema: {
+        params: GetOrganizerEventStatisticsRequestParamsSchema,
+        response: {
+          200: GetOrganizerEventStatisticsReplySchema
+        }
+      }
+    },
+    async (request) => {
+      const { eventId } = request.params
+
+      const eventData = await instance.pg.query(
+        `select
+          events.event_id,
+          events.event_name,
+          events.event_status,
+          count(event_seats.event_seat_id)::int as total_seats,
+          count(transaction_details.event_seat_id)::int as total_taken_seats,
+          (count(transaction_details.event_seat_id)::float / count(event_seats.event_seat_id)::float) * 100::float as seat_fullness_percentage,
+          coalesce(sum(event_seats.event_seat_price), 0::int)::float as gross_ticket_sales,
+          (count(transaction_details.event_seat_id) * 45)::float as reeba_ticket_fees
+        from "event_seats"
+        inner join "event_sections" on event_seats.event_section_id = event_sections.event_section_id
+        inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
+        inner join "events" on event_datetimes.event_id = events.event_id
+        left join "transaction_details" on event_seats.event_seat_id = transaction_details.event_seat_id
+        where events.event_id = $1
+        group by events.event_id`,
+        [eventId]
+      )
+
+      console.log(eventData.rows)
+
+      return {
+        id: eventData.rows[0].event_id,
+        name: eventData.rows[0].event_name,
+        status: eventData.rows[0].event_status,
+        totalSeats: eventData.rows[0].total_seats,
+        totalTakenSeats: eventData.rows[0].total_taken_seats,
+        seatFullnessPercentage: eventData.rows[0].seat_fullness_percentage,
+        grossTicketSales: eventData.rows[0].gross_ticket_sales,
+        reebaTicketFees: eventData.rows[0].reeba_ticket_fees,
+        netPayout: eventData.rows[0].gross_ticket_sales - eventData.rows[0].reeba_ticket_fees
       }
     }
   )

@@ -224,3 +224,10 @@ export const getOrganizerData: EndpointFunc<{ username: string }> = ({ username 
     method: 'get'
   }
 }
+
+export const getOrganizerOverviewData: EndpointFunc<{ username: string, eventId: string }> = ({ username, eventId }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/organizer/${eventId}`,
+    method: 'get'
+  }
+}
