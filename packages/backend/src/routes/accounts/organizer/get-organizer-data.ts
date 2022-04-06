@@ -26,6 +26,14 @@ type EventData = Pick<events, 'event_id' | 'event_name' | 'event_venue_name' | '
   seat_fullness_percentage: number
 }
 
+type IndividualEventData = Pick<events, 'event_id' | 'event_name' | 'event_status'> & {
+  total_seats: number
+  total_taken_seats: number
+  seat_fullness_percentage: number
+  gross_ticket_sales: number
+  reeba_ticket_fees: number
+}
+
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.get<{ Params: GetOrganizerDataRequestParams, Querystring: GetOrganizerDataRequestQuerystring, Reply: GetOrganizerDataReply }>(
     '/:username/organizer',
@@ -52,7 +60,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         throw new Error('user not found')
       }
 
-      const eventData = await instance.pg.query<EventData>(
+      const eventData = await instance.pg.query<EventData, [string, number, number]>(
         `select
           count(events.event_id) over() as total_events,
           events.event_id,
@@ -114,10 +122,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
       }
     },
-    async (request) => {
+    async (request, reply) => {
       const { eventId } = request.params
 
-      const eventData = await instance.pg.query(
+      const eventData = await instance.pg.query<IndividualEventData, [string]>(
         `select
           events.event_id,
           events.event_name,
@@ -137,7 +145,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         [eventId]
       )
 
-      console.log(eventData.rows)
+      if (eventData.rowCount === 0) {
+        void reply.code(404)
+        throw new Error('event not found')
+      }
 
       return {
         id: eventData.rows[0].event_id,
