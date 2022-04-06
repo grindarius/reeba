@@ -181,3 +181,91 @@ export const PostManipulateEventReplySchema = Type.Object({
   message: Type.String()
 })
 export type PostManipulateEventReply = Static<typeof PostManipulateEventReplySchema>
+
+export const AdminGetStatisticsSummaryRequestQuerystringSchema = Type.Object({
+  start: Type.String(),
+  end: Type.String()
+})
+export type AdminGetStatisticsSummaryRequestQuerystring = Static<typeof AdminGetStatisticsSummaryRequestQuerystringSchema>
+
+export const AdminGetStatisticsSummaryReplySchema = Type.Object({
+  totalUsers: Type.Number(),
+  newUsersThisMonth: Type.Number(),
+  newUsersPastMonth: Type.Number(),
+  newUsersPercentageDifferenceToLastMonth: Type.Number(),
+  totalEvents: Type.Number(),
+  newEventsThisMonth: Type.Number(),
+  newEventsPastMonth: Type.Number(),
+  newEventsPercentageDifferenceToLastMonth: Type.Number()
+})
+export type AdminGetStatisticsSummaryReply = Static<typeof AdminGetStatisticsSummaryReplySchema>
+
+export const AdminGetMapsDataRequestQuerystringSchema = Type.Object({
+  start: Type.String(),
+  end: Type.String()
+})
+export type AdminGetMapsDataRequestQuerystring = Static<typeof AdminGetMapsDataRequestQuerystringSchema>
+
+export const MapsDataSchema = Type.Array(
+  Type.Object({
+    country: Type.String(),
+    amount: Type.Number()
+  })
+)
+export type MapsData = Static<typeof MapsDataSchema>
+
+export const AdminGetMapsDataReplySchema = Type.Object({
+  users: MapsDataSchema,
+  events: MapsDataSchema
+})
+export type AdminGetMapsDataReply = Static<typeof AdminGetMapsDataReplySchema>
+
+export const AdminGetSummaryDataGroupByOptionSchema = Type.Union([
+  Type.Literal('day'),
+  Type.Literal('month'),
+  Type.Literal('year')
+])
+export type AdminGetSummaryDataGroupByOption = Static<typeof AdminGetSummaryDataGroupByOptionSchema>
+
+export const AdminGetTransactionSummaryRequestQuerystringSchema = Type.Object({
+  start: Type.String(),
+  end: Type.String(),
+  group: AdminGetSummaryDataGroupByOptionSchema
+})
+export type AdminGetTransactionSummaryRequestQuerystring = Static<typeof AdminGetTransactionSummaryRequestQuerystringSchema>
+
+export const AdminGetTransactionSummaryReplySchema = Type.Object({
+  transactions: Type.Array(Type.Object({
+    date: Type.String(),
+    amount: Type.Number()
+  }))
+})
+export type AdminGetTransactionSummaryReply = Static<typeof AdminGetTransactionSummaryReplySchema>
+
+export const AdminGetRegistrationSummaryRequestQuerystringSchema = Type.Object({
+  start: Type.String(),
+  end: Type.String(),
+  group: AdminGetSummaryDataGroupByOptionSchema
+})
+export type AdminGetRegistrationSummaryRequestQuerystring = Static<typeof AdminGetRegistrationSummaryRequestQuerystringSchema>
+
+export const AdminGetRegistrationSummaryReplySchema = Type.Object({
+  registrations: Type.Array(Type.Object({
+    date: Type.String(),
+    amount: Type.Number()
+  }))
+})
+export type AdminGetRegistrationSummaryReply = Static<typeof AdminGetRegistrationSummaryReplySchema>
+
+export const AdminGetTopEventTagsOfAllTimeRequestQuerystringSchema = Type.Object({
+  top: Type.Number({ default: 10, minimum: 1, maximum: 15 })
+})
+export type AdminGetTopEventTagsOfAllTimeRequestQuerystring = Static<typeof AdminGetTopEventTagsOfAllTimeRequestQuerystringSchema>
+
+export const AdminGetTopEventTagsOfAllTimeReplySchema = Type.Object({
+  tags: Type.Array(Type.Object({
+    tag: Type.String(),
+    amount: Type.Number()
+  }))
+})
+export type AdminGetTopEventTagsOfAllTimeReply = Static<typeof AdminGetTopEventTagsOfAllTimeReplySchema>

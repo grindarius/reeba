@@ -81,7 +81,8 @@ module.exports = {
             '^max_',
             '^total_',
             '^seat_',
-            '^taken_'
+            '^taken_',
+            '^new_'
           ],
           ignoreImports: true
         }]
