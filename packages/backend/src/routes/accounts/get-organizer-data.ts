@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
@@ -20,7 +21,7 @@ const schema: FastifySchema = {
 
 const PAGE_SIZE = 30
 
-type EventData = Pick<events, 'event_id' | 'event_name' | 'event_venue_name' | 'event_status' | 'event_venue_coordinates'> & {
+type EventData = Pick<events, 'event_id' | 'event_name' | 'event_venue_name' | 'event_status' | 'event_venue_coordinates' | 'event_opening_date' | 'event_creation_date'> & {
   total_datetimes: number
   total_sections: number
   total_taken_seats: number
@@ -55,6 +56,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           events.event_venue_name,
           events.event_venue_coordinates,
           events.event_status,
+          events.event_creation_date,
+          events.event_opening_date,
           count(distinct event_datetimes.event_datetime_id)::int as total_datetimes,
           count(distinct event_sections.event_section_id)::int as total_sections,
           count(transaction_details.event_seat_id)::int as total_taken_seats,
@@ -82,6 +85,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
               x: e.event_venue_coordinates.x.toString(),
               y: e.event_venue_coordinates.y.toString()
             },
+            openingDate: dayjs(e.event_opening_date).toISOString(),
+            creationDate: dayjs(e.event_creation_date).toISOString(),
             status: e.event_status,
             totalDatetimes: e.total_datetimes,
             totalSections: e.total_sections,

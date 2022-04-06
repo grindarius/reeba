@@ -92,6 +92,8 @@ export const GetOrganizerDataReplySchema = Type.Object({
       Type.Literal(t_event_status.open),
       Type.Literal(t_event_status.closed)
     ]),
+    openingDate: Type.String(),
+    creationDate: Type.String(),
     totalDatetimes: Type.Number(),
     totalSections: Type.Number(),
     totalSeats: Type.Number(),
