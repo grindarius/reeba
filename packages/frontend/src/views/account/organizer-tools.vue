@@ -63,14 +63,16 @@
                       <img :src="`${getEventImage({ eventId: e.id }).url}`" :alt="e.name">
                     </div>
                   </div>
-                  <div>
-                    <div class="font-bold">
-                      {{ e.name }}
+                  <router-link :to="{ name: 'Organizer Statistics', params: { eventId: e.id } }">
+                    <div>
+                      <div class="font-bold">
+                        {{ e.name }}
+                      </div>
+                      <div class="text-sm opacity-50">
+                        {{ e.id }}
+                      </div>
                     </div>
-                    <div class="text-sm opacity-50">
-                      {{ e.id }}
-                    </div>
-                  </div>
+                  </router-link>
                 </div>
                 <div class="flex flex-col justify-between">
                   <div class="mt-4">
@@ -163,14 +165,16 @@
                       <img :src="getEventImage({ eventId: e.id }).url" :alt="e.name">
                     </div>
                   </div>
-                  <div>
-                    <div class="font-bold">
-                      {{ e.name }}
+                  <router-link :to="{ name: 'Organizer Statistics', params: { eventId: e.id } }">
+                    <div>
+                      <div class="font-bold">
+                        {{ e.name }}
+                      </div>
+                      <div class="text-sm opacity-50">
+                        {{ e.id }}
+                      </div>
                     </div>
-                    <div class="text-sm opacity-50">
-                      {{ e.id }}
-                    </div>
-                  </div>
+                  </router-link>
                 </div>
               </td>
               <td>
