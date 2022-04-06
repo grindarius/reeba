@@ -71,6 +71,30 @@
       Users map
     </h1>
     <div id="organizer-world-map" />
+    <div class="overflow-x-auto">
+      <table class="table table-compact w-full">
+        <thead>
+          <tr>
+            <th>
+              Country
+            </th>
+            <th>
+              Amount
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="u in usersMapOverviewResponse.users" :key="`users-map-overview-data-table-${u.country}`">
+            <td>
+              {{ i18nCountries.getName(u.country, 'en') }}
+            </td>
+            <td>
+              {{ u.amount }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -229,14 +253,17 @@ export default defineComponent({
         getOverviewData(),
         getUserMaps()
       ])
+
       createWorldMap()
     })
 
     return {
       createWorldMap,
       d3,
+      i18nCountries,
       getUserMaps,
-      overviewResponse
+      overviewResponse,
+      usersMapOverviewResponse
     }
   }
 })
