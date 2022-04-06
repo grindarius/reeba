@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify'
 
-import getFollowingRoute from './get-following'
 import getUserRoute from './get-user'
+import getFollowingRoute from './get-user-following'
 import getUserRelatedEventsRoute from './get-user-related-events'
 import manipulateAdminRoute from './manipulate-admin'
 import manipulateVerificationRoute from './manipulate-verification'
