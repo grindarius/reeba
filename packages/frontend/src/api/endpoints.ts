@@ -217,3 +217,10 @@ export const adminGetTopEventTagsOfAllTime: Endpoint = {
   url: `${url}/admin/top-event-tags`,
   method: 'get'
 }
+
+export const getOrganizerData: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/organizer`,
+    method: 'get'
+  }
+}

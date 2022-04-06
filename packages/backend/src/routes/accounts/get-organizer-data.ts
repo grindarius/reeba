@@ -20,7 +20,7 @@ const schema: FastifySchema = {
 
 const PAGE_SIZE = 30
 
-type EventData = Pick<events, 'event_id' | 'event_name' | 'event_venue_name' | 'event_status'> & {
+type EventData = Pick<events, 'event_id' | 'event_name' | 'event_venue_name' | 'event_status' | 'event_venue_coordinates'> & {
   total_datetimes: number
   total_sections: number
   total_taken_seats: number
@@ -53,6 +53,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           events.event_id,
           events.event_name,
           events.event_venue_name,
+          events.event_venue_coordinates,
           events.event_status,
           count(distinct event_datetimes.event_datetime_id)::int as total_datetimes,
           count(distinct event_sections.event_section_id)::int as total_sections,
@@ -77,6 +78,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             id: e.event_id,
             name: e.event_name,
             venueName: e.event_venue_name,
+            venueCoordinates: {
+              x: e.event_venue_coordinates.x.toString(),
+              y: e.event_venue_coordinates.y.toString()
+            },
             status: e.event_status,
             totalDatetimes: e.total_datetimes,
             totalSections: e.total_sections,

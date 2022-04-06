@@ -84,6 +84,10 @@ export const GetOrganizerDataReplySchema = Type.Object({
     id: Type.String(),
     name: Type.String(),
     venueName: Type.String(),
+    venueCoordinates: Type.Object({
+      x: Type.String(),
+      y: Type.String()
+    }),
     status: Type.Union([
       Type.Literal(t_event_status.open),
       Type.Literal(t_event_status.closed)
