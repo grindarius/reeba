@@ -90,7 +90,7 @@ void t.test('get profile data', async t => {
         phoneCountryCode: '66',
         phoneNumber: '994485893',
         birthdate: '',
-        iso31662: ''
+        iso31662: 'TH'
       })
     } catch (error) {
       t.error(error)
