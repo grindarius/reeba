@@ -122,3 +122,17 @@ export const GetOrganizerEventStatisticsReplySchema = Type.Object({
   netPayout: Type.Number()
 })
 export type GetOrganizerEventStatisticsReply = Static<typeof GetOrganizerEventStatisticsReplySchema>
+
+export const GetOrganizerEventUsersMapRequestParamsSchema = Type.Object({
+  username: Type.String(),
+  eventId: Type.String()
+})
+export type GetOrganizerEventUsersMapRequestParams = Static<typeof GetOrganizerEventUsersMapRequestParamsSchema>
+
+export const GetOrganizerEventUsersMapReplySchema = Type.Object({
+  users: Type.Array(Type.Object({
+    country: Type.String(),
+    amount: Type.Number()
+  }))
+})
+export type GetOrganizerEventUsersMapReply = Static<typeof GetOrganizerEventUsersMapReplySchema>
