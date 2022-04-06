@@ -349,8 +349,7 @@ export default defineComponent({
           },
           searchParams: [
             ['start', dayjs(worldMapStartDate.value).toISOString()],
-            ['end', dayjs(worldMapEndDate.value).toISOString()],
-            ['group', 'day']
+            ['end', dayjs(worldMapEndDate.value).toISOString()]
           ]
         }).json<AdminGetMapsDataReply>()
 
