@@ -44,7 +44,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         response: {
           200: GetOrganizerDataReplySchema
         }
-      }
+      },
+      onRequest: instance.authenticate
     },
     async (request, reply) => {
       const { username } = request.params

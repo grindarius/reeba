@@ -34,7 +34,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         response: {
           200: GetEditableEventDataReplySchema
         }
-      }
+      },
+      onRequest: instance.authenticate
     },
     async (request) => {
       const { eventId } = request.params
@@ -120,7 +121,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         response: {
           200: PatchEditableEventDataReplySchema
         }
-      }
+      },
+      onRequest: instance.authenticate
     },
     async (request) => {
       const { id, name, description, website, openingDate, startTime, venueName, venueCoordinates, tags, priceRange } = request.body

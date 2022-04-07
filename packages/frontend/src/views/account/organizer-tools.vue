@@ -301,6 +301,9 @@ export default defineComponent({
         })
 
         toast.success('Successfully toggled')
+        setTimeout(() => {
+          router.go(0)
+        }, 2050)
       } catch (error) {
         // @ts-expect-error error is unknown
         const resp = error?.response
