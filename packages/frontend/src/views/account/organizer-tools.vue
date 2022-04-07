@@ -63,7 +63,7 @@
                       <img :src="`${getEventImage({ eventId: e.id }).url}`" :alt="e.name">
                     </div>
                   </div>
-                  <router-link :to="{ name: 'Organizer Statistics', params: { eventId: e.id } }">
+                  <router-link :to="{ name: 'Organizer Statistics Overview', params: { eventId: e.id } }">
                     <div>
                       <div class="font-bold">
                         {{ e.name }}
@@ -165,7 +165,7 @@
                       <img :src="getEventImage({ eventId: e.id }).url" :alt="e.name">
                     </div>
                   </div>
-                  <router-link :to="{ name: 'Organizer Statistics', params: { eventId: e.id } }">
+                  <router-link :to="{ name: 'Organizer Statistics Overview', params: { eventId: e.id } }">
                     <div>
                       <div class="font-bold">
                         {{ e.name }}
