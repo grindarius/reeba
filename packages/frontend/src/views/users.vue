@@ -15,6 +15,9 @@
             <v-mdi v-if="isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
           </div>
         </div>
+        <span class="inline-block mt-2 font-sans  align-baseline hover:text-pale-yellow hover:underline text-pale-yellow cursor-pointer" href="#">
+          Edit
+        </span>
         <div class="mt-3 mb-5 text-white text-md">
           {{ userData?.profileDescription ?? '' }}
         </div>
