@@ -53,7 +53,7 @@
         <div class="user-stats">
           <h1>{{ relatedEvents?.created.length ?? '0' }} events created</h1>
           <h1>{{ relatedEvents?.attended.length ?? '0' }} events attended</h1>
-          <h1>{{ userData?.followersAmount || '0' }} followers</h1>
+          <label for="my-modal-3" class="link link-hover"><h1>{{ userData?.followersAmount || '0' }} followers</h1></label>
         </div>
       </section>
       <section>
@@ -108,6 +108,20 @@
                   </div>
                 </div>
               </router-link>
+            </div>
+          </div>
+        </div>
+        <!-- Put this part before </body> tag -->
+        <input type="checkbox" id="my-modal-3" class="modal-toggle">
+        <div class="modal" style="background-color: #00000055;">
+          <div class="modal-box relative">
+            <label for="my-modal-3" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+            <h3 class="text-lg font-bold text-center">
+              Followers
+            </h3>
+            <hr class="col-span-4 mt-2 w-full border border-pale-yellow">
+            <div class="overflow-y-auto">
+              {{ userData?.followersAmount }}
             </div>
           </div>
         </div>
