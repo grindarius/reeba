@@ -259,3 +259,10 @@ export const getEditableEventData: EndpointFunc<{ eventId: string }> = ({ eventI
     method: 'get'
   }
 }
+
+export const patchEditableEventData: EndpointFunc<{ eventId: string }> = ({ eventId }): Endpoint => {
+  return {
+    url: `${url}/events/${eventId}/edit`,
+    method: 'patch'
+  }
+}

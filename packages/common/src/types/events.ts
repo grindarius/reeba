@@ -135,7 +135,9 @@ export const GetEditableEventDataReplySchema = Type.Object({
   description: Type.String(),
   website: Type.String(),
   openingDate: Type.String(),
+  creationDate: Type.String(),
   startTime: Type.Array(Type.Object({
+    id: Type.String(),
     start: Type.String(),
     end: Type.String()
   })),
@@ -151,3 +153,37 @@ export const GetEditableEventDataReplySchema = Type.Object({
   }))
 })
 export type GetEditableEventDataReply = Static<typeof GetEditableEventDataReplySchema>
+
+export const PatchEditableEventDataRequestParamsSchema = Type.Object({
+  eventId: Type.String()
+})
+export type PatchEditableEventDataRequestParams = Static<typeof PatchEditableEventDataRequestParamsSchema>
+
+export const PatchEditableEventDataRequestBodySchema = Type.Object({
+  id: Type.String(),
+  name: Type.String(),
+  description: Type.String(),
+  website: Type.String(),
+  openingDate: Type.String(),
+  startTime: Type.Array(Type.Object({
+    id: Type.String(),
+    start: Type.String(),
+    end: Type.String()
+  })),
+  venueName: Type.String(),
+  venueCoordinates: Type.Object({
+    x: Type.String(),
+    y: Type.String()
+  }),
+  tags: Type.Array(Type.String()),
+  priceRange: Type.Array(Type.Object({
+    color: Type.String(),
+    price: Type.Number()
+  }))
+})
+export type PatchEditableEventDataRequestBody = Static<typeof PatchEditableEventDataRequestBodySchema>
+
+export const PatchEditableEventDataReplySchema = Type.Object({
+  message: Type.String()
+})
+export type PatchEditableEventDataReply = Static<typeof PatchEditableEventDataReplySchema>
