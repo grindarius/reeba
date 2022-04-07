@@ -50,17 +50,21 @@
                 {{ formatTimeString(t.startDatetime, 'MMMM D, YYYY H:mm:ss') }}
               </div>
               <div class="text-md font-bold">
-                Section name
+                Section
               </div>
               <div class="text-md font-normal">
                 {{ t.sectionName }}
               </div>
               <div class="text-md font-bold">
-                Seat names
+                Seats
               </div>
               <div class="text-md font-normal">
                 {{ t.seats.map(s => s.seatName).join(', ') }}
               </div>
+              <div class="text-md font-bold">
+                Remove user
+              </div>
+              <v-mdi name="mdi-delete" class="cursor-pointer" title="Remove user" @click="removeTransaction(t.transactionId)" fill="#ff0000" />
             </div>
           </th>
         </tr>
@@ -77,8 +81,8 @@
           <th>Email</th>
           <th>Phone number</th>
           <th>Start time</th>
-          <th>Section name</th>
-          <th>Seat names</th>
+          <th>Section</th>
+          <th>Seats</th>
           <th />
         </tr>
       </thead>
