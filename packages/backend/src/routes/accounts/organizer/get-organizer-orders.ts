@@ -83,8 +83,6 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         [eventId]
       )
 
-      console.log(transactions.rows)
-
       return {
         transactions: transactions.rows.map(t => {
           return {

@@ -245,3 +245,10 @@ export const getOrganizerOrdersOverview: EndpointFunc<{ username: string, eventI
     method: 'get'
   }
 }
+
+export const deleteTransaction: EndpointFunc<{ transactionId: string }> = ({ transactionId }): Endpoint => {
+  return {
+    url: `${url}/transactions/${transactionId}`,
+    method: 'delete'
+  }
+}
