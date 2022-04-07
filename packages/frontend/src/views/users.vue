@@ -21,17 +21,28 @@
               Edit
             </div>
               <div class="collapse-content">
-                <div class="confirm">Save</div>
-                <div class="confirm">Cancle</div>
+                  <div class="confirm">Save</div>
+                  <div class="confirm">Cancle</div>
                 <p>Bio</p>
                   <textarea class="textarea bg-gray-200 text-pale-gray" cols="100" rows="5" >{{ userData?.profileDescription ?? '' }}</textarea>
-                    <div>
-                      <input class="bio" type="text" placeholder="Add your Linked facebook link">
-                      <v-mdi name="mdi-facebook" size="40" fill="#D3D3D3" />
+                    <div class="bio"> 
+                      <v-mdi name="mdi-facebook" size="40" fill="#FFFFFF"/>
+                      <input class="bg-gray-200" type="text" placeholder="Add your Linked Facebook link">
+                    </div>
+                    <div class="bio"> 
+                      <v-mdi name="mdi-twitter" size="40" fill="#FFFFFF"/>
+                      <input class="bg-gray-200 px-0 py-0" type="text" placeholder="Add your Linked Facebook link">
+                    </div>
+                    <div class="bio"> 
+                      <v-mdi name="mdi-Instagram" size="40" fill="#FFFFFF"/>
+                      <input class="bg-gray-200" type="text" placeholder="Add your Linked Facebook link">
                     </div>
                     
-                    <input class="bio" type="text" placeholder="&#61593; Add your Linked twitter link">
-                    <input class="bio" type="text" placeholder="&#61447; Add your Linked Instagram link">
+                      
+      
+    
+                    <input class="bio" type="text" placeholder="&#61805; Add your Linked Twitter link">
+                    <input class="bio" type="text" placeholder="&#61569; Add your Linked Instagram link">
               </div>
             </div>
             
@@ -356,11 +367,11 @@ export default defineComponent({
 }
 
 .bio {
-  @apply grid grid-cols-3 gap-x-6 input w-full max-w-4xl mt-2 bg-gray-200 text-pale-gray; 
+  @apply grid grid-cols-3 input w-full max-w-4xl mt-2 bg-gray-200 text-pale-gray; 
 }
 
 .confirm {
-  @apply grid grid-rows-1 items-center  font-sans hover:text-white hover:underline justify-center;
+  @apply inline-flex p-5  font-sans hover:text-pale-yellow justify-center text-center; 
 }
 
 </style>
