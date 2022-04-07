@@ -1,4 +1,9 @@
 <template>
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
   <h1 class="text-4xl font-semibold text-white">
     Orders
   </h1>
@@ -124,6 +129,7 @@
 <script lang="ts">
 import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
@@ -143,6 +149,10 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const toast = useToast()
+
+    useMeta({
+      title: 'Orders'
+    })
 
     const transactionsDataResponse: Ref<GetOrganizerEventOrdersReply> = ref({
       transactions: []
