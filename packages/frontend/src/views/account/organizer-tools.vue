@@ -21,28 +21,6 @@
               <v-mdi name="mdi-arrow-right-thin" fill="#D5A755" />
             </button>
           </router-link>
-          <select class="max-w-xs select select-ghost">
-            <option value="name-asc">
-              <h1 class="font-bold">
-                Sort by
-              </h1> name ↑
-            </option>
-            <option value="name-desc">
-              <h1 class="font-bold">
-                Sort by
-              </h1> name ↓
-            </option>
-            <option value="regis-asc">
-              <h1 class="font-bold">
-                Sort by
-              </h1> registration date ↑
-            </option>
-            <option value="regis-desc">
-              <h1 class="font-bold">
-                Sort by
-              </h1> registration date ↓
-            </option>
-          </select>
         </div>
       </div>
       <div class="block lg:hidden">
@@ -136,6 +114,19 @@
                     </div>
                     {{ format(',')(e.totalTakenSeats) }} / {{ format(',')(e.totalSeats) }}
                   </div>
+                  <div class="mt-4">
+                    <h1 class="font-bold text-gray-300 mb-2">
+                      Actions
+                    </h1>
+                    <div class="btn-group">
+                      <button class="btn btn-error" @click="toggleEvent('closed', e.id)">
+                        Close event
+                      </button>
+                      <button class="btn" @click="toggleEvent('open', e.id)">
+                        Open event
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </td>
             </tr>
@@ -154,6 +145,7 @@
               <th>Total datetimes</th>
               <th>Total sections</th>
               <th>Taken / Total seats</th>
+              <th />
             </tr>
           </thead>
           <tbody>
@@ -208,6 +200,14 @@
                 </div>
                 {{ format(',')(e.totalTakenSeats) }} / {{ format(',')(e.totalSeats) }}
               </td>
+              <td>
+                <button class="btn btn-error" @click="toggleEvent('closed', e.id)">
+                  Close event
+                </button>
+                <button class="btn" @click="toggleEvent('open', e.id)">
+                  Open event
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -226,7 +226,7 @@ import { useToast } from 'vue-toastification'
 
 import { GetOrganizerDataReply } from '@reeba/common'
 
-import { getEventImage, getOrganizerData as getOrganizerDataEndpoint } from '@/api/endpoints'
+import { getEventImage, getOrganizerData as getOrganizerDataEndpoint, postManipulateEvent } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { formatQueryString, formatTimeString } from '@/utils'
 
@@ -286,6 +286,41 @@ export default defineComponent({
       }
     }
 
+    const toggleEvent = async (status: 'open' | 'closed', id: string) => {
+      try {
+        const { method, url } = postManipulateEvent({ eventId: id })
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          json: {
+            targetStatus: status
+          }
+        })
+
+        toast.success('Successfully toggled')
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const resp = error?.response
+
+        const json = await resp?.json()
+
+        if (resp.status == null) {
+          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          return
+        }
+
+        if (resp.status === 401) {
+          router.push({ name: 'Signin' })
+          return
+        }
+
+        toast.error(json.message)
+      }
+    }
+
     onMounted(async () => {
       await getOrganizerData()
     })
@@ -296,6 +331,7 @@ export default defineComponent({
       getEventImage,
       format,
       formatTimeString,
+      toggleEvent,
       page
     }
   }
