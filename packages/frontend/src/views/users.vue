@@ -15,9 +15,26 @@
             <v-mdi v-if="isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
           </div>
         </div>
-        <span class="inline-block mt-2 font-sans  align-baseline hover:text-pale-yellow hover:underline text-pale-yellow cursor-pointer" href="#">
-          Edit
-        </span>
+        <div tabindex="0" class="collapse">
+          <input type="checkbox"> 
+            <div class="user-info inline-block mt-1 font-sans hover:text-white hover:underline">
+              Edit
+            </div>
+              <div class="collapse-content">
+                <div class="confirm">Save</div>
+                <div class="confirm">Cancle</div>
+                <p>Bio</p>
+                  <textarea class="textarea bg-gray-200 text-pale-gray" cols="100" rows="5" >{{ userData?.profileDescription ?? '' }}</textarea>
+                    <div>
+                      <input class="bio" type="text" placeholder="Add your Linked facebook link">
+                      <v-mdi name="mdi-facebook" size="40" fill="#D3D3D3" />
+                    </div>
+                    
+                    <input class="bio" type="text" placeholder="&#61593; Add your Linked twitter link">
+                    <input class="bio" type="text" placeholder="&#61447; Add your Linked Instagram link">
+              </div>
+            </div>
+            
         <div class="mt-3 mb-5 text-white text-md">
           {{ userData?.profileDescription ?? '' }}
         </div>
@@ -337,4 +354,13 @@ export default defineComponent({
 .event {
   @apply rounded-lg shadow-xl transition duration-200 ease-in-out delay-100 cursor-pointer hover:scale-105 hover:-translate-y-1;
 }
+
+.bio {
+  @apply grid grid-cols-3 gap-x-6 input w-full max-w-4xl mt-2 bg-gray-200 text-pale-gray; 
+}
+
+.confirm {
+  @apply grid grid-rows-1 items-center  font-sans hover:text-white hover:underline justify-center;
+}
+
 </style>
