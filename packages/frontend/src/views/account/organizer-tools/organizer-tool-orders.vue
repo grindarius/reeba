@@ -79,6 +79,7 @@
           <th>Start time</th>
           <th>Section name</th>
           <th>Seat names</th>
+          <th />
         </tr>
       </thead>
       <tbody>
@@ -107,6 +108,9 @@
           <td>
             {{ t.seats.map(s => s.seatName).join(', ') }}
           </td>
+          <td>
+            <v-mdi name="mdi-delete" class="cursor-pointer" title="Remove user" @click="removeTransaction(t.transactionId)" fill="#ff0000" />
+          </td>
         </tr>
       </tbody>
     </table>
@@ -116,11 +120,13 @@
 <script lang="ts">
 import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
 import { GetOrganizerEventOrdersReply } from '@reeba/common'
 
 import {
+  deleteTransaction,
   getOrganizerOrdersOverview
 } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
@@ -131,26 +137,90 @@ export default defineComponent({
   setup () {
     const authStore = useAuthStore()
     const route = useRoute()
+    const router = useRouter()
+    const toast = useToast()
 
     const transactionsDataResponse: Ref<GetOrganizerEventOrdersReply> = ref({
       transactions: []
     })
 
     onMounted(async () => {
-      const { method, url } = getOrganizerOrdersOverview({ username: authStore.userData.username, eventId: route.params.eventId as string ?? '' })
-      const response = await ky(url, {
-        method,
-        headers: {
-          Authorization: `Bearer ${authStore.userData.token}`
-        }
-      }).json<GetOrganizerEventOrdersReply>()
+      try {
+        const { method, url } = getOrganizerOrdersOverview({ username: authStore.userData.username, eventId: route.params.eventId as string ?? '' })
+        const response = await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        }).json<GetOrganizerEventOrdersReply>()
 
-      transactionsDataResponse.value = response
+        transactionsDataResponse.value = response
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const resp = error?.response
+
+        if (resp.status == null) {
+          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          return
+        }
+
+        if (resp.status === 401) {
+          router.push({ name: 'Signin' })
+          return
+        }
+
+        if (resp.status === 403) {
+          router.push({ name: 'Home' })
+          return
+        }
+
+        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+      }
     })
+
+    const removeTransaction = async (transactionId: string): Promise<void> => {
+      const { method, url } = deleteTransaction({ transactionId })
+
+      try {
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        })
+
+        toast.success('Successfully removed')
+        setTimeout(() => {
+          router.go(0)
+        }, 2050)
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const resp = error?.response
+
+        if (resp.status == null) {
+          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          return
+        }
+
+        if (resp.status === 401) {
+          router.push({ name: 'Signin' })
+          return
+        }
+
+        if (resp.status === 403) {
+          router.push({ name: 'Home' })
+          return
+        }
+
+        const json = await resp?.json()
+        toast.error(json.message)
+      }
+    }
 
     return {
       transactionsDataResponse,
-      formatTimeString
+      formatTimeString,
+      removeTransaction
     }
   }
 })
