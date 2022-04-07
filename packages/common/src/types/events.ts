@@ -124,3 +124,27 @@ export const GetEventSeatsReplySchema = Type.Object({
   }))
 })
 export type GetEventSeatsReply = Static<typeof GetEventSeatsReplySchema>
+
+export const GetEditableEventDataRequestParamsSchema = Type.Object({
+  eventId: Type.String()
+})
+export type GetEditableEventDataRequestParams = Static<typeof GetEditableEventDataRequestParamsSchema>
+
+export const GetEditableEventDataReplySchema = Type.Object({
+  name: Type.String(),
+  description: Type.String(),
+  website: Type.String(),
+  openingDate: Type.String(),
+  startTime: Type.Array(Type.Object({
+    start: Type.String(),
+    end: Type.String()
+  })),
+  venueName: Type.String(),
+  venueCoordinates: Type.String(),
+  tags: Type.Array(Type.String()),
+  priceRange: Type.Array(Type.Object({
+    color: Type.String(),
+    price: Type.Number()
+  }))
+})
+export type GetEditableEventDataReply = Static<typeof GetEditableEventDataReplySchema>
