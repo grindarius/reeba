@@ -10,6 +10,9 @@ drop table if exists users, user_followers, user_roles, events, event_tags, even
 create type t_user_role as enum ('user', 'admin');
 create type t_event_status as enum ('open', 'closed');
 
+-- point custom arithmetic operator function
+--  https://stackoverflow.com/a/34971757/12386405
+
 drop operator class if exists point_ops using btree cascade;
 drop function btreepointcmp(point, point);
 drop operator if exists = (point, point);

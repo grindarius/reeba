@@ -349,8 +349,7 @@ export default defineComponent({
           },
           searchParams: [
             ['start', dayjs(worldMapStartDate.value).toISOString()],
-            ['end', dayjs(worldMapEndDate.value).toISOString()],
-            ['group', 'day']
+            ['end', dayjs(worldMapEndDate.value).toISOString()]
           ]
         }).json<AdminGetMapsDataReply>()
 
@@ -563,9 +562,9 @@ export default defineComponent({
           const alpha2 = i18nCountries.numericToAlpha2(d.id ?? '')
 
           const tooltipTemplate = `
-            <div class="py-1 px-4 h-16 rounded-lg border-black bg-pale-yellow">
-              <h3 class="font-mono text-black">$1</h3>
-              <h3 class="font-mono text-xl text-black">$2</h3>
+            <div class="py-1 px-4 h-16 rounded-lg bg-base-300">
+              <h3 class="font-mono text-white opacity-70">$1</h3>
+              <h3 class="font-mono text-xl text-white opacity-70">$2</h3>
             </div>
           `
 

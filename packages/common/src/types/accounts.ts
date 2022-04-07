@@ -1,5 +1,7 @@
 import { Static, Type } from '@sinclair/typebox'
 
+import { t_event_status } from './database'
+
 export const GetProfileDataRequestParamsSchema = Type.Object({
   username: Type.String()
 })
@@ -66,3 +68,100 @@ export const GetMyTicketsReplySchema = Type.Object({
   }))
 })
 export type GetMyTicketsReply = Static<typeof GetMyTicketsReplySchema>
+
+export const GetOrganizerDataRequestParamsSchema = Type.Object({
+  username: Type.String()
+})
+export type GetOrganizerDataRequestParams = Static<typeof GetOrganizerDataRequestParamsSchema>
+
+export const GetOrganizerDataRequestQuerystringSchema = Type.Object({
+  page: Type.Number()
+})
+export type GetOrganizerDataRequestQuerystring = Static<typeof GetOrganizerDataRequestQuerystringSchema>
+
+export const GetOrganizerDataReplySchema = Type.Object({
+  total: Type.Number(),
+  events: Type.Array(Type.Object({
+    id: Type.String(),
+    name: Type.String(),
+    venueName: Type.String(),
+    venueCoordinates: Type.Object({
+      x: Type.String(),
+      y: Type.String()
+    }),
+    status: Type.Union([
+      Type.Literal(t_event_status.open),
+      Type.Literal(t_event_status.closed)
+    ]),
+    openingDate: Type.String(),
+    creationDate: Type.String(),
+    totalDatetimes: Type.Number(),
+    totalSections: Type.Number(),
+    totalSeats: Type.Number(),
+    totalTakenSeats: Type.Number(),
+    seatFullnessPercentage: Type.Number()
+  }))
+})
+export type GetOrganizerDataReply = Static<typeof GetOrganizerDataReplySchema>
+
+export const GetOrganizerEventStatisticsRequestParamsSchema = Type.Object({
+  username: Type.String(),
+  eventId: Type.String()
+})
+export type GetOrganizerEventStatisticsRequestParams = Static<typeof GetOrganizerEventStatisticsRequestParamsSchema>
+
+export const GetOrganizerEventStatisticsReplySchema = Type.Object({
+  id: Type.String(),
+  name: Type.String(),
+  status: Type.String(),
+  totalSeats: Type.Number(),
+  totalTakenSeats: Type.Number(),
+  seatFullnessPercentage: Type.Number(),
+  grossTicketSales: Type.Number(),
+  reebaTicketFees: Type.Number(),
+  netPayout: Type.Number()
+})
+export type GetOrganizerEventStatisticsReply = Static<typeof GetOrganizerEventStatisticsReplySchema>
+
+export const GetOrganizerEventUsersMapRequestParamsSchema = Type.Object({
+  username: Type.String(),
+  eventId: Type.String()
+})
+export type GetOrganizerEventUsersMapRequestParams = Static<typeof GetOrganizerEventUsersMapRequestParamsSchema>
+
+export const GetOrganizerEventUsersMapReplySchema = Type.Object({
+  users: Type.Array(Type.Object({
+    country: Type.String(),
+    amount: Type.Number()
+  }))
+})
+export type GetOrganizerEventUsersMapReply = Static<typeof GetOrganizerEventUsersMapReplySchema>
+
+export const GetOrganizerEventOrdersRequestParamsSchema = Type.Object({
+  username: Type.String(),
+  eventId: Type.String()
+})
+export type GetOrganizerEventOrdersRequestParams = Static<typeof GetOrganizerEventOrdersRequestParamsSchema>
+
+export const GetOrganizerEventOrdersReplySchema = Type.Object({
+  transactions: Type.Array(Type.Object({
+    transactionId: Type.String(),
+    username: Type.String(),
+    email: Type.String(),
+    phoneNumber: Type.String(),
+    phoneCountryCode: Type.String(),
+    transactionTime: Type.String(),
+    datetimeId: Type.String(),
+    startDatetime: Type.String(),
+    sectionId: Type.String(),
+    sectionName: Type.String(),
+    sectionRowPosition: Type.Number(),
+    sectionColumnPosition: Type.Number(),
+    seats: Type.Array(Type.Object({
+      seatId: Type.String(),
+      seatName: Type.String()
+    })),
+    totalPrice: Type.Number()
+  }))
+})
+export type GetOrganizerEventOrdersReply = Static<typeof GetOrganizerEventOrdersReplySchema>

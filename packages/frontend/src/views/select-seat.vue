@@ -123,7 +123,6 @@ import { useToast } from 'vue-toastification'
 import { GetEventSeatsReply, groupBy, numberToLetters } from '@reeba/common'
 
 import { getEventSeats } from '@/api/endpoints'
-import { alphabet, zoneData } from '@/constants'
 import { useAuthStore } from '@/store/use-auth-store'
 import { useTransactionStore } from '@/store/use-transaction-store'
 import { TransactionStoreSeat } from '@/types'
@@ -161,7 +160,6 @@ export default defineComponent({
     const userSelectedZone = ref(1)
     const ticketPrice = ref(0)
     const checkedSeat: Ref<Array<string>> = ref([])
-    const selectedRow = ref('')
 
     const formatSectionName = (alphabetic: number, numeric: number): string => {
       return `${numberToLetters(alphabetic)}${numeric + 1}`
@@ -247,30 +245,6 @@ export default defineComponent({
       return dayjs().format('LLLL')
     })
 
-    const seatSelected = (e: Event, row: number): void => {
-      const target = e.target as HTMLInputElement
-      if (selectedRow.value === '') {
-        selectedRow.value = alphabet[row - 1]
-      }
-      if (target.checked) {
-        ticketPrice.value += zoneData[0 - 1].ticketPrices[row - 1]
-        checkedSeat.value = checkedSeat.value.map(s => s.slice(1)).map(i => Number(i)).sort((n1, n2) => n1 - n2).map(i => selectedRow.value + i)
-      } else {
-        ticketPrice.value -= zoneData[0 - 1].ticketPrices[row - 1]
-        if (!checkedSeat.value.length) {
-          selectedRow.value = ''
-        }
-      }
-    }
-
-    const disabledOtherRow = (row:number): boolean => {
-      if (selectedRow.value !== '') {
-        return selectedRow.value !== alphabet[row - 1]
-      } else {
-        return false
-      }
-    }
-
     const seatLabelClassName = (isSeatTaken: boolean): string => {
       return isSeatTaken ? 'seats-label rounded-full hover:cursor-not-allowed' : 'seats-label rounded-full hover:cursor-pointer'
     }
@@ -293,20 +267,16 @@ export default defineComponent({
     }
 
     return {
-      zoneData,
       selectSeat,
       getSectionSummaryString,
       getSeatSummaryString,
       userSelectedZone,
       selectedSection,
       sectionAsValues,
-      alphabet,
       priceList,
       ticketPrice,
       getTimeString,
       checkedSeat,
-      seatSelected,
-      disabledOtherRow,
       transactionStore,
       sectionWidth,
       formatSectionName,

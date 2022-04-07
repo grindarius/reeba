@@ -54,3 +54,13 @@ export const PostTransferTransactionReplySchema = Type.Object({
   message: Type.String()
 })
 export type PostTransferTransactionReply = Static<typeof PostTransactionReplySchema>
+
+export const DeleteTransactionRequestParamsSchema = Type.Object({
+  transactionId: Type.String()
+})
+export type DeleteTransactionRequestParams = Static<typeof DeleteTransactionRequestParamsSchema>
+
+export const DeleteTransactionReplySchema = Type.Object({
+  message: Type.String()
+})
+export type DeleteTransactionReply = Static<typeof DeleteTransactionReplySchema>
