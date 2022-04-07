@@ -121,7 +121,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         response: {
           200: GetOrganizerEventStatisticsReplySchema
         }
-      }
+      },
+      onRequest: instance.authenticate
     },
     async (request, reply) => {
       const { eventId } = request.params
