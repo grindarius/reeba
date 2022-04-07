@@ -134,7 +134,23 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           count(transaction_details.event_seat_id)::int as total_taken_seats,
           (count(transaction_details.event_seat_id)::float / count(event_seats.event_seat_id)::float) * 100::float as seat_fullness_percentage,
           coalesce(sum(event_seats.event_seat_price), 0::int)::float as gross_ticket_sales,
-          (count(transaction_details.event_seat_id) * 45)::float as reeba_ticket_fees
+          coalesce(sum(event_seats.event_seat_price), 0::int)::float * 0.1::float as reeba_ticket_fees
+        from "event_seats"
+        inner join "event_sections" on event_seats.event_section_id = event_sections.event_section_id
+        inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
+        inner join "events" on event_datetimes.event_id = events.event_id
+        left join "transaction_details" on event_seats.event_seat_id = transaction_details.event_seat_id
+        where events.event_id = $1 and transaction_details.event_seat_id is not null
+        group by events.event_id`,
+        [eventId]
+      )
+
+      const seatings = await instance.pg.query(
+        `select
+          events.event_id,
+          count(event_seats.event_seat_id)::int as total_seats,
+          count(transaction_details.event_seat_id)::int as total_taken_seats,
+          (count(transaction_details.event_seat_id)::float / count(event_seats.event_seat_id)::float) * 100::float as seat_fullness_percentage
         from "event_seats"
         inner join "event_sections" on event_seats.event_section_id = event_sections.event_section_id
         inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
@@ -154,9 +170,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         id: eventData.rows[0].event_id,
         name: eventData.rows[0].event_name,
         status: eventData.rows[0].event_status,
-        totalSeats: eventData.rows[0].total_seats,
-        totalTakenSeats: eventData.rows[0].total_taken_seats,
-        seatFullnessPercentage: eventData.rows[0].seat_fullness_percentage,
+        totalSeats: seatings.rows[0].total_seats,
+        totalTakenSeats: seatings.rows[0].total_taken_seats,
+        seatFullnessPercentage: seatings.rows[0].seat_fullness_percentage,
         grossTicketSales: eventData.rows[0].gross_ticket_sales,
         reebaTicketFees: eventData.rows[0].reeba_ticket_fees,
         netPayout: eventData.rows[0].gross_ticket_sales - eventData.rows[0].reeba_ticket_fees
