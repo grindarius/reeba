@@ -140,7 +140,10 @@ export const GetEditableEventDataReplySchema = Type.Object({
     end: Type.String()
   })),
   venueName: Type.String(),
-  venueCoordinates: Type.String(),
+  venueCoordinates: Type.Object({
+    x: Type.String(),
+    y: Type.String()
+  }),
   tags: Type.Array(Type.String()),
   priceRange: Type.Array(Type.Object({
     color: Type.String(),

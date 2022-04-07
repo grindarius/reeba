@@ -252,3 +252,10 @@ export const deleteTransaction: EndpointFunc<{ transactionId: string }> = ({ tra
     method: 'delete'
   }
 }
+
+export const getEditableEventData: EndpointFunc<{ eventId: string }> = ({ eventId }): Endpoint => {
+  return {
+    url: `${url}/events/${eventId}/edit`,
+    method: 'get'
+  }
+}
