@@ -249,13 +249,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped lang="scss">
-.organizer-tool-statistics-page {
-  @apply flex flex-row justify-center w-full min-h-screen bg-pale-gray;
-}
-
-.organizer-tool-statistics-page-content {
-  @apply container mt-6;
-}
-</style>
