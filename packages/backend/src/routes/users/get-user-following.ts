@@ -22,7 +22,6 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/:username/followings',
     {
       schema,
-      onRequest: instance.authenticate,
       preValidation: async (request, reply) => {
         const { username } = request.params
         const { u } = request.query
@@ -42,15 +41,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       const followings = await instance.pg.query<{ username: string, isAdmin: boolean, isVerified: boolean }>(
         `select
-          user_followings.follower_username as username,
+          user_followers.followed_username as username,
           case when users.user_role = 'user' then 'true'::boolean else 'false'::boolean end "isAdmin",
           users.user_verification_status as "isVerified"
-        from "user_followings"
-        inner join "users" on user_followings.follower_username = users.user_username
-        where user_followings.followed_username = $1`,
+        from "user_followers"
+        inner join "users" on user_followers.followed_username = users.user_username
+        where user_followers.following_username = $1`,
         [username]
       )
-
       return {
         followings: followings.rows
       }
