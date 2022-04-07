@@ -4,97 +4,76 @@
       {{ content }} | ReebA: Ticket booking. Redefined.
     </template>
   </metainfo>
-  <div class="container mx-auto">
-    <h1 class="text-4xl font-semibold text-white">
-      {{ overviewResponse?.name ?? '' }}
-    </h1>
-    <div class="text-lg breadcrumbs">
-      <ul>
-        <li>
-          <a>
-            Overview
-          </a>
-        </li>
-        <li>
-          <a>
-            Orders
-          </a>
-        </li>
-        <li>
-          <a>
-            Edit event
-          </a>
-        </li>
-      </ul>
+  <h1 class="text-4xl font-semibold text-white">
+    {{ overviewResponse?.name ?? '' }}
+  </h1>
+  <div class="flex flex-col lg:flex-row gap-4 mt-6">
+    <div class="basis-1/5 rounded-lg shadow-md p-4 bg-base-200">
+      <h1 class="text-2xl font-bold">
+        Total tickets sold
+      </h1>
+      <div class="flex flex-row place-items-center justify-evenly">
+        <div class="radial-progress mt-5" :style="`--value: ${Math.round(overviewResponse?.seatFullnessPercentage ?? 0)};`">
+          {{ Math.round(overviewResponse?.seatFullnessPercentage ?? 0) }}%
+        </div>
+        <div class="text-xl">
+          {{ d3.format(',')(overviewResponse?.totalTakenSeats ?? 0) }} / {{ d3.format(',')(overviewResponse?.totalSeats ?? 0) }}
+        </div>
+      </div>
     </div>
-    <div class="flex flex-col lg:flex-row gap-4 mt-6">
-      <div class="basis-1/5 rounded-lg shadow-md p-4 bg-base-200">
-        <h1 class="text-2xl font-bold">
-          Total tickets sold
+    <div class="grow rounded-lg shadow-md p-4 bg-base-200">
+      <div class="text-2xl font-bold">
+        Sales summary
+      </div>
+      <div class="grid grid-cols-2 gap-y-3">
+        <h1 class="text-xl font-bold">
+          Gross ticket sales
         </h1>
-        <div class="flex flex-row place-items-center justify-evenly">
-          <div class="radial-progress mt-5" :style="`--value: ${Math.round(overviewResponse?.seatFullnessPercentage ?? 0)};`">
-            {{ Math.round(overviewResponse?.seatFullnessPercentage ?? 0) }}%
-          </div>
-          <div class="text-xl">
-            {{ d3.format(',')(overviewResponse?.totalTakenSeats ?? 0) }} / {{ d3.format(',')(overviewResponse?.totalSeats ?? 0) }}
-          </div>
+        <h1 class="text-xl">
+          {{ d3.format(',')(overviewResponse?.grossTicketSales ?? 0) }} THB
+        </h1>
+        <div class="text-xl font-bold">
+          ReebA ticket fee
         </div>
-      </div>
-      <div class="grow rounded-lg shadow-md p-4 bg-base-200">
-        <div class="text-2xl font-bold">
-          Sales summary
-        </div>
-        <div class="grid grid-cols-2 gap-y-3">
-          <h1 class="text-xl font-bold">
-            Gross ticket sales
-          </h1>
-          <h1 class="text-xl">
-            {{ d3.format(',')(overviewResponse?.grossTicketSales ?? 0) }} THB
-          </h1>
-          <div class="text-xl font-bold">
-            ReebA ticket fee
-          </div>
-          <h1 class="text-xl">
-            {{ d3.format(',')(overviewResponse?.reebaTicketFees ?? 0) }} THB
-          </h1>
-          <h1 class="text-xl font-bold">
-            Net payout
-          </h1>
-          <h1 class="text-xl">
-            {{ d3.format(',')(overviewResponse?.netPayout ?? 0) }} THB
-          </h1>
-        </div>
+        <h1 class="text-xl">
+          {{ d3.format(',')(overviewResponse?.reebaTicketFees ?? 0) }} THB
+        </h1>
+        <h1 class="text-xl font-bold">
+          Net payout
+        </h1>
+        <h1 class="text-xl">
+          {{ d3.format(',')(overviewResponse?.netPayout ?? 0) }} THB
+        </h1>
       </div>
     </div>
-    <h1 class="text-3xl font-bold my-4">
-      Users map
-    </h1>
-    <div id="organizer-world-map" />
-    <div class="overflow-x-auto">
-      <table class="table table-compact w-full">
-        <thead>
-          <tr>
-            <th>
-              Country
-            </th>
-            <th>
-              Amount
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="u in usersMapOverviewResponse.users" :key="`users-map-overview-data-table-${u.country}`">
-            <td>
-              {{ i18nCountries.getName(u.country, 'en') }}
-            </td>
-            <td>
-              {{ u.amount }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  </div>
+  <h1 class="text-3xl font-bold my-4">
+    Users map
+  </h1>
+  <div id="organizer-world-map" />
+  <div class="overflow-x-auto">
+    <table class="table table-compact w-full">
+      <thead>
+        <tr>
+          <th>
+            Country
+          </th>
+          <th>
+            Amount
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="u in usersMapOverviewResponse.users" :key="`users-map-overview-data-table-${u.country}`">
+          <td>
+            {{ i18nCountries.getName(u.country, 'en') }}
+          </td>
+          <td>
+            {{ u.amount }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -140,7 +119,7 @@ export default defineComponent({
     const usersMapOverviewResponse = ref<GetOrganizerEventUsersMapReply>({ users: [] })
 
     useMeta({
-      title: 'Organizer statistics'
+      title: 'Organizer Statistics'
     })
 
     const getOverviewData = async (): Promise<void> => {
