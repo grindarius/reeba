@@ -21,8 +21,8 @@
               Edit
             </div>
               <div class="collapse-content">
-                <div class="confirm">Save</div>
-                <div class="confirm">Cancel</div>
+                <li class="confirm">Save </li>
+                <li class="confirmtwo">Cancel</li>
                 <p>Bio</p>
                   <textarea class="textarea bg-gray-200 text-pale-gray" cols="100" rows="5" >{{ userData?.profileDescription ?? '' }}</textarea>
                     <input class="bio" type="link" placeholder="&#61570; Add your Linked Facebook link">
@@ -328,7 +328,7 @@ export default defineComponent({
 }
 
 .user-stats {
-  @apply flex flex-col gap-x-14 items-center mt-6 w-11/12 md:flex-row md:justify-center;
+  @apply flex flex-col  items-center mt-6 w-11/12 md:flex-row md:justify-center;
 
   & h1 {
     @apply text-lg text-white;
@@ -356,7 +356,11 @@ export default defineComponent({
 }
 
 .confirm {
-  @apply inline-flex px-5 items-center mt-6   font-sans hover:text-pale-yellow justify-center text-center cursor-pointer; 
+  @apply inline-flex pl-80 font-sans hover:text-pale-yellow cursor-pointer; 
+}
+
+.confirmtwo {
+  @apply flex-row inline-flex px-14 font-sans hover:text-pale-yellow cursor-pointer; 
 }
 
 </style>
