@@ -5,7 +5,7 @@
     </template>
   </metainfo>
   <h1 class="text-4xl font-semibold text-white">
-    {{ overviewResponse?.name ?? '' }}
+    Overview
   </h1>
   <div class="flex flex-col lg:flex-row gap-4 mt-6">
     <div class="basis-1/5 rounded-lg shadow-md p-4 bg-base-200">
@@ -85,7 +85,7 @@ import en from 'i18n-iso-countries/langs/en.json'
 import ky from 'ky'
 import * as topojson from 'topojson-client'
 import { GeometryCollection, Topology } from 'topojson-specification'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
 import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -118,9 +118,11 @@ export default defineComponent({
     const overviewResponse = ref<GetOrganizerEventStatisticsReply | undefined>(undefined)
     const usersMapOverviewResponse = ref<GetOrganizerEventUsersMapReply>({ users: [] })
 
-    useMeta({
-      title: 'Organizer Statistics'
-    })
+    useMeta(computed(() => {
+      return {
+        title: overviewResponse.value?.name ?? 'Organizer statistics'
+      }
+    }))
 
     const getOverviewData = async (): Promise<void> => {
       try {
