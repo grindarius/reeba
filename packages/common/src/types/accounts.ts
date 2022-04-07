@@ -136,3 +136,32 @@ export const GetOrganizerEventUsersMapReplySchema = Type.Object({
   }))
 })
 export type GetOrganizerEventUsersMapReply = Static<typeof GetOrganizerEventUsersMapReplySchema>
+
+export const GetOrganizerEventOrdersRequestParamsSchema = Type.Object({
+  username: Type.String(),
+  eventId: Type.String()
+})
+export type GetOrganizerEventOrdersRequestParams = Static<typeof GetOrganizerEventOrdersRequestParamsSchema>
+
+export const GetOrganizerEventOrdersReplySchema = Type.Object({
+  transactions: Type.Array(Type.Object({
+    transactionId: Type.String(),
+    username: Type.String(),
+    email: Type.String(),
+    phoneNumber: Type.String(),
+    phoneCountryCode: Type.String(),
+    transactionTime: Type.String(),
+    datetimeId: Type.String(),
+    startDatetime: Type.String(),
+    sectionId: Type.String(),
+    sectionName: Type.String(),
+    sectionRowPosition: Type.Number(),
+    sectionColumnPosition: Type.Number(),
+    seats: Type.Array(Type.Object({
+      seatId: Type.String(),
+      seatName: Type.String()
+    })),
+    totalPrice: Type.Number()
+  }))
+})
+export type GetOrganizerEventOrdersReply = Static<typeof GetOrganizerEventOrdersReplySchema>
