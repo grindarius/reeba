@@ -7,7 +7,7 @@
   <h1 class="text-4xl font-semibold text-white">
     Orders
   </h1>
-  <div class="block lg:hidden mt-6">
+  <div class="block mt-6 lg:hidden">
     <table class="table w-full">
       <thead>
         <tr>
@@ -18,55 +18,55 @@
         <tr v-for="t in transactionsDataResponse.transactions" :key="`organizer-transactions-table-small-${t.transactionId}`">
           <th>
             <div class="grid grid-cols-2">
-              <div class="text-md font-bold">
+              <div class="font-bold text-md">
                 Transaction ID
               </div>
-              <div class="text-md font-normal">
+              <div class="font-normal text-md">
                 {{ t.transactionId }}
               </div>
-              <div class="text-md font-bold">
+              <div class="font-bold text-md">
                 Transaction time
               </div>
-              <div class="text-md font-normal">
+              <div class="font-normal text-md">
                 {{ formatTimeString(t.transactionTime, 'MMMM D, YYYY H:mm:ss') }}
               </div>
-              <div class="text-md font-bold">
+              <div class="font-bold text-md">
                 Username
               </div>
-              <div class="text-md font-normal">
+              <div class="font-normal text-md">
                 {{ t.username }}
               </div>
-              <div class="text-md font-bold">
+              <div class="font-bold text-md">
                 Email
               </div>
-              <div class="text-md font-normal">
+              <div class="font-normal text-md">
                 {{ t.email }}
               </div>
-              <div class="text-md font-bold">
+              <div class="font-bold text-md">
                 Phone number
               </div>
-              <div class="text-md font-normal">
+              <div class="font-normal text-md">
                 {{ `+${t.phoneCountryCode} ${t.phoneNumber}` }}
               </div>
-              <div class="text-md font-bold">
+              <div class="font-bold text-md">
                 Start time
               </div>
-              <div class="text-md font-normal">
+              <div class="font-normal text-md">
                 {{ formatTimeString(t.startDatetime, 'MMMM D, YYYY H:mm:ss') }}
               </div>
-              <div class="text-md font-bold">
+              <div class="font-bold text-md">
                 Section
               </div>
-              <div class="text-md font-normal">
+              <div class="font-normal text-md">
                 {{ t.sectionName }}
               </div>
-              <div class="text-md font-bold">
+              <div class="font-bold text-md">
                 Seats
               </div>
-              <div class="text-md font-normal">
+              <div class="font-normal text-md">
                 {{ t.seats.map(s => s.seatName).join(', ') }}
               </div>
-              <div class="text-md font-bold">
+              <div class="font-bold text-md">
                 Remove user
               </div>
               <v-mdi name="mdi-delete" class="cursor-pointer" title="Remove user" @click="removeTransaction(t.transactionId)" fill="#ff0000" />
@@ -76,8 +76,8 @@
       </tbody>
     </table>
   </div>
-  <div class="hidden lg:block overflow-x-auto mt-6">
-    <table class="table table-compact w-full">
+  <div class="hidden overflow-x-auto mt-6 lg:block">
+    <table class="table w-full table-compact">
       <thead>
         <tr>
           <th>Transaction ID</th>

@@ -7,14 +7,14 @@
   <div class="text-4xl font-semibold text-white">
     Edit event
   </div>
-  <div class="form-control w-full">
+  <div class="w-full form-control">
     <label class="label">
       <span class="label-text">Event name</span>
     </label>
-    <input type="text" placeholder="Type here" class="input input-bordered bg-white text-black w-full" v-model="eventDataResponse.name">
+    <input type="text" placeholder="Type here" class="w-full text-black bg-white input input-bordered" v-model="eventDataResponse.name">
   </div>
-  <div class="tabs mt-4">
-    <a :class="isEditing ? 'tab tab-bordered tab-active' : 'tab tab-bordered'" @click="isEditing = true">
+  <div class="mt-4 tabs">
+    <a :class="isEditing ?'tab tab-bordered tab-active' : 'tab tab-bordered'" @click="isEditing = true">
       Write
     </a>
     <a :class="!isEditing ? 'tab tab-bordered tab-active' : 'tab tab-bordered'" @click="isEditing = false">
@@ -22,38 +22,38 @@
     </a>
   </div>
   <textarea
-    v-if="isEditing" class="textarea textarea-bordered bg-white text-black w-full"
+    v-if="isEditing" class="w-full text-black bg-white textarea textarea-bordered"
     placeholder="Description" style="height: auto;"
     :rows="eventDataResponse.description.split(/\r\n|\r|\n/).length"
     v-model="eventDescription" />
-  <div v-else v-html="renderedMarkdown" class="prosing bg-white rounded-lg p-4" />
-  <div class="form-control w-full">
+  <div v-else v-html="renderedMarkdown" class="p-4 bg-white rounded-lg prosing" />
+  <div class="w-full form-control">
     <label for="event-website" class="label">
       <span class="label-text">Event website</span>
     </label>
-    <input type="text" placeholder="events.reeba.com" class="input input-bordered bg-white text-black w-full" v-model="eventDataResponse.website">
+    <input type="text" placeholder="events.reeba.com" class="w-full text-black bg-white input input-bordered" v-model="eventDataResponse.website">
   </div>
-  <div class="form-control w-full">
+  <div class="w-full form-control">
     <label class="label">
       <span class="label-text">
         Venue name
       </span>
     </label>
-    <input type="text" class="input input-bordered bg-white text-black w-full" v-model="eventDataResponse.venueName">
+    <input type="text" class="w-full text-black bg-white input input-bordered" v-model="eventDataResponse.venueName">
   </div>
-  <div class="form-control w-full">
+  <div class="w-full form-control">
     <label class="label">
       <span class="label-text">
         Venue coordinates
       </span>
     </label>
-    <input type="text" class="input input-bordered bg-white text-black w-full" v-model="eventDataResponse.venueCoordinates">
+    <input type="text" class="w-full text-black bg-white input input-bordered" v-model="eventDataResponse.venueCoordinates">
   </div>
-  <div class="form-control max-w-md">
+  <div class="max-w-md form-control">
     <label class="label">
       Tags
     </label>
-    <label class="label cursor-pointer" v-for="(tag, i) in eventTagsSelectors" :key="`event-tag-selectors-${i}`">
+    <label class="cursor-pointer label" v-for="(tag, i) in eventTagsSelectors" :key="`event-tag-selectors-${i}`">
       <span class="label-text">{{ tag.name }}</span>
       <input type="checkbox" v-model="eventDataResponse.tags" :value="tag.tag" class="checkbox checkbox-sm checkbox-primary">
     </label>
@@ -67,8 +67,8 @@
     <div class="grid grid-cols-3 gap-4">
       <template v-for="p in eventDataResponse.priceRange" :key="`${p.text}`">
         <input type="color" class="cursor-pointer" v-model="p.color">
-        <input type="text" class="input input-bordered bg-white text-black w-full" v-model="p.color">
-        <input type="number" class="input input-bordered bg-white text-white w-full" disabled v-model="p.price">
+        <input type="text" class="w-full text-black bg-white input input-bordered" v-model="p.color">
+        <input type="number" class="w-full text-white bg-white input input-bordered" disabled v-model="p.price">
       </template>
     </div>
   </div>

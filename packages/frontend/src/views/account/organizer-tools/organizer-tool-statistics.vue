@@ -7,13 +7,13 @@
   <h1 class="text-4xl font-semibold text-white">
     Overview
   </h1>
-  <div class="flex flex-col lg:flex-row gap-4 mt-6">
-    <div class="basis-1/5 rounded-lg shadow-md p-4 bg-base-200">
+  <div class="flex flex-col gap-4 mt-6 lg:flex-row">
+    <div class="p-4 rounded-lg shadow-md basis-1/5 bg-base-200">
       <h1 class="text-2xl font-bold">
         Total tickets sold
       </h1>
-      <div class="flex flex-row place-items-center justify-evenly">
-        <div class="radial-progress mt-5" :style="`--value: ${Math.round(overviewResponse?.seatFullnessPercentage ?? 0)};`">
+      <div class="flex flex-row justify-evenly place-items-center">
+        <div class="mt-5 radial-progress" :style="`--value: ${Math.round(overviewResponse?.seatFullnessPercentage ?? 0)};`">
           {{ Math.round(overviewResponse?.seatFullnessPercentage ?? 0) }}%
         </div>
         <div class="text-xl">
@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="grow rounded-lg shadow-md p-4 bg-base-200">
+    <div class="p-4 rounded-lg shadow-md grow bg-base-200">
       <div class="text-2xl font-bold">
         Sales summary
       </div>
@@ -47,12 +47,12 @@
       </div>
     </div>
   </div>
-  <h1 class="text-3xl font-bold my-4">
+  <h1 class="my-4 text-3xl font-bold">
     Users map
   </h1>
   <div id="organizer-world-map" />
   <div class="overflow-x-auto">
-    <table class="table table-compact w-full">
+    <table class="table w-full table-compact">
       <thead>
         <tr>
           <th>

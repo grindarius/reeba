@@ -440,8 +440,6 @@ export default defineComponent({
     }
 
     const manipulateEvent = async (eventId: string, targetStatus: 'open' | 'closed'): Promise<void> => {
-      console.log('lol')
-
       try {
         const { method, url } = postManipulateEvent({ eventId })
 

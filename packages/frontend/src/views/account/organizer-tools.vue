@@ -106,7 +106,7 @@
                     </h1>
                   </div>
                   <div class="mt-4">
-                    <h1 class="font-bold text-gray-300 mb-2">
+                    <h1 class="mb-2 font-bold text-gray-300">
                       Taken / Total seats
                     </h1>
                     <div class="radial-progress" :style="`--value: ${Math.round(e.seatFullnessPercentage)};`">
@@ -115,7 +115,7 @@
                     {{ format(',')(e.totalTakenSeats) }} / {{ format(',')(e.totalSeats) }}
                   </div>
                   <div class="mt-4">
-                    <h1 class="font-bold text-gray-300 mb-2">
+                    <h1 class="mb-2 font-bold text-gray-300">
                       Actions
                     </h1>
                     <div class="btn-group">
@@ -133,7 +133,7 @@
           </tbody>
         </table>
       </div>
-      <div class="overflow-x-auto w-full hidden lg:block">
+      <div class="hidden overflow-x-auto w-full lg:block">
         <table class="table w-full">
           <thead>
             <tr>
@@ -153,7 +153,7 @@
               <td>
                 <div class="flex items-center space-x-3">
                   <div class="avatar">
-                    <div class="mask mask-squircle w-12 h-12">
+                    <div class="w-12 h-12 mask mask-squircle">
                       <img :src="getEventImage({ eventId: e.id }).url" :alt="e.name">
                     </div>
                   </div>
