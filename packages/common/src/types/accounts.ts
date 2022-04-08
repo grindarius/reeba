@@ -46,6 +46,10 @@ export const GetMyTicketsReplySchema = Type.Object({
     username: Type.String(),
     transactionId: Type.String(),
     name: Type.String(),
+    status: Type.Union([
+      Type.Literal(t_event_status.open),
+      Type.Literal(t_event_status.closed)
+    ]),
     venueName: Type.String(),
     time: Type.Object({
       id: Type.String(),

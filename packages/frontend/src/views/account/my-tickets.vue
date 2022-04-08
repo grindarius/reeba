@@ -4,7 +4,7 @@
       {{ content }} | ReebA: Ticket booking. Redefined.
     </template>
   </metainfo>
-  <div class="my-tickets-page">
+  <div class="container mx-auto">
     <h2 class="text-4xl font-semibold text-white">
       My tickets
     </h2>
@@ -26,12 +26,9 @@
             </h2>
 
             <div class="flex flex-col space-y-1 space-x-0 lg:flex-row lg:space-y-0 lg:space-x-1">
-              <label for="transfer-ownership-modal" class="btn modal-button" @click="selectedEvent = e.transactionId">Transfer Ownership</label>
-              <button class="btn">
-                <router-link :to="{ name: 'Select Seat', params: { username: e.username, eventId: e.id, datetimeId: e.time.id } }">
-                  Change seat
-                </router-link>
-              </button>
+              <label v-show="e.status === 'open'" for="transfer-ownership-modal" class="btn modal-button" @click="selectedEvent = e.transactionId">
+                Transfer Ownership
+              </label>
               <router-link class="btn modal-button" :to="{ name: 'Receipt', params: { transactionId: e.transactionId } }">
                 View receipt
               </router-link>

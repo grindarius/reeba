@@ -1,12 +1,21 @@
 <template>
-  <div class="edit-user-settings-page">
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
+  <div class="container mx-auto">
     <h1 class="page-header">
       Edit Settings
     </h1>
     <section class="setting-bg-content">
       <form>
-        <div class="flex justify-center">
-          <img class="object-cover object-center w-24 h-24 rounded-full" :src="getUserAvatar({ username: userData.username }).url" alt="Avatar Upload">
+        <div class="flex flex-col justify-center items-center">
+          <img class="object-cover object-center w-24 h-24 rounded-full" ref="userProfileImageRef" :src="getUserAvatar({ username: userData.username }).url" alt="Avatar Upload">
+          <label for="file-upload" class="btn">
+            Change profile
+          </label>
+          <input type="file" id="file-upload" accept="image/jpg,image/png" class="hidden" @change="uploadNewProfileImage($event)">
         </div>
         <div class="w-full form-control">
           <label for="edit-user-email" class="label">
@@ -70,12 +79,13 @@ import dayjs from 'dayjs'
 import ky from 'ky'
 import { storeToRefs } from 'pinia'
 import { defineComponent, onMounted, Ref, ref } from 'vue'
+import { useMeta } from 'vue-meta'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 import { GetProfileDataReply, PatchProfileDataRequestBody } from '@reeba/common'
 
-import { getUserAvatar, getUserProfileData, patchUserProfileData } from '@/api/endpoints'
+import { getUserAvatar, getUserProfileData, patchUserProfileData, postAvatar } from '@/api/endpoints'
 import { usePhoneCodes } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
 
@@ -86,6 +96,7 @@ export default defineComponent({
     const { userData } = storeToRefs(authStore)
     const toast = useToast()
     const router = useRouter()
+    const userNewProfileImage: Ref<File | null> = ref(null)
 
     const {
       phoneCodesList,
@@ -100,6 +111,10 @@ export default defineComponent({
     const confirmPassword = ref('')
     const birthdate: Ref<string> = ref('')
     const phoneNumber: Ref<string> = ref('')
+
+    useMeta({
+      title: 'Edit profile'
+    })
 
     const updateUserProfileData = async (): Promise<void> => {
       const editedData: PatchProfileDataRequestBody = {
@@ -127,6 +142,43 @@ export default defineComponent({
         }).json<PatchProfileDataRequestBody>()
 
         toast.success('Successfully updated!')
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const json = await error?.response
+
+        if (json.status === 401) {
+          toast.error('Token expired')
+          router.push({ name: 'Signin' })
+          return
+        }
+
+        toast.error('Unexpedted error occured')
+      }
+    }
+
+    const uploadNewProfileImage = async (e: Event): Promise<void> => {
+      const files = (e.target as HTMLInputElement)
+      userNewProfileImage.value = files.files == null ? null : files.files[0]
+
+      if (userNewProfileImage.value == null) {
+        return
+      }
+
+      try {
+        const { method, url } = postAvatar({ username: authStore.userData.username })
+
+        const body = new FormData()
+        body.append('image', userNewProfileImage.value, userNewProfileImage.value.name)
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          body
+        })
+
+        router.go(0)
       } catch (error) {
         // @ts-expect-error error is unknown
         const json = await error?.response
@@ -178,11 +230,13 @@ export default defineComponent({
     })
 
     return {
+      uploadNewProfileImage,
       getUserAvatar,
       phoneCodesList,
       userData,
       password,
       confirmPassword,
+      userNewProfileImage,
       birthdate,
       email,
       phoneNumber,

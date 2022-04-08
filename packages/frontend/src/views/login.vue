@@ -21,10 +21,7 @@
             </label>
             <input type="password" name="signin-email-input" class="w-full bg-white input input-bordered text-base-100" v-model="passwordField">
           </div>
-          <a class="inline-block mt-2 font-sans text-right text-white align-baseline hover:underline" href="#">
-            Forgot Password?
-          </a>
-          <div class="flex justify-center items-center">
+          <div class="flex justify-center items-center mt-4">
             <button class="btn btn-secondary" @click.prevent="signin">
               Sign in
             </button>

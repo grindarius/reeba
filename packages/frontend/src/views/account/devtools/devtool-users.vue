@@ -54,7 +54,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in userData.users" :key="`developer-user-table-small-${user.username}`">
+          <tr v-for="(user, i) in userData.users" :key="`developer-user-table-small-${user.username}`">
             <td>
               <div class="flex items-center space-x-3">
                 <div class="avatar">
@@ -66,7 +66,7 @@
                   <router-link :to="{ name: 'Users', params: { username: user.username } }">
                     <div class="font-bold">
                       {{ user.username }}
-                      <v-mdi v-if="user.isAdmin ? false : user.isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
+                      <v-mdi v-if="user.isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
                       <v-mdi v-if="user.isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
                     </div>
                   </router-link>
@@ -75,44 +75,70 @@
                   </div>
                 </div>
               </div>
-              <div class="flex flex-row justify-between">
-                <div>
-                  <h1 class="mt-4 font-bold text-gray-300">
+              <div class="flex flex-col justify-start">
+                <div class="mt-4">
+                  <h1 class="font-bold text-gray-300">
+                    Birthdate
+                  </h1>
+                  <h1 class="font-normal text-white">
+                    {{ user.birthdate == null ? 'Unspecified' : formatTimeString(user.birthdate, 'MMMM D, YYYY') }}
+                  </h1>
+                </div>
+                <div class="mt-4">
+                  <h1 class="font-bold text-gray-300">
                     Registration date
                   </h1>
                   <h1 class="font-normal text-white">
                     {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY H:mm:ss') }}
                   </h1>
                 </div>
-                <div class="dropdown dropdown-end" v-show="authStore.userData.username !== user.username">
-                  <label tabindex="0" class="btn btn-ghost">Options</label>
-                  <ul tabindex="0" class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
-                    <li>
-                      <a @click="grantAdmin(user.username)">
-                        Make admin
-                      </a>
-                    </li>
-                    <li>
-                      <a @click="revokeAdmin(user.username)">
-                        Remove admin
-                      </a>
-                    </li>
-                    <li>
-                      <a @click="grantVerification(user.username)">
-                        Make verified account
-                      </a>
-                    </li>
-                    <li>
-                      <a @click="revokeVerification(user.username)">
-                        Unverify account
-                      </a>
-                    </li>
-                    <li>
-                      <a @click="removeUser(user.username)">
-                        Remove from ReebA
-                      </a>
-                    </li>
-                  </ul>
+                <div class="mt-4">
+                  <h1 class="font-bold text-gray-300">
+                    Country
+                  </h1>
+                  <h1 class="font-normal text-white">
+                    {{ getName(user.iso31662, 'en') ?? 'Unknown' }}
+                  </h1>
+                </div>
+                <div class="mt-4">
+                  <h1 class="font-bold text-gray-300">
+                    Phone number
+                  </h1>
+                  <h1 class="font-normal text-white">
+                    {{ `+${user.phoneCountryCode} ${user.phoneNumber}` }}
+                  </h1>
+                </div>
+                <div class="flex flex-row justify-end">
+                  <div :class="dropdownClass(i)" v-show="authStore.userData.username !== user.username">
+                    <label tabindex="0" class="btn btn-ghost">Options</label>
+                    <ul tabindex="0" class="p-2 w-52 shadow dropdown-content menu bg-base-200 rounded-box">
+                      <li>
+                        <a @click="grantAdmin(user.username)">
+                          Make admin
+                        </a>
+                      </li>
+                      <li>
+                        <a @click="revokeAdmin(user.username)">
+                          Remove admin
+                        </a>
+                      </li>
+                      <li>
+                        <a @click="grantVerification(user.username)">
+                          Make verified account
+                        </a>
+                      </li>
+                      <li>
+                        <a @click="revokeVerification(user.username)">
+                          Unverify account
+                        </a>
+                      </li>
+                      <li>
+                        <a @click="removeUser(user.username)">
+                          Remove from ReebA
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </td>
@@ -125,7 +151,10 @@
         <thead>
           <tr>
             <th>Name</th>
+            <th>Birthdate</th>
             <th>Registration date</th>
+            <th>Country</th>
+            <th>Phone number</th>
             <th>
               <div class="ml-4">
                 Options
@@ -146,7 +175,7 @@
                   <router-link :to="{ name: 'Users', params: { username: user.username } }">
                     <div class="font-bold">
                       {{ user.username }}
-                      <v-mdi v-if="user.isAdmin ? false : user.isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
+                      <v-mdi v-if="user.isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
                       <v-mdi v-if="user.isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
                     </div>
                   </router-link>
@@ -157,7 +186,16 @@
               </div>
             </td>
             <td>
+              {{ user.birthdate == null ? 'Unspecified' : formatTimeString(user.birthdate, 'MMMM D, YYYY') }}
+            </td>
+            <td>
               {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY H:mm:ss') }}
+            </td>
+            <td>
+              {{ getName(user.iso31662, 'en') ?? 'Unknown' }}
+            </td>
+            <td>
+              {{ `+${user.phoneCountryCode} ${user.phoneNumber}` }}
             </td>
             <td>
               <div :class="dropdownClass(i)" v-show="authStore.userData.username !== user.username">
@@ -199,6 +237,7 @@
 </template>
 
 <script lang="ts">
+import { getName } from 'i18n-iso-countries'
 import ky from 'ky'
 import { defineComponent, onMounted, Ref, ref, watch } from 'vue'
 import { useMeta } from 'vue-meta'
@@ -415,6 +454,7 @@ export default defineComponent({
 
     return {
       page,
+      getName,
       getUserAvatar,
       dropdownClass,
       userData,
