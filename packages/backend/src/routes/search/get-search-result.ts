@@ -192,7 +192,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           inner join "events" on event_datetimes.event_id = events.event_id
           inner join "event_tags_bridge" on events.event_id = event_tags_bridge.event_id
           inner join "users" on events.user_username = users.user_username
-          where ${where}
+          where events.event_status != 'closed' and ${where}
           group by events.event_id, users.user_verification_status
           ${having}
           limit ${PAGE_SIZE} offset ${(page * PAGE_SIZE) - PAGE_SIZE}`,
