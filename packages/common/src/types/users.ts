@@ -35,6 +35,7 @@ export const GetUserReplySchema = Type.Object({
   isAdmin: Type.Boolean(),
   profileDescription: Type.String(),
   followersAmount: Type.Number(),
+  followingsAmount: Type.Number(),
   isCurrentUserFollowing: Type.Boolean()
 })
 export type GetUserReply = Static<typeof GetUserReplySchema>

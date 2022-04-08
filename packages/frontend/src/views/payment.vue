@@ -1,4 +1,9 @@
 <template>
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
   <div class="payment-page">
     <div class="payment-section">
       <div class="payment-card">
@@ -39,17 +44,30 @@
               <div class="selected-payment">
                 <div class="credit-card-payment">
                   <label for="card-number-input" class="inline-block mt-2 font-sans text-sm text-white">Card number</label>
-                  <input type="text" name="card-number-input" id="card-number-input" placeholder="**** **** **** ****">
+                  <input
+                    type="text" name="card-number-input"
+                    id="card-number-input" placeholder="**** **** **** ****"
+                    maxlength="16"
+                    v-model="creditCardInput">
                   <label for="card-name-input" class="inline-block mt-2 font-sans text-sm text-white">Card name</label>
-                  <input type="text" name="card-name-input" id="card-name-input" placeholder="">
+                  <input type="text" name="card-name-input" id="card-name-input" v-model="creditCardNameInput">
                   <div class="grid grid-cols-2 gap-6 mt-2">
                     <div class="card-expiration-date-section">
                       <label for="card-expiration-date" class="font-sans text-sm text-white">Expiration date</label>
-                      <input type="text" name="card-expiration-date-input" id="card-expiration-date-input" placeholder="MM/YY">
+                      <input
+                        type="text" name="card-expiration-date-input"
+                        id="card-expiration-date-input" maxlength="4"
+                        pattern="\d*"
+                        v-model="creditCardExpiryDateInput">
                     </div>
                     <div class="card-cvc-section">
                       <label for="card-cvc-input" class="font-sans text-sm text-white">CVC</label>
-                      <input type="text" name="card-cvc-input" id="card-cvc-input" placeholder="***">
+                      <input
+                        type="text" name="card-cvc-input"
+                        id="card-cvc-input" placeholder="***"
+                        maxlength="3"
+                        pattern="\d*"
+                        v-model="creditCardCVCInput">
                     </div>
                   </div>
                 </div>
@@ -103,10 +121,10 @@
               </h1>
             </div>
             <div class="mt-5 text-black agree-check">
-              <input type="checkbox" id="scales" name="scales" unchecked>
+              <input type="checkbox" id="scales" name="scales" unchecked v-model="isAgreed">
               <label for="scales">
-                By checking out, I agree to <a href="#" class="font-bold underline text-pale-yellow">ReebA's Terms of Service</a>
-                and <a href="" class="font-bold underline text-pale-yellow">Event Organizer's Disclaimer.</a>
+                By checking out, I agree to <a class="font-bold underline text-pale-yellow">ReebA's Terms of Service</a>
+                and <a class="font-bold underline text-pale-yellow">Event Organizer's Disclaimer.</a>
                 I accept that the items in this order cannot be canceled and payments are non-refundable.
               </label>
               <button class="checkout-button" @click="checkSeat">
@@ -124,6 +142,7 @@
 import { format } from 'd3'
 import ky from 'ky'
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
@@ -151,6 +170,16 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const toast = useToast()
+    const isAgreed = ref(false)
+
+    const creditCardInput = ref('')
+    const creditCardNameInput = ref('')
+    const creditCardExpiryDateInput = ref('')
+    const creditCardCVCInput = ref('')
+
+    useMeta({
+      title: 'Payment'
+    })
 
     const eventDataResponse: Ref<GetIndividualEventReply | undefined> = ref(undefined)
 
@@ -179,6 +208,30 @@ export default defineComponent({
     const checkSeat = async (): Promise<void> => {
       const { method, url } = postTransactionEndpoint
 
+      if (creditCardInput.value.length < 16) {
+        toast.error('invalid credit card number')
+        return
+      }
+
+      if (creditCardNameInput.value.length === 0) {
+        toast.error('invalid credit card name')
+        return
+      }
+
+      if (creditCardExpiryDateInput.value.length < 4) {
+        toast.error('invalid credit card expiry date')
+        return
+      }
+
+      if (creditCardCVCInput.value.length < 3) {
+        toast.error('invalid credit card cvc input')
+        return
+      }
+
+      if (isAgreed.value === false) {
+        return
+      }
+
       try {
         await ky(url, {
           method,
@@ -193,6 +246,7 @@ export default defineComponent({
           }
         })
 
+        transactionStore.removeTransaction()
         router.push('/account')
       } catch (error) {
         // @ts-expect-error error is unknown
@@ -216,12 +270,17 @@ export default defineComponent({
     })
 
     return {
+      creditCardInput,
+      creditCardNameInput,
+      creditCardExpiryDateInput,
+      isAgreed,
       checkSeat,
       transactionStore,
       numberToLetters,
       showSeat,
       format,
-      eventDataResponse
+      eventDataResponse,
+      creditCardCVCInput
     }
   }
 })
