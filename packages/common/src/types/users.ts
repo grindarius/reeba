@@ -68,3 +68,24 @@ export const GetUserFollowersListReplySchema = Type.Object({
   }))
 })
 export type GetUserFollowersListReply = Static<typeof GetUserFollowersListReplySchema>
+
+export const PatchUserDescriptionRequestParamsSchema = Type.Object({
+  username: Type.String()
+})
+export type PatchUserDescriptionRequestParams = Static<typeof PatchUserDescriptionRequestParamsSchema>
+
+export const PatchUserDescriptionRequestBodySchema = Type.Object({
+  description: Type.String(),
+  facebook: Type.String(),
+  instagram: Type.String(),
+  twitter: Type.String(),
+  tiktok: Type.String(),
+  website: Type.String(),
+  email: Type.String()
+})
+export type PatchUserDescriptionRequestBody = Static<typeof PatchUserDescriptionRequestBodySchema>
+
+export const PatchUserDescriptionReplySchema = Type.Object({
+  message: Type.String()
+})
+export type PatchUserDescriptionReply = Static<typeof PatchUserDescriptionReplySchema>

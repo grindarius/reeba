@@ -5,6 +5,7 @@ import getUserFollowersRoute from './get-user-followers'
 import getUserRelatedEventsRoute from './get-user-related-events'
 import manipulateAdminRoute from './manipulate-admin'
 import manipulateVerificationRoute from './manipulate-verification'
+import patchUserProfileSettingsRoute from './patch-user-profile-settings'
 import removeUserRoute from './remove-user'
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
@@ -13,5 +14,6 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   void instance.register(getUserRelatedEventsRoute)
   void instance.register(manipulateAdminRoute)
   void instance.register(manipulateVerificationRoute)
+  void instance.register(patchUserProfileSettingsRoute)
   void instance.register(removeUserRoute)
 }
