@@ -266,3 +266,17 @@ export const patchEditableEventData: EndpointFunc<{ eventId: string }> = ({ even
     method: 'patch'
   }
 }
+
+export const getUserFollowersList: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/users/${username}/followers`,
+    method: 'get'
+  }
+}
+
+export const getUserFollowingsList: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/users/${username}/followings`,
+    method: 'get'
+  }
+}
