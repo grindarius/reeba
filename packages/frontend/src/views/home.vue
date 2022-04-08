@@ -73,9 +73,13 @@
         </div>
       </div>
       <div class="flex justify-center items-center py-20">
-        <button class="py-2 px-8 font-sans text-white rounded-xl bg-pale-yellow hover:bg-gray-hover" type="button">
-          All Event
-        </button>
+        <div class="whitespace-nowrap button">
+          <router-link to="/all" class="all-events">
+            <button class="py-2 px-8 font-sans text-white rounded-xl bg-pale-yellow hover:bg-gray-hover">
+              All Event
+            </button>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -171,5 +175,9 @@ export default defineComponent({
 
 .event-location {
   @apply mt-1 text-sm font-normal text-white truncate;
+}
+
+.button {
+  @apply flex justify-center items-center;
 }
 </style>
