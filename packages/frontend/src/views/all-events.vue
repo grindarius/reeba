@@ -5,7 +5,7 @@
     </template>
   </metainfo>
   <img class="float-none" src="@/assets/hero-logo.jpg">
-  <div class="home-page">
+  <div class="all-events-page">
     <div class="container w-full min-h-screen">
       <div class="official-events-box">
         <div class="event-section">
@@ -89,7 +89,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.home-page {
+.all-events-page {
   @apply flex flex-row justify-center bg-pale-gray;
 }
 

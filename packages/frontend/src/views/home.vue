@@ -76,7 +76,7 @@
         <div class="whitespace-nowrap button">
           <router-link to="/all-events" class="all-events">
             <button class="py-2 px-8 font-sans text-white rounded-xl bg-pale-yellow hover:bg-gray-hover">
-              All Event
+              All Events
             </button>
           </router-link>
         </div>
