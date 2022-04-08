@@ -109,7 +109,7 @@
                 <div class="font-sans text-lg font-medium text-pale-gray">
                   {{ formatTimeString(datetimes.start) }}
                 </div>
-                <router-link :to="`/${$route.params.username as string ?? ''}/${$route.params.eventId as string ?? ''}/${datetimes.datetimeId}`" class="text-white btn btn-secondary">
+                <router-link :to="`/${$route.params.username as string ?? ''}/${$route.params.eventId as string ?? ''}/${datetimes.datetimeId}`" :class="buyButtonClassName()">
                   Buy
                 </router-link>
               </div>
@@ -178,6 +178,10 @@ export default defineComponent({
       }
     }
 
+    const buyButtonClassName = (): string => {
+      return (dayjs().isBefore(dayjs(eventData.value?.openingDate))) ? 'text-white btn btn-disabled bg-red-600 ' : 'text-white btn btn-secondary'
+    }
+
     onMounted(async () => {
       const { method, url } = getIndividualEventEndpoint({ eventId: route.params.eventId as string ?? '' })
 
@@ -202,7 +206,8 @@ export default defineComponent({
       renderedMarkdown,
       getEventImage,
       route,
-      getUserAvatar
+      getUserAvatar,
+      buyButtonClassName
     }
   }
 })
