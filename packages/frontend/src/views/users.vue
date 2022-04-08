@@ -86,7 +86,7 @@
           </div>
           <div v-else class="event-grid-box">
             <div class="event" v-for="({ username: attendedUsername, id: eventId, name: eventName, venueName }, i) in (relatedEvents?.attended ?? [])" :key="`user-page-attended-event-${i}`">
-              <router-link :to="{ name: 'Event', params: { attendedUsername, eventId }}">
+              <router-link :to="{ name: 'Event', params: { username: attendedUsername, eventId }}">
                 <div class="event-image-box">
                   <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
                 </div>
@@ -113,7 +113,7 @@
           </div>
           <div v-else class="event-grid-box">
             <div class="event" v-for="({ username: createdUsername, id: eventId, name: eventName, venueName }, i) in (relatedEvents?.created ?? [])" :key="`user-page-created-event-${i}`">
-              <router-link :to="{ name: 'Event', params: { createdUsername, eventId }}" :key="$route.path">
+              <router-link :to="{ name: 'Event', params: { username: createdUsername, eventId }}" :key="$route.path">
                 <div class="event-image-box">
                   <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
                 </div>
@@ -332,7 +332,7 @@ export default defineComponent({
 }
 
 .user-stats {
-  @apply flex flex-col  items-center mt-6 w-11/12 md:flex-row md:justify-center;
+  @apply flex flex-col gap-x-14 items-center mt-6 w-11/12 md:flex-row md:justify-center;
 
   & h1 {
     @apply text-lg text-white;
@@ -366,5 +366,4 @@ export default defineComponent({
 .confirmtwo {
   @apply flex-row inline-flex px-14 font-sans hover:text-pale-yellow cursor-pointer;
 }
-
 </style>
