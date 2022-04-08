@@ -75,34 +75,21 @@
           </a>
         </a>
         <a class="block p-0 rounded-full bg-pale-yellow">
-          <a rel="noopener noreferrer" href="#" title="Twitter" class="flex items-center p-1">
+          <a rel="noopener noreferrer" href="https://https://twitter.com/elonmusk" target="_blank" title="Twitter" class="flex items-center p-1">
             <v-mdi name="mdi-twitter" size="40" fill="#FFFFFF" />
           </a>
         </a>
         <a class="block p-0 rounded-full bg-pale-yellow">
-          <a rel="noopener noreferrer" href="#" title="Instagram" class="flex items-center p-1">
-            <v-mdi name="mdi-Instagram" size="40" fill="#FFFFFF" />
+          <a rel="noopener noreferrer" href="https://instagram.com/padpongz_" target="_blank" title="Instagram" class="flex items-center p-1">
+            <v-mdi name="mdi-instagram" size="40" fill="#FFFFFF" />
           </a>
         </a>
       </div>
     </div>
     <div>
-      <span class="footer-title">Need help?</span>
-      <a class="link link-hover">How to buy tickets?</a>
-      <a class="link link-hover">Where are my tickets?</a>
-      <a class="link link-hover">How to use e-ticket?</a>
-      <a class="link link-hover">Help Center</a>
-    </div>
-    <div>
-      <span class="footer-title">Customer Support</span>
-      <a class="link link-hover">Contact</a>
-      <a class="link link-hover">Jobs</a>
-      <a class="link link-hover">Press kit</a>
-    </div>
-    <div>
       <span class="footer-title">Contribution</span>
-      <a class="link link-hover">License</a>
-      <a class="link link-hover">How to contribute</a>
+      <a class="link link-hover" href="https://github.com/grindarius/reeba/blob/main/LICENSE" rel="noopener norrferrer" target="_blank">License</a>
+      <a class="link link-hover" href="https://github.com/grindarius/reeba/blob/main/docs/CONTRIBUTING.md" rel="noopener noreferrer" target="_blank">How to contribute</a>
     </div>
   </footer>
 </template>
