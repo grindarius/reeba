@@ -39,14 +39,18 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     }, async (request, reply) => {
       const { email, password } = request.body
 
-      const user = await instance.pg.query<Pick<users, 'user_username' | 'user_email' | 'user_role' | 'user_verification_status' | 'user_password'>, [users['user_email']]>(
-        'select user_username, user_email, user_role, user_verification_status, user_password from users where user_email = $1',
+      const user = await instance.pg.query<Pick<users, 'user_username' | 'user_email' | 'user_role' | 'user_verification_status' | 'user_password' | 'user_deletion_status'>, [users['user_email']]>(
+        'select user_username, user_email, user_role, user_verification_status, user_password, user_deletion_status from users where user_email = $1',
         [email]
       )
 
       if (user.rowCount === 0) {
         void reply.code(404)
         throw new Error('user with supplied \'email\' not found')
+      }
+
+      if (user.rows[0].user_deletion_status) {
+        throw new Error('you are banned')
       }
 
       const isPasswordValid = await bcrypt.compare(
