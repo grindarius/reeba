@@ -16,21 +16,25 @@
           </div>
         </div>
         <div tabindex="0" class="collapse">
-          <input type="checkbox"> 
-            <div class="user-info inline-block mt-1 font-sans hover:text-white hover:underline">
-              Edit
-            </div>
-              <div class="collapse-content">
-                <li class="confirm">Save </li>
-                <li class="confirmtwo">Cancel</li>
-                <p>Bio</p>
-                  <textarea class="textarea bg-gray-200 text-pale-gray" cols="100" rows="5" >{{ userData?.profileDescription ?? '' }}</textarea>
-                    <input class="bio" type="link" placeholder="&#61570; Add your Linked Facebook link">
-                    <input class="bio" type="link" placeholder="&#61569; Add your Linked Twitter link">
-                    <input class="bio" type="link" placeholder="&#61805; Add your Linked Instagram link">
-              </div>
-            </div>
-            
+          <input type="checkbox">
+          <div class="user-info inline-block mt-1 font-sans hover:text-white hover:underline">
+            Edit
+          </div>
+          <div class="collapse-content">
+            <li class="confirm">
+              Save
+            </li>
+            <li class="confirmtwo">
+              Cancel
+            </li>
+            <p>Bio</p>
+            <textarea class="textarea bg-gray-200 text-pale-gray" cols="100" rows="5">{{ userData?.profileDescription ?? '' }}</textarea>
+            <input class="bio" type="link" placeholder="&#61570; Add your Linked Facebook link">
+            <input class="bio" type="link" placeholder="&#61569; Add your Linked Twitter link">
+            <input class="bio" type="link" placeholder="&#61805; Add your Linked Instagram link">
+          </div>
+        </div>
+
         <div class="mt-3 mb-5 text-white text-md">
           {{ userData?.profileDescription ?? '' }}
         </div>
@@ -352,15 +356,15 @@ export default defineComponent({
 }
 
 .bio {
-  @apply grid grid-cols-3 input w-full max-w-4xl mt-2 bg-gray-200 text-pale-gray; 
+  @apply grid grid-cols-3 input w-full max-w-4xl mt-2 bg-gray-200 text-pale-gray;
 }
 
 .confirm {
-  @apply inline-flex pl-80 font-sans hover:text-pale-yellow cursor-pointer; 
+  @apply inline-flex pl-80 font-sans hover:text-pale-yellow cursor-pointer;
 }
 
 .confirmtwo {
-  @apply flex-row inline-flex px-14 font-sans hover:text-pale-yellow cursor-pointer; 
+  @apply flex-row inline-flex px-14 font-sans hover:text-pale-yellow cursor-pointer;
 }
 
 </style>
