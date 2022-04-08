@@ -439,12 +439,4 @@ export default defineComponent({
   @apply rounded-lg shadow-xl transition duration-200 ease-in-out delay-100 cursor-pointer hover:scale-105 hover:-translate-y-1;
 }
 
-.bio {
-  @apply bg-gray-200 input input-bordered input-md;
-}
-
-.confirm {
-  @apply inline-flex pl-80 font-sans cursor-pointer hover:text-pale-yellow;
-}
-
 </style>
