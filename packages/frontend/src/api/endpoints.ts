@@ -217,3 +217,10 @@ export const adminGetTopEventTagsOfAllTime: Endpoint = {
   url: `${url}/admin/top-event-tags`,
   method: 'get'
 }
+
+export const patchUserProfileDescription: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/users/${username}/profile`,
+    method: 'patch'
+  }
+}

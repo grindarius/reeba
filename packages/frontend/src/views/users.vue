@@ -1,13 +1,13 @@
 <template>
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
   <div class="users-page">
-    <metainfo>
-      <template #title="{ content }">
-        {{ content }} | ReebA: Ticket booking. Redefined.
-      </template>
-    </metainfo>
     <div class="users-page-content">
       <section class="profile-descriptions">
-        <img :src="`${getUserAvatar({ username: $route.params.username as string}).url}`" alt="user-image" class="user-image">
+        <img :src="`${getUserAvatar({ username: $route.params.username as string }).url}`" alt="user-image" class="user-image">
         <div class="user-info">
           <div class="mt-3 text-4xl font-bold text-white" :title="($route.params.username as string)">
             {{ $route.params.username }}
@@ -15,51 +15,52 @@
             <v-mdi v-if="isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
           </div>
         </div>
-        <div tabindex="0" class="collapse">
-          <div class="user-info mt-2 font-sans hover:text-white hover:underline">
+        <template v-if="authStore.isAuthenticated && authStore.userData.username === $route.params.username">
+          <a v-if="!isEditing" class="link" @click="isEditing = true">
             Edit
-          </div>
-          <div class="collapse-content">
-            <li class="confirm">
+          </a>
+          <div class="flex flex-row gap-x-4">
+            <a v-if="isEditing" class="link" @click="patchUserProfileDescription">
               Save
-            </li>
-            <li class="confirmtwo">
+            </a>
+            <a v-if="isEditing" class="link" @click="isEditing = false">
               Cancel
-            </li>
-            <h1 v-show="true">
-              <p>Bio</p>
-              <textarea class="textarea bg-gray-200 text-pale-gray" cols="102.5" rows="5">{{ userData?.profileDescription ?? '' }}</textarea>
-              <div>
-                <label class="input-group input-group-md">
-                  <span class="bg-gray-200">
-                    <v-mdi name="mdi-facebook" size="40" fill="#FFFFFF" />
-                  </span>
-                  <input type="text" placeholder="Add your Linked Facebook link" class="bio">
-                </label>
-              </div>
-              <div>
-                <label class="input-group input-group-md mt-2">
-                  <span class="bg-gray-200">
-                    <v-mdi name="mdi-twitter" size="40" fill="#FFFFFF" />
-                  </span>
-                  <input type="text" placeholder="Add your Linked Twitter link" class="bio">
-                </label>
-              </div>
-              <div>
-                <label class="input-group input-group-md mt-2">
-                  <span class="bg-gray-200">
-                    <v-mdi name="mdi-Instagram" size="40" fill="#FFFFFF" />
-                  </span>
-                  <input type="text" placeholder="Add your Linked Instagram link" class="bio">
-                </label>
-              </div>
-            </h1>
+            </a>
           </div>
+        </template>
+        <div v-if="isEditing" class="form-control">
+          <label class="label">Profile description</label>
+          <textarea class="textarea w-[350px] textarea-bordered bg-white text-black" rows="5" v-model="descriptionText" />
         </div>
-        <div class="mt-3 mb-5 text-white text-md">
+        <div v-if="isEditing" class="form-control">
+          <label class="label">Facebook</label>
+          <input type="text" class="input input-bordered bg-white text-black w-[350px]" v-model="facebookLink">
+        </div>
+        <div v-if="isEditing" class="form-control">
+          <label class="label">Instagram</label>
+          <input type="text" class="input input-bordered bg-white text-black w-[350px]" v-model="instagramLink">
+        </div>
+        <div v-if="isEditing" class="form-control">
+          <label class="label">Twitter</label>
+          <input type="text" class="input input-bordered bg-white text-black w-[350px]" v-model="twitterLink">
+        </div>
+        <div v-if="isEditing" class="form-control">
+          <label class="label">Tiktok</label>
+          <input type="text" class="input input-bordered bg-white text-black w-[350px]" v-model="tiktokLink">
+        </div>
+        <div v-if="isEditing" class="form-control">
+          <label class="label">Email</label>
+          <input type="text" class="input input-bordered bg-white text-black w-[350px]" v-model="emailLink">
+        </div>
+        <div v-if="isEditing" class="form-control">
+          <label class="label">Website</label>
+          <input type="text" class="input input-bordered bg-white text-black w-[350px]" v-model="websiteLink">
+        </div>
+
+        <div v-if="!isEditing" class="mt-3 mb-5 text-white text-md whitespace-pre-line">
           {{ userData?.profileDescription ?? '' }}
         </div>
-        <div class="social-icons">
+        <div v-if="!isEditing" class="social-icons">
           <a v-show="userData?.socialMedias.facebook == null ? false : userData.socialMedias.facebook === '' ? false : true" :href="userData?.socialMedias.facebook || '#'" target="_blank" rel="noopener">
             <v-mdi name="mdi-facebook" fill="#D5A755" />
           </a>
@@ -81,13 +82,13 @@
           <a v-show="userData?.socialMedias.website == null ? false : userData.socialMedias.website === '' ? false : true" :href="userData?.socialMedias.website || '#'" target="_blank" rel="noopener">
             <v-mdi name="mdi-web" fill="#D5A755" />
           </a>
-          <a v-show="userData?.socialMedias.email == null ? false : userData.socialMedias.email === '' ? false : true" :href="userData?.socialMedias.email || '#'" target="_blank" rel="noopener">
+          <a v-show="userData?.socialMedias.email == null ? false : userData.socialMedias.email === '' ? false : true" :href="userData?.socialMedias.email == null ? '#' : `mailto:${userData?.socialMedias.email}`" target="_blank" rel="noopener">
             <v-mdi name="mdi-email-plus" fill="#D5A755" />
           </a>
         </div>
         <button
           :disabled="userData?.username == null || userData?.username === authStore.userData.username"
-          class="disabled:text-white btn btn-primary hover:bg-yellow-hover disabled:bg-red-disabled"
+          class="disabled:text-white btn btn-primary hover:bg-yellow-hover disabled:bg-red-disabled my-4"
           @click="followUser">
           {{ isFollowing ? 'Following' : 'Follow' }}
         </button>
@@ -166,7 +167,14 @@ import { useToast } from 'vue-toastification'
 
 import { GetUserRelatedEventsReply, GetUserReply, PostFollowReply } from '@reeba/common'
 
-import { getEventImage, getUser, getUserAvatar, getUserRelatedEvents, postFollow } from '@/api/endpoints'
+import {
+  getEventImage,
+  getUser,
+  getUserAvatar,
+  getUserRelatedEvents,
+  patchUserProfileDescription as patchUserProfileDescriptionEndpoint,
+  postFollow
+} from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 
 export default defineComponent({
@@ -176,6 +184,16 @@ export default defineComponent({
     const router = useRouter()
     const authStore = useAuthStore()
     const toast = useToast()
+
+    const isEditing = ref(false)
+
+    const descriptionText = ref('')
+    const facebookLink = ref('')
+    const instagramLink = ref('')
+    const twitterLink = ref('')
+    const tiktokLink = ref('')
+    const emailLink = ref('')
+    const websiteLink = ref('')
 
     const userData: Ref<GetUserReply | undefined> = ref(undefined)
     const relatedEvents: Ref<GetUserRelatedEventsReply> = ref({
@@ -205,13 +223,6 @@ export default defineComponent({
 
       return userData.value.isAdmin
     })
-    const edit = ref(() => {
-      if (userData.value?.profileDescription == null) {
-        return false
-      }
-
-      return userData.value.profileDescription
-    })
 
     useMeta({
       title: route.params.username
@@ -238,6 +249,14 @@ export default defineComponent({
         }).json<GetUserRelatedEventsReply>()
 
         userData.value = userDataResponse
+        descriptionText.value = userDataResponse.profileDescription
+        facebookLink.value = userDataResponse.socialMedias.facebook
+        instagramLink.value = userDataResponse.socialMedias.instagram
+        twitterLink.value = userDataResponse.socialMedias.twitter
+        tiktokLink.value = userDataResponse.socialMedias.tiktok
+        emailLink.value = userDataResponse.socialMedias.email
+        websiteLink.value = userDataResponse.socialMedias.website
+
         isFollowing.value = userDataResponse.isCurrentUserFollowing
         relatedEvents.value.created = userRelatedEvents.created
         relatedEvents.value.attended = userRelatedEvents.attended
@@ -282,7 +301,51 @@ export default defineComponent({
 
         if (response?.status === 401) {
           toast.error('Unauthenticated')
-          router.push({ name: 'Signin ' })
+          router.push({ name: 'Signin' })
+        }
+
+        toast.error('Unexpected error')
+      }
+    }
+
+    const patchUserProfileDescription = async (): Promise<void> => {
+      try {
+        const { method, url } = patchUserProfileDescriptionEndpoint({ username: authStore.userData.username })
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          json: {
+            description: descriptionText.value,
+            facebook: facebookLink.value,
+            instagram: instagramLink.value,
+            twitter: twitterLink.value,
+            tiktok: tiktokLink.value,
+            website: websiteLink.value,
+            email: emailLink.value
+          }
+        })
+
+        if (userData.value != null) {
+          userData.value.profileDescription = descriptionText.value
+          userData.value.socialMedias.facebook = facebookLink.value
+          userData.value.socialMedias.instagram = instagramLink.value
+          userData.value.socialMedias.twitter = twitterLink.value
+          userData.value.socialMedias.tiktok = tiktokLink.value
+          userData.value.socialMedias.website = websiteLink.value
+          userData.value.socialMedias.email = emailLink.value
+        }
+
+        isEditing.value = false
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const response = error?.response
+
+        if (response?.status === 401) {
+          toast.error('Unauthenticated')
+          router.push({ name: 'Signin' })
         }
 
         toast.error('Unexpected error')
@@ -290,6 +353,7 @@ export default defineComponent({
     }
 
     return {
+      isEditing,
       userData,
       getUserAvatar,
       authStore,
@@ -299,7 +363,14 @@ export default defineComponent({
       isFollowing,
       isAdmin,
       isVerified,
-      edit
+      descriptionText,
+      facebookLink,
+      instagramLink,
+      twitterLink,
+      tiktokLink,
+      emailLink,
+      patchUserProfileDescription,
+      websiteLink
     }
   }
 })
@@ -361,7 +432,7 @@ export default defineComponent({
 }
 
 .user-stats {
-  @apply flex flex-col gap-x-14 items-center mt-6 w-11/12 md:flex-row md:justify-center;
+  @apply flex flex-col gap-x-14 items-center w-11/12 md:flex-row md:justify-center;
 
   & h1 {
     @apply text-lg text-white;
