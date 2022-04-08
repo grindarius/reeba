@@ -9,7 +9,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.Home
   },
   {
-    path: '/all',
+    path: '/all-events',
     name: 'All Events',
     component: Page.AllEvents
   },
