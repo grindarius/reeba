@@ -1,13 +1,13 @@
 <template>
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
   <div class="users-page">
-    <metainfo>
-      <template #title="{ content }">
-        {{ content }} | ReebA: Ticket booking. Redefined.
-      </template>
-    </metainfo>
     <div class="users-page-content">
       <section class="profile-descriptions">
-        <img :src="`${getUserAvatar({ username: $route.params.username as string}).url}`" alt="user-image" class="user-image">
+        <img :src="`${getUserAvatar({ username: $route.params.username as string }).url}`" alt="user-image" class="user-image">
         <div class="user-info">
           <div class="mt-3 text-4xl font-bold text-white" :title="($route.params.username as string)">
             {{ $route.params.username }}
@@ -15,10 +15,52 @@
             <v-mdi v-if="userData?.isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
           </div>
         </div>
-        <div class="mt-3 mb-5 text-white text-md">
+        <template v-if="authStore.isAuthenticated && authStore.userData.username === $route.params.username">
+          <a v-if="!isEditing" class="link" @click="isEditing = true">
+            Edit
+          </a>
+          <div class="flex flex-row gap-x-4">
+            <a v-if="isEditing" class="link" @click="patchUserProfileDescription">
+              Save
+            </a>
+            <a v-if="isEditing" class="link" @click="isEditing = false">
+              Cancel
+            </a>
+          </div>
+        </template>
+        <div v-if="isEditing" class="form-control">
+          <label class="label">Profile description</label>
+          <textarea class="text-black bg-white textarea w-[350px] textarea-bordered" rows="5" v-model="descriptionText" />
+        </div>
+        <div v-if="isEditing" class="form-control">
+          <label class="label">Facebook</label>
+          <input type="text" class="text-black bg-white input input-bordered w-[350px]" v-model="facebookLink">
+        </div>
+        <div v-if="isEditing" class="form-control">
+          <label class="label">Instagram</label>
+          <input type="text" class="text-black bg-white input input-bordered w-[350px]" v-model="instagramLink">
+        </div>
+        <div v-if="isEditing" class="form-control">
+          <label class="label">Twitter</label>
+          <input type="text" class="text-black bg-white input input-bordered w-[350px]" v-model="twitterLink">
+        </div>
+        <div v-if="isEditing" class="form-control">
+          <label class="label">Tiktok</label>
+          <input type="text" class="text-black bg-white input input-bordered w-[350px]" v-model="tiktokLink">
+        </div>
+        <div v-if="isEditing" class="form-control">
+          <label class="label">Email</label>
+          <input type="text" class="text-black bg-white input input-bordered w-[350px]" v-model="emailLink">
+        </div>
+        <div v-if="isEditing" class="form-control">
+          <label class="label">Website</label>
+          <input type="text" class="text-black bg-white input input-bordered w-[350px]" v-model="websiteLink">
+        </div>
+
+        <div v-if="!isEditing" class="mt-3 mb-5 text-white whitespace-pre-line text-md">
           {{ userData?.profileDescription ?? '' }}
         </div>
-        <div class="social-icons">
+        <div v-if="!isEditing" class="social-icons">
           <a v-show="userData?.socialMedias.facebook == null ? false : userData.socialMedias.facebook === '' ? false : true" :href="userData?.socialMedias.facebook || '#'" target="_blank" rel="noopener">
             <v-mdi name="mdi-facebook" fill="#D5A755" />
           </a>
@@ -40,13 +82,13 @@
           <a v-show="userData?.socialMedias.website == null ? false : userData.socialMedias.website === '' ? false : true" :href="userData?.socialMedias.website || '#'" target="_blank" rel="noopener">
             <v-mdi name="mdi-web" fill="#D5A755" />
           </a>
-          <a v-show="userData?.socialMedias.email == null ? false : userData.socialMedias.email === '' ? false : true" :href="userData?.socialMedias.email || '#'" target="_blank" rel="noopener">
+          <a v-show="userData?.socialMedias.email == null ? false : userData.socialMedias.email === '' ? false : true" :href="userData?.socialMedias.email == null ? '#' : `mailto:${userData?.socialMedias.email}`" target="_blank" rel="noopener">
             <v-mdi name="mdi-email-plus" fill="#D5A755" />
           </a>
         </div>
         <button
           :disabled="userData?.username == null || userData?.username === authStore.userData.username"
-          class="disabled:text-white btn btn-primary hover:bg-yellow-hover disabled:bg-red-disabled"
+          class="my-4 disabled:text-white btn btn-primary hover:bg-yellow-hover disabled:bg-red-disabled"
           @click="followUser">
           {{ isFollowing ? 'Following' : 'Follow' }}
         </button>
@@ -75,7 +117,7 @@
           </div>
           <div v-else class="event-grid-box">
             <div class="event" v-for="({ username: attendedUsername, id: eventId, name: eventName, venueName }, i) in (relatedEvents?.attended ?? [])" :key="`user-page-attended-event-${i}`">
-              <router-link :to="{ name: 'Event', params: { attendedUsername, eventId }}">
+              <router-link :to="{ name: 'Event', params: { username: attendedUsername, eventId }}">
                 <div class="event-image-box">
                   <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
                 </div>
@@ -102,7 +144,7 @@
           </div>
           <div v-else class="event-grid-box">
             <div class="event" v-for="({ username: createdUsername, id: eventId, name: eventName, venueName }, i) in (relatedEvents?.created ?? [])" :key="`user-page-created-event-${i}`">
-              <router-link :to="{ name: 'Event', params: { createdUsername, eventId }}" :key="$route.path">
+              <router-link :to="{ name: 'Event', params: { username: createdUsername, eventId }}" :key="$route.path">
                 <div class="event-image-box">
                   <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
                 </div>
@@ -187,7 +229,16 @@ import { useToast } from 'vue-toastification'
 
 import { GetUserFollowersListReply, GetUserFollowingsListReply, GetUserRelatedEventsReply, GetUserReply, PostFollowReply } from '@reeba/common'
 
-import { getEventImage, getUser, getUserAvatar, getUserFollowersList, getUserFollowingsList, getUserRelatedEvents, postFollow } from '@/api/endpoints'
+import {
+  getEventImage,
+  getUser,
+  getUserAvatar,
+  getUserFollowersList,
+  getUserFollowingsList,
+  getUserRelatedEvents,
+  patchUserProfileDescription as patchUserProfileDescriptionEndpoint,
+  postFollow
+} from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 
 export default defineComponent({
@@ -198,6 +249,15 @@ export default defineComponent({
     const authStore = useAuthStore()
     const toast = useToast()
 
+    const isEditing = ref(false)
+
+    const descriptionText = ref('')
+    const facebookLink = ref('')
+    const instagramLink = ref('')
+    const twitterLink = ref('')
+    const tiktokLink = ref('')
+    const emailLink = ref('')
+    const websiteLink = ref('')
     const followersModalRef: Ref<HTMLInputElement | null> = ref(null)
     const followingsModalRef: Ref<HTMLInputElement | null> = ref(null)
 
@@ -239,6 +299,14 @@ export default defineComponent({
         }).json<GetUserRelatedEventsReply>()
 
         userData.value = userDataResponse
+        descriptionText.value = userDataResponse.profileDescription
+        facebookLink.value = userDataResponse.socialMedias.facebook
+        instagramLink.value = userDataResponse.socialMedias.instagram
+        twitterLink.value = userDataResponse.socialMedias.twitter
+        tiktokLink.value = userDataResponse.socialMedias.tiktok
+        emailLink.value = userDataResponse.socialMedias.email
+        websiteLink.value = userDataResponse.socialMedias.website
+
         isFollowing.value = userDataResponse.isCurrentUserFollowing
         relatedEvents.value.created = userRelatedEvents.created
         relatedEvents.value.attended = userRelatedEvents.attended
@@ -333,7 +401,51 @@ export default defineComponent({
 
         if (response?.status === 401) {
           toast.error('Unauthenticated')
-          router.push({ name: 'Signin ' })
+          router.push({ name: 'Signin' })
+        }
+
+        toast.error('Unexpected error')
+      }
+    }
+
+    const patchUserProfileDescription = async (): Promise<void> => {
+      try {
+        const { method, url } = patchUserProfileDescriptionEndpoint({ username: authStore.userData.username })
+
+        await ky(url, {
+          method,
+          headers: {
+            Authorization: `Bearer ${authStore.userData.token}`
+          },
+          json: {
+            description: descriptionText.value,
+            facebook: facebookLink.value,
+            instagram: instagramLink.value,
+            twitter: twitterLink.value,
+            tiktok: tiktokLink.value,
+            website: websiteLink.value,
+            email: emailLink.value
+          }
+        })
+
+        if (userData.value != null) {
+          userData.value.profileDescription = descriptionText.value
+          userData.value.socialMedias.facebook = facebookLink.value
+          userData.value.socialMedias.instagram = instagramLink.value
+          userData.value.socialMedias.twitter = twitterLink.value
+          userData.value.socialMedias.tiktok = tiktokLink.value
+          userData.value.socialMedias.website = websiteLink.value
+          userData.value.socialMedias.email = emailLink.value
+        }
+
+        isEditing.value = false
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const response = error?.response
+
+        if (response?.status === 401) {
+          toast.error('Unauthenticated')
+          router.push({ name: 'Signin' })
         }
 
         toast.error('Unexpected error')
@@ -358,6 +470,7 @@ export default defineComponent({
     })
 
     return {
+      isEditing,
       userData,
       followersModalRef,
       followingsModalRef,
@@ -372,7 +485,15 @@ export default defineComponent({
       goToUser,
       relatedEvents,
       getEventImage,
-      isFollowing
+      isFollowing,
+      descriptionText,
+      facebookLink,
+      instagramLink,
+      twitterLink,
+      tiktokLink,
+      emailLink,
+      patchUserProfileDescription,
+      websiteLink
     }
   }
 })
@@ -434,7 +555,7 @@ export default defineComponent({
 }
 
 .user-stats {
-  @apply flex flex-col gap-x-14 items-center mt-6 w-11/12 md:flex-row md:justify-center;
+  @apply flex flex-col gap-x-14 items-center w-11/12 md:flex-row md:justify-center;
 
   & h1 {
     @apply text-lg text-white;
@@ -456,4 +577,5 @@ export default defineComponent({
 .event {
   @apply rounded-lg shadow-xl transition duration-200 ease-in-out delay-100 cursor-pointer hover:scale-105 hover:-translate-y-1;
 }
+
 </style>
