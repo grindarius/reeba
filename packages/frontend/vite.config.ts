@@ -15,7 +15,7 @@ export default defineConfig({
     exclude: ['@reeba/common']
   },
   server: {
-    port: 8080,
+    port: 8081,
     open: true
   },
   envDir: '.'
