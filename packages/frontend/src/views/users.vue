@@ -16,8 +16,7 @@
           </div>
         </div>
         <div tabindex="0" class="collapse">
-          <input type="checkbox">
-          <div class="user-info inline-block mt-1 font-sans hover:text-white hover:underline">
+          <div class="user-info mt-2 font-sans hover:text-white hover:underline">
             Edit
           </div>
           <div class="collapse-content">
@@ -27,14 +26,36 @@
             <li class="confirmtwo">
               Cancel
             </li>
-            <p>Bio</p>
-            <textarea class="textarea bg-gray-200 text-pale-gray" cols="100" rows="5">{{ userData?.profileDescription ?? '' }}</textarea>
-            <input class="bio" type="link" placeholder="&#61570; Add your Linked Facebook link">
-            <input class="bio" type="link" placeholder="&#61569; Add your Linked Twitter link">
-            <input class="bio" type="link" placeholder="&#61805; Add your Linked Instagram link">
+            <h1 v-show="true">
+              <p>Bio</p>
+              <textarea class="textarea bg-gray-200 text-pale-gray" cols="102.5" rows="5">{{ userData?.profileDescription ?? '' }}</textarea>
+              <div>
+                <label class="input-group input-group-md">
+                  <span class="bg-gray-200">
+                    <v-mdi name="mdi-facebook" size="40" fill="#FFFFFF" />
+                  </span>
+                  <input type="text" placeholder="Add your Linked Facebook link" class="bio">
+                </label>
+              </div>
+              <div>
+                <label class="input-group input-group-md mt-2">
+                  <span class="bg-gray-200">
+                    <v-mdi name="mdi-twitter" size="40" fill="#FFFFFF" />
+                  </span>
+                  <input type="text" placeholder="Add your Linked Twitter link" class="bio">
+                </label>
+              </div>
+              <div>
+                <label class="input-group input-group-md mt-2">
+                  <span class="bg-gray-200">
+                    <v-mdi name="mdi-Instagram" size="40" fill="#FFFFFF" />
+                  </span>
+                  <input type="text" placeholder="Add your Linked Instagram link" class="bio">
+                </label>
+              </div>
+            </h1>
           </div>
         </div>
-
         <div class="mt-3 mb-5 text-white text-md">
           {{ userData?.profileDescription ?? '' }}
         </div>
@@ -184,6 +205,13 @@ export default defineComponent({
 
       return userData.value.isAdmin
     })
+    const edit = ref(() => {
+      if (userData.value?.profileDescription == null) {
+        return false
+      }
+
+      return userData.value.profileDescription
+    })
 
     useMeta({
       title: route.params.username
@@ -270,7 +298,8 @@ export default defineComponent({
       getEventImage,
       isFollowing,
       isAdmin,
-      isVerified
+      isVerified,
+      edit
     }
   }
 })
@@ -356,7 +385,7 @@ export default defineComponent({
 }
 
 .bio {
-  @apply grid grid-cols-3 input w-full max-w-4xl mt-2 bg-gray-200 text-pale-gray;
+  @apply input input-bordered input-md bg-gray-200;
 }
 
 .confirm {
