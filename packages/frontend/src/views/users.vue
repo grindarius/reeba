@@ -30,34 +30,34 @@
         </template>
         <div v-if="isEditing" class="form-control">
           <label class="label">Profile description</label>
-          <textarea class="textarea w-[350px] textarea-bordered bg-white text-black" rows="5" v-model="descriptionText" />
+          <textarea class="text-black bg-white textarea w-[350px] textarea-bordered" rows="5" v-model="descriptionText" />
         </div>
         <div v-if="isEditing" class="form-control">
           <label class="label">Facebook</label>
-          <input type="text" class="input input-bordered bg-white text-black w-[350px]" v-model="facebookLink">
+          <input type="text" class="text-black bg-white input input-bordered w-[350px]" v-model="facebookLink">
         </div>
         <div v-if="isEditing" class="form-control">
           <label class="label">Instagram</label>
-          <input type="text" class="input input-bordered bg-white text-black w-[350px]" v-model="instagramLink">
+          <input type="text" class="text-black bg-white input input-bordered w-[350px]" v-model="instagramLink">
         </div>
         <div v-if="isEditing" class="form-control">
           <label class="label">Twitter</label>
-          <input type="text" class="input input-bordered bg-white text-black w-[350px]" v-model="twitterLink">
+          <input type="text" class="text-black bg-white input input-bordered w-[350px]" v-model="twitterLink">
         </div>
         <div v-if="isEditing" class="form-control">
           <label class="label">Tiktok</label>
-          <input type="text" class="input input-bordered bg-white text-black w-[350px]" v-model="tiktokLink">
+          <input type="text" class="text-black bg-white input input-bordered w-[350px]" v-model="tiktokLink">
         </div>
         <div v-if="isEditing" class="form-control">
           <label class="label">Email</label>
-          <input type="text" class="input input-bordered bg-white text-black w-[350px]" v-model="emailLink">
+          <input type="text" class="text-black bg-white input input-bordered w-[350px]" v-model="emailLink">
         </div>
         <div v-if="isEditing" class="form-control">
           <label class="label">Website</label>
-          <input type="text" class="input input-bordered bg-white text-black w-[350px]" v-model="websiteLink">
+          <input type="text" class="text-black bg-white input input-bordered w-[350px]" v-model="websiteLink">
         </div>
 
-        <div v-if="!isEditing" class="mt-3 mb-5 text-white text-md whitespace-pre-line">
+        <div v-if="!isEditing" class="mt-3 mb-5 text-white whitespace-pre-line text-md">
           {{ userData?.profileDescription ?? '' }}
         </div>
         <div v-if="!isEditing" class="social-icons">
@@ -88,7 +88,7 @@
         </div>
         <button
           :disabled="userData?.username == null || userData?.username === authStore.userData.username"
-          class="disabled:text-white btn btn-primary hover:bg-yellow-hover disabled:bg-red-disabled my-4"
+          class="my-4 disabled:text-white btn btn-primary hover:bg-yellow-hover disabled:bg-red-disabled"
           @click="followUser">
           {{ isFollowing ? 'Following' : 'Follow' }}
         </button>
@@ -440,14 +440,14 @@ export default defineComponent({
 }
 
 .bio {
-  @apply input input-bordered input-md bg-gray-200;
+  @apply bg-gray-200 input input-bordered input-md;
 }
 
 .confirm {
-  @apply inline-flex pl-80 font-sans hover:text-pale-yellow cursor-pointer;
+  @apply inline-flex pl-80 font-sans cursor-pointer hover:text-pale-yellow;
 }
 
 .confirmtwo {
-  @apply flex-row inline-flex px-14 font-sans hover:text-pale-yellow cursor-pointer;
+  @apply inline-flex flex-row px-14 font-sans cursor-pointer hover:text-pale-yellow;
 }
 </style>
