@@ -143,26 +143,10 @@ export default defineComponent({
     })
     const isFollowing = ref(false)
     const isVerified = computed(() => {
-      if (userData.value?.verificationStatus == null) {
-        return false
-      }
-
-      if (userData.value?.isAdmin == null) {
-        return false
-      }
-
-      if (userData.value.isAdmin === true) {
-        return false
-      }
-
-      return userData.value.verificationStatus
+      return userData.value?.verificationStatus ?? false
     })
     const isAdmin = computed(() => {
-      if (userData.value?.isAdmin == null) {
-        return false
-      }
-
-      return userData.value.isAdmin
+      return userData.value?.isAdmin ?? false
     })
 
     useMeta({

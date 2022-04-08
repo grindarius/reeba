@@ -22,6 +22,18 @@ export const AdminGetUserDataReplySchema = Type.Object({
   users: Type.Array(Type.Object({
     username: Type.String(),
     email: Type.String(),
+    socialMedias: Type.Object({
+      facebook: Type.String(),
+      instagram: Type.String(),
+      twitter: Type.String(),
+      tiktok: Type.String(),
+      email: Type.String(),
+      website: Type.String()
+    }),
+    phoneNumber: Type.String(),
+    phoneCountryCode: Type.String(),
+    birthdate: Type.Union([Type.String(), Type.Null()]),
+    iso31662: Type.String(),
     isAdmin: Type.Boolean(),
     isVerified: Type.Boolean(),
     registrationDatetime: Type.String()
