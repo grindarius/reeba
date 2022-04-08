@@ -7,9 +7,11 @@ interface Endpoint {
 
 export type EndpointFunc<T extends object> = (args: T) => Endpoint
 
-export const postAvatar: Endpoint = {
-  url: url + '/avatars',
-  method: 'post'
+export const postAvatar: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/avatars/${username}`,
+    method: 'post'
+  }
 }
 
 export const getRootPageEvents: Endpoint = {
