@@ -136,5 +136,6 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           message: 'complete'
         }
       })
-    })
+    }
+  )
 }
