@@ -58,6 +58,11 @@ export const GetIndividualEventRequestParamsSchema = Type.Object({
 })
 export type GetIndividualEventRequestParams = Static<typeof GetIndividualEventRequestParamsSchema>
 
+export const GetIndividualEventRequestQuerystringSchema = Type.Object({
+  u: Type.String()
+})
+export type GetIndividualEventRequestQuerystring = Static<typeof GetIndividualEventRequestQuerystringSchema>
+
 export const GetIndividualEventReplySchema = Type.Object({
   name: Type.String(),
   createdBy: Type.String(),
@@ -74,6 +79,8 @@ export const GetIndividualEventReplySchema = Type.Object({
     value: Type.Number()
   })),
   tags: Type.Array(Type.String()),
+  ageLimit: Type.Number(),
+  isCurrentUserAttended: Type.Boolean(),
   datetimes: Type.Array(Type.Object({
     datetimeId: Type.String(),
     start: Type.String(),
