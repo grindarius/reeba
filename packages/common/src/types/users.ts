@@ -89,3 +89,22 @@ export const PatchUserDescriptionReplySchema = Type.Object({
   message: Type.String()
 })
 export type PatchUserDescriptionReply = Static<typeof PatchUserDescriptionReplySchema>
+
+export const GetUserFollowingsListRequestParamsSchema = Type.Object({
+  username: Type.String()
+})
+export type GetUserFollowingsListRequestParams = Static<typeof GetUserFollowingsListRequestParamsSchema>
+
+export const GetUserFollowingsListRequestQuertstringSchema = Type.Object({
+  u: Type.String({ default: '' })
+})
+export type GetUserFollowingsListRequestQuertsring = Static<typeof GetUserFollowingsListRequestQuertstringSchema>
+
+export const GetUserFollowingsListReplySchema = Type.Object({
+  followings: Type.Array(Type.Object({
+    username: Type.String(),
+    isAdmin: Type.Boolean(),
+    isVerified: Type.Boolean()
+  }))
+})
+export type GetUserFollowingsListReply = Static<typeof GetUserFollowingsListReplySchema>

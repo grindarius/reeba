@@ -75,9 +75,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           return {
             username: u.user_username,
             email: u.user_email,
+            socialMedias: u.user_social_medias,
+            phoneNumber: u.user_phone_number,
+            phoneCountryCode: u.user_phone_country_code,
+            birthdate: u.user_birthdate == null ? null : dayjs(u.user_birthdate).toISOString(),
+            iso31662: u.user_iso_31662_code,
             registrationDatetime: dayjs(u.user_registration_datetime).toISOString(),
             isAdmin: u.user_role === 'admin',
-            isVerified: u.user_role === 'admin' ? true : u.user_verification_status
+            isVerified: u.user_verification_status
           }
         })
       }

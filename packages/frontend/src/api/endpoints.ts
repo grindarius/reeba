@@ -7,9 +7,11 @@ interface Endpoint {
 
 export type EndpointFunc<T extends object> = (args: T) => Endpoint
 
-export const postAvatar: Endpoint = {
-  url: url + '/avatars',
-  method: 'post'
+export const postAvatar: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/avatars/${username}`,
+    method: 'post'
+  }
 }
 
 export const getRootPageEvents: Endpoint = {
@@ -221,6 +223,55 @@ export const adminGetTopEventTagsOfAllTime: Endpoint = {
 export const patchUserProfileDescription: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
   return {
     url: `${url}/users/${username}/profile`,
+    method: 'patch'
+  }
+}
+
+export const getOrganizerData: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/organizer`,
+    method: 'get'
+  }
+}
+
+export const getOrganizerOverviewData: EndpointFunc<{ username: string, eventId: string }> = ({ username, eventId }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/organizer/${eventId}`,
+    method: 'get'
+  }
+}
+
+export const getOrganizerMapOverview: EndpointFunc<{ username: string, eventId: string }> = ({ username, eventId }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/organizer/${eventId}/maps`,
+    method: 'get'
+  }
+}
+
+export const getOrganizerOrdersOverview: EndpointFunc<{ username: string, eventId: string }> = ({ username, eventId }): Endpoint => {
+  return {
+    url: `${url}/accounts/${username}/organizer/${eventId}/orders`,
+    method: 'get'
+  }
+}
+
+export const deleteTransaction: EndpointFunc<{ transactionId: string }> = ({ transactionId }): Endpoint => {
+  return {
+    url: `${url}/transactions/${transactionId}`,
+    method: 'delete'
+  }
+}
+
+export const getEditableEventData: EndpointFunc<{ eventId: string }> = ({ eventId }): Endpoint => {
+  return {
+    url: `${url}/events/${eventId}/edit`,
+    method: 'get'
+  }
+}
+
+export const patchEditableEventData: EndpointFunc<{ eventId: string }> = ({ eventId }): Endpoint => {
+  return {
+    url: `${url}/events/${eventId}/edit`,
     method: 'patch'
   }
 }

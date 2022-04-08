@@ -23,7 +23,7 @@
           <div class="col-span-4">
             <div class="flex flex-row justify-between">
               <div class="tabs">
-                <a :class="isWrite ?'tab tab-bordered tab-active' : 'tab tab-bordered'" @click="isWrite = true">Write</a>
+                <a :class="isWrite ? 'tab tab-bordered tab-active' : 'tab tab-bordered'" @click="isWrite = true">Write</a>
                 <a :class="!isWrite ? 'tab tab-bordered tab-active' : 'tab tab-bordered'" @click="isWrite = false">Preview</a>
               </div>
               <button @click="openMarkdownRef('https://markdown-it.github.io/')" class="self-center place-self-end">
@@ -645,7 +645,7 @@ export default defineComponent({
         }
 
         toast.success('Event created!')
-        router.push('/')
+        router.push({ name: 'Event', params: { username: authStore.userData.username, eventId: response.eventId } })
       } catch (error) {
         // @ts-expect-error error is unknown
         const json = await error.response.json()
