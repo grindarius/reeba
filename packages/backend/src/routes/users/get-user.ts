@@ -55,6 +55,11 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         [request.params.username]
       )
 
+      const followingsAmount = await instance.pg.query<{ followings_amount: number }, [users['user_username']]>(
+        'select count(*) as followings_amount from "user_followers" where following_username = $1',
+        [request.params.username]
+      )
+
       return {
         username: existingUser.rows[0].user_username,
         verificationStatus: existingUser.rows[0].user_verification_status,
@@ -62,6 +67,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         socialMedias: existingUser.rows[0].user_social_medias,
         profileDescription: existingUser.rows[0].user_profile_description,
         followersAmount: followersAmount.rows[0].followers_amount,
+        followingsAmount: followingsAmount.rows[0].followings_amount,
         isCurrentUserFollowing: isCurrentUserFollowing.rowCount !== 0
       }
     }

@@ -52,7 +52,7 @@
             </label>
             <input type="password" name="signup-password-input" id="signup-password-input" class="w-full bg-white input input-secondary text-base-100" v-model="passwordField">
             <label for="signup-password-confirm-input" class="label">
-              <span class="label-text text-base-100">Comfirm password</span>
+              <span class="label-text text-base-100">Confirm password</span>
             </label>
             <input type="password" name="signup-password-confirm-input" id="signup-password-confirm-input" class="w-full bg-white input input-secondary text-base-100" v-model="confirmPasswordField">
             <div class="register-signup-section">
