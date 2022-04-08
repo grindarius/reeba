@@ -11,8 +11,8 @@
         <div class="user-info">
           <div class="mt-3 text-4xl font-bold text-white" :title="($route.params.username as string)">
             {{ $route.params.username }}
-            <v-mdi v-if="isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
-            <v-mdi v-if="isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
+            <v-mdi v-if="userData?.verificationStatus === true" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
+            <v-mdi v-if="userData?.isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
           </div>
         </div>
         <div class="mt-3 mb-5 text-white text-md">
@@ -53,8 +53,16 @@
         <div class="user-stats">
           <h1>{{ relatedEvents?.created.length ?? '0' }} events created</h1>
           <h1>{{ relatedEvents?.attended.length ?? '0' }} events attended</h1>
-          <label for="my-modal-1" class="link link-hover"><h1>{{ userData?.followersAmount || '0' }} followers</h1></label>
-          <label for="my-modal-2" class="link link-hover"><h1>{{ userData?.followingsAmount || '0' }} followings</h1></label>
+          <label for="followers-modal" class="link link-hover">
+            <h1>
+              {{ userData?.followersAmount || '0' }} followers
+            </h1>
+          </label>
+          <label for="followings-modal" class="link link-hover">
+            <h1>
+              {{ userData?.followingsAmount || '0' }} followings
+            </h1>
+          </label>
         </div>
       </section>
       <section>
@@ -113,53 +121,53 @@
           </div>
         </div>
         <!-- Put this part before </body> tag -->
-        <input type="checkbox" id="my-modal-1" class="modal-toggle">
+        <input type="checkbox" id="followers-modal" class="modal-toggle" ref="followersModalRef">
         <div class="modal" style="background-color: #00000055;">
           <div class="modal-box relative">
-            <label for="my-modal-1" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+            <label for="followers-modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
             <h3 class="text-lg font-bold text-center">
               Followers
             </h3>
             <hr class="col-span-4 mt-2 w-full border border-pale-yellow">
-            <div class="overflow-y-auto" v-for="user in followersListResponse.followers" :key="`developer-user-table-small-${user.username}`">
+            <div class="overflow-y-auto" v-for="user in followersListResponse.followers" :key="`followers-modal-${user.username}`">
               <div class="flex items-center space-x-3">
                 <div class="mask mask-circle w-12 h-12 mt-3">
                   <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
                 </div>
                 <div>
-                  <router-link :to="{ name: 'Users', params: { username: user.username } }">
-                    <div class="font-bold">
+                  <a @click="goToUser(user.username)">
+                    <div class="font-bold cursor-pointer">
                       {{ user.username }}
-                      <v-mdi v-if="user.isAdmin" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
-                      <v-mdi v-if="user.isAdmin? false : user.isVerified" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
+                      <v-mdi v-if="user.isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
+                      <v-mdi v-if="user.isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
                     </div>
-                  </router-link>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <input type="checkbox" id="my-modal-2" class="modal-toggle">
+        <input type="checkbox" id="followings-modal" class="modal-toggle" ref="followingsModalRef">
         <div class="modal" style="background-color: #00000055;">
           <div class="modal-box relative">
-            <label for="my-modal-2" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+            <label for="followings-modal" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
             <h3 class="text-lg font-bold text-center">
               Followings
             </h3>
             <hr class="col-span-4 mt-2 w-full border border-pale-yellow">
             <div class="overflow-y-auto">
-              <div class="flex items-center space-x-3" v-for="user in followingsListResponse.followings" :key="`developer-user-table-small-${user.username}`">
+              <div class="flex items-center space-x-3" v-for="user in followingsListResponse.followings" :key="`followings-modal-${user.username}`">
                 <div class="mask mask-circle w-12 h-12 mt-3">
                   <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
                 </div>
                 <div>
-                  <router-link :to="{ name: 'Users', params: { username: user.username } }">
-                    <div class="font-bold">
+                  <a @click="goToUser(user.username)">
+                    <div class="font-bold cursor-pointer">
                       {{ user.username }}
-                      <v-mdi v-if="user.isAdmin ? false : user.isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
+                      <v-mdi v-if="user.isVerified" name="mdi-check-decagram" fill="#D5A755" title="Verified" />
                       <v-mdi v-if="user.isAdmin" name="mdi-crown" title="Admin" size="30" fill="#D5A755" />
                     </div>
-                  </router-link>
+                  </a>
                 </div>
               </div>
             </div>
@@ -172,7 +180,7 @@
 
 <script lang="ts">
 import ky from 'ky'
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
+import { defineComponent, onMounted, Ref, ref } from 'vue'
 import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -190,6 +198,9 @@ export default defineComponent({
     const authStore = useAuthStore()
     const toast = useToast()
 
+    const followersModalRef: Ref<HTMLInputElement | null> = ref(null)
+    const followingsModalRef: Ref<HTMLInputElement | null> = ref(null)
+
     const userData: Ref<GetUserReply | undefined> = ref(undefined)
     const relatedEvents: Ref<GetUserRelatedEventsReply> = ref({
       created: [],
@@ -201,28 +212,6 @@ export default defineComponent({
     })
     const followingsListResponse: Ref<GetUserFollowingsListReply> = ref({
       followings: []
-    })
-    const isVerified = computed(() => {
-      if (userData.value?.verificationStatus == null) {
-        return false
-      }
-
-      if (userData.value?.isAdmin == null) {
-        return false
-      }
-
-      if (userData.value.isAdmin === true) {
-        return false
-      }
-
-      return userData.value.verificationStatus
-    })
-    const isAdmin = computed(() => {
-      if (userData.value?.isAdmin == null) {
-        return false
-      }
-
-      return userData.value.isAdmin
     })
 
     useMeta({
@@ -279,7 +268,17 @@ export default defineComponent({
         }).json<GetUserFollowersListReply>()
 
         followersListResponse.value = response
-      } catch (error) {}
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const response = error?.response
+
+        if (response?.status === 401) {
+          toast.error('Unauthenticated')
+          router.push({ name: 'Signin ' })
+        }
+
+        toast.error('Unexpected error')
+      }
     }
 
     const getUserFollowingsData = async (): Promise<void> => {
@@ -294,7 +293,17 @@ export default defineComponent({
         }).json<GetUserFollowingsListReply>()
 
         followingsListResponse.value = response
-      } catch (error) {}
+      } catch (error) {
+        // @ts-expect-error error is unknown
+        const response = error?.response
+
+        if (response?.status === 401) {
+          toast.error('Unauthenticated')
+          router.push({ name: 'Signin ' })
+        }
+
+        toast.error('Unexpected error')
+      }
     }
 
     const followUser = async (): Promise<void> => {
@@ -331,14 +340,27 @@ export default defineComponent({
       }
     }
 
+    const goToUser = (username: string): void => {
+      router.push({
+        name: 'Users',
+        params: {
+          username
+        }
+      })
+    }
+
     onMounted(async () => {
-      await getUserDataTotal()
-      await getUserFollowersData()
-      await getUserFollowingsData()
+      await Promise.all([
+        getUserDataTotal(),
+        getUserFollowersData(),
+        getUserFollowingsData()
+      ])
     })
 
     return {
       userData,
+      followersModalRef,
+      followingsModalRef,
       followersListResponse,
       followingsListResponse,
       getUserAvatar,
@@ -347,11 +369,10 @@ export default defineComponent({
       getUserFollowingsData,
       authStore,
       followUser,
+      goToUser,
       relatedEvents,
       getEventImage,
-      isFollowing,
-      isAdmin,
-      isVerified
+      isFollowing
     }
   }
 })
