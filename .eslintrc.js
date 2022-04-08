@@ -82,7 +82,9 @@ module.exports = {
             '^total_',
             '^seat_',
             '^taken_',
-            '^new_'
+            '^new_',
+            '^reeba_',
+            '^gross_'
           ],
           ignoreImports: true
         }]

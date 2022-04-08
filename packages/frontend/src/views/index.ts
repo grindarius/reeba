@@ -7,6 +7,10 @@ import DevtoolUsers from './account/devtools/devtool-users.vue'
 import EditUserSettings from './account/edit-user-settings.vue'
 import MyTickets from './account/my-tickets.vue'
 import OrganizerTools from './account/organizer-tools.vue'
+import OrganizerToolEditEvent from './account/organizer-tools/organizer-tool-edit-event.vue'
+import OrganizerToolNavigator from './account/organizer-tools/organizer-tool-navigator.vue'
+import OrganizerToolOrders from './account/organizer-tools/organizer-tool-orders.vue'
+import OrganizerToolStatistics from './account/organizer-tools/organizer-tool-statistics.vue'
 import AllEvents from './all-events.vue'
 import CreateEvent from './create-event.vue'
 import Event from './event.vue'
@@ -35,7 +39,11 @@ export {
   Home,
   MyTickets,
   NotFound,
+  OrganizerToolEditEvent,
+  OrganizerToolNavigator,
+  OrganizerToolOrders,
   OrganizerTools,
+  OrganizerToolStatistics,
   Payment,
   Receipt,
   SearchResult,

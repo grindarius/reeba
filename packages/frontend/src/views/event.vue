@@ -109,9 +109,9 @@
                 <div class="font-sans text-lg font-medium text-pale-gray">
                   {{ formatTimeString(datetimes.start) }}
                 </div>
-                <router-link :to="`/${$route.params.username as string ?? ''}/${$route.params.eventId as string ?? ''}/${datetimes.datetimeId}`" class="text-white btn btn-secondary">
+                <button @click="goToSelectSeatPage(datetimes.datetimeId)" :class="buyButtonClassName()">
                   Buy
-                </router-link>
+                </button>
               </div>
             </div>
           </div>
@@ -133,6 +133,7 @@ import { GetIndividualEventReply } from '@reeba/common'
 
 import { getEventImage, getIndividualEvent as getIndividualEventEndpoint, getUserAvatar } from '@/api/endpoints'
 import { useMarkdown } from '@/composables'
+import { useAuthStore } from '@/store/use-auth-store'
 import { formatTimeString } from '@/utils'
 
 export default defineComponent({
@@ -140,6 +141,7 @@ export default defineComponent({
   setup () {
     const route = useRoute()
     const router = useRouter()
+    const authStore = useAuthStore()
     const eventData: Ref<GetIndividualEventReply | undefined> = ref(undefined)
 
     useMeta(computed(() => {
@@ -178,12 +180,49 @@ export default defineComponent({
       }
     }
 
+    const goToSelectSeatPage = (datetimeId: string): void => {
+      if (!authStore.isAuthenticated) {
+        router.push({ name: 'Signin' })
+        return
+      }
+
+      router.push({
+        name: 'Select Seat',
+        params: {
+          username: route.params.username,
+          eventId: route.params.eventId,
+          datetimeId
+        }
+      })
+    }
+
+    const buyButtonClassName = (): string => {
+      if (!authStore.isAuthenticated) {
+        return 'text-white btn btn-secondary'
+      }
+
+      // * check if it has reached the buying date
+      if (dayjs().isBefore(dayjs(eventData.value?.openingDate))) {
+        return 'text-white btn btn-disabled bg-red-500'
+      }
+
+      // * check if user had attended the event
+      if (eventData.value?.isCurrentUserAttended) {
+        return 'text-white btn btn-disabled bg-red-500'
+      }
+
+      return 'text-white btn btn-secondary'
+    }
+
     onMounted(async () => {
       const { method, url } = getIndividualEventEndpoint({ eventId: route.params.eventId as string ?? '' })
 
       try {
         const response = await ky(url, {
-          method
+          method,
+          searchParams: [
+            ['u', authStore.isAuthenticated ? authStore.userData.username : '']
+          ]
         }).json<GetIndividualEventReply>()
 
         eventData.value = response
@@ -194,6 +233,7 @@ export default defineComponent({
     })
 
     return {
+      goToSelectSeatPage,
       eventData,
       formatTimeRange,
       formatPrices,
@@ -202,7 +242,8 @@ export default defineComponent({
       renderedMarkdown,
       getEventImage,
       route,
-      getUserAvatar
+      getUserAvatar,
+      buyButtonClassName
     }
   }
 })

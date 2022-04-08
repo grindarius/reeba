@@ -49,3 +49,41 @@ export const GetUserRelatedEventsReplySchema = Type.Object({
   attended: Type.Array(RelatedEventToUserSchema)
 })
 export type GetUserRelatedEventsReply = Static<typeof GetUserRelatedEventsReplySchema>
+
+export const GetUserFollowersListRequestParamsSchema = Type.Object({
+  username: Type.String()
+})
+export type GetUserFollowersListRequestParams = Static<typeof GetUserFollowersListRequestParamsSchema>
+
+export const GetUserFollowersListRequestQuerystringSchema = Type.Object({
+  u: Type.String({ default: '' })
+})
+export type GetUserFollowersListRequestQuerystring = Static<typeof GetUserFollowersListRequestQuerystringSchema>
+
+export const GetUserFollowersListReplySchema = Type.Object({
+  followers: Type.Array(Type.Object({
+    username: Type.String(),
+    isAdmin: Type.Boolean(),
+    isVerified: Type.Boolean()
+  }))
+})
+export type GetUserFollowersListReply = Static<typeof GetUserFollowersListReplySchema>
+
+export const GetUserFollowingsListRequestParamsSchema = Type.Object({
+  username: Type.String()
+})
+export type GetUserFollowingsListRequestParams = Static<typeof GetUserFollowingsListRequestParamsSchema>
+
+export const GetUserFollowingsListRequestQuertstringSchema = Type.Object({
+  u: Type.String({ default: '' })
+})
+export type GetUserFollowingsListRequestQuertsring = Static<typeof GetUserFollowingsListRequestQuertstringSchema>
+
+export const GetUserFollowingsListReplySchema = Type.Object({
+  followings: Type.Array(Type.Object({
+    username: Type.String(),
+    isAdmin: Type.Boolean(),
+    isVerified: Type.Boolean()
+  }))
+})
+export type GetUserFollowingsListReply = Static<typeof GetUserFollowingsListReplySchema>

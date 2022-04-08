@@ -44,6 +44,28 @@ const routes: Array<RouteRecordRaw> = [
         component: Page.OrganizerTools
       },
       {
+        path: 'organizer/:eventId',
+        name: 'Organizer Statistics',
+        component: Page.OrganizerToolNavigator,
+        children: [
+          {
+            path: '',
+            name: 'Organizer Statistics Overview',
+            component: Page.OrganizerToolStatistics
+          },
+          {
+            path: 'orders',
+            name: 'Organizer Statistics Orders',
+            component: Page.OrganizerToolOrders
+          },
+          {
+            path: 'edit',
+            name: 'Organizer Statistics Edit Event',
+            component: Page.OrganizerToolEditEvent
+          }
+        ]
+      },
+      {
         path: 'developer',
         name: 'Developer Settings',
         component: Page.DeveloperTools,

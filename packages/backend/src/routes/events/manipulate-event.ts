@@ -6,8 +6,7 @@ import {
   PostManipulateEventRequestBody,
   PostManipulateEventRequestBodySchema,
   PostManipulateEventRequestParams,
-  PostManipulateEventRequestParamsSchema,
-  t_user_role
+  PostManipulateEventRequestParamsSchema
 } from '@reeba/common'
 
 const schema: FastifySchema = {
@@ -24,13 +23,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     {
       schema,
       onRequest: [
-        instance.authenticate,
-        async (request, reply) => {
-          if (request.user.role !== t_user_role.admin) {
-            void reply.code(403)
-            throw new Error('forbidden')
-          }
-        }
+        instance.authenticate
       ],
       preValidation: [
         async (request, reply) => {
