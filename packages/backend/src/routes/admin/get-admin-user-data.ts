@@ -77,7 +77,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             email: u.user_email,
             registrationDatetime: dayjs(u.user_registration_datetime).toISOString(),
             isAdmin: u.user_role === 'admin',
-            isVerified: u.user_role === 'admin' ? true : u.user_verification_status
+            isVerified: u.user_verification_status
           }
         })
       }
