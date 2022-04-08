@@ -1,5 +1,5 @@
 <template>
-  <div class="edit-user-settings-page">
+  <div class="container mx-auto">
     <h1 class="page-header">
       Edit Settings
     </h1>
