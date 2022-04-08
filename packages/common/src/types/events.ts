@@ -132,6 +132,11 @@ export const GetEventSeatsReplySchema = Type.Object({
 })
 export type GetEventSeatsReply = Static<typeof GetEventSeatsReplySchema>
 
+export const GetAllEventsReplySchema = Type.Object({
+  events: Type.Array(RootPageEventSchema)
+})
+export type GetAllEventsReply = Static<typeof GetAllEventsReplySchema>
+
 export const GetEditableEventDataRequestParamsSchema = Type.Object({
   eventId: Type.String()
 })

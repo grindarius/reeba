@@ -11,6 +11,7 @@ import OrganizerToolEditEvent from './account/organizer-tools/organizer-tool-edi
 import OrganizerToolNavigator from './account/organizer-tools/organizer-tool-navigator.vue'
 import OrganizerToolOrders from './account/organizer-tools/organizer-tool-orders.vue'
 import OrganizerToolStatistics from './account/organizer-tools/organizer-tool-statistics.vue'
+import AllEvents from './all-events.vue'
 import CreateEvent from './create-event.vue'
 import Event from './event.vue'
 import Home from './home.vue'
@@ -26,6 +27,7 @@ import Users from './users.vue'
 
 export {
   Account,
+  AllEvents,
   CreateEvent,
   DeveloperTools,
   DevtoolEvents,

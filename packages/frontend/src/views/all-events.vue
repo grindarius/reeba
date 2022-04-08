@@ -1,22 +1,22 @@
 <template>
+  <metainfo>
+    <template #title="{ content }">
+      {{ content }} | ReebA: Ticket booking. Redefined.
+    </template>
+  </metainfo>
   <img class="float-none" src="@/assets/hero-logo.jpg">
-  <div class="home-page">
-    <metainfo>
-      <template #title="{ content }">
-        {{ content }} | ReebA: Ticket booking. Redefined.
-      </template>
-    </metainfo>
+  <div class="all-events-page">
     <div class="container w-full min-h-screen">
       <div class="official-events-box">
         <div class="event-section">
           <h1 class="text-main-event-name">
-            Official events
+            All events
           </h1>
-          <div v-if="eventData.official.length === 0" class="w-full text-center">
+          <div v-if="eventData.events.length === 0" class="w-full text-center">
             <span class="text-4xl text-white">No events</span>
           </div>
           <div v-else class="event-grid-box">
-            <div class="event" v-for="({username, id: eventId, name: eventName, firstDatetime, venueName}, i) in eventData.official" :key="`root-page-official-event-${i}`">
+            <div class="event" v-for="({username, id: eventId, name: eventName, firstDatetime, venueName}, i) in eventData.events" :key="`all-events-page-event-${i}`">
               <router-link :to="{ name: 'Event', params: { username, eventId }}">
                 <div class="event-image-box">
                   <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
@@ -37,48 +37,6 @@
               </router-link>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="local-events-box">
-        <div class="event-section">
-          <h1 class="text-main-event-name">
-            Local events
-          </h1>
-          <div v-if="eventData.local.length === 0" class="w-full text-center">
-            <span class="text-4xl text-white">No events</span>
-          </div>
-          <div v-else class="event-grid-box">
-            <div class="event" v-for="({username, id: eventId, name: eventName, firstDatetime, venueName}, i) in eventData.local" :key="`root-page-local-event-${i}`">
-              <router-link :to="{ name: 'Event', params: { username, eventId }}">
-                <div class="event-image-box">
-                  <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
-                </div>
-                <div class="event-info">
-                  <div>
-                    <h3 class="event-name">
-                      {{ eventName }}
-                    </h3>
-                    <p class="event-time">
-                      {{ formatTimeString(firstDatetime) }}
-                    </p>
-                    <p class="event-location">
-                      {{ venueName }}
-                    </p>
-                  </div>
-                </div>
-              </router-link>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="flex justify-center items-center py-20">
-        <div class="whitespace-nowrap button">
-          <router-link to="/all-events" class="all-events">
-            <button class="py-2 px-8 font-sans text-white rounded-xl bg-pale-yellow hover:bg-gray-hover">
-              All Events
-            </button>
-          </router-link>
         </div>
       </div>
     </div>
@@ -91,33 +49,31 @@ import { defineComponent, onMounted, Ref, ref } from 'vue'
 import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
 
-import { GetEventsReply } from '@reeba/common'
+import { GetAllEventsReply } from '@reeba/common'
 
-import { getEventImage, getRootPageEvents } from '@/api/endpoints'
+import { getAllEvents, getEventImage } from '@/api/endpoints'
 import { formatTimeString } from '@/utils'
 
 export default defineComponent({
-  name: 'home',
+  name: 'all-events',
   setup () {
     const router = useRouter()
     const route = useRoute()
 
     useMeta({
-      title: 'Home'
+      title: 'All events'
     })
 
-    const eventData: Ref<GetEventsReply> = ref({
-      official: [],
-      local: []
+    const eventData: Ref<GetAllEventsReply> = ref({
+      events: []
     })
-    const { method, url } = getRootPageEvents
+    const { method, url } = getAllEvents
 
     onMounted(async () => {
       try {
-        const response = await ky(url, { method }).json<GetEventsReply>()
+        const response = await ky(url, { method }).json<GetAllEventsReply>()
 
-        eventData.value.official = response.official ?? []
-        eventData.value.local = response.local ?? []
+        eventData.value.events = response.events ?? []
       } catch (error) {
         router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
       }
@@ -133,7 +89,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.home-page {
+.all-events-page {
   @apply flex flex-row justify-center bg-pale-gray;
 }
 
@@ -175,9 +131,5 @@ export default defineComponent({
 
 .event-location {
   @apply mt-1 text-sm font-normal text-white truncate;
-}
-
-.button {
-  @apply flex justify-center items-center;
 }
 </style>

@@ -9,7 +9,8 @@ import {
   GetIndividualEventRequestParams,
   GetIndividualEventRequestParamsSchema,
   GetIndividualEventRequestQuerystring,
-  GetIndividualEventRequestQuerystringSchema
+  GetIndividualEventRequestQuerystringSchema,
+  t_event_status
 } from '@reeba/common'
 
 const schema: FastifySchema = {
@@ -49,6 +50,11 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       )
 
       if (queriedEvent.rowCount === 0) {
+        void reply.code(404)
+        throw new Error('event not found')
+      }
+
+      if (queriedEvent.rows[0].event_status === t_event_status.closed) {
         void reply.code(404)
         throw new Error('event not found')
       }
