@@ -9,6 +9,11 @@ const routes: Array<RouteRecordRaw> = [
     component: Page.Home
   },
   {
+    path: '/all',
+    name: 'All Events',
+    component: Page.AllEvents
+  },
+  {
     path: '/signup',
     name: 'Signup',
     component: Page.Signup
