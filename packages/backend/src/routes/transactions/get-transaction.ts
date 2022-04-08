@@ -14,6 +14,7 @@ import {
   GetTransactionReplySchema,
   GetTransactionRequestParams,
   GetTransactionRequestParamsSchema,
+  numberToLetters,
   transactions
 } from '@reeba/common'
 
@@ -23,6 +24,24 @@ Pick<event_datetimes, 'event_start_datetime'> &
 Pick<event_sections, 'event_section_row_position' | 'event_section_column_position'> &
 {
   seat_detail: Array<{ f1: number, f2: number, f3: number }>
+}
+
+/**
+ * Reads a file path, gets the file, then return as base64 string
+ *
+ * @param path image path from `path.join` or `path.resolve`
+ */
+const base64Encode = async (path: string): Promise<string> => {
+  const chunks: Array<string> = []
+
+  const file = createReadStream(path, { encoding: 'base64' })
+
+  for await (const chunk of file) {
+    chunks.push(chunk)
+  }
+
+  const base64 = chunks.join('')
+  return base64
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
@@ -169,13 +188,29 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         chunks.push(chunk)
       }
 
+      let htmlString = chunks.join('')
+
+      const numberFormat = Intl.NumberFormat('en')
+
       const qrcodeString = await qrcode.toString('http://localhost:3000/transactions/' + request.params.transactionId + '/pdf', {
-        type: 'svg'
+        type: 'svg',
+        width: 200
       })
 
-      console.log(qrcodeString)
+      const logoImage = await base64Encode(resolve(__dirname, '..', '..', '..', 'assets', 'reeba-logo.png'))
 
-      await page.setContent(chunks.join(''))
+      htmlString = htmlString.replace('$0', logoImage)
+      htmlString = htmlString.replace('$1', qrcodeString)
+      htmlString = htmlString.replace('$2', transaction.rows[0].user_username)
+      htmlString = htmlString.replace('$3', dayjs().format('dddd D MMMM YYYY H:mm:ss'))
+      htmlString = htmlString.replace('$4', transaction.rows[0].transaction_id)
+      htmlString = htmlString.replace('$5', transaction.rows[0].seat_detail.map(s => {
+        return `${numberToLetters(s.f2)}${s.f3 + 1}`
+      }).join(', '))
+      htmlString = htmlString.replace('$6', numberFormat.format(transaction.rows[0].seat_detail.reduce((t, c) => c.f1 + t, 0)))
+      htmlString = htmlString.replace('$7', numberFormat.format(transaction.rows[0].seat_detail.reduce((t, c) => c.f1 + t, 0) + 45))
+
+      await page.setContent(htmlString)
 
       const pdfBuffer = await page.pdf()
 
