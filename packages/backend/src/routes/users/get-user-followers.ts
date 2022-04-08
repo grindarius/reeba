@@ -42,7 +42,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const followers = await instance.pg.query<{ username: string, isAdmin: boolean, isVerified: boolean}>(
         `select
           user_followers.following_username as username,
-          case when users.user_role = 'user' then 'true'::boolean else 'false'::boolean end "isAdmin",
+          case when users.user_role = 'user' then 'false'::boolean else 'true'::boolean end "isAdmin",
           users.user_verification_status as "isVerified"
         from "user_followers"
         inner join "users" on user_followers.following_username = users.user_username
