@@ -447,7 +447,4 @@ export default defineComponent({
   @apply inline-flex pl-80 font-sans cursor-pointer hover:text-pale-yellow;
 }
 
-.confirmtwo {
-  @apply inline-flex flex-row px-14 font-sans cursor-pointer hover:text-pale-yellow;
-}
 </style>
