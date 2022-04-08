@@ -220,6 +220,13 @@ export const adminGetTopEventTagsOfAllTime: Endpoint = {
   method: 'get'
 }
 
+export const patchUserProfileDescription: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+  return {
+    url: `${url}/users/${username}/profile`,
+    method: 'patch'
+  }
+}
+
 export const getOrganizerData: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
   return {
     url: `${url}/accounts/${username}/organizer`,
