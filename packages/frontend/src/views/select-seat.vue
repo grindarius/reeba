@@ -46,7 +46,7 @@
             <div>
               <div class="flex flex-col gap-2 py-1 px-10 md:justify-center md:px-0 columns-1" v-for="(i) in seatHeight" :key="`section-row-name-display-${i}`">
                 <p class="place-self-center mr-10 text-lg text-white">
-                  {{ numberToLetters(i) }}
+                  {{ numberToLetters(i - 1) }}
                 </p>
               </div>
             </div>
