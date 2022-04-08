@@ -203,12 +203,12 @@ export default defineComponent({
 
       // * check if it has reached the buying date
       if (dayjs().isBefore(dayjs(eventData.value?.openingDate))) {
-        return 'text-white btn btn-disabled bg-red-600'
+        return 'text-white btn btn-disabled bg-red-500'
       }
 
       // * check if user had attended the event
-      if (eventData.value?.isCurrentUserAttended === true) {
-        return 'text-white btn btn-disabled bg-red-600'
+      if (eventData.value?.isCurrentUserAttended) {
+        return 'text-white btn btn-disabled bg-red-500'
       }
 
       return 'text-white btn btn-secondary'
