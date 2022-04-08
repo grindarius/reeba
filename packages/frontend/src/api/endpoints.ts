@@ -217,3 +217,8 @@ export const adminGetTopEventTagsOfAllTime: Endpoint = {
   url: `${url}/admin/top-event-tags`,
   method: 'get'
 }
+
+export const getAllEvents: Endpoint = {
+  url: `${url}/events/all`,
+  method: 'get'
+}
