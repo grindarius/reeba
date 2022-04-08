@@ -72,6 +72,11 @@
           </div>
         </div>
       </div>
+      <div class="flex justify-center items-center py-20">
+        <button class="py-2 px-8 font-sans text-white rounded-xl bg-pale-yellow hover:bg-gray-hover" type="button">
+          All Event
+        </button>
+      </div>
     </div>
   </div>
 </template>
