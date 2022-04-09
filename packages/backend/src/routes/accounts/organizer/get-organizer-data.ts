@@ -12,7 +12,8 @@ import {
   GetOrganizerEventStatisticsReply,
   GetOrganizerEventStatisticsReplySchema,
   GetOrganizerEventStatisticsRequestParams,
-  GetOrganizerEventStatisticsRequestParamsSchema
+  GetOrganizerEventStatisticsRequestParamsSchema,
+  t_event_status
 } from '@reeba/common'
 
 const PAGE_SIZE = 30
@@ -26,12 +27,12 @@ type EventData = Pick<events, 'event_id' | 'event_name' | 'event_venue_name' | '
   seat_fullness_percentage: number
 }
 
-type IndividualEventData = Pick<events, 'event_id' | 'event_name' | 'event_status'> & {
-  total_seats: number
-  total_taken_seats: number
-  seat_fullness_percentage: number
-  gross_ticket_sales: number
-  reeba_ticket_fees: number
+interface IndividualEventData {
+  total_seats?: number
+  total_taken_seats?: number
+  seat_fullness_percentage?: number
+  gross_ticket_sales?: number
+  reeba_ticket_fees?: number
 }
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
@@ -127,11 +128,23 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     async (request, reply) => {
       const { eventId } = request.params
 
-      const eventData = await instance.pg.query<IndividualEventData, [string]>(
+      const eventStuffs = await instance.pg.query<{ event_id: string, event_name: string, event_status: t_event_status }, [string]>(
         `select
           events.event_id,
           events.event_name,
-          events.event_status,
+          events.event_status
+        from "events"
+        where event_id = $1`,
+        [eventId]
+      )
+
+      if (eventStuffs.rowCount === 0) {
+        void reply.code(404)
+        throw new Error('event not found')
+      }
+
+      const eventData = await instance.pg.query<IndividualEventData, [string]>(
+        `select
           count(event_seats.event_seat_id)::int as total_seats,
           count(transaction_details.event_seat_id)::int as total_taken_seats,
           (count(transaction_details.event_seat_id)::float / count(event_seats.event_seat_id)::float) * 100::float as seat_fullness_percentage,
@@ -163,21 +176,16 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         [eventId]
       )
 
-      if (eventData.rowCount === 0) {
-        void reply.code(404)
-        throw new Error('event not found')
-      }
-
       return {
-        id: eventData.rows[0].event_id,
-        name: eventData.rows[0].event_name,
-        status: eventData.rows[0].event_status,
-        totalSeats: seatings.rows[0].total_seats,
-        totalTakenSeats: seatings.rows[0].total_taken_seats,
-        seatFullnessPercentage: seatings.rows[0].seat_fullness_percentage,
-        grossTicketSales: eventData.rows[0].gross_ticket_sales,
-        reebaTicketFees: eventData.rows[0].reeba_ticket_fees,
-        netPayout: eventData.rows[0].gross_ticket_sales - eventData.rows[0].reeba_ticket_fees
+        id: eventStuffs.rows[0].event_id,
+        name: eventStuffs.rows[0].event_name,
+        status: eventStuffs.rows[0].event_status,
+        totalSeats: seatings.rows[0].total_seats ?? 0,
+        totalTakenSeats: seatings.rows[0].total_taken_seats ?? 0,
+        seatFullnessPercentage: seatings.rows[0].seat_fullness_percentage ?? 0,
+        grossTicketSales: eventData.rows[0]?.gross_ticket_sales ?? 0,
+        reebaTicketFees: eventData.rows[0]?.reeba_ticket_fees ?? 0,
+        netPayout: (eventData.rows[0]?.gross_ticket_sales ?? 0) - (eventData.rows[0]?.reeba_ticket_fees ?? 0)
       }
     }
   )
