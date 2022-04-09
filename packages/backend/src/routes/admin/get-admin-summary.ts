@@ -102,6 +102,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         [oneMonthPrior, startOfNow]
       )
 
+      const incomes = await instance.pg.query<{ total_gross_income: number, total_pure_income: number }>(
+        `select
+          coalesce(sum(event_seats.event_seat_price), 0)::float as total_gross_income,
+          (coalesce(sum(event_seats.event_seat_price), 0) * 0.1)::float as total_pure_income
+        from "transaction_details"
+        inner join "event_seats" on transaction_details.event_seat_id = event_seats.event_seat_id`
+      )
+
       return {
         totalUsers: totalUsers.rows[0].total_users,
         newUsersThisMonth: newUsersThisMonth.rows[0].new_users_this_month,
@@ -110,7 +118,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         totalEvents: totalEvents.rows[0].total_events,
         newEventsThisMonth: newEventsThisMonth.rows[0].new_events_this_month,
         newEventsPastMonth: newEventsPastMonth.rows[0].new_events_past_month,
-        newEventsPercentageDifferenceToLastMonth: percentageDifference(newEventsThisMonth.rows[0].new_events_this_month, newEventsPastMonth.rows[0].new_events_past_month)
+        newEventsPercentageDifferenceToLastMonth: percentageDifference(newEventsThisMonth.rows[0].new_events_this_month, newEventsPastMonth.rows[0].new_events_past_month),
+        totalGrossIncome: incomes.rows[0].total_gross_income,
+        totalPureIncome: incomes.rows[0].total_pure_income
       }
     }
   )

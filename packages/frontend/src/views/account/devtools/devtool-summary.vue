@@ -64,6 +64,17 @@
             {{ d3.format('+0.4')(summaryResponse.newEventsPercentageDifferenceToLastMonth) }}% from last month
           </div>
         </div>
+        <div class="place-items-center stat">
+          <div class="stat-title">
+            Total gross income (THB)
+          </div>
+          <div class="stat-value text-primary">
+            {{ numberFormat.format(summaryResponse.totalGrossIncome) }}
+          </div>
+          <div class="stat-desc">
+            {{ 'Pure income: ' + d3.format(',')(summaryResponse.totalPureIncome) }}
+          </div>
+        </div>
       </div>
     </div>
     <div class="flex flex-row gap-3 mt-8">
@@ -262,7 +273,9 @@ export default defineComponent({
       totalEvents: 0,
       newEventsThisMonth: 0,
       newEventsPastMonth: 0,
-      newEventsPercentageDifferenceToLastMonth: 0
+      newEventsPercentageDifferenceToLastMonth: 0,
+      totalGrossIncome: 0,
+      totalPureIncome: 0
     })
 
     const worldMapResponse: Ref<AdminGetMapsDataReply> = ref({

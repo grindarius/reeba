@@ -208,7 +208,9 @@ export const AdminGetStatisticsSummaryReplySchema = Type.Object({
   totalEvents: Type.Number(),
   newEventsThisMonth: Type.Number(),
   newEventsPastMonth: Type.Number(),
-  newEventsPercentageDifferenceToLastMonth: Type.Number()
+  newEventsPercentageDifferenceToLastMonth: Type.Number(),
+  totalGrossIncome: Type.Number(),
+  totalPureIncome: Type.Number()
 })
 export type AdminGetStatisticsSummaryReply = Static<typeof AdminGetStatisticsSummaryReplySchema>
 
