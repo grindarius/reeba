@@ -27,18 +27,6 @@
                       Credit card
                     </h1>
                   </div>
-                  <div class="payment-method">
-                    <v-mdi name="mdi-google" fill="#D5A755" size="32" />
-                    <h1 class="mt-2 font-sans text-white text-md">
-                      Google Pay
-                    </h1>
-                  </div>
-                  <div class="payment-method">
-                    <v-mdi name="mdi-qrcode-scan" fill="#D5A755" size="32" />
-                    <h1 class="mt-2 font-sans text-white text-md">
-                      QR Code
-                    </h1>
-                  </div>
                 </div>
               </div>
               <div class="selected-payment">
