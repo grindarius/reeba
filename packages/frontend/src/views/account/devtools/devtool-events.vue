@@ -125,7 +125,7 @@
                   </div>
                 </div>
                 <div>
-                  <router-link :to="{ name: 'Event', params: { username: ev.username, eventId: ev.id } }">
+                  <router-link :to="{ name: 'Organizer Statistics Overview', params: { eventId: ev.id } }">
                     <div class="font-bold">
                       {{ ev.name }}
                     </div>
@@ -262,7 +262,7 @@
                   </div>
                 </div>
                 <div>
-                  <router-link :to="{ name: 'Event', params: { username: ev.username, eventId: ev.id } }">
+                  <router-link :to="{ name: 'Organizer Statistics Overview', params: { eventId: ev.id } }">
                     <div class="font-bold">
                       {{ ev.name }}
                     </div>
