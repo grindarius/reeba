@@ -181,7 +181,11 @@
                   @change="onPriceRangePriceChange($event, i)">
                 <div class="flex absolute inset-y-0 right-0 items-center">
                   <label for="currency" class="sr-only">Currency</label>
-                  <select id="currency" :value="price.currency" @change="onPriceRangeCurrencyChange($event, i)" name="currency" class="py-0 pr-7 pl-2 h-full text-gray-500 bg-transparent rounded-md border-transparent sm:text-sm focus:border-indigo-500 focus:ring-indigo-500">
+                  <select
+                    disabled id="currency"
+                    :value="price.currency" @change="onPriceRangeCurrencyChange($event, i)"
+                    name="currency"
+                    class="py-0 pr-7 pl-2 h-full text-gray-500 bg-transparent rounded-md border-transparent sm:text-sm focus:border-indigo-500 focus:ring-indigo-500">
                     <option value="USD">
                       USD
                     </option>

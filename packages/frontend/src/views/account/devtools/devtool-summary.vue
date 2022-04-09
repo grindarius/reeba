@@ -143,9 +143,6 @@
           <li @click="transactionsChartGroupBy = 'month'">
             <a>Month</a>
           </li>
-          <li @click="transactionsChartGroupBy = 'year'">
-            <a>Year</a>
-          </li>
         </ul>
       </div>
     </div>
@@ -167,9 +164,6 @@
           </li>
           <li @click="registrationChartGroupBy = 'month'">
             <a>Month</a>
-          </li>
-          <li @click="registrationChartGroupBy = 'year'">
-            <a>Year</a>
           </li>
         </ul>
       </div>
