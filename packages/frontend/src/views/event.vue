@@ -201,6 +201,10 @@ export default defineComponent({
         return 'text-white btn btn-secondary'
       }
 
+      if (authStore.userData.username === eventData.value?.createdBy) {
+        return 'text-white btn btn-disabled bg-red-500'
+      }
+
       // * check if it has reached the buying date
       if (dayjs().isBefore(dayjs(eventData.value?.openingDate))) {
         return 'text-white btn btn-disabled bg-red-500'
