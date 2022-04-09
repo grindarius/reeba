@@ -180,9 +180,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         id: eventStuffs.rows[0].event_id,
         name: eventStuffs.rows[0].event_name,
         status: eventStuffs.rows[0].event_status,
-        totalSeats: seatings.rows[0].total_seats ?? 0,
-        totalTakenSeats: seatings.rows[0].total_taken_seats ?? 0,
-        seatFullnessPercentage: seatings.rows[0].seat_fullness_percentage ?? 0,
+        totalSeats: seatings.rows[0]?.total_seats ?? 0,
+        totalTakenSeats: seatings.rows[0]?.total_taken_seats ?? 0,
+        seatFullnessPercentage: seatings.rows[0]?.seat_fullness_percentage ?? 0,
         grossTicketSales: eventData.rows[0]?.gross_ticket_sales ?? 0,
         reebaTicketFees: eventData.rows[0]?.reeba_ticket_fees ?? 0,
         netPayout: (eventData.rows[0]?.gross_ticket_sales ?? 0) - (eventData.rows[0]?.reeba_ticket_fees ?? 0)
