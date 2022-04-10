@@ -35,7 +35,7 @@
                   <input
                     type="text" name="card-number-input"
                     id="card-number-input" placeholder="**** **** **** ****"
-                    maxlength="16"
+                    v-cleave="{ creditCard: true }"
                     v-model="creditCardInput">
                   <label for="card-name-input" class="inline-block mt-2 font-sans text-sm text-white">Card name</label>
                   <input type="text" name="card-name-input" id="card-name-input" v-model="creditCardNameInput">
@@ -44,8 +44,8 @@
                       <label for="card-expiration-date" class="font-sans text-sm text-white">Expiration date</label>
                       <input
                         type="text" name="card-expiration-date-input"
-                        id="card-expiration-date-input" maxlength="4"
-                        pattern="\d*"
+                        id="card-expiration-date-input"
+                        v-cleave="{ date: true, datePattern: ['m', 'y'] }"
                         v-model="creditCardExpiryDateInput">
                     </div>
                     <div class="card-cvc-section">
@@ -127,6 +127,7 @@
 </template>
 
 <script lang="ts">
+import Cleave from 'cleave.js'
 import { format } from 'd3'
 import ky from 'ky'
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
@@ -150,6 +151,20 @@ export default defineComponent({
       next('/')
     }
     next()
+  },
+  directives: {
+    cleave: {
+      mounted: (el, binding) => {
+        el.cleave = new Cleave(el, binding.value || {})
+      },
+      updated: (el) => {
+        const e = new Event('input', { bubbles: true })
+        setTimeout(function () {
+          el.value = el.cleave.properties.result
+          el.dispatchEvent(e)
+        }, 100)
+      }
+    }
   },
   setup () {
     const transactionStore = useTransactionStore()
