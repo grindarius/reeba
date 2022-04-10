@@ -68,7 +68,7 @@
           <div class="stat-title">
             Total gross income (THB)
           </div>
-          <div class="stat-value text-primary">
+          <div class="stat-value text-primary" :title="summaryResponse.totalGrossIncome.toString() || '0'">
             {{ numberFormat.format(summaryResponse.totalGrossIncome) }}
           </div>
           <div class="stat-desc">
