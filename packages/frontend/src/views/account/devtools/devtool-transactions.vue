@@ -9,6 +9,7 @@
       <h1 class="page-header">
         {{ transactionData.total }} transactions
       </h1>
+      <input type="text" class="input input-bordered" ref="transactionSearchRef" v-model="transactionSearch">
       <div class="flex flex-row gap-3">
         <router-link custom :to="{ name: 'Developer Transactions', query: { ...$route.query, ...{ page: page - 1 } } }" v-slot="{ navigate }">
           <button class="btn btn-circle btn-outline" :disabled="page - 1 === 0" @click="navigate">
@@ -173,12 +174,14 @@ export default defineComponent({
 
     const page = ref(1)
     const sort: Ref<AdminGetTransactionDataSortByOption> = ref('time-asc')
+    const transactionSearch = ref('')
+    const transactionSearchRef: Ref<HTMLInputElement | null> = ref(null)
 
     useMeta({
       title: 'Developer tools: Transactions'
     })
 
-    watch(sort, async (now) => {
+    watch(sort, (now) => {
       router.replace({
         name: 'Developer Transactions',
         query: {
@@ -188,12 +191,28 @@ export default defineComponent({
       })
     })
 
+    watch(transactionSearch, now => {
+      router.replace({
+        name: 'Developer Transactions',
+        query: {
+          ...route.query,
+          ...{ q: now }
+        }
+      })
+    })
+
     const getAdminTransactions = async (): Promise<void> => {
       const formattedPage = Number(formatQueryString(route.query.page, '1'))
       const formattedSortOptions = formatQueryString(route.query.sort, 'time-asc')
+      const formattedQ = formatQueryString(route.query.q, '')
 
       page.value = formattedPage
       sort.value = formattedSortOptions as AdminGetTransactionDataSortByOption
+      transactionSearch.value = formattedQ
+
+      if (transactionSearchRef.value != null) {
+        transactionSearchRef.value.focus()
+      }
 
       try {
         const { method, url } = adminGetTransactionData
@@ -205,7 +224,8 @@ export default defineComponent({
           },
           searchParams: [
             ['page', page.value],
-            ['sort', sort.value]
+            ['sort', sort.value],
+            ['q', transactionSearch.value]
           ]
         }).json<AdminGetTransactionDataReply>()
 
@@ -246,7 +266,9 @@ export default defineComponent({
       format,
       page,
       sort,
-      formatTimeString
+      formatTimeString,
+      transactionSearch,
+      transactionSearchRef
     }
   }
 })

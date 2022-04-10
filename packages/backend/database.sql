@@ -175,6 +175,11 @@ create table transactions (
   foreign key (user_username) references users(user_username) on update cascade on delete cascade
 );
 
+create index pgroonga_transactions_index on transactions using pgroonga (
+  transaction_id pgroonga_text_full_text_search_ops_v2,
+  user_username pgroonga_text_full_text_search_ops_v2
+);
+
 create table transaction_details (
   event_seat_id text not null unique,
   transaction_id text not null,

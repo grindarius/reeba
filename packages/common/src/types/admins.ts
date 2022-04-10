@@ -13,7 +13,8 @@ export type AdminGetUserDataOptions = Static<typeof AdminGetUserDataSortByOption
 
 export const AdminGetUserDataRequestQuerystringSchema = Type.Object({
   page: Type.Number({ default: 1 }),
-  sort: AdminGetUserDataSortByOptionSchema
+  sort: AdminGetUserDataSortByOptionSchema,
+  q: Type.Optional(Type.String({ default: '' }))
 })
 export type AdminGetUserDataRequestQuerystring = Static<typeof AdminGetUserDataRequestQuerystringSchema>
 
@@ -103,7 +104,8 @@ export type AdminGetTransactionDataSortByOption = Static<typeof AdminGetTransact
 
 export const AdminGetTransactionDataRequestQuerystringSchema = Type.Object({
   page: Type.Number({ default: 1 }),
-  sort: AdminGetTransactionDataSortByOptionSchema
+  sort: AdminGetTransactionDataSortByOptionSchema,
+  q: Type.Optional(Type.String({ default: '' }))
 })
 export type AdminGetTransactionDataRequestQuerystring = Static<typeof AdminGetTransactionDataRequestQuerystringSchema>
 
@@ -147,7 +149,8 @@ export type EventStatus = Static<typeof EventStatusSchema>
 
 export const AdminGetEventDataRequestQuerystringSchema = Type.Object({
   page: Type.Number({ default: 1 }),
-  sort: AdminGetEventDataSortByOptionSchema
+  sort: AdminGetEventDataSortByOptionSchema,
+  q: Type.Optional(Type.String({ default: '' }))
 })
 export type AdminGetEventDataRequestQuerystring = Static<typeof AdminGetEventDataRequestQuerystringSchema>
 

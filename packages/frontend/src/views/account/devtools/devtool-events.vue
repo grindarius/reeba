@@ -9,6 +9,7 @@
       <h1 class="page-header">
         {{ eventsList.total }} events
       </h1>
+      <input type="text" class="input input-bordered" ref="eventSearchRef" v-model="eventSearch">
       <div class="flex flex-col gap-3 md:flex-row">
         <div class="flex flex-row gap-3">
           <router-link custom :to="{ name: 'Developer Events', query: { ...$route.query, ...{ page: page - 1 } } }" v-slot="{ navigate }">
@@ -366,6 +367,8 @@ export default defineComponent({
 
     const page = ref(1)
     const sortOptions: Ref<AdminGetEventDataSortByOption> = ref('event-name-asc')
+    const eventSearchRef: Ref<HTMLInputElement | null> = ref(null)
+    const eventSearch = ref('')
 
     useMeta({
       title: 'Developer tools: Events'
@@ -385,12 +388,28 @@ export default defineComponent({
       })
     })
 
+    watch(eventSearch, now => {
+      router.replace({
+        name: 'Developer Events',
+        query: {
+          ...route.query,
+          ...{ q: now }
+        }
+      })
+    })
+
     const getAdminEvents = async (): Promise<void> => {
       const formattedPage = Number(formatQueryString(route.query.page, '1'))
       const formattedSortOptions = formatQueryString(route.query.sort, 'username-asc')
+      const formattedQ = formatQueryString(route.query.q, '')
 
       page.value = formattedPage
       sortOptions.value = formattedSortOptions as AdminGetEventDataSortByOption
+      eventSearch.value = formattedQ
+
+      if (eventSearchRef.value != null) {
+        eventSearchRef.value.focus()
+      }
 
       try {
         const { method, url } = adminGetEventData
@@ -402,7 +421,8 @@ export default defineComponent({
           },
           searchParams: [
             ['page', page.value],
-            ['sort', sortOptions.value]
+            ['sort', sortOptions.value],
+            ['q', eventSearch.value]
           ]
         }).json<AdminGetEventDataReply>()
 
@@ -484,7 +504,9 @@ export default defineComponent({
       formatTimeString,
       page,
       manipulateEvent,
-      sortOptions
+      sortOptions,
+      eventSearchRef,
+      eventSearch
     }
   }
 })

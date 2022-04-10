@@ -32,6 +32,14 @@ const buildOrderQuery = (query: AdminGetUserDataRequestQuerystring): string => {
   }
 }
 
+const buildQ = (query: AdminGetUserDataRequestQuerystring): string => {
+  if (query.q != null && query.q !== '') {
+    return `and array[user_username, user_iso_31662_code, user_phone_country_code, user_phone_number] &@ '${query.q}'`
+  }
+
+  return ''
+}
+
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.get<{ Querystring: AdminGetUserDataRequestQuerystring, Reply: AdminGetUserDataReply }>(
     '/users',
@@ -65,7 +73,12 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       const { page } = request.query
 
       const usersList = await instance.pg.query<users & { total_users: number }, [number, number]>(
-        'select *, count(*) over() as total_users from "users" where user_deletion_status != \'true\'::boolean order by ' + buildOrderQuery(request.query) + ' limit $1 offset $2',
+        `select
+          *,
+          count(*) over() as total_users
+        from "users"
+        where user_deletion_status != 'true'::boolean ${buildQ(request.query)}
+        order by ${buildOrderQuery(request.query)} limit $1 offset $2`,
         [PAGE_SIZE, (PAGE_SIZE * page) - PAGE_SIZE]
       )
 

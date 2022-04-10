@@ -9,6 +9,7 @@
       <h1 class="page-header">
         {{ userData.total }} users
       </h1>
+      <input type="text" class="input input-bordered" ref="userSearchRef" v-model="userSearch">
       <div class="flex flex-row gap-3">
         <router-link custom :to="{ name: 'Developer Users', query: { ...$route.query, ...{ page: page - 1 } } }" v-slot="{ navigate }">
           <button class="btn btn-circle btn-outline" :disabled="page - 1 === 0" @click="navigate">
@@ -97,7 +98,7 @@
                     Country
                   </h1>
                   <h1 class="font-normal text-white">
-                    {{ getName(user.iso31662, 'en') ?? 'Unknown' }}
+                    {{ getName(user.iso31662, 'en') ?? 'Unknown' }} ({{ user.iso31662 }})
                   </h1>
                 </div>
                 <div class="mt-4">
@@ -192,7 +193,7 @@
               {{ formatTimeString(user.registrationDatetime, 'MMMM D, YYYY H:mm:ss') }}
             </td>
             <td>
-              {{ getName(user.iso31662, 'en') ?? 'Unknown' }}
+              {{ getName(user.iso31662, 'en') ?? 'Unknown' }} ({{ user.iso31662 }})
             </td>
             <td>
               {{ `+${user.phoneCountryCode} ${user.phoneNumber}` }}
@@ -265,6 +266,8 @@ export default defineComponent({
     const route = useRoute()
     const authStore = useAuthStore()
     const toast = useToast()
+    const userSearch = ref('')
+    const userSearchRef: Ref<HTMLInputElement | null> = ref(null)
 
     useMeta({
       title: 'Developer tools: Users'
@@ -287,9 +290,15 @@ export default defineComponent({
     const getAdminUsers = async (): Promise<void> => {
       const formattedPage = Number(formatQueryString(route.query.page, '1'))
       const formattedSortOptions = formatQueryString(route.query.sort, 'name-asc')
+      const formattedQ = formatQueryString(route.query.q, '')
 
       page.value = formattedPage
       sortOptions.value = formattedSortOptions as AdminGetUserDataOptions
+      userSearch.value = formattedQ
+
+      if (userSearchRef.value != null) {
+        userSearchRef.value.focus()
+      }
 
       try {
         const { method, url } = adminGetUserData
@@ -301,7 +310,8 @@ export default defineComponent({
           },
           searchParams: [
             ['page', page.value],
-            ['sort', sortOptions.value]
+            ['sort', sortOptions.value],
+            ['q', userSearch.value]
           ]
         }).json<AdminGetUserDataReply>()
 
@@ -448,6 +458,16 @@ export default defineComponent({
       return 'dropdown dropdown-end'
     }
 
+    watch(userSearch, (now) => {
+      router.replace({
+        name: 'Developer Users',
+        query: {
+          ...route.query,
+          ...{ q: now }
+        }
+      })
+    })
+
     onMounted(async () => {
       await getAdminUsers()
     })
@@ -465,7 +485,9 @@ export default defineComponent({
       revokeAdmin,
       grantVerification,
       revokeVerification,
-      removeUser
+      removeUser,
+      userSearch,
+      userSearchRef
     }
   }
 })

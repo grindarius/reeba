@@ -36,6 +36,14 @@ const sortByQueryBuilder = (query: AdminGetTransactionDataRequestQuerystring): s
   }
 }
 
+const buildSearchQuery = (query: AdminGetTransactionDataRequestQuerystring): string => {
+  if (query.q != null && query.q !== '') {
+    return `where array[transactions.user_username] &@ '${query.q}'`
+  }
+
+  return ''
+}
+
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.get<{ Querystring: AdminGetTransactionDataRequestQuerystring, Reply: AdminGetTransactionDataReply }>(
     '/transactions',
@@ -73,10 +81,11 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           count(transactions.transaction_id) over() as total_transactions,
           transactions.*,
           array_agg(transaction_details.event_seat_id) as seat_list,
-          sum(event_seats.event_seat_price)::int + ((count(event_seats.event_seat_id)::int * 10) + 45) as total_price
+          sum(event_seats.event_seat_price)::int + ((count(event_seats.event_seat_id)::int * 40) + 5) as total_price
         from "transaction_details"
         inner join "transactions" on transaction_details.transaction_id = transactions.transaction_id
         inner join "event_seats" on transaction_details.event_seat_id = event_seats.event_seat_id
+        ${buildSearchQuery(request.query)}
         group by transactions.transaction_id
         order by ${sortByQueryBuilder(request.query)}
         limit $1 offset $2`,

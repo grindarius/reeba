@@ -63,6 +63,14 @@ const buildOrderQuery = (query: AdminGetEventDataRequestQuerystring): string => 
   }
 }
 
+const buildSearchQuery = (query: AdminGetEventDataRequestQuerystring): string => {
+  if (query.q != null && query.q !== '') {
+    return `where array[events.event_name, events.user_username, events.event_venue_name] &@ '${query.q}'`
+  }
+
+  return ''
+}
+
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.get<{ Querystring: AdminGetEventDataRequestQuerystring, Reply: AdminGetEventDataReply }>(
     '/events',
@@ -120,8 +128,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
         inner join "events" on event_datetimes.event_id = events.event_id
         left join "transaction_details" on event_seats.event_seat_id = transaction_details.event_seat_id
-        group by
-          events.event_id
+        ${buildSearchQuery(request.query)}
+        group by events.event_id
         order by ${buildOrderQuery(request.query)}
         limit $1 offset $2`,
         [PAGE_SIZE, (page * PAGE_SIZE) - PAGE_SIZE]
