@@ -40,6 +40,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
   const pgPort = process.env.POSTGRES_PORT
   const pgDBName = process.env.POSTGRES_DBNAME
   const jwtSecret = process.env.JWT_SECRET
+  const argon2Pepper = process.env.ARGON2_PEPPER
 
   /* istanbul ignore if */
   if (
@@ -55,6 +56,11 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
   /* istanbul ignore if */
   if (jwtSecret == null || jwtSecret === '') {
     throw new Error('missing jwt secret')
+  }
+
+  /* istanbul ignore if */
+  if (argon2Pepper == null || argon2Pepper === '') {
+    throw new Error('missing argon2 pepper')
   }
 
   void server.register(favicon, { path: join(__dirname, '..', 'assets'), name: 'favicon.ico' })
