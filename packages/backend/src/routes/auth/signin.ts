@@ -1,6 +1,6 @@
-import bcrypt from 'bcrypt'
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
+import { verify } from '@node-rs/argon2'
 import {
   SigninBody,
   SigninBodySchema,
@@ -10,6 +10,7 @@ import {
 } from '@reeba/common'
 
 import { ACCESS_TOKEN_EXPIRES_TIME } from '../../constants'
+import argon2Options from '../../constants/argon2'
 
 const schema: FastifySchema = {
   body: SigninBodySchema,
@@ -53,9 +54,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         throw new Error('you are banned')
       }
 
-      const isPasswordValid = await bcrypt.compare(
+      const isPasswordValid = await verify(
+        user.rows[0].user_password,
         password,
-        user.rows[0].user_password
+        argon2Options
       )
 
       if (!isPasswordValid) {
