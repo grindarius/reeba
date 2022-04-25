@@ -23,10 +23,10 @@
     "fix": "eslint **/*.ts --fix"
   },
   "dependencies": {
+    "@node-rs/argon2": "^1.1.0",
     "@reeba/common": "workspace:^1.0.0",
     "@reeba/fastify-check-jwt": "workspace:^1.0.0",
     "@reeba/fastify-local-reverse-geocoder": "workspace:^1.0.0",
-    "bcrypt": "^5.0.1",
     "dayjs": "^1.10.8",
     "dotenv-flow": "^3.2.0",
     "fastify": "^3.27.0",
@@ -43,7 +43,6 @@
     "qrcode": "^1.5.0"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.0",
     "@types/dotenv-flow": "^3.2.0",
     "@types/pg": "^8.6.4",
     "@types/qrcode": "^1.4.2",

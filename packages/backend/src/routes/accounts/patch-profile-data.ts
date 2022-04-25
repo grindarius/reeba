@@ -1,9 +1,8 @@
-import bcrypt from 'bcrypt'
 import dayjs from 'dayjs'
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
+import { hash, verify } from '@node-rs/argon2'
 import {
-  BCRYPT_GENSALT_ROUNDS,
   PatchProfileDataReply,
   PatchProfileDataReplySchema,
   PatchProfileDataRequestBody,
@@ -14,6 +13,8 @@ import {
   validateEmail,
   validatePhoneNumber
 } from '@reeba/common'
+
+import argon2Options from '../../constants/argon2'
 
 const schema: FastifySchema = {
   params: PatchProfileDataRequestParamsSchema,
@@ -117,11 +118,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             [username]
           )
 
-          const isSamePassword = await bcrypt.compare(password, oldPasswordHash.rows[0].user_password)
+          const isSamePassword = await verify(oldPasswordHash.rows[0].user_password, password, argon2Options)
 
           if (!isSamePassword) {
-            const salt = await bcrypt.genSalt(BCRYPT_GENSALT_ROUNDS)
-            const hashedPassword = await bcrypt.hash(password, salt)
+            const hashedPassword = await hash(password, argon2Options)
 
             await client.query(
               'update "users" set user_password = $1 where user_username = $2',

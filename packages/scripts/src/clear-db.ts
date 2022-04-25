@@ -15,6 +15,9 @@ const client = new Client({
   database: process.env.POSTGRES_DBNAME
 })
 
+const userPassword = '$argon2id$v=19$m=4096,t=12,p=4$P7aFyCRZ4ZOTFplVOwZGkA$bqtIRXIVrqUatyASMxPElOvJu5z5fx2bMyCK7jROIDGgHNV2MoyobQ'
+const adminPassword = '$argon2id$v=19$m=4096,t=12,p=4$Y7HnAY16fS4x4Ys/S15guA$UvYZV/GxYNyJLaCBlG6kVJn1Q8bUFpbNxlXSxw1XDI1hGo45//+2MQ'
+
 console.log(chalk.green('deleting data in tables'));
 // eslint-disable-next-line
 (async () => {
@@ -88,7 +91,7 @@ console.log(chalk.green('deleting data in tables'));
     ) values (
       'aryastark',
       'aryastark@gmail.com',
-      '$2b$10$stcsoa28Ym.QM3f3NyQI2Oac7XByJIzv3mjLO/fsmkQjLPBi8HMj2',
+      '${userPassword}',
       '66',
       '994485893',
       'user',
@@ -98,7 +101,7 @@ console.log(chalk.green('deleting data in tables'));
     ), (
       'sansastark',
       'sansastark@gmail.com',
-      '$2b$10$COLqSOrDQUFMGB1oIr7GUexOf7myts.5YILB868jOA1OIIALEX0KG',
+      '${adminPassword}',
       '66',
       '995894833',
       'admin',

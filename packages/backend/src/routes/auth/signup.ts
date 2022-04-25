@@ -1,8 +1,7 @@
-import bcrypt from 'bcrypt'
 import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
+import { hash } from '@node-rs/argon2'
 import {
-  BCRYPT_GENSALT_ROUNDS,
   SignupBody,
   SignupBodySchema,
   SignupReply,
@@ -12,6 +11,8 @@ import {
   validatePhoneNumber,
   validateUsername
 } from '@reeba/common'
+
+import argon2Options from '../../constants/argon2'
 
 const schema: FastifySchema = {
   body: SignupBodySchema,
@@ -91,8 +92,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         throw new Error('duplicate \'username\'')
       }
 
-      const salt = await bcrypt.genSalt(BCRYPT_GENSALT_ROUNDS)
-      const encryptedPassword = await bcrypt.hash(password, salt)
+      const encryptedPassword = await hash(password, argon2Options)
 
       type InsertUserValues = [
         users['user_username'],

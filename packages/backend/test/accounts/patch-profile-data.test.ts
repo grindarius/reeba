@@ -1,10 +1,11 @@
-import bcrypt from 'bcrypt'
 import dayjs from 'dayjs'
 import t from 'tap'
 
+import { verify } from '@node-rs/argon2'
 import { users } from '@reeba/common'
 
 import createServer from '../../src/app'
+import argon2Options from '../../src/constants/argon2'
 import client from '../pool'
 
 void t.test('patch profile data', async t => {
@@ -257,7 +258,7 @@ void t.test('patch profile data', async t => {
         ['patchprofiledataguy']
       )
 
-      const isSamePassword = await bcrypt.compare('asdfghjkl123', newUserData.rows[0].user_password)
+      const isSamePassword = await verify(newUserData.rows[0].user_password, 'asdfghjkl123', argon2Options)
 
       t.strictSame(response.json(), { message: 'complete' })
       t.strictSame(newUserData.rows[0].user_email, 'patchprofiledataguy@gmail.com')
@@ -295,7 +296,7 @@ void t.test('patch profile data', async t => {
         ['patchprofiledataguy']
       )
 
-      const isSamePassword = await bcrypt.compare('asdfghjkl123', newUserData.rows[0].user_password)
+      const isSamePassword = await verify(newUserData.rows[0].user_password, 'asdfghjkl123', argon2Options)
 
       t.strictSame(response.json(), { message: 'complete' })
       t.strictSame(newUserData.rows[0].user_email, 'patchprofiledataguy2@gmail.com')
@@ -333,7 +334,7 @@ void t.test('patch profile data', async t => {
         ['patchprofiledataguy']
       )
 
-      const isSamePassword = await bcrypt.compare('asdfghjkl123', newUserData.rows[0].user_password)
+      const isSamePassword = await verify(newUserData.rows[0].user_password, 'asdfghjkl123', argon2Options)
 
       t.strictSame(response.json(), { message: 'complete' })
       t.strictSame(newUserData.rows[0].user_email, 'patchprofiledataguy2@gmail.com')
@@ -371,7 +372,7 @@ void t.test('patch profile data', async t => {
         ['patchprofiledataguy']
       )
 
-      const isSamePassword = await bcrypt.compare('asdfghjkl123', newUserData.rows[0].user_password)
+      const isSamePassword = await verify(newUserData.rows[0].user_password, 'asdfghjkl123', argon2Options)
 
       t.strictSame(response.json(), { message: 'complete' })
       t.strictSame(newUserData.rows[0].user_email, 'patchprofiledataguy2@gmail.com')
@@ -408,7 +409,7 @@ void t.test('patch profile data', async t => {
         ['patchprofiledataguy']
       )
 
-      const isSamePassword = await bcrypt.compare('asdfghjkl123', newUserData.rows[0].user_password)
+      const isSamePassword = await verify(newUserData.rows[0].user_password, 'asdfghjkl123', argon2Options)
 
       t.strictSame(response.json(), { message: 'complete' })
       t.strictSame(newUserData.rows[0].user_email, 'patchprofiledataguy2@gmail.com')
@@ -447,7 +448,7 @@ void t.test('patch profile data', async t => {
         ['patchprofiledataguy']
       )
 
-      const isSamePassword = await bcrypt.compare('asdfghjkl123', newUserData.rows[0].user_password)
+      const isSamePassword = await verify(newUserData.rows[0].user_password, 'asdfghjkl123', argon2Options)
 
       t.strictSame(response.json(), { message: 'complete' })
       t.strictSame(newUserData.rows[0].user_email, 'patchprofiledataguy2@gmail.com')
@@ -483,7 +484,7 @@ void t.test('patch profile data', async t => {
         ['patchprofiledataguy']
       )
 
-      const isSamePassword = await bcrypt.compare('asdfghjkl1234', newUserData.rows[0].user_password as string)
+      const isSamePassword = await verify(newUserData.rows[0].user_password as string, 'asdfghjkl1234')
 
       t.strictSame(response.json(), { message: 'complete' })
       t.strictSame(newUserData.rows[0].user_email, 'patchprofiledataguy2@gmail.com')

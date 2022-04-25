@@ -46,6 +46,8 @@ const compatibleExcelNanoid = (): string => {
   return id
 }
 
+const userPassword = '$argon2id$v=19$m=4096,t=12,p=4$P7aFyCRZ4ZOTFplVOwZGkA$bqtIRXIVrqUatyASMxPElOvJu5z5fx2bMyCK7jROIDGgHNV2MoyobQ'
+
 interface EventGroup {
   event: Array<CustomEvent>
   datetimes: Array<event_datetimes>
@@ -133,7 +135,7 @@ const generateUserList = async (amount: number): Promise<Array<users>> => {
       user_username: card.username.replace(/\./g, ''),
       user_email: card.email,
       // * aryastark
-      user_password: '$2b$10$stcsoa28Ym.QM3f3NyQI2Oac7XByJIzv3mjLO/fsmkQjLPBi8HMj2',
+      user_password: userPassword,
       user_profile_description: faker.lorem.sentence(),
       user_social_medias: {
         facebook: faker.helpers.userCard().website,

@@ -29,6 +29,7 @@ Pick<event_sections, 'event_section_row_position' | 'event_section_column_positi
 /**
  * Reads a file path, gets the file, then return as base64 string
  *
+ * @see https://stackoverflow.com/a/68562031/12386405
  * @param path image path from `path.join` or `path.resolve`
  */
 const base64Encode = async (path: string): Promise<string> => {
