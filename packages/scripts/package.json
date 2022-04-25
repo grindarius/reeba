@@ -14,6 +14,7 @@
     "fix": "eslint **/*.ts --fix"
   },
   "dependencies": {
+    "@node-rs/argon2": "^1.1.0",
     "@reeba/common": "workspace:^1.0.0",
     "chalk": "4.1.2",
     "countries-list": "^2.6.1",
