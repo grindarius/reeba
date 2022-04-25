@@ -11,7 +11,7 @@ create type t_user_role as enum ('user', 'admin');
 create type t_event_status as enum ('open', 'closed');
 
 -- point custom arithmetic operator function
---  https://stackoverflow.com/a/34971757/12386405
+-- https://stackoverflow.com/a/34971757/12386405
 
 drop operator class if exists point_ops using btree cascade;
 drop function btreepointcmp(point, point);
@@ -187,53 +187,3 @@ create table transaction_details (
   foreign key (transaction_id) references transactions(transaction_id) on delete cascade,
   constraint fk_event_seat_id foreign key (event_seat_id) references event_seats(event_seat_id)
 );
-
-insert into event_tags (event_tag_label) values
-  ('amphitheater'),
-  ('business'),
-  ('concert'),
-  ('entertainment'),
-  ('fan-meet'),
-  ('gameshow'),
-  ('lifestyle'),
-  ('live'),
-  ('musical'),
-  ('online'),
-  ('opera'),
-  ('seminar'),
-  ('stand-up-comedy'),
-  ('technology'),
-  ('variety')
-on conflict (event_tag_label) do nothing;
-
-insert into users (
-  user_username,
-  user_email,
-  user_password,
-  user_phone_country_code,
-  user_phone_number,
-  user_role,
-  user_profile_description,
-  user_image_profile_path,
-  user_iso_31662_code
-) values (
-  'aryastark',
-  'aryastark@gmail.com',
-  '$2b$10$stcsoa28Ym.QM3f3NyQI2Oac7XByJIzv3mjLO/fsmkQjLPBi8HMj2',
-  '66',
-  '994485893',
-  'user',
-  'I am Sansa Stark''s youger sister.',
-  'arya-stark.png',
-  'TH'
-), (
-  'sansastark',
-  'sansastark@gmail.com',
-  '$2b$10$COLqSOrDQUFMGB1oIr7GUexOf7myts.5YILB868jOA1OIIALEX0KG',
-  '66',
-  '995894833',
-  'admin',
-  'I am Arya Stark''s older sister.',
-  'sansa-stark.png',
-  'TH'
-) on conflict (user_username) do nothing;
