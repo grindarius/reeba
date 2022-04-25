@@ -229,6 +229,7 @@ importers:
   packages/scripts:
     specifiers:
       '@faker-js/faker': ^6.0.0
+      '@node-rs/argon2': ^1.1.0
       '@reeba/common': workspace:^1.0.0
       '@types/dotenv-flow': ^3.2.0
       '@types/pg': ^8.6.4
@@ -242,6 +243,7 @@ importers:
       pg: ^8.7.1
       upath: ^2.0.1
     dependencies:
+      '@node-rs/argon2': 1.1.0
       '@reeba/common': link:../common
       chalk: 4.1.2
       countries-list: 2.6.1
