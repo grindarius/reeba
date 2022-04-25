@@ -35,4 +35,4 @@ const finalString = fileString.slice(0, lastConstIndex) +
 'const __dirname = dirname(__filename)' +
 fileString.slice(lastConstIndex)
 
-writeFile(resolve(__dirname, 'argon2.mjs'), finalString)
+await writeFile(resolve(__dirname, 'argon2.mjs'), finalString)
