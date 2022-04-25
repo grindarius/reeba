@@ -173,6 +173,7 @@ pnpm install --frozen-lockfile
   ```
   FASTIFY_PORT='3000'
   JWT_SECRET=
+  ARGON2_PEPPER=
   POSTGRES_USERNAME=
   POSTGRES_PASSWORD=
   POSTGRES_HOSTNAME='localhost'
@@ -184,6 +185,10 @@ pnpm install --frozen-lockfile
   - `JWT_SECRET`: โปรดอีเมลมารับ secret หรือรัน
     ```
     node -e "console.log(require('crypto').randomBytes(256).toString('base64'))"
+    ```
+  - `ARGON2_PEPPER`: รัน
+    ```
+    node -e "console.log(require('crypto').randomBytes(40).toString('base64'))"
     ```
   - `POSTGRES_USERNAME`: ถ้าคุณล็อกอินเข้า database ด้วยคอมมานด์ `psql -U postgres` ช่องนี้ก็จะเป็น `postgres`
   - `POSTGRES_PASSWORD`: รหัสผ่านของบัญชี `postgres`

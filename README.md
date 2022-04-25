@@ -172,6 +172,7 @@ If top 3 requirements surpassed. You're ready to develop ReebA's database. These
   ```
   FASTIFY_PORT='3000'
   JWT_SECRET=
+  ARGON2_PEPPER=
   POSTGRES_USERNAME=
   POSTGRES_PASSWORD=
   POSTGRES_HOSTNAME='localhost'
@@ -183,6 +184,10 @@ If top 3 requirements surpassed. You're ready to develop ReebA's database. These
   - `JWT_SECRET`: Please email me to get the secret that we use, or run
     ```
     node -e "console.log(require('crypto').randomBytes(256).toString('base64'))"
+    ```
+  - `ARGON2_PEPPER`: Run
+    ```
+    node -e "console.log(require('crypto').randomBytes(40).toString('base64'))"
     ```
   - `POSTGRES_USERNAME`: If you log into the database with command `psql -U postgres`, the username would be `'postgres'`.
   - `POSTGRES_PASSWORD`: The password for `postgres` superuser.
