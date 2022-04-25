@@ -15,7 +15,12 @@ module.exports = {
     ecmaVersion: 2020
   },
   ignorePatterns: [
-    '**/node_modules', '**/dist', '**/lib', '**/.*/**/*'
+    '**/node_modules',
+    '**/dist',
+    '**/lib',
+    '**/.*/**/*',
+    'password-migrate.mjs',
+    'password-inject.mjs'
   ],
   rules: {
     'no-void': ['error', { allowAsStatement: true }],
