@@ -35,7 +35,7 @@ erDiagram
     t_event_status event_status
     jsonb event_ticket_prices
     int event_minimum_age
-    event_venue_country_code_alpha2
+    text event_venue_country_code_alpha2
     int event_min_ticket_price
     int event_max_ticket_price
   }
