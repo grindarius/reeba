@@ -83,7 +83,7 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
 
   void server.register(routes)
   void server.register(endpoints, {
-    path: resolve(__dirname, '..', '..', 'frontend', 'src', 'api', 'endpoints-generated.ts'),
+    path: resolve(__dirname, '..', '..', 'frontend', 'src', 'api', 'endpoints.ts'),
     blacklist: ['GetContactInfo', 'VerifyAuthentication']
   })
 
