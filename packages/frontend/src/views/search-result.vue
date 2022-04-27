@@ -55,7 +55,7 @@
                   <div class="max-w-md">
                     <div class="flex flex-row items-center space-x-2">
                       <div>
-                        <img :src="getUserAvatar({ username: result.username }).url" class="w-10 h-10 rounded-lg shadow-2xl">
+                        <img :src="getUserAvatarEndpoint({ username: result.username }).url" class="w-10 h-10 rounded-lg shadow-2xl">
                       </div>
                       <h1 class="items-center text-2xl font-bold hover:underline underline-offset-2">
                         {{ result.username }}
@@ -162,7 +162,7 @@ import {
   searchType
 } from '@reeba/common'
 
-import { getSearchResult as getSearchResultEndpoint, getUserAvatar } from '@/api/endpoints'
+import { getSearchResultEndpoint, getUserAvatarEndpoint } from '@/api/endpoints'
 import { formatQueryArray, formatQueryString, formatTimeString } from '@/utils'
 
 export default defineComponent({
@@ -315,7 +315,7 @@ export default defineComponent({
       selectedPriceRange,
       selectedDateRange,
       selectedTags,
-      getUserAvatar,
+      getUserAvatarEndpoint,
       selectedCreatorType,
       selectedSearchQueryType,
       creatorType,
