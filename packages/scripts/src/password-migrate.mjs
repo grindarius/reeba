@@ -1,38 +1,41 @@
-import dotenv from 'dotenv-flow'
+import { hash } from '@node-rs/argon2'
+import argon2Options from '../dist/src/constants/argon2.js'
 import { readFile, writeFile } from 'node:fs/promises'
-import { dirname, resolve } from 'node:path'
+import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { exec } from 'node:child_process'
+import { promisify } from 'node:util'
 
-/**
- * `__dirname` creation in ESM
- *
- * @see https://stackoverflow.com/a/55944697/12386405
- */
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-dotenv.config({
-  path: resolve(__dirname, '..', '..', 'backend'),
-  silent: true
-})
+const execAsync = promisify(exec)
 
-const file = await readFile(resolve(__dirname, '..', '..', 'backend', 'src', 'constants', 'argon2.ts'))
-const fileString = file.toString()
-  .replace('import { resolve } from \'node:path\'', 'import { dirname, resolve } from \'node:path\'')
-  .replace('resolve(__dirname, \'..\', \'..\')', 'resolve(__dirname, \'..\', \'..\', \'backend\')')
+// build the argon2 file and dumping to dist folder of scripts package
+await execAsync('pnpm build:argon2', { cwd: resolve(__dirname, '..') })
 
-const lastConstIndex = fileString.indexOf('import { dirname, resolve } from \'node:path\'') + 'import { dirname, resolve } from \'node:path\''.length
+// copy .env files for configurations on secrets
+await execAsync('cp ../../backend/.env.local ../dist/.env.local', { cwd: resolve(__dirname) })
 
-/**
- * Inseting a string in the middle of a long string
- * 
- * @see https://stackoverflow.com/a/4314044/12386405
- */
-const finalString = fileString.slice(0, lastConstIndex) +
-'\n' +
-'import { fileURLToPath } from \'node:url\'' + '\n\n' +
-'const __filename = fileURLToPath(import.meta.url)' + '\n' +
-'const __dirname = dirname(__filename)' +
-fileString.slice(lastConstIndex)
+const userPassword = await hash('aryastark', argon2Options)
+const adminPassword = await hash('sansastark', argon2Options)
 
-await writeFile(resolve(__dirname, 'argon2.mjs'), finalString)
+const seedFile = await readFile(resolve(__dirname, 'seed.ts'), 'utf-8')
+const clearDbFile = await readFile(resolve(__dirname, 'clear-db.ts'), 'utf-8')
+
+const editedSeedFile = seedFile.replace(
+  /const userPassword = '.+?'/,
+  `const userPassword = '${userPassword}'`
+)
+const editedClearDbFile = clearDbFile
+  .replace(
+    /const userPassword = '.+?'/,
+    `const userPassword = '${userPassword}'`
+  )
+  .replace(
+    /const adminPassword = '.+?'/,
+    `const adminPassword = '${adminPassword}'`
+  )
+
+await writeFile(resolve(__dirname, 'seed.ts'), editedSeedFile, 'utf-8')
+await writeFile(resolve(__dirname, 'clear-db.ts'), editedClearDbFile, 'utf-8')

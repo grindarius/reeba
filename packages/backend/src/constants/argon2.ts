@@ -1,7 +1,9 @@
-import dotenv from 'dotenv-flow'
+import { config } from 'dotenv-flow'
 import { resolve } from 'node:path'
 
-dotenv.config({
+import { Options as Argon2Options } from '@node-rs/argon2'
+
+config({
   path: resolve(__dirname, '..', '..'),
   silent: true
 })
@@ -18,7 +20,7 @@ if (process.env.ARGON2_PEPPER == null || process.env.ARGON2_PEPPER === '') {
 /**
  * Options for hashing a password using `argon2`
  */
-const argon2Options = {
+const argon2Options: Argon2Options = {
   timeCost: ARGON2_ITERATION_ROUNDS,
   outputLen: ARGON2_HASH_LENGTH,
   parallelism: ARGON2_PARALLELISM_THREAD_COUNT,

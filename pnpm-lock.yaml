@@ -130,6 +130,12 @@ importers:
     devDependencies:
       fastify: 3.27.2
 
+  packages/fastify-frondend-endpoint-generator:
+    specifiers:
+      fastify: ^3.27.0
+    devDependencies:
+      fastify: 3.27.2
+
   packages/fastify-local-reverse-geocoder:
     specifiers:
       '@webkitty/geo-rev': ^1.1.1
