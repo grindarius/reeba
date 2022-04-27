@@ -20,6 +20,9 @@
     },
     {
       "path": "packages/fastify-local-reverse-geocoder"
+    },
+    {
+      "path": "packages/fastify-frontend-endpoints-generator"
     }
   ],
   "settings": {

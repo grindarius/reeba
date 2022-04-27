@@ -1,0 +1,16 @@
+import { FastifyPluginCallback } from 'fastify-plugin'
+
+interface FastifyFrontendEndpointsGeneratorOptions {
+  /**
+   * Where to put the generated files
+   */
+  path: string
+  /**
+   * Which endpoint names to exclude from the generation process
+   */
+  blacklist?: Array<string>
+}
+
+export const plugin: FastifyPluginCallback<FastifyFrontendEndpointsGeneratorOptions>
+
+export default plugin

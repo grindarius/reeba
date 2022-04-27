@@ -59,6 +59,7 @@ importers:
       '@node-rs/argon2': ^1.1.0
       '@reeba/common': workspace:^1.0.0
       '@reeba/fastify-check-jwt': workspace:^1.0.0
+      '@reeba/fastify-frontend-endpoints-generator': workspace:^1.0.0
       '@reeba/fastify-local-reverse-geocoder': workspace:^1.0.0
       '@types/dotenv-flow': ^3.2.0
       '@types/pg': ^8.6.4
@@ -87,6 +88,7 @@ importers:
       '@node-rs/argon2': 1.1.0
       '@reeba/common': link:../common
       '@reeba/fastify-check-jwt': link:../fastify-check-jwt
+      '@reeba/fastify-frontend-endpoints-generator': link:../fastify-frontend-endpoints-generator
       '@reeba/fastify-local-reverse-geocoder': link:../fastify-local-reverse-geocoder
       dayjs: 1.10.8
       dotenv-flow: 3.2.0
@@ -130,9 +132,12 @@ importers:
     devDependencies:
       fastify: 3.27.2
 
-  packages/fastify-frondend-endpoint-generator:
+  packages/fastify-frontend-endpoints-generator:
     specifiers:
       fastify: ^3.27.0
+      fastify-plugin: ^3.0.1
+    dependencies:
+      fastify-plugin: 3.0.1
     devDependencies:
       fastify: 3.27.2
 
