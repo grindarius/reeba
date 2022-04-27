@@ -106,7 +106,7 @@ export const signupEndpoint: Endpoint = {
   method: 'post'
 }
 
-export const getAvatarEndpoint: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
+export const getUserAvatarEndpoint: EndpointFunc<{ username: string }> = ({ username }): Endpoint => {
   return {
     url: `${url}/avatars/${username}`,
     method: 'get'
