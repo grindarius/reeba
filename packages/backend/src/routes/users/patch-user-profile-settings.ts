@@ -59,6 +59,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         if (email == null) {
           request.body.email = ''
         }
+      },
+      config: {
+        name: 'PatchUserDescription'
       }
     },
     async (request) => {

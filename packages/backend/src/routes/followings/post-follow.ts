@@ -30,6 +30,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('body should have required property \'anotherUsername\'')
         }
+      },
+      config: {
+        name: 'PostFollow'
       }
     },
     async (request, reply) => {

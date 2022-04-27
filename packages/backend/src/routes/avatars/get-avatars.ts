@@ -14,7 +14,12 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
   instance.get<{ Params: GetAvatarsParams }>(
     '/:username',
-    { schema },
+    {
+      schema,
+      config: {
+        name: 'GetAvatar'
+      }
+    },
     async (request, reply) => {
       const { username } = request.params
 

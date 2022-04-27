@@ -71,6 +71,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         if (request.query.sort == null || request.query.sort === '') {
           request.query.sort = 'time-asc'
         }
+      },
+      config: {
+        name: 'AdminGetTransactionData'
       }
     },
     async (request) => {

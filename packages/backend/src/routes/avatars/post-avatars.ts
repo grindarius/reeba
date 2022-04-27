@@ -22,7 +22,12 @@ const schema: FastifySchema = {
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.post<{ Params: PostAvatarsParams }>(
     '/:username',
-    { schema },
+    {
+      schema,
+      config: {
+        name: 'PostAvatar'
+      }
+    },
     async (request, reply) => {
       const { username } = request.params
 

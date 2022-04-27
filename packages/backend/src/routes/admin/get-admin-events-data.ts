@@ -100,6 +100,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         if (sort == null || sort === '') {
           request.query.sort = 'event-name-asc'
         }
+      },
+      config: {
+        name: 'AdminGetEventsData'
       }
     },
     async (request) => {

@@ -67,7 +67,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             throw new Error('forbidden')
           }
         }
-      ]
+      ],
+      config: {
+        name: 'AdminGetStatisticsSummary'
+      }
     },
     async () => {
       const now = dayjs().toDate()
@@ -142,7 +145,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             throw new Error('forbidden')
           }
         }
-      ]
+      ],
+      config: {
+        name: 'AdminGetMapsData'
+      }
     },
     async (request) => {
       const { start, end } = request.query
@@ -201,7 +207,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             throw new Error('forbidden')
           }
         }
-      ]
+      ],
+      config: {
+        name: 'AdminGetTransactionSummary'
+      }
     },
     async (request) => {
       const { start, end, group } = request.query
@@ -259,7 +268,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             throw new Error('forbidden')
           }
         }
-      ]
+      ],
+      config: {
+        name: 'AdminGetRegistrationSummary'
+      }
     },
     async (request) => {
       const { start, end, group } = request.query
@@ -310,7 +322,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             throw new Error('forbidden')
           }
         }
-      ]
+      ],
+      config: {
+        name: 'AdminGetTopEventTagsOfAllTime'
+      }
     },
     async (request) => {
       const { top } = request.query

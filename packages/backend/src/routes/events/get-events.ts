@@ -30,7 +30,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   instance.get<{ Reply: GetEventsReply }>(
     '/root',
     {
-      schema
+      schema,
+      config: {
+        name: 'GetRootPageEvent'
+      }
     },
     async () => {
       const oneMonthBackDate: Date = dayjs().subtract(1, 'month').toDate()
@@ -109,6 +112,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         response: {
           200: GetAllEventsReplySchema
         }
+      },
+      config: {
+        name: 'GetAllEvents'
       }
     },
     async () => {
