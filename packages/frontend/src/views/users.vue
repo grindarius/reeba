@@ -7,7 +7,7 @@
   <div class="users-page">
     <div class="users-page-content">
       <section class="profile-descriptions">
-        <img :src="`${getUserAvatar({ username: $route.params.username as string }).url}`" alt="user-image" class="user-image">
+        <img :src="`${getUserAvatarEndpoint({ username: $route.params.username as string }).url}`" alt="user-image" class="user-image">
         <div class="user-info">
           <div class="mt-3 text-4xl font-bold text-white" :title="($route.params.username as string)">
             {{ $route.params.username }}
@@ -119,7 +119,7 @@
             <div class="event" v-for="({ username: attendedUsername, id: eventId, name: eventName, venueName }, i) in (relatedEvents?.attended ?? [])" :key="`user-page-attended-event-${i}`">
               <router-link :to="{ name: 'Event', params: { username: attendedUsername, eventId }}">
                 <div class="event-image-box">
-                  <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
+                  <img class="event-image" :src="`${getEventImageEndpoint({ eventId }).url}`" :alt="eventName">
                 </div>
                 <div class="event-info">
                   <div>
@@ -146,7 +146,7 @@
             <div class="event" v-for="({ username: createdUsername, id: eventId, name: eventName, venueName }, i) in (relatedEvents?.created ?? [])" :key="`user-page-created-event-${i}`">
               <router-link :to="{ name: 'Event', params: { username: createdUsername, eventId }}" :key="$route.path">
                 <div class="event-image-box">
-                  <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
+                  <img class="event-image" :src="`${getEventImageEndpoint({ eventId }).url}`" :alt="eventName">
                 </div>
                 <div class="event-info">
                   <div>
@@ -174,7 +174,7 @@
             <div class="overflow-y-auto" v-for="user in followersListResponse.followers" :key="`followers-modal-${user.username}`">
               <div class="flex items-center space-x-3">
                 <div class="mask mask-circle w-12 h-12 mt-3">
-                  <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
+                  <img :src="`${getUserAvatarEndpoint({ username: user.username }).url}`" :alt="user.username">
                 </div>
                 <div>
                   <a @click="goToUser(user.username)">
@@ -200,7 +200,7 @@
             <div class="overflow-y-auto">
               <div class="flex items-center space-x-3" v-for="user in followingsListResponse.followings" :key="`followings-modal-${user.username}`">
                 <div class="mask mask-circle w-12 h-12 mt-3">
-                  <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
+                  <img :src="`${getUserAvatarEndpoint({ username: user.username }).url}`" :alt="user.username">
                 </div>
                 <div>
                   <a @click="goToUser(user.username)">
@@ -230,14 +230,14 @@ import { useToast } from 'vue-toastification'
 import { GetUserFollowersListReply, GetUserFollowingsListReply, GetUserRelatedEventsReply, GetUserReply, PostFollowReply } from '@reeba/common'
 
 import {
-  getEventImage,
-  getUser,
-  getUserAvatar,
-  getUserFollowersList,
-  getUserFollowingsList,
-  getUserRelatedEvents,
-  patchUserProfileDescription as patchUserProfileDescriptionEndpoint,
-  postFollow
+  getEventImageEndpoint,
+  getUserAvatarEndpoint,
+  getUserEndpoint,
+  getUserFollowersListEndpoint,
+  getUserFollowingsListEndpoint,
+  getUserRelatedEventsEndpoint,
+  patchUserDescriptionEndpoint,
+  postFollowEndpoint
 } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 
@@ -280,7 +280,7 @@ export default defineComponent({
 
     const getUserDataTotal = async (): Promise<void> => {
       try {
-        const { method: getUserMethod, url: getUserUrl } = getUser({ username: route.params.username as string })
+        const { method: getUserMethod, url: getUserUrl } = getUserEndpoint({ username: route.params.username as string })
 
         const userDataResponse = await ky(getUserUrl, {
           method: getUserMethod,
@@ -289,7 +289,7 @@ export default defineComponent({
           ]
         }).json<GetUserReply>()
 
-        const { method: getUserRelatedEventsMethod, url: getUserRelatedEventsUrl } = getUserRelatedEvents({ username: route.params.username as string })
+        const { method: getUserRelatedEventsMethod, url: getUserRelatedEventsUrl } = getUserRelatedEventsEndpoint({ username: route.params.username as string })
 
         const userRelatedEvents = await ky(getUserRelatedEventsUrl, {
           method: getUserRelatedEventsMethod,
@@ -326,10 +326,10 @@ export default defineComponent({
 
     const getUserFollowersData = async (): Promise<void> => {
       try {
-        const { method: getUserFollowersListMethod, url: getUserFollowersListUrl } = getUserFollowersList({ username: route.params.username as string })
+        const { method, url } = getUserFollowersListEndpoint({ username: route.params.username as string })
 
-        const response = await ky(getUserFollowersListUrl, {
-          method: getUserFollowersListMethod,
+        const response = await ky(url, {
+          method,
           searchParams: [
             ['u', authStore.userData.username ?? '']
           ]
@@ -351,10 +351,10 @@ export default defineComponent({
 
     const getUserFollowingsData = async (): Promise<void> => {
       try {
-        const { method: getUserFollowingsListMethod, url: getUserFollowingsListUrl } = getUserFollowingsList({ username: route.params.username as string })
+        const { method, url } = getUserFollowingsListEndpoint({ username: route.params.username as string })
 
-        const response = await ky(getUserFollowingsListUrl, {
-          method: getUserFollowingsListMethod,
+        const response = await ky(url, {
+          method,
           searchParams: [
             ['u', authStore.userData.username ?? '']
           ]
@@ -381,7 +381,7 @@ export default defineComponent({
         return
       }
 
-      const { method, url } = postFollow
+      const { method, url } = postFollowEndpoint
 
       try {
         const response = await ky(url, {
@@ -410,7 +410,7 @@ export default defineComponent({
 
     const patchUserProfileDescription = async (): Promise<void> => {
       try {
-        const { method, url } = patchUserProfileDescriptionEndpoint({ username: authStore.userData.username })
+        const { method, url } = patchUserDescriptionEndpoint({ username: authStore.userData.username })
 
         await ky(url, {
           method,
@@ -476,7 +476,7 @@ export default defineComponent({
       followingsModalRef,
       followersListResponse,
       followingsListResponse,
-      getUserAvatar,
+      getUserAvatarEndpoint,
       getUserDataTotal,
       getUserFollowersData,
       getUserFollowingsData,
@@ -484,7 +484,7 @@ export default defineComponent({
       followUser,
       goToUser,
       relatedEvents,
-      getEventImage,
+      getEventImageEndpoint,
       isFollowing,
       descriptionText,
       facebookLink,
