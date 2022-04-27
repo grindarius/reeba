@@ -17,7 +17,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     {
       schema,
       config: {
-        name: 'GetAvatar'
+        name: 'GetUserAvatar'
       }
     },
     async (request, reply) => {
