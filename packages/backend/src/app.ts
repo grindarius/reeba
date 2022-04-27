@@ -12,6 +12,7 @@ import { join, resolve } from 'node:path'
 import { Logger } from 'pino'
 
 import jwt from '@reeba/fastify-check-jwt'
+import endpoints from '@reeba/fastify-frontend-endpoints-generator'
 import geocoder from '@reeba/fastify-local-reverse-geocoder'
 
 import routes from './routes'
@@ -81,6 +82,10 @@ const createServer = (): FastifyInstance<Server, IncomingMessage, ServerResponse
   void server.register(geocoder)
 
   void server.register(routes)
+  void server.register(endpoints, {
+    path: resolve(__dirname, '..', '..', 'frontend', 'src', 'api', 'endpoints-generated.ts'),
+    blacklist: ['GetContactInfo', 'VerifyAuthentication']
+  })
 
   return server
 }
