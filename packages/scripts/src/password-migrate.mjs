@@ -1,5 +1,4 @@
 import { hash } from '@node-rs/argon2'
-import argon2Options from '../dist/src/constants/argon2.js'
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -11,14 +10,16 @@ const __dirname = dirname(__filename)
 
 const execAsync = promisify(exec)
 
-// build the argon2 file and dumping to dist folder of scripts package
-await execAsync('pnpm build:argon2', { cwd: resolve(__dirname, '..') })
-
-// copy .env files for configurations on secrets
+// * copy .env files for configurations on secrets
 await execAsync('cp ../../backend/.env.local ../dist/.env.local', { cwd: resolve(__dirname) })
 
-const userPassword = await hash('aryastark', argon2Options)
-const adminPassword = await hash('sansastark', argon2Options)
+// * build the argon2 file and dumping to dist folder of scripts package
+await execAsync('pnpm build:argon2', { cwd: resolve(__dirname, '..') })
+
+import argon2Options from '../dist/src/constants/argon2.js'
+
+const userPassword = await hash('aryastark', argon2Options.default)
+const adminPassword = await hash('sansastark', argon2Options.default)
 
 const seedFile = await readFile(resolve(__dirname, 'seed.ts'), 'utf-8')
 const clearDbFile = await readFile(resolve(__dirname, 'clear-db.ts'), 'utf-8')
