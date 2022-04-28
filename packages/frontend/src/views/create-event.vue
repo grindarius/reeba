@@ -444,7 +444,7 @@ import { useToast } from 'vue-toastification'
 
 import { numberToLetters, PostEventBody, PostEventReply } from '@reeba/common'
 
-import { postEvent, postEventImage } from '@/api/endpoints'
+import { postEventEndpoint, postEventImageEndpoint } from '@/api/endpoints'
 import { useMarkdown } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
 import { ReebAEventDatetime, ReebAEventSeat, ReebAEventSection, ReebAExtendedEventPrice } from '@/types'
@@ -539,10 +539,9 @@ export default defineComponent({
     const deleteImage = () => {
       eventImage.value = null
     }
-
+A
     const createEvent = async (): Promise<void> => {
-      const { method: postEventMethod, url: postEventUrl } = postEvent
-      const { method: postEventImageMethod, url: postEventImageUrl } = postEventImage
+      const { method: postEventMethod, url: postEventUrl } = postEventEndpoint
       const coordinateString = eventVenueCoordinates.value.split(',')
 
       if (eventName.value === '') {
@@ -639,10 +638,12 @@ export default defineComponent({
 
         const form = new FormData()
 
+        const { method: postEventImageMethod, url: postEventImageUrl } = postEventImageEndpoint({ eventId: response.eventId })
+
         if (eventImage.value != null) {
           form.append('image', eventImage.value)
 
-          await ky(postEventImageUrl + `/${response.eventId}`, {
+          await ky(postEventImageUrl, {
             method: postEventImageMethod,
             body: form
           })

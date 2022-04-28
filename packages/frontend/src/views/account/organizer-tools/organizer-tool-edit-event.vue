@@ -92,8 +92,8 @@ import {
 } from '@reeba/common'
 
 import {
-  getEditableEventData as getEditableEventDataEndpoint,
-  patchEditableEventData as patchEditableEventDataEndpoint
+  getEditableEventDataEndpoint,
+  patchEditableEventDataEndpoint
 } from '@/api/endpoints'
 import { useMarkdown } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'

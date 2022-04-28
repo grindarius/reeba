@@ -132,7 +132,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 import { GetTransactionReply, numberToLetters } from '@reeba/common'
 
-import { getTransaction, getTransactionInvoice, url } from '@/api/endpoints'
+import { getTransactionEndpoint, getTransactionPDFEndpoint, url } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { formatTimeString } from '@/utils'
 
@@ -154,7 +154,7 @@ export default defineComponent({
 
     const getReceiptData = async (): Promise<void> => {
       try {
-        const { method, url } = getTransaction({ transactionId: route.params.transactionId as string ?? '' })
+        const { method, url } = getTransactionEndpoint({ transactionId: route.params.transactionId as string ?? '' })
 
         const response = await ky(url, {
           method,
@@ -192,7 +192,7 @@ export default defineComponent({
     })
 
     const downloadPDF = async (): Promise<void> => {
-      const { url } = getTransactionInvoice({ transactionId: route.params.transactionId as string })
+      const { url } = getTransactionPDFEndpoint({ transactionId: route.params.transactionId as string })
       const newWindow = window.open(url, '_blank', 'noopener')
       if (newWindow != null) {
         newWindow.opener = null

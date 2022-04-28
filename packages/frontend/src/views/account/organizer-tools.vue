@@ -38,7 +38,7 @@
                 <div class="flex items-center space-x-3">
                   <div class="avatar">
                     <div class="w-12 h-12 mask mask-squircle">
-                      <img :src="`${getEventImage({ eventId: e.id }).url}`" :alt="e.name">
+                      <img :src="`${getEventImageEndpoint({ eventId: e.id }).url}`" :alt="e.name">
                     </div>
                   </div>
                   <router-link :to="{ name: 'Organizer Statistics Overview', params: { eventId: e.id } }">
@@ -154,7 +154,7 @@
                 <div class="flex items-center space-x-3">
                   <div class="avatar">
                     <div class="w-12 h-12 mask mask-squircle">
-                      <img :src="getEventImage({ eventId: e.id }).url" :alt="e.name">
+                      <img :src="getEventImageEndpoint({ eventId: e.id }).url" :alt="e.name">
                     </div>
                   </div>
                   <router-link :to="{ name: 'Organizer Statistics Overview', params: { eventId: e.id } }">
@@ -226,7 +226,7 @@ import { useToast } from 'vue-toastification'
 
 import { GetOrganizerDataReply } from '@reeba/common'
 
-import { getEventImage, getOrganizerData as getOrganizerDataEndpoint, postManipulateEvent } from '@/api/endpoints'
+import { getEventImageEndpoint, getOrganizerDataEndpoint, postManipulateEventEndpoint } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { formatQueryString, formatTimeString } from '@/utils'
 
@@ -288,7 +288,7 @@ export default defineComponent({
 
     const toggleEvent = async (status: 'open' | 'closed', id: string) => {
       try {
-        const { method, url } = postManipulateEvent({ eventId: id })
+        const { method, url } = postManipulateEventEndpoint({ eventId: id })
 
         await ky(url, {
           method,
@@ -331,7 +331,7 @@ export default defineComponent({
     return {
       organizerEventsResponse,
       getOrganizerData,
-      getEventImage,
+      getEventImageEndpoint,
       format,
       formatTimeString,
       toggleEvent,

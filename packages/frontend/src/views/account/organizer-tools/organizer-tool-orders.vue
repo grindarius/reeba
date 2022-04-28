@@ -136,8 +136,8 @@ import { useToast } from 'vue-toastification'
 import { GetOrganizerEventOrdersReply } from '@reeba/common'
 
 import {
-  deleteTransaction,
-  getOrganizerOrdersOverview
+  deleteTransactionEndpoint,
+  getOrganizerEventOrdersEndpoint
 } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { formatTimeString } from '@/utils'
@@ -160,7 +160,7 @@ export default defineComponent({
 
     onMounted(async () => {
       try {
-        const { method, url } = getOrganizerOrdersOverview({ username: authStore.userData.username, eventId: route.params.eventId as string ?? '' })
+        const { method, url } = getOrganizerEventOrdersEndpoint({ username: authStore.userData.username, eventId: route.params.eventId as string ?? '' })
         const response = await ky(url, {
           method,
           headers: {
@@ -193,7 +193,7 @@ export default defineComponent({
     })
 
     const removeTransaction = async (transactionId: string): Promise<void> => {
-      const { method, url } = deleteTransaction({ transactionId })
+      const { method, url } = deleteTransactionEndpoint({ transactionId })
 
       try {
         await ky(url, {

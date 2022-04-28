@@ -138,8 +138,8 @@ import { useToast } from 'vue-toastification'
 import { GetIndividualEventReply, numberToLetters } from '@reeba/common'
 
 import {
-  getIndividualEvent as getIndividualEventEndpoint,
-  postTransaction as postTransactionEndpoint
+  getIndividualEventEndpoint,
+  postTransactionEndpoint
 } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { useTransactionStore } from '@/store/use-transaction-store'
