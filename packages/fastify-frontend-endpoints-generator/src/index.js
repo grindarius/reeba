@@ -13,6 +13,10 @@ const plugin = (instance, opts, done) => {
   }
 
   const createRoutesString = (r) => {
+    if (r.name === 'unspecified') {
+      instance.log.warn(`route with a path of ${r.url} does not have a name`)
+    }
+
     // * route contains path params
     const pathSegments = r.url.split('/').filter(segment => segment !== '')
     const functionName = r.name.charAt(0).toLowerCase() + r.name.slice(1) + 'Endpoint'
