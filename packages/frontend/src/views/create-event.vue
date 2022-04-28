@@ -539,7 +539,7 @@ export default defineComponent({
     const deleteImage = () => {
       eventImage.value = null
     }
-A
+
     const createEvent = async (): Promise<void> => {
       const { method: postEventMethod, url: postEventUrl } = postEventEndpoint
       const coordinateString = eventVenueCoordinates.value.split(',')

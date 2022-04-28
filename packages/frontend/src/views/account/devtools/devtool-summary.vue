@@ -216,11 +216,11 @@ import {
 } from '@reeba/common'
 
 import {
-  adminGetMapsData,
-  adminGetRegistrationSummary,
-  adminGetStatisticsSummary,
-  adminGetTopEventTagsOfAllTime,
-  adminGetTransactionSummary
+  adminGetMapsDataEndpoint,
+  adminGetRegistrationSummaryEndpoint,
+  adminGetStatisticsSummaryEndpoint,
+  adminGetTopEventTagsOfAllTimeEndpoint,
+  adminGetTransactionSummaryEndpoint
 } from '@/api/endpoints'
 import countriesJson from '@/assets/world-topo.json'
 import { useAuthStore } from '@/store/use-auth-store'
@@ -312,7 +312,7 @@ export default defineComponent({
 
     const getStatisticsSummary = async (): Promise<void> => {
       try {
-        const { method, url } = adminGetStatisticsSummary
+        const { method, url } = adminGetStatisticsSummaryEndpoint
 
         const response = await ky(url, {
           method,
@@ -347,7 +347,7 @@ export default defineComponent({
 
     const getWorldMapData = async (): Promise<void> => {
       try {
-        const { method, url } = adminGetMapsData
+        const { method, url } = adminGetMapsDataEndpoint
 
         const response = await ky(url, {
           method,
@@ -386,7 +386,7 @@ export default defineComponent({
 
     const getTransactionsData = async (): Promise<void> => {
       try {
-        const { method, url } = adminGetTransactionSummary
+        const { method, url } = adminGetTransactionSummaryEndpoint
 
         const response = await ky(url, {
           method,
@@ -426,7 +426,7 @@ export default defineComponent({
 
     const getRegistrationsData = async (): Promise<void> => {
       try {
-        const { method, url } = adminGetRegistrationSummary
+        const { method, url } = adminGetRegistrationSummaryEndpoint
 
         const response = await ky(url, {
           method,
@@ -466,7 +466,7 @@ export default defineComponent({
 
     const getTopEventTagsOfAllTime = async (): Promise<void> => {
       try {
-        const { method, url } = adminGetTopEventTagsOfAllTime
+        const { method, url } = adminGetTopEventTagsOfAllTimeEndpoint
 
         const response = await ky(url, {
           method,

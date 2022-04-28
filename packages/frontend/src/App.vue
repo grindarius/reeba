@@ -36,7 +36,7 @@
       <div v-show="isAuthenticated" class="dropdown dropdown-end">
         <label tabindex="0" class="btn btn-ghost btn-circle avatar">
           <div class="w-10 rounded-full">
-            <img :src="getUserAvatar({ username: userData.username }).url">
+            <img :src="getUserAvatarEndpoint({ username: userData.username }).url">
           </div>
         </label>
         <ul tabindex="0" class="p-2 mt-3 w-52 font-bold shadow menu menu-compact dropdown-content bg-primary text-base-100 rounded-box">
@@ -99,7 +99,7 @@ import { storeToRefs } from 'pinia'
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { getUserAvatar } from '@/api/endpoints'
+import { getUserAvatarEndpoint } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 
 export default defineComponent({
@@ -117,7 +117,7 @@ export default defineComponent({
     }
 
     return {
-      getUserAvatar,
+      getUserAvatarEndpoint,
       signout,
       searchText,
       isAuthenticated,
