@@ -67,6 +67,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         if (request.query.sort == null || request.query.sort === '') {
           request.query.sort = 'name-asc'
         }
+      },
+      config: {
+        name: 'AdminGetUserData'
       }
     },
     async (request) => {

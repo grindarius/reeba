@@ -28,6 +28,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('params should have required property \'username\'')
         }
+      },
+      config: {
+        name: 'GetProfileData'
       }
     },
     async (request, reply) => {

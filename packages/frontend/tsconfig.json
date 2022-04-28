@@ -20,8 +20,14 @@
       ],
       "@reeba/*": [
         "../*/src"
+      ],
+      "@sinclair/typebox": [
+        "../common/node_modules/@sinclair/typebox/typebox"
       ]
-    }
+    },
+    "types": [
+      "vite/client"
+    ]
   },
   "include": [
     "src/**/*.ts",

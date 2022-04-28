@@ -38,6 +38,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('params should have required property \'eventId\'')
         }
+      },
+      config: {
+        name: 'GetIndividualEvent'
       }
     },
     async (request, reply) => {

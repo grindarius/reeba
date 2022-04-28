@@ -10,6 +10,7 @@
   },
   "author": "ReebA Team",
   "scripts": {
+    "build:argon2": "tsc ../backend/src/constants/argon2.ts --outDir ./dist/src/constants",
     "clean": "pnpm dlx rimraf dist",
     "fix": "eslint **/*.ts --fix"
   },

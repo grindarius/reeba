@@ -67,7 +67,7 @@ import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
-import { getUserAvatar } from '@/api/endpoints'
+import { getUserAvatarEndpoint } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { useSignedInGuard } from '@/utils'
 
@@ -89,7 +89,7 @@ export default defineComponent({
     return {
       userData,
       signout,
-      getUserAvatar
+      getUserAvatarEndpoint
     }
   }
 })

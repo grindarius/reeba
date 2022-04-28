@@ -11,7 +11,7 @@
           <h1 class="block mb-4 font-sans text-4xl text-white lg:hidden">
             {{ eventData?.name ?? '' }}
           </h1>
-          <img class="mx-auto max-w-md rounded-lg lg:mx-0" :src="`${getEventImage({ eventId: $route.params.eventId as string ?? '' }).url}`" :alt="`${eventData?.name ?? '' }`">
+          <img class="mx-auto max-w-md rounded-lg lg:mx-0" :src="`${getEventImageEndpoint({ eventId: $route.params.eventId as string ?? '' }).url}`" :alt="`${eventData?.name ?? '' }`">
         </div>
         <div class="grow">
           <h1 class="hidden font-sans text-4xl text-white lg:block">
@@ -53,7 +53,7 @@
             </div>
             <router-link :to="`/${$route.params.username as string ?? ''}`" custom v-slot="{ navigate }">
               <div class="cursor-pointer event-createdby" @click="navigate">
-                <img class="rounded-full" width="60" :src="`${getUserAvatar({ username: $route.params.username as string ?? '' }).url}`" :alt="eventData?.createdBy ?? ''">
+                <img class="rounded-full" width="60" :src="`${getUserAvatarEndpoint({ username: $route.params.username as string ?? '' }).url}`" :alt="eventData?.createdBy ?? ''">
                 <div class="createdby-content">
                   <h1 class="detail-header">
                     Created by
@@ -131,7 +131,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 import { GetIndividualEventReply } from '@reeba/common'
 
-import { getEventImage, getIndividualEvent as getIndividualEventEndpoint, getUserAvatar } from '@/api/endpoints'
+import { getEventImageEndpoint, getIndividualEventEndpoint, getUserAvatarEndpoint } from '@/api/endpoints'
 import { useMarkdown } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
 import { formatTimeString } from '@/utils'
@@ -244,9 +244,9 @@ export default defineComponent({
       openGoogle,
       formatTimeString,
       renderedMarkdown,
-      getEventImage,
+      getEventImageEndpoint,
       route,
-      getUserAvatar,
+      getUserAvatarEndpoint,
       buyButtonClassName
     }
   }

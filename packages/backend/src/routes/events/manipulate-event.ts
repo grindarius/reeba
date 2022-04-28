@@ -33,7 +33,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             throw new Error('body should have required property \'targetStatus\'')
           }
         }
-      ]
+      ],
+      config: {
+        name: 'PostManipulateEvent'
+      }
     },
     async (request, reply) => {
       const ev = await instance.pg.query(

@@ -19,7 +19,7 @@
             <div class="event" v-for="({username, id: eventId, name: eventName, firstDatetime, venueName}, i) in eventData.events" :key="`all-events-page-event-${i}`">
               <router-link :to="{ name: 'Event', params: { username, eventId }}">
                 <div class="event-image-box">
-                  <img class="event-image" :src="`${getEventImage({ eventId }).url}`" :alt="eventName">
+                  <img class="event-image" :src="`${getEventImageEndpoint({ eventId }).url}`" :alt="eventName">
                 </div>
                 <div class="event-info">
                   <div>
@@ -51,7 +51,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 import { GetAllEventsReply } from '@reeba/common'
 
-import { getAllEvents, getEventImage } from '@/api/endpoints'
+import { getAllEventsEndpoint, getEventImageEndpoint } from '@/api/endpoints'
 import { formatTimeString } from '@/utils'
 
 export default defineComponent({
@@ -67,7 +67,7 @@ export default defineComponent({
     const eventData: Ref<GetAllEventsReply> = ref({
       events: []
     })
-    const { method, url } = getAllEvents
+    const { method, url } = getAllEventsEndpoint
 
     onMounted(async () => {
       try {
@@ -81,7 +81,7 @@ export default defineComponent({
 
     return {
       eventData,
-      getEventImage,
+      getEventImageEndpoint,
       formatTimeString
     }
   }

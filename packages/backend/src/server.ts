@@ -5,7 +5,8 @@ import { exit } from 'process'
 import createServer from './app'
 
 dotenv.config({
-  path: resolve(__dirname, '..')
+  path: resolve(__dirname, '..'),
+  silent: true
 })
 
 const PORT = process.env.PORT ?? '3000'

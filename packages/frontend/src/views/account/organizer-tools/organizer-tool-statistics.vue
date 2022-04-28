@@ -94,7 +94,7 @@ import {
   GetOrganizerEventUsersMapReply
 } from '@reeba/common'
 
-import { getOrganizerMapOverview, getOrganizerOverviewData } from '@/api/endpoints'
+import { getOrganizerEventStatisticsEndpoint, getOrganizerEventUsersMapEndpoint } from '@/api/endpoints'
 import countriesJson from '@/assets/world-topo.json'
 import { useAuthStore } from '@/store/use-auth-store'
 
@@ -126,7 +126,7 @@ export default defineComponent({
 
     const getOverviewData = async (): Promise<void> => {
       try {
-        const { method, url } = getOrganizerOverviewData({ username: authStore.userData.username, eventId: route.params.eventId as string ?? '' })
+        const { method, url } = getOrganizerEventStatisticsEndpoint({ username: authStore.userData.username, eventId: route.params.eventId as string ?? '' })
 
         const response = await ky(url, {
           method,
@@ -161,7 +161,7 @@ export default defineComponent({
 
     const getUserMaps = async (): Promise<void> => {
       try {
-        const { method, url } = getOrganizerMapOverview({ username: authStore.userData.username, eventId: route.params.eventId as string ?? '' })
+        const { method, url } = getOrganizerEventUsersMapEndpoint({ username: authStore.userData.username, eventId: route.params.eventId as string ?? '' })
 
         const response = await ky(url, {
           method,

@@ -163,6 +163,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         if (page == null || page <= 1) {
           request.query.page = 1
         }
+      },
+      config: {
+        name: 'GetSearchResult'
       }
     },
     async (request) => {

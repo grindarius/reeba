@@ -60,7 +60,7 @@
               <div class="flex items-center space-x-3">
                 <div class="avatar">
                   <div class="w-12 h-12 mask mask-squircle">
-                    <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
+                    <img :src="`${getUserAvatarEndpoint({ username: user.username }).url}`" :alt="user.username">
                   </div>
                 </div>
                 <div>
@@ -169,7 +169,7 @@
               <div class="flex items-center space-x-3">
                 <div class="avatar">
                   <div class="w-12 h-12 mask mask-squircle">
-                    <img :src="`${getUserAvatar({ username: user.username }).url}`" :alt="user.username">
+                    <img :src="`${getUserAvatarEndpoint({ username: user.username }).url}`" :alt="user.username">
                   </div>
                 </div>
                 <div>
@@ -248,13 +248,13 @@ import { useToast } from 'vue-toastification'
 import { AdminGetUserDataOptions, AdminGetUserDataReply } from '@reeba/common'
 
 import {
-  adminGetUserData,
-  adminGrantAdmin,
-  adminGrantVerification,
-  adminRemoveUser,
-  adminRevokeAdmin,
-  adminRevokeVerification,
-  getUserAvatar
+  adminGetUserDataEndpoint,
+  adminGrantAdminEndpoint,
+  adminGrantVerificationEndpoint,
+  adminRemoveUserEndpoint,
+  adminRevokeAdminEndpoint,
+  adminRevokeVerificationEndpoint,
+  getUserAvatarEndpoint
 } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { formatQueryString, formatTimeString } from '@/utils'
@@ -301,7 +301,7 @@ export default defineComponent({
       }
 
       try {
-        const { method, url } = adminGetUserData
+        const { method, url } = adminGetUserDataEndpoint
 
         const response = await ky(url, {
           method,
@@ -342,7 +342,7 @@ export default defineComponent({
 
     const grantAdmin = async (username: string): Promise<void> => {
       try {
-        const { method, url } = adminGrantAdmin({ username })
+        const { method, url } = adminGrantAdminEndpoint({ username })
 
         await ky(url, {
           method,
@@ -364,7 +364,7 @@ export default defineComponent({
 
     const revokeAdmin = async (username: string): Promise<void> => {
       try {
-        const { method, url } = adminRevokeAdmin({ username })
+        const { method, url } = adminRevokeAdminEndpoint({ username })
 
         await ky(url, {
           method,
@@ -386,7 +386,7 @@ export default defineComponent({
 
     const grantVerification = async (username: string): Promise<void> => {
       try {
-        const { method, url } = adminGrantVerification({ username })
+        const { method, url } = adminGrantVerificationEndpoint({ username })
 
         await ky(url, {
           method,
@@ -408,7 +408,7 @@ export default defineComponent({
 
     const revokeVerification = async (username: string): Promise<void> => {
       try {
-        const { method, url } = adminRevokeVerification({ username })
+        const { method, url } = adminRevokeVerificationEndpoint({ username })
 
         await ky(url, {
           method,
@@ -430,7 +430,7 @@ export default defineComponent({
 
     const removeUser = async (username: string): Promise<void> => {
       try {
-        const { method, url } = adminRemoveUser({ username })
+        const { method, url } = adminRemoveUserEndpoint({ username })
 
         await ky(url, {
           method,
@@ -475,7 +475,7 @@ export default defineComponent({
     return {
       page,
       getName,
-      getUserAvatar,
+      getUserAvatarEndpoint,
       dropdownClass,
       userData,
       authStore,

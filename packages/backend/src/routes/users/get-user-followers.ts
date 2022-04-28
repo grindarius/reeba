@@ -34,6 +34,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         if (u == null) {
           request.query.u = ''
         }
+      },
+      config: {
+        name: 'GetUserFollowersList'
       }
     },
     async (request) => {

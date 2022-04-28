@@ -12,7 +12,7 @@
       <div class="hero" v-for="e in eventsList.events" :key="`my-ticket-event-list-${e.id}`">
         <div class="flex-col lg:flex-row hero-content">
           <div class="content-box-setting-image">
-            <img class="rounded-lg shadow-2xl content-box-picture" :src="`${getEventImage({ eventId: e.id }).url}`">
+            <img class="rounded-lg shadow-2xl content-box-picture" :src="`${getEventImageEndpoint({ eventId: e.id }).url}`">
           </div>
           <div class="content-box-textbox">
             <h1>{{ e.name }}</h1>
@@ -75,7 +75,7 @@ import { useToast } from 'vue-toastification'
 
 import { GetMyTicketsReply } from '@reeba/common'
 
-import { getEventImage, getMyTickets, postTransferTransaction } from '@/api/endpoints'
+import { getEventImageEndpoint, getMyTicketsEndpoint, postTransferTransactionEndpoint } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { formatTimeString } from '@/utils'
 
@@ -96,7 +96,7 @@ export default defineComponent({
     })
 
     onMounted(async () => {
-      const { method, url } = getMyTickets({ username: store.userData.username })
+      const { method, url } = getMyTicketsEndpoint({ username: store.userData.username })
 
       try {
         const response = await ky(url, {
@@ -127,7 +127,7 @@ export default defineComponent({
 
     const transferTicket = async (): Promise<void> => {
       if (transferOwnershipButtonRef.value != null) {
-        const { method, url } = postTransferTransaction({ transactionId: selectedEvent.value })
+        const { method, url } = postTransferTransactionEndpoint({ transactionId: selectedEvent.value })
 
         try {
           await ky(url, {
@@ -163,7 +163,7 @@ export default defineComponent({
     }
 
     return {
-      getEventImage,
+      getEventImageEndpoint,
       eventsList,
       formatTimeString,
       format,

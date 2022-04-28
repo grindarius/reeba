@@ -17,7 +17,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           200: DeleteTransactionReplySchema
         }
       },
-      onRequest: instance.authenticate
+      onRequest: instance.authenticate,
+      config: {
+        name: 'DeleteTransaction'
+      }
     },
     async (request) => {
       return await instance.pg.transact<{ message: string }>(async client => {

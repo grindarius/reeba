@@ -68,6 +68,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('body should have required property \'password\'')
         }
+      },
+      config: {
+        name: 'Signup'
       }
     }, async (request, reply) => {
       const { username, email, password, phoneCountryCode, phoneNumber, iso31662 } = request.body

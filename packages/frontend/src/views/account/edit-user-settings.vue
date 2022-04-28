@@ -11,7 +11,7 @@
     <section class="setting-bg-content">
       <form>
         <div class="flex flex-col justify-center items-center">
-          <img class="object-cover object-center w-24 h-24 rounded-full" ref="userProfileImageRef" :src="getUserAvatar({ username: userData.username }).url" alt="Avatar Upload">
+          <img class="object-cover object-center w-24 h-24 rounded-full" ref="userProfileImageRef" :src="getUserAvatarEndpoint({ username: userData.username }).url" alt="Avatar Upload">
           <label for="file-upload" class="btn">
             Change profile
           </label>
@@ -85,7 +85,7 @@ import { useToast } from 'vue-toastification'
 
 import { GetProfileDataReply, PatchProfileDataRequestBody } from '@reeba/common'
 
-import { getUserAvatar, getUserProfileData, patchUserProfileData, postAvatar } from '@/api/endpoints'
+import { getProfileDataEndpoint, getUserAvatarEndpoint, patchProfileDataEndpoint, postAvatarEndpoint } from '@/api/endpoints'
 import { usePhoneCodes } from '@/composables'
 import { useAuthStore } from '@/store/use-auth-store'
 
@@ -130,7 +130,7 @@ export default defineComponent({
         return
       }
 
-      const { method, url } = patchUserProfileData({ username: authStore.userData.username })
+      const { method, url } = patchProfileDataEndpoint({ username: authStore.userData.username })
 
       try {
         await ky(url, {
@@ -165,7 +165,7 @@ export default defineComponent({
       }
 
       try {
-        const { method, url } = postAvatar({ username: authStore.userData.username })
+        const { method, url } = postAvatarEndpoint({ username: authStore.userData.username })
 
         const body = new FormData()
         body.append('image', userNewProfileImage.value, userNewProfileImage.value.name)
@@ -194,7 +194,7 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      const { method, url } = getUserProfileData({ username: authStore.userData.username })
+      const { method, url } = getProfileDataEndpoint({ username: authStore.userData.username })
 
       try {
         const response = await ky(url, {
@@ -231,7 +231,7 @@ export default defineComponent({
 
     return {
       uploadNewProfileImage,
-      getUserAvatar,
+      getUserAvatarEndpoint,
       phoneCodesList,
       userData,
       password,

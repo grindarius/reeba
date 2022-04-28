@@ -122,6 +122,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('body should have required property \'sections\'')
         }
+      },
+      config: {
+        name: 'PostEvent'
       }
     }, async (request) => {
       const {

@@ -36,6 +36,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('params should have required property \'username\'')
         }
+      },
+      config: {
+        name: 'AdminGrantAdmin'
       }
     },
     async (request) => {
@@ -73,6 +76,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('params should have required property \'username\'')
         }
+      },
+      config: {
+        name: 'AdminRevokeAdmin'
       }
     },
     async (request) => {

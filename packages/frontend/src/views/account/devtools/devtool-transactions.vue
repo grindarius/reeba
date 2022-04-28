@@ -68,7 +68,7 @@
               <div class="flex items-center space-x-3">
                 <div class="avatar">
                   <div class="w-12 h-12 mask mask-squircle">
-                    <img :src="getUserAvatar({ username: transaction.username }).url" :alt="transaction.username">
+                    <img :src="getUserAvatarEndpoint({ username: transaction.username }).url" :alt="transaction.username">
                   </div>
                 </div>
                 <div>
@@ -120,7 +120,7 @@
               <div class="flex items-center space-x-3">
                 <div class="avatar">
                   <div class="w-12 h-12 mask mask-squircle">
-                    <img :src="getUserAvatar({ username: transaction.username }).url" :alt="transaction.username">
+                    <img :src="getUserAvatarEndpoint({ username: transaction.username }).url" :alt="transaction.username">
                   </div>
                 </div>
                 <div>
@@ -160,7 +160,7 @@ import {
   AdminGetTransactionDataSortByOption
 } from '@reeba/common'
 
-import { adminGetTransactionData, getUserAvatar } from '@/api/endpoints'
+import { adminGetTransactionDataEndpoint, getUserAvatarEndpoint } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { formatQueryString, formatTimeString } from '@/utils'
 
@@ -215,7 +215,7 @@ export default defineComponent({
       }
 
       try {
-        const { method, url } = adminGetTransactionData
+        const { method, url } = adminGetTransactionDataEndpoint
 
         const response = await ky(url, {
           method,
@@ -261,7 +261,7 @@ export default defineComponent({
     return {
       transactionData,
       getAdminTransactions,
-      getUserAvatar,
+      getUserAvatarEndpoint,
       authStore,
       format,
       page,

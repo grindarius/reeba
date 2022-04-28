@@ -61,6 +61,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('params should have required property \'transactionId\'')
         }
+      },
+      config: {
+        name: 'GetTransaction'
       }
     },
     async (request, reply) => {
@@ -132,6 +135,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     {
       schema: {
         params: GetTransactionPDFRequestParamsSchema
+      },
+      config: {
+        name: 'GetTransactionPDF'
       }
     },
     async (request, reply) => {

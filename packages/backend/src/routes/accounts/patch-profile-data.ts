@@ -77,6 +77,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('body should have required property \'birthdate\'')
         }
+      },
+      config: {
+        name: 'PatchProfileData'
       }
     },
     async (request) => {

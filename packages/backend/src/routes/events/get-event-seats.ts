@@ -40,6 +40,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           void reply.code(400)
           throw new Error('querystring should have required property \'datetimeId\'')
         }
+      },
+      config: {
+        name: 'GetEventSeats'
       }
     },
     async (request, reply) => {

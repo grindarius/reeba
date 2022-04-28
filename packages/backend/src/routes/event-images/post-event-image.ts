@@ -23,7 +23,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   instance.post<{ Params: PostEventImageParams }>(
     '/:eventId',
     {
-      schema
+      schema,
+      config: {
+        name: 'PostEventImage'
+      }
     },
     async (request, reply) => {
       const { eventId } = request.params

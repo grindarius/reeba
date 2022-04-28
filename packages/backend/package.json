@@ -26,6 +26,7 @@
     "@node-rs/argon2": "^1.1.0",
     "@reeba/common": "workspace:^1.0.0",
     "@reeba/fastify-check-jwt": "workspace:^1.0.0",
+    "@reeba/fastify-frontend-endpoints-generator": "workspace:^1.0.0",
     "@reeba/fastify-local-reverse-geocoder": "workspace:^1.0.0",
     "dayjs": "^1.10.8",
     "dotenv-flow": "^3.2.0",

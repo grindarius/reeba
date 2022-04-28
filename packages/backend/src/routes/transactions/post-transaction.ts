@@ -66,6 +66,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
 
         request.body = { ...request.body, ...{ seatIds: filteredSeats } }
+      },
+      config: {
+        name: 'PostTransaction'
       }
     },
     async (request, reply) => {

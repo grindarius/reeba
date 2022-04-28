@@ -122,7 +122,7 @@ import { useToast } from 'vue-toastification'
 
 import { GetEventSeatsReply, groupBy, numberToLetters } from '@reeba/common'
 
-import { getEventSeats } from '@/api/endpoints'
+import { getEventSeatsEndpoint } from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import { useTransactionStore } from '@/store/use-transaction-store'
 import { TransactionStoreSeat } from '@/types'
@@ -199,7 +199,7 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      const { method, url } = getEventSeats({ eventId: route.params.eventId as string ?? '' })
+      const { method, url } = getEventSeatsEndpoint({ eventId: route.params.eventId as string ?? '' })
 
       try {
         const response = await ky(url, {

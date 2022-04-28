@@ -12,12 +12,20 @@ import transactionsRoute from './transactions'
 import usersRoute from './users'
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.all('/', async () => {
-    return {
-      author: 'Bhattarapong Somwong',
-      description: 'Please contact bhattarapongs62@nu.ac.th for contrubition.'
+  instance.all(
+    '/',
+    {
+      config: {
+        name: 'GetContactInfo'
+      }
+    },
+    async () => {
+      return {
+        author: 'Bhattarapong Somwong',
+        description: 'Please contact bhattarapongs62@nu.ac.th for contrubition.'
+      }
     }
-  })
+  )
 
   void instance.register(accountsRoute, { prefix: '/accounts' })
   void instance.register(adminRoute, { prefix: '/admin' })

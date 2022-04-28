@@ -122,7 +122,7 @@
               <div class="flex items-center space-x-3">
                 <div class="avatar">
                   <div class="w-12 h-12 mask mask-squircle">
-                    <img :src="getEventImage({ eventId: ev.id }).url" :alt="ev.name">
+                    <img :src="getEventImageEndpoint({ eventId: ev.id }).url" :alt="ev.name">
                   </div>
                 </div>
                 <div>
@@ -259,7 +259,7 @@
               <div class="flex items-center space-x-3">
                 <div class="avatar">
                   <div class="w-12 h-12 mask mask-squircle">
-                    <img :src="getEventImage({ eventId: ev.id }).url" :alt="ev.name">
+                    <img :src="getEventImageEndpoint({ eventId: ev.id }).url" :alt="ev.name">
                   </div>
                 </div>
                 <div>
@@ -346,7 +346,11 @@ import {
   AdminGetEventDataSortByOption
 } from '@reeba/common'
 
-import { adminGetEventData, getEventImage, postManipulateEvent } from '@/api/endpoints'
+import {
+  adminGetEventsDataEndpoint,
+  getEventImageEndpoint,
+  postManipulateEventEndpoint
+} from '@/api/endpoints'
 import { useAuthStore } from '@/store/use-auth-store'
 import {
   formatQueryString, formatTimeString
@@ -412,7 +416,7 @@ export default defineComponent({
       }
 
       try {
-        const { method, url } = adminGetEventData
+        const { method, url } = adminGetEventsDataEndpoint
 
         const response = await ky(url, {
           method,
@@ -461,7 +465,7 @@ export default defineComponent({
 
     const manipulateEvent = async (eventId: string, targetStatus: 'open' | 'closed'): Promise<void> => {
       try {
-        const { method, url } = postManipulateEvent({ eventId })
+        const { method, url } = postManipulateEventEndpoint({ eventId })
 
         await ky(url, {
           method,
@@ -499,7 +503,7 @@ export default defineComponent({
     return {
       eventsList,
       dropdownClass,
-      getEventImage,
+      getEventImageEndpoint,
       format,
       formatTimeString,
       page,

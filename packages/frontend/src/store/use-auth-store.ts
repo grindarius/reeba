@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 import { SigninBody, SigninReply, SignupBody } from '@reeba/common'
 
-import { signin as signinEndpoint, signup as signupEndpoint } from '@/api/endpoints'
+import { signinEndpoint, signupEndpoint } from '@/api/endpoints'
 
 export const useAuthStore = defineStore('authStore', {
   state: () => {
