@@ -179,7 +179,7 @@ export const patchEditableEventDataEndpoint: EndpointFunc<{ eventId: string }> =
   }
 }
 
-export const unspecifiedEndpoint: Endpoint = {
+export const postEventEndpoint: Endpoint = {
   url: `${url}/events`,
   method: 'post'
 }
