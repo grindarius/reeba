@@ -13,14 +13,13 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
-    "clean": "pnpm dlx rimraf dist",
+    "clean": "pnpm exec rimraf dist",
     "fix": "eslint **/*.{vue,ts} --fix"
   },
   "dependencies": {
     "@mdi/js": "^6.6.96",
     "@reeba/common": "workspace:^1.0.0",
     "@types/cleave.js": "^1.4.6",
-    "D": "^1.0.0",
     "cleave.js": "^1.6.0",
     "countries-list": "^2.6.1",
     "d3": "^7.3.0",

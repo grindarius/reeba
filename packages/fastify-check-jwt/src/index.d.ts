@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from 'fastify'
-import { FastifyJWTOptions } from 'fastify-jwt'
 
+import { FastifyJWTOptions } from '@fastify/jwt'
 import { t_user_role } from '@reeba/common'
 
 export interface CheckJWTPluginOptions extends FastifyJWTOptions {}
