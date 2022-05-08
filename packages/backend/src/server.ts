@@ -1,6 +1,6 @@
 import dotenv from 'dotenv-flow'
-import { resolve } from 'path'
-import { exit } from 'process'
+import { resolve } from 'node:path'
+import { exit } from 'node:process'
 
 import createServer from './app'
 
