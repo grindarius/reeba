@@ -15,8 +15,8 @@ const client = new Client({
   database: process.env.POSTGRES_DBNAME
 })
 
-const userPassword = '$argon2id$v=19$m=4096,t=12,p=4$P7aFyCRZ4ZOTFplVOwZGkA$bqtIRXIVrqUatyASMxPElOvJu5z5fx2bMyCK7jROIDGgHNV2MoyobQ'
-const adminPassword = '$argon2id$v=19$m=4096,t=12,p=4$Y7HnAY16fS4x4Ys/S15guA$UvYZV/GxYNyJLaCBlG6kVJn1Q8bUFpbNxlXSxw1XDI1hGo45//+2MQ'
+const userPassword = '$argon2id$v=19$m=4096,t=12,p=4$snysIHKmfhvtO+uORE8jwA$KemeOraiG6zasIT8bgYljyEuoGHgl5RQAUhr9bRBTVhJ11sGaErGuA'
+const adminPassword = '$argon2id$v=19$m=4096,t=12,p=4$/abpY3TZYk3ChzK054P26Q$q2QUJ52HaOUKD4U7NUsemnqxMOUlXpn3mFKAv4+dl2EWJ1peA+4SKQ'
 
 console.log(chalk.green('deleting data in tables'));
 // eslint-disable-next-line

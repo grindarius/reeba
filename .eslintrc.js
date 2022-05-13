@@ -20,7 +20,7 @@ module.exports = {
     '**/lib',
     '**/.*/**/*',
     'password-migrate.mjs',
-    'password-inject.mjs'
+    'password-migrate-preparation.mjs'
   ],
   rules: {
     'no-void': ['error', { allowAsStatement: true }],
@@ -31,7 +31,7 @@ module.exports = {
     'simple-import-sort/imports': [
       'error',
       {
-        groups: [['^\\w'], ['^(@?\\w)'], ['^', '^\\.'], ['^\\u0000']]
+        groups: [['^\\w'], ['^@\\w'], ['^', '^\\.'], ['^\\u0000']]
       }
     ],
     'simple-import-sort/exports': ['error'],

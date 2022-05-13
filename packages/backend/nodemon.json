@@ -6,5 +6,5 @@
   "ignore": [
     "node_modules"
   ],
-  "exec": "pnpm build:common -w && pnpm kill-port && pnpm serve:ts-node"
+  "exec": "pnpm -w run build:common && pnpm run kill && pnpm run serve:ts-node"
 }

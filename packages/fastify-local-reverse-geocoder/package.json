@@ -12,7 +12,7 @@
   },
   "author": "ReebA Team",
   "scripts": {
-    "clean": "pnpm dlx rimraf dist",
+    "clean": "pnpm rimraf dist",
     "fix": "eslint **/*.js --fix"
   },
   "dependencies": {

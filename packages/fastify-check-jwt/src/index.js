@@ -1,4 +1,4 @@
-const jwt = require('fastify-jwt')
+const jwt = require('@fastify/jwt')
 const fp = require('fastify-plugin')
 
 const plugin = async (instance, opts) => {
