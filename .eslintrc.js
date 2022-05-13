@@ -20,7 +20,7 @@ module.exports = {
     '**/lib',
     '**/.*/**/*',
     'password-migrate.mjs',
-    'password-inject.mjs'
+    'password-migrate-preparation.mjs'
   ],
   rules: {
     'no-void': ['error', { allowAsStatement: true }],
