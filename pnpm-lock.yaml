@@ -245,7 +245,7 @@ importers:
 
   packages/scripts:
     specifiers:
-      '@faker-js/faker': ^6.0.0
+      '@faker-js/faker': ^7.0.0
       '@node-rs/argon2': ^1.1.0
       '@reeba/common': workspace:^1.0.0
       '@types/dotenv-flow': ^3.2.0
@@ -272,7 +272,7 @@ importers:
       pg: 8.7.3
       upath: 2.0.1
     devDependencies:
-      '@faker-js/faker': 6.3.1
+      '@faker-js/faker': 7.4.0
       '@types/dotenv-flow': 3.2.0
       '@types/pg': 8.6.5
 
@@ -523,8 +523,8 @@ packages:
       - supports-color
     dev: true
 
-  /@faker-js/faker/6.3.1:
-    resolution: {integrity: sha512-8YXBE2ZcU/pImVOHX7MWrSR/X5up7t6rPWZlk34RwZEcdr3ua6X+32pSd6XuOQRN+vbuvYNfA6iey8NbrjuMFQ==}
+  /@faker-js/faker/7.4.0:
+    resolution: {integrity: sha512-xDd3Tvkt2jgkx1LkuwwxpNBy/Oe+LkZBTwkgEFTiWpVSZgQ5sc/LenbHKRHbFl0dq/KFeeq/szyyPtpJRKY0fg==}
     engines: {node: '>=14.0.0', npm: '>=6.0.0'}
     dev: true
 
