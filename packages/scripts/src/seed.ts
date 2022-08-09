@@ -128,22 +128,29 @@ const generateUserList = async (amount: number): Promise<Array<users>> => {
 
   // eslint-disable-next-line
   for await (const _ of [...range(amount)]) {
-    const card = faker.helpers.contextualCard()
-    const randomCountry = faker.random.arrayElement(countriesValues)
+    const randomCountry = faker.helpers.arrayElement(countriesValues)
+    let fullName = faker.name.fullName()
+
+    while (fullName.split(' ').length > 2) {
+      fullName = faker.name.fullName()
+    }
+
+    const [firstName, lastName] = fullName
+    const email = faker.internet.email(firstName, lastName)
 
     const user: users = {
-      user_username: card.username.replace(/\./g, ''),
-      user_email: card.email,
+      user_username: faker.internet.userName(firstName, lastName),
+      user_email: email,
       // * aryastark
       user_password: userPassword,
       user_profile_description: faker.lorem.sentence(),
       user_social_medias: {
-        facebook: faker.helpers.userCard().website,
-        instagram: faker.helpers.userCard().website,
-        twitter: faker.helpers.userCard().website,
-        tiktok: faker.helpers.userCard().website,
-        email: card.email,
-        website: faker.helpers.userCard().website
+        facebook: faker.internet.domainName(),
+        instagram: faker.internet.domainName(),
+        twitter: faker.internet.domainName(),
+        tiktok: faker.internet.domainName(),
+        email: email,
+        website: faker.internet.domainName()
       },
       user_registration_datetime: dayjs(faker.date.between('2020-01-01', '2021-01-01')).toISOString(),
       user_role: faker.mersenne.rand(1, 100) > 90 ? t_user_role.admin : t_user_role.user,
@@ -151,7 +158,7 @@ const generateUserList = async (amount: number): Promise<Array<users>> => {
       user_image_profile_path: '',
       user_verification_status: faker.mersenne.rand(1, 100) < 70,
       user_phone_country_code: randomCountry[1].phone.split(',')[0],
-      user_phone_number: faker.phone.phoneNumber('9########'),
+      user_phone_number: faker.phone.number('9########'),
       user_iso_31662_code: randomCountry[0],
       user_birthdate: dayjs(faker.date.between('1960-01-01', '2006-01-01')).format('YYYY-MM-DD'),
       user_deletion_status: faker.mersenne.rand(1, 100) < 5
@@ -165,10 +172,10 @@ const generateUserList = async (amount: number): Promise<Array<users>> => {
 
 const generateFollowersList = (userList: Array<users>, amount: number = 50): Array<user_followers> => {
   return Array.from({ length: amount }, () => {
-    const follower = faker.random.arrayElement(userList).user_username
-    let following = faker.random.arrayElement(userList).user_username
+    const follower = faker.helpers.arrayElement(userList).user_username
+    let following = faker.helpers.arrayElement(userList).user_username
     while (following === follower) {
-      following = faker.random.arrayElement(userList).user_username
+      following = faker.helpers.arrayElement(userList).user_username
     }
 
     const followers: user_followers = {
@@ -197,7 +204,7 @@ const generateEvent = async (userList: Array<users>, amount: number = 30): Promi
 
     const reebaEvent: CustomEvent = {
       event_id: compatibleExcelNanoid(),
-      user_username: faker.random.arrayElement(userList).user_username,
+      user_username: faker.helpers.arrayElement(userList).user_username,
       event_name: faker.commerce.productName(),
       event_description: faker.lorem.paragraphs(5, ''),
       // event_cover_image_path: await getAndSaveImage(faker.image.animals(100, 100, true)),
@@ -302,7 +309,7 @@ const getSectionIdFromDatetimeArray = (datetimes: Array<event_datetimes>, eventD
     }
   }
 
-  return faker.random.arrayElement(sectionsList).event_section_id
+  return faker.helpers.arrayElement(sectionsList).event_section_id
 }
 
 const getAllSeatsFromSectionId = (sectionId: string, eventData: EventGroup): Array<event_seats> => {
@@ -315,11 +322,11 @@ const generateTransactions = (users: Array<users>, eventData: EventGroup): {
   details: Array<transaction_details>
 } => {
   const transactions = Array.from<transactions, transactions>({ length: 300 }, () => {
-    const ticketBuyer = faker.random.arrayElement(users)
-    let eventsThatGoTo = faker.random.arrayElement(eventData.event)
+    const ticketBuyer = faker.helpers.arrayElement(users)
+    let eventsThatGoTo = faker.helpers.arrayElement(eventData.event)
 
     while (eventsThatGoTo.user_username === ticketBuyer.user_username) {
-      eventsThatGoTo = faker.random.arrayElement(eventData.event)
+      eventsThatGoTo = faker.helpers.arrayElement(eventData.event)
     }
 
     const lastDateEvent = eventData.datetimes
@@ -350,9 +357,9 @@ const generateTransactions = (users: Array<users>, eventData: EventGroup): {
 
     const randomSectionId = getSectionIdFromDatetimeArray(buyableDatetimes, eventData)
     const allSeatsGroupedByPrice = groupBy(getAllSeatsFromSectionId(randomSectionId, eventData), (s) => s.event_seat_price)
-    const priceKey = faker.random.arrayElement(Object.keys(allSeatsGroupedByPrice))
+    const priceKey = faker.helpers.arrayElement(Object.keys(allSeatsGroupedByPrice))
 
-    const selectedSeat = faker.random.arrayElements(allSeatsGroupedByPrice[parseInt(priceKey)], faker.mersenne.rand(1, 4)).map(s => {
+    const selectedSeat = faker.helpers.arrayElements(allSeatsGroupedByPrice[parseInt(priceKey)], faker.mersenne.rand(1, 4)).map(s => {
       return {
         event_seat_id: s.event_seat_id,
         transaction_id: transact.transaction_id
@@ -394,7 +401,7 @@ const generateTagsBridge = (tags: Array<event_tags>, events: Array<CustomEvent>)
   const bridge: Array<event_tags_bridge> = []
 
   events.forEach(ev => {
-    const tagForEv = faker.random.arrayElements(tags, faker.mersenne.rand(1, 5))
+    const tagForEv = faker.helpers.arrayElements(tags, faker.mersenne.rand(1, 5))
 
     tagForEv.forEach(t => bridge.push({ event_tag_label: t.event_tag_label, event_id: ev.event_id }))
   })
