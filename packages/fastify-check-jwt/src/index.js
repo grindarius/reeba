@@ -13,4 +13,4 @@ const plugin = async (instance, opts) => {
   })
 }
 
-module.exports = fp(plugin, { name: 'fastify-check-jwt', fastify: '3.x' })
+module.exports = fp(plugin, { name: 'fastify-check-jwt', fastify: '4.x' })

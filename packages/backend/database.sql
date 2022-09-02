@@ -54,7 +54,7 @@ create operator <= (leftarg = point, rightarg = point, procedure = point_gte, co
 
 create function btreepointcmp(point, point)
 returns integer language sql immutable as $$
-  select case 
+  select case
     when $1 = $2 then 0
     when $1 < $2 then -1
     else 1

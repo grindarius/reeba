@@ -135,11 +135,10 @@ const generateUserList = async (amount: number): Promise<Array<users>> => {
       fullName = faker.name.fullName()
     }
 
-    const [firstName, lastName] = fullName
-    const email = faker.internet.email(firstName, lastName)
+    const email = faker.internet.email()
 
     const user: users = {
-      user_username: faker.internet.userName(firstName, lastName),
+      user_username: faker.internet.userName(),
       user_email: email,
       // * aryastark
       user_password: userPassword,

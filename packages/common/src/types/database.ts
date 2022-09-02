@@ -85,8 +85,11 @@ export interface users {
    */
   user_registration_datetime: string
   /**
-   * User's roles, Not null, default is `'user'`, will get upgraded to `'organizer'` when there's an event running,
+   * User's roles, Not null, default is `'user'`,
    * An `'admin'` role could only be created right in the database by injecting custom api calls.
+   *
+   * **When there is an event that's created by an admin, the event will automatically be an official event, no matter the role of the user**
+   *
    */
   user_role: t_user_role
   /**

@@ -9,4 +9,4 @@ const plugin = async (instance, opts) => {
   })
 }
 
-module.exports = fp(plugin, { name: 'fastify-local-reverse-geocoder', fastify: '3.x' })
+module.exports = fp(plugin, { name: 'fastify-local-reverse-geocoder', fastify: '4.x' })
