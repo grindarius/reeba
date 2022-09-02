@@ -41,7 +41,7 @@ void t.test('get user test', async t => {
       })
 
       t.strictSame(response.json().username, 'sansastark')
-      t.strictSame(response.json().verificationStatus, true)
+      t.strictSame(response.json().verificationStatus, false)
       t.strictSame(response.json().socialMedias, {
         facebook: '',
         instagram: '',
@@ -90,7 +90,7 @@ void t.test('get user test', async t => {
       })
 
       t.strictSame(response.statusCode, 404)
-      t.strictSame(response.json().message, 'User not found')
+      t.strictSame(response.json().message, 'user not found')
     } catch (error) {
       t.error(error)
       t.fail()
@@ -117,7 +117,7 @@ void t.test('get user test', async t => {
       })
 
       t.strictSame(response.json().username, 'aryastark')
-      t.strictSame(response.json().verificationStatus, false)
+      t.strictSame(response.json().verificationStatus, true)
       t.strictSame(response.json().isAdmin, false)
       t.strictSame(response.json().socialMedias, {
         facebook: '',
