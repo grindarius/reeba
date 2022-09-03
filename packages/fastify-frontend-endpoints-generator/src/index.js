@@ -73,6 +73,7 @@ const plugin = (instance, opts, done) => {
     stream.end()
   }
 
+  // * plugin code starts here
   const { path } = opts
   const blacklist = opts.blacklist == null || opts.blacklist.length === 0 ? [] : opts.blacklist
 
@@ -80,7 +81,17 @@ const plugin = (instance, opts, done) => {
     throw new Error('`path` cannot be empty.')
   }
 
-  writeRoutesToFile(blacklist)
+  fs.access(path, fs.constants.F_OK, (e) => {
+    if (e == null) {
+      instance.log.info(`${path} exists, removing the old file.`)
+      fs.unlinkSync(path)
+      writeRoutesToFile(blacklist)
+      return
+    }
+
+    instance.log.info(`${path} does not exist.`)
+    writeRoutesToFile(blacklist)
+  })
 
   instance.addHook('onRoute', () => {
     writeRoutesToFile(blacklist)
@@ -89,4 +100,4 @@ const plugin = (instance, opts, done) => {
   done()
 }
 
-module.exports = fp(plugin, { name: 'fastify-frontend-endpoints-generator', fastify: '3.x' })
+module.exports = fp(plugin, { name: 'fastify-frontend-endpoints-generator', fastify: '4.x' })

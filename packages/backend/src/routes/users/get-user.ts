@@ -45,7 +45,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       if (existingUser.rowCount === 0) {
         void reply.code(404)
-        throw new Error('User not found')
+        throw new Error('user not found')
       }
 
       const isCurrentUserFollowing = await instance.pg.query<user_followers, [string, string]>(
