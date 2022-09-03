@@ -31,7 +31,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           }
         }
       ],
-      preValidation: async (request, reply) => {
+      preValidation: (request, reply) => {
         if (request.params.username == null || request.params.username === '') {
           void reply.code(400)
           throw new Error('params should have required property \'username\'')
@@ -71,7 +71,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           }
         }
       ],
-      preValidation: async (request, reply) => {
+      preValidation: (request, reply) => {
         if (request.params.username == null || request.params.username === '') {
           void reply.code(400)
           throw new Error('params should have required property \'username\'')

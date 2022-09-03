@@ -148,7 +148,7 @@ const generateUserList = async (amount: number): Promise<Array<users>> => {
         instagram: faker.internet.domainName(),
         twitter: faker.internet.domainName(),
         tiktok: faker.internet.domainName(),
-        email: email,
+        email,
         website: faker.internet.domainName()
       },
       user_registration_datetime: dayjs(faker.date.between('2020-01-01', '2021-01-01')).toISOString(),

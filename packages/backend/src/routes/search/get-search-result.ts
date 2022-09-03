@@ -105,7 +105,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/',
     {
       schema,
-      preValidation: async (request, reply) => {
+      preValidation: (request, reply) => {
         const { q, creatorType, priceRange, tags, dateRange, type, page } = request.query
 
         if (q == null || q === '') {

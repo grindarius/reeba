@@ -29,8 +29,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/:username/profile-data',
     {
       schema,
-      onRequest: instance.authenticate,
-      preValidation: async (request, reply) => {
+      onRequest: [instance.authenticate],
+      preValidation: (request, reply) => {
         const { username } = request.params
         const { email, password, phoneCountryCode, phoneNumber, birthdate } = request.body
 

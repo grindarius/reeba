@@ -20,8 +20,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           200: PatchUserDescriptionReplySchema
         }
       },
-      onRequest: instance.authenticate,
-      preValidation: async (request) => {
+      onRequest: [instance.authenticate],
+      preValidation: (request) => {
         const {
           description,
           facebook,

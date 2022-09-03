@@ -18,7 +18,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           200: GetOrganizerEventUsersMapReplySchema
         }
       },
-      onRequest: instance.authenticate,
+      onRequest: [instance.authenticate],
       config: {
         name: 'GetOrganizerEventUsersMap'
       }

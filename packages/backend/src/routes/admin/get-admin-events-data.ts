@@ -78,14 +78,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       schema,
       onRequest: [
         instance.authenticate,
-        async (request, reply) => {
+        (request, reply) => {
           if (request.user.role !== t_user_role.admin) {
             void reply.code(403)
             throw new Error('forbidden')
           }
         }
       ],
-      preValidation: async (request) => {
+      preValidation: (request) => {
         const { sort, page } = request.query
 
         if (Number(page) <= 0) {

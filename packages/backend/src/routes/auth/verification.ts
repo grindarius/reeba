@@ -4,7 +4,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   instance.all(
     '/verification',
     {
-      onRequest: instance.authenticate,
+      onRequest: [instance.authenticate],
       config: {
         name: 'VerifyAuthentication'
       }

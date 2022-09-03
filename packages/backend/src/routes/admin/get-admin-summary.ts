@@ -61,7 +61,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       },
       onRequest: [
         instance.authenticate,
-        async (request, reply) => {
+        (request, reply) => {
           if (request.user.role !== t_user_role.admin) {
             void reply.code(403)
             throw new Error('forbidden')

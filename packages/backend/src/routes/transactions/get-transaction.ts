@@ -55,8 +55,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           200: GetTransactionReplySchema
         }
       },
-      onRequest: instance.authenticate,
-      preValidation: async (request, reply) => {
+      onRequest: [instance.authenticate],
+      preValidation: (request, reply) => {
         if (request.params.transactionId == null || request.params.transactionId === '') {
           void reply.code(400)
           throw new Error('params should have required property \'transactionId\'')

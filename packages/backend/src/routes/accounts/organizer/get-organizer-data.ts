@@ -46,7 +46,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           200: GetOrganizerDataReplySchema
         }
       },
-      onRequest: instance.authenticate,
+      onRequest: [instance.authenticate],
       config: {
         name: 'GetOrganizerData'
       }
@@ -126,7 +126,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           200: GetOrganizerEventStatisticsReplySchema
         }
       },
-      onRequest: instance.authenticate,
+      onRequest: [instance.authenticate],
       config: {
         name: 'GetOrganizerEventStatistics'
       }

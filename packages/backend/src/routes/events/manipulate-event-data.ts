@@ -35,7 +35,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           200: GetEditableEventDataReplySchema
         }
       },
-      onRequest: instance.authenticate,
+      onRequest: [instance.authenticate],
       config: {
         name: 'GetEditableEventData'
       }
@@ -125,7 +125,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           200: PatchEditableEventDataReplySchema
         }
       },
-      onRequest: instance.authenticate,
+      onRequest: [instance.authenticate],
       config: {
         name: 'PatchEditableEventData'
       }

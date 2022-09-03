@@ -22,8 +22,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/follow',
     {
       schema,
-      onRequest: instance.authenticate,
-      preValidation: async (request, reply) => {
+      onRequest: [instance.authenticate],
+      preValidation: (request, reply) => {
         const { anotherUsername } = request.body
 
         if (anotherUsername == null || anotherUsername === '') {
