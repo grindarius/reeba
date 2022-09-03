@@ -28,7 +28,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/:username/tickets',
     {
       schema,
-      onRequest: instance.authenticate,
+      onRequest: [instance.authenticate],
       preValidation: (request, reply) => {
         const { username } = request.params
 

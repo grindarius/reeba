@@ -26,7 +26,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/signup',
     {
       schema,
-      preValidation: async (request, reply) => {
+      preValidation: (request, reply) => {
         const { username, email, password, phoneCountryCode, phoneNumber } = request.body
 
         if (username == null || username === '') {

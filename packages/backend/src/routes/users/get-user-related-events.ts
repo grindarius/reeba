@@ -22,7 +22,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/:username/events',
     {
       schema,
-      preValidation: async (request, reply) => {
+      preValidation: (request, reply) => {
         const { username } = request.params
 
         if (username == null || username === '') {

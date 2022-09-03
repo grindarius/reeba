@@ -25,7 +25,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/:transactionId/transfer',
     {
       schema,
-      onRequest: instance.authenticate,
+      onRequest: [instance.authenticate],
       config: {
         name: 'PostTransferTransaction'
       }

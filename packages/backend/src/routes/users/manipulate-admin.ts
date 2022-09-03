@@ -24,14 +24,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       },
       onRequest: [
         instance.authenticate,
-        async (request, reply) => {
+        (request, reply) => {
           if (request.user.role !== t_user_role.admin) {
             void reply.code(403)
             throw new Error('forbidden')
           }
         }
       ],
-      preValidation: async (request, reply) => {
+      preValidation: (request, reply) => {
         if (request.params.username == null || request.params.username === '') {
           void reply.code(400)
           throw new Error('params should have required property \'username\'')
@@ -71,7 +71,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           }
         }
       ],
-      preValidation: async (request, reply) => {
+      preValidation: (request, reply) => {
         if (request.params.username == null || request.params.username === '') {
           void reply.code(400)
           throw new Error('params should have required property \'username\'')

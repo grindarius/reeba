@@ -17,7 +17,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           200: DeleteTransactionReplySchema
         }
       },
-      onRequest: instance.authenticate,
+      onRequest: [instance.authenticate],
       config: {
         name: 'DeleteTransaction'
       }

@@ -26,8 +26,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/:eventId/seats',
     {
       schema,
-      onRequest: instance.authenticate,
-      preValidation: async (request, reply) => {
+      onRequest: [instance.authenticate],
+      preValidation: (request, reply) => {
         const { eventId } = request.params
         const { datetimeId } = request.query
 
