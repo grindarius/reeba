@@ -1,12 +1,17 @@
 {
-  "extends": "./tsconfig.build.json",
+  "extends": "@tsconfig/node16-strictest-esm/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "newLine": "lf",
     "paths": {
       "@reeba/*": [
-        "packages/*/src"
+        "./packages/*/dist"
       ]
-    },
-    "noEmit": true
-  }
+    }
+  },
+  "exclude": [
+    "**/node_modules",
+    "**/dist",
+    "**/coverage",
+    ".nyc"
+  ]
 }
