@@ -37,7 +37,7 @@
     "qrcode.vue": "^3.3.3",
     "tinycolor2": "^1.4.2",
     "topojson-client": "^3.1.0",
-    "vue": "^3.2.29",
+    "vue": "^3.2.37",
     "vue-mdijs": "^0.5.12",
     "vue-meta": "3.0.0-alpha.10",
     "vue-router": "^4.0.12",
@@ -53,12 +53,12 @@
     "@types/markdown-it-emoji": "^2.0.2",
     "@types/tinycolor2": "^1.4.3",
     "@types/topojson-client": "^3.1.1",
-    "@vitejs/plugin-vue": "^2.0.0",
+    "@vitejs/plugin-vue": "^3.1.0",
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.5",
     "sass": "^1.44.0",
     "tailwindcss": "^3.0.16",
-    "vite": "^2.7.8",
-    "vue-tsc": "^0.29.8"
+    "vite": "^3.1.0",
+    "vue-tsc": "^0.40.4"
   }
 }
