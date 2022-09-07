@@ -76,7 +76,7 @@ importers:
       dayjs: ^1.11.4
       dotenv-flow: ^3.2.0
       fast-csv: ^4.3.6
-      fastify: ^4.4.0
+      fastify: ^4.5
       fastify-favicon: ^4.1.0
       form-data: ^4.0.0
       kill-port: ^2.0.1
@@ -102,7 +102,7 @@ importers:
       '@reeba/fastify-local-reverse-geocoder': link:../fastify-local-reverse-geocoder
       dayjs: 1.11.4
       dotenv-flow: 3.2.0
-      fastify: 4.4.0
+      fastify: 4.5.3
       fastify-favicon: 4.1.0
       nanoid: 3.3.4
       pg: 8.7.3
@@ -130,33 +130,33 @@ importers:
   packages/fastify-check-jwt:
     specifiers:
       '@fastify/jwt': ^6.3.2
-      fastify: ^4.4.0
-      fastify-plugin: ^4.1.0
+      fastify: ^4.5
+      fastify-plugin: ^4.2
     dependencies:
       '@fastify/jwt': 6.3.2
-      fastify-plugin: 4.1.0
+      fastify-plugin: 4.2.1
     devDependencies:
-      fastify: 4.4.0
+      fastify: 4.5.3
 
   packages/fastify-frontend-endpoints-generator:
     specifiers:
-      fastify: ^4.4.0
-      fastify-plugin: ^4.1.0
+      fastify: ^4.5
+      fastify-plugin: ^4.2
     dependencies:
-      fastify-plugin: 4.1.0
+      fastify-plugin: 4.2.1
     devDependencies:
-      fastify: 4.4.0
+      fastify: 4.5.3
 
   packages/fastify-local-reverse-geocoder:
     specifiers:
       '@webkitty/geo-rev': ^1.1.1
-      fastify: ^4.4.0
-      fastify-plugin: ^4.1.0
+      fastify: ^4.5
+      fastify-plugin: ^4.2
     dependencies:
       '@webkitty/geo-rev': 1.1.1
-      fastify-plugin: 4.1.0
+      fastify-plugin: 4.2.1
     devDependencies:
-      fastify: 4.4.0
+      fastify: 4.5.3
 
   packages/frontend:
     specifiers:
@@ -594,7 +594,7 @@ packages:
       '@fastify/error': 3.0.0
       '@lukeed/ms': 2.0.0
       fast-jwt: 1.5.4
-      fastify-plugin: 4.1.0
+      fastify-plugin: 4.2.1
       steed: 1.1.3
     dev: false
 
@@ -3689,8 +3689,12 @@ packages:
     resolution: {integrity: sha512-Mf6lkbxHtFgI4sVaC0P/7sqlBvdpoyEUaOCD0cyKpqxjsdN+3EdD/FfSHByb7uXqxYu/DilH9Lb6mTCumN9TQQ==}
     dev: false
 
-  /fastify/4.4.0:
-    resolution: {integrity: sha512-ePI4g9vPJXIBF4YlVcDSLxjvtdTrlM8QzdgYAPFGdCH+rot+4MXoFFAUb10fGrIcRRjaq6CvcbIzxiWQzMMHkw==}
+  /fastify-plugin/4.2.1:
+    resolution: {integrity: sha512-dlGKiwLzRBKkEf5J5ho0uAD/Jdv8GQVUbriB3tAX3ehRUXE4gTV3lRd5inEg9li1aLzb0EGj8y2K4/8g1TN06g==}
+    dev: false
+
+  /fastify/4.5.3:
+    resolution: {integrity: sha512-Q8Zvkmg7GnioMCDX1jT2Q7iRqjywlnDZ1735D2Ipf7ashCM/3/bqPKv2Jo1ZF2iDExct2eP1C/tdhcj0GG/OuQ==}
     dependencies:
       '@fastify/ajv-compiler': 3.1.2
       '@fastify/error': 3.0.0
@@ -3698,7 +3702,7 @@ packages:
       abstract-logging: 2.0.1
       avvio: 8.2.0
       find-my-way: 7.0.1
-      light-my-request: 5.4.0
+      light-my-request: 5.5.1
       pino: 8.4.0
       process-warning: 2.0.0
       proxy-addr: 2.0.7
@@ -4625,8 +4629,8 @@ packages:
       trivial-deferred: 1.0.1
     dev: true
 
-  /light-my-request/5.4.0:
-    resolution: {integrity: sha512-lWwUibGSDifLsCGKVy5mCktifWGYiZUCzuKqXgrb3Na7wHPl8aPShxjDhUGQE3MI8k2wJSuvSJh5lyHkMnOTMg==}
+  /light-my-request/5.5.1:
+    resolution: {integrity: sha512-Zd4oZjF7axSyc5rYQsbB0qsgY4LFFviZSbEywxf7Vi5UE3y3c7tYF/GeheQjBNYY+pQ55BF8UGGJTjneoxOS1w==}
     dependencies:
       cookie: 0.5.0
       process-warning: 2.0.0
