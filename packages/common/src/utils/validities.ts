@@ -1,4 +1,4 @@
-import { emailRegExp, fileExtensionMatchRegExp, phoneNumberRegExp, usernameRegExp } from '../constants'
+import { emailRegExp, fileExtensionMatchRegExp, phoneNumberRegExp, usernameRegExp } from '../constants/index.js'
 
 /**
  * Function for validating user emails whether it's the right format or not.

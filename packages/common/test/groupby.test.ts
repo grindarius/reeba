@@ -1,6 +1,6 @@
 import t from 'tap'
 
-import { groupBy } from '../src/utils'
+import { groupBy } from '../src/utils/index.js'
 
 type Fruit = 'orange' | 'banana' | 'grape'
 

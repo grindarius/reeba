@@ -1,6 +1,6 @@
 import t from 'tap'
 
-import { getFileExtension, validateEmail, validatePhoneNumber, validateUsername } from '../src/utils'
+import { getFileExtension, validateEmail, validatePhoneNumber, validateUsername } from '../src/utils/index.js'
 
 void t.test('validate email formats', async t => {
   t.strictSame(validateEmail('an_email@gmail.com'), true)
