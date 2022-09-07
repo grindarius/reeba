@@ -1,5 +1,3 @@
-import { FastifyPluginAsync } from 'fastify-plugin'
-
 import {
   LookupResult as GeoRevLookupResult,
   Options as CreateRevGeocoderOptions,
