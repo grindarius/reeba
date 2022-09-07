@@ -139,7 +139,7 @@ export const getFileExtension = (filename: string): string => {
   const matches = filename.match(fileExtensionMatchRegExp)
 
   if (matches != null) {
-    return matches[1]
+    return matches[1] ?? ''
   }
 
   throw new Error('unmatched file extension')
