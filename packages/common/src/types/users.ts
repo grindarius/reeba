@@ -1,6 +1,6 @@
 import { Static, Type } from '@sinclair/typebox'
 
-import { RootPageEventSchema } from './events'
+import { RootPageEventSchema } from './events.js'
 
 export const RelatedEventToUserSchema = Type.Omit(
   RootPageEventSchema,

@@ -1,6 +1,6 @@
 import t from 'tap'
 
-import { EventTags, normalizeTag, numberToLetters } from '../src'
+import { EventTags, normalizeTag, numberToLetters } from '../src/index.js'
 
 const tags: Array<[EventTags, string]> = [
   ['Amphitheater', 'amphitheater'],

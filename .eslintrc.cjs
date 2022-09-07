@@ -36,6 +36,10 @@ module.exports = {
     ],
     'simple-import-sort/exports': ['error'],
     'unused-imports/no-unused-imports': 'error',
-    'import/newline-after-import': ['error', { count: 1 }]
+    'import/newline-after-import': ['error', { count: 1 }],
+    '@typescript-eslint/array-type': ['error', {
+      default: 'generic',
+      readonly: 'generic'
+    }]
   }
 }

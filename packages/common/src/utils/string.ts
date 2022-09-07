@@ -1,4 +1,4 @@
-import { EventTags } from '../types'
+import type { EventTags } from '../types/index.js'
 
 /**
  * Convert string with space to lowercase and replace space with dashes for event tag keys

@@ -1,2 +1,2 @@
-export * from './database'
-export * from './regexp'
+export * from './database.js'
+export * from './regexp.js'
