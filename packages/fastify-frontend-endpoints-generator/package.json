@@ -1,10 +1,11 @@
 {
   "name": "@reeba/fastify-frontend-endpoints-generator",
   "version": "1.0.0",
-  "private": true,
   "description": "fastify plugin to generate frontend endpoints for easier integration between frontend and backend.",
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
+  "type": "module",
+  "private": true,
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/grindarius/reeba.git",
@@ -12,8 +13,9 @@
   },
   "author": "ReebA Team",
   "scripts": {
-    "clean": "pnpm rimraf dist",
-    "fix": "eslint **/*.js --fix"
+    "build": "pnpm exec tsc -p ./tsconfig.json",
+    "clean": "pnpm exec rimraf dist",
+    "fix": "pnpm exec eslint **/*.js --fix"
   },
   "devDependencies": {
     "fastify": "^4.5"
