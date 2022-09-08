@@ -1,11 +1,11 @@
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import type { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  GetUserFollowersListReply,
+  type GetUserFollowersListReply,
   GetUserFollowersListReplySchema,
-  GetUserFollowersListRequestParams,
+  type GetUserFollowersListRequestParams,
   GetUserFollowersListRequestParamsSchema,
-  GetUserFollowersListRequestQuerystring,
+  type GetUserFollowersListRequestQuerystring,
   GetUserFollowersListRequestQuerystringSchema
 } from '@reeba/common'
 

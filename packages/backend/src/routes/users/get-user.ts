@@ -1,15 +1,15 @@
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import type { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  GetUserParams,
+  type GetUserParams,
   GetUserParamsSchema,
-  GetUserQuerystring,
+  type GetUserQuerystring,
   GetUserQuerystringSchema,
-  GetUserReply,
+  type GetUserReply,
   GetUserReplySchema,
-  t_user_role,
-  user_followers,
-  users
+  type t_user_role,
+  type user_followers,
+  type users
 } from '@reeba/common'
 
 const schema: FastifySchema = {
@@ -64,8 +64,8 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       )
 
       return {
-        username: existingUser.rows[0].user_username,
-        verificationStatus: existingUser.rows[0].user_verification_status,
+        username: existingUser.rows[0]?.user_username,
+        verificationStatus: existingUser.rows[0]?.user_verification_status,
         isAdmin: existingUser.rows[0].user_role === t_user_role.admin,
         socialMedias: existingUser.rows[0].user_social_medias,
         profileDescription: existingUser.rows[0].user_profile_description,

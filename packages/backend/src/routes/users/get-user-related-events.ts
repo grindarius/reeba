@@ -1,13 +1,13 @@
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import type { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
 
 import {
-  events,
+  type events,
   GetUserRelatedEventsParamsSchema,
-  GetUserRelatedEventsReply,
+  type GetUserRelatedEventsReply,
   GetUserRelatedEventsReplySchema,
-  GetUserRelatedEventsRequest,
-  RelatedEventToUser,
-  users
+  type GetUserRelatedEventsRequest,
+  type RelatedEventToUser,
+  type users
 } from '@reeba/common'
 
 const schema: FastifySchema = {
