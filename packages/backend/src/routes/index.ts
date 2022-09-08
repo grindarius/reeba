@@ -1,15 +1,15 @@
-import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import type { FastifyInstance, FastifyPluginOptions } from 'fastify'
 
-import accountsRoute from './accounts'
-import adminRoute from './admin'
-import authRoute from './auth'
-import avatarRoute from './avatars'
-import eventImagesRoute from './event-images'
-import eventsRoute from './events'
-import followingsRoute from './followings'
-import searchRoute from './search'
-import transactionsRoute from './transactions'
-import usersRoute from './users'
+import accountsRoute from './accounts/index.js'
+import adminRoute from './admin/index.js'
+import authRoute from './auth/index.js'
+import avatarRoute from './avatars/index.js'
+import eventImagesRoute from './event-images/index.js'
+import eventsRoute from './events/index.js'
+import followingsRoute from './followings/index.js'
+import searchRoute from './search/index.js'
+import transactionsRoute from './transactions/index.js'
+import usersRoute from './users/index.js'
 
 export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
   instance.all(
@@ -27,14 +27,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     }
   )
 
-  void instance.register(accountsRoute, { prefix: '/accounts' })
-  void instance.register(adminRoute, { prefix: '/admin' })
-  void instance.register(authRoute, { prefix: '/auth' })
-  void instance.register(avatarRoute, { prefix: '/avatars' })
-  void instance.register(eventImagesRoute, { prefix: '/event-images' })
-  void instance.register(eventsRoute, { prefix: '/events' })
-  void instance.register(followingsRoute, { prefix: '/followings' })
-  void instance.register(searchRoute, { prefix: '/search' })
-  void instance.register(transactionsRoute, { prefix: '/transactions' })
-  void instance.register(usersRoute, { prefix: '/users' })
+  await instance.register(accountsRoute, { prefix: '/accounts' })
+  await instance.register(adminRoute, { prefix: '/admin' })
+  await instance.register(authRoute, { prefix: '/auth' })
+  await instance.register(avatarRoute, { prefix: '/avatars' })
+  await instance.register(eventImagesRoute, { prefix: '/event-images' })
+  await instance.register(eventsRoute, { prefix: '/events' })
+  await instance.register(followingsRoute, { prefix: '/followings' })
+  await instance.register(searchRoute, { prefix: '/search' })
+  await instance.register(transactionsRoute, { prefix: '/transactions' })
+  await instance.register(usersRoute, { prefix: '/users' })
 }
