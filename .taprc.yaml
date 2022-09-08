@@ -3,4 +3,4 @@ ts: true
 jobs: 5
 reporter-arg: spec
 bail: true
-coverage-report: html
+coverage: false

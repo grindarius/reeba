@@ -1,11 +1,11 @@
-import { Static, Type } from '@sinclair/typebox'
+import { type Static, Type } from '@sinclair/typebox'
 
-export const PostFollowRequestBodySchema = Type.Object({
+export const postFollowRequestBodySchema = Type.Object({
   anotherUsername: Type.String()
 })
-export type PostFollowRequestBody = Static<typeof PostFollowRequestBodySchema>
+export type PostFollowRequestBody = Static<typeof postFollowRequestBodySchema>
 
-export const PostFollowReplySchema = Type.Object({
+export const postFollowReplySchema = Type.Object({
   isFollowingCurrentUser: Type.Boolean()
 })
-export type PostFollowReply = Static<typeof PostFollowReplySchema>
+export type PostFollowReply = Static<typeof postFollowReplySchema>

@@ -24,7 +24,8 @@ export const numberToLetters = (position: number): string => {
 
   let letters = ''
   while (position >= 0) {
-    letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[position % 26] + letters
+    // * this case will never fail since the mod number (26) matches the string's length
+    letters = `${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[position % 26] ?? ''}${letters}`
     position = Math.floor(position / 26) - 1
   }
   return letters

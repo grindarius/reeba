@@ -9,6 +9,7 @@ module.exports = {
     'plugin:vue/vue3-strongly-recommended',
     'standard-with-typescript'
   ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
@@ -40,6 +41,11 @@ module.exports = {
     '@typescript-eslint/array-type': ['error', {
       default: 'generic',
       readonly: 'generic'
+    }],
+    '@typescript-eslint/naming-convention': ['error', {
+      selector: 'variable',
+      format: ['camelCase', 'UPPER_CASE'],
+      leadingUnderscore: 'allowDouble'
     }]
   }
 }

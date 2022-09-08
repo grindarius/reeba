@@ -1,24 +1,24 @@
 import { Static, Type } from '@sinclair/typebox'
 
-import { RootPageEventSchema } from './events.js'
+import { rootPageEventSchema } from './events.js'
 
-export const RelatedEventToUserSchema = Type.Omit(
-  RootPageEventSchema,
+export const relatedEventToUserSchema = Type.Omit(
+  rootPageEventSchema,
   ['firstDatetime']
 )
-export type RelatedEventToUser = Static<typeof RelatedEventToUserSchema>
+export type RelatedEventToUser = Static<typeof relatedEventToUserSchema>
 
-export const GetUserParamsSchema = Type.Object({
+export const getUserParamsSchema = Type.Object({
   username: Type.String()
 })
-export type GetUserParams = Static<typeof GetUserParamsSchema>
+export type GetUserParams = Static<typeof getUserParamsSchema>
 
-export const GetUserQuerystringSchema = Type.Object({
+export const getUserQuerystringSchema = Type.Object({
   u: Type.String({ default: '' })
 })
-export type GetUserQuerystring = Static<typeof GetUserQuerystringSchema>
+export type GetUserQuerystring = Static<typeof getUserQuerystringSchema>
 
-export const UserSocialMediaSchema = Type.Object({
+export const userSocialMediaSchema = Type.Object({
   facebook: Type.String(),
   instagram: Type.String(),
   twitter: Type.String(),
@@ -26,11 +26,11 @@ export const UserSocialMediaSchema = Type.Object({
   email: Type.String(),
   website: Type.String()
 })
-export type UserSocialMedia = Static<typeof UserSocialMediaSchema>
+export type UserSocialMedia = Static<typeof userSocialMediaSchema>
 
-export const GetUserReplySchema = Type.Object({
+export const getUserReplySchema = Type.Object({
   username: Type.String(),
-  socialMedias: UserSocialMediaSchema,
+  socialMedias: userSocialMediaSchema,
   verificationStatus: Type.Boolean(),
   isAdmin: Type.Boolean(),
   profileDescription: Type.String(),
@@ -38,44 +38,44 @@ export const GetUserReplySchema = Type.Object({
   followingsAmount: Type.Number(),
   isCurrentUserFollowing: Type.Boolean()
 })
-export type GetUserReply = Static<typeof GetUserReplySchema>
+export type GetUserReply = Static<typeof getUserReplySchema>
 
-export const GetUserRelatedEventsParamsSchema = Type.Object({
+export const getUserRelatedEventsParamsSchema = Type.Object({
   username: Type.String()
 })
-export type GetUserRelatedEventsRequest = Static<typeof GetUserRelatedEventsParamsSchema>
+export type GetUserRelatedEventsRequest = Static<typeof getUserRelatedEventsParamsSchema>
 
-export const GetUserRelatedEventsReplySchema = Type.Object({
-  created: Type.Array(RelatedEventToUserSchema),
-  attended: Type.Array(RelatedEventToUserSchema)
+export const getUserRelatedEventsReplySchema = Type.Object({
+  created: Type.Array(relatedEventToUserSchema),
+  attended: Type.Array(relatedEventToUserSchema)
 })
-export type GetUserRelatedEventsReply = Static<typeof GetUserRelatedEventsReplySchema>
+export type GetUserRelatedEventsReply = Static<typeof getUserRelatedEventsReplySchema>
 
-export const GetUserFollowersListRequestParamsSchema = Type.Object({
+export const getUserFollowersListRequestParamsSchema = Type.Object({
   username: Type.String()
 })
-export type GetUserFollowersListRequestParams = Static<typeof GetUserFollowersListRequestParamsSchema>
+export type GetUserFollowersListRequestParams = Static<typeof getUserFollowersListRequestParamsSchema>
 
-export const GetUserFollowersListRequestQuerystringSchema = Type.Object({
+export const getUserFollowersListRequestQuerystringSchema = Type.Object({
   u: Type.String({ default: '' })
 })
-export type GetUserFollowersListRequestQuerystring = Static<typeof GetUserFollowersListRequestQuerystringSchema>
+export type GetUserFollowersListRequestQuerystring = Static<typeof getUserFollowersListRequestQuerystringSchema>
 
-export const GetUserFollowersListReplySchema = Type.Object({
+export const getUserFollowersListReplySchema = Type.Object({
   followers: Type.Array(Type.Object({
     username: Type.String(),
     isAdmin: Type.Boolean(),
     isVerified: Type.Boolean()
   }))
 })
-export type GetUserFollowersListReply = Static<typeof GetUserFollowersListReplySchema>
+export type GetUserFollowersListReply = Static<typeof getUserFollowersListReplySchema>
 
-export const PatchUserDescriptionRequestParamsSchema = Type.Object({
+export const patchUserDescriptionRequestParamsSchema = Type.Object({
   username: Type.String()
 })
-export type PatchUserDescriptionRequestParams = Static<typeof PatchUserDescriptionRequestParamsSchema>
+export type PatchUserDescriptionRequestParams = Static<typeof patchUserDescriptionRequestParamsSchema>
 
-export const PatchUserDescriptionRequestBodySchema = Type.Object({
+export const patchUserDescriptionRequestBodySchema = Type.Object({
   description: Type.String(),
   facebook: Type.String(),
   instagram: Type.String(),
@@ -84,28 +84,28 @@ export const PatchUserDescriptionRequestBodySchema = Type.Object({
   website: Type.String(),
   email: Type.String()
 })
-export type PatchUserDescriptionRequestBody = Static<typeof PatchUserDescriptionRequestBodySchema>
+export type PatchUserDescriptionRequestBody = Static<typeof patchUserDescriptionRequestBodySchema>
 
-export const PatchUserDescriptionReplySchema = Type.Object({
+export const patchUserDescriptionReplySchema = Type.Object({
   message: Type.String()
 })
-export type PatchUserDescriptionReply = Static<typeof PatchUserDescriptionReplySchema>
+export type PatchUserDescriptionReply = Static<typeof patchUserDescriptionReplySchema>
 
-export const GetUserFollowingsListRequestParamsSchema = Type.Object({
+export const getUserFollowingsListRequestParamsSchema = Type.Object({
   username: Type.String()
 })
-export type GetUserFollowingsListRequestParams = Static<typeof GetUserFollowingsListRequestParamsSchema>
+export type GetUserFollowingsListRequestParams = Static<typeof getUserFollowingsListRequestParamsSchema>
 
-export const GetUserFollowingsListRequestQuertstringSchema = Type.Object({
+export const getUserFollowingsListRequestQuertstringSchema = Type.Object({
   u: Type.String({ default: '' })
 })
-export type GetUserFollowingsListRequestQuertsring = Static<typeof GetUserFollowingsListRequestQuertstringSchema>
+export type GetUserFollowingsListRequestQuertsring = Static<typeof getUserFollowingsListRequestQuertstringSchema>
 
-export const GetUserFollowingsListReplySchema = Type.Object({
+export const getUserFollowingsListReplySchema = Type.Object({
   followings: Type.Array(Type.Object({
     username: Type.String(),
     isAdmin: Type.Boolean(),
     isVerified: Type.Boolean()
   }))
 })
-export type GetUserFollowingsListReply = Static<typeof GetUserFollowingsListReplySchema>
+export type GetUserFollowingsListReply = Static<typeof getUserFollowingsListReplySchema>

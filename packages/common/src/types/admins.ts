@@ -1,24 +1,23 @@
-
 import { Static, Type } from '@sinclair/typebox'
 
-import { t_event_status } from './database'
+import { t_event_status } from './database.js'
 
-export const AdminGetUserDataSortByOptionSchema = Type.Union([
+export const adminGetUserDataSortByOptionSchema = Type.Union([
   Type.Literal('name-asc'),
   Type.Literal('name-desc'),
   Type.Literal('regis-asc'),
   Type.Literal('regis-desc')
 ])
-export type AdminGetUserDataOptions = Static<typeof AdminGetUserDataSortByOptionSchema>
+export type AdminGetUserDataOptions = Static<typeof adminGetUserDataSortByOptionSchema>
 
-export const AdminGetUserDataRequestQuerystringSchema = Type.Object({
+export const adminGetUserDataRequestQuerystringSchema = Type.Object({
   page: Type.Number({ default: 1 }),
-  sort: AdminGetUserDataSortByOptionSchema,
+  sort: adminGetUserDataSortByOptionSchema,
   q: Type.Optional(Type.String({ default: '' }))
 })
-export type AdminGetUserDataRequestQuerystring = Static<typeof AdminGetUserDataRequestQuerystringSchema>
+export type AdminGetUserDataRequestQuerystring = Static<typeof adminGetUserDataRequestQuerystringSchema>
 
-export const AdminGetUserDataReplySchema = Type.Object({
+export const adminGetUserDataReplySchema = Type.Object({
   total: Type.Number(),
   users: Type.Array(Type.Object({
     username: Type.String(),
@@ -40,59 +39,59 @@ export const AdminGetUserDataReplySchema = Type.Object({
     registrationDatetime: Type.String()
   }))
 })
-export type AdminGetUserDataReply = Static<typeof AdminGetUserDataReplySchema>
+export type AdminGetUserDataReply = Static<typeof adminGetUserDataReplySchema>
 
-export const AdminGrantAdminRequestParamsSchema = Type.Object({
+export const adminGrantAdminRequestParamsSchema = Type.Object({
   username: Type.String()
 })
-export type AdminGrantAdminRequestParams = Static<typeof AdminGrantAdminRequestParamsSchema>
+export type AdminGrantAdminRequestParams = Static<typeof adminGrantAdminRequestParamsSchema>
 
-export const AdminGrantAdminReplySchema = Type.Object({
+export const adminGrantAdminReplySchema = Type.Object({
   message: Type.String()
 })
-export type AdminGrantAdminReply = Static<typeof AdminGrantAdminReplySchema>
+export type AdminGrantAdminReply = Static<typeof adminGrantAdminReplySchema>
 
-export const AdminRevokeAdminRequestParamsSchema = Type.Object({
+export const adminRevokeAdminRequestParamsSchema = Type.Object({
   username: Type.String()
 })
-export type AdminRevokeAdminRequestParams = Static<typeof AdminRevokeAdminRequestParamsSchema>
+export type AdminRevokeAdminRequestParams = Static<typeof adminRevokeAdminRequestParamsSchema>
 
-export const AdminRevokeAdminReplySchema = Type.Object({
+export const adminRevokeAdminReplySchema = Type.Object({
   message: Type.String()
 })
-export type AdminRevokeAdminReply = Static<typeof AdminRevokeAdminReplySchema>
+export type AdminRevokeAdminReply = Static<typeof adminRevokeAdminReplySchema>
 
-export const AdminGrantVerificationRequestParamsSchema = Type.Object({
+export const adminGrantVerificationRequestParamsSchema = Type.Object({
   username: Type.String()
 })
-export type AdminGrantVerificationRequestParams = Static<typeof AdminGrantVerificationRequestParamsSchema>
+export type AdminGrantVerificationRequestParams = Static<typeof adminGrantVerificationRequestParamsSchema>
 
-export const AdminGrantVerificationReplySchema = Type.Object({
+export const adminGrantVerificationReplySchema = Type.Object({
   message: Type.String()
 })
-export type AdminGrantVerificationReply = Static<typeof AdminGrantVerificationReplySchema>
+export type AdminGrantVerificationReply = Static<typeof adminGrantVerificationReplySchema>
 
-export const AdminRevokeVerificationRequestParamsSchema = Type.Object({
+export const adminRevokeVerificationRequestParamsSchema = Type.Object({
   username: Type.String()
 })
-export type AdminRevokeVerificationRequestParams = Static<typeof AdminRevokeVerificationRequestParamsSchema>
+export type AdminRevokeVerificationRequestParams = Static<typeof adminRevokeVerificationRequestParamsSchema>
 
-export const AdminRevokeVerificationReplySchema = Type.Object({
+export const adminRevokeVerificationReplySchema = Type.Object({
   message: Type.String()
 })
-export type AdminRevokeVerificationReply = Static<typeof AdminRevokeVerificationReplySchema>
+export type AdminRevokeVerificationReply = Static<typeof adminRevokeVerificationReplySchema>
 
-export const AdminRemoveUserRequestParamsSchema = Type.Object({
+export const adminRemoveUserRequestParamsSchema = Type.Object({
   username: Type.String()
 })
-export type AdminRemoveUserRequestParams = Static<typeof AdminRemoveUserRequestParamsSchema>
+export type AdminRemoveUserRequestParams = Static<typeof adminRemoveUserRequestParamsSchema>
 
-export const AdminRemoveUserReplySchema = Type.Object({
+export const adminRemoveUserReplySchema = Type.Object({
   message: Type.String()
 })
-export type AdminRemoveUserReply = Static<typeof AdminRemoveUserReplySchema>
+export type AdminRemoveUserReply = Static<typeof adminRemoveUserReplySchema>
 
-export const AdminGetTransactionDataSortByOptionSchema = Type.Union([
+export const adminGetTransactionDataSortByOptionSchema = Type.Union([
   Type.Literal('time-asc'),
   Type.Literal('time-desc'),
   Type.Literal('price-asc'),
@@ -100,16 +99,16 @@ export const AdminGetTransactionDataSortByOptionSchema = Type.Union([
   Type.Literal('username-asc'),
   Type.Literal('username-desc')
 ])
-export type AdminGetTransactionDataSortByOption = Static<typeof AdminGetTransactionDataSortByOptionSchema>
+export type AdminGetTransactionDataSortByOption = Static<typeof adminGetTransactionDataSortByOptionSchema>
 
-export const AdminGetTransactionDataRequestQuerystringSchema = Type.Object({
+export const adminGetTransactionDataRequestQuerystringSchema = Type.Object({
   page: Type.Number({ default: 1 }),
-  sort: AdminGetTransactionDataSortByOptionSchema,
+  sort: adminGetTransactionDataSortByOptionSchema,
   q: Type.Optional(Type.String({ default: '' }))
 })
-export type AdminGetTransactionDataRequestQuerystring = Static<typeof AdminGetTransactionDataRequestQuerystringSchema>
+export type AdminGetTransactionDataRequestQuerystring = Static<typeof adminGetTransactionDataRequestQuerystringSchema>
 
-export const AdminGetTransactionDataReplySchema = Type.Object({
+export const adminGetTransactionDataReplySchema = Type.Object({
   total: Type.Number(),
   transactions: Type.Array(Type.Object({
     transactionId: Type.String(),
@@ -119,9 +118,9 @@ export const AdminGetTransactionDataReplySchema = Type.Object({
     totalPriceWithVat: Type.Number()
   }))
 })
-export type AdminGetTransactionDataReply = Static<typeof AdminGetTransactionDataReplySchema>
+export type AdminGetTransactionDataReply = Static<typeof adminGetTransactionDataReplySchema>
 
-export const AdminGetEventDataSortByOptionSchema = Type.Union([
+export const adminGetEventDataSortByOptionSchema = Type.Union([
   Type.Literal('event-name-asc'),
   Type.Literal('event-name-desc'),
   Type.Literal('username-asc'),
@@ -139,22 +138,22 @@ export const AdminGetEventDataSortByOptionSchema = Type.Union([
   Type.Literal('total-taken-seats-asc'),
   Type.Literal('total-taken-seats-desc')
 ])
-export type AdminGetEventDataSortByOption = Static<typeof AdminGetEventDataSortByOptionSchema>
+export type AdminGetEventDataSortByOption = Static<typeof adminGetEventDataSortByOptionSchema>
 
-export const EventStatusSchema = Type.Union([
+export const aventStatusSchema = Type.Union([
   Type.Literal(t_event_status.open),
   Type.Literal(t_event_status.closed)
 ])
-export type EventStatus = Static<typeof EventStatusSchema>
+export type EventStatus = Static<typeof aventStatusSchema>
 
-export const AdminGetEventDataRequestQuerystringSchema = Type.Object({
+export const adminGetEventDataRequestQuerystringSchema = Type.Object({
   page: Type.Number({ default: 1 }),
-  sort: AdminGetEventDataSortByOptionSchema,
+  sort: adminGetEventDataSortByOptionSchema,
   q: Type.Optional(Type.String({ default: '' }))
 })
-export type AdminGetEventDataRequestQuerystring = Static<typeof AdminGetEventDataRequestQuerystringSchema>
+export type AdminGetEventDataRequestQuerystring = Static<typeof adminGetEventDataRequestQuerystringSchema>
 
-export const AdminGetEventDataReplySchema = Type.Object({
+export const adminGetEventDataReplySchema = Type.Object({
   total: Type.Number(),
   events: Type.Array(Type.Object({
     id: Type.String(),
@@ -168,7 +167,7 @@ export const AdminGetEventDataReplySchema = Type.Object({
       y: Type.String()
     }),
     countryCode: Type.String(),
-    status: EventStatusSchema,
+    status: aventStatusSchema,
     minTicketPrice: Type.Number(),
     maxTicketPrice: Type.Number(),
     minimumAge: Type.Number(),
@@ -177,33 +176,33 @@ export const AdminGetEventDataReplySchema = Type.Object({
     seatFullnessPercentage: Type.Number()
   }))
 })
-export type AdminGetEventDataReply = Static<typeof AdminGetEventDataReplySchema>
+export type AdminGetEventDataReply = Static<typeof adminGetEventDataReplySchema>
 
-export const PostManipulateEventRequestParamsSchema = Type.Object({
+export const postManipulateEventRequestParamsSchema = Type.Object({
   eventId: Type.String()
 })
-export type PostManipulateEventRequestParams = Static<typeof PostManipulateEventRequestParamsSchema>
+export type PostManipulateEventRequestParams = Static<typeof postManipulateEventRequestParamsSchema>
 
-export const PostManipulateEventRequestBodySchema = Type.Object({
+export const postManipulateEventRequestBodySchema = Type.Object({
   targetStatus: Type.Union([
     Type.Literal(t_event_status.closed),
     Type.Literal(t_event_status.open)
   ])
 })
-export type PostManipulateEventRequestBody = Static<typeof PostManipulateEventRequestBodySchema>
+export type PostManipulateEventRequestBody = Static<typeof postManipulateEventRequestBodySchema>
 
-export const PostManipulateEventReplySchema = Type.Object({
+export const postManipulateEventReplySchema = Type.Object({
   message: Type.String()
 })
-export type PostManipulateEventReply = Static<typeof PostManipulateEventReplySchema>
+export type PostManipulateEventReply = Static<typeof postManipulateEventReplySchema>
 
-export const AdminGetStatisticsSummaryRequestQuerystringSchema = Type.Object({
+export const adminGetStatisticsSummaryRequestQuerystringSchema = Type.Object({
   start: Type.String(),
   end: Type.String()
 })
-export type AdminGetStatisticsSummaryRequestQuerystring = Static<typeof AdminGetStatisticsSummaryRequestQuerystringSchema>
+export type AdminGetStatisticsSummaryRequestQuerystring = Static<typeof adminGetStatisticsSummaryRequestQuerystringSchema>
 
-export const AdminGetStatisticsSummaryReplySchema = Type.Object({
+export const adminGetStatisticsSummaryReplySchema = Type.Object({
   totalUsers: Type.Number(),
   newUsersThisMonth: Type.Number(),
   newUsersPastMonth: Type.Number(),
@@ -215,74 +214,74 @@ export const AdminGetStatisticsSummaryReplySchema = Type.Object({
   totalGrossIncome: Type.Number(),
   totalPureIncome: Type.Number()
 })
-export type AdminGetStatisticsSummaryReply = Static<typeof AdminGetStatisticsSummaryReplySchema>
+export type AdminGetStatisticsSummaryReply = Static<typeof adminGetStatisticsSummaryReplySchema>
 
-export const AdminGetMapsDataRequestQuerystringSchema = Type.Object({
+export const adminGetMapsDataRequestQuerystringSchema = Type.Object({
   start: Type.String(),
   end: Type.String()
 })
-export type AdminGetMapsDataRequestQuerystring = Static<typeof AdminGetMapsDataRequestQuerystringSchema>
+export type AdminGetMapsDataRequestQuerystring = Static<typeof adminGetMapsDataRequestQuerystringSchema>
 
-export const MapsDataSchema = Type.Array(
+export const mapsDataSchema = Type.Array(
   Type.Object({
     country: Type.String(),
     amount: Type.Number()
   })
 )
-export type MapsData = Static<typeof MapsDataSchema>
+export type MapsData = Static<typeof mapsDataSchema>
 
-export const AdminGetMapsDataReplySchema = Type.Object({
-  users: MapsDataSchema,
-  events: MapsDataSchema
+export const adminGetMapsDataReplySchema = Type.Object({
+  users: mapsDataSchema,
+  events: mapsDataSchema
 })
-export type AdminGetMapsDataReply = Static<typeof AdminGetMapsDataReplySchema>
+export type AdminGetMapsDataReply = Static<typeof adminGetMapsDataReplySchema>
 
-export const AdminGetSummaryDataGroupByOptionSchema = Type.Union([
+export const adminGetSummaryDataGroupByOptionSchema = Type.Union([
   Type.Literal('day'),
   Type.Literal('month'),
   Type.Literal('year')
 ])
-export type AdminGetSummaryDataGroupByOption = Static<typeof AdminGetSummaryDataGroupByOptionSchema>
+export type AdminGetSummaryDataGroupByOption = Static<typeof adminGetSummaryDataGroupByOptionSchema>
 
-export const AdminGetTransactionSummaryRequestQuerystringSchema = Type.Object({
+export const adminGetTransactionSummaryRequestQuerystringSchema = Type.Object({
   start: Type.String(),
   end: Type.String(),
-  group: AdminGetSummaryDataGroupByOptionSchema
+  group: adminGetSummaryDataGroupByOptionSchema
 })
-export type AdminGetTransactionSummaryRequestQuerystring = Static<typeof AdminGetTransactionSummaryRequestQuerystringSchema>
+export type AdminGetTransactionSummaryRequestQuerystring = Static<typeof adminGetTransactionSummaryRequestQuerystringSchema>
 
-export const AdminGetTransactionSummaryReplySchema = Type.Object({
+export const adminGetTransactionSummaryReplySchema = Type.Object({
   transactions: Type.Array(Type.Object({
     date: Type.String(),
     amount: Type.Number()
   }))
 })
-export type AdminGetTransactionSummaryReply = Static<typeof AdminGetTransactionSummaryReplySchema>
+export type AdminGetTransactionSummaryReply = Static<typeof adminGetTransactionSummaryReplySchema>
 
-export const AdminGetRegistrationSummaryRequestQuerystringSchema = Type.Object({
+export const adminGetRegistrationSummaryRequestQuerystringSchema = Type.Object({
   start: Type.String(),
   end: Type.String(),
-  group: AdminGetSummaryDataGroupByOptionSchema
+  group: adminGetSummaryDataGroupByOptionSchema
 })
-export type AdminGetRegistrationSummaryRequestQuerystring = Static<typeof AdminGetRegistrationSummaryRequestQuerystringSchema>
+export type AdminGetRegistrationSummaryRequestQuerystring = Static<typeof adminGetRegistrationSummaryRequestQuerystringSchema>
 
-export const AdminGetRegistrationSummaryReplySchema = Type.Object({
+export const adminGetRegistrationSummaryReplySchema = Type.Object({
   registrations: Type.Array(Type.Object({
     date: Type.String(),
     amount: Type.Number()
   }))
 })
-export type AdminGetRegistrationSummaryReply = Static<typeof AdminGetRegistrationSummaryReplySchema>
+export type AdminGetRegistrationSummaryReply = Static<typeof adminGetRegistrationSummaryReplySchema>
 
-export const AdminGetTopEventTagsOfAllTimeRequestQuerystringSchema = Type.Object({
+export const adminGetTopEventTagsOfAllTimeRequestQuerystringSchema = Type.Object({
   top: Type.Number({ default: 10, minimum: 1, maximum: 15 })
 })
-export type AdminGetTopEventTagsOfAllTimeRequestQuerystring = Static<typeof AdminGetTopEventTagsOfAllTimeRequestQuerystringSchema>
+export type AdminGetTopEventTagsOfAllTimeRequestQuerystring = Static<typeof adminGetTopEventTagsOfAllTimeRequestQuerystringSchema>
 
-export const AdminGetTopEventTagsOfAllTimeReplySchema = Type.Object({
+export const adminGetTopEventTagsOfAllTimeReplySchema = Type.Object({
   tags: Type.Array(Type.Object({
     tag: Type.String(),
     amount: Type.Number()
   }))
 })
-export type AdminGetTopEventTagsOfAllTimeReply = Static<typeof AdminGetTopEventTagsOfAllTimeReplySchema>
+export type AdminGetTopEventTagsOfAllTimeReply = Static<typeof adminGetTopEventTagsOfAllTimeReplySchema>
