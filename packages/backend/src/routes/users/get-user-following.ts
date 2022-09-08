@@ -2,18 +2,18 @@ import type { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fasti
 
 import {
   type GetUserFollowingsListReply,
-  GetUserFollowingsListReplySchema,
   type GetUserFollowingsListRequestParams,
-  GetUserFollowingsListRequestParamsSchema,
   type GetUserFollowingsListRequestQuertsring,
-  GetUserFollowingsListRequestQuertstringSchema
+  getUserFollowingsListReplySchema,
+  getUserFollowingsListRequestParamsSchema,
+  getUserFollowingsListRequestQuertstringSchema
 } from '@reeba/common'
 
 const schema: FastifySchema = {
-  params: GetUserFollowingsListRequestParamsSchema,
-  querystring: GetUserFollowingsListRequestQuertstringSchema,
+  params: getUserFollowingsListRequestParamsSchema,
+  querystring: getUserFollowingsListRequestQuertstringSchema,
   response: {
-    200: GetUserFollowingsListReplySchema
+    200: getUserFollowingsListReplySchema
   }
 }
 
