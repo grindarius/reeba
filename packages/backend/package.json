@@ -1,10 +1,11 @@
 {
   "name": "@reeba/backend",
   "version": "1.0.0",
-  "private": true,
   "description": "Backend API for ReebA",
-  "main": "dist/backend/src/server.js",
-  "types": "dist/backend/src/server.d.ts",
+  "type": "module",
+  "private": true,
+  "exports": "./dist/server.js",
+  "types": "./dist/server.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/grindarius/reeba.git",

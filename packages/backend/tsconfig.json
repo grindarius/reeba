@@ -1,10 +1,5 @@
 {
   "extends": "./tsconfig.build.json",
-  "compilerOptions": {
-    "typeRoots": [
-      "./@types"
-    ]
-  },
   "include": [
     "./src/**/*.ts",
     "./test/**/*.ts"
