@@ -18,7 +18,7 @@
     "build-dev": "tsc -p ./tsconfig.build.json && cp ./.env ./dist/backend && cp ./.env.local ./dist/backend",
     "kill": "pnpm exec kill-port --port 3000",
     "watch": "nodemon",
-    "serve:ts-node": "ts-node src/server.ts",
+    "serve:ts-node": "ts-node --esm src/server.ts",
     "watch:ts": "tsc src/server.ts -w",
     "clean": "pnpm exec rimraf dist",
     "fix": "eslint **/*.ts --fix"

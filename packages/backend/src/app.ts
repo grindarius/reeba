@@ -1,7 +1,8 @@
 import dotenv from 'dotenv-flow'
-import fastify, { FastifyInstance } from 'fastify'
+import fastify, { type FastifyInstance } from 'fastify'
 import favicon from 'fastify-favicon'
-import { join, resolve } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import cors from '@fastify/cors'
 import helmet from '@fastify/helmet'
@@ -14,6 +15,9 @@ import endpoints from '@reeba/fastify-frontend-endpoints-generator'
 import geocoder from '@reeba/fastify-local-reverse-geocoder'
 
 import routes from './routes/index.js'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 dotenv.config({
   path: resolve(__dirname, '..'),
