@@ -1,6 +1,6 @@
 import { Static, Type } from '@sinclair/typebox'
 
-import { t_event_status } from './database'
+import { t_event_status } from './database.js'
 
 export const getProfileDataRequestParamsSchema = Type.Object({
   username: Type.String()

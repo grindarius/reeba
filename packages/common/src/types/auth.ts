@@ -1,14 +1,14 @@
 import { Static, Type } from '@sinclair/typebox'
 
-import { t_user_role } from './database'
+import { t_user_role } from './database.js'
 
-export const SigninBodySchema = Type.Object({
+export const signinBodySchema = Type.Object({
   email: Type.String(),
   password: Type.String()
 })
-export type SigninBody = Static<typeof SigninBodySchema>
+export type SigninBody = Static<typeof signinBodySchema>
 
-export const SigninReplySchema = Type.Object({
+export const signinReplySchema = Type.Object({
   token: Type.String(),
   username: Type.String(),
   email: Type.String(),
@@ -18,9 +18,9 @@ export const SigninReplySchema = Type.Object({
   ]),
   verificationStatus: Type.Boolean()
 })
-export type SigninReply = Static<typeof SigninReplySchema>
+export type SigninReply = Static<typeof signinReplySchema>
 
-export const SignupBodySchema = Type.Object({
+export const signupBodySchema = Type.Object({
   username: Type.String(),
   email: Type.String(),
   password: Type.String(),
@@ -28,9 +28,9 @@ export const SignupBodySchema = Type.Object({
   iso31662: Type.String({ default: '' }),
   phoneNumber: Type.String()
 })
-export type SignupBody = Static<typeof SignupBodySchema>
+export type SignupBody = Static<typeof signupBodySchema>
 
-export const SignupReplySchema = Type.Object({
+export const signupReplySchema = Type.Object({
   message: Type.String()
 })
-export type SignupReply = Static<typeof SignupReplySchema>
+export type SignupReply = Static<typeof signupReplySchema>

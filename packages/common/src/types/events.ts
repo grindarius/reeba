@@ -1,6 +1,6 @@
 import { Static, Type } from '@sinclair/typebox'
 
-export const PostEventBodySchema = Type.Object({
+export const postEventBodySchema = Type.Object({
   eventName: Type.String(),
   createdBy: Type.String(),
   description: Type.String(),
@@ -31,39 +31,39 @@ export const PostEventBodySchema = Type.Object({
     })))
   })))
 })
-export type PostEventBody = Static<typeof PostEventBodySchema>
+export type PostEventBody = Static<typeof postEventBodySchema>
 
-export const PostEventReplySchema = Type.Object({
+export const postEventReplySchema = Type.Object({
   eventId: Type.String()
 })
-export type PostEventReply = Static<typeof PostEventReplySchema>
+export type PostEventReply = Static<typeof postEventReplySchema>
 
-export const RootPageEventSchema = Type.Object({
+export const rootPageEventSchema = Type.Object({
   username: Type.String(),
   id: Type.String(),
   name: Type.String(),
   firstDatetime: Type.String(),
   venueName: Type.String()
 })
-export type RootPageEvent = Static<typeof RootPageEventSchema>
+export type RootPageEvent = Static<typeof rootPageEventSchema>
 
-export const GetEventsReplySchema = Type.Object({
-  official: Type.Array(RootPageEventSchema),
-  local: Type.Array(RootPageEventSchema)
+export const getEventsReplySchema = Type.Object({
+  official: Type.Array(rootPageEventSchema),
+  local: Type.Array(rootPageEventSchema)
 })
-export type GetEventsReply = Static<typeof GetEventsReplySchema>
+export type GetEventsReply = Static<typeof getEventsReplySchema>
 
-export const GetIndividualEventRequestParamsSchema = Type.Object({
+export const getIndividualEventRequestParamsSchema = Type.Object({
   eventId: Type.String()
 })
-export type GetIndividualEventRequestParams = Static<typeof GetIndividualEventRequestParamsSchema>
+export type GetIndividualEventRequestParams = Static<typeof getIndividualEventRequestParamsSchema>
 
-export const GetIndividualEventRequestQuerystringSchema = Type.Object({
+export const getIndividualEventRequestQuerystringSchema = Type.Object({
   u: Type.String()
 })
-export type GetIndividualEventRequestQuerystring = Static<typeof GetIndividualEventRequestQuerystringSchema>
+export type GetIndividualEventRequestQuerystring = Static<typeof getIndividualEventRequestQuerystringSchema>
 
-export const GetIndividualEventReplySchema = Type.Object({
+export const getIndividualEventReplySchema = Type.Object({
   name: Type.String(),
   createdBy: Type.String(),
   description: Type.String(),
@@ -87,34 +87,34 @@ export const GetIndividualEventReplySchema = Type.Object({
     end: Type.String()
   }))
 })
-export type GetIndividualEventReply = Static<typeof GetIndividualEventReplySchema>
+export type GetIndividualEventReply = Static<typeof getIndividualEventReplySchema>
 
-export const GetEventImageRequestParamsSchema = Type.Object({
+export const getEventImageRequestParamsSchema = Type.Object({
   eventId: Type.String()
 })
-export type GetEventImageRequestParams = Static<typeof GetEventImageRequestParamsSchema>
+export type GetEventImageRequestParams = Static<typeof getEventImageRequestParamsSchema>
 
-export const PostEventImageParamsSchema = Type.Object({
+export const postEventImageParamsSchema = Type.Object({
   eventId: Type.String()
 })
-export type PostEventImageParams = Static<typeof PostEventImageParamsSchema>
+export type PostEventImageParams = Static<typeof postEventImageParamsSchema>
 
-export const PostEventImageReplySchema = Type.Object({
+export const postEventImageReplySchema = Type.Object({
   message: Type.String()
 })
-export type PostEventImageReply = Static<typeof PostEventImageReplySchema>
+export type PostEventImageReply = Static<typeof postEventImageReplySchema>
 
-export const GetEventSeatsRequestParamsSchema = Type.Object({
+export const getEventSeatsRequestParamsSchema = Type.Object({
   eventId: Type.String()
 })
-export type GetEventSeatsRequestParams = Static<typeof GetEventSeatsRequestParamsSchema>
+export type GetEventSeatsRequestParams = Static<typeof getEventSeatsRequestParamsSchema>
 
-export const GetEventSeatsRequestQuerystringSchema = Type.Object({
+export const getEventSeatsRequestQuerystringSchema = Type.Object({
   datetimeId: Type.String()
 })
-export type GetEventSeatsRequestQuerystring = Static<typeof GetEventSeatsRequestQuerystringSchema>
+export type GetEventSeatsRequestQuerystring = Static<typeof getEventSeatsRequestQuerystringSchema>
 
-export const GetEventSeatsReplySchema = Type.Object({
+export const getEventSeatsReplySchema = Type.Object({
   sections: Type.Array(Type.Object({
     sectionId: Type.String(),
     sectionRowPosition: Type.Number(),
@@ -130,19 +130,19 @@ export const GetEventSeatsReplySchema = Type.Object({
     price: Type.Number()
   }))
 })
-export type GetEventSeatsReply = Static<typeof GetEventSeatsReplySchema>
+export type GetEventSeatsReply = Static<typeof getEventSeatsReplySchema>
 
-export const GetAllEventsReplySchema = Type.Object({
-  events: Type.Array(RootPageEventSchema)
+export const getAllEventsReplySchema = Type.Object({
+  events: Type.Array(rootPageEventSchema)
 })
-export type GetAllEventsReply = Static<typeof GetAllEventsReplySchema>
+export type GetAllEventsReply = Static<typeof getAllEventsReplySchema>
 
-export const GetEditableEventDataRequestParamsSchema = Type.Object({
+export const getEditableEventDataRequestParamsSchema = Type.Object({
   eventId: Type.String()
 })
-export type GetEditableEventDataRequestParams = Static<typeof GetEditableEventDataRequestParamsSchema>
+export type GetEditableEventDataRequestParams = Static<typeof getEditableEventDataRequestParamsSchema>
 
-export const GetEditableEventDataReplySchema = Type.Object({
+export const getEditableEventDataReplySchema = Type.Object({
   name: Type.String(),
   description: Type.String(),
   website: Type.String(),
@@ -164,14 +164,14 @@ export const GetEditableEventDataReplySchema = Type.Object({
     price: Type.Number()
   }))
 })
-export type GetEditableEventDataReply = Static<typeof GetEditableEventDataReplySchema>
+export type GetEditableEventDataReply = Static<typeof getEditableEventDataReplySchema>
 
-export const PatchEditableEventDataRequestParamsSchema = Type.Object({
+export const patchEditableEventDataRequestParamsSchema = Type.Object({
   eventId: Type.String()
 })
-export type PatchEditableEventDataRequestParams = Static<typeof PatchEditableEventDataRequestParamsSchema>
+export type PatchEditableEventDataRequestParams = Static<typeof patchEditableEventDataRequestParamsSchema>
 
-export const PatchEditableEventDataRequestBodySchema = Type.Object({
+export const patchEditableEventDataRequestBodySchema = Type.Object({
   id: Type.String(),
   name: Type.String(),
   description: Type.String(),
@@ -193,9 +193,9 @@ export const PatchEditableEventDataRequestBodySchema = Type.Object({
     price: Type.Number()
   }))
 })
-export type PatchEditableEventDataRequestBody = Static<typeof PatchEditableEventDataRequestBodySchema>
+export type PatchEditableEventDataRequestBody = Static<typeof patchEditableEventDataRequestBodySchema>
 
-export const PatchEditableEventDataReplySchema = Type.Object({
+export const patchEditableEventDataReplySchema = Type.Object({
   message: Type.String()
 })
-export type PatchEditableEventDataReply = Static<typeof PatchEditableEventDataReplySchema>
+export type PatchEditableEventDataReply = Static<typeof patchEditableEventDataReplySchema>

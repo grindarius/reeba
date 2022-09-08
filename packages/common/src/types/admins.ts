@@ -1,7 +1,6 @@
-
 import { Static, Type } from '@sinclair/typebox'
 
-import { t_event_status } from './database'
+import { t_event_status } from './database.js'
 
 export const adminGetUserDataSortByOptionSchema = Type.Union([
   Type.Literal('name-asc'),
