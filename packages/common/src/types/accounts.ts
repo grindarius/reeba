@@ -168,4 +168,4 @@ export const getOrganizerEventOrdersReplySchema = Type.Object({
     totalPrice: Type.Number()
   }))
 })
-export type GetOrganizerEventOrdersReply = Static<typeof GetOrganizerEventOrdersReplySchema>
+export type GetOrganizerEventOrdersReply = Static<typeof getOrganizerEventOrdersReplySchema>
