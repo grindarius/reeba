@@ -1,16 +1,16 @@
 import { Static, Type } from '@sinclair/typebox'
 
-export const GetAvatarsParamsSchema = Type.Object({
+export const getAvatarsParamsSchema = Type.Object({
   username: Type.String()
 })
-export type GetAvatarsParams = Static<typeof GetAvatarsParamsSchema>
+export type GetAvatarsParams = Static<typeof getAvatarsParamsSchema>
 
-export const PostAvatarsParamsSchema = Type.Object({
+export const postAvatarsParamsSchema = Type.Object({
   username: Type.String()
 })
-export type PostAvatarsParams = Static<typeof PostAvatarsParamsSchema>
+export type PostAvatarsParams = Static<typeof postAvatarsParamsSchema>
 
-export const PostAvatarsReplyBodySchema = Type.Object({
+export const postAvatarsReplyBodySchema = Type.Object({
   message: Type.String()
 })
-export type PostAvatarsReply = Static<typeof PostAvatarsReplyBodySchema>
+export type PostAvatarsReply = Static<typeof postAvatarsReplyBodySchema>

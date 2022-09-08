@@ -43,12 +43,10 @@ module.exports = {
       default: 'generic',
       readonly: 'generic'
     }],
-    '@typescript-eslint/naming-convention': ['error',
-      {
-        selector: 'variable',
-        format: ['camelCase', 'UPPER_CASE'],
-        leadingUnderscore: 'allowDouble'
-      }
-    ]
+    '@typescript-eslint/naming-convention': ['error', {
+      selector: 'variable',
+      format: ['camelCase', 'UPPER_CASE'],
+      leadingUnderscore: 'allowDouble'
+    }]
   }
 }

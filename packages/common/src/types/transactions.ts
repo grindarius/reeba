@@ -1,24 +1,24 @@
 import { Static, Type } from '@sinclair/typebox'
 
-export const PostTransactionRequestBodySchema = Type.Object({
+export const postTransactionRequestBodySchema = Type.Object({
   eventId: Type.String(),
   datetimeId: Type.String(),
   sectionId: Type.String(),
   seatIds: Type.Array(Type.String())
 })
-export type PostTransactionRequestBody = Static<typeof PostTransactionRequestBodySchema>
+export type PostTransactionRequestBody = Static<typeof postTransactionRequestBodySchema>
 
-export const PostTransactionReplySchema = Type.Object({
+export const postTransactionReplySchema = Type.Object({
   message: Type.String()
 })
-export type PostTransactionReply = Static<typeof PostTransactionReplySchema>
+export type PostTransactionReply = Static<typeof postTransactionReplySchema>
 
-export const GetTransactionRequestParamsSchema = Type.Object({
+export const getTransactionRequestParamsSchema = Type.Object({
   transactionId: Type.String()
 })
-export type GetTransactionRequestParams = Static<typeof GetTransactionRequestParamsSchema>
+export type GetTransactionRequestParams = Static<typeof getTransactionRequestParamsSchema>
 
-export const GetTransactionReplySchema = Type.Object({
+export const getTransactionReplySchema = Type.Object({
   transactionId: Type.String(),
   time: Type.String(),
   username: Type.String(),
@@ -33,34 +33,34 @@ export const GetTransactionReplySchema = Type.Object({
     seatColumnPosition: Type.Number()
   }))
 })
-export type GetTransactionReply = Static<typeof GetTransactionReplySchema>
+export type GetTransactionReply = Static<typeof getTransactionReplySchema>
 
-export const GetTransactionPDFRequestParamsSchema = Type.Object({
+export const getTransactionPDFRequestParamsSchema = Type.Object({
   transactionId: Type.String()
 })
-export type GetTransactionPDFRequestParams = Static<typeof GetTransactionPDFRequestParamsSchema>
+export type GetTransactionPDFRequestParams = Static<typeof getTransactionPDFRequestParamsSchema>
 
-export const PostTransferTransactionRequestParamsSchema = Type.Object({
+export const postTransferTransactionRequestParamsSchema = Type.Object({
   transactionId: Type.String()
 })
-export type PostTransferTransactionRequestParams = Static<typeof PostTransferTransactionRequestParamsSchema>
+export type PostTransferTransactionRequestParams = Static<typeof postTransferTransactionRequestParamsSchema>
 
-export const PostTransferTransactionRequestBodySchema = Type.Object({
+export const postTransferTransactionRequestBodySchema = Type.Object({
   username: Type.String()
 })
-export type PostTransferTransactionRequestBody = Static<typeof PostTransferTransactionRequestBodySchema>
+export type PostTransferTransactionRequestBody = Static<typeof postTransferTransactionRequestBodySchema>
 
-export const PostTransferTransactionReplySchema = Type.Object({
+export const postTransferTransactionReplySchema = Type.Object({
   message: Type.String()
 })
-export type PostTransferTransactionReply = Static<typeof PostTransactionReplySchema>
+export type PostTransferTransactionReply = Static<typeof postTransactionReplySchema>
 
-export const DeleteTransactionRequestParamsSchema = Type.Object({
+export const deleteTransactionRequestParamsSchema = Type.Object({
   transactionId: Type.String()
 })
-export type DeleteTransactionRequestParams = Static<typeof DeleteTransactionRequestParamsSchema>
+export type DeleteTransactionRequestParams = Static<typeof deleteTransactionRequestParamsSchema>
 
-export const DeleteTransactionReplySchema = Type.Object({
+export const deleteTransactionReplySchema = Type.Object({
   message: Type.String()
 })
-export type DeleteTransactionReply = Static<typeof DeleteTransactionReplySchema>
+export type DeleteTransactionReply = Static<typeof deleteTransactionReplySchema>

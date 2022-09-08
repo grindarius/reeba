@@ -1,14 +1,14 @@
-import { Static, Type } from '@sinclair/typebox'
+import { type Static, Type } from '@sinclair/typebox'
 
-import { UserSocialMediaSchema } from './users'
+import { userSocialMediaSchema } from './users.js'
 
 export const creatorType = [
   'Official',
   'Local'
 ] as const
 
-export const CreatorTypeSchema = Type.Union(creatorType.map(c => Type.Literal(c)))
-export type CreatorType = Static<typeof CreatorTypeSchema>
+export const creatorTypeSchema = Type.Union(creatorType.map(c => Type.Literal(c)))
+export type CreatorType = Static<typeof creatorTypeSchema>
 
 export const priceRange = [
   'Any',
@@ -40,11 +40,11 @@ export const eventTags = [
   'Variety'
 ] as const
 
-export const EventTagsSchema = Type.Union(eventTags.map(e => Type.Literal(e)))
-export type EventTags = Static<typeof EventTagsSchema>
+export const eventTagsSchema = Type.Union(eventTags.map(e => Type.Literal(e)))
+export type EventTags = Static<typeof eventTagsSchema>
 
-export const PriceRangeSchema = Type.Union(priceRange.map(p => Type.Literal(p)))
-export type PriceRange = Static<typeof PriceRangeSchema>
+export const priceRangeSchema = Type.Union(priceRange.map(p => Type.Literal(p)))
+export type PriceRange = Static<typeof priceRangeSchema>
 
 export const dateRange = [
   'All dates',
@@ -55,34 +55,34 @@ export const dateRange = [
   'Next month'
 ] as const
 
-export const DateRangeSchema = Type.Union(dateRange.map(d => Type.Literal(d)))
-export type DateRange = Static<typeof DateRangeSchema>
+export const dateRangeSchema = Type.Union(dateRange.map(d => Type.Literal(d)))
+export type DateRange = Static<typeof dateRangeSchema>
 
 export const searchType = [
   'Events',
   'Users'
 ] as const
 
-export const SearchTypeSchema = Type.Union(searchType.map(s => Type.Literal(s)))
-export type SearchType = Static<typeof SearchTypeSchema>
+export const searchTypeSchema = Type.Union(searchType.map(s => Type.Literal(s)))
+export type SearchType = Static<typeof searchTypeSchema>
 
-export const GetSearchResultRequestQuerystringSchema = Type.Object({
+export const getSearchResultRequestQuerystringSchema = Type.Object({
   q: Type.String(),
-  creatorType: Type.Optional(Type.Array(CreatorTypeSchema)),
-  priceRange: PriceRangeSchema,
-  tags: Type.Optional(Type.Array(EventTagsSchema)),
-  dateRange: DateRangeSchema,
-  type: SearchTypeSchema,
+  creatorType: Type.Optional(Type.Array(creatorTypeSchema)),
+  priceRange: priceRangeSchema,
+  tags: Type.Optional(Type.Array(eventTagsSchema)),
+  dateRange: dateRangeSchema,
+  type: searchTypeSchema,
   page: Type.Number()
 })
-export type GetSearchResultRequestQuerystring = Static<typeof GetSearchResultRequestQuerystringSchema>
+export type GetSearchResultRequestQuerystring = Static<typeof getSearchResultRequestQuerystringSchema>
 
-export const GetSearchResultReplySchema = Type.Object({
+export const getSearchResultReplySchema = Type.Object({
   events: Type.Array(Type.Object({
     id: Type.String(),
     name: Type.String(),
     createdBy: Type.String(),
-    type: CreatorTypeSchema,
+    type: creatorTypeSchema,
     firstStartDatetime: Type.String(),
     lastStartDatetime: Type.String(),
     openingDate: Type.String(),
@@ -95,9 +95,9 @@ export const GetSearchResultReplySchema = Type.Object({
   users: Type.Array(Type.Object({
     username: Type.String(),
     description: Type.String(),
-    socialMedias: UserSocialMediaSchema,
+    socialMedias: userSocialMediaSchema,
     isVerified: Type.Boolean(),
     isAdmin: Type.Boolean()
   }))
 })
-export type GetSearchResultReply = Static<typeof GetSearchResultReplySchema>
+export type GetSearchResultReply = Static<typeof getSearchResultReplySchema>
