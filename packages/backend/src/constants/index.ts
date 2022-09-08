@@ -1,2 +1,2 @@
-export * from './argon2'
-export * from './jwt'
+export * from './argon2.js'
+export * from './jwt.js'
