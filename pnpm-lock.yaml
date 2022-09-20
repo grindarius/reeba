@@ -13,7 +13,7 @@ importers:
       '@vue/eslint-config-typescript': ^11.0.0
       c8: ^7.12.0
       cross-env: ^7.0.3
-      eslint: '8'
+      eslint: ^8.0.1
       eslint-config-standard: ^17.0.0
       eslint-config-standard-with-typescript: ^22.0.0
       eslint-plugin-import: ^2.26.0
@@ -125,17 +125,19 @@ importers:
 
   packages/common:
     specifiers:
-      '@sinclair/typebox': ^0.24.27
+      '@sinclair/typebox': ^0.24.38
     dependencies:
-      '@sinclair/typebox': 0.24.27
+      '@sinclair/typebox': 0.24.42
 
   packages/fastify-check-jwt:
     specifiers:
       '@fastify/jwt': ^6.3.2
+      '@reeba/common': workspace:^1.0.0
       fastify: ^4.5
       fastify-plugin: ^4.2
     dependencies:
       '@fastify/jwt': 6.3.2
+      '@reeba/common': link:../common
       fastify-plugin: 4.2.1
     devDependencies:
       fastify: 4.5.3
@@ -1040,8 +1042,8 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@sinclair/typebox/0.24.27:
-    resolution: {integrity: sha512-K7C7IlQ3zLePEZleUN21ceBA2aLcMnLHTLph8QWk1JK37L90obdpY+QGY8bXMKxf1ht1Z0MNewvXxWv0oGDYFg==}
+  /@sinclair/typebox/0.24.42:
+    resolution: {integrity: sha512-d+2AtrHGyWek2u2ITF0lHRIv6Tt7X0dEHW+0rP+5aDCEjC3fiN2RBjrLD0yU0at52BcZbRGxLbAtXiR0hFCjYw==}
     dev: false
 
   /@sindresorhus/is/4.6.0:
@@ -3915,7 +3917,7 @@ packages:
     dev: true
 
   /functional-red-black-tree/1.0.1:
-    resolution: {integrity: sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=}
+    resolution: {integrity: sha512-dsKNQNdj6xA3T+QlADDA7mOSlX0qiMINjn0cgr+eGHGsbSHzTabcIogz2+p/iqP1Xs6EP/sS2SbqH+brGTbq0g==}
     dev: true
 
   /functions-have-names/1.2.3:
@@ -4369,7 +4371,7 @@ packages:
     dev: true
 
   /is-extglob/2.1.1:
-    resolution: {integrity: sha1-qIwCU1eR8C7TfHahueqXc8gz+MI=}
+    resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
     engines: {node: '>=0.10.0'}
 
   /is-fullwidth-code-point/3.0.0:

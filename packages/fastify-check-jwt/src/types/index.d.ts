@@ -1,10 +1,13 @@
-import { FastifyPluginAsync } from 'fastify'
+/* eslint-disable */
+import type { FastifyPluginAsync } from 'fastify'
 
-import { FastifyJWTOptions } from '@fastify/jwt'
-import { t_user_role } from '@reeba/common'
+import type { FastifyJWTOptions } from '@fastify/jwt'
+import type { t_user_role } from '@reeba/common'
+
+import 'fastify'
+import '@fastify/jwt'
 
 export const plugin: FastifyPluginAsync<FastifyJWTOptions>
-
 export default plugin
 
 declare module 'fastify' {

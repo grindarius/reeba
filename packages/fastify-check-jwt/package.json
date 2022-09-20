@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@fastify/jwt": "^6.3.2",
+    "@reeba/common": "workspace:^1.0.0",
     "fastify-plugin": "^4.2"
   },
   "devDependencies": {
