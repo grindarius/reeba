@@ -13,9 +13,9 @@
   },
   "author": "ReebA Team",
   "scripts": {
-    "dev": "node dist/backend/src/server.js",
+    "dev": "node dist/server.js",
     "build": "tsc -p ./tsconfig.build.json",
-    "build-dev": "tsc -p ./tsconfig.build.json && cp ./.env ./dist/backend && cp ./.env.local ./dist/backend",
+    "build-dev": "tsc -p ./tsconfig.build.json && cp ./.env ./dist && cp ./.env.local ./dist",
     "kill": "pnpm exec kill-port --port 3000",
     "watch": "nodemon",
     "serve:ts-node": "ts-node --esm src/server.ts",

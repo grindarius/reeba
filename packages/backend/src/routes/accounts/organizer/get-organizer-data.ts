@@ -2,18 +2,18 @@ import dayjs from 'dayjs'
 import { FastifyInstance, FastifyPluginOptions } from 'fastify'
 
 import {
+  type GetOrganizerDataReply,
+  type GetOrganizerDataRequestParams,
+  type GetOrganizerDataRequestQuerystring,
+  type GetOrganizerEventStatisticsReply,
+  type GetOrganizerEventStatisticsRequestParams,
+  type t_event_status,
   events,
-  GetOrganizerDataReply,
-  GetOrganizerDataReplySchema,
-  GetOrganizerDataRequestParams,
-  GetOrganizerDataRequestParamsSchema,
-  GetOrganizerDataRequestQuerystring,
-  GetOrganizerDataRequestQuerystringSchema,
-  GetOrganizerEventStatisticsReply,
-  GetOrganizerEventStatisticsReplySchema,
-  GetOrganizerEventStatisticsRequestParams,
-  GetOrganizerEventStatisticsRequestParamsSchema,
-  t_event_status
+  getOrganizerDataReplySchema,
+  getOrganizerDataRequestParamsSchema,
+  getOrganizerDataRequestQuerystringSchema,
+  getOrganizerEventStatisticsReplySchema,
+  getOrganizerEventStatisticsRequestParamsSchema
 } from '@reeba/common'
 
 const PAGE_SIZE = 30
@@ -40,10 +40,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/:username/organizer',
     {
       schema: {
-        params: GetOrganizerDataRequestParamsSchema,
-        querystring: GetOrganizerDataRequestQuerystringSchema,
+        params: getOrganizerDataRequestParamsSchema,
+        querystring: getOrganizerDataRequestQuerystringSchema,
         response: {
-          200: GetOrganizerDataReplySchema
+          200: getOrganizerDataReplySchema
         }
       },
       onRequest: [instance.authenticate],
@@ -121,9 +121,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     '/:username/organizer/:eventId',
     {
       schema: {
-        params: GetOrganizerEventStatisticsRequestParamsSchema,
+        params: getOrganizerEventStatisticsRequestParamsSchema,
         response: {
-          200: GetOrganizerEventStatisticsReplySchema
+          200: getOrganizerEventStatisticsReplySchema
         }
       },
       onRequest: [instance.authenticate],
@@ -183,9 +183,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       )
 
       return {
-        id: eventStuffs.rows[0].event_id,
-        name: eventStuffs.rows[0].event_name,
-        status: eventStuffs.rows[0].event_status,
+        id: eventStuffs.rows[0]?.event_id ?? '',
+        name: eventStuffs.rows[0]?.event_name ?? '',
+        status: eventStuffs.rows[0]?.event_status ?? '',
         totalSeats: seatings.rows[0]?.total_seats ?? 0,
         totalTakenSeats: seatings.rows[0]?.total_taken_seats ?? 0,
         seatFullnessPercentage: seatings.rows[0]?.seat_fullness_percentage ?? 0,

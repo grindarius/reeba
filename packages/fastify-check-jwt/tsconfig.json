@@ -4,7 +4,7 @@
     "declaration": true,
     "outDir": "./dist",
     "typeRoots": [
-      "./src/types/index.d.ts"
+      "./src/types"
     ]
   },
   "include": [

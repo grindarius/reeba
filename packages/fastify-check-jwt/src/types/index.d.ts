@@ -10,7 +10,7 @@ import '@fastify/jwt'
 export const plugin: FastifyPluginAsync<FastifyJWTOptions>
 export default plugin
 
-declare module 'fastify' {
+declare module fastify {
   interface FastifyInstance {
     authenticate: (request: FastifyRequest, reply: FastifyReply) => Promise<void>
   }
