@@ -25,7 +25,7 @@
   "dependencies": {
     "@fastify/cors": "^8.1.0",
     "@fastify/helmet": "^9.1.0",
-    "@fastify/multipart": "^7.1.0",
+    "@fastify/multipart": "^7.4.1",
     "@fastify/postgres": "^5.0.0",
     "@fastify/routes": "^5.0.0",
     "@fastify/static": "^6.5.0",
