@@ -22,6 +22,6 @@
     "fastify-plugin": "^4.2"
   },
   "devDependencies": {
-    "fastify": "^4.5"
+    "fastify": "^4.10"
   }
 }
