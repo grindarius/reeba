@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@reeba/fastify-check-jwt",
   "version": "1.0.0",
   "description": "fastify plugin to decorate the authenticate function for requests",

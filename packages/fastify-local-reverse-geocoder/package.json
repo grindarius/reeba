@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@reeba/fastify-local-reverse-geocoder",
   "version": "1.0.0",
   "description": "fastify plugin to decorate find geocode by latitude and longitude",
