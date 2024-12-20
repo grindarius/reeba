@@ -23,6 +23,6 @@
     "fix": "eslint **/*.ts --fix"
   },
   "dependencies": {
-    "@sinclair/typebox": "^0.24.38"
+    "@sinclair/typebox": "^0.34.12"
   }
 }

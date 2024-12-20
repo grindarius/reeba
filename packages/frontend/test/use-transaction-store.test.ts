@@ -1,275 +1,334 @@
-import { createPinia, setActivePinia } from 'pinia'
-import t from 'tap'
+import { createPinia, setActivePinia } from "pinia"
+import { beforeEach, expect, test } from "vitest"
 
-import { useTransactionStore } from '../src/store/use-transaction-store'
-import { TransactionStoreSeat } from '../src/types'
+import { useTransactionStore } from "../src/store/use-transaction-store"
+import type { TransactionStoreSeat } from "../src/types"
 
-void t.test('useTransactionStore', async t => {
-  t.beforeEach(() => {
+test("useTransactionStore", async () => {
+  beforeEach(() => {
     setActivePinia(createPinia())
   })
 
-  void t.test('initial state', async t => {
+  test("initial state", async () => {
     const store = useTransactionStore()
 
-    t.strictSame(store.transactionStore.eventId, '')
-    t.strictSame(store.transactionStore.datetimeId, '')
-    t.strictSame(store.transactionStore.section, {
-      id: '',
+    expect(store.transactionStore.eventId).toEqual("")
+    expect(store.transactionStore.datetimeId).toEqual("")
+    expect(store.transactionStore.section).toEqual({
+      id: "",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>()
+      seats: new Map<string, TransactionStoreSeat>(),
     })
   })
 
-  void t.test('setting eventId', async t => {
+  test("setting eventId", async () => {
     const store = useTransactionStore()
-    store.setEventId('abc')
+    store.setEventId("abc")
 
-    t.strictSame(store.transactionStore.eventId, 'abc')
-    t.strictSame(store.transactionStore.datetimeId, '')
-    t.strictSame(store.transactionStore.section, {
-      id: '',
+    expect(store.transactionStore.eventId).toEqual("abc")
+    expect(store.transactionStore.datetimeId).toEqual("")
+    expect(store.transactionStore.section).toEqual({
+      id: "",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>()
+      seats: new Map<string, TransactionStoreSeat>(),
     })
-    t.strictSame(store.currentPrice, 0)
+    expect(store.currentPrice).toEqual(0)
   })
 
-  void t.test('setting datetimeId', async t => {
+  test("setting datetimeId", async () => {
     const store = useTransactionStore()
-    store.setEventId('abc')
-    store.setDatetimeId('def')
+    store.setEventId("abc")
+    store.setDatetimeId("def")
 
-    t.strictSame(store.transactionStore.eventId, 'abc')
-    t.strictSame(store.transactionStore.datetimeId, 'def')
-    t.strictSame(store.transactionStore.section, {
-      id: '',
+    expect(store.transactionStore.eventId).toEqual("abc")
+    expect(store.transactionStore.datetimeId).toEqual("def")
+    expect(store.transactionStore.section).toEqual({
+      id: "",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>()
+      seats: new Map<string, TransactionStoreSeat>(),
     })
-    t.strictSame(store.currentPrice, 0)
+    expect(store.currentPrice).toEqual(0)
   })
 
-  void t.test('setting sectionId', async t => {
+  test("setting sectionId", async () => {
     const store = useTransactionStore()
-    store.setEventId('abc')
-    store.setDatetimeId('def')
-    store.setSection({ id: 'ghi', rowPosition: 0, columnPosition: 0, seats: new Map<string, TransactionStoreSeat>() })
-
-    t.strictSame(store.transactionStore.eventId, 'abc')
-    t.strictSame(store.transactionStore.datetimeId, 'def')
-    t.strictSame(store.transactionStore.section, { id: 'ghi', rowPosition: 0, columnPosition: 0, seats: new Map<string, TransactionStoreSeat>() })
-    t.strictSame(store.currentPrice, 0)
-  })
-
-  void t.test('setting seat', async t => {
-    const store = useTransactionStore()
-    store.setEventId('abc')
-    store.setDatetimeId('def')
-    store.setSection({ id: 'ghi', rowPosition: 0, columnPosition: 0, seats: new Map<string, TransactionStoreSeat>() })
-    store.setSeat('jkl', { rowPosition: 0, columnPosition: 0, price: 500 })
-
-    t.strictSame(store.transactionStore.eventId, 'abc')
-    t.strictSame(store.transactionStore.datetimeId, 'def')
-    t.strictSame(store.transactionStore.section, { id: 'ghi', rowPosition: 0, columnPosition: 0, seats: new Map<string, TransactionStoreSeat>([['jkl', { rowPosition: 0, columnPosition: 0, price: 500 }]]) })
-    t.strictSame(store.currentPrice, 500)
-  })
-
-  void t.test('adding another seat', async t => {
-    const store = useTransactionStore()
-    store.setEventId('abc')
-    store.setDatetimeId('def')
-    store.setSection({ id: 'ghi', rowPosition: 0, columnPosition: 0, seats: new Map<string, TransactionStoreSeat>() })
-    store.setSeat('jkl', { rowPosition: 0, columnPosition: 0, price: 500 })
-    store.setSeat('mno', { rowPosition: 0, columnPosition: 1, price: 500 })
-
-    t.strictSame(store.transactionStore.eventId, 'abc')
-    t.strictSame(store.transactionStore.datetimeId, 'def')
-    t.strictSame(store.transactionStore.section, {
-      id: 'ghi',
+    store.setEventId("abc")
+    store.setDatetimeId("def")
+    store.setSection({
+      id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>([
-        ['jkl', { rowPosition: 0, columnPosition: 0, price: 500 }],
-        ['mno', { rowPosition: 0, columnPosition: 1, price: 500 }]
-      ])
+      seats: new Map<string, TransactionStoreSeat>(),
     })
-    t.strictSame(store.currentPrice, 500)
+
+    expect(store.transactionStore.eventId).toEqual("abc")
+    expect(store.transactionStore.datetimeId).toEqual("def")
+    expect(store.transactionStore.section).toEqual({
+      id: "ghi",
+      rowPosition: 0,
+      columnPosition: 0,
+      seats: new Map<string, TransactionStoreSeat>(),
+    })
+    expect(store.currentPrice).toEqual(0)
   })
 
-  void t.test('adding different price seat', async t => {
+  test("setting seat", async () => {
     const store = useTransactionStore()
-    store.setEventId('abc')
-    store.setDatetimeId('def')
-    store.setSection({ id: 'ghi', rowPosition: 0, columnPosition: 0, seats: new Map<string, TransactionStoreSeat>() })
-    store.setSeat('jkl', { rowPosition: 0, columnPosition: 0, price: 500 })
+    store.setEventId("abc")
+    store.setDatetimeId("def")
+    store.setSection({
+      id: "ghi",
+      rowPosition: 0,
+      columnPosition: 0,
+      seats: new Map<string, TransactionStoreSeat>(),
+    })
+    store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 500 })
 
-    t.throws(() => {
-      store.setSeat('mno', { rowPosition: 0, columnPosition: 1, price: 1000 })
-    }, 'cannot set different price seat')
-
-    t.strictSame(store.transactionStore.eventId, 'abc')
-    t.strictSame(store.transactionStore.datetimeId, 'def')
-    t.strictSame(store.transactionStore.section, {
-      id: 'ghi',
+    expect(store.transactionStore.eventId).toEqual("abc")
+    expect(store.transactionStore.datetimeId).toEqual("def")
+    expect(store.transactionStore.section).toEqual({
+      id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
       seats: new Map<string, TransactionStoreSeat>([
-        ['jkl', { rowPosition: 0, columnPosition: 0, price: 500 }]
-      ])
+        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }],
+      ]),
     })
-    t.strictSame(store.currentPrice, 500)
+    expect(store.currentPrice).toEqual(500)
   })
 
-  void t.test('removing a single seat', async t => {
+  test("adding another seat", async () => {
     const store = useTransactionStore()
-    store.setEventId('abc')
-    store.setDatetimeId('def')
-    store.setSection({ id: 'ghi', rowPosition: 0, columnPosition: 0, seats: new Map<string, TransactionStoreSeat>() })
-    store.setSeat('jkl', { rowPosition: 0, columnPosition: 0, price: 500 })
-    store.setSeat('mno', { rowPosition: 0, columnPosition: 1, price: 500 })
+    store.setEventId("abc")
+    store.setDatetimeId("def")
+    store.setSection({
+      id: "ghi",
+      rowPosition: 0,
+      columnPosition: 0,
+      seats: new Map<string, TransactionStoreSeat>(),
+    })
+    store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 500 })
+    store.setSeat("mno", { rowPosition: 0, columnPosition: 1, price: 500 })
 
-    store.removeSeat('mno')
-
-    t.strictSame(store.transactionStore.eventId, 'abc')
-    t.strictSame(store.transactionStore.datetimeId, 'def')
-    t.strictSame(store.transactionStore.section, {
-      id: 'ghi',
+    expect(store.transactionStore.eventId).toEqual("abc")
+    expect(store.transactionStore.datetimeId).toEqual("def")
+    expect(store.transactionStore.section).toEqual({
+      id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
       seats: new Map<string, TransactionStoreSeat>([
-        ['jkl', { rowPosition: 0, columnPosition: 0, price: 500 }]
-      ])
+        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }],
+        ["mno", { rowPosition: 0, columnPosition: 1, price: 500 }],
+      ]),
     })
-    t.strictSame(store.currentPrice, 500)
+    expect(store.currentPrice).toEqual(500)
   })
 
-  void t.test('clearing a seat', async t => {
+  test("adding different price seat", async () => {
     const store = useTransactionStore()
-    store.setEventId('abc')
-    store.setDatetimeId('def')
-    store.setSection({ id: 'ghi', rowPosition: 0, columnPosition: 0, seats: new Map<string, TransactionStoreSeat>() })
-    store.setSeat('jkl', { rowPosition: 0, columnPosition: 0, price: 500 })
-    store.setSeat('mno', { rowPosition: 0, columnPosition: 1, price: 500 })
+    store.setEventId("abc")
+    store.setDatetimeId("def")
+    store.setSection({
+      id: "ghi",
+      rowPosition: 0,
+      columnPosition: 0,
+      seats: new Map<string, TransactionStoreSeat>(),
+    })
+    store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 500 })
+
+    expect(() => {
+      store.setSeat("mno", { rowPosition: 0, columnPosition: 1, price: 1000 })
+    }).toThrowError("cannot set different price seat")
+
+    expect(store.transactionStore.eventId).toEqual("abc")
+    expect(store.transactionStore.datetimeId).toEqual("def")
+    expect(store.transactionStore.section).toEqual({
+      id: "ghi",
+      rowPosition: 0,
+      columnPosition: 0,
+      seats: new Map<string, TransactionStoreSeat>([
+        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }],
+      ]),
+    })
+    expect(store.currentPrice).toEqual(500)
+  })
+
+  test("removing a single seat", async () => {
+    const store = useTransactionStore()
+    store.setEventId("abc")
+    store.setDatetimeId("def")
+    store.setSection({
+      id: "ghi",
+      rowPosition: 0,
+      columnPosition: 0,
+      seats: new Map<string, TransactionStoreSeat>(),
+    })
+    store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 500 })
+    store.setSeat("mno", { rowPosition: 0, columnPosition: 1, price: 500 })
+
+    store.removeSeat("mno")
+
+    expect(store.transactionStore.eventId).toEqual("abc")
+    expect(store.transactionStore.datetimeId).toEqual("def")
+    expect(store.transactionStore.section).toEqual({
+      id: "ghi",
+      rowPosition: 0,
+      columnPosition: 0,
+      seats: new Map<string, TransactionStoreSeat>([
+        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }],
+      ]),
+    })
+    expect(store.currentPrice).toEqual(500)
+  })
+
+  test("clearing a seat", async () => {
+    const store = useTransactionStore()
+    store.setEventId("abc")
+    store.setDatetimeId("def")
+    store.setSection({
+      id: "ghi",
+      rowPosition: 0,
+      columnPosition: 0,
+      seats: new Map<string, TransactionStoreSeat>(),
+    })
+    store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 500 })
+    store.setSeat("mno", { rowPosition: 0, columnPosition: 1, price: 500 })
 
     store.clearSeats()
 
-    t.strictSame(store.transactionStore.eventId, 'abc')
-    t.strictSame(store.transactionStore.datetimeId, 'def')
-    t.strictSame(store.transactionStore.section, {
-      id: 'ghi',
+    expect(store.transactionStore.eventId).toEqual("abc")
+    expect(store.transactionStore.datetimeId).toEqual("def")
+    expect(store.transactionStore.section).toEqual({
+      id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>()
+      seats: new Map<string, TransactionStoreSeat>(),
     })
-    t.strictSame(store.currentPrice, 0)
+    expect(store.currentPrice).toEqual(0)
   })
 
-  void t.test('remove whole transaction (used when checked out already)', async t => {
+  test("remove whole transaction (used when checked out already)", async () => {
     const store = useTransactionStore()
-    store.setEventId('abc')
-    store.setDatetimeId('def')
-    store.setSection({ id: 'ghi', rowPosition: 0, columnPosition: 0, seats: new Map<string, TransactionStoreSeat>() })
-    store.setSeat('jkl', { rowPosition: 0, columnPosition: 0, price: 500 })
-    store.setSeat('mno', { rowPosition: 0, columnPosition: 1, price: 500 })
+    store.setEventId("abc")
+    store.setDatetimeId("def")
+    store.setSection({
+      id: "ghi",
+      rowPosition: 0,
+      columnPosition: 0,
+      seats: new Map<string, TransactionStoreSeat>(),
+    })
+    store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 500 })
+    store.setSeat("mno", { rowPosition: 0, columnPosition: 1, price: 500 })
 
-    t.strictSame(store.transactionStore.eventId, 'abc')
-    t.strictSame(store.transactionStore.datetimeId, 'def')
-    t.strictSame(store.transactionStore.section, {
-      id: 'ghi',
+    expect(store.transactionStore.eventId).toEqual("abc")
+    expect(store.transactionStore.datetimeId).toEqual("def")
+    expect(store.transactionStore.section).toEqual({
+      id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
       seats: new Map<string, TransactionStoreSeat>([
-        ['jkl', { rowPosition: 0, columnPosition: 0, price: 500 }],
-        ['mno', { rowPosition: 0, columnPosition: 1, price: 500 }]
-      ])
+        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }],
+        ["mno", { rowPosition: 0, columnPosition: 1, price: 500 }],
+      ]),
     })
-    t.strictSame(store.currentPrice, 500)
+    expect(store.currentPrice).toEqual(500)
 
     store.removeTransaction()
 
-    t.strictSame(store.transactionStore.eventId, '')
-    t.strictSame(store.transactionStore.datetimeId, '')
-    t.strictSame(store.transactionStore.section, {
-      id: '',
+    expect(store.transactionStore.eventId).toEqual("")
+    expect(store.transactionStore.datetimeId).toEqual("")
+    expect(store.transactionStore.section).toEqual({
+      id: "",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>()
+      seats: new Map<string, TransactionStoreSeat>(),
     })
   })
 
-  void t.test('remove seat until no seat left', async t => {
+  test("remove seat until no seat left", async () => {
     const store = useTransactionStore()
-    store.setEventId('abc')
-    store.setDatetimeId('def')
-    store.setSection({ id: 'ghi', rowPosition: 0, columnPosition: 0, seats: new Map<string, TransactionStoreSeat>() })
-    store.setSeat('jkl', { rowPosition: 0, columnPosition: 0, price: 500 })
-    store.setSeat('mno', { rowPosition: 0, columnPosition: 1, price: 500 })
-
-    t.strictSame(store.transactionStore.eventId, 'abc')
-    t.strictSame(store.transactionStore.datetimeId, 'def')
-    t.strictSame(store.transactionStore.section, {
-      id: 'ghi',
+    store.setEventId("abc")
+    store.setDatetimeId("def")
+    store.setSection({
+      id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>([
-        ['jkl', { rowPosition: 0, columnPosition: 0, price: 500 }],
-        ['mno', { rowPosition: 0, columnPosition: 1, price: 500 }]
-      ])
+      seats: new Map<string, TransactionStoreSeat>(),
     })
-    t.strictSame(store.currentPrice, 500)
+    store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 500 })
+    store.setSeat("mno", { rowPosition: 0, columnPosition: 1, price: 500 })
 
-    store.removeSeat('mno')
-
-    t.strictSame(store.transactionStore.eventId, 'abc')
-    t.strictSame(store.transactionStore.datetimeId, 'def')
-    t.strictSame(store.transactionStore.section, {
-      id: 'ghi',
+    expect(store.transactionStore.eventId).toEqual("abc")
+    expect(store.transactionStore.datetimeId).toEqual("def")
+    expect(store.transactionStore.section).toEqual({
+      id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
       seats: new Map<string, TransactionStoreSeat>([
-        ['jkl', { rowPosition: 0, columnPosition: 0, price: 500 }]
-      ])
+        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }],
+        ["mno", { rowPosition: 0, columnPosition: 1, price: 500 }],
+      ]),
     })
-    t.strictSame(store.currentPrice, 500)
+    expect(store.currentPrice).toEqual(500)
 
-    store.removeSeat('jkl')
+    store.removeSeat("mno")
 
-    t.strictSame(store.transactionStore.eventId, 'abc')
-    t.strictSame(store.transactionStore.datetimeId, 'def')
-    t.strictSame(store.transactionStore.section, {
-      id: 'ghi',
+    expect(store.transactionStore.eventId).toEqual("abc")
+    expect(store.transactionStore.datetimeId).toEqual("def")
+    expect(store.transactionStore.section).toEqual({
+      id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>()
+      seats: new Map<string, TransactionStoreSeat>([
+        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }],
+      ]),
     })
-    t.strictSame(store.currentPrice, 0)
+    expect(store.currentPrice).toEqual(500)
+
+    store.removeSeat("jkl")
+
+    expect(store.transactionStore.eventId).toEqual("abc")
+    expect(store.transactionStore.datetimeId).toEqual("def")
+    expect(store.transactionStore.section).toEqual({
+      id: "ghi",
+      rowPosition: 0,
+      columnPosition: 0,
+      seats: new Map<string, TransactionStoreSeat>(),
+    })
+    expect(store.currentPrice).toEqual(0)
   })
 
-  void t.test('cannot set datetimeId if eventId is empty', async t => {
+  test("cannot set datetimeId if eventId is empty", async () => {
     const store = useTransactionStore()
 
-    t.throws(() => {
-      store.setDatetimeId('abc')
-    }, 'cannot set datetimeId if eventId is empty')
+    expect(() => {
+      store.setDatetimeId("abc")
+    }).toThrowError("cannot set datetimeId if eventId is empty")
   })
 
-  void t.test('cannt set sectionId if eventId or datetimeId is empty', async t => {
+  test("cannt set sectionId if eventId or datetimeId is empty", async () => {
     const store = useTransactionStore()
 
-    t.throws(() => {
-      store.setSection({ id: 'ghi', rowPosition: 0, columnPosition: 0, seats: new Map<string, TransactionStoreSeat>() })
-    }, 'cannot set section if eventId or datetimeId is empty')
+    expect(() => {
+      store.setSection({
+        id: "ghi",
+        rowPosition: 0,
+        columnPosition: 0,
+        seats: new Map<string, TransactionStoreSeat>(),
+      })
+    }).toThrowError("cannot set section if eventId or datetimeId is empty")
   })
 
-  void t.test('cannot set seatIds if eventId or datetimeId or sectionId is empty', async t => {
+  test("cannot set seatIds if eventId or datetimeId or sectionId is empty", async () => {
     const store = useTransactionStore()
 
-    t.throws(() => {
-      store.setSeat('jkl', { rowPosition: 0, columnPosition: 0, price: 1000 })
-    }, 'cannot set section if eventId or datetimeId or sectionId is empty')
+    expect(() => {
+      store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 1000 })
+    }).toThrowError(
+      "cannot set section if eventId or datetimeId or sectionId is empty",
+    )
   })
 })

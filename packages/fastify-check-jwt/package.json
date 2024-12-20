@@ -19,10 +19,10 @@
     "fix": "eslint **/*.js --fix"
   },
   "dependencies": {
-    "@fastify/jwt": "^6.3.2",
-    "fastify-plugin": "^4.2"
+    "@fastify/jwt": "^9.0.2",
+    "fastify-plugin": "~5"
   },
   "devDependencies": {
-    "fastify": "^4.5"
+    "fastify": "~5.2"
   }
 }

@@ -1,6 +1,0 @@
-test-regex: .+\.test.ts$
-ts: true
-jobs: 5
-reporter-arg: spec
-bail: true
-coverage: false

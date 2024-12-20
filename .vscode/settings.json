@@ -1,11 +1,11 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.fixAll.stylelint": true
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
   },
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
-  "editor.renderFinalNewline": true,
+  "editor.renderFinalNewline": "on",
   "editor.multiCursorModifier": "alt",
   "files.autoSave": "onFocusChange",
   "files.eol": "\n",
