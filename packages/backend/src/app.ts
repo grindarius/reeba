@@ -15,7 +15,7 @@ import jwt from '@reeba/fastify-check-jwt'
 import endpoints from '@reeba/fastify-frontend-endpoints-generator'
 import geocoder from '@reeba/fastify-local-reverse-geocoder'
 
-import routes from './routes'
+import * as routes from './routes/index.js'
 
 dotenv.config({
   path: resolve(__dirname, '..'),

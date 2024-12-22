@@ -1,21 +1,22 @@
 import dotenv from 'dotenv-flow'
 import { resolve } from 'node:path'
-import t from 'tap'
+
+import { describe, test, expect, beforeAll, afterAll } from 'vitest'
 
 import { t_user_role } from '@reeba/common'
 
-import createServer from '../../src/app'
-import client from '../pool'
+import createServer from '../../src/app.js'
+import client from '../pool.js'
 
 dotenv.config({
   path: resolve(__dirname, '..', '..'),
   silent: true
 })
 
-void t.test('get user test', async t => {
+describe('get user test', async t => {
   const app = createServer()
 
-  t.teardown(async () => {
+  afterAll(async () => {
     await app.close()
   })
 

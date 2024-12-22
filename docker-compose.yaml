@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: groonga/pgroonga:latest-alpine-16
+    container_name: reeba-postgres-server
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.d:/docker-entrypoint-initdb.d
+    ports:
+      - 8384:5432
+    environment:
+      - POSTGRES_DB=reeba
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  google-cloud-storage:
+    image: fsouza/fake-gcs-server:latest
+    container_name: reeba-google-cloud-storage
+    ports:
+      - 4443:4443
+    command: [ "-scheme", "http", "-port", "4443" ]
+    volumes:
+      - ./packages/backend/uploads/:/data/reeba-assets/
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:4443/storage/v1/b/"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:

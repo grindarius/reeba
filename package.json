@@ -44,7 +44,7 @@
     "@biomejs/biome": "^1.9.4",
     "@types/node": "^22.10.2",
     "cross-env": "^7.0.3",
-    "nodemon": "^3.1.9",
+    "tsx": "^4.19.2",
     "typescript": "~5.5",
     "vitest": "^2.1.8"
   }
