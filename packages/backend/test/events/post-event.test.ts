@@ -794,7 +794,7 @@ void t.test('post event', async t => {
         payload: perfectEvent
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
       t.type(response.json().eventId, 'string')
     } catch (error) {
       t.error(error)

@@ -1,4 +1,4 @@
-import t from 'tap'
+import { test, expect } from 'vitest'
 
 import { EventTags, normalizeTag, numberToLetters } from '../src/index.js'
 
@@ -20,20 +20,17 @@ const tags: Array<[EventTags, string]> = [
   ['Variety', 'variety']
 ]
 
-void t.test('string normalizer', t => {
-  t.plan(1)
-  t.strictSame(tags.map(x => normalizeTag(x[0])), tags.map(x => x[1]))
+test('string normalizer', t => {
+  expect(tags.map(x => normalizeTag(x[0]))).toEqual( tags.map(x => x[1]))
 })
 
-void t.test('number to letters', (t) => {
-  t.plan(5)
+test('number to letters', (t) => {
+  expect(numberToLetters(0)).toEqual( 'A')
+  expect(numberToLetters(5)).toEqual( 'F')
+  expect(numberToLetters(25)).toEqual( 'Z')
+  expect(numberToLetters(26)).toEqual('AA')
 
-  t.strictSame(numberToLetters(0), 'A')
-  t.strictSame(numberToLetters(5), 'F')
-  t.strictSame(numberToLetters(25), 'Z')
-  t.strictSame(numberToLetters(26), 'AA')
-
-  t.throws(() => {
+  expect(() => {
     numberToLetters(-1)
-  }, 'property \'position\' cannot be less than 0')
+  }).toThrowError('property \'position\' cannot be less than 0')
 })

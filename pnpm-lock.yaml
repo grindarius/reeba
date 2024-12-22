@@ -90,6 +90,9 @@ importers:
         specifier: ^1.5.1
         version: 1.5.4
     devDependencies:
+      '@tsconfig/node22':
+        specifier: ^22.0.0
+        version: 22.0.0
       '@types/dotenv-flow':
         specifier: ^3.2.0
         version: 3.3.3
@@ -126,6 +129,10 @@ importers:
       '@sinclair/typebox':
         specifier: ^0.34.12
         version: 0.34.12
+    devDependencies:
+      '@tsconfig/node22':
+        specifier: ^22.0.0
+        version: 22.0.0
 
   packages/fastify-check-jwt:
     dependencies:

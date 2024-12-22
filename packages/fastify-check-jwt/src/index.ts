@@ -17,5 +17,5 @@ const plugin: FastifyPluginAsync<FastifyJWTOptions> = async (instance, opts) => 
 
 export default fp(plugin, {
   name: 'fastify-check-jwt',
-  fastify: '4.x'
+  fastify: '5.x'
 })

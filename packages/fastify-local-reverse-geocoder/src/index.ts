@@ -18,5 +18,5 @@ const plugin: FastifyPluginAsync<CreateRevGeocoderOptions> = async (instance, op
 
 export default fp(plugin, {
   name: 'fastify-local-reverse-geocoder',
-  fastify: '4.x'
+  fastify: '5.x'
 })

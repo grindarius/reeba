@@ -41,7 +41,7 @@ void t.test('get user test', async t => {
       })
 
       t.strictSame(response.json().username, 'sansastark')
-      t.strictSame(response.json().verificationStatus, false)
+      expect(response.json().verificationStatus).toEqual( false)
       t.strictSame(response.json().socialMedias, {
         facebook: '',
         instagram: '',
@@ -51,10 +51,10 @@ void t.test('get user test', async t => {
         website: ''
       })
       t.strictSame(response.json().profileDescription, 'I am Arya Stark\'s older sister.')
-      t.strictSame(response.json().eventsCreatedAmount, undefined)
-      t.strictSame(response.json().eventsAttendedAmount, undefined)
-      t.strictSame(response.json().isAdmin, true)
-      t.strictSame(response.json().followersAmount, 0)
+      expect(response.json().eventsCreatedAmount).toEqual( undefined)
+      expect(response.json().eventsAttendedAmount).toEqual( undefined)
+      expect(response.json().isAdmin).toEqual( true)
+      expect(response.json().followersAmount).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -71,7 +71,7 @@ void t.test('get user test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'params should have required property \'username\'')
     } catch (error) {
       t.error(error)
@@ -89,7 +89,7 @@ void t.test('get user test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 404)
+      expect(response.statusCode).toEqual( 404)
       t.strictSame(response.json().message, 'user not found')
     } catch (error) {
       t.error(error)
@@ -117,8 +117,8 @@ void t.test('get user test', async t => {
       })
 
       t.strictSame(response.json().username, 'aryastark')
-      t.strictSame(response.json().verificationStatus, true)
-      t.strictSame(response.json().isAdmin, false)
+      expect(response.json().verificationStatus).toEqual( true)
+      expect(response.json().isAdmin).toEqual( false)
       t.strictSame(response.json().socialMedias, {
         facebook: '',
         instagram: '',
@@ -128,9 +128,9 @@ void t.test('get user test', async t => {
         website: ''
       })
       t.strictSame(response.json().profileDescription, 'I am Sansa Stark\'s youger sister.')
-      t.strictSame(response.json().eventsCreatedAmount, undefined)
-      t.strictSame(response.json().eventsAttendedAmount, undefined)
-      t.strictSame(response.json().followersAmount, 0)
+      expect(response.json().eventsCreatedAmount).toEqual( undefined)
+      expect(response.json().eventsAttendedAmount).toEqual( undefined)
+      expect(response.json().followersAmount).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -150,8 +150,8 @@ void t.test('get user test', async t => {
       })
 
       t.strictSame(response.json().username, 'aryastark')
-      t.strictSame(response.json().verificationStatus, true)
-      t.strictSame(response.json().isAdmin, true)
+      expect(response.json().verificationStatus).toEqual( true)
+      expect(response.json().isAdmin).toEqual( true)
       t.strictSame(response.json().socialMedias, {
         facebook: '',
         instagram: '',
@@ -161,9 +161,9 @@ void t.test('get user test', async t => {
         website: ''
       })
       t.strictSame(response.json().profileDescription, 'I am Sansa Stark\'s youger sister.')
-      t.strictSame(response.json().eventsCreatedAmount, undefined)
-      t.strictSame(response.json().eventsAttendedAmount, undefined)
-      t.strictSame(response.json().followersAmount, 0)
+      expect(response.json().eventsCreatedAmount).toEqual( undefined)
+      expect(response.json().eventsAttendedAmount).toEqual( undefined)
+      expect(response.json().followersAmount).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -184,8 +184,8 @@ void t.test('get user test', async t => {
       })
 
       t.strictSame(response.json().username, 'aryastark')
-      t.strictSame(response.json().verificationStatus, true)
-      t.strictSame(response.json().isAdmin, false)
+      expect(response.json().verificationStatus).toEqual( true)
+      expect(response.json().isAdmin).toEqual( false)
       t.strictSame(response.json().socialMedias, {
         facebook: '',
         instagram: '',
@@ -195,9 +195,9 @@ void t.test('get user test', async t => {
         website: ''
       })
       t.strictSame(response.json().profileDescription, 'I am Sansa Stark\'s youger sister.')
-      t.strictSame(response.json().eventsCreatedAmount, undefined)
-      t.strictSame(response.json().eventsAttendedAmount, undefined)
-      t.strictSame(response.json().followersAmount, 0)
+      expect(response.json().eventsCreatedAmount).toEqual( undefined)
+      expect(response.json().eventsAttendedAmount).toEqual( undefined)
+      expect(response.json().followersAmount).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()

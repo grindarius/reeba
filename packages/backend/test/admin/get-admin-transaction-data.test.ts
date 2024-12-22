@@ -60,7 +60,7 @@ void t.test('getting transaction data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 403)
+      expect(response.statusCode).toEqual( 403)
       t.strictSame(response.json().message, 'forbidden')
     } catch (error) {
       t.error(error)
@@ -81,7 +81,7 @@ void t.test('getting transaction data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -102,7 +102,7 @@ void t.test('getting transaction data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -123,7 +123,7 @@ void t.test('getting transaction data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -144,7 +144,7 @@ void t.test('getting transaction data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -165,7 +165,7 @@ void t.test('getting transaction data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -186,7 +186,7 @@ void t.test('getting transaction data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -207,7 +207,7 @@ void t.test('getting transaction data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
     } catch (error) {
       t.error(error)
       t.fail()

@@ -1,5 +1,4 @@
-import t from 'tap'
-
+import { expect, test } from 'vitest'
 import { groupBy } from '../src/utils/index.js'
 
 type Fruit = 'orange' | 'banana' | 'grape'
@@ -85,8 +84,7 @@ const answer: Record<Fruit, Array<TestSubject>> = {
   ]
 }
 
-void t.test('groupBy', async t => {
+test('groupBy', async t => {
   const grouped = groupBy(testArray, t => t.type)
-
-  t.same(grouped, answer)
+  expect(grouped).toEqual(answer)
 })

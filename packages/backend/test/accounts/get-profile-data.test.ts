@@ -49,7 +49,7 @@ void t.test('get profile data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'params should have required property \'username\'')
     } catch (error) {
       t.error(error)
@@ -67,7 +67,7 @@ void t.test('get profile data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 404)
+      expect(response.statusCode).toEqual( 404)
       t.strictSame(response.json().message, 'user not found')
     } catch (error) {
       t.error(error)

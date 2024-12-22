@@ -301,7 +301,7 @@ void t.test('get individual event', async t => {
         url: '/events/unknown_event_id'
       })
 
-      t.strictSame(response.statusCode, 404)
+      expect(response.statusCode).toEqual( 404)
       t.strictSame(response.json().message, 'event not found')
     } catch (error) {
       t.error(error)
@@ -316,7 +316,7 @@ void t.test('get individual event', async t => {
         url: '/events/'
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'params should have required property \'eventId\'')
     } catch (error) {
       t.error(error)

@@ -59,7 +59,7 @@ void t.test('jwt check test', async t => {
         }
       })
 
-      t.strictSame(responseSuccess.statusCode, 200)
+      expect(responseSuccess.statusCode).toEqual( 200)
       t.strictSame(responseSuccess.json().user.username, 'decoratortest')
       t.strictSame(responseSuccess.json().user.role, 'user')
     } catch (error) {
@@ -78,7 +78,7 @@ void t.test('jwt check test', async t => {
         }
       })
 
-      t.strictSame(responseError.statusCode, 401)
+      expect(responseError.statusCode).toEqual( 401)
       t.strictSame(responseError.json().message, 'Authorization token expired')
     } catch (error) {
       t.error(error)

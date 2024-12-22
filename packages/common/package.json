@@ -24,5 +24,8 @@
   },
   "dependencies": {
     "@sinclair/typebox": "^0.34.12"
+  },
+  "devDependencies": {
+    "@tsconfig/node22": "^22.0.0"
   }
 }

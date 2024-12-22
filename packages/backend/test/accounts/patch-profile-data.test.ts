@@ -56,7 +56,7 @@ void t.test('patch profile data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'params should have required property \'username\'')
     } catch (error) {
       t.error(error)
@@ -80,7 +80,7 @@ void t.test('patch profile data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'email\'')
     } catch (error) {
       t.error(error)
@@ -104,7 +104,7 @@ void t.test('patch profile data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'password\'')
     } catch (error) {
       t.error(error)
@@ -128,7 +128,7 @@ void t.test('patch profile data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'phoneCountryCode\'')
     } catch (error) {
       t.error(error)
@@ -152,7 +152,7 @@ void t.test('patch profile data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'phoneNumber\'')
     } catch (error) {
       t.error(error)
@@ -176,7 +176,7 @@ void t.test('patch profile data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'birthdate\'')
     } catch (error) {
       t.error(error)
@@ -201,7 +201,7 @@ void t.test('patch profile data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'invalid \'email\' format')
     } catch (error) {
       t.error(error)
@@ -226,7 +226,7 @@ void t.test('patch profile data', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'invalid \'phoneNumber\' format')
     } catch (error) {
       t.error(error)

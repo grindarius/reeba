@@ -148,7 +148,7 @@ void t.test('signin process', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 404)
+      expect(response.statusCode).toEqual( 404)
       t.strictSame(response.json().message, 'user with supplied \'email\' not found')
     } catch (error) {
       t.error(error)

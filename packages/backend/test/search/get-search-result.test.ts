@@ -206,9 +206,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 0)
-      t.strictSame(response.json().users.length, 0)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 0)
+      expect(response.json().users.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -225,9 +225,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 1)
-      t.strictSame(response.json().users.length, 0)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 1)
+      expect(response.json().users.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -245,9 +245,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 1)
-      t.strictSame(response.json().users.length, 0)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 1)
+      expect(response.json().users.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -265,9 +265,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 0)
-      t.strictSame(response.json().users.length, 0)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 0)
+      expect(response.json().users.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -286,9 +286,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 0)
-      t.strictSame(response.json().users.length, 0)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 0)
+      expect(response.json().users.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -307,9 +307,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 0)
-      t.strictSame(response.json().users.length, 0)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 0)
+      expect(response.json().users.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -327,9 +327,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 0)
-      t.strictSame(response.json().users.length, 0)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 0)
+      expect(response.json().users.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -347,9 +347,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 1)
-      t.strictSame(response.json().users.length, 0)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 1)
+      expect(response.json().users.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -367,9 +367,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 0)
-      t.strictSame(response.json().users.length, 0)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 0)
+      expect(response.json().users.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -388,9 +388,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 1)
-      t.strictSame(response.json().users.length, 0)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 1)
+      expect(response.json().users.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -409,9 +409,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 1)
-      t.strictSame(response.json().users.length, 0)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 1)
+      expect(response.json().users.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -430,9 +430,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 0)
-      t.strictSame(response.json().users.length, 0)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 0)
+      expect(response.json().users.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -450,9 +450,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 0)
-      t.strictSame(response.json().users.length, 1)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 0)
+      expect(response.json().users.length).toEqual( 1)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -471,9 +471,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 0)
-      t.strictSame(response.json().users.length, 0)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 0)
+      expect(response.json().users.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -491,9 +491,9 @@ void t.test('search function test', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json().events.length, 0)
-      t.strictSame(response.json().users.length, 0)
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json().events.length).toEqual( 0)
+      expect(response.json().users.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()

@@ -1,5 +1,4 @@
 import dayjs from 'dayjs'
-import t from 'tap'
 
 import { numberToLetters } from '@reeba/common'
 
@@ -185,7 +184,7 @@ void t.test('getting list of user tickets', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -202,7 +201,7 @@ void t.test('getting list of user tickets', async t => {
         }
       })
 
-      t.strictSame(response.json(), { events: [] })
+      expect(response.json()).toEqual( { events: [] })
     } catch (error) {
       t.error(error)
       t.fail()
@@ -219,7 +218,7 @@ void t.test('getting list of user tickets', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
 
       const checks = await client.query(
         `select

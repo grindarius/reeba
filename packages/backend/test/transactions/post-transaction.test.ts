@@ -187,7 +187,7 @@ void t.test('transaction creation route', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'eventId\'')
     } catch (error) {
       t.error(error)
@@ -210,7 +210,7 @@ void t.test('transaction creation route', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'eventId\'')
     } catch (error) {
       t.error(error)
@@ -234,7 +234,7 @@ void t.test('transaction creation route', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'datetimeId\'')
     } catch (error) {
       t.error(error)
@@ -257,7 +257,7 @@ void t.test('transaction creation route', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'datetimeId\'')
     } catch (error) {
       t.error(error)
@@ -281,7 +281,7 @@ void t.test('transaction creation route', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'sectionId\'')
     } catch (error) {
       t.error(error)
@@ -304,7 +304,7 @@ void t.test('transaction creation route', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'sectionId\'')
     } catch (error) {
       t.error(error)
@@ -327,7 +327,7 @@ void t.test('transaction creation route', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'seatIds\'')
     } catch (error) {
       t.error(error)
@@ -351,7 +351,7 @@ void t.test('transaction creation route', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'wrong \'seatIds\' format')
     } catch (error) {
       t.error(error)
@@ -375,7 +375,7 @@ void t.test('transaction creation route', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'seatIds\'')
     } catch (error) {
       t.error(error)
@@ -399,7 +399,7 @@ void t.test('transaction creation route', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'no seatIds available after it\'s filtered for empty string')
     } catch (error) {
       t.error(error)
@@ -439,7 +439,7 @@ void t.test('transaction creation route', async t => {
         }
       })
 
-      t.strictSame(lateGuyResponse.statusCode, 400)
+      expect(lateGuyResponse.statusCode).toEqual( 400)
       t.strictSame(lateGuyResponse.json<{ message: string }>().message.split(':')[1].split(',').map(s => s.trim()).sort(), submittedEvent.rows.slice(0, 2).map(r => r.event_seat_id).sort())
     } catch (error) {
       t.error(error)
@@ -459,7 +459,7 @@ void t.test('transaction creation route', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'params should have required property \'transactionId\'')
     } catch (error) {
       t.error(error)
@@ -477,7 +477,7 @@ void t.test('transaction creation route', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 404)
+      expect(response.statusCode).toEqual( 404)
       t.strictSame(response.json().message, 'transaction not found')
     } catch (error) {
       t.error(error)
@@ -495,7 +495,7 @@ void t.test('transaction creation route', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -509,7 +509,7 @@ void t.test('transaction creation route', async t => {
         url: `/transactions/${transactionId.rows[0].transaction_id as string}/pdf`
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -523,7 +523,7 @@ void t.test('transaction creation route', async t => {
         url: `/transactions/${'3948483'}/pdf`
       })
 
-      t.strictSame(response.statusCode, 404)
+      expect(response.statusCode).toEqual( 404)
       t.strictSame(response.json().message, 'transaction not found')
     } catch (error) {
       t.error(error)

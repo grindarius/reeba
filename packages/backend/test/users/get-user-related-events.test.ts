@@ -1,7 +1,7 @@
 import dotenv from 'dotenv-flow'
 import { nanoid } from 'nanoid'
 import { resolve } from 'node:path'
-import t from 'tap'
+import { afterAll, beforeAll, expect, test } from 'vitest'
 
 import createServer from '../../src/app'
 import client from '../pool'
@@ -172,13 +172,14 @@ const ev = {
   ]
 }
 
-void t.test('get user related events', async t => {
+test('get user related events', async () => {
   const app = createServer()
 
-  t.teardown(async () => {
+  afterAll(async () => {
     await app.close()
   })
 
+  beforeAll(async () => {
   await client.query('delete from "events" where user_username = $1', ['relatedevents'])
   await client.query('delete from "users" where user_username = $1', ['relatedevents'])
 
@@ -241,9 +242,18 @@ void t.test('get user related events', async t => {
     'insert into "transaction_details" (event_seat_id, transaction_id) values ($1, $2)',
     [seatIds.rows[0].event_seat_id, tid.rows[0].transaction_id]
   )
+  })
 
-  void t.test('no username', async t => {
-    try {
+  test('no username', async t => {
+  const aryaToken = await app.inject({
+    method: 'post',
+    url: '/auth/signin',
+    payload: {
+      email: 'aryastark@gmail.com',
+      password: 'aryastark'
+    }
+  })
+
       const response = await app.inject({
         method: 'get',
         url: '/users//events',
@@ -252,16 +262,19 @@ void t.test('get user related events', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
-      t.strictSame(response.json().message, 'params should have required property \'username\'')
-    } catch (error) {
-      t.error(error)
-      t.fail()
-    }
+      expect(response.statusCode).toEqual( 400)
+      expect(response.json().message).toEqual( 'params should have required property \'username\'')
   })
 
-  void t.test('unknown username', async t => {
-    try {
+  test('unknown username', async () => {
+  const aryaToken = await app.inject({
+    method: 'post',
+    url: '/auth/signin',
+    payload: {
+      email: 'aryastark@gmail.com',
+      password: 'aryastark'
+    }
+  })
       const response = await app.inject({
         method: 'get',
         url: '/users/asdfcsdfe/events',
@@ -270,16 +283,11 @@ void t.test('get user related events', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 404)
-      t.strictSame(response.json().message, 'User not found')
-    } catch (error) {
-      t.error(error)
-      t.fail()
-    }
+      expect(response.statusCode).toEqual( 404)
+      expect(response.json().message).toEqual( 'User not found')
   })
 
-  void t.test('get user data', async t => {
-    try {
+  test('get user data', async () => {
       const resp = await app.inject({
         method: 'get',
         url: '/users/aryastark/events',
@@ -288,15 +296,11 @@ void t.test('get user related events', async t => {
         }
       })
 
-      t.strictSame(resp.json().created.length, 0)
-      t.strictSame(resp.json().attended.length, 1)
-    } catch (error) {
-      t.error(error)
-      t.fail()
-    }
+      expect(resp.json().created.length).toEqual( 0)
+      expect(resp.json().attended.length).toEqual( 1)
   })
 
-  void t.test('get user data for who creates the event', async t => {
+  test('get user data for who creates the event', async () => {
     try {
       const response = await app.inject({
         method: 'get',
@@ -306,8 +310,8 @@ void t.test('get user related events', async t => {
         }
       })
 
-      t.strictSame(response.json().created.length, 1)
-      t.strictSame(response.json().attended.length, 0)
+      expect(response.json().created.length).toEqual( 1)
+      expect(response.json().attended.length).toEqual( 0)
     } catch (error) {
       t.error(error)
       t.fail()

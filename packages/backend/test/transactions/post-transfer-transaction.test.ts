@@ -250,7 +250,7 @@ void t.test('transferring a ticket to a user', async t => {
         payload: {}
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'username\'')
     } catch (error) {
       t.error(error)
@@ -271,7 +271,7 @@ void t.test('transferring a ticket to a user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 404)
+      expect(response.statusCode).toEqual( 404)
       t.strictSame(response.json().message, 'username to transfer to not found')
     } catch (error) {
       t.error(error)
@@ -292,7 +292,7 @@ void t.test('transferring a ticket to a user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 404)
+      expect(response.statusCode).toEqual( 404)
       t.strictSame(response.json().message, 'event related to transactionId not found')
     } catch (error) {
       t.error(error)
@@ -313,7 +313,7 @@ void t.test('transferring a ticket to a user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -333,7 +333,7 @@ void t.test('transferring a ticket to a user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'this user already had a ticket for this event')
     } catch (error) {
       t.error(error)

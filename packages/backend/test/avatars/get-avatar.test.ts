@@ -61,8 +61,8 @@ void t.test('get image', async t => {
       })
 
       Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, '..', '..', 'uploads', 'default-user-profile.png'))).onComplete((result) => {
-        t.strictSame(result.isSameDimensions, true)
-        t.strictSame(Number(result.misMatchPercentage), 0)
+        expect(result.isSameDimensions).toEqual( true)
+        expect(Number(result.misMatchPercentage)).toEqual( 0)
       })
     } catch (error) {
       t.error(error)
@@ -79,8 +79,8 @@ void t.test('get image', async t => {
 
       Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, '..', '..', 'uploads', 'default-user-profile.png')))
         .onComplete(result => {
-          t.strictSame(result.isSameDimensions, true)
-          t.strictSame(Number(result.misMatchPercentage), 0)
+          expect(result.isSameDimensions).toEqual( true)
+          expect(Number(result.misMatchPercentage)).toEqual( 0)
         })
     } catch (error) {
       t.error(error)
@@ -97,8 +97,8 @@ void t.test('get image', async t => {
 
       Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, 'test-get-avatar.png')))
         .onComplete(result => {
-          t.strictSame(result.isSameDimensions, true)
-          t.strictSame(Number(result.misMatchPercentage), 0)
+          expect(result.isSameDimensions).toEqual( true)
+          expect(Number(result.misMatchPercentage)).toEqual( 0)
         })
     } catch (error) {
       t.error(error)
@@ -132,8 +132,8 @@ void t.test('get image', async t => {
 
       Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, '..', '..', 'uploads', 'default-user-profile.png')))
         .onComplete(result => {
-          t.strictSame(result.isSameDimensions, true)
-          t.strictSame(Number(result.misMatchPercentage), 0)
+          expect(result.isSameDimensions).toEqual( true)
+          expect(Number(result.misMatchPercentage)).toEqual( 0)
         })
     } catch (error) {
       t.error(error)
@@ -151,8 +151,8 @@ void t.test('get image', async t => {
 
       Resemble(response.rawPayload).compareTo(readFileSync(resolve(__dirname, '..', '..', 'uploads', 'default-user-profile.png')))
         .onComplete(result => {
-          t.strictSame(result.isSameDimensions, true)
-          t.strictSame(Number(result.misMatchPercentage), 0)
+          expect(result.isSameDimensions).toEqual( true)
+          expect(Number(result.misMatchPercentage)).toEqual( 0)
         })
     } catch (error) {
       t.error(error)

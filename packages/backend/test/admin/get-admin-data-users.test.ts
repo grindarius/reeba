@@ -60,7 +60,7 @@ void t.test('getting admin data about user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 403)
+      expect(response.statusCode).toEqual( 403)
       t.strictSame(response.json().message, 'forbidden')
     } catch (error) {
       t.error(error)
@@ -78,7 +78,7 @@ void t.test('getting admin data about user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
       t.not(response.json().users.length, 0)
     } catch (error) {
       t.error(error)
@@ -100,7 +100,7 @@ void t.test('getting admin data about user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
       t.not(response.json().users.length, 0)
     } catch (error) {
       t.error(error)
@@ -122,7 +122,7 @@ void t.test('getting admin data about user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
       t.not(response.json().users.length, 0)
     } catch (error) {
       t.error(error)
@@ -144,7 +144,7 @@ void t.test('getting admin data about user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
       t.not(response.json().users.length, 0)
     } catch (error) {
       t.error(error)
@@ -166,7 +166,7 @@ void t.test('getting admin data about user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
       t.equal(response.json().users.length, 0)
     } catch (error) {
       t.error(error)

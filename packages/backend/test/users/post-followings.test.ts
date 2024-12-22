@@ -58,7 +58,7 @@ void t.test('following and unfollowing user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'body should have required property \'anotherUsername\'')
     } catch (error) {
       t.error(error)
@@ -79,7 +79,7 @@ void t.test('following and unfollowing user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
       t.strictSame(response.json().message, 'one of the users does not exist')
     } catch (error) {
       t.error(error)
@@ -100,8 +100,8 @@ void t.test('following and unfollowing user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json(), { isFollowingCurrentUser: true })
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json()).toEqual( { isFollowingCurrentUser: true })
     } catch (error) {
       t.error(error)
       t.fail()
@@ -121,8 +121,8 @@ void t.test('following and unfollowing user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json(), { isFollowingCurrentUser: false })
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json()).toEqual( { isFollowingCurrentUser: false })
     } catch (error) {
       t.error(error)
       t.fail()
@@ -142,8 +142,8 @@ void t.test('following and unfollowing user', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
-      t.strictSame(response.json(), { isFollowingCurrentUser: true })
+      expect(response.statusCode).toEqual( 200)
+      expect(response.json()).toEqual( { isFollowingCurrentUser: true })
     } catch (error) {
       t.error(error)
       t.fail()

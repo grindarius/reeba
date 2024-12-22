@@ -157,7 +157,7 @@ void t.test('getting events data for admin', async t => {
       })
 
       t.strictSame(response.json().message, 'forbidden')
-      t.strictSame(response.statusCode, 403)
+      expect(response.statusCode).toEqual( 403)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -178,7 +178,7 @@ void t.test('getting events data for admin', async t => {
       })
 
       t.strictSame(response.json().message, 'body should have required property \'targetStatus\'')
-      t.strictSame(response.statusCode, 400)
+      expect(response.statusCode).toEqual( 400)
     } catch (error) {
       t.error(error)
       t.fail()
@@ -198,7 +198,7 @@ void t.test('getting events data for admin', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 404)
+      expect(response.statusCode).toEqual( 404)
       t.strictSame(response.json().message, 'event not found')
     } catch (error) {
       t.error(error)
@@ -219,7 +219,7 @@ void t.test('getting events data for admin', async t => {
         }
       })
 
-      t.strictSame(response.statusCode, 200)
+      expect(response.statusCode).toEqual( 200)
       t.strictSame(response.json().message, 'complete')
     } catch (error) {
       t.error(error)
