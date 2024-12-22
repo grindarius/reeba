@@ -9,7 +9,7 @@ dotenv.config({
   silent: true,
 })
 
-describe("signin process", async t => {
+describe("signin process", async () => {
   const app = createServer()
 
   afterAll(async () => {
@@ -126,82 +126,64 @@ describe("signin process", async t => {
     })
 
     expect(response.statusCode, "Success code from success signin").toEqual(200)
+
+    const json = response.json()
     expect(
-      response.json().token,
+      json.token,
       "Error message from missing email as missing params",
     ).toBeTypeOf("string")
-    expect(response.json().username, "Return type of username").toBeTypeOf(
-      "string",
+    expect(json.username, "Return type of username").toBeTypeOf("string")
+    expect(json, "Username returned from registering").toHaveProperty(
+      "username",
+      "login_test_body",
     )
     expect(
-      response.json().username,
-      "Username returned from registering",
-    ).toEqual("login_test_boy")
-    expect(
-      ["admin", "organizer", "user"].includes(response.json().role),
-      true,
+      ["admin", "organizer", "user"],
       "User role should be one in user roles",
-    )
-    t.type(
-      response.json().verificationStatus,
+    ).toContain(json.role)
+
+    expect(json.verificationStatus, "Type of verification status").toBeTypeOf(
       "boolean",
-      "Type of verification status",
+    )
+    expect(json, "Email of current logged in user").toHaveProperty(
+      "email",
+      "logintest@gmail.com",
+    )
+  })
+
+  test("email not found", async () => {
+    const response = await app.inject({
+      method: "POST",
+      url: "/auth/signin",
+      payload: {
+        email: "wronglogintest@gmail.com",
+        password: "logintest_123",
+      },
+    })
+
+    expect(response.statusCode).toEqual(404)
+    expect(response.json()).toHaveProperty(
+      "email",
+      "user with supplied 'email' not found",
+    )
+  })
+
+  test("wrong password", async () => {
+    const response = await app.inject({
+      method: "POST",
+      url: "/auth/signin",
+      payload: {
+        email: "logintest@gmail.com",
+        password: "wrongpassword",
+      },
+    })
+
+    expect(response.statusCode, "response status of wrong password").toEqual(
+      400,
     )
     expect(
-      response.json().email,
-      "logintest@gmail.com",
-      "Email of current logged in user",
-    )
+      response.json(),
+      "response message of wrong password",
+    ).toHaveProperty("message", "invalid 'password'")
   })
-
-  test("email not found", async t => {
-    try {
-      const response = await app.inject({
-        method: "POST",
-        url: "/auth/signin",
-        payload: {
-          email: "wronglogintest@gmail.com",
-          password: "logintest_123",
-        },
-      })
-
-      expect(response.statusCode).toEqual(404)
-      t.strictSame(
-        response.json().message,
-        "user with supplied 'email' not found",
-      )
-    } catch (error) {
-      t.error(error)
-      t.fail()
-    }
-  })
-
-  test("wrong password", async t => {
-    try {
-      const response = await app.inject({
-        method: "POST",
-        url: "/auth/signin",
-        payload: {
-          email: "logintest@gmail.com",
-          password: "wrongpassword",
-        },
-      })
-
-      t.strictSame(
-        response.statusCode,
-        400,
-        "response status of wrong password",
-      )
-      t.strictSame(
-        response.json().message,
-        "invalid 'password'",
-        "response message of wrong password",
-      )
-    } catch (error) {
-      t.error(error)
-      t.fail()
-    }
-  })
-
-  t.end()
 })

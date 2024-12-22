@@ -113,7 +113,7 @@ describe("getting admin data about user", async () => {
     expect(response.json().users).not.toHaveLength(0)
   })
 
-  test("page being zero", async t => {
+  test("page being zero", async () => {
     const response = await app.inject({
       method: "get",
       url: "/admin/users",
