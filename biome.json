@@ -28,7 +28,8 @@
       "quoteStyle": "double",
       "quoteProperties": "asNeeded",
       "semicolons": "asNeeded",
-      "arrowParentheses": "asNeeded"
+      "arrowParentheses": "asNeeded",
+      "trailingCommas": "none"
     }
   }
 }

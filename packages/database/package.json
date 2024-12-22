@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@reeba/database",
+  "version": "1.0.0",
+  "description": "Application to store database designs",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grindarius/reeba.git",
+    "directory": "packages/fastify-check-jwt"
+  },
+  "author": "ReebA Team",
+  "devDependencies": {
+    "@tsconfig/node22": "^22.0.0"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.38.2"
+  }
+}
