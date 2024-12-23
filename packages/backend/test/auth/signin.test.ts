@@ -6,7 +6,7 @@ import client from "../pool.js"
 
 dotenv.config({
   path: resolve(__dirname, "..", ".."),
-  silent: true,
+  silent: true
 })
 
 describe("signin process", async () => {
@@ -19,7 +19,7 @@ describe("signin process", async () => {
   beforeAll(async () => {
     // * Looking for existing logged in user, if not. create one.
     const email = await client.query(
-      "select * from \"users\" where user_email = 'logintest@gmail.com'",
+      "select * from \"users\" where user_email = 'logintest@gmail.com'"
     )
 
     if (email.rows.length <= 0) {
@@ -31,8 +31,8 @@ describe("signin process", async () => {
           email: "logintest@gmail.com",
           password: "logintest_123",
           phoneCountryCode: "883",
-          phoneNumber: "33442200",
-        },
+          phoneNumber: "33442200"
+        }
       })
     }
   })
@@ -43,17 +43,17 @@ describe("signin process", async () => {
       url: "/auth/signin",
       payload: {
         email: "",
-        password: "logintest_123",
-      },
+        password: "logintest_123"
+      }
     })
 
     expect(
       response.statusCode,
-      "Error code from missing email as empty string",
+      "Error code from missing email as empty string"
     ).toEqual(400)
     expect(
       response.json().message,
-      "Error message from missing email as empty string",
+      "Error message from missing email as empty string"
     ).toEqual("body should have required property 'email'")
   })
 
@@ -62,17 +62,17 @@ describe("signin process", async () => {
       method: "POST",
       url: "/auth/signin",
       payload: {
-        password: "logintest_123",
-      },
+        password: "logintest_123"
+      }
     })
 
     expect(
       response.statusCode,
-      "Error code from missing email as missing params",
+      "Error code from missing email as missing params"
     ).toEqual(400)
     expect(
       response.json().message,
-      "Error message from missing email as missing params",
+      "Error message from missing email as missing params"
     ).toEqual("body should have required property 'email'")
   })
 
@@ -82,17 +82,17 @@ describe("signin process", async () => {
       url: "/auth/signin",
       payload: {
         email: "logintest@gmail.com",
-        password: "",
-      },
+        password: ""
+      }
     })
 
     expect(
       response.statusCode,
-      "Error code from missing password as missing params",
+      "Error code from missing password as missing params"
     ).toEqual(400)
     expect(
       response.json().message,
-      "Error message from missing password as empty string",
+      "Error message from missing password as empty string"
     ).toEqual("body should have required property 'password'")
   })
 
@@ -101,17 +101,17 @@ describe("signin process", async () => {
       method: "POST",
       url: "/auth/signin",
       payload: {
-        password: "logintest_123",
-      },
+        password: "logintest_123"
+      }
     })
 
     expect(
       response.statusCode,
-      "Error code from missing email as missing params",
+      "Error code from missing email as missing params"
     ).toEqual(400)
     expect(
       response.json().message,
-      "Error message from missing password as missing params",
+      "Error message from missing password as missing params"
     ).toEqual("body should have required property 'email'")
   })
 
@@ -121,8 +121,8 @@ describe("signin process", async () => {
       url: "/auth/signin",
       payload: {
         email: "logintest@gmail.com",
-        password: "logintest_123",
-      },
+        password: "logintest_123"
+      }
     })
 
     expect(response.statusCode, "Success code from success signin").toEqual(200)
@@ -130,24 +130,24 @@ describe("signin process", async () => {
     const json = response.json()
     expect(
       json.token,
-      "Error message from missing email as missing params",
+      "Error message from missing email as missing params"
     ).toBeTypeOf("string")
     expect(json.username, "Return type of username").toBeTypeOf("string")
     expect(json, "Username returned from registering").toHaveProperty(
       "username",
-      "login_test_body",
+      "login_test_body"
     )
     expect(
       ["admin", "organizer", "user"],
-      "User role should be one in user roles",
+      "User role should be one in user roles"
     ).toContain(json.role)
 
     expect(json.verificationStatus, "Type of verification status").toBeTypeOf(
-      "boolean",
+      "boolean"
     )
     expect(json, "Email of current logged in user").toHaveProperty(
       "email",
-      "logintest@gmail.com",
+      "logintest@gmail.com"
     )
   })
 
@@ -157,14 +157,14 @@ describe("signin process", async () => {
       url: "/auth/signin",
       payload: {
         email: "wronglogintest@gmail.com",
-        password: "logintest_123",
-      },
+        password: "logintest_123"
+      }
     })
 
     expect(response.statusCode).toEqual(404)
     expect(response.json()).toHaveProperty(
       "email",
-      "user with supplied 'email' not found",
+      "user with supplied 'email' not found"
     )
   })
 
@@ -174,16 +174,16 @@ describe("signin process", async () => {
       url: "/auth/signin",
       payload: {
         email: "logintest@gmail.com",
-        password: "wrongpassword",
-      },
+        password: "wrongpassword"
+      }
     })
 
     expect(response.statusCode, "response status of wrong password").toEqual(
-      400,
+      400
     )
     expect(
       response.json(),
-      "response message of wrong password",
+      "response message of wrong password"
     ).toHaveProperty("message", "invalid 'password'")
   })
 })

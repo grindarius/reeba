@@ -78,30 +78,33 @@
 </template>
 
 <script lang="ts">
-import * as d3 from 'd3'
-import { FeatureCollection, Geometry } from 'geojson'
-import * as i18nCountries from 'i18n-iso-countries'
-import en from 'i18n-iso-countries/langs/en.json'
-import ky from 'ky'
-import * as topojson from 'topojson-client'
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
+import * as d3 from "d3"
+import { FeatureCollection, Geometry } from "geojson"
+import * as i18nCountries from "i18n-iso-countries"
+import en from "i18n-iso-countries/langs/en.json"
+import ky from "ky"
+import * as topojson from "topojson-client"
+import { computed, defineComponent, onMounted, Ref, ref } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
 
 import {
   GetOrganizerEventStatisticsReply,
   GetOrganizerEventUsersMapReply
-} from '@reeba/common'
+} from "@reeba/common"
 
-import { getOrganizerEventStatisticsEndpoint, getOrganizerEventUsersMapEndpoint } from '@/api/endpoints'
-import countriesJson from '@/assets/world-topo.json'
-import { useAuthStore } from '@/store/use-auth-store'
+import {
+  getOrganizerEventStatisticsEndpoint,
+  getOrganizerEventUsersMapEndpoint
+} from "@/api/endpoints"
+import countriesJson from "@/assets/world-topo.json"
+import { useAuthStore } from "@/store/use-auth-store"
 
 i18nCountries.registerLocale(en)
 
 export default defineComponent({
-  name: 'organizer-tool-statistics',
-  setup () {
+  name: "organizer-tool-statistics",
+  setup() {
     const route = useRoute()
     const router = useRouter()
     const authStore = useAuthStore()
@@ -110,22 +113,39 @@ export default defineComponent({
     const height = 500
 
     const land = ref({}) as Ref<FeatureCollection<Geometry, { name: string }>>
-    const svg = ref() as Ref<d3.Selection<SVGSVGElement, unknown, HTMLElement, unknown>>
-    const projection = ref(d3.geoMercator().scale(100).center([0, 20]).translate([width / 2, height / 2]))
+    const svg = ref() as Ref<
+      d3.Selection<SVGSVGElement, unknown, HTMLElement, unknown>
+    >
+    const projection = ref(
+      d3
+        .geoMercator()
+        .scale(100)
+        .center([0, 20])
+        .translate([width / 2, height / 2])
+    )
     const path = ref(d3.geoPath().projection(projection.value))
 
-    const overviewResponse = ref<GetOrganizerEventStatisticsReply | undefined>(undefined)
-    const usersMapOverviewResponse = ref<GetOrganizerEventUsersMapReply>({ users: [] })
+    const overviewResponse = ref<GetOrganizerEventStatisticsReply | undefined>(
+      undefined
+    )
+    const usersMapOverviewResponse = ref<GetOrganizerEventUsersMapReply>({
+      users: []
+    })
 
-    useMeta(computed(() => {
-      return {
-        title: overviewResponse.value?.name ?? 'Organizer statistics'
-      }
-    }))
+    useMeta(
+      computed(() => {
+        return {
+          title: overviewResponse.value?.name ?? "Organizer statistics"
+        }
+      })
+    )
 
     const getOverviewData = async (): Promise<void> => {
       try {
-        const { method, url } = getOrganizerEventStatisticsEndpoint({ username: authStore.userData.username, eventId: route.params.eventId as string ?? '' })
+        const { method, url } = getOrganizerEventStatisticsEndpoint({
+          username: authStore.userData.username,
+          eventId: (route.params.eventId as string) ?? ""
+        })
 
         const response = await ky(url, {
           method,
@@ -140,27 +160,40 @@ export default defineComponent({
         const resp = error?.response
 
         if (resp.status == null) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
           return
         }
 
         if (resp.status === 401) {
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
           return
         }
 
         if (resp.status === 403) {
-          router.push({ name: 'Home' })
+          router.push({ name: "Home" })
           return
         }
 
-        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        router.push({
+          name: "Not Found",
+          params: { pathMatch: route.path.substring(1).split("/") },
+          query: route.query,
+          hash: route.hash
+        })
       }
     }
 
     const getUserMaps = async (): Promise<void> => {
       try {
-        const { method, url } = getOrganizerEventUsersMapEndpoint({ username: authStore.userData.username, eventId: route.params.eventId as string ?? '' })
+        const { method, url } = getOrganizerEventUsersMapEndpoint({
+          username: authStore.userData.username,
+          eventId: (route.params.eventId as string) ?? ""
+        })
 
         const response = await ky(url, {
           method,
@@ -175,64 +208,78 @@ export default defineComponent({
         const resp = error?.response
 
         if (resp.status == null) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
           return
         }
 
         if (resp.status === 401) {
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
           return
         }
 
         if (resp.status === 403) {
-          router.push({ name: 'Home' })
+          router.push({ name: "Home" })
           return
         }
 
-        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        router.push({
+          name: "Not Found",
+          params: { pathMatch: route.path.substring(1).split("/") },
+          query: route.query,
+          hash: route.hash
+        })
       }
     }
 
     const createWorldMap = (): void => {
-      svg.value = d3.select('div#organizer-world-map')
-        .append('svg')
-        .attr('id', 'organizer-world-map-svg')
-        .attr('viewBox', `0 0 ${width} ${height}`)
+      svg.value = d3
+        .select("div#organizer-world-map")
+        .append("svg")
+        .attr("id", "organizer-world-map-svg")
+        .attr("viewBox", `0 0 ${width} ${height}`)
 
       // @ts-expect-error from how json calculates their type
-      land.value = topojson.feature(countriesJson, countriesJson.objects.countries)
+      land.value = topojson.feature(
+        countriesJson,
+        countriesJson.objects.countries
+      )
       updateWorldMap()
     }
 
     const updateWorldMap = (): void => {
-      svg.value.selectAll('path.world-map-path')
+      svg.value
+        .selectAll("path.world-map-path")
         .data(land.value.features)
-        .join('path')
-        .attr('d', path.value)
-        .attr('class', 'world-map-path')
-        .attr('stroke', '#ddd')
-        .attr('stroke-width', '0.5px')
-        .attr('fill', (d) => {
-          const alpha2 = i18nCountries.numericToAlpha2(d.id ?? '')
+        .join("path")
+        .attr("d", path.value)
+        .attr("class", "world-map-path")
+        .attr("stroke", "#ddd")
+        .attr("stroke-width", "0.5px")
+        .attr("fill", d => {
+          const alpha2 = i18nCountries.numericToAlpha2(d.id ?? "")
 
-          if (alpha2 == null || alpha2 === '') {
-            return '#222'
+          if (alpha2 == null || alpha2 === "") {
+            return "#222"
           }
 
-          const countriesToMap = usersMapOverviewResponse.value.users.find(u => u.country === alpha2)
+          const countriesToMap = usersMapOverviewResponse.value.users.find(
+            u => u.country === alpha2
+          )
           if (countriesToMap == null) {
-            return '#222'
+            return "#222"
           }
 
-          return '#d5a755'
+          return "#d5a755"
         })
     }
 
     onMounted(async () => {
-      await Promise.all([
-        getOverviewData(),
-        getUserMaps()
-      ])
+      await Promise.all([getOverviewData(), getUserMaps()])
 
       createWorldMap()
     })

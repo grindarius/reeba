@@ -127,31 +127,31 @@
 </template>
 
 <script lang="ts">
-import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import ky from "ky"
+import { defineComponent, onMounted, Ref, ref } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
+import { useToast } from "vue-toastification"
 
-import { GetOrganizerEventOrdersReply } from '@reeba/common'
+import { GetOrganizerEventOrdersReply } from "@reeba/common"
 
 import {
   deleteTransactionEndpoint,
   getOrganizerEventOrdersEndpoint
-} from '@/api/endpoints'
-import { useAuthStore } from '@/store/use-auth-store'
-import { formatTimeString } from '@/utils'
+} from "@/api/endpoints"
+import { useAuthStore } from "@/store/use-auth-store"
+import { formatTimeString } from "@/utils"
 
 export default defineComponent({
-  name: 'organizer-tool-orders',
-  setup () {
+  name: "organizer-tool-orders",
+  setup() {
     const authStore = useAuthStore()
     const route = useRoute()
     const router = useRouter()
     const toast = useToast()
 
     useMeta({
-      title: 'Orders'
+      title: "Orders"
     })
 
     const transactionsDataResponse: Ref<GetOrganizerEventOrdersReply> = ref({
@@ -160,7 +160,10 @@ export default defineComponent({
 
     onMounted(async () => {
       try {
-        const { method, url } = getOrganizerEventOrdersEndpoint({ username: authStore.userData.username, eventId: route.params.eventId as string ?? '' })
+        const { method, url } = getOrganizerEventOrdersEndpoint({
+          username: authStore.userData.username,
+          eventId: (route.params.eventId as string) ?? ""
+        })
         const response = await ky(url, {
           method,
           headers: {
@@ -174,21 +177,31 @@ export default defineComponent({
         const resp = error?.response
 
         if (resp.status == null) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
           return
         }
 
         if (resp.status === 401) {
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
           return
         }
 
         if (resp.status === 403) {
-          router.push({ name: 'Home' })
+          router.push({ name: "Home" })
           return
         }
 
-        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        router.push({
+          name: "Not Found",
+          params: { pathMatch: route.path.substring(1).split("/") },
+          query: route.query,
+          hash: route.hash
+        })
       }
     })
 
@@ -203,7 +216,7 @@ export default defineComponent({
           }
         })
 
-        toast.success('Successfully removed')
+        toast.success("Successfully removed")
         setTimeout(() => {
           router.go(0)
         }, 2050)
@@ -212,17 +225,22 @@ export default defineComponent({
         const resp = error?.response
 
         if (resp.status == null) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
           return
         }
 
         if (resp.status === 401) {
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
           return
         }
 
         if (resp.status === 403) {
-          router.push({ name: 'Home' })
+          router.push({ name: "Home" })
           return
         }
 

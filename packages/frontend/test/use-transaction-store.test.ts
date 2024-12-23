@@ -18,7 +18,7 @@ test("useTransactionStore", async () => {
       id: "",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
   })
 
@@ -32,7 +32,7 @@ test("useTransactionStore", async () => {
       id: "",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
     expect(store.currentPrice).toEqual(0)
   })
@@ -48,7 +48,7 @@ test("useTransactionStore", async () => {
       id: "",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
     expect(store.currentPrice).toEqual(0)
   })
@@ -61,7 +61,7 @@ test("useTransactionStore", async () => {
       id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
 
     expect(store.transactionStore.eventId).toEqual("abc")
@@ -70,7 +70,7 @@ test("useTransactionStore", async () => {
       id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
     expect(store.currentPrice).toEqual(0)
   })
@@ -83,7 +83,7 @@ test("useTransactionStore", async () => {
       id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
     store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 500 })
 
@@ -94,8 +94,8 @@ test("useTransactionStore", async () => {
       rowPosition: 0,
       columnPosition: 0,
       seats: new Map<string, TransactionStoreSeat>([
-        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }],
-      ]),
+        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }]
+      ])
     })
     expect(store.currentPrice).toEqual(500)
   })
@@ -108,7 +108,7 @@ test("useTransactionStore", async () => {
       id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
     store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 500 })
     store.setSeat("mno", { rowPosition: 0, columnPosition: 1, price: 500 })
@@ -121,8 +121,8 @@ test("useTransactionStore", async () => {
       columnPosition: 0,
       seats: new Map<string, TransactionStoreSeat>([
         ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }],
-        ["mno", { rowPosition: 0, columnPosition: 1, price: 500 }],
-      ]),
+        ["mno", { rowPosition: 0, columnPosition: 1, price: 500 }]
+      ])
     })
     expect(store.currentPrice).toEqual(500)
   })
@@ -135,7 +135,7 @@ test("useTransactionStore", async () => {
       id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
     store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 500 })
 
@@ -150,8 +150,8 @@ test("useTransactionStore", async () => {
       rowPosition: 0,
       columnPosition: 0,
       seats: new Map<string, TransactionStoreSeat>([
-        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }],
-      ]),
+        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }]
+      ])
     })
     expect(store.currentPrice).toEqual(500)
   })
@@ -164,7 +164,7 @@ test("useTransactionStore", async () => {
       id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
     store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 500 })
     store.setSeat("mno", { rowPosition: 0, columnPosition: 1, price: 500 })
@@ -178,8 +178,8 @@ test("useTransactionStore", async () => {
       rowPosition: 0,
       columnPosition: 0,
       seats: new Map<string, TransactionStoreSeat>([
-        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }],
-      ]),
+        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }]
+      ])
     })
     expect(store.currentPrice).toEqual(500)
   })
@@ -192,7 +192,7 @@ test("useTransactionStore", async () => {
       id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
     store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 500 })
     store.setSeat("mno", { rowPosition: 0, columnPosition: 1, price: 500 })
@@ -205,7 +205,7 @@ test("useTransactionStore", async () => {
       id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
     expect(store.currentPrice).toEqual(0)
   })
@@ -218,7 +218,7 @@ test("useTransactionStore", async () => {
       id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
     store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 500 })
     store.setSeat("mno", { rowPosition: 0, columnPosition: 1, price: 500 })
@@ -231,8 +231,8 @@ test("useTransactionStore", async () => {
       columnPosition: 0,
       seats: new Map<string, TransactionStoreSeat>([
         ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }],
-        ["mno", { rowPosition: 0, columnPosition: 1, price: 500 }],
-      ]),
+        ["mno", { rowPosition: 0, columnPosition: 1, price: 500 }]
+      ])
     })
     expect(store.currentPrice).toEqual(500)
 
@@ -244,7 +244,7 @@ test("useTransactionStore", async () => {
       id: "",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
   })
 
@@ -256,7 +256,7 @@ test("useTransactionStore", async () => {
       id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
     store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 500 })
     store.setSeat("mno", { rowPosition: 0, columnPosition: 1, price: 500 })
@@ -269,8 +269,8 @@ test("useTransactionStore", async () => {
       columnPosition: 0,
       seats: new Map<string, TransactionStoreSeat>([
         ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }],
-        ["mno", { rowPosition: 0, columnPosition: 1, price: 500 }],
-      ]),
+        ["mno", { rowPosition: 0, columnPosition: 1, price: 500 }]
+      ])
     })
     expect(store.currentPrice).toEqual(500)
 
@@ -283,8 +283,8 @@ test("useTransactionStore", async () => {
       rowPosition: 0,
       columnPosition: 0,
       seats: new Map<string, TransactionStoreSeat>([
-        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }],
-      ]),
+        ["jkl", { rowPosition: 0, columnPosition: 0, price: 500 }]
+      ])
     })
     expect(store.currentPrice).toEqual(500)
 
@@ -296,7 +296,7 @@ test("useTransactionStore", async () => {
       id: "ghi",
       rowPosition: 0,
       columnPosition: 0,
-      seats: new Map<string, TransactionStoreSeat>(),
+      seats: new Map<string, TransactionStoreSeat>()
     })
     expect(store.currentPrice).toEqual(0)
   })
@@ -317,7 +317,7 @@ test("useTransactionStore", async () => {
         id: "ghi",
         rowPosition: 0,
         columnPosition: 0,
-        seats: new Map<string, TransactionStoreSeat>(),
+        seats: new Map<string, TransactionStoreSeat>()
       })
     }).toThrowError("cannot set section if eventId or datetimeId is empty")
   })
@@ -328,7 +328,7 @@ test("useTransactionStore", async () => {
     expect(() => {
       store.setSeat("jkl", { rowPosition: 0, columnPosition: 0, price: 1000 })
     }).toThrowError(
-      "cannot set section if eventId or datetimeId or sectionId is empty",
+      "cannot set section if eventId or datetimeId or sectionId is empty"
     )
   })
 })

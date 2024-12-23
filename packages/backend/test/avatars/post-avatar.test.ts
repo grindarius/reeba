@@ -9,7 +9,7 @@ import client from "../pool.js"
 
 dotenv.config({
   path: resolve(__dirname, "..", ".."),
-  silent: true,
+  silent: true
 })
 
 describe("post image", async () => {
@@ -22,7 +22,7 @@ describe("post image", async () => {
   beforeAll(async () => {
     // * Looking for existing logged in user, if not. create one (without image path).
     const email = await client.query(
-      "select * from \"users\" where user_username = 'postavatartest'",
+      "select * from \"users\" where user_username = 'postavatartest'"
     )
 
     if (email.rows.length <= 0) {
@@ -34,8 +34,8 @@ describe("post image", async () => {
           email: "postavatartest@gmail.com",
           password: "postavatartest_123",
           phoneCountryCode: "334",
-          phoneNumber: "4304849384",
-        },
+          phoneNumber: "4304849384"
+        }
       })
     }
   })
@@ -43,27 +43,27 @@ describe("post image", async () => {
   test("passing empty string as username", async () => {
     const response = await app.inject({
       method: "POST",
-      url: "/avatars/",
+      url: "/avatars/"
     })
 
     expect(
       response.statusCode,
-      "status code from posting without username",
+      "status code from posting without username"
     ).toEqual(400)
     expect(response.json().message, "error message").toEqual(
-      "params should have required property 'username'",
+      "params should have required property 'username'"
     )
   })
 
   test("passing unknown username", async () => {
     const response = await app.inject({
       method: "POST",
-      url: "/avatars/unknown_username",
+      url: "/avatars/unknown_username"
     })
 
     expect(
       response.statusCode,
-      "status code from posting without username",
+      "status code from posting without username"
     ).toEqual(404)
     expect(response.json().message, "error message").toEqual("user not found")
   })
@@ -72,19 +72,19 @@ describe("post image", async () => {
     const form = new FormData()
     form.append(
       "image",
-      createReadStream(resolve(__dirname, "test-post-avatar.png")),
+      createReadStream(resolve(__dirname, "test-post-avatar.png"))
     )
 
     const response = await app.inject({
       method: "POST",
       url: "/avatars/postavatartest",
       payload: form,
-      headers: form.getHeaders(),
+      headers: form.getHeaders()
     })
 
     expect(response.statusCode, "status code from posting image").toEqual(200)
     expect(response.json().message, "message from posting image").toEqual(
-      "complete",
+      "complete"
     )
   })
 
@@ -92,23 +92,23 @@ describe("post image", async () => {
     const form = new FormData()
     form.append(
       "image",
-      createReadStream(resolve(__dirname, "unmatched-file-extension.md")),
+      createReadStream(resolve(__dirname, "unmatched-file-extension.md"))
     )
 
     const response = await app.inject({
       method: "POST",
       url: "/avatars/postavatartest",
       payload: form,
-      headers: form.getHeaders(),
+      headers: form.getHeaders()
     })
 
     expect(
       response.statusCode,
-      "status code from posting unmatched file extension",
+      "status code from posting unmatched file extension"
     ).toEqual(400)
     expect(
       response.json().message,
-      "message from posting unmatched file extension",
+      "message from posting unmatched file extension"
     ).toEqual("unmatched file extension")
   })
 })

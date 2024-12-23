@@ -1,9 +1,9 @@
-import dotenv from 'dotenv-flow'
-import { resolve } from 'node:path'
-import { Pool, QueryConfig, QueryResult, QueryResultRow } from 'pg'
+import dotenv from "dotenv-flow"
+import { resolve } from "node:path"
+import { Pool, QueryConfig, QueryResult, QueryResultRow } from "pg"
 
 dotenv.config({
-  path: resolve(__dirname, '..')
+  path: resolve(__dirname, "..")
 })
 
 const pool = new Pool({
@@ -16,11 +16,14 @@ const pool = new Pool({
 })
 
 const client = {
-  query: async <R extends QueryResultRow = any, I extends Array<any> = Array<any>>(text: string | QueryConfig<I>, value?: I): Promise<QueryResult<R>> => {
-    const result = await pool.query<R, I>(
-      text,
-      value
-    )
+  query: async <
+    R extends QueryResultRow = any,
+    I extends Array<any> = Array<any>
+  >(
+    text: string | QueryConfig<I>,
+    value?: I
+  ): Promise<QueryResult<R>> => {
+    const result = await pool.query<R, I>(text, value)
 
     return result
   }

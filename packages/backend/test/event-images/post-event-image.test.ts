@@ -13,7 +13,7 @@ import client from "../pool.js"
 
 dotenv.config({
   path: resolve(__dirname, "..", ".."),
-  silent: true,
+  silent: true
 })
 
 const tagList = [
@@ -31,12 +31,12 @@ const tagList = [
   "seminar",
   "stand-up-comedy",
   "technology",
-  "variety",
+  "variety"
 ]
 
 const mockEvent = async (): Promise<void> => {
   const user = await client.query(
-    "select * from \"users\" where user_username = 'posteventimageuser'",
+    "select * from \"users\" where user_username = 'posteventimageuser'"
   )
 
   if (user.rows.length <= 0) {
@@ -47,8 +47,8 @@ const mockEvent = async (): Promise<void> => {
         "postevenimageuser@gmail.com",
         "posteventimagetest_123",
         "334",
-        "4304849384",
-      ],
+        "4304849384"
+      ]
     )
   }
 
@@ -62,29 +62,29 @@ const mockEvent = async (): Promise<void> => {
     venueName: "LIDO CONNECT HALL 1",
     venueCoordinates: {
       x: "13.74593937535103",
-      y: "100.53257672630755",
+      y: "100.53257672630755"
     },
     openingDate: "2021-03-01T12:00:00.000+07:00",
     tags: ["stand-up-comedy", "fan-meet"],
     ticketPrices: [
       {
         color: "#4C9141",
-        price: 1000,
+        price: 1000
       },
       {
         color: "#C1876B",
-        price: 1500,
-      },
+        price: 1500
+      }
     ],
     datetimes: [
       {
         start: "2021-03-07T20:00:00.000+07:00",
-        end: "2021-03-08T00:00:00.000+07:00",
+        end: "2021-03-08T00:00:00.000+07:00"
       },
       {
         start: "2021-03-08T20:00:00.000+07:00",
-        end: "2021-03-09T00:00:00.000+07:00",
-      },
+        end: "2021-03-09T00:00:00.000+07:00"
+      }
     ],
     minimumAge: 18,
     sections: [
@@ -97,27 +97,27 @@ const mockEvent = async (): Promise<void> => {
               {
                 seatRowPosition: 0,
                 seatColumnPosition: 0,
-                seatPrice: 1500,
+                seatPrice: 1500
               },
               {
                 seatRowPosition: 0,
                 seatColumnPosition: 1,
-                seatPrice: 1500,
-              },
+                seatPrice: 1500
+              }
             ],
             [
               {
                 seatRowPosition: 1,
                 seatColumnPosition: 0,
-                seatPrice: 1000,
+                seatPrice: 1000
               },
               {
                 seatRowPosition: 1,
                 seatColumnPosition: 1,
-                seatPrice: 1000,
-              },
-            ],
-          ],
+                seatPrice: 1000
+              }
+            ]
+          ]
         },
         {
           sectionRowPosition: 0,
@@ -127,28 +127,28 @@ const mockEvent = async (): Promise<void> => {
               {
                 seatRowPosition: 0,
                 seatColumnPosition: 0,
-                seatPrice: 1500,
+                seatPrice: 1500
               },
               {
                 seatRowPosition: 0,
                 seatColumnPosition: 1,
-                seatPrice: 1500,
-              },
+                seatPrice: 1500
+              }
             ],
             [
               {
                 seatRowPosition: 1,
                 seatColumnPosition: 0,
-                seatPrice: 1000,
+                seatPrice: 1000
               },
               {
                 seatRowPosition: 1,
                 seatColumnPosition: 1,
-                seatPrice: 1000,
-              },
-            ],
-          ],
-        },
+                seatPrice: 1000
+              }
+            ]
+          ]
+        }
       ],
       [
         {
@@ -159,27 +159,27 @@ const mockEvent = async (): Promise<void> => {
               {
                 seatRowPosition: 0,
                 seatColumnPosition: 0,
-                seatPrice: 1500,
+                seatPrice: 1500
               },
               {
                 seatRowPosition: 0,
                 seatColumnPosition: 1,
-                seatPrice: 1500,
-              },
+                seatPrice: 1500
+              }
             ],
             [
               {
                 seatRowPosition: 1,
                 seatColumnPosition: 0,
-                seatPrice: 1000,
+                seatPrice: 1000
               },
               {
                 seatRowPosition: 1,
                 seatColumnPosition: 1,
-                seatPrice: 1000,
-              },
-            ],
-          ],
+                seatPrice: 1000
+              }
+            ]
+          ]
         },
         {
           sectionRowPosition: 1,
@@ -189,30 +189,30 @@ const mockEvent = async (): Promise<void> => {
               {
                 seatRowPosition: 0,
                 seatColumnPosition: 0,
-                seatPrice: 1500,
+                seatPrice: 1500
               },
               {
                 seatRowPosition: 0,
                 seatColumnPosition: 1,
-                seatPrice: 1500,
-              },
+                seatPrice: 1500
+              }
             ],
             [
               {
                 seatRowPosition: 1,
                 seatColumnPosition: 0,
-                seatPrice: 1000,
+                seatPrice: 1000
               },
               {
                 seatRowPosition: 1,
                 seatColumnPosition: 1,
-                seatPrice: 1000,
-              },
-            ],
-          ],
-        },
-      ],
-    ],
+                seatPrice: 1000
+              }
+            ]
+          ]
+        }
+      ]
+    ]
   }
   const evClone = { ...ev, eventImagePath: "", id: "posteventemptystring" }
 
@@ -220,7 +220,7 @@ const mockEvent = async (): Promise<void> => {
   for await (const preparedTag of tagList) {
     await client.query(
       "insert into event_tags (event_tag_label) values ($1) on conflict (event_tag_label) do nothing",
-      [preparedTag],
+      [preparedTag]
     )
   }
 
@@ -228,7 +228,7 @@ const mockEvent = async (): Promise<void> => {
     // * this is a user associated with creating event. check if he's there, if not, get him there.
     const isEVExists = await client.query(
       'select * from "events" where event_id = $1',
-      [indivEvent.id],
+      [indivEvent.id]
     )
 
     if (isEVExists.rowCount === 0) {
@@ -265,26 +265,26 @@ const mockEvent = async (): Promise<void> => {
           JSON.stringify(
             indivEvent.ticketPrices.reduce(
               (obj, item) => ((obj[item.color] = item.price), obj),
-              {} as Record<string, number>,
-            ),
+              {} as Record<string, number>
+            )
           ),
           Math.min(...ev.ticketPrices.map(t => t.price)),
           Math.max(...ev.ticketPrices.map(t => t.price)),
-          indivEvent.minimumAge,
-        ],
+          indivEvent.minimumAge
+        ]
       )
 
       for await (const tag of indivEvent.tags) {
         await client.query(
           "insert into event_tags_bridge (event_tag_label, event_id) values ($1, $2)",
-          [tag, eventId.rows[0].event_id],
+          [tag, eventId.rows[0].event_id]
         )
       }
 
       for await (const datetime of indivEvent.datetimes) {
         const datetimeId = await client.query<{ event_datetime_id: string }>(
           "insert into event_datetimes (event_datetime_id, event_id, event_start_datetime, event_end_datetime) values ($1, $2, $3, $4) returning event_datetime_id",
-          [nanoid(), eventId.rows[0].event_id, datetime.start, datetime.end],
+          [nanoid(), eventId.rows[0].event_id, datetime.start, datetime.end]
         )
 
         for await (const sectionRow of indivEvent.sections) {
@@ -295,8 +295,8 @@ const mockEvent = async (): Promise<void> => {
                 nanoid(),
                 datetimeId.rows[0].event_datetime_id,
                 section.sectionRowPosition,
-                section.sectionColumnPosition,
-              ],
+                section.sectionColumnPosition
+              ]
             )
 
             for await (const seatRow of section.seats) {
@@ -308,8 +308,8 @@ const mockEvent = async (): Promise<void> => {
                     sectionId.rows[0].event_section_id,
                     seat.seatPrice,
                     seat.seatRowPosition,
-                    seat.seatColumnPosition,
-                  ],
+                    seat.seatColumnPosition
+                  ]
                 )
               }
             }
@@ -334,22 +334,22 @@ describe("post event image", async () => {
   test("passing empty string as eventId", async () => {
     const response = await app.inject({
       method: "POST",
-      url: "/event-images/",
+      url: "/event-images/"
     })
 
     expect(
       response.statusCode,
-      "status code from posting without eventId",
+      "status code from posting without eventId"
     ).toEqual(400)
     expect(response.json().message, "error message").toEqual(
-      "params should have required property 'eventId'",
+      "params should have required property 'eventId'"
     )
   })
 
   test("passing unknown eventId", async () => {
     const response = await app.inject({
       method: "POST",
-      url: "/event-images/unknown_eventId",
+      url: "/event-images/unknown_eventId"
     })
 
     expect(response.statusCode).toEqual(404)
@@ -360,14 +360,14 @@ describe("post event image", async () => {
     const form = new FormData()
     form.append(
       "image",
-      createReadStream(resolve(__dirname, "test-event-image.png")),
+      createReadStream(resolve(__dirname, "test-event-image.png"))
     )
 
     const response = await app.inject({
       method: "POST",
       url: "/event-images/posteventimagetest555",
       payload: form,
-      headers: form.getHeaders(),
+      headers: form.getHeaders()
     })
 
     expect(response.statusCode).toEqual(200)
@@ -378,14 +378,14 @@ describe("post event image", async () => {
     const form = new FormData()
     form.append(
       "image",
-      createReadStream(resolve(__dirname, "unmatched-file-extension.md")),
+      createReadStream(resolve(__dirname, "unmatched-file-extension.md"))
     )
 
     const response = await app.inject({
       method: "POST",
       url: "/event-images/posteventimagetest555",
       payload: form,
-      headers: form.getHeaders(),
+      headers: form.getHeaders()
     })
 
     expect(response.statusCode).toEqual(400)

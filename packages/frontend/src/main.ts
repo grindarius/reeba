@@ -1,9 +1,12 @@
-import { createPinia } from 'pinia'
-import { createApp } from 'vue'
+import { createPinia } from "pinia"
+import { createApp } from "vue"
 // @ts-expect-error
-import VueMdi from 'vue-mdijs'
-import { createMetaManager } from 'vue-meta'
-import Toast, { PluginOptions as ToastOptions, POSITION } from 'vue-toastification'
+import VueMdi from "vue-mdijs"
+import { createMetaManager } from "vue-meta"
+import Toast, {
+  PluginOptions as ToastOptions,
+  POSITION
+} from "vue-toastification"
 
 import {
   mdiAccountGroup,
@@ -37,13 +40,13 @@ import {
   mdiTicketOutline,
   mdiTwitter,
   mdiWeb
-} from '@mdi/js'
+} from "@mdi/js"
 
-import App from './App.vue'
-import Router from './router'
+import App from "./App.vue"
+import Router from "./router"
 
-import 'vue-toastification/dist/index.css'
-import './globals.scss'
+import "vue-toastification/dist/index.css"
+import "./globals.scss"
 
 VueMdi.add({
   mdiAccountGroup,
@@ -93,5 +96,5 @@ app.use(createPinia())
 
 // eslint-disable-next-line
 Router.isReady().then(() => {
-  app.mount('#app')
+  app.mount("#app")
 })

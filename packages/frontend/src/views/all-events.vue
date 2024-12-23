@@ -44,24 +44,24 @@
 </template>
 
 <script lang="ts">
-import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
+import ky from "ky"
+import { defineComponent, onMounted, Ref, ref } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
 
-import { GetAllEventsReply } from '@reeba/common'
+import { GetAllEventsReply } from "@reeba/common"
 
-import { getAllEventsEndpoint, getEventImageEndpoint } from '@/api/endpoints'
-import { formatTimeString } from '@/utils'
+import { getAllEventsEndpoint, getEventImageEndpoint } from "@/api/endpoints"
+import { formatTimeString } from "@/utils"
 
 export default defineComponent({
-  name: 'all-events',
-  setup () {
+  name: "all-events",
+  setup() {
     const router = useRouter()
     const route = useRoute()
 
     useMeta({
-      title: 'All events'
+      title: "All events"
     })
 
     const eventData: Ref<GetAllEventsReply> = ref({
@@ -75,7 +75,12 @@ export default defineComponent({
 
         eventData.value.events = response.events ?? []
       } catch (error) {
-        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        router.push({
+          name: "Not Found",
+          params: { pathMatch: route.path.substring(1).split("/") },
+          query: route.query,
+          hash: route.hash
+        })
       }
     })
 

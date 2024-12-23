@@ -1,4 +1,4 @@
-import dayjs from 'dayjs'
+import dayjs from "dayjs"
 
 /**
  * Formats a given date string to format to specific style
@@ -9,6 +9,9 @@ import dayjs from 'dayjs'
  *
  * @see https://day.js.org/docs/en/display/format
  */
-export const formatTimeString = (datetime: string | Date, format = 'MMMM D, YYYY HH:mm'): string => {
+export const formatTimeString = (
+  datetime: string | Date,
+  format = "MMMM D, YYYY HH:mm"
+): string => {
   return dayjs(datetime).format(format)
 }

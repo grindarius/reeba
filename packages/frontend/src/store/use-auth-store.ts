@@ -1,14 +1,18 @@
-import ky from 'ky'
-import { defineStore } from 'pinia'
+import ky from "ky"
+import { defineStore } from "pinia"
 
-import { SigninBody, SigninReply, SignupBody } from '@reeba/common'
+import { SigninBody, SigninReply, SignupBody } from "@reeba/common"
 
-import { signinEndpoint, signupEndpoint } from '@/api/endpoints'
+import { signinEndpoint, signupEndpoint } from "@/api/endpoints"
 
-export const useAuthStore = defineStore('authStore', {
+export const useAuthStore = defineStore("authStore", {
   state: () => {
-    const isAuthenticated: boolean = Object.keys(JSON.parse(localStorage.getItem('reebaUser') ?? '{}')).length !== 0
-    const userData: SigninReply = JSON.parse(localStorage.getItem('reebaUser') ?? '{}')
+    const isAuthenticated: boolean =
+      Object.keys(JSON.parse(localStorage.getItem("reebaUser") ?? "{}"))
+        .length !== 0
+    const userData: SigninReply = JSON.parse(
+      localStorage.getItem("reebaUser") ?? "{}"
+    )
 
     return {
       isAuthenticated,
@@ -16,7 +20,7 @@ export const useAuthStore = defineStore('authStore', {
     }
   },
   actions: {
-    async signin (body: SigninBody): Promise<void> {
+    async signin(body: SigninBody): Promise<void> {
       const { method, url } = signinEndpoint
 
       try {
@@ -25,7 +29,7 @@ export const useAuthStore = defineStore('authStore', {
           json: body
         }).json<SigninReply>()
 
-        localStorage.setItem('reebaUser', JSON.stringify(response))
+        localStorage.setItem("reebaUser", JSON.stringify(response))
         this.userData = response
         this.isAuthenticated = true
       } catch (error) {
@@ -34,7 +38,7 @@ export const useAuthStore = defineStore('authStore', {
         throw new Error(json.message)
       }
     },
-    async signup (body: SignupBody): Promise<void> {
+    async signup(body: SignupBody): Promise<void> {
       const { method, url } = signupEndpoint
 
       try {
@@ -48,7 +52,7 @@ export const useAuthStore = defineStore('authStore', {
         throw new Error(json.message)
       }
     },
-    signout (): void {
+    signout(): void {
       localStorage.clear()
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       this.userData = {} as SigninReply

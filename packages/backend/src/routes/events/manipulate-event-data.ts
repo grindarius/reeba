@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
-import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import dayjs from "dayjs"
+import { FastifyInstance, FastifyPluginOptions } from "fastify"
 
 import {
   events,
@@ -13,10 +13,20 @@ import {
   PatchEditableEventDataRequestBodySchema,
   PatchEditableEventDataRequestParams,
   PatchEditableEventDataRequestParamsSchema
-} from '@reeba/common'
+} from "@reeba/common"
 
-type EventData = Pick<events, 'event_id' | 'event_name' | 'event_description' | 'event_website' | 'event_opening_date' | 'event_venue_name' | 'event_venue_coordinates' | 'event_ticket_prices' | 'event_creation_date'> &
-{
+type EventData = Pick<
+  events,
+  | "event_id"
+  | "event_name"
+  | "event_description"
+  | "event_website"
+  | "event_opening_date"
+  | "event_venue_name"
+  | "event_venue_coordinates"
+  | "event_ticket_prices"
+  | "event_creation_date"
+> & {
   tags: Array<string>
   datetimes: Array<{
     f1: string
@@ -25,9 +35,15 @@ type EventData = Pick<events, 'event_id' | 'event_name' | 'event_description' | 
   }>
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Params: GetEditableEventDataRequestParams, Reply: GetEditableEventDataReply }>(
-    '/:eventId/edit',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.get<{
+    Params: GetEditableEventDataRequestParams
+    Reply: GetEditableEventDataReply
+  }>(
+    "/:eventId/edit",
     {
       schema: {
         params: GetEditableEventDataRequestParamsSchema,
@@ -37,10 +53,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       },
       onRequest: [instance.authenticate],
       config: {
-        name: 'GetEditableEventData'
+        name: "GetEditableEventData"
       }
     },
-    async (request) => {
+    async request => {
       const { eventId } = request.params
 
       const eventData = await instance.pg.query<EventData, [string]>(
@@ -82,7 +98,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
       })
 
-      const timesSet: Array<{ id: string, start: string, end: string }> = []
+      const timesSet: Array<{ id: string; start: string; end: string }> = []
 
       for (const c of times) {
         if (timesSet.some(s => s.start === c.start && s.end === c.end)) {
@@ -97,7 +113,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         description: eventData.rows[0].event_description,
         website: eventData.rows[0].event_website,
         openingDate: dayjs(eventData.rows[0].event_opening_date).toISOString(),
-        creationDate: dayjs(eventData.rows[0].event_creation_date).toISOString(),
+        creationDate: dayjs(
+          eventData.rows[0].event_creation_date
+        ).toISOString(),
         startTime: timesSet,
         venueName: eventData.rows[0].event_venue_name,
         venueCoordinates: {
@@ -105,18 +123,24 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           y: eventData.rows[0].event_venue_coordinates.y.toString()
         },
         tags: [...new Set(eventData.rows[0].tags)],
-        priceRange: Object.entries(eventData.rows[0].event_ticket_prices).map(p => {
-          return {
-            color: p[0],
-            price: p[1]
+        priceRange: Object.entries(eventData.rows[0].event_ticket_prices).map(
+          p => {
+            return {
+              color: p[0],
+              price: p[1]
+            }
           }
-        })
+        )
       }
     }
   )
 
-  instance.patch<{ Params: PatchEditableEventDataRequestParams, Body: PatchEditableEventDataRequestBody, Reply: PatchEditableEventDataReply }>(
-    '/:eventId/edit',
+  instance.patch<{
+    Params: PatchEditableEventDataRequestParams
+    Body: PatchEditableEventDataRequestBody
+    Reply: PatchEditableEventDataReply
+  }>(
+    "/:eventId/edit",
     {
       schema: {
         params: PatchEditableEventDataRequestParamsSchema,
@@ -127,14 +151,25 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       },
       onRequest: [instance.authenticate],
       config: {
-        name: 'PatchEditableEventData'
+        name: "PatchEditableEventData"
       }
     },
-    async (request) => {
-      const { id, name, description, website, openingDate, startTime, venueName, venueCoordinates, tags, priceRange } = request.body
+    async request => {
+      const {
+        id,
+        name,
+        description,
+        website,
+        openingDate,
+        startTime,
+        venueName,
+        venueCoordinates,
+        tags,
+        priceRange
+      } = request.body
 
       return await instance.pg.transact(async client => {
-        if (name !== '') {
+        if (name !== "") {
           await client.query(
             'update "events" set event_name = $1 where $1 is distinct from event_name and event_id = $2',
             [name, id]
@@ -199,7 +234,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         )
 
         return {
-          message: 'complete'
+          message: "complete"
         }
       })
     }

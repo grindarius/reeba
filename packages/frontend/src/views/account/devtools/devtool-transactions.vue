@@ -149,41 +149,47 @@
 </template>
 
 <script lang="ts">
-import { format } from 'd3'
-import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref, watch } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
+import { format } from "d3"
+import ky from "ky"
+import { defineComponent, onMounted, Ref, ref, watch } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
 
 import {
   AdminGetTransactionDataReply,
   AdminGetTransactionDataSortByOption
-} from '@reeba/common'
+} from "@reeba/common"
 
-import { adminGetTransactionDataEndpoint, getUserAvatarEndpoint } from '@/api/endpoints'
-import { useAuthStore } from '@/store/use-auth-store'
-import { formatQueryString, formatTimeString } from '@/utils'
+import {
+  adminGetTransactionDataEndpoint,
+  getUserAvatarEndpoint
+} from "@/api/endpoints"
+import { useAuthStore } from "@/store/use-auth-store"
+import { formatQueryString, formatTimeString } from "@/utils"
 
 export default defineComponent({
-  name: 'devtool-transactions',
-  setup () {
-    const transactionData: Ref<AdminGetTransactionDataReply> = ref({ total: 0, transactions: [] })
+  name: "devtool-transactions",
+  setup() {
+    const transactionData: Ref<AdminGetTransactionDataReply> = ref({
+      total: 0,
+      transactions: []
+    })
     const authStore = useAuthStore()
     const router = useRouter()
     const route = useRoute()
 
     const page = ref(1)
-    const sort: Ref<AdminGetTransactionDataSortByOption> = ref('time-asc')
-    const transactionSearch = ref('')
+    const sort: Ref<AdminGetTransactionDataSortByOption> = ref("time-asc")
+    const transactionSearch = ref("")
     const transactionSearchRef: Ref<HTMLInputElement | null> = ref(null)
 
     useMeta({
-      title: 'Developer tools: Transactions'
+      title: "Developer tools: Transactions"
     })
 
-    watch(sort, (now) => {
+    watch(sort, now => {
       router.replace({
-        name: 'Developer Transactions',
+        name: "Developer Transactions",
         query: {
           ...route.query,
           ...{ sort: now }
@@ -193,7 +199,7 @@ export default defineComponent({
 
     watch(transactionSearch, now => {
       router.replace({
-        name: 'Developer Transactions',
+        name: "Developer Transactions",
         query: {
           ...route.query,
           ...{ q: now }
@@ -202,9 +208,12 @@ export default defineComponent({
     })
 
     const getAdminTransactions = async (): Promise<void> => {
-      const formattedPage = Number(formatQueryString(route.query.page, '1'))
-      const formattedSortOptions = formatQueryString(route.query.sort, 'time-asc')
-      const formattedQ = formatQueryString(route.query.q, '')
+      const formattedPage = Number(formatQueryString(route.query.page, "1"))
+      const formattedSortOptions = formatQueryString(
+        route.query.sort,
+        "time-asc"
+      )
+      const formattedQ = formatQueryString(route.query.q, "")
 
       page.value = formattedPage
       sort.value = formattedSortOptions as AdminGetTransactionDataSortByOption
@@ -223,9 +232,9 @@ export default defineComponent({
             Authorization: `Bearer ${authStore.userData.token}`
           },
           searchParams: [
-            ['page', page.value],
-            ['sort', sort.value],
-            ['q', transactionSearch.value]
+            ["page", page.value],
+            ["sort", sort.value],
+            ["q", transactionSearch.value]
           ]
         }).json<AdminGetTransactionDataReply>()
 
@@ -236,21 +245,31 @@ export default defineComponent({
         const resp = error?.response
 
         if (resp.status == null) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
           return
         }
 
         if (resp.status === 401) {
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
           return
         }
 
         if (resp.status === 403) {
-          router.push({ name: 'Home' })
+          router.push({ name: "Home" })
           return
         }
 
-        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        router.push({
+          name: "Not Found",
+          params: { pathMatch: route.path.substring(1).split("/") },
+          query: route.query,
+          hash: route.hash
+        })
       }
     }
 

@@ -36,32 +36,35 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import { defineComponent, ref } from "vue"
+import { useRouter } from "vue-router"
+import { useToast } from "vue-toastification"
 
-import { useAuthStore } from '@/store/use-auth-store'
+import { useAuthStore } from "@/store/use-auth-store"
 
 export default defineComponent({
-  name: 'login',
-  setup () {
+  name: "login",
+  setup() {
     const authStore = useAuthStore()
     const router = useRouter()
     const toast = useToast()
 
-    const emailField = ref('')
-    const passwordField = ref('')
+    const emailField = ref("")
+    const passwordField = ref("")
 
     const signin = async (): Promise<void> => {
       if (emailField.value.length === 0 || passwordField.value.length === 0) {
-        toast.error('Email or password cannot be empty')
+        toast.error("Email or password cannot be empty")
         return
       }
 
       try {
-        await authStore.signin({ email: emailField.value, password: passwordField.value })
-        toast.success('Authentication completed')
-        router.push('/')
+        await authStore.signin({
+          email: emailField.value,
+          password: passwordField.value
+        })
+        toast.success("Authentication completed")
+        router.push("/")
       } catch (error) {
         // @ts-expect-error error is unknown
         toast.error(error.message)

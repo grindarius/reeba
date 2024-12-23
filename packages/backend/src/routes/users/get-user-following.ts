@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
 
 import {
   GetUserFollowingsListReply,
@@ -7,7 +7,7 @@ import {
   GetUserFollowingsListRequestParamsSchema,
   GetUserFollowingsListRequestQuertsring,
   GetUserFollowingsListRequestQuertstringSchema
-} from '@reeba/common'
+} from "@reeba/common"
 
 const schema: FastifySchema = {
   params: GetUserFollowingsListRequestParamsSchema,
@@ -17,32 +17,43 @@ const schema: FastifySchema = {
   }
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Params: GetUserFollowingsListRequestParams, Querystring: GetUserFollowingsListRequestQuertsring, Reply: GetUserFollowingsListReply }>(
-    '/:username/followings',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.get<{
+    Params: GetUserFollowingsListRequestParams
+    Querystring: GetUserFollowingsListRequestQuertsring
+    Reply: GetUserFollowingsListReply
+  }>(
+    "/:username/followings",
     {
       schema,
       preValidation: (request, reply) => {
         const { username } = request.params
         const { u } = request.query
 
-        if (username == null || username === '') {
+        if (username == null || username === "") {
           void reply.code(400)
-          throw new Error('params should have required property \'username\'')
+          throw new Error("params should have required property 'username'")
         }
 
         if (u == null) {
-          request.query.u = ''
+          request.query.u = ""
         }
       },
       config: {
-        name: 'GetUserFollowingsList'
+        name: "GetUserFollowingsList"
       }
     },
-    async (request) => {
+    async request => {
       const { username } = request.params
 
-      const followings = await instance.pg.query<{ username: string, isAdmin: boolean, isVerified: boolean }>(
+      const followings = await instance.pg.query<{
+        username: string
+        isAdmin: boolean
+        isVerified: boolean
+      }>(
         `select
           user_followers.followed_username as username,
           case when users.user_role = 'user' then 'false'::boolean else 'true'::boolean end "isAdmin",

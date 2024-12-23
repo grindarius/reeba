@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import dayjs from "dayjs"
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
 
 import {
   DateRange,
@@ -12,7 +12,7 @@ import {
   PriceRange,
   t_user_role,
   users
-} from '@reeba/common'
+} from "@reeba/common"
 
 const schema: FastifySchema = {
   querystring: GetSearchResultRequestQuerystringSchema,
@@ -30,47 +30,61 @@ interface QueryBuilder<T extends Array<unknown> = Array<unknown>> {
 }
 
 const dateRangeList: Record<DateRange, Array<Date>> = {
-  'All dates': [],
-  'Today': [dayjs().startOf('day').toDate(), dayjs().endOf('day').toDate()],
-  'This week': [dayjs().startOf('week').toDate(), dayjs().endOf('week').toDate()],
-  'Next week': [dayjs().add(7, 'days').startOf('week').toDate(), dayjs().add(7, 'days').endOf('week').toDate()],
-  'This month': [dayjs().startOf('month').toDate(), dayjs().endOf('month').toDate()],
-  'Next month': [dayjs().add(1, 'month').startOf('month').toDate(), dayjs().add(1, 'month').endOf('month').toDate()]
+  "All dates": [],
+  Today: [dayjs().startOf("day").toDate(), dayjs().endOf("day").toDate()],
+  "This week": [
+    dayjs().startOf("week").toDate(),
+    dayjs().endOf("week").toDate()
+  ],
+  "Next week": [
+    dayjs().add(7, "days").startOf("week").toDate(),
+    dayjs().add(7, "days").endOf("week").toDate()
+  ],
+  "This month": [
+    dayjs().startOf("month").toDate(),
+    dayjs().endOf("month").toDate()
+  ],
+  "Next month": [
+    dayjs().add(1, "month").startOf("month").toDate(),
+    dayjs().add(1, "month").endOf("month").toDate()
+  ]
 }
 
 const priceRangeList: Record<PriceRange, Array<number>> = {
-  'Any': [],
-  '< 300': [0, 300],
-  '< 600': [0, 600],
-  '< 1,200': [0, 1200],
-  '< 2,400': [0, 2400],
-  '< 4,800': [0, 4800],
-  '< 7,200': [0, 7200],
-  '< 10,000': [0, 10000],
-  '10,000 and above': []
+  Any: [],
+  "< 300": [0, 300],
+  "< 600": [0, 600],
+  "< 1,200": [0, 1200],
+  "< 2,400": [0, 2400],
+  "< 4,800": [0, 4800],
+  "< 7,200": [0, 7200],
+  "< 10,000": [0, 10000],
+  "10,000 and above": []
 }
 
-const eventQueryBuilder = (query: Required<GetSearchResultRequestQuerystring>): QueryBuilder => {
+const eventQueryBuilder = (
+  query: Required<GetSearchResultRequestQuerystring>
+): QueryBuilder => {
   let templateCount = 1
   const queryToReturn: QueryBuilder = {
-    where: '',
-    having: '',
+    where: "",
+    having: "",
     values: []
   }
 
   if (query.creatorType.length !== 0 && query.creatorType.length !== 2) {
-    queryToReturn.where += `users.user_verification_status = ${query.creatorType.includes('Official') ? 'true' : 'false'}::boolean and `
+    queryToReturn.where += `users.user_verification_status = ${query.creatorType.includes("Official") ? "true" : "false"}::boolean and `
   }
 
   if (query.tags.length !== 0) {
-    queryToReturn.where += `event_tags_bridge.event_tag_label in (${query.tags.map((_, i) => `$${i + templateCount}`).join(', ')}) and `
+    queryToReturn.where += `event_tags_bridge.event_tag_label in (${query.tags.map((_, i) => `$${i + templateCount}`).join(", ")}) and `
     templateCount += query.tags.length
     queryToReturn.values.push(...query.tags.map(q => normalizeTag(q)))
   }
 
-  if (query.priceRange !== 'Any') {
-    if (query.priceRange === '10,000 and above') {
-      queryToReturn.where += 'event_max_ticket_price >= 10000::int and '
+  if (query.priceRange !== "Any") {
+    if (query.priceRange === "10,000 and above") {
+      queryToReturn.where += "event_max_ticket_price >= 10000::int and "
     } else {
       queryToReturn.where += `event_min_ticket_price >= $${templateCount}::int and `
       templateCount += 1
@@ -81,13 +95,15 @@ const eventQueryBuilder = (query: Required<GetSearchResultRequestQuerystring>): 
     }
   }
 
-  queryToReturn.where += 'array[events.event_name, events.user_username, events.event_website] &@ $' + templateCount.toString()
+  queryToReturn.where +=
+    "array[events.event_name, events.user_username, events.event_website] &@ $" +
+    templateCount.toString()
   templateCount += 1
   queryToReturn.values.push(query.q)
 
-  if (query.dateRange !== 'All dates') {
-    if (!queryToReturn.having.includes('having')) {
-      queryToReturn.having += 'having '
+  if (query.dateRange !== "All dates") {
+    if (!queryToReturn.having.includes("having")) {
+      queryToReturn.having += "having "
     }
 
     queryToReturn.having += `min(event_datetimes.event_start_datetime) >= $${templateCount} and `
@@ -100,15 +116,22 @@ const eventQueryBuilder = (query: Required<GetSearchResultRequestQuerystring>): 
   return queryToReturn
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Querystring: GetSearchResultRequestQuerystring, Reply: GetSearchResultReply }>(
-    '/',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.get<{
+    Querystring: GetSearchResultRequestQuerystring
+    Reply: GetSearchResultReply
+  }>(
+    "/",
     {
       schema,
       preValidation: (request, reply) => {
-        const { q, creatorType, priceRange, tags, dateRange, type, page } = request.query
+        const { q, creatorType, priceRange, tags, dateRange, type, page } =
+          request.query
 
-        if (q == null || q === '') {
+        if (q == null || q === "") {
           void reply.send({
             events: [],
             users: []
@@ -127,14 +150,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         if (!Array.isArray(creatorType)) {
           request.query.creatorType = []
 
-          if (creatorType != null && creatorType !== '') {
+          if (creatorType != null && creatorType !== "") {
             request.query.creatorType.push(creatorType)
           }
         }
 
         // @ts-expect-error checking if priceRange could be null is valid
-        if (priceRange == null || priceRange === '') {
-          request.query.priceRange = 'Any'
+        if (priceRange == null || priceRange === "") {
+          request.query.priceRange = "Any"
         }
 
         // * same goes for other param
@@ -145,19 +168,19 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         if (!Array.isArray(tags)) {
           request.query.tags = []
 
-          if (tags != null && tags !== '') {
+          if (tags != null && tags !== "") {
             request.query.tags.push(tags)
           }
         }
 
         // @ts-expect-error checking if dateRange could be null is valid
-        if (dateRange == null || dateRange === '') {
-          request.query.dateRange = 'All dates'
+        if (dateRange == null || dateRange === "") {
+          request.query.dateRange = "All dates"
         }
 
         // @ts-expect-error checking if type could be null is valid
-        if (type == null || type === '') {
-          request.query.type = 'Events'
+        if (type == null || type === "") {
+          request.query.type = "Events"
         }
 
         if (page == null || page <= 1) {
@@ -165,26 +188,28 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
       },
       config: {
-        name: 'GetSearchResult'
+        name: "GetSearchResult"
       }
     },
-    async (request) => {
-      const { q, type, page } = request.query as Required<GetSearchResultRequestQuerystring>
+    async request => {
+      const { q, type, page } =
+        request.query as Required<GetSearchResultRequestQuerystring>
 
-      type SearchedEventResult = events
-      & Pick<users, 'user_verification_status'>
-      & {
-        first_start_datetime: Date
-        last_start_datetime: Date
-        min_seat_price: Date
-        max_seat_price: Date
-      }
+      type SearchedEventResult = events &
+        Pick<users, "user_verification_status"> & {
+          first_start_datetime: Date
+          last_start_datetime: Date
+          min_seat_price: Date
+          max_seat_price: Date
+        }
 
-      const { where, having, values } = eventQueryBuilder(request.query as Required<GetSearchResultRequestQuerystring>)
+      const { where, having, values } = eventQueryBuilder(
+        request.query as Required<GetSearchResultRequestQuerystring>
+      )
 
       console.log(where, having, values)
 
-      if (type === 'Events') {
+      if (type === "Events") {
         const searchedResult = await instance.pg.query<SearchedEventResult>(
           `select
             events.*,
@@ -198,7 +223,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           where events.event_status != 'closed' and ${where}
           group by events.event_id, users.user_verification_status
           ${having}
-          limit ${PAGE_SIZE} offset ${(page * PAGE_SIZE) - PAGE_SIZE}`,
+          limit ${PAGE_SIZE} offset ${page * PAGE_SIZE - PAGE_SIZE}`,
           values
         )
 
@@ -208,7 +233,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
               id: s.event_id,
               name: s.event_name,
               createdBy: s.user_username,
-              type: s.user_verification_status ? 'Official' : 'Local',
+              type: s.user_verification_status ? "Official" : "Local",
               firstStartDatetime: dayjs(s.first_start_datetime).toISOString(),
               lastStartDatetime: dayjs(s.last_start_datetime).toISOString(),
               openingDate: dayjs(s.event_opening_date).toISOString(),
@@ -223,13 +248,16 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
       }
 
-      if (type === 'Users') {
-        const searchedResult = await instance.pg.query<users, [string, boolean]>(
+      if (type === "Users") {
+        const searchedResult = await instance.pg.query<
+          users,
+          [string, boolean]
+        >(
           `select
             *
           from "users"
           where array[user_username, user_profile_description] &@ $1 and user_deletion_status != $2
-          limit ${PAGE_SIZE} offset ${(page * PAGE_SIZE) - PAGE_SIZE}`,
+          limit ${PAGE_SIZE} offset ${page * PAGE_SIZE - PAGE_SIZE}`,
           [q, true]
         )
 

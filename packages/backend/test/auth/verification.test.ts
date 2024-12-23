@@ -7,7 +7,7 @@ import client from "../pool.js"
 
 dotenv.config({
   path: resolve(__dirname, "..", ".."),
-  silent: true,
+  silent: true
 })
 
 describe("jwt check test", async () => {
@@ -19,7 +19,7 @@ describe("jwt check test", async () => {
 
   beforeAll(async () => {
     const existingUser = await client.query(
-      "select * from \"users\" where user_username = 'decoratortest'",
+      "select * from \"users\" where user_username = 'decoratortest'"
     )
 
     if (existingUser.rows.length === 0) {
@@ -31,8 +31,8 @@ describe("jwt check test", async () => {
           email: "decoratortest@gmail.com",
           password: "asdfghjkl123",
           phoneCountryCode: "66",
-          phoneNumber: "938493892",
-        },
+          phoneNumber: "938493892"
+        }
       })
     }
 
@@ -41,8 +41,8 @@ describe("jwt check test", async () => {
       url: "/auth/signin",
       payload: {
         email: "decoratortest@gmail.com",
-        password: "asdfghjkl123",
-      },
+        password: "asdfghjkl123"
+      }
     })
 
     const { token } = response.json<{
@@ -58,14 +58,14 @@ describe("jwt check test", async () => {
       method: "GET",
       url: "/auth/verification",
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     })
 
     expect(responseSuccess.statusCode).toEqual(200)
     expect(responseSuccess.json()).toHaveProperty(
       "user.username",
-      "decoratortest",
+      "decoratortest"
     )
     expect(responseSuccess.json()).toHaveProperty("user.role", "user")
   })
@@ -76,8 +76,8 @@ describe("jwt check test", async () => {
       url: "/auth/verification",
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRlY29yYXRvcnRlc3QiLCJyb2xlIjoidXNlciIsImlhdCI6MTY0NTM4NjgyNSwiZXhwIjoxNjQ1Mzg2ODM1fQ.kDYMo1qrrTsoZwEqnuR8EWZFYvyjQEojkGGKrqFaxHA",
-      },
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRlY29yYXRvcnRlc3QiLCJyb2xlIjoidXNlciIsImlhdCI6MTY0NTM4NjgyNSwiZXhwIjoxNjQ1Mzg2ODM1fQ.kDYMo1qrrTsoZwEqnuR8EWZFYvyjQEojkGGKrqFaxHA"
+      }
     })
 
     expect(responseError.statusCode).toEqual(401)

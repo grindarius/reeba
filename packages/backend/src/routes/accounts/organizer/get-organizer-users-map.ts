@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions } from "fastify"
 
 import {
   GetOrganizerEventUsersMapReply,
@@ -6,11 +6,17 @@ import {
   GetOrganizerEventUsersMapRequestParams,
   GetOrganizerEventUsersMapRequestParamsSchema,
   users
-} from '@reeba/common'
+} from "@reeba/common"
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Params: GetOrganizerEventUsersMapRequestParams, Reply: GetOrganizerEventUsersMapReply }>(
-    '/:username/organizer/:eventId/maps',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.get<{
+    Params: GetOrganizerEventUsersMapRequestParams
+    Reply: GetOrganizerEventUsersMapReply
+  }>(
+    "/:username/organizer/:eventId/maps",
     {
       schema: {
         params: GetOrganizerEventUsersMapRequestParamsSchema,
@@ -20,13 +26,16 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       },
       onRequest: [instance.authenticate],
       config: {
-        name: 'GetOrganizerEventUsersMap'
+        name: "GetOrganizerEventUsersMap"
       }
     },
-    async (request) => {
+    async request => {
       const { eventId } = request.params
 
-      const usersAndCountries = await instance.pg.query<Pick<users, 'user_iso_31662_code'> & { user_count: number }, [string]>(
+      const usersAndCountries = await instance.pg.query<
+        Pick<users, "user_iso_31662_code"> & { user_count: number },
+        [string]
+      >(
         `select
           users.user_iso_31662_code,
           count(transactions.user_username)::int as user_count

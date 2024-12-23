@@ -17,7 +17,7 @@ describe("patch profile data", async () => {
 
   beforeAll(async () => {
     await client.query('delete from "users" where user_username = $1', [
-      "patchprofiledataguy",
+      "patchprofiledataguy"
     ])
 
     await app.inject({
@@ -28,8 +28,8 @@ describe("patch profile data", async () => {
         email: "patchprofiledataguy@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "4589403342",
-      },
+        phoneNumber: "4589403342"
+      }
     })
 
     const userResponse = await app.inject({
@@ -37,8 +37,8 @@ describe("patch profile data", async () => {
       url: "/auth/signin",
       payload: {
         email: "patchprofiledataguy@gmail.com",
-        password: "asdfghjkl123",
-      },
+        password: "asdfghjkl123"
+      }
     })
 
     const token = userResponse.json<{ token: string }>().token
@@ -49,19 +49,19 @@ describe("patch profile data", async () => {
       method: "patch",
       url: "/accounts//profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       payload: {
         password: "asdfghjkl123",
         phoneCountryCode: "66",
         phoneNumber: "4589403342",
-        birthdate: dayjs().toISOString(),
-      },
+        birthdate: dayjs().toISOString()
+      }
     })
 
     expect(response.statusCode).toEqual(400)
     expect(response.json().message).toEqual(
-      "params should have required property 'username'",
+      "params should have required property 'username'"
     )
   })
 
@@ -70,19 +70,19 @@ describe("patch profile data", async () => {
       method: "patch",
       url: "/accounts/patchprofiledataguy/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       payload: {
         password: "asdfghjkl123",
         phoneCountryCode: "66",
         phoneNumber: "4589403342",
-        birthdate: dayjs().toISOString(),
-      },
+        birthdate: dayjs().toISOString()
+      }
     })
 
     expect(response.statusCode).toEqual(400)
     expect(response.json().message).toEqual(
-      "body should have required property 'email'",
+      "body should have required property 'email'"
     )
   })
 
@@ -91,20 +91,20 @@ describe("patch profile data", async () => {
       method: "patch",
       url: "/accounts/patchprofiledataguy/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       payload: {
         email: "patchprofiledataguy@gmail.com",
         phoneCountryCode: "66",
         phoneNumber: "4589403342",
-        birthdate: dayjs().toISOString(),
-      },
+        birthdate: dayjs().toISOString()
+      }
     })
 
     expect(response.statusCode).toEqual(400)
     expect(response.json()).toHaveProperty(
       "message",
-      "body should have required property 'password'",
+      "body should have required property 'password'"
     )
   })
 
@@ -113,20 +113,20 @@ describe("patch profile data", async () => {
       method: "patch",
       url: "/accounts/patchprofiledataguy/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       payload: {
         email: "patchprofiledataguy@gmail.com",
         password: "asdfghjkl123",
         phoneNumber: "4589403342",
-        birthdate: dayjs().toISOString(),
-      },
+        birthdate: dayjs().toISOString()
+      }
     })
 
     expect(response.statusCode).toEqual(400)
     expect(response.json()).toHaveProperty(
       "message",
-      "body should have required property 'phoneCountryCode'",
+      "body should have required property 'phoneCountryCode'"
     )
   })
 
@@ -135,20 +135,20 @@ describe("patch profile data", async () => {
       method: "patch",
       url: "/accounts/patchprofiledataguy/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       payload: {
         email: "patchprofiledataguy@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        birthdate: dayjs().toISOString(),
-      },
+        birthdate: dayjs().toISOString()
+      }
     })
 
     expect(response.statusCode).toEqual(400)
     expect(response.json()).toHaveProperty(
       "message",
-      "body should have required property 'phoneNumber'",
+      "body should have required property 'phoneNumber'"
     )
   })
 
@@ -157,20 +157,20 @@ describe("patch profile data", async () => {
       method: "patch",
       url: "/accounts/patchprofiledataguy/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       payload: {
         email: "patchprofiledataguy@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "4589403342",
-      },
+        phoneNumber: "4589403342"
+      }
     })
 
     expect(response.statusCode).toEqual(400)
     expect(response.json()).toHaveProperty(
       "message",
-      "body should have required property 'birthdate'",
+      "body should have required property 'birthdate'"
     )
   })
 
@@ -179,15 +179,15 @@ describe("patch profile data", async () => {
       method: "patch",
       url: "/accounts/patchprofiledataguy/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       payload: {
         email: "patchprofiledataguygmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
         phoneNumber: "4589403342",
-        birthdate: dayjs().toISOString(),
-      },
+        birthdate: dayjs().toISOString()
+      }
     })
 
     expect(response.statusCode).toEqual(400)
@@ -199,21 +199,21 @@ describe("patch profile data", async () => {
       method: "patch",
       url: "/accounts/patchprofiledataguy/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       payload: {
         email: "patchprofiledataguy@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
         phoneNumber: "4589403342sdffdfsf33232",
-        birthdate: dayjs().toISOString(),
-      },
+        birthdate: dayjs().toISOString()
+      }
     })
 
     expect(response.statusCode).toEqual(400)
     expect(response.json()).toHaveProperty(
       "message",
-      "invalid 'phoneNumber' format",
+      "invalid 'phoneNumber' format"
     )
   })
 
@@ -224,33 +224,33 @@ describe("patch profile data", async () => {
       method: "patch",
       url: "/accounts/patchprofiledataguy/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       payload: {
         email: "",
         password: "",
         phoneCountryCode: "",
         phoneNumber: "",
-        birthdate: "",
-      },
+        birthdate: ""
+      }
     })
 
     const newUserData = await client.query<users>(
       'select * from "users" where user_username = $1',
-      ["patchprofiledataguy"],
+      ["patchprofiledataguy"]
     )
 
     const newUser = newUserData.rows[0]
     const isSamePassword = await verify(
       newUser.user_password,
       "asdfghjkl123",
-      argon2Options,
+      argon2Options
     )
 
     expect(response.json()).toHaveProperty("message", "complete")
     expect(newUser).toHaveProperty(
       "user_email",
-      "patchprofiledataguy@gmail.com",
+      "patchprofiledataguy@gmail.com"
     )
     expect(isSamePassword).toBeTruthy()
     expect(newUser).toHaveProperty("user_phone_country_code", "66")
@@ -265,33 +265,33 @@ describe("patch profile data", async () => {
       method: "patch",
       url: "/accounts/patchprofiledataguy/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       payload: {
         email: "patchprofiledataguy2@gmail.com",
         password: "",
         phoneCountryCode: "",
         phoneNumber: "",
-        birthdate: "",
-      },
+        birthdate: ""
+      }
     })
 
     const newUserData = await client.query<users>(
       'select * from "users" where user_username = $1',
-      ["patchprofiledataguy"],
+      ["patchprofiledataguy"]
     )
 
     const newUser = newUserData.rows[0]
     const isSamePassword = await verify(
       newUserData.rows[0].user_password,
       "asdfghjkl123",
-      argon2Options,
+      argon2Options
     )
 
     expect(response.json()).toHaveProperty("message", "complete")
     expect(newUser).toHaveProperty(
       "user_email",
-      "patchprofiledataguy2@gmail.com",
+      "patchprofiledataguy2@gmail.com"
     )
     expect(isSamePassword).toBeTruthy()
     expect(newUser).toHaveProperty("user_phone_country_code", "66")
@@ -306,33 +306,33 @@ describe("patch profile data", async () => {
       method: "patch",
       url: "/accounts/patchprofiledataguy/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       payload: {
         email: "",
         password: "",
         phoneCountryCode: "44",
         phoneNumber: "",
-        birthdate: "",
-      },
+        birthdate: ""
+      }
     })
 
     const newUserData = await client.query<users>(
       'select * from "users" where user_username = $1',
-      ["patchprofiledataguy"],
+      ["patchprofiledataguy"]
     )
 
     const newUser = newUserData.rows[0]
     const isSamePassword = await verify(
       newUserData.rows[0].user_password,
       "asdfghjkl123",
-      argon2Options,
+      argon2Options
     )
 
     expect(response.json()).toHaveProperty("message", "complete")
     expect(newUser).toHaveProperty(
       "user_email",
-      "patchprofiledataguy2@gmail.com",
+      "patchprofiledataguy2@gmail.com"
     )
     expect(isSamePassword).toBeTruthy()
     expect(newUser).toHaveProperty("user_phone_country_code", "44")
@@ -347,33 +347,33 @@ describe("patch profile data", async () => {
       method: "patch",
       url: "/accounts/patchprofiledataguy/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       payload: {
         email: "",
         password: "",
         phoneCountryCode: "",
         phoneNumber: "949504939",
-        birthdate: "",
-      },
+        birthdate: ""
+      }
     })
 
     const newUserData = await client.query<users>(
       'select * from "users" where user_username = $1',
-      ["patchprofiledataguy"],
+      ["patchprofiledataguy"]
     )
 
     const newUser = newUserData.rows[0]
     const isSamePassword = await verify(
       newUserData.rows[0].user_password,
       "asdfghjkl123",
-      argon2Options,
+      argon2Options
     )
 
     expect(response.json()).toHaveProperty("message", "complete")
     expect(newUser).toHaveProperty(
       "user_email",
-      "patchprofiledataguy2@gmail.com",
+      "patchprofiledataguy2@gmail.com"
     )
     expect(isSamePassword).toBeTruthy()
     expect(newUser).toHaveProperty("user_phone_country_code", "44")
@@ -389,32 +389,32 @@ describe("patch profile data", async () => {
         method: "patch",
         url: "/accounts/patchprofiledataguy/profile-data",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`
         },
         payload: {
           email: "",
           password: "",
           phoneCountryCode: "",
           phoneNumber: "949504939",
-          birthdate: dayjs(newBirthdate).toISOString(),
-        },
+          birthdate: dayjs(newBirthdate).toISOString()
+        }
       })
 
       const newUserData = await client.query<users>(
         'select * from "users" where user_username = $1',
-        ["patchprofiledataguy"],
+        ["patchprofiledataguy"]
       )
 
       const isSamePassword = await verify(
         newUserData.rows[0].user_password,
         "asdfghjkl123",
-        argon2Options,
+        argon2Options
       )
 
       t.strictSame(response.json(), { message: "complete" })
       t.strictSame(
         newUserData.rows[0].user_email,
-        "patchprofiledataguy2@gmail.com",
+        "patchprofiledataguy2@gmail.com"
       )
       t.ok(isSamePassword)
       t.strictSame(newUserData.rows[0].user_phone_country_code, "44")
@@ -424,7 +424,7 @@ describe("patch profile data", async () => {
       })
       t.strictSame(
         dayjs(newUserData.rows[0].user_birthdate).format("YYYY-MM-DD"),
-        dayjs(newBirthdate).format("YYYY-MM-DD"),
+        dayjs(newBirthdate).format("YYYY-MM-DD")
       )
     } catch (error) {
       t.error(error)
@@ -437,33 +437,33 @@ describe("patch profile data", async () => {
       method: "patch",
       url: "/accounts/patchprofiledataguy/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       payload: {
         email: "patchprofiledataguy2@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "55",
         phoneNumber: "968483948",
-        birthdate: dayjs(newBirthdate).toISOString(),
-      },
+        birthdate: dayjs(newBirthdate).toISOString()
+      }
     })
 
     const newUserData = await client.query<users>(
       'select * from "users" where user_username = $1',
-      ["patchprofiledataguy"],
+      ["patchprofiledataguy"]
     )
 
     const isSamePassword = await verify(
       newUserData.rows[0].user_password,
       "asdfghjkl123",
-      argon2Options,
+      argon2Options
     )
 
     const newUser = newUserData.rows[0]
     expect(response.json()).toHaveProperty("message", "complete")
     expect(newUser).toHaveProperty(
       "user_email",
-      "patchprofiledataguy2@gmail.com",
+      "patchprofiledataguy2@gmail.com"
     )
     expect(isSamePassword).toBeTruthy()
     expect(newUser).toHaveProperty("user_phone_country_code", "55")
@@ -475,7 +475,7 @@ describe("patch profile data", async () => {
         .set("minute", 0)
         .set("second", 0)
         .set("millisecond", 0)
-        .toISOString(),
+        .toISOString()
     )
   })
 
@@ -484,32 +484,32 @@ describe("patch profile data", async () => {
       method: "patch",
       url: "/accounts/patchprofiledataguy/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       payload: {
         email: "patchprofiledataguy2@gmail.com",
         password: "asdfghjkl1234",
         phoneCountryCode: "55",
         phoneNumber: "968483948",
-        birthdate: newBirthdate,
-      },
+        birthdate: newBirthdate
+      }
     })
 
     const newUserData = await client.query(
       'select * from "users" where user_username = $1',
-      ["patchprofiledataguy"],
+      ["patchprofiledataguy"]
     )
 
     const newUser = newUserData.rows[0]
     const isSamePassword = await verify(
       newUser.user_password as string,
-      "asdfghjkl1234",
+      "asdfghjkl1234"
     )
 
     expect(response.json()).toHaveProperty("message", "complete")
     expect(newUser).toHaveProperty(
       "user_email",
-      "patchprofiledataguy2@gmail.com",
+      "patchprofiledataguy2@gmail.com"
     )
     expect(isSamePassword).toBeTruthy()
     expect(newUser).toHaveProperty("user_phone_country_code", "55")
@@ -521,7 +521,7 @@ describe("patch profile data", async () => {
         .set("minute", 0)
         .set("second", 0)
         .set("millisecond", 0)
-        .toISOString(),
+        .toISOString()
     )
   })
 })

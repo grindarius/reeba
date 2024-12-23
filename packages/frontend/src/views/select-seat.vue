@@ -112,40 +112,44 @@
 </template>
 
 <script lang="ts">
-import dayjs from 'dayjs'
-import localizedFormat from 'dayjs/plugin/localizedFormat'
-import ky from 'ky'
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import dayjs from "dayjs"
+import localizedFormat from "dayjs/plugin/localizedFormat"
+import ky from "ky"
+import { computed, defineComponent, onMounted, Ref, ref } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
+import { useToast } from "vue-toastification"
 
-import { GetEventSeatsReply, groupBy, numberToLetters } from '@reeba/common'
+import { GetEventSeatsReply, groupBy, numberToLetters } from "@reeba/common"
 
-import { getEventSeatsEndpoint } from '@/api/endpoints'
-import { useAuthStore } from '@/store/use-auth-store'
-import { useTransactionStore } from '@/store/use-transaction-store'
-import { TransactionStoreSeat } from '@/types'
+import { getEventSeatsEndpoint } from "@/api/endpoints"
+import { useAuthStore } from "@/store/use-auth-store"
+import { useTransactionStore } from "@/store/use-transaction-store"
+import { TransactionStoreSeat } from "@/types"
 
 dayjs.extend(localizedFormat)
 
 export default defineComponent({
-  name: 'select-seat',
-  setup () {
+  name: "select-seat",
+  setup() {
     const transactionStore = useTransactionStore()
     const authStore = useAuthStore()
     const route = useRoute()
     const router = useRouter()
     const toast = useToast()
 
-    const sections: Ref<Record<string, GetEventSeatsReply['sections']>> = ref({})
-    const priceList: Ref<GetEventSeatsReply['ticketPrices']> = ref([])
+    const sections: Ref<Record<string, GetEventSeatsReply["sections"]>> = ref(
+      {}
+    )
+    const priceList: Ref<GetEventSeatsReply["ticketPrices"]> = ref([])
     const sectionAsValues = computed(() => Object.values(sections.value))
-    const selectedSection: Ref<GetEventSeatsReply['sections']> = ref([])
-    const colorRecord: Ref<Record<number, string>> = computed(() => priceList.value.reduce<Record<number, string>>((obj, item) => {
-      obj[item.price] = item.color
-      return obj
-    }, {}))
+    const selectedSection: Ref<GetEventSeatsReply["sections"]> = ref([])
+    const colorRecord: Ref<Record<number, string>> = computed(() =>
+      priceList.value.reduce<Record<number, string>>((obj, item) => {
+        obj[item.price] = item.color
+        return obj
+      }, {})
+    )
 
     const sectionWidth = ref(0)
     const sectionHeight = ref(0)
@@ -154,7 +158,7 @@ export default defineComponent({
     const seatHeight = ref(0)
 
     useMeta({
-      title: 'Seats'
+      title: "Seats"
     })
 
     const userSelectedZone = ref(1)
@@ -173,8 +177,10 @@ export default defineComponent({
         columnPosition: selectedSection.value[0].sectionColumnPosition,
         seats: new Map<string, TransactionStoreSeat>()
       })
-      seatWidth.value = Math.max(...selectedSection.value.map(s => s.seatColumnPosition)) + 1
-      seatHeight.value = Math.max(...selectedSection.value.map(s => s.seatRowPosition)) + 1
+      seatWidth.value =
+        Math.max(...selectedSection.value.map(s => s.seatColumnPosition)) + 1
+      seatHeight.value =
+        Math.max(...selectedSection.value.map(s => s.seatRowPosition)) + 1
     }
 
     const selectSeat = (i: number, isSeatTaken: boolean): void => {
@@ -182,8 +188,14 @@ export default defineComponent({
         return
       }
 
-      if (transactionStore.transactionStore.section.seats.has(selectedSection.value[i].seatId)) {
-        transactionStore.transactionStore.section.seats.delete(selectedSection.value[i].seatId)
+      if (
+        transactionStore.transactionStore.section.seats.has(
+          selectedSection.value[i].seatId
+        )
+      ) {
+        transactionStore.transactionStore.section.seats.delete(
+          selectedSection.value[i].seatId
+        )
         return
       }
 
@@ -194,12 +206,14 @@ export default defineComponent({
           price: selectedSection.value[i].seatPrice
         })
       } catch (error) {
-        toast.error('Cannot set other seat price')
+        toast.error("Cannot set other seat price")
       }
     }
 
     onMounted(async () => {
-      const { method, url } = getEventSeatsEndpoint({ eventId: route.params.eventId as string ?? '' })
+      const { method, url } = getEventSeatsEndpoint({
+        eventId: (route.params.eventId as string) ?? ""
+      })
 
       try {
         const response = await ky(url, {
@@ -208,22 +222,28 @@ export default defineComponent({
             Authorization: `Bearer ${authStore.userData.token}`
           },
           searchParams: [
-            ['datetimeId', route.params.datetimeId as string ?? '']
+            ["datetimeId", (route.params.datetimeId as string) ?? ""]
           ]
         }).json<GetEventSeatsReply>()
 
         const groupedBySectionId = response.sections.sort((a, b) => {
-          return a.sectionRowPosition - b.sectionRowPosition ||
+          return (
+            a.sectionRowPosition - b.sectionRowPosition ||
             a.sectionColumnPosition - b.sectionColumnPosition ||
             a.seatRowPosition - b.seatRowPosition ||
             a.seatColumnPosition - b.seatColumnPosition
+          )
         })
 
-        sectionWidth.value = Math.max(...response.sections.map(s => s.sectionRowPosition)) + 1
-        sectionHeight.value = Math.max(...response.sections.map(s => s.sectionColumnPosition)) + 1
+        sectionWidth.value =
+          Math.max(...response.sections.map(s => s.sectionRowPosition)) + 1
+        sectionHeight.value =
+          Math.max(...response.sections.map(s => s.sectionColumnPosition)) + 1
 
-        transactionStore.setEventId(route.params.eventId as string ?? '')
-        transactionStore.setDatetimeId(route.params.datetimeId as string ?? '')
+        transactionStore.setEventId((route.params.eventId as string) ?? "")
+        transactionStore.setDatetimeId(
+          (route.params.datetimeId as string) ?? ""
+        )
 
         sections.value = groupBy(groupedBySectionId, r => r.sectionId)
         priceList.value = response.ticketPrices
@@ -232,8 +252,8 @@ export default defineComponent({
         const response = error?.response
 
         if (response.status === 401) {
-          toast.error('Token expired')
-          router.push({ name: 'Signin' })
+          toast.error("Token expired")
+          router.push({ name: "Signin" })
         }
 
         const json = await response.json()
@@ -242,16 +262,18 @@ export default defineComponent({
     })
 
     const getTimeString = computed((): string => {
-      return dayjs().format('LLLL')
+      return dayjs().format("LLLL")
     })
 
     const seatLabelClassName = (isSeatTaken: boolean): string => {
-      return isSeatTaken ? 'seats-label rounded-full hover:cursor-not-allowed' : 'seats-label rounded-full hover:cursor-pointer'
+      return isSeatTaken
+        ? "seats-label rounded-full hover:cursor-not-allowed"
+        : "seats-label rounded-full hover:cursor-pointer"
     }
 
     const getSectionSummaryString = (): string => {
       if (selectedSection.value.length === 0) {
-        return ''
+        return ""
       }
 
       const sectionString = `${formatSectionName(transactionStore.transactionStore.section.rowPosition, transactionStore.transactionStore.section.columnPosition)}`
@@ -260,7 +282,7 @@ export default defineComponent({
 
     const getSeatSummaryString = (): string => {
       if (transactionStore.transactionStore.section.seats.size === 0) {
-        return ''
+        return ""
       }
 
       return `${[...transactionStore.transactionStore.section.seats.values()].map(s => formatSectionName(s.rowPosition, s.columnPosition))}`

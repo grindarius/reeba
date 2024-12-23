@@ -433,22 +433,33 @@
 </template>
 
 <script lang="ts">
-import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
-import clone from 'just-clone'
-import ky from 'ky'
-import { computed, defineComponent, Ref, ref, StyleValue, watch } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import dayjs from "dayjs"
+import customParseFormat from "dayjs/plugin/customParseFormat"
+import clone from "just-clone"
+import ky from "ky"
+import { computed, defineComponent, Ref, ref, StyleValue, watch } from "vue"
+import { useMeta } from "vue-meta"
+import { useRouter } from "vue-router"
+import { useToast } from "vue-toastification"
 
-import { numberToLetters, PostEventBody, PostEventReply } from '@reeba/common'
+import { numberToLetters, PostEventBody, PostEventReply } from "@reeba/common"
 
-import { postEventEndpoint, postEventImageEndpoint } from '@/api/endpoints'
-import { useMarkdown } from '@/composables'
-import { useAuthStore } from '@/store/use-auth-store'
-import { ReebAEventDatetime, ReebAEventSeat, ReebAEventSection, ReebAExtendedEventPrice } from '@/types'
-import { decrease2DArrayDimension, generateEventSeats, generateEventSections, increase2DArrayDimension, randomPastelColor } from '@/utils'
+import { postEventEndpoint, postEventImageEndpoint } from "@/api/endpoints"
+import { useMarkdown } from "@/composables"
+import { useAuthStore } from "@/store/use-auth-store"
+import {
+  ReebAEventDatetime,
+  ReebAEventSeat,
+  ReebAEventSection,
+  ReebAExtendedEventPrice
+} from "@/types"
+import {
+  decrease2DArrayDimension,
+  generateEventSeats,
+  generateEventSections,
+  increase2DArrayDimension,
+  randomPastelColor
+} from "@/utils"
 
 dayjs.extend(customParseFormat)
 
@@ -459,81 +470,93 @@ interface Selected {
 }
 
 export default defineComponent({
-  name: 'create-event',
-  beforeRouteEnter (_, __, next) {
+  name: "create-event",
+  beforeRouteEnter(_, __, next) {
     const authStore = useAuthStore()
 
     if (!authStore.isAuthenticated) {
-      next({ name: 'Signin' })
+      next({ name: "Signin" })
     } else {
       next()
     }
   },
-  setup () {
+  setup() {
     const router = useRouter()
     const toast = useToast()
     const authStore = useAuthStore()
 
     useMeta({
-      title: 'Create event'
+      title: "Create event"
     })
 
     const defaults: Selected = {
-      name: 'A1',
+      name: "A1",
       row: 0,
       column: 0
     }
 
-    const eventName = ref('')
+    const eventName = ref("")
     const isWrite = ref(true)
-    const eventDescription = ref([
-      '## Heading 8-)\n',
-      '**This is bold text**\n',
-      '__This is bold text__\n',
-      '*This is italic text*\n',
-      '~~Strikethrough~~\n',
-      '> Blockquotes can also be nested...',
-      '> > ...by using additional greater-than signs right next to each other...',
-      '> > > ...by using additional greater-than signs right next to each other...\n',
-      '+ Create a list by starting a line with +',
-      '+ Very easy!\n',
-      '1. Lorem ipsum dolor sit amet\n2. Consectetur adipiscing elit',
-      '2. Consectetur adipiscing elit',
-      '3. Integer molestie lorem at massa\n',
-      '1. You can use sequential numbers...',
-      '1. ...or keep all the numbers as 1.'
-    ].join('\n'))
-    const eventWebsite = ref('')
-    const eventVenueName = ref('')
-    const eventVenueCoordinates = ref('0, 0')
-    const eventOpeningDate = ref('')
+    const eventDescription = ref(
+      [
+        "## Heading 8-)\n",
+        "**This is bold text**\n",
+        "__This is bold text__\n",
+        "*This is italic text*\n",
+        "~~Strikethrough~~\n",
+        "> Blockquotes can also be nested...",
+        "> > ...by using additional greater-than signs right next to each other...",
+        "> > > ...by using additional greater-than signs right next to each other...\n",
+        "+ Create a list by starting a line with +",
+        "+ Very easy!\n",
+        "1. Lorem ipsum dolor sit amet\n2. Consectetur adipiscing elit",
+        "2. Consectetur adipiscing elit",
+        "3. Integer molestie lorem at massa\n",
+        "1. You can use sequential numbers...",
+        "1. ...or keep all the numbers as 1."
+      ].join("\n")
+    )
+    const eventWebsite = ref("")
+    const eventVenueName = ref("")
+    const eventVenueCoordinates = ref("0, 0")
+    const eventOpeningDate = ref("")
     const eventTags: Ref<Array<string>> = ref([])
     const eventTicketPrices: Ref<Array<ReebAExtendedEventPrice>> = ref([
       {
-        color: '#D5A755',
+        color: "#D5A755",
         price: 1000,
-        currency: 'THB' as 'USD' | 'CAD' | 'THB' | 'EUR'
+        currency: "THB" as "USD" | "CAD" | "THB" | "EUR"
       }
     ])
     const eventDatetimes = ref<Array<ReebAEventDatetime>>([])
-    const eventMinimumAge = ref('0')
+    const eventMinimumAge = ref("0")
     const { renderedMarkdown } = useMarkdown(eventDescription)
 
-    const selectedEventStartTime = ref('')
-    const selectedEventEndTime = ref('')
+    const selectedEventStartTime = ref("")
+    const selectedEventEndTime = ref("")
 
-    const eventSectionRowLength = ref('2')
-    const eventSectionColumnLength = ref('2')
+    const eventSectionRowLength = ref("2")
+    const eventSectionColumnLength = ref("2")
 
-    const seatTemplate: Ref<Array<Array<ReebAEventSeat>>> = ref(generateEventSeats(5, 5, eventTicketPrices.value[0].price))
-    const eventSections: Ref<Array<Array<ReebAEventSection>>> = ref(generateEventSections(Number(eventSectionRowLength.value) || 1, Number(eventSectionColumnLength.value) || 1, seatTemplate.value))
+    const seatTemplate: Ref<Array<Array<ReebAEventSeat>>> = ref(
+      generateEventSeats(5, 5, eventTicketPrices.value[0].price)
+    )
+    const eventSections: Ref<Array<Array<ReebAEventSection>>> = ref(
+      generateEventSections(
+        Number(eventSectionRowLength.value) || 1,
+        Number(eventSectionColumnLength.value) || 1,
+        seatTemplate.value
+      )
+    )
 
     const eventImage = ref<File | null>(null)
-    const previewImage = ref('')
+    const previewImage = ref("")
     const onImageSelected = (e: Event): void => {
       const target = e.target as HTMLInputElement
       eventImage.value = target.files == null ? null : target.files[0]
-      previewImage.value = URL.createObjectURL(target.files == null ? new Blob() : target.files[0])
+      previewImage.value = URL.createObjectURL(
+        target.files == null ? new Blob() : target.files[0]
+      )
       console.log(previewImage.value)
     }
     const deleteImage = () => {
@@ -542,44 +565,54 @@ export default defineComponent({
 
     const createEvent = async (): Promise<void> => {
       const { method: postEventMethod, url: postEventUrl } = postEventEndpoint
-      const coordinateString = eventVenueCoordinates.value.split(',')
+      const coordinateString = eventVenueCoordinates.value.split(",")
 
-      if (eventName.value === '') {
-        toast.error('Event name is not defined')
+      if (eventName.value === "") {
+        toast.error("Event name is not defined")
         return
       }
 
-      if (coordinateString[0] == null || coordinateString[1] == null || isNaN(Number(coordinateString[0])) || isNaN(Number(coordinateString[1]))) {
-        toast.error('Cannot parse coordinates')
+      if (
+        coordinateString[0] == null ||
+        coordinateString[1] == null ||
+        isNaN(Number(coordinateString[0])) ||
+        isNaN(Number(coordinateString[1]))
+      ) {
+        toast.error("Cannot parse coordinates")
         return
       }
 
       if (eventDatetimes.value.length === 0) {
-        toast.error('There must be at least 1 datetime')
+        toast.error("There must be at least 1 datetime")
         return
       }
 
       for (const dt of eventDatetimes.value) {
-        if (dt.start.isBefore(dayjs(eventOpeningDate.value, 'YYYY-MM-DDTHH:mm')) || dt.end.isBefore(dayjs(eventOpeningDate.value, 'YYYY-MM-DDTHH:mm'))) {
-          toast.error('One of datetimes is before opening date')
+        if (
+          dt.start.isBefore(
+            dayjs(eventOpeningDate.value, "YYYY-MM-DDTHH:mm")
+          ) ||
+          dt.end.isBefore(dayjs(eventOpeningDate.value, "YYYY-MM-DDTHH:mm"))
+        ) {
+          toast.error("One of datetimes is before opening date")
           return
         }
 
         if (dt.end.isBefore(dt.start)) {
-          toast.error('One of datetimes, end time is before start time')
+          toast.error("One of datetimes, end time is before start time")
           return
         }
       }
 
-      if (eventOpeningDate.value === '') {
-        toast.error('Opening date cannot be blank')
+      if (eventOpeningDate.value === "") {
+        toast.error("Opening date cannot be blank")
         return
       }
 
       const priceSet = new Set(eventTicketPrices.value.map(p => p.price))
 
       if (priceSet.size < eventTicketPrices.value.length) {
-        toast.error('There is a redundant price')
+        toast.error("There is a redundant price")
         return
       }
 
@@ -593,7 +626,10 @@ export default defineComponent({
           x: coordinateString[0],
           y: coordinateString[1]
         },
-        openingDate: dayjs(eventOpeningDate.value, 'YYYY-MM-DDTHH:mm').toISOString(),
+        openingDate: dayjs(
+          eventOpeningDate.value,
+          "YYYY-MM-DDTHH:mm"
+        ).toISOString(),
         tags: eventTags.value,
         ticketPrices: eventTicketPrices.value.map(p => {
           return {
@@ -638,10 +674,11 @@ export default defineComponent({
 
         const form = new FormData()
 
-        const { method: postEventImageMethod, url: postEventImageUrl } = postEventImageEndpoint({ eventId: response.eventId })
+        const { method: postEventImageMethod, url: postEventImageUrl } =
+          postEventImageEndpoint({ eventId: response.eventId })
 
         if (eventImage.value != null) {
-          form.append('image', eventImage.value)
+          form.append("image", eventImage.value)
 
           await ky(postEventImageUrl, {
             method: postEventImageMethod,
@@ -649,8 +686,14 @@ export default defineComponent({
           })
         }
 
-        toast.success('Event created!')
-        router.push({ name: 'Event', params: { username: authStore.userData.username, eventId: response.eventId } })
+        toast.success("Event created!")
+        router.push({
+          name: "Event",
+          params: {
+            username: authStore.userData.username,
+            eventId: response.eventId
+          }
+        })
       } catch (error) {
         // @ts-expect-error error is unknown
         const json = await error.response.json()
@@ -659,81 +702,85 @@ export default defineComponent({
     }
 
     const selectedSection: Ref<Selected> = ref({
-      name: 'A1',
+      name: "A1",
       row: 0,
       column: 0
     })
 
     const seatTemplateSelectedSeat: Ref<Selected> = ref({
-      name: 'A1',
+      name: "A1",
       row: 0,
       column: 0
     })
 
     const actualSeatPlanSelectedSeat: Ref<Selected> = ref({
-      name: 'A1',
+      name: "A1",
       row: 0,
       column: 0
     })
 
-    const eventTagsSelectors: Ref<Array<{ name: string, tag: string }>> = ref([
-      { name: 'Amphitheater', tag: 'amphitheater' },
-      { name: 'Business', tag: 'business' },
-      { name: 'Concert', tag: 'concert' },
-      { name: 'Entertainment', tag: 'entertainment' },
-      { name: 'Fan meet', tag: 'fan-meet' },
-      { name: 'Gameshow', tag: 'gameshow' },
-      { name: 'Lifestyle', tag: 'lifestyle' },
-      { name: 'Live', tag: 'live' },
-      { name: 'Musical', tag: 'musical' },
-      { name: 'Online', tag: 'online' },
-      { name: 'Opera', tag: 'opera' },
-      { name: 'Seminar', tag: 'seminar' },
-      { name: 'Stand up comedy', tag: 'stand-up-comedy' },
-      { name: 'Technology', tag: 'technology' },
-      { name: 'Variety', tag: 'variety' }
+    const eventTagsSelectors: Ref<Array<{ name: string; tag: string }>> = ref([
+      { name: "Amphitheater", tag: "amphitheater" },
+      { name: "Business", tag: "business" },
+      { name: "Concert", tag: "concert" },
+      { name: "Entertainment", tag: "entertainment" },
+      { name: "Fan meet", tag: "fan-meet" },
+      { name: "Gameshow", tag: "gameshow" },
+      { name: "Lifestyle", tag: "lifestyle" },
+      { name: "Live", tag: "live" },
+      { name: "Musical", tag: "musical" },
+      { name: "Online", tag: "online" },
+      { name: "Opera", tag: "opera" },
+      { name: "Seminar", tag: "seminar" },
+      { name: "Stand up comedy", tag: "stand-up-comedy" },
+      { name: "Technology", tag: "technology" },
+      { name: "Variety", tag: "variety" }
     ])
 
     const openMarkdownRef = (url: string) => {
-      const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+      const newWindow = window.open(url, "_blank", "noopener,noreferrer")
       if (newWindow) newWindow.opener = null
     }
 
     const sectionsStyles = computed<StyleValue>(() => {
       return {
-        'grid-template-columns': `repeat(${eventSections.value[0].length || '1'}, 100px)`,
-        'grid-template-rows': `repeat(${eventSections.value.length || '1'}, 100px)`
+        "grid-template-columns": `repeat(${eventSections.value[0].length || "1"}, 100px)`,
+        "grid-template-rows": `repeat(${eventSections.value.length || "1"}, 100px)`
       }
     })
     const actualSeatPlanStyles = computed<StyleValue>(() => {
       return {
-        'grid-template-columns': `repeat(${eventSections.value[selectedSection.value.row][selectedSection.value.column].seats[0].length || '1'}, 32px)`,
-        'grid-template-rows': `repeat(${eventSections.value[selectedSection.value.row][selectedSection.value.column].seats.length || '1'}, 32px)`
+        "grid-template-columns": `repeat(${eventSections.value[selectedSection.value.row][selectedSection.value.column].seats[0].length || "1"}, 32px)`,
+        "grid-template-rows": `repeat(${eventSections.value[selectedSection.value.row][selectedSection.value.column].seats.length || "1"}, 32px)`
       }
     })
     const seatTemplateStyles = computed<StyleValue>(() => {
       return {
-        'grid-template-columns': `repeat(${seatTemplate.value[0].length || '1'}, 32px)`,
-        'grid-template-rows': `repeat(${seatTemplate.value.length || '1'}, 32px)`
+        "grid-template-columns": `repeat(${seatTemplate.value[0].length || "1"}, 32px)`,
+        "grid-template-rows": `repeat(${seatTemplate.value.length || "1"}, 32px)`
       }
     })
 
     const getTimeString = (time: ReebAEventDatetime): string => {
-      return `${time.start.format('MMMM D, YYYY HH:mm')} to ${time.end.format('MMMM D, YYYY HH:mm')}`
+      return `${time.start.format("MMMM D, YYYY HH:mm")} to ${time.end.format("MMMM D, YYYY HH:mm")}`
     }
 
     const addEventTime = (): void => {
-      if (!dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm', true).isValid()) {
+      if (
+        !dayjs(selectedEventStartTime.value, "YYYY-MM-DDTHH:mm", true).isValid()
+      ) {
         return
       }
 
-      if (!dayjs(selectedEventEndTime.value, 'YYYY-MM-DDTHH:mm', true).isValid()) {
+      if (
+        !dayjs(selectedEventEndTime.value, "YYYY-MM-DDTHH:mm", true).isValid()
+      ) {
         return
       }
 
       eventDatetimes.value.push({
-        start: dayjs(selectedEventStartTime.value, 'YYYY-MM-DDTHH:mm'),
-        end: dayjs(selectedEventEndTime.value, 'YYYY-MM-DDTHH:mm')
+        start: dayjs(selectedEventStartTime.value, "YYYY-MM-DDTHH:mm"),
+        end: dayjs(selectedEventEndTime.value, "YYYY-MM-DDTHH:mm")
       })
     }
 
@@ -747,15 +794,21 @@ export default defineComponent({
 
     const onSectionClick = (value: ReebAEventSection): void => {
       const modifiedSection = {
-        name: numberToLetters(value.sectionRowPosition) + (value.sectionColumnPosition + 1),
+        name:
+          numberToLetters(value.sectionRowPosition) +
+          (value.sectionColumnPosition + 1),
         row: value.sectionRowPosition,
         column: value.sectionColumnPosition
       }
       selectedSection.value = modifiedSection
     }
 
-    const setSelectedSeatTemplatePrice = (price: ReebAExtendedEventPrice): void => {
-      seatTemplate.value[seatTemplateSelectedSeat.value.row][seatTemplateSelectedSeat.value.column].seatPrice = price.price
+    const setSelectedSeatTemplatePrice = (
+      price: ReebAExtendedEventPrice
+    ): void => {
+      seatTemplate.value[seatTemplateSelectedSeat.value.row][
+        seatTemplateSelectedSeat.value.column
+      ].seatPrice = price.price
     }
 
     const onActualSeatPlanChange = (row: number, column: number): void => {
@@ -772,26 +825,39 @@ export default defineComponent({
     }
 
     const onPriceRangeColorChange = (ev: Event, index: number): void => {
-      eventTicketPrices.value[index].color = (ev.target as HTMLInputElement).value
+      eventTicketPrices.value[index].color = (
+        ev.target as HTMLInputElement
+      ).value
     }
 
     const onPriceRangePriceChange = (ev: Event, index: number): void => {
-      eventTicketPrices.value[index].price = Number((ev.target as HTMLInputElement).value)
+      eventTicketPrices.value[index].price = Number(
+        (ev.target as HTMLInputElement).value
+      )
     }
 
     const onPriceRangeCurrencyChange = (ev: Event, index: number): void => {
-      eventTicketPrices.value[index].currency = (ev.target as HTMLInputElement).value as 'USD' | 'CAD' | 'THB' | 'EUR'
+      eventTicketPrices.value[index].currency = (ev.target as HTMLInputElement)
+        .value as "USD" | "CAD" | "THB" | "EUR"
     }
 
-    const setActualSeatPlanPriceIndividually = (price: ReebAExtendedEventPrice): void => {
-      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats[actualSeatPlanSelectedSeat.value.row][actualSeatPlanSelectedSeat.value.column].seatPrice = price.price
+    const setActualSeatPlanPriceIndividually = (
+      price: ReebAExtendedEventPrice
+    ): void => {
+      eventSections.value[selectedSection.value.row][
+        selectedSection.value.column
+      ].seats[actualSeatPlanSelectedSeat.value.row][
+        actualSeatPlanSelectedSeat.value.column
+      ].seatPrice = price.price
     }
 
     const increasePriceRangeAmount = (): void => {
       eventTicketPrices.value.push({
         color: randomPastelColor(),
-        price: eventTicketPrices.value[eventTicketPrices.value.length - 1].price,
-        currency: eventTicketPrices.value[eventTicketPrices.value.length - 1].currency as 'USD' | 'CAD' | 'THB' | 'EUR'
+        price:
+          eventTicketPrices.value[eventTicketPrices.value.length - 1].price,
+        currency: eventTicketPrices.value[eventTicketPrices.value.length - 1]
+          .currency as "USD" | "CAD" | "THB" | "EUR"
       })
     }
 
@@ -801,9 +867,11 @@ export default defineComponent({
       }
 
       const firstElement = clone(eventTicketPrices.value[0])
-      const lastElement = clone(eventTicketPrices.value[eventTicketPrices.value.length - 1])
+      const lastElement = clone(
+        eventTicketPrices.value[eventTicketPrices.value.length - 1]
+      )
 
-      seatTemplate.value = seatTemplate.value.map((u) => {
+      seatTemplate.value = seatTemplate.value.map(u => {
         return u.map(v => {
           if (v.seatPrice === lastElement.price) {
             v.seatPrice = firstElement.price
@@ -817,35 +885,53 @@ export default defineComponent({
     }
 
     const increaseSeatTemplateRow = (): void => {
-      seatTemplate.value = increase2DArrayDimension(seatTemplate.value, 'row')
+      seatTemplate.value = increase2DArrayDimension(seatTemplate.value, "row")
     }
 
     const increaseSeatTemplateColumn = (): void => {
-      seatTemplate.value = increase2DArrayDimension(seatTemplate.value, 'column')
+      seatTemplate.value = increase2DArrayDimension(
+        seatTemplate.value,
+        "column"
+      )
     }
 
     const decreaseSeatTemplateRow = (): void => {
       if (seatTemplate.value.length - 1 === 0) {
         return
       }
-      seatTemplate.value = decrease2DArrayDimension(seatTemplate.value, 'row')
+      seatTemplate.value = decrease2DArrayDimension(seatTemplate.value, "row")
     }
 
     const decreaseSeatTemplateColumn = (): void => {
       if (seatTemplate.value[0].length - 1 === 0) {
         return
       }
-      seatTemplate.value = decrease2DArrayDimension(seatTemplate.value, 'column')
+      seatTemplate.value = decrease2DArrayDimension(
+        seatTemplate.value,
+        "column"
+      )
     }
 
     const increaseSectionRow = (): void => {
-      eventSectionRowLength.value = (Number(eventSectionRowLength.value) + 1).toString()
-      eventSections.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), seatTemplate.value)
+      eventSectionRowLength.value = (
+        Number(eventSectionRowLength.value) + 1
+      ).toString()
+      eventSections.value = generateEventSections(
+        Number(eventSectionRowLength.value),
+        Number(eventSectionColumnLength.value),
+        seatTemplate.value
+      )
     }
 
     const increaseSectionColumn = (): void => {
-      eventSectionColumnLength.value = (Number(eventSectionColumnLength.value) + 1).toString()
-      eventSections.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), seatTemplate.value)
+      eventSectionColumnLength.value = (
+        Number(eventSectionColumnLength.value) + 1
+      ).toString()
+      eventSections.value = generateEventSections(
+        Number(eventSectionRowLength.value),
+        Number(eventSectionColumnLength.value),
+        seatTemplate.value
+      )
     }
 
     const decreaseSectionRow = (): void => {
@@ -853,8 +939,14 @@ export default defineComponent({
         return
       }
       selectedSection.value = defaults
-      eventSectionRowLength.value = (Number(eventSectionRowLength.value) - 1).toString()
-      eventSections.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), seatTemplate.value)
+      eventSectionRowLength.value = (
+        Number(eventSectionRowLength.value) - 1
+      ).toString()
+      eventSections.value = generateEventSections(
+        Number(eventSectionRowLength.value),
+        Number(eventSectionColumnLength.value),
+        seatTemplate.value
+      )
     }
 
     const decreaseSectionColumn = (): void => {
@@ -862,39 +954,89 @@ export default defineComponent({
         return
       }
       selectedSection.value = defaults
-      eventSectionColumnLength.value = (Number(eventSectionColumnLength.value) - 1).toString()
-      eventSections.value = generateEventSections(Number(eventSectionRowLength.value), Number(eventSectionColumnLength.value), seatTemplate.value)
+      eventSectionColumnLength.value = (
+        Number(eventSectionColumnLength.value) - 1
+      ).toString()
+      eventSections.value = generateEventSections(
+        Number(eventSectionRowLength.value),
+        Number(eventSectionColumnLength.value),
+        seatTemplate.value
+      )
     }
 
     const increaseActualSeatPlanRow = (): void => {
-      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = increase2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'row')
+      eventSections.value[selectedSection.value.row][
+        selectedSection.value.column
+      ].seats = increase2DArrayDimension(
+        eventSections.value[selectedSection.value.row][
+          selectedSection.value.column
+        ].seats,
+        "row"
+      )
     }
 
     const increaseActualSeatPlanColumn = (): void => {
-      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = increase2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'column')
+      eventSections.value[selectedSection.value.row][
+        selectedSection.value.column
+      ].seats = increase2DArrayDimension(
+        eventSections.value[selectedSection.value.row][
+          selectedSection.value.column
+        ].seats,
+        "column"
+      )
     }
 
     const decreaseActualSeatPlanRow = (): void => {
-      if (eventSections.value[selectedSection.value.row][selectedSection.value.column].seats.length - 1 === 0) {
+      if (
+        eventSections.value[selectedSection.value.row][
+          selectedSection.value.column
+        ].seats.length -
+          1 ===
+        0
+      ) {
         return
       }
-      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = decrease2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'row')
+      eventSections.value[selectedSection.value.row][
+        selectedSection.value.column
+      ].seats = decrease2DArrayDimension(
+        eventSections.value[selectedSection.value.row][
+          selectedSection.value.column
+        ].seats,
+        "row"
+      )
     }
 
     const decreaseActualSeatPlanColumn = (): void => {
-      if (eventSections.value[selectedSection.value.row][selectedSection.value.column].seats[0].length - 1 === 0) {
+      if (
+        eventSections.value[selectedSection.value.row][
+          selectedSection.value.column
+        ].seats[0].length -
+          1 ===
+        0
+      ) {
         return
       }
-      eventSections.value[selectedSection.value.row][selectedSection.value.column].seats = decrease2DArrayDimension(eventSections.value[selectedSection.value.row][selectedSection.value.column].seats, 'column')
+      eventSections.value[selectedSection.value.row][
+        selectedSection.value.column
+      ].seats = decrease2DArrayDimension(
+        eventSections.value[selectedSection.value.row][
+          selectedSection.value.column
+        ].seats,
+        "column"
+      )
     }
 
-    watch(seatTemplate, (newInitialZone) => {
-      for (let i = 0; i < eventSections.value.length; i++) {
-        for (let j = 0; j < eventSections.value[i].length; j++) {
-          eventSections.value[i][j].seats = clone(newInitialZone)
+    watch(
+      seatTemplate,
+      newInitialZone => {
+        for (let i = 0; i < eventSections.value.length; i++) {
+          for (let j = 0; j < eventSections.value[i].length; j++) {
+            eventSections.value[i][j].seats = clone(newInitialZone)
+          }
         }
-      }
-    }, { deep: true })
+      },
+      { deep: true }
+    )
 
     return {
       eventTags,

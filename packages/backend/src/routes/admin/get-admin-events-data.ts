@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import dayjs from "dayjs"
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
 
 import {
   AdminGetEventDataReply,
@@ -8,7 +8,7 @@ import {
   AdminGetEventDataRequestQuerystringSchema,
   events,
   t_user_role
-} from '@reeba/common'
+} from "@reeba/common"
 
 const PAGE_SIZE = 30
 
@@ -26,54 +26,64 @@ type EventsList = events & {
   seat_fullness_percentage: number
 }
 
-const buildOrderQuery = (query: AdminGetEventDataRequestQuerystring): string => {
+const buildOrderQuery = (
+  query: AdminGetEventDataRequestQuerystring
+): string => {
   switch (query.sort) {
-    case 'event-name-asc':
-      return 'events.event_name asc'
-    case 'event-name-desc':
-      return 'events.event_name desc'
-    case 'username-asc':
-      return 'events.user_username asc'
-    case 'username-desc':
-      return 'events.user_username desc'
-    case 'creation-date-asc':
-      return 'events.event_creation_date asc'
-    case 'creation-date-desc':
-      return 'events.event_creation_date desc'
-    case 'opening-date-asc':
-      return 'events.event_opening_date asc'
-    case 'opening-date-desc':
-      return 'events.event_opening_date desc'
-    case 'status-asc':
-      return 'events.event_status asc'
-    case 'status-desc':
-      return 'events.event_status desc'
-    case 'seat-fullness-percentage-asc':
-      return 'seat_fullness_percentage asc'
-    case 'seat-fullness-percentage-desc':
-      return 'seat_fullness_percentage desc'
-    case 'total-seats-asc':
-      return 'total_seats asc'
-    case 'total-seats-desc':
-      return 'total_seats desc'
-    case 'total-taken-seats-asc':
-      return 'total_taken_seats asc'
-    case 'total-taken-seats-desc':
-      return 'total_taken_seats desc'
+    case "event-name-asc":
+      return "events.event_name asc"
+    case "event-name-desc":
+      return "events.event_name desc"
+    case "username-asc":
+      return "events.user_username asc"
+    case "username-desc":
+      return "events.user_username desc"
+    case "creation-date-asc":
+      return "events.event_creation_date asc"
+    case "creation-date-desc":
+      return "events.event_creation_date desc"
+    case "opening-date-asc":
+      return "events.event_opening_date asc"
+    case "opening-date-desc":
+      return "events.event_opening_date desc"
+    case "status-asc":
+      return "events.event_status asc"
+    case "status-desc":
+      return "events.event_status desc"
+    case "seat-fullness-percentage-asc":
+      return "seat_fullness_percentage asc"
+    case "seat-fullness-percentage-desc":
+      return "seat_fullness_percentage desc"
+    case "total-seats-asc":
+      return "total_seats asc"
+    case "total-seats-desc":
+      return "total_seats desc"
+    case "total-taken-seats-asc":
+      return "total_taken_seats asc"
+    case "total-taken-seats-desc":
+      return "total_taken_seats desc"
   }
 }
 
-const buildSearchQuery = (query: AdminGetEventDataRequestQuerystring): string => {
-  if (query.q != null && query.q !== '') {
+const buildSearchQuery = (
+  query: AdminGetEventDataRequestQuerystring
+): string => {
+  if (query.q != null && query.q !== "") {
     return `where array[events.event_name, events.user_username, events.event_venue_name] &@ '${query.q}'`
   }
 
-  return ''
+  return ""
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Querystring: AdminGetEventDataRequestQuerystring, Reply: AdminGetEventDataReply }>(
-    '/events',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.get<{
+    Querystring: AdminGetEventDataRequestQuerystring
+    Reply: AdminGetEventDataReply
+  }>(
+    "/events",
     {
       schema,
       onRequest: [
@@ -81,11 +91,11 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         (request, reply) => {
           if (request.user.role !== t_user_role.admin) {
             void reply.code(403)
-            throw new Error('forbidden')
+            throw new Error("forbidden")
           }
         }
       ],
-      preValidation: (request) => {
+      preValidation: request => {
         const { sort, page } = request.query
 
         if (Number(page) <= 0) {
@@ -97,15 +107,15 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
 
         // @ts-expect-error sort could be empty string
-        if (sort == null || sort === '') {
-          request.query.sort = 'event-name-asc'
+        if (sort == null || sort === "") {
+          request.query.sort = "event-name-asc"
         }
       },
       config: {
-        name: 'AdminGetEventsData'
+        name: "AdminGetEventsData"
       }
     },
-    async (request) => {
+    async request => {
       const { page } = request.query
 
       const eventsList = await instance.pg.query<EventsList, [number, number]>(
@@ -135,7 +145,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         group by events.event_id
         order by ${buildOrderQuery(request.query)}
         limit $1 offset $2`,
-        [PAGE_SIZE, (page * PAGE_SIZE) - PAGE_SIZE]
+        [PAGE_SIZE, page * PAGE_SIZE - PAGE_SIZE]
       )
 
       return {

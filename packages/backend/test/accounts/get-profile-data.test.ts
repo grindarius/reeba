@@ -13,7 +13,7 @@ describe("get profile data", async () => {
 
   beforeAll(async () => {
     await client.query('delete from "users" where user_username = $1', [
-      "profiledataguy",
+      "profiledataguy"
     ])
 
     await app.inject({
@@ -24,14 +24,14 @@ describe("get profile data", async () => {
         email: "profiledataguy@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "4589403342",
-      },
+        phoneNumber: "4589403342"
+      }
     })
 
     const birthdate = dayjs().subtract(20, "years").toDate()
     await client.query(
       'update "users" set user_birthdate = $1 where user_username = $2',
-      [birthdate, "profiledataguy"],
+      [birthdate, "profiledataguy"]
     )
 
     const userResponse = await app.inject({
@@ -39,8 +39,8 @@ describe("get profile data", async () => {
       url: "/auth/signin",
       payload: {
         email: "profiledataguy@gmail.com",
-        password: "asdfghjkl123",
-      },
+        password: "asdfghjkl123"
+      }
     })
   })
 
@@ -51,13 +51,13 @@ describe("get profile data", async () => {
       method: "get",
       url: "/accounts//profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     })
 
     expect(response.statusCode).toEqual(400)
     expect(response.json().message).toEqual(
-      "params should have required property 'username'",
+      "params should have required property 'username'"
     )
   })
 
@@ -66,8 +66,8 @@ describe("get profile data", async () => {
       method: "get",
       url: "/accounts/randomguylolsdf/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     })
 
     expect(response.statusCode).toEqual(404)
@@ -79,8 +79,8 @@ describe("get profile data", async () => {
       method: "get",
       url: "/accounts/aryastark/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     })
 
     expect(response.json()).toEqual({
@@ -88,7 +88,7 @@ describe("get profile data", async () => {
       phoneCountryCode: "66",
       phoneNumber: "994485893",
       birthdate: "",
-      iso31662: "TH",
+      iso31662: "TH"
     })
   })
 
@@ -97,8 +97,8 @@ describe("get profile data", async () => {
       method: "get",
       url: "/accounts/profiledataguy/profile-data",
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     })
 
     expect(response.json()).toEqual({
@@ -111,7 +111,7 @@ describe("get profile data", async () => {
         .set("second", 0)
         .set("millisecond", 0)
         .toISOString(),
-      iso31662: "",
+      iso31662: ""
     })
   })
 })

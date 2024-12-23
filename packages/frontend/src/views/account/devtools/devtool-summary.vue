@@ -242,23 +242,16 @@
 </template>
 
 <script lang="ts">
-import * as d3 from "d3";
-import dayjs from "dayjs";
-import type { FeatureCollection, Geometry } from "geojson";
-import i18nCountries from "i18n-iso-countries";
-import en from "i18n-iso-countries/langs/en.json";
-import ky from "ky";
-import * as topojson from "topojson-client";
-import {
-  type Ref,
-  computed,
-  defineComponent,
-  onMounted,
-  ref,
-  watch,
-} from "vue";
-import { useMeta } from "vue-meta";
-import { useRoute, useRouter } from "vue-router";
+import * as d3 from "d3"
+import dayjs from "dayjs"
+import type { FeatureCollection, Geometry } from "geojson"
+import i18nCountries from "i18n-iso-countries"
+import en from "i18n-iso-countries/langs/en.json"
+import ky from "ky"
+import * as topojson from "topojson-client"
+import { type Ref, computed, defineComponent, onMounted, ref, watch } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
 
 import type {
   AdminGetMapsDataReply,
@@ -266,64 +259,64 @@ import type {
   AdminGetStatisticsSummaryReply,
   AdminGetSummaryDataGroupByOption,
   AdminGetTopEventTagsOfAllTimeReply,
-  AdminGetTransactionSummaryReply,
-} from "@reeba/common";
+  AdminGetTransactionSummaryReply
+} from "@reeba/common"
 
 import {
   adminGetMapsDataEndpoint,
   adminGetRegistrationSummaryEndpoint,
   adminGetStatisticsSummaryEndpoint,
   adminGetTopEventTagsOfAllTimeEndpoint,
-  adminGetTransactionSummaryEndpoint,
-} from "@/api/endpoints";
-import countriesJson from "@/assets/world-topo.json";
-import { useAuthStore } from "@/store/use-auth-store";
+  adminGetTransactionSummaryEndpoint
+} from "@/api/endpoints"
+import countriesJson from "@/assets/world-topo.json"
+import { useAuthStore } from "@/store/use-auth-store"
 
-i18nCountries.registerLocale(en);
+i18nCountries.registerLocale(en)
 
 export default defineComponent({
   name: "devtool-summary",
   setup() {
-    const width = 800;
-    const height = 600;
-    const colorRange: [string, string] = ["#222", "#D5A755"];
+    const width = 800
+    const height = 600
+    const colorRange: [string, string] = ["#222", "#D5A755"]
 
-    const route = useRoute();
-    const router = useRouter();
-    const authStore = useAuthStore();
+    const route = useRoute()
+    const router = useRouter()
+    const authStore = useAuthStore()
 
-    const numberFormat = ref(Intl.NumberFormat("en", { notation: "compact" }));
+    const numberFormat = ref(Intl.NumberFormat("en", { notation: "compact" }))
 
     const worldMapStartDate = ref(
-      dayjs().subtract(1, "week").startOf("day").format("YYYY-MM-DD"),
-    );
-    const worldMapEndDate = ref(dayjs().startOf("day").format("YYYY-MM-DD"));
+      dayjs().subtract(1, "week").startOf("day").format("YYYY-MM-DD")
+    )
+    const worldMapEndDate = ref(dayjs().startOf("day").format("YYYY-MM-DD"))
 
     const transactionsChartStartDate = ref(
-      dayjs().subtract(1, "week").startOf("day").format("YYYY-MM-DD"),
-    );
+      dayjs().subtract(1, "week").startOf("day").format("YYYY-MM-DD")
+    )
     const transactionsChartEndDate = ref(
-      dayjs().startOf("day").format("YYYY-MM-DD"),
-    );
+      dayjs().startOf("day").format("YYYY-MM-DD")
+    )
     const transactionsChartGroupBy =
-      ref<AdminGetSummaryDataGroupByOption>("day");
+      ref<AdminGetSummaryDataGroupByOption>("day")
 
     const registrationChartStartDate = ref(
-      dayjs().subtract(1, "week").startOf("day").format("YYYY-MM-DD"),
-    );
+      dayjs().subtract(1, "week").startOf("day").format("YYYY-MM-DD")
+    )
     const registrationChartEndDate = ref(
-      dayjs().startOf("day").format("YYYY-MM-DD"),
-    );
+      dayjs().startOf("day").format("YYYY-MM-DD")
+    )
     const registrationChartGroupBy =
-      ref<AdminGetSummaryDataGroupByOption>("day");
+      ref<AdminGetSummaryDataGroupByOption>("day")
 
     const now = computed(() => {
-      return dayjs().format("D MMM");
-    });
+      return dayjs().format("D MMM")
+    })
 
     const startOfNow = computed(() => {
-      return dayjs().startOf("month").format("D MMM");
-    });
+      return dayjs().startOf("month").format("D MMM")
+    })
 
     const summaryResponse: Ref<AdminGetStatisticsSummaryReply> = ref({
       totalUsers: 0,
@@ -335,350 +328,350 @@ export default defineComponent({
       newEventsPastMonth: 0,
       newEventsPercentageDifferenceToLastMonth: 0,
       totalGrossIncome: 0,
-      totalPureIncome: 0,
-    });
+      totalPureIncome: 0
+    })
 
     const worldMapResponse: Ref<AdminGetMapsDataReply> = ref({
       users: [],
-      events: [],
-    });
+      events: []
+    })
 
     const transactionsSummaryResponse: Ref<AdminGetTransactionSummaryReply> =
       ref({
-        transactions: [],
-      });
+        transactions: []
+      })
 
     const registrationsSummaryResponse: Ref<AdminGetRegistrationSummaryReply> =
       ref({
-        registrations: [],
-      });
+        registrations: []
+      })
 
     const topEventTagsOfAllTimeResponse: Ref<AdminGetTopEventTagsOfAllTimeReply> =
       ref({
-        tags: [],
-      });
+        tags: []
+      })
 
-    const selectedChartType: Ref<"users" | "events"> = ref("users");
+    const selectedChartType: Ref<"users" | "events"> = ref("users")
 
     useMeta({
-      title: "Developer tools: Summary",
-    });
+      title: "Developer tools: Summary"
+    })
 
-    const worldMapRef: Ref<HTMLDivElement | undefined> = ref(undefined);
-    const land = ref({}) as Ref<FeatureCollection<Geometry, { name: string }>>;
+    const worldMapRef: Ref<HTMLDivElement | undefined> = ref(undefined)
+    const land = ref({}) as Ref<FeatureCollection<Geometry, { name: string }>>
     const svg = ref() as Ref<
       d3.Selection<SVGSVGElement, unknown, HTMLElement, unknown>
-    >;
-    const tooltip = ref();
+    >
+    const tooltip = ref()
     const projection = ref(
       d3
         .geoMercator()
         .scale(115)
         .center([0, 20])
-        .translate([width / 2, height / 2]),
-    );
-    const path = ref(d3.geoPath().projection(projection.value));
+        .translate([width / 2, height / 2])
+    )
+    const path = ref(d3.geoPath().projection(projection.value))
 
     const colorUsers = computed(() => {
       return d3.scaleLinear(
-        [0, Math.max(...worldMapResponse.value.users.map((u) => u.amount))],
-        colorRange,
-      );
-    });
+        [0, Math.max(...worldMapResponse.value.users.map(u => u.amount))],
+        colorRange
+      )
+    })
 
     const colorEvents = computed(() => {
       return d3.scaleLinear(
         [
           0,
           Number.isFinite(
-            Math.max(...worldMapResponse.value.events.map((e) => e.amount)),
+            Math.max(...worldMapResponse.value.events.map(e => e.amount))
           )
-            ? Math.max(...worldMapResponse.value.events.map((e) => e.amount))
-            : 0,
+            ? Math.max(...worldMapResponse.value.events.map(e => e.amount))
+            : 0
         ],
-        colorRange,
-      );
-    });
+        colorRange
+      )
+    })
 
     const getStatisticsSummary = async (): Promise<void> => {
       try {
-        const { method, url } = adminGetStatisticsSummaryEndpoint;
+        const { method, url } = adminGetStatisticsSummaryEndpoint
 
         const response = await ky(url, {
           method,
           headers: {
-            Authorization: `Bearer ${authStore.userData.token}`,
-          },
-        }).json<AdminGetStatisticsSummaryReply>();
+            Authorization: `Bearer ${authStore.userData.token}`
+          }
+        }).json<AdminGetStatisticsSummaryReply>()
 
-        summaryResponse.value = response;
+        summaryResponse.value = response
       } catch (error) {
         // @ts-expect-error error is unknown
-        const resp = error?.response;
+        const resp = error?.response
 
         if (resp.status == null) {
           router.push({
             name: "Not Found",
             params: { pathMatch: route.path.substring(1).split("/") },
             query: route.query,
-            hash: route.hash,
-          });
-          return;
+            hash: route.hash
+          })
+          return
         }
 
         if (resp.status === 401) {
-          router.push({ name: "Signin" });
-          return;
+          router.push({ name: "Signin" })
+          return
         }
 
         if (resp.status === 403) {
-          router.push({ name: "Home" });
-          return;
+          router.push({ name: "Home" })
+          return
         }
 
         router.push({
           name: "Not Found",
           params: { pathMatch: route.path.substring(1).split("/") },
           query: route.query,
-          hash: route.hash,
-        });
+          hash: route.hash
+        })
       }
-    };
+    }
 
     const getWorldMapData = async (): Promise<void> => {
       try {
-        const { method, url } = adminGetMapsDataEndpoint;
+        const { method, url } = adminGetMapsDataEndpoint
 
         const response = await ky(url, {
           method,
           headers: {
-            Authorization: `Bearer ${authStore.userData.token}`,
+            Authorization: `Bearer ${authStore.userData.token}`
           },
           searchParams: [
             ["start", dayjs(worldMapStartDate.value).toISOString()],
-            ["end", dayjs(worldMapEndDate.value).toISOString()],
-          ],
-        }).json<AdminGetMapsDataReply>();
+            ["end", dayjs(worldMapEndDate.value).toISOString()]
+          ]
+        }).json<AdminGetMapsDataReply>()
 
-        worldMapResponse.value = response;
+        worldMapResponse.value = response
       } catch (error) {
         // @ts-expect-error error is unknown
-        const resp = error?.response;
+        const resp = error?.response
 
         if (resp.status == null) {
           router.push({
             name: "Not Found",
             params: { pathMatch: route.path.substring(1).split("/") },
             query: route.query,
-            hash: route.hash,
-          });
-          return;
+            hash: route.hash
+          })
+          return
         }
 
         if (resp.status === 401) {
-          router.push({ name: "Signin" });
-          return;
+          router.push({ name: "Signin" })
+          return
         }
 
         if (resp.status === 403) {
-          router.push({ name: "Home" });
-          return;
+          router.push({ name: "Home" })
+          return
         }
 
         router.push({
           name: "Not Found",
           params: { pathMatch: route.path.substring(1).split("/") },
           query: route.query,
-          hash: route.hash,
-        });
+          hash: route.hash
+        })
       }
-    };
+    }
 
     const getTransactionsData = async (): Promise<void> => {
       try {
-        const { method, url } = adminGetTransactionSummaryEndpoint;
+        const { method, url } = adminGetTransactionSummaryEndpoint
 
         const response = await ky(url, {
           method,
           headers: {
-            Authorization: `Bearer ${authStore.userData.token}`,
+            Authorization: `Bearer ${authStore.userData.token}`
           },
           searchParams: [
             [
               "start",
               dayjs(transactionsChartStartDate.value)
                 .startOf(transactionsChartGroupBy.value)
-                .toISOString(),
+                .toISOString()
             ],
             [
               "end",
               dayjs(transactionsChartEndDate.value)
                 .startOf(transactionsChartGroupBy.value)
-                .toISOString(),
+                .toISOString()
             ],
-            ["group", transactionsChartGroupBy.value],
-          ],
-        }).json<AdminGetTransactionSummaryReply>();
+            ["group", transactionsChartGroupBy.value]
+          ]
+        }).json<AdminGetTransactionSummaryReply>()
 
-        transactionsSummaryResponse.value = response;
+        transactionsSummaryResponse.value = response
       } catch (error) {
         // @ts-expect-error error is unknown
-        const resp = error?.response;
+        const resp = error?.response
 
         if (resp.status == null) {
           router.push({
             name: "Not Found",
             params: { pathMatch: route.path.substring(1).split("/") },
             query: route.query,
-            hash: route.hash,
-          });
-          return;
+            hash: route.hash
+          })
+          return
         }
 
         if (resp.status === 401) {
-          router.push({ name: "Signin" });
-          return;
+          router.push({ name: "Signin" })
+          return
         }
 
         if (resp.status === 403) {
-          router.push({ name: "Home" });
-          return;
+          router.push({ name: "Home" })
+          return
         }
 
         router.push({
           name: "Not Found",
           params: { pathMatch: route.path.substring(1).split("/") },
           query: route.query,
-          hash: route.hash,
-        });
+          hash: route.hash
+        })
       }
-    };
+    }
 
     const getRegistrationsData = async (): Promise<void> => {
       try {
-        const { method, url } = adminGetRegistrationSummaryEndpoint;
+        const { method, url } = adminGetRegistrationSummaryEndpoint
 
         const response = await ky(url, {
           method,
           headers: {
-            Authorization: `Bearer ${authStore.userData.token}`,
+            Authorization: `Bearer ${authStore.userData.token}`
           },
           searchParams: [
             [
               "start",
               dayjs(registrationChartStartDate.value)
                 .startOf(registrationChartGroupBy.value)
-                .toISOString(),
+                .toISOString()
             ],
             [
               "end",
               dayjs(registrationChartEndDate.value)
                 .startOf(registrationChartGroupBy.value)
-                .toISOString(),
+                .toISOString()
             ],
-            ["group", registrationChartGroupBy.value],
-          ],
-        }).json<AdminGetRegistrationSummaryReply>();
+            ["group", registrationChartGroupBy.value]
+          ]
+        }).json<AdminGetRegistrationSummaryReply>()
 
-        registrationsSummaryResponse.value = response;
+        registrationsSummaryResponse.value = response
       } catch (error) {
         // @ts-expect-error error is unknown
-        const resp = error?.response;
+        const resp = error?.response
 
         if (resp.status == null) {
           router.push({
             name: "Not Found",
             params: { pathMatch: route.path.substring(1).split("/") },
             query: route.query,
-            hash: route.hash,
-          });
-          return;
+            hash: route.hash
+          })
+          return
         }
 
         if (resp.status === 401) {
-          router.push({ name: "Signin" });
-          return;
+          router.push({ name: "Signin" })
+          return
         }
 
         if (resp.status === 403) {
-          router.push({ name: "Home" });
-          return;
+          router.push({ name: "Home" })
+          return
         }
 
         router.push({
           name: "Not Found",
           params: { pathMatch: route.path.substring(1).split("/") },
           query: route.query,
-          hash: route.hash,
-        });
+          hash: route.hash
+        })
       }
-    };
+    }
 
     const getTopEventTagsOfAllTime = async (): Promise<void> => {
       try {
-        const { method, url } = adminGetTopEventTagsOfAllTimeEndpoint;
+        const { method, url } = adminGetTopEventTagsOfAllTimeEndpoint
 
         const response = await ky(url, {
           method,
           headers: {
-            Authorization: `Bearer ${authStore.userData.token}`,
+            Authorization: `Bearer ${authStore.userData.token}`
           },
-          searchParams: [["top", 10]],
-        }).json<AdminGetTopEventTagsOfAllTimeReply>();
+          searchParams: [["top", 10]]
+        }).json<AdminGetTopEventTagsOfAllTimeReply>()
 
-        topEventTagsOfAllTimeResponse.value = response;
+        topEventTagsOfAllTimeResponse.value = response
       } catch (error) {
         // @ts-expect-error error is unknown
-        const resp = error?.response;
+        const resp = error?.response
 
         if (resp.status == null) {
           router.push({
             name: "Not Found",
             params: { pathMatch: route.path.substring(1).split("/") },
             query: route.query,
-            hash: route.hash,
-          });
-          return;
+            hash: route.hash
+          })
+          return
         }
 
         if (resp.status === 401) {
-          router.push({ name: "Signin" });
-          return;
+          router.push({ name: "Signin" })
+          return
         }
 
         if (resp.status === 403) {
-          router.push({ name: "Home" });
-          return;
+          router.push({ name: "Home" })
+          return
         }
 
         router.push({
           name: "Not Found",
           params: { pathMatch: route.path.substring(1).split("/") },
           query: route.query,
-          hash: route.hash,
-        });
+          hash: route.hash
+        })
       }
-    };
+    }
 
     const createWorldMap = (): void => {
       svg.value = d3
         .select("div#world-map")
         .append("svg")
         .attr("id", "world-map-svg")
-        .attr("viewBox", `0 0 ${width} ${height}`);
+        .attr("viewBox", `0 0 ${width} ${height}`)
 
       tooltip.value = d3
         .select("div#world-map-tooltip")
         .style("position", "absolute")
-        .style("visibility", "hidden");
+        .style("visibility", "hidden")
 
       // @ts-expect-error from how json calculates their type
       land.value = topojson.feature(
         countriesJson,
-        countriesJson.objects.countries,
-      );
-      updateWorldMap();
-    };
+        countriesJson.objects.countries
+      )
+      updateWorldMap()
+    }
 
     const updateWorldMap = (): void => {
       svg.value
@@ -689,59 +682,59 @@ export default defineComponent({
         .attr("class", "world-map-path")
         .attr("stroke", "#ddd")
         .attr("stroke-width", "0.5px")
-        .attr("fill", (d) => {
+        .attr("fill", d => {
           if (selectedChartType.value === "users") {
             // * d.id is iso-3166 numeric
-            const alpha2 = i18nCountries.numericToAlpha2(d.id ?? "");
+            const alpha2 = i18nCountries.numericToAlpha2(d.id ?? "")
 
             if (alpha2 == null || alpha2 === "") {
-              return colorUsers.value(0);
+              return colorUsers.value(0)
             }
 
             const countryInResponse = worldMapResponse.value.users.find(
-              (u) => u.country === alpha2,
-            );
+              u => u.country === alpha2
+            )
 
             if (countryInResponse == null) {
-              return colorUsers.value(0);
+              return colorUsers.value(0)
             }
 
-            return colorUsers.value(countryInResponse.amount);
+            return colorUsers.value(countryInResponse.amount)
           }
 
           if (selectedChartType.value === "events") {
-            const alpha2 = i18nCountries.numericToAlpha2(d.id ?? "");
+            const alpha2 = i18nCountries.numericToAlpha2(d.id ?? "")
 
             if (alpha2 == null || alpha2 === "") {
-              return colorEvents.value(0);
+              return colorEvents.value(0)
             }
 
             const countryInResponse = worldMapResponse.value.events.find(
-              (e) => e.country === alpha2,
-            );
+              e => e.country === alpha2
+            )
 
             if (countryInResponse == null) {
-              return colorEvents.value(0);
+              return colorEvents.value(0)
             }
 
-            return colorEvents.value(countryInResponse.amount);
+            return colorEvents.value(countryInResponse.amount)
           }
 
-          return colorUsers.value(0);
+          return colorUsers.value(0)
         })
         .on("mouseover", () => {
-          tooltip.value.style("visibility", "visible");
+          tooltip.value.style("visibility", "visible")
         })
         .on("mousemove", (event, d) => {
-          const xy = d3.pointer(event, d3.select("svg#world-map-svg"));
-          const alpha2 = i18nCountries.numericToAlpha2(d.id ?? "");
+          const xy = d3.pointer(event, d3.select("svg#world-map-svg"))
+          const alpha2 = i18nCountries.numericToAlpha2(d.id ?? "")
 
           const tooltipTemplate = `
             <div class="py-1 px-4 h-16 rounded-lg bg-base-300">
               <h3 class="font-mono text-white opacity-70">$1</h3>
               <h3 class="font-mono text-xl text-white opacity-70">$2</h3>
             </div>
-          `;
+          `
 
           if (alpha2 == null || alpha2 === "") {
             tooltip.value
@@ -750,15 +743,15 @@ export default defineComponent({
               .html(
                 tooltipTemplate
                   .replace("$1", "Unknown")
-                  .replace("$2", "No data"),
-              );
-            return;
+                  .replace("$2", "No data")
+              )
+            return
           }
 
           if (selectedChartType.value === "users") {
             const countryInResponse = worldMapResponse.value.users.find(
-              (u) => u.country === alpha2,
-            );
+              u => u.country === alpha2
+            )
 
             if (countryInResponse == null) {
               tooltip.value
@@ -767,9 +760,9 @@ export default defineComponent({
                 .html(
                   tooltipTemplate
                     .replace("$1", i18nCountries.getName(alpha2, "en"))
-                    .replace("$2", "No data"),
-                );
-              return;
+                    .replace("$2", "No data")
+                )
+              return
             }
 
             tooltip.value
@@ -778,15 +771,15 @@ export default defineComponent({
               .html(
                 tooltipTemplate
                   .replace("$1", i18nCountries.getName(alpha2, "en"))
-                  .replace("$2", countryInResponse.amount.toString()),
-              );
-            return;
+                  .replace("$2", countryInResponse.amount.toString())
+              )
+            return
           }
 
           if (selectedChartType.value === "events") {
             const countryInResponse = worldMapResponse.value.events.find(
-              (e) => e.country === alpha2,
-            );
+              e => e.country === alpha2
+            )
 
             if (countryInResponse == null) {
               tooltip.value
@@ -795,9 +788,9 @@ export default defineComponent({
                 .html(
                   tooltipTemplate
                     .replace("$1", i18nCountries.getName(alpha2, "en"))
-                    .replace("$2", "No data"),
-                );
-              return;
+                    .replace("$2", "No data")
+                )
+              return
             }
 
             tooltip.value
@@ -806,48 +799,48 @@ export default defineComponent({
               .html(
                 tooltipTemplate
                   .replace("$1", i18nCountries.getName(alpha2, "en"))
-                  .replace("$2", countryInResponse.amount.toString()),
-              );
-            return;
+                  .replace("$2", countryInResponse.amount.toString())
+              )
+            return
           }
 
           tooltip.value
             .style("top", `${xy[1] + 10}px`)
             .style("left", `${xy[0] + 10}px`)
             .html(
-              tooltipTemplate.replace("$1", "Unknown").replace("$2", "No data"),
-            );
+              tooltipTemplate.replace("$1", "Unknown").replace("$2", "No data")
+            )
         })
         .on("mouseleave", () => {
-          tooltip.value.style("visibility", "hidden");
-        });
-    };
+          tooltip.value.style("visibility", "hidden")
+        })
+    }
 
     const barChartMargins = {
       top: 30,
       right: 30,
       bottom: 50,
-      left: 80,
-    };
+      left: 80
+    }
 
     const transactionChartWidth =
-      1530 - barChartMargins.left - barChartMargins.right;
+      1530 - barChartMargins.left - barChartMargins.right
     const transactionChartHeight =
-      500 - barChartMargins.top - barChartMargins.bottom;
+      500 - barChartMargins.top - barChartMargins.bottom
 
     const transactionChartSVG = ref() as Ref<
       d3.Selection<SVGGElement, unknown, HTMLElement, unknown>
-    >;
-    const transactionChartX = ref() as Ref<d3.ScaleBand<string>>;
+    >
+    const transactionChartX = ref() as Ref<d3.ScaleBand<string>>
     const transactionChartY = ref() as Ref<
       d3.ScaleLinear<number, number, never>
-    >;
+    >
     const transactionChartXAxis = ref() as Ref<
       d3.Selection<SVGGElement, unknown, HTMLElement, unknown>
-    >;
+    >
     const transactionChartYAxis = ref() as Ref<
       d3.Selection<SVGGElement, unknown, HTMLElement, unknown>
-    >;
+    >
 
     const createTransactionChart = (): void => {
       transactionChartSVG.value = d3
@@ -856,25 +849,23 @@ export default defineComponent({
         .attr("id", "transaction-bar-chart-svg")
         .attr(
           "width",
-          transactionChartWidth + barChartMargins.left + barChartMargins.right,
+          transactionChartWidth + barChartMargins.left + barChartMargins.right
         )
         .attr(
           "height",
-          transactionChartHeight + barChartMargins.top + barChartMargins.bottom,
+          transactionChartHeight + barChartMargins.top + barChartMargins.bottom
         )
         .append("g")
         .attr(
           "transform",
-          `translate(${barChartMargins.left}, ${barChartMargins.top})`,
-        );
+          `translate(${barChartMargins.left}, ${barChartMargins.top})`
+        )
 
       transactionChartX.value = d3
         .scaleBand()
         .range([0, transactionChartWidth])
-        .domain(
-          transactionsSummaryResponse.value.transactions.map((t) => t.date),
-        )
-        .padding(0.5);
+        .domain(transactionsSummaryResponse.value.transactions.map(t => t.date))
+        .padding(0.5)
 
       transactionChartY.value = d3.scaleLinear(
         [
@@ -882,88 +873,86 @@ export default defineComponent({
           Number.isFinite(
             Math.max(
               ...transactionsSummaryResponse.value.transactions.map(
-                (t) => t.amount,
-              ),
-            ),
+                t => t.amount
+              )
+            )
           )
             ? Math.max(
                 ...transactionsSummaryResponse.value.transactions.map(
-                  (t) => t.amount,
-                ),
+                  t => t.amount
+                )
               )
-            : 0,
+            : 0
         ],
-        [transactionChartHeight, 0],
-      );
+        [transactionChartHeight, 0]
+      )
 
       transactionChartXAxis.value = transactionChartSVG.value
         .append("g")
         .classed("transaction-chart-x-axis", true)
-        .attr("transform", `translate(0, ${transactionChartHeight})`);
+        .attr("transform", `translate(0, ${transactionChartHeight})`)
       transactionChartYAxis.value = transactionChartSVG.value
         .append("g")
-        .classed("transaction-chart-x-axis", true);
+        .classed("transaction-chart-x-axis", true)
 
-      updateTransactionChart();
-    };
+      updateTransactionChart()
+    }
 
     const updateTransactionChart = (): void => {
       transactionChartX.value.domain(
-        transactionsSummaryResponse.value.transactions.map((t) => t.date),
-      );
+        transactionsSummaryResponse.value.transactions.map(t => t.date)
+      )
       transactionChartY.value.domain([
         0,
         Number.isFinite(
           Math.max(
-            ...transactionsSummaryResponse.value.transactions.map(
-              (t) => t.amount,
-            ),
-          ),
+            ...transactionsSummaryResponse.value.transactions.map(t => t.amount)
+          )
         )
           ? Math.max(
               ...transactionsSummaryResponse.value.transactions.map(
-                (t) => t.amount,
-              ),
+                t => t.amount
+              )
             )
-          : 0,
-      ]);
+          : 0
+      ])
 
-      transactionChartXAxis.value.call(d3.axisBottom(transactionChartX.value));
-      transactionChartYAxis.value.call(d3.axisLeft(transactionChartY.value));
+      transactionChartXAxis.value.call(d3.axisBottom(transactionChartX.value))
+      transactionChartYAxis.value.call(d3.axisLeft(transactionChartY.value))
 
       transactionChartSVG.value
         .selectAll("rect.transaction-bar-chart")
         .data(transactionsSummaryResponse.value.transactions)
         .join("rect")
         .classed("transaction-bar-chart", true)
-        .attr("x", (d) => transactionChartX.value(d.date) ?? 0)
-        .attr("y", (d) => transactionChartY.value(d.amount))
+        .attr("x", d => transactionChartX.value(d.date) ?? 0)
+        .attr("y", d => transactionChartY.value(d.amount))
         .attr("width", transactionChartX.value.bandwidth())
         .attr(
           "height",
-          (d) => transactionChartHeight - transactionChartY.value(d.amount),
+          d => transactionChartHeight - transactionChartY.value(d.amount)
         )
-        .attr("fill", () => "#d5a755");
-    };
+        .attr("fill", () => "#d5a755")
+    }
 
     const registrationChartWidth =
-      1530 - barChartMargins.left - barChartMargins.right;
+      1530 - barChartMargins.left - barChartMargins.right
     const registrationChartHeight =
-      500 - barChartMargins.top - barChartMargins.bottom;
+      500 - barChartMargins.top - barChartMargins.bottom
 
     const registrationChartSVG = ref() as Ref<
       d3.Selection<SVGGElement, unknown, HTMLElement, unknown>
-    >;
-    const registrationChartX = ref() as Ref<d3.ScaleBand<string>>;
+    >
+    const registrationChartX = ref() as Ref<d3.ScaleBand<string>>
     const registrationChartY = ref() as Ref<
       d3.ScaleLinear<number, number, never>
-    >;
+    >
     const registrationChartXAxis = ref() as Ref<
       d3.Selection<SVGGElement, unknown, HTMLElement, unknown>
-    >;
+    >
     const registrationChartYAxis = ref() as Ref<
       d3.Selection<SVGGElement, unknown, HTMLElement, unknown>
-    >;
+    >
 
     const createRegistrationHistoryChart = (): void => {
       registrationChartSVG.value = d3
@@ -972,27 +961,25 @@ export default defineComponent({
         .attr("id", "registration-bar-chart-svg")
         .attr(
           "width",
-          registrationChartWidth + barChartMargins.left + barChartMargins.right,
+          registrationChartWidth + barChartMargins.left + barChartMargins.right
         )
         .attr(
           "height",
-          registrationChartHeight +
-            barChartMargins.top +
-            barChartMargins.bottom,
+          registrationChartHeight + barChartMargins.top + barChartMargins.bottom
         )
         .append("g")
         .attr(
           "transform",
-          `translate(${barChartMargins.left}, ${barChartMargins.top})`,
-        );
+          `translate(${barChartMargins.left}, ${barChartMargins.top})`
+        )
 
       registrationChartX.value = d3
         .scaleBand()
         .range([0, registrationChartWidth])
         .domain(
-          registrationsSummaryResponse.value.registrations.map((r) => r.date),
+          registrationsSummaryResponse.value.registrations.map(r => r.date)
         )
-        .padding(0.5);
+        .padding(0.5)
 
       registrationChartY.value = d3.scaleLinear(
         [
@@ -1000,109 +987,107 @@ export default defineComponent({
           Number.isFinite(
             Math.max(
               ...registrationsSummaryResponse.value.registrations.map(
-                (r) => r.amount,
-              ),
-            ),
+                r => r.amount
+              )
+            )
           )
             ? Math.max(
                 ...registrationsSummaryResponse.value.registrations.map(
-                  (r) => r.amount,
-                ),
+                  r => r.amount
+                )
               )
-            : 0,
+            : 0
         ],
-        [registrationChartHeight, 0],
-      );
+        [registrationChartHeight, 0]
+      )
 
       registrationChartXAxis.value = registrationChartSVG.value
         .append("g")
         .classed("registration-chart-x-axis", true)
-        .attr("transform", `translate(0, ${registrationChartHeight})`);
+        .attr("transform", `translate(0, ${registrationChartHeight})`)
       registrationChartYAxis.value = registrationChartSVG.value
         .append("g")
-        .classed("registration-chart-x-axis", true);
+        .classed("registration-chart-x-axis", true)
 
-      updateRegistrationChart();
-    };
+      updateRegistrationChart()
+    }
 
     const updateRegistrationChart = (): void => {
       registrationChartX.value.domain(
-        registrationsSummaryResponse.value.registrations.map((r) => r.date),
-      );
+        registrationsSummaryResponse.value.registrations.map(r => r.date)
+      )
       registrationChartY.value.domain([
         0,
         Number.isFinite(
           Math.max(
             ...registrationsSummaryResponse.value.registrations.map(
-              (r) => r.amount,
-            ),
-          ),
+              r => r.amount
+            )
+          )
         )
           ? Math.max(
               ...registrationsSummaryResponse.value.registrations.map(
-                (r) => r.amount,
-              ),
+                r => r.amount
+              )
             )
-          : 0,
-      ]);
+          : 0
+      ])
 
-      registrationChartXAxis.value.call(
-        d3.axisBottom(registrationChartX.value),
-      );
-      registrationChartYAxis.value.call(d3.axisLeft(registrationChartY.value));
+      registrationChartXAxis.value.call(d3.axisBottom(registrationChartX.value))
+      registrationChartYAxis.value.call(d3.axisLeft(registrationChartY.value))
 
       registrationChartSVG.value
         .selectAll("rect.registration-bar-chart")
         .data(registrationsSummaryResponse.value.registrations)
         .join("rect")
         .classed("registration-bar-chart", true)
-        .attr("x", (d) => registrationChartX.value(d.date) ?? 0)
-        .attr("y", (d) => registrationChartY.value(d.amount))
+        .attr("x", d => registrationChartX.value(d.date) ?? 0)
+        .attr("y", d => registrationChartY.value(d.amount))
         .attr("width", registrationChartX.value.bandwidth())
         .attr(
           "height",
-          (d) => registrationChartHeight - registrationChartY.value(d.amount),
+          d => registrationChartHeight - registrationChartY.value(d.amount)
         )
-        .attr("fill", () => "#d5a755");
-    };
+        .attr("fill", () => "#d5a755")
+    }
 
     const updateWorldMapSelector = (type: "users" | "events"): void => {
-      selectedChartType.value = type;
-      updateWorldMap();
-    };
+      selectedChartType.value = type
+      updateWorldMap()
+    }
 
     const getCountryName = (name: string): string => {
-      return i18nCountries.getName(name, "en") ?? "unknown";
-    };
+      return i18nCountries.getName(name, "en") ?? "unknown"
+    }
 
     watch([worldMapStartDate, worldMapEndDate], async () => {
-      await getWorldMapData();
-      updateWorldMap();
-    });
+      await getWorldMapData()
+      updateWorldMap()
+    })
 
     watch(
       [
         transactionsChartStartDate,
         transactionsChartEndDate,
-        transactionsChartGroupBy,
+        transactionsChartGroupBy
       ],
       async () => {
-        await getTransactionsData();
-        updateTransactionChart();
-      },
-    );
+        await getTransactionsData()
+        updateTransactionChart()
+      }
+    )
 
     watch(
       [
         registrationChartStartDate,
         registrationChartEndDate,
-        registrationChartGroupBy,
+        registrationChartGroupBy
       ],
       async () => {
-        await getRegistrationsData();
-        updateRegistrationChart();
-      },
-    );
+        await getRegistrationsData()
+        updateRegistrationChart()
+      }
+    )
 
     onMounted(async () => {
       await Promise.all([
@@ -1110,19 +1095,19 @@ export default defineComponent({
         getWorldMapData(),
         getTransactionsData(),
         getRegistrationsData(),
-        getTopEventTagsOfAllTime(),
-      ]);
+        getTopEventTagsOfAllTime()
+      ])
 
-      createWorldMap();
-      createTransactionChart();
-      updateTransactionChart();
-      createRegistrationHistoryChart();
-    });
+      createWorldMap()
+      createTransactionChart()
+      updateTransactionChart()
+      createRegistrationHistoryChart()
+    })
 
     const formatTagName = (tagKey: string): string => {
-      const spaced = tagKey.replaceAll("-", " ");
-      return spaced.charAt(0).toUpperCase() + spaced.slice(1);
-    };
+      const spaced = tagKey.replaceAll("-", " ")
+      return spaced.charAt(0).toUpperCase() + spaced.slice(1)
+    }
 
     return {
       worldMapRef,
@@ -1146,8 +1131,8 @@ export default defineComponent({
       updateWorldMapSelector,
       registrationChartGroupBy,
       registrationsSummaryResponse,
-      formatTagName,
-    };
-  },
-});
+      formatTagName
+    }
+  }
+})
 </script>

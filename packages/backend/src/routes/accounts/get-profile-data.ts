@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
 
 import {
   GetProfileDataReply,
@@ -6,7 +6,7 @@ import {
   GetProfileDataRequestParams,
   GetProfileDataRequestParamsSchema,
   users
-} from '@reeba/common'
+} from "@reeba/common"
 
 const schema: FastifySchema = {
   params: GetProfileDataRequestParamsSchema,
@@ -15,30 +15,46 @@ const schema: FastifySchema = {
   }
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Params: GetProfileDataRequestParams, Reply: GetProfileDataReply }>(
-    '/:username/profile-data',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.get<{
+    Params: GetProfileDataRequestParams
+    Reply: GetProfileDataReply
+  }>(
+    "/:username/profile-data",
     {
       schema,
       onRequest: [instance.authenticate],
       preValidation: (request, reply) => {
         const { username } = request.params
 
-        if (username == null || username === '') {
+        if (username == null || username === "") {
           void reply.code(400)
-          throw new Error('params should have required property \'username\'')
+          throw new Error("params should have required property 'username'")
         }
       },
       config: {
-        name: 'GetProfileData'
+        name: "GetProfileData"
       }
     },
     async (request, reply) => {
       const { username } = request.params
 
-      type UserData = Pick<users, 'user_email' | 'user_phone_number' | 'user_phone_country_code' | 'user_birthdate' | 'user_iso_31662_code'>
+      type UserData = Pick<
+        users,
+        | "user_email"
+        | "user_phone_number"
+        | "user_phone_country_code"
+        | "user_birthdate"
+        | "user_iso_31662_code"
+      >
 
-      const userData = await instance.pg.query<UserData, [users['user_username']]>(
+      const userData = await instance.pg.query<
+        UserData,
+        [users["user_username"]]
+      >(
         `select
           user_email,
           user_phone_country_code,
@@ -52,7 +68,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       if (userData.rowCount === 0) {
         void reply.code(404)
-        throw new Error('user not found')
+        throw new Error("user not found")
       }
 
       return {
@@ -60,7 +76,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         phoneCountryCode: userData.rows[0].user_phone_country_code,
         iso31662: userData.rows[0].user_iso_31662_code,
         phoneNumber: userData.rows[0].user_phone_number,
-        birthdate: userData.rows[0].user_birthdate ?? ''
+        birthdate: userData.rows[0].user_birthdate ?? ""
       }
     }
   )

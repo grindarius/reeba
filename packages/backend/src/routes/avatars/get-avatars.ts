@@ -1,44 +1,49 @@
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
 
-import { GetAvatarsParams, GetAvatarsParamsSchema, users } from '@reeba/common'
+import { GetAvatarsParams, GetAvatarsParamsSchema, users } from "@reeba/common"
 
 const schema: FastifySchema = {
   params: GetAvatarsParamsSchema
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
   instance.setNotFoundHandler(async (_, reply) => {
-    await reply.sendFile('default-user-profile.png')
+    await reply.sendFile("default-user-profile.png")
   })
 
   instance.get<{ Params: GetAvatarsParams }>(
-    '/:username',
+    "/:username",
     {
       schema,
       config: {
-        name: 'GetUserAvatar'
+        name: "GetUserAvatar"
       }
     },
     async (request, reply) => {
       const { username } = request.params
 
-      void reply.header('Cross-Origin-Resource-Policy', 'cross-origin')
+      void reply.header("Cross-Origin-Resource-Policy", "cross-origin")
 
-      if (username == null || username === '') {
-        return await reply.sendFile('default-user-profile.png')
+      if (username == null || username === "") {
+        return await reply.sendFile("default-user-profile.png")
       }
 
-      const imagePath = await instance.pg.query<Pick<users, 'user_image_profile_path'>, [users['user_username']]>(
-        'select user_image_profile_path from users where user_username = $1',
-        [username]
-      )
+      const imagePath = await instance.pg.query<
+        Pick<users, "user_image_profile_path">,
+        [users["user_username"]]
+      >("select user_image_profile_path from users where user_username = $1", [
+        username
+      ])
 
       if (imagePath.rowCount === 0) {
-        return await reply.sendFile('default-user-profile.png')
+        return await reply.sendFile("default-user-profile.png")
       }
 
-      if (imagePath.rows[0].user_image_profile_path === '') {
-        return await reply.sendFile('default-user-profile.png')
+      if (imagePath.rows[0].user_image_profile_path === "") {
+        return await reply.sendFile("default-user-profile.png")
       }
 
       return await reply.sendFile(imagePath.rows[0].user_image_profile_path)

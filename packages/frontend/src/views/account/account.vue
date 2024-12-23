@@ -62,19 +62,19 @@
 </template>
 
 <script lang="ts">
-import { storeToRefs } from 'pinia'
-import { defineComponent } from 'vue'
-import { useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import { storeToRefs } from "pinia"
+import { defineComponent } from "vue"
+import { useRouter } from "vue-router"
+import { useToast } from "vue-toastification"
 
-import { getUserAvatarEndpoint } from '@/api/endpoints'
-import { useAuthStore } from '@/store/use-auth-store'
-import { useSignedInGuard } from '@/utils'
+import { getUserAvatarEndpoint } from "@/api/endpoints"
+import { useAuthStore } from "@/store/use-auth-store"
+import { useSignedInGuard } from "@/utils"
 
 export default defineComponent({
-  name: 'account',
+  name: "account",
   beforeRouteEnter: useSignedInGuard,
-  setup () {
+  setup() {
     const authStore = useAuthStore()
     const { userData } = storeToRefs(authStore)
     const router = useRouter()
@@ -82,8 +82,8 @@ export default defineComponent({
 
     const signout = (): void => {
       authStore.signout()
-      toast.success('Signed out successfully!')
-      router.push('/')
+      toast.success("Signed out successfully!")
+      router.push("/")
     }
 
     return {

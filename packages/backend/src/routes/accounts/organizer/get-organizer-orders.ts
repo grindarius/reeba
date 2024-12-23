@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
-import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import dayjs from "dayjs"
+import { FastifyInstance, FastifyPluginOptions } from "fastify"
 
 import {
   event_datetimes,
@@ -11,24 +11,29 @@ import {
   numberToLetters,
   transactions,
   users
-} from '@reeba/common'
+} from "@reeba/common"
 
 type Transactions = transactions &
-Pick<users, 'user_phone_number' | 'user_phone_country_code' | 'user_email'> &
-Omit<event_sections, 'event_datetime_id'> &
-Pick<event_datetimes, 'event_datetime_id' | 'event_start_datetime'> &
-{
-  seat_detail: Array<{
-    f1: string
-    f2: number
-    f3: number
-    f4: number
-  }>
-}
+  Pick<users, "user_phone_number" | "user_phone_country_code" | "user_email"> &
+  Omit<event_sections, "event_datetime_id"> &
+  Pick<event_datetimes, "event_datetime_id" | "event_start_datetime"> & {
+    seat_detail: Array<{
+      f1: string
+      f2: number
+      f3: number
+      f4: number
+    }>
+  }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Params: GetOrganizerEventOrdersRequestParams, Reply: GetOrganizerEventOrdersReply }>(
-    '/:username/organizer/:eventId/orders',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.get<{
+    Params: GetOrganizerEventOrdersRequestParams
+    Reply: GetOrganizerEventOrdersReply
+  }>(
+    "/:username/organizer/:eventId/orders",
     {
       schema: {
         params: GetOrganizerEventOrdersRequestParamsSchema,
@@ -38,10 +43,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       },
       onRequest: [instance.authenticate],
       config: {
-        name: 'GetOrganizerEventOrders'
+        name: "GetOrganizerEventOrders"
       }
     },
-    async (request) => {
+    async request => {
       const { eventId } = request.params
 
       const transactions = await instance.pg.query<Transactions, [string]>(
@@ -107,7 +112,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
                 seatName: `${numberToLetters(s.f3)}${s.f4 + 1}`
               }
             }),
-            totalPrice: t.seat_detail.reduce((total, current) => current.f2 + total, 0)
+            totalPrice: t.seat_detail.reduce(
+              (total, current) => current.f2 + total,
+              0
+            )
           }
         })
       }

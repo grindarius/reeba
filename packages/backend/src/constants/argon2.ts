@@ -1,10 +1,10 @@
-import { config } from 'dotenv-flow'
-import { resolve } from 'node:path'
+import { config } from "dotenv-flow"
+import { resolve } from "node:path"
 
-import { Options as Argon2Options } from '@node-rs/argon2'
+import { Options as Argon2Options } from "@node-rs/argon2"
 
 config({
-  path: resolve(__dirname, '..', '..'),
+  path: resolve(__dirname, "..", ".."),
   silent: true
 })
 
@@ -13,8 +13,8 @@ const ARGON2_HASH_LENGTH = 40
 const ARGON2_PARALLELISM_THREAD_COUNT = 4
 
 /* istanbul ignore if */
-if (process.env.ARGON2_PEPPER == null || process.env.ARGON2_PEPPER === '') {
-  throw new Error('missing argon2 pepper')
+if (process.env.ARGON2_PEPPER == null || process.env.ARGON2_PEPPER === "") {
+  throw new Error("missing argon2 pepper")
 }
 
 /**

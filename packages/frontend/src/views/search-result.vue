@@ -143,10 +143,10 @@
 </template>
 
 <script lang="ts">
-import ky from 'ky'
-import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
+import ky from "ky"
+import { computed, defineComponent, onMounted, Ref, ref, watch } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
 
 import {
   CreatorType,
@@ -160,22 +160,22 @@ import {
   priceRange,
   SearchType,
   searchType
-} from '@reeba/common'
+} from "@reeba/common"
 
-import { getSearchResultEndpoint, getUserAvatarEndpoint } from '@/api/endpoints'
-import { formatQueryArray, formatQueryString, formatTimeString } from '@/utils'
+import { getSearchResultEndpoint, getUserAvatarEndpoint } from "@/api/endpoints"
+import { formatQueryArray, formatQueryString, formatTimeString } from "@/utils"
 
 export default defineComponent({
-  name: 'search',
-  setup () {
+  name: "search",
+  setup() {
     const route = useRoute()
     const router = useRouter()
 
     const selectedCreatorType: Ref<Array<CreatorType>> = ref([])
-    const selectedPriceRange: Ref<PriceRange> = ref('Any')
+    const selectedPriceRange: Ref<PriceRange> = ref("Any")
     const selectedTags: Ref<Array<EventTags>> = ref([])
-    const selectedDateRange: Ref<DateRange> = ref('All dates')
-    const selectedSearchQueryType: Ref<SearchType> = ref('Events')
+    const selectedDateRange: Ref<DateRange> = ref("All dates")
+    const selectedSearchQueryType: Ref<SearchType> = ref("Events")
     const selectedPage: Ref<number> = ref(1)
 
     const isVerified = (isVerified: boolean, isAdmin: boolean): boolean => {
@@ -186,20 +186,32 @@ export default defineComponent({
       return isVerified
     }
 
-    const searchResultResponse: Ref<GetSearchResultReply> = ref({ events: [], users: [] })
+    const searchResultResponse: Ref<GetSearchResultReply> = ref({
+      events: [],
+      users: []
+    })
 
     useMeta({
-      title: route.query.q ?? 'Search'
+      title: route.query.q ?? "Search"
     })
 
     const getSearchResult = async (): Promise<void> => {
       const formattedQ = formatQueryString(route.query.q)
       const formattedCreatorType = formatQueryArray(route.query.creatorType)
-      const formattedPriceRange = formatQueryString(route.query.priceRange, 'Any')
+      const formattedPriceRange = formatQueryString(
+        route.query.priceRange,
+        "Any"
+      )
       const formattedTags = formatQueryArray(route.query.tags)
-      const formattedDateRange = formatQueryString(route.query.dateRange, 'All dates')
-      const formattedSearchQueryType = formatQueryString(route.query.type, 'Events')
-      const formattedPage = formatQueryString(route.query.page, '1')
+      const formattedDateRange = formatQueryString(
+        route.query.dateRange,
+        "All dates"
+      )
+      const formattedSearchQueryType = formatQueryString(
+        route.query.type,
+        "Events"
+      )
+      const formattedPage = formatQueryString(route.query.page, "1")
 
       selectedCreatorType.value = formattedCreatorType as Array<CreatorType>
       selectedPriceRange.value = formattedPriceRange as PriceRange
@@ -213,13 +225,13 @@ export default defineComponent({
       const response = await ky(url, {
         method,
         searchParams: [
-          ['q', formattedQ],
-          ...formattedCreatorType.map(ct => ['creatorType', ct]),
-          ['priceRange', formattedPriceRange],
-          ...formattedTags.map(t => ['tags', t]),
-          ['dateRange', formattedDateRange],
-          ['type', formattedSearchQueryType],
-          ['page', selectedPage.value]
+          ["q", formattedQ],
+          ...formattedCreatorType.map(ct => ["creatorType", ct]),
+          ["priceRange", formattedPriceRange],
+          ...formattedTags.map(t => ["tags", t]),
+          ["dateRange", formattedDateRange],
+          ["type", formattedSearchQueryType],
+          ["page", selectedPage.value]
         ]
       }).json<GetSearchResultReply>()
 
@@ -231,9 +243,9 @@ export default defineComponent({
       await getSearchResult()
     })
 
-    watch(selectedCreatorType, (now) => {
+    watch(selectedCreatorType, now => {
       router.replace({
-        name: 'Search',
+        name: "Search",
         query: {
           ...route.query,
           ...{ creatorType: now }
@@ -241,9 +253,9 @@ export default defineComponent({
       })
     })
 
-    watch(selectedPriceRange, (now) => {
+    watch(selectedPriceRange, now => {
       router.replace({
-        name: 'Search',
+        name: "Search",
         query: {
           ...route.query,
           ...{ priceRange: now }
@@ -251,9 +263,9 @@ export default defineComponent({
       })
     })
 
-    watch(selectedTags, (now) => {
+    watch(selectedTags, now => {
       router.replace({
-        name: 'Search',
+        name: "Search",
         query: {
           ...route.query,
           ...{ tags: now }
@@ -261,9 +273,9 @@ export default defineComponent({
       })
     })
 
-    watch(selectedDateRange, (now) => {
+    watch(selectedDateRange, now => {
       router.replace({
-        name: 'Search',
+        name: "Search",
         query: {
           ...route.query,
           ...{ dateRange: now }
@@ -271,9 +283,9 @@ export default defineComponent({
       })
     })
 
-    watch(selectedSearchQueryType, (now) => {
+    watch(selectedSearchQueryType, now => {
       router.replace({
-        name: 'Search',
+        name: "Search",
         query: {
           ...route.query,
           ...{ type: now }
@@ -282,15 +294,17 @@ export default defineComponent({
     })
 
     const getPreviousButtonClassName = computed(() => {
-      return selectedPage.value - 1 === 0 ? 'btn btn-outline btn-disabled' : 'btn btn-outline'
+      return selectedPage.value - 1 === 0
+        ? "btn btn-outline btn-disabled"
+        : "btn btn-outline"
     })
 
     const goToNextPage = (): void => {
       router.replace({
-        name: 'Search',
+        name: "Search",
         query: {
           ...route.query,
-          ...{ page: selectedPage.value += 1 }
+          ...{ page: (selectedPage.value += 1) }
         }
       })
     }
@@ -301,10 +315,10 @@ export default defineComponent({
       }
 
       router.replace({
-        name: 'Search',
+        name: "Search",
         query: {
           ...route.query,
-          ...{ page: selectedPage.value -= 1 }
+          ...{ page: (selectedPage.value -= 1) }
         }
       })
     }

@@ -1,7 +1,7 @@
-import { countries } from 'countries-list'
-import { computed, ComputedRef, Ref, ref } from 'vue'
+import { countries } from "countries-list"
+import { computed, ComputedRef, Ref, ref } from "vue"
 
-import { CountryCode } from '@/types'
+import { CountryCode } from "@/types"
 
 export interface UsePhoneCodes {
   selectedPhoneCountryCode: Ref<CountryCode>
@@ -11,7 +11,9 @@ export interface UsePhoneCodes {
   findCountryName: (code: string) => string | undefined
 }
 
-export const usePhoneCodes = (defaultCountryCode: CountryCode = { name: '', phoneCode: '', iso31662: '' }): UsePhoneCodes => {
+export const usePhoneCodes = (
+  defaultCountryCode: CountryCode = { name: "", phoneCode: "", iso31662: "" }
+): UsePhoneCodes => {
   const selectedPhoneCountryCode = ref(defaultCountryCode)
 
   const onPhoneCountryCodeClicked = (index: number): void => {
@@ -24,7 +26,7 @@ export const usePhoneCodes = (defaultCountryCode: CountryCode = { name: '', phon
 
   const phoneCodesList = computed(() => {
     return Object.entries(countries).flatMap(ct => {
-      const phoneCodeArray = ct[1].phone.split(',')
+      const phoneCodeArray = ct[1].phone.split(",")
 
       return phoneCodeArray.map(code => {
         const ret: CountryCode = {

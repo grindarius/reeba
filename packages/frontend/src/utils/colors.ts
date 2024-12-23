@@ -1,5 +1,5 @@
-import { randomInt } from 'd3'
-import tinycolor from 'tinycolor2'
+import { randomInt } from "d3"
+import tinycolor from "tinycolor2"
 
 export const randomPastelColor = (): string => {
   const r = randomInt(255)()

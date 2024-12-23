@@ -217,29 +217,33 @@
 </template>
 
 <script lang="ts">
-import { format } from 'd3'
-import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import { format } from "d3"
+import ky from "ky"
+import { defineComponent, onMounted, Ref, ref } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
+import { useToast } from "vue-toastification"
 
-import { GetOrganizerDataReply } from '@reeba/common'
+import { GetOrganizerDataReply } from "@reeba/common"
 
-import { getEventImageEndpoint, getOrganizerDataEndpoint, postManipulateEventEndpoint } from '@/api/endpoints'
-import { useAuthStore } from '@/store/use-auth-store'
-import { formatQueryString, formatTimeString } from '@/utils'
+import {
+  getEventImageEndpoint,
+  getOrganizerDataEndpoint,
+  postManipulateEventEndpoint
+} from "@/api/endpoints"
+import { useAuthStore } from "@/store/use-auth-store"
+import { formatQueryString, formatTimeString } from "@/utils"
 
 export default defineComponent({
-  name: 'organizer-tools',
-  setup () {
+  name: "organizer-tools",
+  setup() {
     const route = useRoute()
     const router = useRouter()
     const authStore = useAuthStore()
     const toast = useToast()
 
     useMeta({
-      title: 'Organizer tools'
+      title: "Organizer tools"
     })
 
     const page = ref(1)
@@ -249,20 +253,20 @@ export default defineComponent({
     })
 
     const getOrganizerData = async (): Promise<void> => {
-      const formattedPage = formatQueryString(route.query.page, '1')
+      const formattedPage = formatQueryString(route.query.page, "1")
       page.value = Number(formattedPage)
 
       try {
-        const { method, url } = getOrganizerDataEndpoint({ username: authStore.userData.username })
+        const { method, url } = getOrganizerDataEndpoint({
+          username: authStore.userData.username
+        })
 
         const response = await ky(url, {
           method,
           headers: {
             Authorization: `Bearer ${authStore.userData.token}`
           },
-          searchParams: [
-            ['page', page.value]
-          ]
+          searchParams: [["page", page.value]]
         }).json<GetOrganizerDataReply>()
 
         organizerEventsResponse.value = response
@@ -273,12 +277,17 @@ export default defineComponent({
         const json = await resp?.json()
 
         if (resp.status == null) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
           return
         }
 
         if (resp.status === 401) {
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
           return
         }
 
@@ -286,7 +295,7 @@ export default defineComponent({
       }
     }
 
-    const toggleEvent = async (status: 'open' | 'closed', id: string) => {
+    const toggleEvent = async (status: "open" | "closed", id: string) => {
       try {
         const { method, url } = postManipulateEventEndpoint({ eventId: id })
 
@@ -300,7 +309,7 @@ export default defineComponent({
           }
         })
 
-        toast.success('Successfully toggled')
+        toast.success("Successfully toggled")
         setTimeout(() => {
           router.go(0)
         }, 2050)
@@ -311,12 +320,17 @@ export default defineComponent({
         const json = await resp?.json()
 
         if (resp.status == null) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
           return
         }
 
         if (resp.status === 401) {
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
           return
         }
 

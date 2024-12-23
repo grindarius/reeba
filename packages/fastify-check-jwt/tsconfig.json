@@ -4,11 +4,7 @@
   "compilerOptions": {
     "declaration": true,
     "outDir": "./dist",
-    "typeRoots": [
-      "./src/types/index.d.ts"
-    ]
+    "typeRoots": ["./src/types/index.d.ts"]
   },
-  "include": [
-    "./src/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts"]
 }

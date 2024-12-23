@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import dayjs from "dayjs"
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
 
 import {
   AdminGetTransactionDataReply,
@@ -8,7 +8,7 @@ import {
   AdminGetTransactionDataRequestQuerystringSchema,
   t_user_role,
   transactions
-} from '@reeba/common'
+} from "@reeba/common"
 
 const PAGE_SIZE = 30
 
@@ -19,34 +19,44 @@ const schema: FastifySchema = {
   }
 }
 
-const sortByQueryBuilder = (query: AdminGetTransactionDataRequestQuerystring): string => {
+const sortByQueryBuilder = (
+  query: AdminGetTransactionDataRequestQuerystring
+): string => {
   switch (query.sort) {
-    case 'time-asc':
-      return 'transactions.transaction_time asc'
-    case 'time-desc':
-      return 'transactions.transaction_time desc'
-    case 'price-asc':
-      return 'total_price asc'
-    case 'price-desc':
-      return 'total_price desc'
-    case 'username-asc':
-      return 'transactions.user_username asc'
-    case 'username-desc':
-      return 'transactions.user_username desc'
+    case "time-asc":
+      return "transactions.transaction_time asc"
+    case "time-desc":
+      return "transactions.transaction_time desc"
+    case "price-asc":
+      return "total_price asc"
+    case "price-desc":
+      return "total_price desc"
+    case "username-asc":
+      return "transactions.user_username asc"
+    case "username-desc":
+      return "transactions.user_username desc"
   }
 }
 
-const buildSearchQuery = (query: AdminGetTransactionDataRequestQuerystring): string => {
-  if (query.q != null && query.q !== '') {
+const buildSearchQuery = (
+  query: AdminGetTransactionDataRequestQuerystring
+): string => {
+  if (query.q != null && query.q !== "") {
     return `where array[transactions.user_username] &@ '${query.q}'`
   }
 
-  return ''
+  return ""
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Querystring: AdminGetTransactionDataRequestQuerystring, Reply: AdminGetTransactionDataReply }>(
-    '/transactions',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.get<{
+    Querystring: AdminGetTransactionDataRequestQuerystring
+    Reply: AdminGetTransactionDataReply
+  }>(
+    "/transactions",
     {
       schema,
       onRequest: [
@@ -54,11 +64,11 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         (request, reply) => {
           if (request.user.role !== t_user_role.admin) {
             void reply.code(403)
-            throw new Error('forbidden')
+            throw new Error("forbidden")
           }
         }
       ],
-      preValidation: (request) => {
+      preValidation: request => {
         if (Number(request.query.page) <= 0) {
           request.query.page = 1
         }
@@ -68,18 +78,24 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
 
         // @ts-expect-error sort could be empty string
-        if (request.query.sort == null || request.query.sort === '') {
-          request.query.sort = 'time-asc'
+        if (request.query.sort == null || request.query.sort === "") {
+          request.query.sort = "time-asc"
         }
       },
       config: {
-        name: 'AdminGetTransactionData'
+        name: "AdminGetTransactionData"
       }
     },
-    async (request) => {
+    async request => {
       const { page } = request.query
 
-      const transactions = await instance.pg.query<transactions & { seat_list: Array<string>, total_price: number, total_transactions: number }>(
+      const transactions = await instance.pg.query<
+        transactions & {
+          seat_list: Array<string>
+          total_price: number
+          total_transactions: number
+        }
+      >(
         `select
           count(transactions.transaction_id) over() as total_transactions,
           transactions.*,
@@ -92,7 +108,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         group by transactions.transaction_id
         order by ${sortByQueryBuilder(request.query)}
         limit $1 offset $2`,
-        [PAGE_SIZE, (PAGE_SIZE * page) - PAGE_SIZE]
+        [PAGE_SIZE, PAGE_SIZE * page - PAGE_SIZE]
       )
 
       return {

@@ -238,14 +238,14 @@
 </template>
 
 <script lang="ts">
-import { getName } from 'i18n-iso-countries'
-import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref, watch } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import { getName } from "i18n-iso-countries"
+import ky from "ky"
+import { defineComponent, onMounted, Ref, ref, watch } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
+import { useToast } from "vue-toastification"
 
-import { AdminGetUserDataOptions, AdminGetUserDataReply } from '@reeba/common'
+import { AdminGetUserDataOptions, AdminGetUserDataReply } from "@reeba/common"
 
 import {
   adminGetUserDataEndpoint,
@@ -255,31 +255,31 @@ import {
   adminRevokeAdminEndpoint,
   adminRevokeVerificationEndpoint,
   getUserAvatarEndpoint
-} from '@/api/endpoints'
-import { useAuthStore } from '@/store/use-auth-store'
-import { formatQueryString, formatTimeString } from '@/utils'
+} from "@/api/endpoints"
+import { useAuthStore } from "@/store/use-auth-store"
+import { formatQueryString, formatTimeString } from "@/utils"
 
 export default defineComponent({
-  name: 'devtool-users',
-  setup () {
+  name: "devtool-users",
+  setup() {
     const router = useRouter()
     const route = useRoute()
     const authStore = useAuthStore()
     const toast = useToast()
-    const userSearch = ref('')
+    const userSearch = ref("")
     const userSearchRef: Ref<HTMLInputElement | null> = ref(null)
 
     useMeta({
-      title: 'Developer tools: Users'
+      title: "Developer tools: Users"
     })
 
-    const sortOptions: Ref<AdminGetUserDataOptions> = ref('name-asc')
+    const sortOptions: Ref<AdminGetUserDataOptions> = ref("name-asc")
     const userData: Ref<AdminGetUserDataReply> = ref({ total: 0, users: [] })
     const page = ref(1)
 
-    watch(sortOptions, async (now) => {
+    watch(sortOptions, async now => {
       router.replace({
-        name: 'Developer Users',
+        name: "Developer Users",
         query: {
           ...route.query,
           ...{ sort: now }
@@ -288,9 +288,12 @@ export default defineComponent({
     })
 
     const getAdminUsers = async (): Promise<void> => {
-      const formattedPage = Number(formatQueryString(route.query.page, '1'))
-      const formattedSortOptions = formatQueryString(route.query.sort, 'name-asc')
-      const formattedQ = formatQueryString(route.query.q, '')
+      const formattedPage = Number(formatQueryString(route.query.page, "1"))
+      const formattedSortOptions = formatQueryString(
+        route.query.sort,
+        "name-asc"
+      )
+      const formattedQ = formatQueryString(route.query.q, "")
 
       page.value = formattedPage
       sortOptions.value = formattedSortOptions as AdminGetUserDataOptions
@@ -309,9 +312,9 @@ export default defineComponent({
             Authorization: `Bearer ${authStore.userData.token}`
           },
           searchParams: [
-            ['page', page.value],
-            ['sort', sortOptions.value],
-            ['q', userSearch.value]
+            ["page", page.value],
+            ["sort", sortOptions.value],
+            ["q", userSearch.value]
           ]
         }).json<AdminGetUserDataReply>()
 
@@ -322,21 +325,31 @@ export default defineComponent({
         const resp = error?.response
 
         if (resp.status == null) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
           return
         }
 
         if (resp.status === 401) {
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
           return
         }
 
         if (resp.status === 403) {
-          router.push({ name: 'Home' })
+          router.push({ name: "Home" })
           return
         }
 
-        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        router.push({
+          name: "Not Found",
+          params: { pathMatch: route.path.substring(1).split("/") },
+          query: route.query,
+          hash: route.hash
+        })
       }
     }
 
@@ -351,7 +364,7 @@ export default defineComponent({
           }
         })
 
-        toast.success('Granted admin successfully')
+        toast.success("Granted admin successfully")
         setTimeout(() => {
           router.go(0)
         }, 2050)
@@ -373,7 +386,7 @@ export default defineComponent({
           }
         })
 
-        toast.success('Revoke admin successfully')
+        toast.success("Revoke admin successfully")
         setTimeout(() => {
           router.go(0)
         }, 2050)
@@ -395,7 +408,7 @@ export default defineComponent({
           }
         })
 
-        toast.success('Grant verified status successfully')
+        toast.success("Grant verified status successfully")
         setTimeout(() => {
           router.go(0)
         }, 2050)
@@ -417,7 +430,7 @@ export default defineComponent({
           }
         })
 
-        toast.success('Revoke verified status successfully')
+        toast.success("Revoke verified status successfully")
         setTimeout(() => {
           router.go(0)
         }, 2050)
@@ -439,7 +452,7 @@ export default defineComponent({
           }
         })
 
-        toast.success('User removed successfully')
+        toast.success("User removed successfully")
         setTimeout(() => {
           router.go(0)
         }, 2050)
@@ -452,15 +465,15 @@ export default defineComponent({
 
     const dropdownClass = (i: number) => {
       if (userData.value.users.length - i < 6) {
-        return 'dropdown dropdown-end dropdown-top'
+        return "dropdown dropdown-end dropdown-top"
       }
 
-      return 'dropdown dropdown-end'
+      return "dropdown dropdown-end"
     }
 
-    watch(userSearch, (now) => {
+    watch(userSearch, now => {
       router.replace({
-        name: 'Developer Users',
+        name: "Developer Users",
         query: {
           ...route.query,
           ...{ q: now }

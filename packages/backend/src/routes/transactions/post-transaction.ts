@@ -1,5 +1,5 @@
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
-import { nanoid } from 'nanoid'
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
+import { nanoid } from "nanoid"
 
 import {
   event_datetimes,
@@ -10,7 +10,7 @@ import {
   PostTransactionReplySchema,
   PostTransactionRequestBody,
   PostTransactionRequestBodySchema
-} from '@reeba/common'
+} from "@reeba/common"
 
 const schema: FastifySchema = {
   body: PostTransactionRequestBodySchema,
@@ -19,71 +19,85 @@ const schema: FastifySchema = {
   }
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.post<{ Body: PostTransactionRequestBody, Reply: PostTransactionReply }>(
-    '/',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.post<{
+    Body: PostTransactionRequestBody
+    Reply: PostTransactionReply
+  }>(
+    "/",
     {
       schema,
       onRequest: [instance.authenticate],
       preValidation: (request, reply) => {
         const { eventId, datetimeId, sectionId, seatIds } = request.body
 
-        if (eventId == null || eventId === '') {
+        if (eventId == null || eventId === "") {
           void reply.code(400)
-          throw new Error('body should have required property \'eventId\'')
+          throw new Error("body should have required property 'eventId'")
         }
 
-        if (datetimeId == null || datetimeId === '') {
+        if (datetimeId == null || datetimeId === "") {
           void reply.code(400)
-          throw new Error('body should have required property \'datetimeId\'')
+          throw new Error("body should have required property 'datetimeId'")
         }
 
-        if (sectionId == null || sectionId === '') {
+        if (sectionId == null || sectionId === "") {
           void reply.code(400)
-          throw new Error('body should have required property \'sectionId\'')
+          throw new Error("body should have required property 'sectionId'")
         }
 
         if (seatIds == null) {
           void reply.code(400)
-          throw new Error('body should have required property \'seatIds\'')
+          throw new Error("body should have required property 'seatIds'")
         }
 
         if (!Array.isArray(seatIds)) {
           void reply.code(400)
-          throw new Error('wrong \'seatIds\' format')
+          throw new Error("wrong 'seatIds' format")
         }
 
         if (seatIds.length === 0) {
           void reply.code(400)
-          throw new Error('body should have required property \'seatIds\'')
+          throw new Error("body should have required property 'seatIds'")
         }
 
-        const filteredSeats = seatIds.filter(id => id !== '')
+        const filteredSeats = seatIds.filter(id => id !== "")
 
         if (filteredSeats.length === 0) {
           void reply.code(400)
-          throw new Error('no seatIds available after it\'s filtered for empty string')
+          throw new Error(
+            "no seatIds available after it's filtered for empty string"
+          )
         }
 
         request.body = { ...request.body, ...{ seatIds: filteredSeats } }
       },
       config: {
-        name: 'PostTransaction'
+        name: "PostTransaction"
       }
     },
     async (request, reply) => {
       const { eventId, datetimeId, sectionId, seatIds } = request.body
 
-      type TakenSeatsReturn = Pick<events, 'event_id'> & Pick<event_datetimes, 'event_datetime_id'> & Pick<event_sections, 'event_section_id'> & Pick<event_seats, 'event_seat_id'>
+      type TakenSeatsReturn = Pick<events, "event_id"> &
+        Pick<event_datetimes, "event_datetime_id"> &
+        Pick<event_sections, "event_section_id"> &
+        Pick<event_seats, "event_seat_id">
       type TakenSeatsValues = [
-        events['event_id'],
-        event_datetimes['event_datetime_id'],
-        event_sections['event_section_id'],
-        ...Array<event_seats['event_seat_id']>
+        events["event_id"],
+        event_datetimes["event_datetime_id"],
+        event_sections["event_section_id"],
+        ...Array<event_seats["event_seat_id"]>
       ]
 
       // * check if all seats are taken or not
-      const takenSeats = await instance.pg.query<TakenSeatsReturn, TakenSeatsValues>(
+      const takenSeats = await instance.pg.query<
+        TakenSeatsReturn,
+        TakenSeatsValues
+      >(
         `select
           events.event_id,
           event_datetimes.event_datetime_id,
@@ -99,18 +113,24 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
           events.event_id = $1 and
           event_datetimes.event_datetime_id = $2 and
           event_sections.event_section_id = $3 and
-          event_seats.event_seat_id in (${seatIds.map((_, i) => `$${i + 4}`).join(',')})`,
+          event_seats.event_seat_id in (${seatIds.map((_, i) => `$${i + 4}`).join(",")})`,
         [eventId, datetimeId, sectionId, ...seatIds]
       )
 
       if (takenSeats.rowCount !== 0) {
         void reply.code(400)
-        throw new Error('the following seatIds are taken: ' + takenSeats.rows.map(t => t.event_seat_id).join(', '))
+        throw new Error(
+          "the following seatIds are taken: " +
+            takenSeats.rows.map(t => t.event_seat_id).join(", ")
+        )
       }
 
       // * if none is taken, register the transaction.
       return await instance.pg.transact<PostTransactionReply>(async client => {
-        const transactionId = await client.query<{ transaction_id: string }, [string, string]>(
+        const transactionId = await client.query<
+          { transaction_id: string },
+          [string, string]
+        >(
           'insert into "transactions" (transaction_id, user_username) values ($1, $2) returning transaction_id',
           [nanoid(), request.user.username]
         )
@@ -123,7 +143,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
 
         return {
-          message: 'complete'
+          message: "complete"
         }
       })
     }

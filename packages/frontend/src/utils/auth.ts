@@ -1,13 +1,17 @@
-import { NavigationGuardWithThis } from 'vue-router'
+import { NavigationGuardWithThis } from "vue-router"
 
-import { useAuthStore } from '@/store/use-auth-store'
+import { useAuthStore } from "@/store/use-auth-store"
 
-export const useSignedInGuard: NavigationGuardWithThis<undefined> = (_, __, next) => {
+export const useSignedInGuard: NavigationGuardWithThis<undefined> = (
+  _,
+  __,
+  next
+) => {
   const authStore = useAuthStore()
 
   if (authStore.isAuthenticated) {
     next()
   } else {
-    next('/signin')
+    next("/signin")
   }
 }

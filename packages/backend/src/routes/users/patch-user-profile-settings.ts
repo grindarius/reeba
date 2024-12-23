@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions } from "fastify"
 
 import {
   PatchUserDescriptionReply,
@@ -7,11 +7,18 @@ import {
   PatchUserDescriptionRequestBodySchema,
   PatchUserDescriptionRequestParams,
   PatchUserDescriptionRequestParamsSchema
-} from '@reeba/common'
+} from "@reeba/common"
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.patch<{ Params: PatchUserDescriptionRequestParams, Body: PatchUserDescriptionRequestBody, Reply: PatchUserDescriptionReply }>(
-    '/:username/profile',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.patch<{
+    Params: PatchUserDescriptionRequestParams
+    Body: PatchUserDescriptionRequestBody
+    Reply: PatchUserDescriptionReply
+  }>(
+    "/:username/profile",
     {
       schema: {
         params: PatchUserDescriptionRequestParamsSchema,
@@ -21,7 +28,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
       },
       onRequest: [instance.authenticate],
-      preValidation: (request) => {
+      preValidation: request => {
         const {
           description,
           facebook,
@@ -33,38 +40,38 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         } = request.body
 
         if (description == null) {
-          request.body.description = ''
+          request.body.description = ""
         }
 
         if (facebook == null) {
-          request.body.facebook = ''
+          request.body.facebook = ""
         }
 
         if (instagram == null) {
-          request.body.instagram = ''
+          request.body.instagram = ""
         }
 
         if (twitter == null) {
-          request.body.twitter = ''
+          request.body.twitter = ""
         }
 
         if (tiktok == null) {
-          request.body.tiktok = ''
+          request.body.tiktok = ""
         }
 
         if (website == null) {
-          request.body.website = ''
+          request.body.website = ""
         }
 
         if (email == null) {
-          request.body.email = ''
+          request.body.email = ""
         }
       },
       config: {
-        name: 'PatchUserDescription'
+        name: "PatchUserDescription"
       }
     },
-    async (request) => {
+    async request => {
       const {
         description,
         facebook,
@@ -136,7 +143,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         )
 
         return {
-          message: 'complete'
+          message: "complete"
         }
       })
     }

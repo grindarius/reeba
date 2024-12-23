@@ -71,18 +71,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import { defineComponent, ref } from "vue"
+import { useRouter } from "vue-router"
+import { useToast } from "vue-toastification"
 
-import { SignupBody } from '@reeba/common'
+import { SignupBody } from "@reeba/common"
 
-import { usePhoneCodes } from '@/composables'
-import { useAuthStore } from '@/store/use-auth-store'
+import { usePhoneCodes } from "@/composables"
+import { useAuthStore } from "@/store/use-auth-store"
 
 export default defineComponent({
-  name: 'register',
-  setup () {
+  name: "register",
+  setup() {
     const authStore = useAuthStore()
     const toast = useToast()
     const router = useRouter()
@@ -93,11 +93,11 @@ export default defineComponent({
       selectedPhoneCountryCode: phoneCountryCodeField
     } = usePhoneCodes()
 
-    const usernameField = ref('')
-    const emailField = ref('')
-    const phoneNumberField = ref('')
-    const passwordField = ref('')
-    const confirmPasswordField = ref('')
+    const usernameField = ref("")
+    const emailField = ref("")
+    const phoneNumberField = ref("")
+    const passwordField = ref("")
+    const confirmPasswordField = ref("")
 
     const signup = async (): Promise<void> => {
       const signupCredentials: SignupBody = {
@@ -111,8 +111,8 @@ export default defineComponent({
 
       try {
         await authStore.signup(signupCredentials)
-        toast.success('Signup completed')
-        router.push({ name: 'Signin' })
+        toast.success("Signup completed")
+        router.push({ name: "Signin" })
       } catch (error) {
         // @ts-expect-error unknown error
         const json = await error.response.json()

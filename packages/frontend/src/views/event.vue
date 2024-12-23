@@ -122,59 +122,83 @@
 </template>
 
 <script lang="ts">
-import { format } from 'd3'
-import dayjs from 'dayjs'
-import ky from 'ky'
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
+import { format } from "d3"
+import dayjs from "dayjs"
+import ky from "ky"
+import { computed, defineComponent, onMounted, Ref, ref } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
 
-import { GetIndividualEventReply } from '@reeba/common'
+import { GetIndividualEventReply } from "@reeba/common"
 
-import { getEventImageEndpoint, getIndividualEventEndpoint, getUserAvatarEndpoint } from '@/api/endpoints'
-import { useMarkdown } from '@/composables'
-import { useAuthStore } from '@/store/use-auth-store'
-import { formatTimeString } from '@/utils'
+import {
+  getEventImageEndpoint,
+  getIndividualEventEndpoint,
+  getUserAvatarEndpoint
+} from "@/api/endpoints"
+import { useMarkdown } from "@/composables"
+import { useAuthStore } from "@/store/use-auth-store"
+import { formatTimeString } from "@/utils"
 
 export default defineComponent({
-  name: 'event',
-  setup () {
+  name: "event",
+  setup() {
     const route = useRoute()
     const router = useRouter()
     const authStore = useAuthStore()
     const eventData: Ref<GetIndividualEventReply | undefined> = ref(undefined)
 
-    useMeta(computed(() => {
-      return {
-        title: eventData.value?.name ?? ''
-      }
-    }))
+    useMeta(
+      computed(() => {
+        return {
+          title: eventData.value?.name ?? ""
+        }
+      })
+    )
 
-    const markdownString = ref(eventData.value?.description ?? '## No description provided')
+    const markdownString = ref(
+      eventData.value?.description ?? "## No description provided"
+    )
     const { renderedMarkdown } = useMarkdown(markdownString)
 
-    const formatTimeRange = (datetimes: Array<{ start: string, end: string }>): string => {
-      const sortedDatetimes = datetimes.sort((a, b) => dayjs(a.start).unix() - dayjs(b.start).unix())
+    const formatTimeRange = (
+      datetimes: Array<{ start: string; end: string }>
+    ): string => {
+      const sortedDatetimes = datetimes.sort(
+        (a, b) => dayjs(a.start).unix() - dayjs(b.start).unix()
+      )
       const first = dayjs(sortedDatetimes[0].start)
       const last = dayjs(sortedDatetimes[sortedDatetimes.length - 1].start)
 
-      if (first.get('year') !== last.get('year')) {
-        return `${first.format('D MMMM YYYY')} - ${last.format('D MMMM YYYY')}`
-      } else if (first.get('month') !== last.get('month')) {
-        return `${first.format('D MMMM')} - ${last.format('D MMMM')} ${first.format('YYYY')}`
-      } else if (first.get('date') !== last.get('date')) {
-        return `${first.format('D')} - ${last.format('D')} ${first.format('MMMM YYYY')}`
+      if (first.get("year") !== last.get("year")) {
+        return `${first.format("D MMMM YYYY")} - ${last.format("D MMMM YYYY")}`
+      } else if (first.get("month") !== last.get("month")) {
+        return `${first.format("D MMMM")} - ${last.format("D MMMM")} ${first.format("YYYY")}`
+      } else if (first.get("date") !== last.get("date")) {
+        return `${first.format("D")} - ${last.format("D")} ${first.format("MMMM YYYY")}`
       } else {
-        return first.format('D MMMM YYYY')
+        return first.format("D MMMM YYYY")
       }
     }
 
-    const formatPrices = (prices: Array<{ color: string, value: number }>): string => {
-      return prices.map(p => p.value).sort((a, b) => a - b).map(p => format(',')(p)).join(' / ') + ' THB'
+    const formatPrices = (
+      prices: Array<{ color: string; value: number }>
+    ): string => {
+      return (
+        prices
+          .map(p => p.value)
+          .sort((a, b) => a - b)
+          .map(p => format(",")(p))
+          .join(" / ") + " THB"
+      )
     }
 
-    const openGoogle = (place: {x: string, y: string}): void => {
-      const w = window.open(`https://www.google.com/maps/search/?api=1&query=${place.x},${place.y}`, '_blank', 'noopener')
+    const openGoogle = (place: { x: string; y: string }): void => {
+      const w = window.open(
+        `https://www.google.com/maps/search/?api=1&query=${place.x},${place.y}`,
+        "_blank",
+        "noopener"
+      )
       if (w != null) {
         w.opener = null
       }
@@ -182,12 +206,12 @@ export default defineComponent({
 
     const goToSelectSeatPage = (datetimeId: string): void => {
       if (!authStore.isAuthenticated) {
-        router.push({ name: 'Signin' })
+        router.push({ name: "Signin" })
         return
       }
 
       router.push({
-        name: 'Select Seat',
+        name: "Select Seat",
         params: {
           username: route.params.username,
           eventId: route.params.eventId,
@@ -198,41 +222,48 @@ export default defineComponent({
 
     const buyButtonClassName = (): string => {
       if (!authStore.isAuthenticated) {
-        return 'text-white btn btn-secondary'
+        return "text-white btn btn-secondary"
       }
 
       if (authStore.userData.username === eventData.value?.createdBy) {
-        return 'text-white btn btn-disabled bg-red-500'
+        return "text-white btn btn-disabled bg-red-500"
       }
 
       // * check if it has reached the buying date
       if (dayjs().isBefore(dayjs(eventData.value?.openingDate))) {
-        return 'text-white btn btn-disabled bg-red-500'
+        return "text-white btn btn-disabled bg-red-500"
       }
 
       // * check if user had attended the event
       if (eventData.value?.isCurrentUserAttended) {
-        return 'text-white btn btn-disabled bg-red-500'
+        return "text-white btn btn-disabled bg-red-500"
       }
 
-      return 'text-white btn btn-secondary'
+      return "text-white btn btn-secondary"
     }
 
     onMounted(async () => {
-      const { method, url } = getIndividualEventEndpoint({ eventId: route.params.eventId as string ?? '' })
+      const { method, url } = getIndividualEventEndpoint({
+        eventId: (route.params.eventId as string) ?? ""
+      })
 
       try {
         const response = await ky(url, {
           method,
           searchParams: [
-            ['u', authStore.isAuthenticated ? authStore.userData.username : '']
+            ["u", authStore.isAuthenticated ? authStore.userData.username : ""]
           ]
         }).json<GetIndividualEventReply>()
 
         eventData.value = response
         markdownString.value = response.description
       } catch (error) {
-        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        router.push({
+          name: "Not Found",
+          params: { pathMatch: route.path.substring(1).split("/") },
+          query: route.query,
+          hash: route.hash
+        })
       }
     })
 

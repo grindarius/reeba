@@ -2,12 +2,7 @@
   "$schema": "https://json.schemastore.org/tsconfig.json",
   "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
-    "typeRoots": [
-      "./@types"
-    ]
+    "typeRoots": ["./@types"]
   },
-  "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

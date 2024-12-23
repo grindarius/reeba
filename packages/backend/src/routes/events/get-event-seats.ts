@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
 
 import {
   event_datetimes,
@@ -11,7 +11,7 @@ import {
   GetEventSeatsRequestParamsSchema,
   GetEventSeatsRequestQuerystring,
   GetEventSeatsRequestQuerystringSchema
-} from '@reeba/common'
+} from "@reeba/common"
 
 const schema: FastifySchema = {
   params: GetEventSeatsRequestParamsSchema,
@@ -21,9 +21,16 @@ const schema: FastifySchema = {
   }
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Params: GetEventSeatsRequestParams, Querystring: GetEventSeatsRequestQuerystring, Reply: GetEventSeatsReply }>(
-    '/:eventId/seats',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.get<{
+    Params: GetEventSeatsRequestParams
+    Querystring: GetEventSeatsRequestQuerystring
+    Reply: GetEventSeatsReply
+  }>(
+    "/:eventId/seats",
     {
       schema,
       onRequest: [instance.authenticate],
@@ -31,44 +38,53 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         const { eventId } = request.params
         const { datetimeId } = request.query
 
-        if (eventId == null || eventId === '') {
+        if (eventId == null || eventId === "") {
           void reply.code(400)
-          throw new Error('params should have required property \'eventId\'')
+          throw new Error("params should have required property 'eventId'")
         }
 
-        if (datetimeId == null || datetimeId === '') {
+        if (datetimeId == null || datetimeId === "") {
           void reply.code(400)
-          throw new Error('querystring should have required property \'datetimeId\'')
+          throw new Error(
+            "querystring should have required property 'datetimeId'"
+          )
         }
       },
       config: {
-        name: 'GetEventSeats'
+        name: "GetEventSeats"
       }
     },
     async (request, reply) => {
-      const theEvent = await instance.pg.query<events, [events['event_id']]>(
+      const theEvent = await instance.pg.query<events, [events["event_id"]]>(
         'select * from "events" where event_id = $1',
         [request.params.eventId]
       )
 
       if (theEvent.rows.length === 0) {
         void reply.code(404)
-        throw new Error('Event not found')
+        throw new Error("Event not found")
       }
 
-      const datetimes = await instance.pg.query<event_datetimes, [events['event_id'], event_datetimes['event_datetime_id']]>(
+      const datetimes = await instance.pg.query<
+        event_datetimes,
+        [events["event_id"], event_datetimes["event_datetime_id"]]
+      >(
         'select * from "event_datetimes" where event_id = $1 and event_datetime_id = $2',
         [request.params.eventId, request.query.datetimeId]
       )
 
       if (datetimes.rows.length === 0) {
         void reply.code(404)
-        throw new Error('Event datetime not found')
+        throw new Error("Event datetime not found")
       }
 
-      type EventSeats = Omit<event_sections, 'event_datetime_id'> & event_seats & { is_seat_taken: boolean }
+      type EventSeats = Omit<event_sections, "event_datetime_id"> &
+        event_seats & { is_seat_taken: boolean }
 
-      const sectionsAndSeats = await instance.pg.query<EventSeats, [events['event_id'], event_datetimes['event_datetime_id']]>(
+      const sectionsAndSeats = await instance.pg.query<
+        EventSeats,
+        [events["event_id"], event_datetimes["event_datetime_id"]]
+      >(
         `select
           event_sections.event_section_id,
           event_sections.event_section_row_position,
@@ -87,7 +103,12 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         [request.params.eventId, request.query.datetimeId]
       )
 
-      const ticketPrices = await instance.pg.query<Pick<events, 'event_ticket_prices'>, [events['event_id']]>('select event_ticket_prices from "events" where event_id = $1', [request.params.eventId])
+      const ticketPrices = await instance.pg.query<
+        Pick<events, "event_ticket_prices">,
+        [events["event_id"]]
+      >('select event_ticket_prices from "events" where event_id = $1', [
+        request.params.eventId
+      ])
 
       return {
         sections: sectionsAndSeats.rows.map(s => {
@@ -102,7 +123,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
             isSeatTaken: s.is_seat_taken
           }
         }),
-        ticketPrices: Object.entries(ticketPrices.rows[0].event_ticket_prices).map(p => {
+        ticketPrices: Object.entries(
+          ticketPrices.rows[0].event_ticket_prices
+        ).map(p => {
           return {
             color: p[0],
             price: p[1]

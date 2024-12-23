@@ -80,75 +80,75 @@
 </template>
 
 <script lang="ts">
-import dayjs from 'dayjs'
-import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import dayjs from "dayjs"
+import ky from "ky"
+import { defineComponent, onMounted, Ref, ref } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
+import { useToast } from "vue-toastification"
 
-import {
-  GetEditableEventDataReply
-} from '@reeba/common'
+import { GetEditableEventDataReply } from "@reeba/common"
 
 import {
   getEditableEventDataEndpoint,
   patchEditableEventDataEndpoint
-} from '@/api/endpoints'
-import { useMarkdown } from '@/composables'
-import { useAuthStore } from '@/store/use-auth-store'
+} from "@/api/endpoints"
+import { useMarkdown } from "@/composables"
+import { useAuthStore } from "@/store/use-auth-store"
 
 export default defineComponent({
-  name: 'organizer-tool-edit-event',
-  setup () {
+  name: "organizer-tool-edit-event",
+  setup() {
     const route = useRoute()
     const router = useRouter()
     const authStore = useAuthStore()
     const isEditing = ref(true)
     const toast = useToast()
 
-    const eventTagsSelectors: Ref<Array<{ name: string, tag: string }>> = ref([
-      { name: 'Amphitheater', tag: 'amphitheater' },
-      { name: 'Business', tag: 'business' },
-      { name: 'Concert', tag: 'concert' },
-      { name: 'Entertainment', tag: 'entertainment' },
-      { name: 'Fan meet', tag: 'fan-meet' },
-      { name: 'Gameshow', tag: 'gameshow' },
-      { name: 'Lifestyle', tag: 'lifestyle' },
-      { name: 'Live', tag: 'live' },
-      { name: 'Musical', tag: 'musical' },
-      { name: 'Online', tag: 'online' },
-      { name: 'Opera', tag: 'opera' },
-      { name: 'Seminar', tag: 'seminar' },
-      { name: 'Stand up comedy', tag: 'stand-up-comedy' },
-      { name: 'Technology', tag: 'technology' },
-      { name: 'Variety', tag: 'variety' }
+    const eventTagsSelectors: Ref<Array<{ name: string; tag: string }>> = ref([
+      { name: "Amphitheater", tag: "amphitheater" },
+      { name: "Business", tag: "business" },
+      { name: "Concert", tag: "concert" },
+      { name: "Entertainment", tag: "entertainment" },
+      { name: "Fan meet", tag: "fan-meet" },
+      { name: "Gameshow", tag: "gameshow" },
+      { name: "Lifestyle", tag: "lifestyle" },
+      { name: "Live", tag: "live" },
+      { name: "Musical", tag: "musical" },
+      { name: "Online", tag: "online" },
+      { name: "Opera", tag: "opera" },
+      { name: "Seminar", tag: "seminar" },
+      { name: "Stand up comedy", tag: "stand-up-comedy" },
+      { name: "Technology", tag: "technology" },
+      { name: "Variety", tag: "variety" }
     ])
 
     const eventDataResponse = ref({
-      name: '',
-      description: '',
-      website: '',
-      openingDate: '',
-      creationDate: '',
-      startTime: [] as Array<{ id: string, start: string, end: string }>,
-      venueName: '',
-      venueCoordinates: '',
+      name: "",
+      description: "",
+      website: "",
+      openingDate: "",
+      creationDate: "",
+      startTime: [] as Array<{ id: string; start: string; end: string }>,
+      venueName: "",
+      venueCoordinates: "",
       tags: [] as Array<string>,
-      priceRange: [] as Array<{ color: string, price: number }>
+      priceRange: [] as Array<{ color: string; price: number }>
     })
 
-    const eventDescription = ref('')
+    const eventDescription = ref("")
 
     const { renderedMarkdown } = useMarkdown(ref(eventDescription))
 
     useMeta({
-      title: 'Edit event'
+      title: "Edit event"
     })
 
     const getEditableEventData = async (): Promise<void> => {
       try {
-        const { method, url } = getEditableEventDataEndpoint({ eventId: route.params.eventId as string ?? '' })
+        const { method, url } = getEditableEventDataEndpoint({
+          eventId: (route.params.eventId as string) ?? ""
+        })
 
         const response = await ky(url, {
           method,
@@ -161,13 +161,17 @@ export default defineComponent({
         eventDataResponse.value.description = response.description
         eventDataResponse.value.website = response.website
         eventDescription.value = response.description
-        eventDataResponse.value.openingDate = dayjs(response.openingDate).format('YYYY-MM-DDTHH:mm')
-        eventDataResponse.value.creationDate = dayjs(response.creationDate).toISOString()
+        eventDataResponse.value.openingDate = dayjs(
+          response.openingDate
+        ).format("YYYY-MM-DDTHH:mm")
+        eventDataResponse.value.creationDate = dayjs(
+          response.creationDate
+        ).toISOString()
         eventDataResponse.value.startTime = response.startTime.map(st => {
           return {
             id: st.id,
-            start: dayjs(st.start).format('YYYY-MM-DDTHH:mm'),
-            end: dayjs(st.end).format('YYYY-MM-DDTHH:mm')
+            start: dayjs(st.start).format("YYYY-MM-DDTHH:mm"),
+            end: dayjs(st.end).format("YYYY-MM-DDTHH:mm")
           }
         })
         eventDataResponse.value.venueName = response.venueName
@@ -179,53 +183,85 @@ export default defineComponent({
         const resp = error?.response
 
         if (resp.status == null) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
           return
         }
 
         if (resp.status === 401) {
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
           return
         }
 
         if (resp.status === 403) {
-          router.push({ name: 'Home' })
+          router.push({ name: "Home" })
           return
         }
 
-        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        router.push({
+          name: "Not Found",
+          params: { pathMatch: route.path.substring(1).split("/") },
+          query: route.query,
+          hash: route.hash
+        })
       }
     }
 
     const patchEditableEventData = async (): Promise<void> => {
       try {
-        const { method, url } = patchEditableEventDataEndpoint({ eventId: route.params.eventId as string ?? '' })
-        const coordinateString = eventDataResponse.value.venueCoordinates.split(',')
+        const { method, url } = patchEditableEventDataEndpoint({
+          eventId: (route.params.eventId as string) ?? ""
+        })
+        const coordinateString =
+          eventDataResponse.value.venueCoordinates.split(",")
 
-        if (coordinateString[0] == null || coordinateString[1] == null || isNaN(Number(coordinateString[0])) || isNaN(Number(coordinateString[1]))) {
-          toast.error('Cannot parse coordinates')
+        if (
+          coordinateString[0] == null ||
+          coordinateString[1] == null ||
+          isNaN(Number(coordinateString[0])) ||
+          isNaN(Number(coordinateString[1]))
+        ) {
+          toast.error("Cannot parse coordinates")
           return
         }
 
         for (const st of eventDataResponse.value.startTime) {
           if (dayjs(st.start).isAfter(st.end)) {
-            toast.error('one of datetimes is greater than end time')
+            toast.error("one of datetimes is greater than end time")
             return
           }
 
-          if (dayjs(st.start).isBefore(dayjs(eventDataResponse.value.creationDate)) || dayjs(st.end).isBefore(dayjs(eventDataResponse.value.creationDate))) {
-            toast.error('one of datetime is less than creation date')
+          if (
+            dayjs(st.start).isBefore(
+              dayjs(eventDataResponse.value.creationDate)
+            ) ||
+            dayjs(st.end).isBefore(dayjs(eventDataResponse.value.creationDate))
+          ) {
+            toast.error("one of datetime is less than creation date")
             return
           }
 
-          if (dayjs(st.start).isBefore(dayjs(eventDataResponse.value.openingDate)) || dayjs(st.end).isBefore(dayjs(eventDataResponse.value.creationDate))) {
-            toast.error('one of datetime is less than opening date')
+          if (
+            dayjs(st.start).isBefore(
+              dayjs(eventDataResponse.value.openingDate)
+            ) ||
+            dayjs(st.end).isBefore(dayjs(eventDataResponse.value.creationDate))
+          ) {
+            toast.error("one of datetime is less than opening date")
             return
           }
         }
 
-        if (dayjs(eventDataResponse.value.openingDate).isBefore(eventDataResponse.value.creationDate)) {
-          toast.error('opening date is before creation date')
+        if (
+          dayjs(eventDataResponse.value.openingDate).isBefore(
+            eventDataResponse.value.creationDate
+          )
+        ) {
+          toast.error("opening date is before creation date")
           return
         }
 
@@ -235,11 +271,13 @@ export default defineComponent({
             Authorization: `Bearer ${authStore.userData.token}`
           },
           json: {
-            id: route.params.eventId as string ?? '',
+            id: (route.params.eventId as string) ?? "",
             name: eventDataResponse.value.name,
             description: eventDescription.value,
             website: eventDataResponse.value.website,
-            openingDate: dayjs(eventDataResponse.value.openingDate).toISOString(),
+            openingDate: dayjs(
+              eventDataResponse.value.openingDate
+            ).toISOString(),
             startTime: eventDataResponse.value.startTime.map(dt => {
               return {
                 id: dt.id,
@@ -257,27 +295,37 @@ export default defineComponent({
           }
         })
 
-        toast.success('Successfully updated')
+        toast.success("Successfully updated")
       } catch (error) {
         // @ts-expect-error error is unknown
         const resp = error?.response
 
         if (resp.status == null) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
           return
         }
 
         if (resp.status === 401) {
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
           return
         }
 
         if (resp.status === 403) {
-          router.push({ name: 'Home' })
+          router.push({ name: "Home" })
           return
         }
 
-        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        router.push({
+          name: "Not Found",
+          params: { pathMatch: route.path.substring(1).split("/") },
+          query: route.query,
+          hash: route.hash
+        })
       }
     }
 

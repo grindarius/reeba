@@ -13,7 +13,7 @@ import client from "../pool.js"
 
 dotenv.config({
   path: resolve(__dirname, "..", ".."),
-  silent: true,
+  silent: true
 })
 
 describe("get event image", async t => {
@@ -22,7 +22,7 @@ describe("get event image", async t => {
   afterAll(async () => {
     await client.query(
       'update "events" set event_cover_image_path = $1 where event_id = $2',
-      ["", "empty_string_event_name"],
+      ["", "empty_string_event_name"]
     )
 
     await app.close()
@@ -34,20 +34,20 @@ describe("get event image", async t => {
       ...{
         eventName: "test get event image",
         id: "test_get_event_image",
-        createdBy: "geteventimagetest",
-      },
+        createdBy: "geteventimagetest"
+      }
     }
     const anotherEV = {
       ...officialEventsList[1],
       ...{
         eventName: "test get event with emptyString",
         id: "empty_string_event_name",
-        createdBy: "geteventimagetest",
-      },
+        createdBy: "geteventimagetest"
+      }
     }
 
     const user = await client.query(
-      "select * from \"users\" where user_username = 'geteventimagetest'",
+      "select * from \"users\" where user_username = 'geteventimagetest'"
     )
 
     if (user.rows.length <= 0) {
@@ -59,15 +59,15 @@ describe("get event image", async t => {
           email: "geteventimagetest@gmail.com",
           password: "geteventimagetest_123",
           phoneCountryCode: "332",
-          phoneNumber: "9384937485",
-        },
+          phoneNumber: "9384937485"
+        }
       })
     }
 
     for (const ev of [perfectEV, anotherEV]) {
       const targetEvent = await client.query(
         'select * from "events" where event_id = $1',
-        [ev.id],
+        [ev.id]
       )
       if (targetEvent.rowCount === 0) {
         const eventId = await client.query<{ event_id: string }>(
@@ -102,25 +102,25 @@ describe("get event image", async t => {
               ev.ticketPrices.reduce<Record<string, number>>((obj, item) => {
                 obj[item.color] = item.price
                 return obj
-              }, {}),
+              }, {})
             ),
             Math.min(...ev.ticketPrices.map(t => t.price)),
             Math.max(...ev.ticketPrices.map(t => t.price)),
-            ev.minimumAge,
-          ],
+            ev.minimumAge
+          ]
         )
 
         for await (const tag of ev.tags) {
           await client.query(
             "insert into event_tags_bridge (event_tag_label, event_id) values ($1, $2)",
-            [tag, eventId.rows[0].event_id],
+            [tag, eventId.rows[0].event_id]
           )
         }
 
         for await (const datetime of ev.datetimes) {
           const datetimeId = await client.query<{ event_datetime_id: string }>(
             "insert into event_datetimes (event_datetime_id, event_id, event_start_datetime, event_end_datetime) values ($1, $2, $3, $4) returning event_datetime_id",
-            [nanoid(), eventId.rows[0].event_id, datetime.start, datetime.end],
+            [nanoid(), eventId.rows[0].event_id, datetime.start, datetime.end]
           )
 
           for await (const sectionRow of ev.sections) {
@@ -133,8 +133,8 @@ describe("get event image", async t => {
                   nanoid(),
                   datetimeId.rows[0].event_datetime_id,
                   section.sectionRowPosition,
-                  section.sectionColumnPosition,
-                ],
+                  section.sectionColumnPosition
+                ]
               )
 
               for await (const seatRow of section.seats) {
@@ -146,8 +146,8 @@ describe("get event image", async t => {
                       sectionId.rows[0].event_section_id,
                       seat.seatPrice,
                       seat.seatRowPosition,
-                      seat.seatColumnPosition,
-                    ],
+                      seat.seatColumnPosition
+                    ]
                   )
                 }
               }
@@ -160,28 +160,28 @@ describe("get event image", async t => {
     const form = new FormData()
     form.append(
       "image",
-      createReadStream(resolve(__dirname, "test-event-image.png")),
+      createReadStream(resolve(__dirname, "test-event-image.png"))
     )
 
     await app.inject({
       method: "POST",
       url: "/event-images/test_get_event_image",
       payload: form,
-      headers: form.getHeaders(),
+      headers: form.getHeaders()
     })
   })
 
   test("get default event image when emptystring is passed", async () => {
     const response = await app.inject({
       method: "GET",
-      url: "/event-images/",
+      url: "/event-images/"
     })
 
     Resemble(response.rawPayload)
       .compareTo(
         readFileSync(
-          resolve(__dirname, "..", "..", "uploads", "default-event-image.png"),
-        ),
+          resolve(__dirname, "..", "..", "uploads", "default-event-image.png")
+        )
       )
       .onComplete(result => {
         expect(result.isSameDimensions).toEqual(true)
@@ -192,14 +192,14 @@ describe("get event image", async t => {
   test("get event image of unknown event id", async () => {
     const response = await app.inject({
       method: "GET",
-      url: "/event-images/unknown_event_id",
+      url: "/event-images/unknown_event_id"
     })
 
     Resemble(response.rawPayload)
       .compareTo(
         readFileSync(
-          resolve(__dirname, "..", "..", "uploads", "default-event-image.png"),
-        ),
+          resolve(__dirname, "..", "..", "uploads", "default-event-image.png")
+        )
       )
       .onComplete(result => {
         expect(result.isSameDimensions).toEqual(true)
@@ -210,7 +210,7 @@ describe("get event image", async t => {
   test("get event image of known event id", async () => {
     const response = await app.inject({
       method: "GET",
-      url: "/event-images/test_get_event_image",
+      url: "/event-images/test_get_event_image"
     })
 
     Resemble(response.rawPayload)
@@ -224,14 +224,14 @@ describe("get event image", async t => {
   test("get event image of event with empty string image", async () => {
     const response = await app.inject({
       method: "GET",
-      url: "/event-images/empty_string_event_name",
+      url: "/event-images/empty_string_event_name"
     })
 
     Resemble(response.rawPayload)
       .compareTo(
         readFileSync(
-          resolve(__dirname, "..", "..", "uploads", "default-event-image.png"),
-        ),
+          resolve(__dirname, "..", "..", "uploads", "default-event-image.png")
+        )
       )
       .onComplete(result => {
         expect(result.isSameDimensions).toEqual(true)
@@ -241,20 +241,20 @@ describe("get event image", async t => {
 
   await client.query(
     'update "events" set event_cover_image_path = $1 where event_id = $2',
-    ["unknown-file.png", "empty_string_event_name"],
+    ["unknown-file.png", "empty_string_event_name"]
   )
 
   test("get event image of event with image profile path but file does not exist", async () => {
     const response = await app.inject({
       method: "GET",
-      url: "/event-images/empty_string_event_name",
+      url: "/event-images/empty_string_event_name"
     })
 
     Resemble(response.rawPayload)
       .compareTo(
         readFileSync(
-          resolve(__dirname, "..", "..", "uploads", "default-event-image.png"),
-        ),
+          resolve(__dirname, "..", "..", "uploads", "default-event-image.png")
+        )
       )
       .onComplete(result => {
         expect(result.isSameDimensions).toEqual(true)
@@ -264,6 +264,6 @@ describe("get event image", async t => {
 
   await client.query(
     'update "events" set event_cover_image_path = $1 where event_id = $2',
-    ["", "empty_string_event_name"],
+    ["", "empty_string_event_name"]
   )
 })

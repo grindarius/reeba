@@ -1,4 +1,4 @@
-import { FastifyPluginCallback } from 'fastify-plugin'
+import { FastifyPluginCallback } from "fastify-plugin"
 
 interface FastifyFrontendEndpointsGeneratorOptions {
   /**
@@ -15,7 +15,7 @@ export const plugin: FastifyPluginCallback<FastifyFrontendEndpointsGeneratorOpti
 
 export default plugin
 
-declare module 'fastify' {
+declare module "fastify" {
   interface FastifyContextConfig {
     /**
      * Used to name a route to generate endpoints file

@@ -11,7 +11,7 @@ test("getting transaction data", async () => {
 
   beforeAll(async () => {
     await client.query('delete from "users" where user_username = $1', [
-      "thatfakeadminbrother",
+      "thatfakeadminbrother"
     ])
 
     await app.inject({
@@ -23,8 +23,8 @@ test("getting transaction data", async () => {
         password: "asdfghjkl123",
         phoneCountryCode: "66",
         phoneNumber: "94839483",
-        iso31662: "TH",
-      },
+        iso31662: "TH"
+      }
     })
 
     const resp = await app.inject({
@@ -32,8 +32,8 @@ test("getting transaction data", async () => {
       url: "/auth/signin",
       payload: {
         email: "thatfakeadminbrother@gmail.com",
-        password: "asdfghjkl123",
-      },
+        password: "asdfghjkl123"
+      }
     })
 
     const adminResp = await app.inject({
@@ -41,8 +41,8 @@ test("getting transaction data", async () => {
       url: "/auth/signin",
       payload: {
         email: "sansastark@gmail.com",
-        password: "sansastark",
-      },
+        password: "sansastark"
+      }
     })
 
     const token = resp.json<{ token: string }>().token
@@ -54,12 +54,12 @@ test("getting transaction data", async () => {
       method: "get",
       url: "/admin/transactions",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       query: {
         page: "1",
-        sort: "time-asc",
-      },
+        sort: "time-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(403)
@@ -71,11 +71,11 @@ test("getting transaction data", async () => {
       method: "get",
       url: "/admin/transactions",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
-        page: "0",
-      },
+        page: "0"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -86,12 +86,12 @@ test("getting transaction data", async () => {
       method: "get",
       url: "/admin/transactions",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "undefined",
-        sort: "time-desc",
-      },
+        sort: "time-desc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -102,12 +102,12 @@ test("getting transaction data", async () => {
       method: "get",
       url: "/admin/transactions",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "null",
-        sort: "username-asc",
-      },
+        sort: "username-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -118,12 +118,12 @@ test("getting transaction data", async () => {
       method: "get",
       url: "/admin/transactions",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "",
-      },
+        sort: ""
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -134,12 +134,12 @@ test("getting transaction data", async () => {
       method: "get",
       url: "/admin/transactions",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "username-desc",
-      },
+        sort: "username-desc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -150,12 +150,12 @@ test("getting transaction data", async () => {
       method: "get",
       url: "/admin/transactions",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "10",
-        sort: "price-asc",
-      },
+        sort: "price-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -166,12 +166,12 @@ test("getting transaction data", async () => {
       method: "get",
       url: "/admin/transactions",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "10",
-        sort: "price-desc",
-      },
+        sort: "price-desc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)

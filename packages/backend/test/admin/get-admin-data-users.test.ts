@@ -11,7 +11,7 @@ describe("getting admin data about user", async () => {
 
   beforeAll(async () => {
     await client.query('delete from "users" where user_username = $1', [
-      "thatnolevelguy",
+      "thatnolevelguy"
     ])
 
     await app.inject({
@@ -23,8 +23,8 @@ describe("getting admin data about user", async () => {
         password: "asdfghjkl123",
         phoneCountryCode: "66",
         phoneNumber: "94839483",
-        iso31662: "TH",
-      },
+        iso31662: "TH"
+      }
     })
 
     const resp = await app.inject({
@@ -32,8 +32,8 @@ describe("getting admin data about user", async () => {
       url: "/auth/signin",
       payload: {
         email: "thatnolevelguy@gmail.com",
-        password: "asdfghjkl123",
-      },
+        password: "asdfghjkl123"
+      }
     })
 
     const adminResp = await app.inject({
@@ -41,8 +41,8 @@ describe("getting admin data about user", async () => {
       url: "/auth/signin",
       payload: {
         email: "sansastark@gmail.com",
-        password: "sansastark",
-      },
+        password: "sansastark"
+      }
     })
 
     const token = resp.json<{ token: string }>().token
@@ -54,12 +54,12 @@ describe("getting admin data about user", async () => {
       method: "get",
       url: "/admin/users",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       query: {
         page: "1",
-        sort: "name-asc",
-      },
+        sort: "name-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(403)
@@ -71,8 +71,8 @@ describe("getting admin data about user", async () => {
       method: "get",
       url: "/admin/users",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
-      },
+        Authorization: `Bearer ${adminToken}`
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -84,12 +84,12 @@ describe("getting admin data about user", async () => {
       method: "get",
       url: "/admin/users",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "",
-        sort: "name-desc",
-      },
+        sort: "name-desc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -101,12 +101,12 @@ describe("getting admin data about user", async () => {
       method: "get",
       url: "/admin/users",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "null",
-        sort: "regis-asc",
-      },
+        sort: "regis-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -118,12 +118,12 @@ describe("getting admin data about user", async () => {
       method: "get",
       url: "/admin/users",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "0",
-        sort: "regis-desc",
-      },
+        sort: "regis-desc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -135,12 +135,12 @@ describe("getting admin data about user", async () => {
       method: "get",
       url: "/admin/users",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "10",
-        sort: "name-asc",
-      },
+        sort: "name-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)

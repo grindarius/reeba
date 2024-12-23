@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import dayjs from "dayjs"
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
 
 import {
   events,
@@ -10,7 +10,7 @@ import {
   PostTransferTransactionRequestParams,
   PostTransferTransactionRequestParamsSchema,
   transactions
-} from '@reeba/common'
+} from "@reeba/common"
 
 const schema: FastifySchema = {
   params: PostTransferTransactionRequestParamsSchema,
@@ -20,14 +20,21 @@ const schema: FastifySchema = {
   }
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.post<{ Params: PostTransferTransactionRequestParams, Body: PostTransferTransactionRequestBody, Reply: PostTransferTransactionReply }>(
-    '/:transactionId/transfer',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.post<{
+    Params: PostTransferTransactionRequestParams
+    Body: PostTransferTransactionRequestBody
+    Reply: PostTransferTransactionReply
+  }>(
+    "/:transactionId/transfer",
     {
       schema,
       onRequest: [instance.authenticate],
       config: {
-        name: 'PostTransferTransaction'
+        name: "PostTransferTransaction"
       }
     },
     async (request, reply) => {
@@ -42,11 +49,14 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       if (usernameToTransferTicketTo.rowCount === 0) {
         void reply.code(404)
-        throw new Error('username to transfer to not found')
+        throw new Error("username to transfer to not found")
       }
 
       // * get event id of an event from transaction ids
-      const eventIdOfTransaction = await instance.pg.query<Pick<events, 'event_id'>, [transactions['transaction_id']]>(
+      const eventIdOfTransaction = await instance.pg.query<
+        Pick<events, "event_id">,
+        [transactions["transaction_id"]]
+      >(
         `select
           distinct events.event_id
         from "transactions"
@@ -61,14 +71,15 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       if (eventIdOfTransaction.rows.length === 0) {
         void reply.code(404)
-        throw new Error('event related to transactionId not found')
+        throw new Error("event related to transactionId not found")
       }
 
       // * check if there is any transaction by destination user that contains the given event id, this should return empty array
       // * if a user got a transaction tied to an event id, that means the user already have an event tied to the given transaction id
       const allTransactionsOfDestinationUsername = await instance.pg.query<
-      Pick<events, 'event_id'> & Pick<transactions, 'user_username'>,
-      [transactions['user_username'], ...Array<events['event_id']>]>(
+        Pick<events, "event_id"> & Pick<transactions, "user_username">,
+        [transactions["user_username"], ...Array<events["event_id"]>]
+      >(
         `select
           events.event_id,
           transactions.user_username
@@ -78,13 +89,13 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         inner join "event_sections" on event_seats.event_section_id = event_sections.event_section_id
         inner join "event_datetimes" on event_sections.event_datetime_id = event_datetimes.event_datetime_id
         inner join "events" on event_datetimes.event_id = events.event_id
-        where transactions.user_username = $1 and events.event_id in (${Array.from({ length: eventIdOfTransaction.rowCount }, (_, i) => `$${i + 2}`).join(', ')})`,
+        where transactions.user_username = $1 and events.event_id in (${Array.from({ length: eventIdOfTransaction.rowCount }, (_, i) => `$${i + 2}`).join(", ")})`,
         [username, ...eventIdOfTransaction.rows.map(e => e.event_id)]
       )
 
       if (allTransactionsOfDestinationUsername.rowCount > 0) {
         void reply.code(400)
-        throw new Error('this user already had a ticket for this event')
+        throw new Error("this user already had a ticket for this event")
       }
 
       await instance.pg.query(
@@ -93,7 +104,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       )
 
       return {
-        message: 'complete'
+        message: "complete"
       }
     }
   )

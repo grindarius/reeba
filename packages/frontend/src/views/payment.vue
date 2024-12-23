@@ -127,28 +127,28 @@
 </template>
 
 <script lang="ts">
-import Cleave from 'cleave.js'
-import { format } from 'd3'
-import ky from 'ky'
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import Cleave from "cleave.js"
+import { format } from "d3"
+import ky from "ky"
+import { computed, defineComponent, onMounted, Ref, ref } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
+import { useToast } from "vue-toastification"
 
-import { GetIndividualEventReply, numberToLetters } from '@reeba/common'
+import { GetIndividualEventReply, numberToLetters } from "@reeba/common"
 
 import {
   getIndividualEventEndpoint,
   postTransactionEndpoint
-} from '@/api/endpoints'
-import { useAuthStore } from '@/store/use-auth-store'
-import { useTransactionStore } from '@/store/use-transaction-store'
+} from "@/api/endpoints"
+import { useAuthStore } from "@/store/use-auth-store"
+import { useTransactionStore } from "@/store/use-transaction-store"
 
 export default defineComponent({
-  name: 'payment',
-  beforeRouteEnter (_, from, next) {
-    if (from.name !== 'Select Seat') {
-      next('/')
+  name: "payment",
+  beforeRouteEnter(_, from, next) {
+    if (from.name !== "Select Seat") {
+      next("/")
     }
     next()
   },
@@ -157,8 +157,8 @@ export default defineComponent({
       mounted: (el, binding) => {
         el.cleave = new Cleave(el, binding.value || {})
       },
-      updated: (el) => {
-        const e = new Event('input', { bubbles: true })
+      updated: el => {
+        const e = new Event("input", { bubbles: true })
         setTimeout(function () {
           el.value = el.cleave.properties.result
           el.dispatchEvent(e)
@@ -166,7 +166,7 @@ export default defineComponent({
       }
     }
   },
-  setup () {
+  setup() {
     const transactionStore = useTransactionStore()
     const authStore = useAuthStore()
 
@@ -175,22 +175,23 @@ export default defineComponent({
     const toast = useToast()
     const isAgreed = ref(false)
 
-    const creditCardInput = ref('')
-    const creditCardNameInput = ref('')
-    const creditCardExpiryDateInput = ref('')
-    const creditCardCVCInput = ref('')
+    const creditCardInput = ref("")
+    const creditCardNameInput = ref("")
+    const creditCardExpiryDateInput = ref("")
+    const creditCardCVCInput = ref("")
 
     useMeta({
-      title: 'Payment'
+      title: "Payment"
     })
 
-    const eventDataResponse: Ref<GetIndividualEventReply | undefined> = ref(undefined)
+    const eventDataResponse: Ref<GetIndividualEventReply | undefined> =
+      ref(undefined)
 
     onMounted(async () => {
-      const {
-        method: getIndividualEventMethod,
-        url: getIndividualEventUrl
-      } = getIndividualEventEndpoint({ eventId: route.params.eventId as string ?? '' })
+      const { method: getIndividualEventMethod, url: getIndividualEventUrl } =
+        getIndividualEventEndpoint({
+          eventId: (route.params.eventId as string) ?? ""
+        })
 
       try {
         const response = await ky(getIndividualEventUrl, {
@@ -203,7 +204,12 @@ export default defineComponent({
         const response = error?.response
 
         if (response.status !== 200) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
         }
       }
     })
@@ -212,22 +218,22 @@ export default defineComponent({
       const { method, url } = postTransactionEndpoint
 
       if (creditCardInput.value.length < 16) {
-        toast.error('invalid credit card number')
+        toast.error("invalid credit card number")
         return
       }
 
       if (creditCardNameInput.value.length === 0) {
-        toast.error('invalid credit card name')
+        toast.error("invalid credit card name")
         return
       }
 
       if (creditCardExpiryDateInput.value.length < 4) {
-        toast.error('invalid credit card expiry date')
+        toast.error("invalid credit card expiry date")
         return
       }
 
       if (creditCardCVCInput.value.length < 3) {
-        toast.error('invalid credit card cvc input')
+        toast.error("invalid credit card cvc input")
         return
       }
 
@@ -250,7 +256,7 @@ export default defineComponent({
         })
 
         transactionStore.removeTransaction()
-        router.push('/account')
+        router.push("/account")
       } catch (error) {
         // @ts-expect-error error is unknown
         const resp = error?.response
@@ -258,18 +264,22 @@ export default defineComponent({
         if (resp.status === 401) {
           const json = await resp.json()
           toast.error(json.message)
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
         }
-        toast.error('Unexpected Error')
+        toast.error("Unexpected Error")
       }
     }
 
     const showSeat = computed(() => {
       const section = `${numberToLetters(transactionStore.transactionStore.section.rowPosition)}${transactionStore.transactionStore.section.columnPosition + 1}`
-      const seat = `${[...transactionStore.transactionStore.section.seats.values()].map(t => {
-        return `${numberToLetters(t.rowPosition)}${t.columnPosition + 1}`
-      }).join(', ')}`
-      return section + ' - ' + seat
+      const seat = `${[
+        ...transactionStore.transactionStore.section.seats.values()
+      ]
+        .map(t => {
+          return `${numberToLetters(t.rowPosition)}${t.columnPosition + 1}`
+        })
+        .join(", ")}`
+      return section + " - " + seat
     })
 
     return {

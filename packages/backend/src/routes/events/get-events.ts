@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import dayjs from "dayjs"
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
 
 import {
   event_datetimes,
@@ -10,14 +10,14 @@ import {
   GetEventsReplySchema,
   RootPageEvent,
   t_event_status
-} from '@reeba/common'
+} from "@reeba/common"
 
 interface SelectRootPageEvent {
-  user_username: events['user_username']
-  event_id: events['event_id']
-  event_name: events['event_name']
-  event_venue_name: events['event_venue_name']
-  first_start_datetime: event_datetimes['event_end_datetime']
+  user_username: events["user_username"]
+  event_id: events["event_id"]
+  event_name: events["event_name"]
+  event_venue_name: events["event_venue_name"]
+  first_start_datetime: event_datetimes["event_end_datetime"]
 }
 
 const schema: FastifySchema = {
@@ -26,19 +26,25 @@ const schema: FastifySchema = {
   }
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
   instance.get<{ Reply: GetEventsReply }>(
-    '/root',
+    "/root",
     {
       schema,
       config: {
-        name: 'GetRootPageEvent'
+        name: "GetRootPageEvent"
       }
     },
     async () => {
-      const oneMonthBackDate: Date = dayjs().subtract(1, 'month').toDate()
+      const oneMonthBackDate: Date = dayjs().subtract(1, "month").toDate()
 
-      const allOfficialEventsLastMonth = await instance.pg.query<SelectRootPageEvent, [Date, string]>(
+      const allOfficialEventsLastMonth = await instance.pg.query<
+        SelectRootPageEvent,
+        [Date, string]
+      >(
         `select
           events.user_username,
           events.event_id,
@@ -58,7 +64,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         [oneMonthBackDate, t_event_status.closed]
       )
 
-      const allLocalEventsLastMonth = await instance.pg.query<SelectRootPageEvent, [Date, string]>(
+      const allLocalEventsLastMonth = await instance.pg.query<
+        SelectRootPageEvent,
+        [Date, string]
+      >(
         `select
           events.user_username,
           events.event_id,
@@ -106,7 +115,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
   )
 
   instance.get<{ Reply: GetAllEventsReply }>(
-    '/all',
+    "/all",
     {
       schema: {
         response: {
@@ -114,7 +123,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         }
       },
       config: {
-        name: 'GetAllEvents'
+        name: "GetAllEvents"
       }
     },
     async () => {

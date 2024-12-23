@@ -1,15 +1,21 @@
-import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions } from "fastify"
 
 import {
   DeleteTransactionReply,
   DeleteTransactionReplySchema,
   DeleteTransactionRequestParams,
   DeleteTransactionRequestParamsSchema
-} from '@reeba/common'
+} from "@reeba/common"
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.delete<{ Params: DeleteTransactionRequestParams, Reply: DeleteTransactionReply }>(
-    '/:transactionId',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.delete<{
+    Params: DeleteTransactionRequestParams
+    Reply: DeleteTransactionReply
+  }>(
+    "/:transactionId",
     {
       schema: {
         params: DeleteTransactionRequestParamsSchema,
@@ -19,10 +25,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       },
       onRequest: [instance.authenticate],
       config: {
-        name: 'DeleteTransaction'
+        name: "DeleteTransaction"
       }
     },
-    async (request) => {
+    async request => {
       return await instance.pg.transact<{ message: string }>(async client => {
         await client.query(
           'delete from "transaction_details" where transaction_id = $1',
@@ -35,7 +41,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         )
 
         return {
-          message: 'complete'
+          message: "complete"
         }
       })
     }

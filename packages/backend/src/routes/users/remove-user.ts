@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
 
 import {
   AdminRemoveUserReply,
@@ -6,7 +6,7 @@ import {
   AdminRemoveUserRequestParams,
   AdminRemoveUserRequestParamsSchema,
   t_user_role
-} from '@reeba/common'
+} from "@reeba/common"
 
 const schema: FastifySchema = {
   params: AdminRemoveUserRequestParamsSchema,
@@ -15,9 +15,15 @@ const schema: FastifySchema = {
   }
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.delete<{ Params: AdminRemoveUserRequestParams, Reply: AdminRemoveUserReply }>(
-    '/:username',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.delete<{
+    Params: AdminRemoveUserRequestParams
+    Reply: AdminRemoveUserReply
+  }>(
+    "/:username",
     {
       schema,
       onRequest: [
@@ -25,28 +31,28 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         (request, reply) => {
           if (request.user.role !== t_user_role.admin) {
             void reply.code(403)
-            throw new Error('forbidden')
+            throw new Error("forbidden")
           }
         }
       ],
       preValidation: (request, reply) => {
-        if (request.params.username == null || request.params.username === '') {
+        if (request.params.username == null || request.params.username === "") {
           void reply.code(400)
-          throw new Error('params should have required property \'username\'')
+          throw new Error("params should have required property 'username'")
         }
       },
       config: {
-        name: 'AdminRemoveUser'
+        name: "AdminRemoveUser"
       }
     },
-    async (request) => {
+    async request => {
       await instance.pg.query(
         'update "users" set user_deletion_status = $1 where user_username = $2',
         [true, request.params.username]
       )
 
       return {
-        message: 'complete'
+        message: "complete"
       }
     }
   )

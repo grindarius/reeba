@@ -11,7 +11,7 @@ test("getting events data for admin", async () => {
 
   beforeAll(async () => {
     await client.query('delete from "users" where user_username in ($1)', [
-      "fakeadminfather",
+      "fakeadminfather"
     ])
 
     const adminResponse = await app.inject({
@@ -19,8 +19,8 @@ test("getting events data for admin", async () => {
       url: "/auth/signin",
       payload: {
         email: "sansastark@gmail.com",
-        password: "sansastark",
-      },
+        password: "sansastark"
+      }
     })
 
     await app.inject({
@@ -32,8 +32,8 @@ test("getting events data for admin", async () => {
         password: "asdfghjkl123",
         phoneCountryCode: "66",
         phoneNumber: "9483943483",
-        iso31662: "TH",
-      },
+        iso31662: "TH"
+      }
     })
 
     const fakeAdminResponse = await app.inject({
@@ -41,8 +41,8 @@ test("getting events data for admin", async () => {
       url: "/auth/signin",
       payload: {
         email: "fakeadminfather@gmail.com",
-        password: "asdfghjkl123",
-      },
+        password: "asdfghjkl123"
+      }
     })
 
     const adminToken = adminResponse.json<{ token: string }>().token
@@ -54,12 +54,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${fakeAdminToken}`,
+        Authorization: `Bearer ${fakeAdminToken}`
       },
       query: {
         page: "1",
-        sort: "event-name-asc",
-      },
+        sort: "event-name-asc"
+      }
     })
 
     expect(response.json()).toHaveProperty("message", "forbidden")
@@ -71,12 +71,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "0",
-        sort: "event-name-asc",
-      },
+        sort: "event-name-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -87,12 +87,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "0",
-        sort: "event-name-desc",
-      },
+        sort: "event-name-desc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -103,12 +103,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "who?",
-        sort: "username-asc",
-      },
+        sort: "username-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -119,12 +119,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "",
-      },
+        sort: ""
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -135,12 +135,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "event-name-asc",
-      },
+        sort: "event-name-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -151,12 +151,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "event-name-desc",
-      },
+        sort: "event-name-desc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -167,12 +167,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "username-asc",
-      },
+        sort: "username-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -183,12 +183,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "username-desc",
-      },
+        sort: "username-desc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -199,12 +199,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "creation-date-asc",
-      },
+        sort: "creation-date-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -215,12 +215,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "creation-date-desc",
-      },
+        sort: "creation-date-desc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -231,12 +231,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "opening-date-asc",
-      },
+        sort: "opening-date-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -247,12 +247,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "opening-date-desc",
-      },
+        sort: "opening-date-desc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -263,12 +263,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "status-asc",
-      },
+        sort: "status-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -279,12 +279,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "status-desc",
-      },
+        sort: "status-desc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -295,12 +295,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "seat-fullness-percentage-asc",
-      },
+        sort: "seat-fullness-percentage-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -311,12 +311,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "seat-fullness-percentage-desc",
-      },
+        sort: "seat-fullness-percentage-desc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -327,12 +327,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "total-seats-asc",
-      },
+        sort: "total-seats-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -343,12 +343,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "total-seats-desc",
-      },
+        sort: "total-seats-desc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -359,12 +359,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "total-taken-seats-asc",
-      },
+        sort: "total-taken-seats-asc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)
@@ -375,12 +375,12 @@ test("getting events data for admin", async () => {
       method: "get",
       url: "/admin/events",
       headers: {
-        Authorization: `Bearer ${adminToken}`,
+        Authorization: `Bearer ${adminToken}`
       },
       query: {
         page: "1",
-        sort: "total-taken-seats-desc",
-      },
+        sort: "total-taken-seats-desc"
+      }
     })
 
     expect(response.statusCode).toEqual(200)

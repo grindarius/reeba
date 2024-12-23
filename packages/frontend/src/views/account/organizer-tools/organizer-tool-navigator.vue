@@ -24,9 +24,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue"
 
 export default defineComponent({
-  name: 'organizer-tool-navigator'
+  name: "organizer-tool-navigator"
 })
 </script>

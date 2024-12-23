@@ -1,4 +1,4 @@
-import type { EventTags } from '../types/index.js'
+import type { EventTags } from "../types/index.js"
 
 /**
  * Convert string with space to lowercase and replace space with dashes for event tag keys
@@ -7,7 +7,7 @@ import type { EventTags } from '../types/index.js'
  * @returns converted string, matches with primary key of `event_tags` table
  */
 export const normalizeTag = (original: EventTags): string => {
-  return original.trim().replace(/\s+/g, '-').toLowerCase()
+  return original.trim().replace(/\s+/g, "-").toLowerCase()
 }
 
 /**
@@ -19,13 +19,13 @@ export const normalizeTag = (original: EventTags): string => {
  */
 export const numberToLetters = (position: number): string => {
   if (position < 0) {
-    throw new Error('property \'position\' cannot be less than 0')
+    throw new Error("property 'position' cannot be less than 0")
   }
 
-  let letters = ''
+  let letters = ""
   while (position >= 0) {
     // * this case will never fail since the mod number (26) matches the string's length
-    letters = `${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[position % 26] ?? ''}${letters}`
+    letters = `${"ABCDEFGHIJKLMNOPQRSTUVWXYZ"[position % 26] ?? ""}${letters}`
     position = Math.floor(position / 26) - 1
   }
   return letters

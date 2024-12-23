@@ -1,4 +1,9 @@
-import { emailRegExp, fileExtensionMatchRegExp, phoneNumberRegExp, usernameRegExp } from '../constants/index.js'
+import {
+  emailRegExp,
+  fileExtensionMatchRegExp,
+  phoneNumberRegExp,
+  usernameRegExp
+} from "../constants/index.js"
 
 /**
  * Function for validating user emails whether it's the right format or not.
@@ -24,75 +29,75 @@ export const validateEmail = (email: string): boolean => {
  * @returns boolean indicating if username is right.
  */
 export const validateUsername = (username: string): boolean => {
-  if (username.toLowerCase() === 'events') {
+  if (username.toLowerCase() === "events") {
     return false
   }
 
-  if (username.toLowerCase() === 'null') {
+  if (username.toLowerCase() === "null") {
     return false
   }
 
-  if (username.toLowerCase() === 'undefined') {
+  if (username.toLowerCase() === "undefined") {
     return false
   }
 
-  if (username.toLowerCase() === 'event') {
+  if (username.toLowerCase() === "event") {
     return false
   }
 
-  if (username.toLowerCase() === 'search') {
+  if (username.toLowerCase() === "search") {
     return false
   }
 
-  if (username.toLowerCase() === 'docs') {
+  if (username.toLowerCase() === "docs") {
     return false
   }
 
-  if (username.toLowerCase() === 'receipt') {
+  if (username.toLowerCase() === "receipt") {
     return false
   }
 
-  if (username.toLowerCase() === 'create') {
+  if (username.toLowerCase() === "create") {
     return false
   }
 
-  if (username.toLowerCase() === 'developer') {
+  if (username.toLowerCase() === "developer") {
     return false
   }
 
-  if (username.toLowerCase() === 'organizer') {
+  if (username.toLowerCase() === "organizer") {
     return false
   }
 
-  if (username.toLowerCase() === 'account') {
+  if (username.toLowerCase() === "account") {
     return false
   }
 
-  if (username.toLowerCase() === 'edit') {
+  if (username.toLowerCase() === "edit") {
     return false
   }
 
-  if (username.toLowerCase() === 'seats') {
+  if (username.toLowerCase() === "seats") {
     return false
   }
 
-  if (username.toLowerCase() === 'root') {
+  if (username.toLowerCase() === "root") {
     return false
   }
 
-  if (username.toLowerCase() === 'signin') {
+  if (username.toLowerCase() === "signin") {
     return false
   }
 
-  if (username.toLowerCase() === 'signup') {
+  if (username.toLowerCase() === "signup") {
     return false
   }
 
-  if (username.toLowerCase() === 'auth') {
+  if (username.toLowerCase() === "auth") {
     return false
   }
 
-  if (username.toLowerCase() === 'avatars') {
+  if (username.toLowerCase() === "avatars") {
     return false
   }
 
@@ -139,8 +144,8 @@ export const getFileExtension = (filename: string): string => {
   const matches = filename.match(fileExtensionMatchRegExp)
 
   if (matches != null) {
-    return matches[1] ?? ''
+    return matches[1] ?? ""
   }
 
-  throw new Error('unmatched file extension')
+  throw new Error("unmatched file extension")
 }

@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
-import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import dayjs from "dayjs"
+import { FastifyInstance, FastifyPluginOptions } from "fastify"
 
 import {
   events,
@@ -14,11 +14,20 @@ import {
   GetOrganizerEventStatisticsRequestParams,
   GetOrganizerEventStatisticsRequestParamsSchema,
   t_event_status
-} from '@reeba/common'
+} from "@reeba/common"
 
 const PAGE_SIZE = 30
 
-type EventData = Pick<events, 'event_id' | 'event_name' | 'event_venue_name' | 'event_status' | 'event_venue_coordinates' | 'event_opening_date' | 'event_creation_date'> & {
+type EventData = Pick<
+  events,
+  | "event_id"
+  | "event_name"
+  | "event_venue_name"
+  | "event_status"
+  | "event_venue_coordinates"
+  | "event_opening_date"
+  | "event_creation_date"
+> & {
   total_datetimes: number
   total_events: number
   total_sections: number
@@ -35,9 +44,16 @@ interface IndividualEventData {
   reeba_ticket_fees?: number
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Params: GetOrganizerDataRequestParams, Querystring: GetOrganizerDataRequestQuerystring, Reply: GetOrganizerDataReply }>(
-    '/:username/organizer',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.get<{
+    Params: GetOrganizerDataRequestParams
+    Querystring: GetOrganizerDataRequestQuerystring
+    Reply: GetOrganizerDataReply
+  }>(
+    "/:username/organizer",
     {
       schema: {
         params: GetOrganizerDataRequestParamsSchema,
@@ -48,7 +64,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       },
       onRequest: [instance.authenticate],
       config: {
-        name: 'GetOrganizerData'
+        name: "GetOrganizerData"
       }
     },
     async (request, reply) => {
@@ -62,10 +78,13 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       if (user.rowCount === 0) {
         void reply.code(404)
-        throw new Error('user not found')
+        throw new Error("user not found")
       }
 
-      const eventData = await instance.pg.query<EventData, [string, number, number]>(
+      const eventData = await instance.pg.query<
+        EventData,
+        [string, number, number]
+      >(
         `select
           count(events.event_id) over() as total_events,
           events.event_id,
@@ -89,7 +108,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         group by events.event_id
         order by events.event_id asc
         limit $2 offset $3`,
-        [username, PAGE_SIZE, (page * PAGE_SIZE) - PAGE_SIZE]
+        [username, PAGE_SIZE, page * PAGE_SIZE - PAGE_SIZE]
       )
 
       return {
@@ -117,8 +136,11 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
     }
   )
 
-  instance.get<{ Params: GetOrganizerEventStatisticsRequestParams, Reply: GetOrganizerEventStatisticsReply }>(
-    '/:username/organizer/:eventId',
+  instance.get<{
+    Params: GetOrganizerEventStatisticsRequestParams
+    Reply: GetOrganizerEventStatisticsReply
+  }>(
+    "/:username/organizer/:eventId",
     {
       schema: {
         params: GetOrganizerEventStatisticsRequestParamsSchema,
@@ -128,13 +150,16 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       },
       onRequest: [instance.authenticate],
       config: {
-        name: 'GetOrganizerEventStatistics'
+        name: "GetOrganizerEventStatistics"
       }
     },
     async (request, reply) => {
       const { eventId } = request.params
 
-      const eventStuffs = await instance.pg.query<{ event_id: string, event_name: string, event_status: t_event_status }, [string]>(
+      const eventStuffs = await instance.pg.query<
+        { event_id: string; event_name: string; event_status: t_event_status },
+        [string]
+      >(
         `select
           events.event_id,
           events.event_name,
@@ -146,7 +171,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       if (eventStuffs.rowCount === 0) {
         void reply.code(404)
-        throw new Error('event not found')
+        throw new Error("event not found")
       }
 
       const eventData = await instance.pg.query<IndividualEventData, [string]>(
@@ -191,7 +216,9 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         seatFullnessPercentage: seatings.rows[0]?.seat_fullness_percentage ?? 0,
         grossTicketSales: eventData.rows[0]?.gross_ticket_sales ?? 0,
         reebaTicketFees: eventData.rows[0]?.reeba_ticket_fees ?? 0,
-        netPayout: (eventData.rows[0]?.gross_ticket_sales ?? 0) - (eventData.rows[0]?.reeba_ticket_fees ?? 0)
+        netPayout:
+          (eventData.rows[0]?.gross_ticket_sales ?? 0) -
+          (eventData.rows[0]?.reeba_ticket_fees ?? 0)
       }
     }
   )

@@ -95,25 +95,25 @@
 </template>
 
 <script lang="ts">
-import { storeToRefs } from 'pinia'
-import { defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { storeToRefs } from "pinia"
+import { defineComponent, ref } from "vue"
+import { useRouter } from "vue-router"
 
-import { getUserAvatarEndpoint } from '@/api/endpoints'
-import { useAuthStore } from '@/store/use-auth-store'
+import { getUserAvatarEndpoint } from "@/api/endpoints"
+import { useAuthStore } from "@/store/use-auth-store"
 
 export default defineComponent({
-  name: 'app',
-  setup () {
+  name: "app",
+  setup() {
     const authStore = useAuthStore()
-    const searchText = ref('')
+    const searchText = ref("")
     const { isAuthenticated, userData } = storeToRefs(authStore)
 
     const router = useRouter()
 
     const signout = (): void => {
       authStore.signout()
-      router.push('/')
+      router.push("/")
     }
 
     return {

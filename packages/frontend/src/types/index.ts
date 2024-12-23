@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs'
+import { Dayjs } from "dayjs"
 
 /**
  * Store event start and end time as a pair in create event page
@@ -14,7 +14,7 @@ export interface ReebAEventPrice {
 }
 
 export interface ReebAExtendedEventPrice extends ReebAEventPrice {
-  currency: 'USD' | 'EUR' | 'CAD' | 'THB'
+  currency: "USD" | "EUR" | "CAD" | "THB"
 }
 
 export interface ReebAEventSeat {
@@ -52,7 +52,10 @@ export interface TransactionStoreSection {
   seats: Map<string, TransactionStoreSeat>
 }
 
-export type TransactionStoreSeat = Omit<TransactionStoreSection, 'id' | 'seats'> & {
+export type TransactionStoreSeat = Omit<
+  TransactionStoreSection,
+  "id" | "seats"
+> & {
   price: number
 }
 

@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
 
 import {
   PostManipulateEventReply,
@@ -7,7 +7,7 @@ import {
   PostManipulateEventRequestBodySchema,
   PostManipulateEventRequestParams,
   PostManipulateEventRequestParamsSchema
-} from '@reeba/common'
+} from "@reeba/common"
 
 const schema: FastifySchema = {
   params: PostManipulateEventRequestParamsSchema,
@@ -17,25 +17,33 @@ const schema: FastifySchema = {
   }
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.post<{ Params: PostManipulateEventRequestParams, Body: PostManipulateEventRequestBody, Reply: PostManipulateEventReply }>(
-    '/:eventId/manipulate',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.post<{
+    Params: PostManipulateEventRequestParams
+    Body: PostManipulateEventRequestBody
+    Reply: PostManipulateEventReply
+  }>(
+    "/:eventId/manipulate",
     {
       schema,
-      onRequest: [
-        instance.authenticate
-      ],
+      onRequest: [instance.authenticate],
       preValidation: [
         async (request, reply) => {
           // @ts-expect-error this could be empty string
-          if (request.body.targetStatus == null || request.body.targetStatus === '') {
+          if (
+            request.body.targetStatus == null ||
+            request.body.targetStatus === ""
+          ) {
             void reply.code(400)
-            throw new Error('body should have required property \'targetStatus\'')
+            throw new Error("body should have required property 'targetStatus'")
           }
         }
       ],
       config: {
-        name: 'PostManipulateEvent'
+        name: "PostManipulateEvent"
       }
     },
     async (request, reply) => {
@@ -46,7 +54,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
 
       if (ev.rowCount === 0) {
         void reply.code(404)
-        throw new Error('event not found')
+        throw new Error("event not found")
       }
 
       await instance.pg.query(
@@ -55,7 +63,7 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
       )
 
       return {
-        message: 'complete'
+        message: "complete"
       }
     }
   )

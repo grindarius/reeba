@@ -16,21 +16,21 @@
 </template>
 
 <script lang="ts">
-import ky from 'ky'
-import { defineComponent, Ref, ref } from 'vue'
+import ky from "ky"
+import { defineComponent, Ref, ref } from "vue"
 
 export default defineComponent({
-  name: 'upload',
-  setup () {
+  name: "upload",
+  setup() {
     const userAvatar: Ref<File | null> = ref(null)
 
     const uploadFileAsync = async (): Promise<void> => {
       if (userAvatar.value != null) {
         const body = new FormData()
-        body.append('image', userAvatar.value, userAvatar.value.name)
+        body.append("image", userAvatar.value, userAvatar.value.name)
 
         try {
-          await ky.post('http://localhost:3000/avatars', {
+          await ky.post("http://localhost:3000/avatars", {
             body
           })
         } catch (error) {

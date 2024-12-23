@@ -1,8 +1,8 @@
-import MarkdownIt from 'markdown-it'
+import MarkdownIt from "markdown-it"
 // @ts-expect-error no definitelytyped module
-import abbr from 'markdown-it-abbr'
-import emoji from 'markdown-it-emoji'
-import { computed, ComputedRef, Ref, ref } from 'vue'
+import abbr from "markdown-it-abbr"
+import emoji from "markdown-it-emoji"
+import { computed, ComputedRef, Ref, ref } from "vue"
 
 interface UseMarkdown {
   markdown: Ref<MarkdownIt>
@@ -11,16 +11,20 @@ interface UseMarkdown {
 
 export const useMarkdown = (description: Ref<string>): UseMarkdown => {
   const markdown = ref(
-    new MarkdownIt('default', {
+    new MarkdownIt("default", {
       breaks: true,
       linkify: true,
       typographer: true,
       html: true
-    }).use(emoji).use(abbr)
+    })
+      .use(emoji)
+      .use(abbr)
   )
 
   const renderedMarkdown = computed(() => {
-    return markdown.value.render(description.value ?? '## No description provided')
+    return markdown.value.render(
+      description.value ?? "## No description provided"
+    )
   })
 
   return {

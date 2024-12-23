@@ -8,11 +8,11 @@ export const enum t_user_role {
   /**
    * User role
    */
-  user = 'user',
+  user = "user",
   /**
    * Admin role
    */
-  admin = 'admin'
+  admin = "admin"
 }
 
 /**
@@ -28,12 +28,12 @@ export const enum t_event_status {
   /**
    * Event is open for ordering new tickets
    */
-  open = 'open',
+  open = "open",
   /**
    * Event is closed, will disappear from first page, not accessible by links and API, (redirectes
    * to not found page). tickets cannot be ordered from the page.
    */
-  closed = 'closed'
+  closed = "closed"
 }
 
 /**

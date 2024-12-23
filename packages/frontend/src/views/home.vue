@@ -86,24 +86,27 @@
 </template>
 
 <script lang="ts">
-import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
+import ky from "ky"
+import { defineComponent, onMounted, Ref, ref } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
 
-import { GetEventsReply } from '@reeba/common'
+import { GetEventsReply } from "@reeba/common"
 
-import { getEventImageEndpoint, getRootPageEventEndpoint } from '@/api/endpoints'
-import { formatTimeString } from '@/utils'
+import {
+  getEventImageEndpoint,
+  getRootPageEventEndpoint
+} from "@/api/endpoints"
+import { formatTimeString } from "@/utils"
 
 export default defineComponent({
-  name: 'home',
-  setup () {
+  name: "home",
+  setup() {
     const router = useRouter()
     const route = useRoute()
 
     useMeta({
-      title: 'Home'
+      title: "Home"
     })
 
     const eventData: Ref<GetEventsReply> = ref({
@@ -119,7 +122,12 @@ export default defineComponent({
         eventData.value.official = response.official ?? []
         eventData.value.local = response.local ?? []
       } catch (error) {
-        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        router.push({
+          name: "Not Found",
+          params: { pathMatch: route.path.substring(1).split("/") },
+          query: route.query,
+          hash: route.hash
+        })
       }
     })
 

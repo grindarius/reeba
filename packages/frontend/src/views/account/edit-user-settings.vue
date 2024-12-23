@@ -75,23 +75,28 @@
 </template>
 
 <script lang="ts">
-import dayjs from 'dayjs'
-import ky from 'ky'
-import { storeToRefs } from 'pinia'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import dayjs from "dayjs"
+import ky from "ky"
+import { storeToRefs } from "pinia"
+import { defineComponent, onMounted, Ref, ref } from "vue"
+import { useMeta } from "vue-meta"
+import { useRouter } from "vue-router"
+import { useToast } from "vue-toastification"
 
-import { GetProfileDataReply, PatchProfileDataRequestBody } from '@reeba/common'
+import { GetProfileDataReply, PatchProfileDataRequestBody } from "@reeba/common"
 
-import { getProfileDataEndpoint, getUserAvatarEndpoint, patchProfileDataEndpoint, postAvatarEndpoint } from '@/api/endpoints'
-import { usePhoneCodes } from '@/composables'
-import { useAuthStore } from '@/store/use-auth-store'
+import {
+  getProfileDataEndpoint,
+  getUserAvatarEndpoint,
+  patchProfileDataEndpoint,
+  postAvatarEndpoint
+} from "@/api/endpoints"
+import { usePhoneCodes } from "@/composables"
+import { useAuthStore } from "@/store/use-auth-store"
 
 export default defineComponent({
-  name: 'edit-user-settings',
-  setup () {
+  name: "edit-user-settings",
+  setup() {
     const authStore = useAuthStore()
     const { userData } = storeToRefs(authStore)
     const toast = useToast()
@@ -106,31 +111,33 @@ export default defineComponent({
       selectedPhoneCountryCode: phoneCountryCode
     } = usePhoneCodes()
 
-    const email: Ref<string> = ref('')
-    const password = ref('')
-    const confirmPassword = ref('')
-    const birthdate: Ref<string> = ref('')
-    const phoneNumber: Ref<string> = ref('')
+    const email: Ref<string> = ref("")
+    const password = ref("")
+    const confirmPassword = ref("")
+    const birthdate: Ref<string> = ref("")
+    const phoneNumber: Ref<string> = ref("")
 
     useMeta({
-      title: 'Edit profile'
+      title: "Edit profile"
     })
 
     const updateUserProfileData = async (): Promise<void> => {
       const editedData: PatchProfileDataRequestBody = {
-        email: email.value ?? '',
+        email: email.value ?? "",
         password: password.value,
-        birthdate: birthdate.value ?? '',
-        phoneNumber: phoneNumber.value ?? '',
+        birthdate: birthdate.value ?? "",
+        phoneNumber: phoneNumber.value ?? "",
         phoneCountryCode: phoneCountryCode.value.phoneCode
       }
 
       if (password.value !== confirmPassword.value) {
-        toast.error('Password is not the same')
+        toast.error("Password is not the same")
         return
       }
 
-      const { method, url } = patchProfileDataEndpoint({ username: authStore.userData.username })
+      const { method, url } = patchProfileDataEndpoint({
+        username: authStore.userData.username
+      })
 
       try {
         await ky(url, {
@@ -141,23 +148,23 @@ export default defineComponent({
           json: editedData
         }).json<PatchProfileDataRequestBody>()
 
-        toast.success('Successfully updated!')
+        toast.success("Successfully updated!")
       } catch (error) {
         // @ts-expect-error error is unknown
         const json = await error?.response
 
         if (json.status === 401) {
-          toast.error('Token expired')
-          router.push({ name: 'Signin' })
+          toast.error("Token expired")
+          router.push({ name: "Signin" })
           return
         }
 
-        toast.error('Unexpedted error occured')
+        toast.error("Unexpedted error occured")
       }
     }
 
     const uploadNewProfileImage = async (e: Event): Promise<void> => {
-      const files = (e.target as HTMLInputElement)
+      const files = e.target as HTMLInputElement
       userNewProfileImage.value = files.files == null ? null : files.files[0]
 
       if (userNewProfileImage.value == null) {
@@ -165,10 +172,16 @@ export default defineComponent({
       }
 
       try {
-        const { method, url } = postAvatarEndpoint({ username: authStore.userData.username })
+        const { method, url } = postAvatarEndpoint({
+          username: authStore.userData.username
+        })
 
         const body = new FormData()
-        body.append('image', userNewProfileImage.value, userNewProfileImage.value.name)
+        body.append(
+          "image",
+          userNewProfileImage.value,
+          userNewProfileImage.value.name
+        )
 
         await ky(url, {
           method,
@@ -184,17 +197,19 @@ export default defineComponent({
         const json = await error?.response
 
         if (json.status === 401) {
-          toast.error('Token expired')
-          router.push({ name: 'Signin' })
+          toast.error("Token expired")
+          router.push({ name: "Signin" })
           return
         }
 
-        toast.error('Unexpedted error occured')
+        toast.error("Unexpedted error occured")
       }
     }
 
     onMounted(async () => {
-      const { method, url } = getProfileDataEndpoint({ username: authStore.userData.username })
+      const { method, url } = getProfileDataEndpoint({
+        username: authStore.userData.username
+      })
 
       try {
         const response = await ky(url, {
@@ -204,28 +219,32 @@ export default defineComponent({
           }
         }).json<GetProfileDataReply>()
 
-        birthdate.value = response.birthdate !== '' ? dayjs(response.birthdate).format('YYYY-MM-DD') : ''
+        birthdate.value =
+          response.birthdate !== ""
+            ? dayjs(response.birthdate).format("YYYY-MM-DD")
+            : ""
         email.value = response.email
         phoneNumber.value = response.phoneNumber
         phoneCountryCode.value.phoneCode = response.phoneCountryCode
 
         if (findCountryName(response.phoneCountryCode) == null) {
-          phoneCountryCode.value = { name: '', phoneCode: '', iso31662: '' }
+          phoneCountryCode.value = { name: "", phoneCode: "", iso31662: "" }
         }
 
-        phoneCountryCode.value.name = findCountryName(response.phoneCountryCode) ?? ''
+        phoneCountryCode.value.name =
+          findCountryName(response.phoneCountryCode) ?? ""
         phoneCountryCode.value.iso31662 = response.iso31662
       } catch (error) {
         // @ts-expect-error error is unknown
         const json = await error?.response
 
         if (json.status === 401) {
-          toast.error('Token expired')
-          router.push({ name: 'Signin' })
+          toast.error("Token expired")
+          router.push({ name: "Signin" })
           return
         }
 
-        toast.error('Unexpedted error occured')
+        toast.error("Unexpedted error occured")
       }
     })
 

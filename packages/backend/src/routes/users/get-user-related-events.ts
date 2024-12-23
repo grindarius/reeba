@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
 
 import {
   events,
@@ -8,7 +8,7 @@ import {
   GetUserRelatedEventsRequest,
   RelatedEventToUser,
   users
-} from '@reeba/common'
+} from "@reeba/common"
 
 const schema: FastifySchema = {
   params: GetUserRelatedEventsParamsSchema,
@@ -17,37 +17,51 @@ const schema: FastifySchema = {
   }
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Params: GetUserRelatedEventsRequest, Reply: GetUserRelatedEventsReply }>(
-    '/:username/events',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.get<{
+    Params: GetUserRelatedEventsRequest
+    Reply: GetUserRelatedEventsReply
+  }>(
+    "/:username/events",
     {
       schema,
       preValidation: (request, reply) => {
         const { username } = request.params
 
-        if (username == null || username === '') {
+        if (username == null || username === "") {
           void reply.code(400)
-          throw new Error('params should have required property \'username\'')
+          throw new Error("params should have required property 'username'")
         }
       },
       config: {
-        name: 'GetUserRelatedEvents'
+        name: "GetUserRelatedEvents"
       }
     },
     async (request, reply) => {
-      const existingUser = await instance.pg.query<users, [users['user_username']]>(
-        'select * from "users" where user_username = $1',
-        [request.params.username]
-      )
+      const existingUser = await instance.pg.query<
+        users,
+        [users["user_username"]]
+      >('select * from "users" where user_username = $1', [
+        request.params.username
+      ])
 
       if (existingUser.rowCount === 0) {
         void reply.code(404)
-        throw new Error('User not found')
+        throw new Error("User not found")
       }
 
-      type EventsThatUserAttended = Pick<events, 'event_id' | 'event_name' | 'user_username' | 'event_venue_name'>
+      type EventsThatUserAttended = Pick<
+        events,
+        "event_id" | "event_name" | "user_username" | "event_venue_name"
+      >
 
-      const eventsThatUserAttended = await instance.pg.query<EventsThatUserAttended, [users['user_username']]>(
+      const eventsThatUserAttended = await instance.pg.query<
+        EventsThatUserAttended,
+        [users["user_username"]]
+      >(
         `select
           distinct events.event_id,
           events.event_name,
@@ -63,10 +77,12 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         [request.params.username]
       )
 
-      const eventsThatUserCreated = await instance.pg.query<events, [users['user_username']]>(
-        'select * from "events" where user_username = $1',
-        [request.params.username]
-      )
+      const eventsThatUserCreated = await instance.pg.query<
+        events,
+        [users["user_username"]]
+      >('select * from "events" where user_username = $1', [
+        request.params.username
+      ])
 
       const attended = eventsThatUserAttended.rows.map(attendedEvent => {
         const ret: RelatedEventToUser = {

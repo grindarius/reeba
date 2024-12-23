@@ -6,7 +6,7 @@ import client from "../pool.js"
 
 dotenv.config({
   path: resolve(__dirname, "..", ".."),
-  silent: true,
+  silent: true
 })
 
 describe("signup process", async () => {
@@ -18,7 +18,7 @@ describe("signup process", async () => {
 
   beforeAll(async () => {
     await client.query(
-      "delete from \"users\" where user_email = 'authtest@gmail.com'",
+      "delete from \"users\" where user_email = 'authtest@gmail.com'"
     )
   })
 
@@ -31,14 +31,14 @@ describe("signup process", async () => {
         email: "authtest@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "983322552",
-      },
+        phoneNumber: "983322552"
+      }
     })
 
     expect(response.statusCode, "Error code from missing username").toEqual(400)
     expect(
       response.json().message,
-      "Error message from missing username",
+      "Error message from missing username"
     ).toEqual("body should have required property 'username'")
   })
 
@@ -50,14 +50,14 @@ describe("signup process", async () => {
         email: "authtest@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "983322552",
-      },
+        phoneNumber: "983322552"
+      }
     })
 
     expect(response.statusCode, "Error code from missing username").toEqual(400)
     expect(
       response.json().message,
-      "Error message from missing username",
+      "Error message from missing username"
     ).toEqual("body should have required property 'username'")
   })
 
@@ -70,13 +70,13 @@ describe("signup process", async () => {
         email: "",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "983322552",
-      },
+        phoneNumber: "983322552"
+      }
     })
 
     expect(response.statusCode, "Error code from missing email").toEqual(400)
     expect(response.json().message, "Error message from missing email").toEqual(
-      "body should have required property 'email'",
+      "body should have required property 'email'"
     )
   })
 
@@ -88,13 +88,13 @@ describe("signup process", async () => {
         username: "grindarius",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "983322552",
-      },
+        phoneNumber: "983322552"
+      }
     })
 
     expect(response.statusCode, "Error code from missing email").toEqual(400)
     expect(response.json().message, "Error message from missing email").toEqual(
-      "body should have required property 'email'",
+      "body should have required property 'email'"
     )
   })
 
@@ -107,17 +107,17 @@ describe("signup process", async () => {
         email: "authtest @gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "983322552",
-      },
+        phoneNumber: "983322552"
+      }
     })
 
     expect(
       response.statusCode,
-      "Error code when email is in wrong format",
+      "Error code when email is in wrong format"
     ).toEqual(400)
     expect(
       response.json().message,
-      "Error message when email is in wrong format",
+      "Error message when email is in wrong format"
     ).toEqual("invalid 'email' format")
   })
 
@@ -130,14 +130,14 @@ describe("signup process", async () => {
         email: "authtest@gmail.com",
         password: "",
         phoneCountryCode: "66",
-        phoneNumber: "983322552",
-      },
+        phoneNumber: "983322552"
+      }
     })
 
     expect(response.statusCode, "Error code when missing password").toEqual(400)
     expect(
       response.json().message,
-      "Error message when missing password",
+      "Error message when missing password"
     ).toEqual("body should have required property 'password'")
   })
 
@@ -149,14 +149,14 @@ describe("signup process", async () => {
         username: "grindarius",
         email: "authtest@gmail.com",
         phoneCountryCode: "66",
-        phoneNumber: "983322552",
-      },
+        phoneNumber: "983322552"
+      }
     })
 
     expect(response.statusCode, "Error code when missing password").toEqual(400)
     expect(
       response.json().message,
-      "Error message when missing password",
+      "Error message when missing password"
     ).toEqual("body should have required property 'password'")
   })
 
@@ -169,17 +169,17 @@ describe("signup process", async () => {
         email: "authtest@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "",
-        phoneNumber: "9823322552",
-      },
+        phoneNumber: "9823322552"
+      }
     })
 
     expect(
       response.statusCode,
-      "Error code when missing phone country code",
+      "Error code when missing phone country code"
     ).toEqual(400)
     expect(
       response.json().message,
-      "Error message when missing phone country code",
+      "Error message when missing phone country code"
     ).toEqual("body should have required property 'phoneCountryCode'")
   })
 
@@ -191,17 +191,17 @@ describe("signup process", async () => {
         username: "grindarius",
         email: "authtest@gmail.com",
         password: "asdfghjkl123",
-        phoneNumber: "9823322552",
-      },
+        phoneNumber: "9823322552"
+      }
     })
 
     expect(
       response.statusCode,
-      "Error code when missing phone country code",
+      "Error code when missing phone country code"
     ).toEqual(400)
     expect(
       response.json().message,
-      "Error message when missing phone country code",
+      "Error message when missing phone country code"
     ).toEqual("body should have required property 'phoneCountryCode'")
   })
 
@@ -214,16 +214,16 @@ describe("signup process", async () => {
         email: "authtest@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "",
-      },
+        phoneNumber: ""
+      }
     })
 
     expect(response.statusCode, "Error code when missing phone number").toEqual(
-      400,
+      400
     )
     expect(
       response.json().message,
-      "Error message when missing phone number",
+      "Error message when missing phone number"
     ).toEqual("body should have required property 'phoneNumber'")
   })
 
@@ -235,16 +235,16 @@ describe("signup process", async () => {
         username: "grindarius",
         email: "authtest@gmail.com",
         password: "asdfghjkl123",
-        phoneCountryCode: "66",
-      },
+        phoneCountryCode: "66"
+      }
     })
 
     expect(response.statusCode, "Error code when missing phone number").toEqual(
-      400,
+      400
     )
     expect(
       response.json().message,
-      "Error message when missing phone number",
+      "Error message when missing phone number"
     ).toEqual("body should have required property 'phoneNumber'")
   })
 
@@ -257,17 +257,17 @@ describe("signup process", async () => {
         email: "authtest@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: " 98 23322552",
-      },
+        phoneNumber: " 98 23322552"
+      }
     })
 
     expect(
       response.statusCode,
-      "Error code when phone number wrong format",
+      "Error code when phone number wrong format"
     ).toEqual(400)
     expect(
       response.json().message,
-      "Error message when wrong phone number format",
+      "Error message when wrong phone number format"
     ).toEqual("invalid 'phoneNumber' format")
   })
 
@@ -280,17 +280,17 @@ describe("signup process", async () => {
         email: "authtest@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "\n43445452",
-      },
+        phoneNumber: "\n43445452"
+      }
     })
 
     expect(
       response.statusCode,
-      "Error code when phone number wrong format",
+      "Error code when phone number wrong format"
     ).toEqual(400)
     expect(
       response.json().message,
-      "Error message when wrong phone number format",
+      "Error message when wrong phone number format"
     ).toEqual("invalid 'phoneNumber' format")
   })
 
@@ -303,17 +303,17 @@ describe("signup process", async () => {
         email: "authtest@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "\t43445452",
-      },
+        phoneNumber: "\t43445452"
+      }
     })
 
     expect(
       response.statusCode,
-      "Error code when phone number wrong format",
+      "Error code when phone number wrong format"
     ).toEqual(400)
     expect(
       response.json().message,
-      "Error message when wrong phone number format",
+      "Error message when wrong phone number format"
     ).toEqual("invalid 'phoneNumber' format")
   })
 
@@ -326,13 +326,13 @@ describe("signup process", async () => {
         email: "authtest@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "9823322552",
-      },
+        phoneNumber: "9823322552"
+      }
     })
 
     expect(response.statusCode, "Success code from registration.").toEqual(200)
     expect(response.json().message, "response message from signup.").toEqual(
-      "complete",
+      "complete"
     )
   })
 
@@ -345,14 +345,14 @@ describe("signup process", async () => {
         email: "authtest@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "9823322552",
-      },
+        phoneNumber: "9823322552"
+      }
     })
 
     expect(response.statusCode, "Error code from redundant email.").toEqual(400)
     expect(
       response.json().message,
-      "Error message from redundant email.",
+      "Error message from redundant email."
     ).toEqual("duplicate 'email'")
   })
 
@@ -365,16 +365,16 @@ describe("signup process", async () => {
         email: "authtest2@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "9823322552",
-      },
+        phoneNumber: "9823322552"
+      }
     })
 
     expect(response.statusCode, "Error code from redundant username.").toEqual(
-      400,
+      400
     )
     expect(
       response.json().message,
-      "Error message from redundant username.",
+      "Error message from redundant username."
     ).toEqual("duplicate 'username'")
   })
 
@@ -387,16 +387,16 @@ describe("signup process", async () => {
         email: "authtest@gmail.com",
         password: "asdfghjkl123",
         phoneCountryCode: "66",
-        phoneNumber: "9823322552",
-      },
+        phoneNumber: "9823322552"
+      }
     })
 
     expect(response.statusCode, "Error code from invalid name format.").toEqual(
-      400,
+      400
     )
     expect(
       response.json().message,
-      "Error message from invalid username.",
+      "Error message from invalid username."
     ).toEqual("invalid 'username' format")
   })
 })

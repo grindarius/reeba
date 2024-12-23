@@ -1,15 +1,18 @@
-import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions } from "fastify"
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
   instance.all(
-    '/verification',
+    "/verification",
     {
       onRequest: [instance.authenticate],
       config: {
-        name: 'VerifyAuthentication'
+        name: "VerifyAuthentication"
       }
     },
-    async (request) => {
+    async request => {
       const user = request.user
 
       return {

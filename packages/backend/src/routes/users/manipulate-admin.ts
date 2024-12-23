@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions } from "fastify"
 
 import {
   AdminGrantAdminReply,
@@ -10,11 +10,17 @@ import {
   AdminRevokeAdminRequestParams,
   AdminRevokeAdminRequestParamsSchema,
   t_user_role
-} from '@reeba/common'
+} from "@reeba/common"
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.patch<{ Params: AdminGrantAdminRequestParams, Reply: AdminGrantAdminReply }>(
-    '/:username/admin',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.patch<{
+    Params: AdminGrantAdminRequestParams
+    Reply: AdminGrantAdminReply
+  }>(
+    "/:username/admin",
     {
       schema: {
         params: AdminGrantAdminRequestParamsSchema,
@@ -27,34 +33,37 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         (request, reply) => {
           if (request.user.role !== t_user_role.admin) {
             void reply.code(403)
-            throw new Error('forbidden')
+            throw new Error("forbidden")
           }
         }
       ],
       preValidation: (request, reply) => {
-        if (request.params.username == null || request.params.username === '') {
+        if (request.params.username == null || request.params.username === "") {
           void reply.code(400)
-          throw new Error('params should have required property \'username\'')
+          throw new Error("params should have required property 'username'")
         }
       },
       config: {
-        name: 'AdminGrantAdmin'
+        name: "AdminGrantAdmin"
       }
     },
-    async (request) => {
+    async request => {
       await instance.pg.query(
         'update "users" set user_role = $1 where user_username = $2',
         [t_user_role.admin, request.params.username]
       )
 
       return {
-        message: 'complete'
+        message: "complete"
       }
     }
   )
 
-  instance.delete<{ Params: AdminRevokeAdminRequestParams, Reply: AdminRevokeAdminReply }>(
-    '/:username/admin',
+  instance.delete<{
+    Params: AdminRevokeAdminRequestParams
+    Reply: AdminRevokeAdminReply
+  }>(
+    "/:username/admin",
     {
       schema: {
         params: AdminRevokeAdminRequestParamsSchema,
@@ -67,28 +76,28 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         async (request, reply) => {
           if (request.user.role !== t_user_role.admin) {
             void reply.code(403)
-            throw new Error('forbidden')
+            throw new Error("forbidden")
           }
         }
       ],
       preValidation: (request, reply) => {
-        if (request.params.username == null || request.params.username === '') {
+        if (request.params.username == null || request.params.username === "") {
           void reply.code(400)
-          throw new Error('params should have required property \'username\'')
+          throw new Error("params should have required property 'username'")
         }
       },
       config: {
-        name: 'AdminRevokeAdmin'
+        name: "AdminRevokeAdmin"
       }
     },
-    async (request) => {
+    async request => {
       await instance.pg.query(
         'update "users" set user_role = $1 where user_username = $2',
         [t_user_role.user, request.params.username]
       )
 
       return {
-        message: 'complete'
+        message: "complete"
       }
     }
   )

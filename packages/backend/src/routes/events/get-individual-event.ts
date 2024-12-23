@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from 'fastify'
+import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
 
 import {
   event_datetimes,
@@ -11,7 +11,7 @@ import {
   GetIndividualEventRequestQuerystring,
   GetIndividualEventRequestQuerystringSchema,
   t_event_status
-} from '@reeba/common'
+} from "@reeba/common"
 
 const schema: FastifySchema = {
   params: GetIndividualEventRequestParamsSchema,
@@ -21,9 +21,16 @@ const schema: FastifySchema = {
   }
 }
 
-export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promise<void> => {
-  instance.get<{ Params: GetIndividualEventRequestParams, Querystring: GetIndividualEventRequestQuerystring, Reply: GetIndividualEventReply }>(
-    '/:eventId',
+export default async (
+  instance: FastifyInstance,
+  _: FastifyPluginOptions
+): Promise<void> => {
+  instance.get<{
+    Params: GetIndividualEventRequestParams
+    Querystring: GetIndividualEventRequestQuerystring
+    Reply: GetIndividualEventReply
+  }>(
+    "/:eventId",
     {
       schema,
       preValidation: (request, reply) => {
@@ -31,44 +38,47 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         const { u } = request.query
 
         if (u == null) {
-          request.query.u = ''
+          request.query.u = ""
         }
 
-        if (eventId == null || eventId === '') {
+        if (eventId == null || eventId === "") {
           void reply.code(400)
-          throw new Error('params should have required property \'eventId\'')
+          throw new Error("params should have required property 'eventId'")
         }
       },
       config: {
-        name: 'GetIndividualEvent'
+        name: "GetIndividualEvent"
       }
     },
     async (request, reply) => {
       const { eventId } = request.params
       const { u } = request.query
 
-      const queriedEvent = await instance.pg.query<events, [events['event_id']]>(
-        'select * from events where event_id = $1',
-        [eventId]
-      )
+      const queriedEvent = await instance.pg.query<
+        events,
+        [events["event_id"]]
+      >("select * from events where event_id = $1", [eventId])
 
       if (queriedEvent.rowCount === 0) {
         void reply.code(404)
-        throw new Error('event not found')
+        throw new Error("event not found")
       }
 
       if (queriedEvent.rows[0].event_status === t_event_status.closed) {
         void reply.code(404)
-        throw new Error('event not found')
+        throw new Error("event not found")
       }
 
-      const queriedDatetimes = await instance.pg.query<event_datetimes, [events['event_id']]>(
-        'select * from event_datetimes where event_id = $1',
-        [eventId]
-      )
+      const queriedDatetimes = await instance.pg.query<
+        event_datetimes,
+        [events["event_id"]]
+      >("select * from event_datetimes where event_id = $1", [eventId])
 
-      const queriedTags = await instance.pg.query<event_tags_bridge, [events['event_id']]>(
-        'select * from event_tags_bridge where event_id = $1 order by event_tag_label asc',
+      const queriedTags = await instance.pg.query<
+        event_tags_bridge,
+        [events["event_id"]]
+      >(
+        "select * from event_tags_bridge where event_id = $1 order by event_tag_label asc",
         [eventId]
       )
 
@@ -93,7 +103,10 @@ export default async (instance: FastifyInstance, _: FastifyPluginOptions): Promi
         venueName: queriedEvent.rows[0].event_venue_name,
         ageLimit: queriedEvent.rows[0].event_minimum_age,
         isCurrentUserAttended: isCurrentUserAttended.rowCount !== 0,
-        venueCoordinates: { x: queriedEvent.rows[0].event_venue_coordinates.x.toString(), y: queriedEvent.rows[0].event_venue_coordinates.y.toString() },
+        venueCoordinates: {
+          x: queriedEvent.rows[0].event_venue_coordinates.x.toString(),
+          y: queriedEvent.rows[0].event_venue_coordinates.y.toString()
+        },
         openingDate: queriedEvent.rows[0].event_opening_date,
         prices: Object.keys(queriedEvent.rows[0].event_ticket_prices).map(k => {
           return {

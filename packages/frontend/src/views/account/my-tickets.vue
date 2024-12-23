@@ -65,38 +65,44 @@
 </template>
 
 <script lang="ts">
-import { format } from 'd3'
-import dayjs from 'dayjs'
-import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import { format } from "d3"
+import dayjs from "dayjs"
+import ky from "ky"
+import { defineComponent, onMounted, Ref, ref } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
+import { useToast } from "vue-toastification"
 
-import { GetMyTicketsReply } from '@reeba/common'
+import { GetMyTicketsReply } from "@reeba/common"
 
-import { getEventImageEndpoint, getMyTicketsEndpoint, postTransferTransactionEndpoint } from '@/api/endpoints'
-import { useAuthStore } from '@/store/use-auth-store'
-import { formatTimeString } from '@/utils'
+import {
+  getEventImageEndpoint,
+  getMyTicketsEndpoint,
+  postTransferTransactionEndpoint
+} from "@/api/endpoints"
+import { useAuthStore } from "@/store/use-auth-store"
+import { formatTimeString } from "@/utils"
 
 export default defineComponent({
-  name: 'my-tickets',
-  setup () {
+  name: "my-tickets",
+  setup() {
     const store = useAuthStore()
     const router = useRouter()
     const route = useRoute()
     const toast = useToast()
     const transferOwnershipButtonRef: Ref<HTMLInputElement | null> = ref(null)
-    const eventsList:Ref<GetMyTicketsReply> = ref({ events: [] })
-    const usernameToTransfer = ref('')
-    const selectedEvent = ref('')
+    const eventsList: Ref<GetMyTicketsReply> = ref({ events: [] })
+    const usernameToTransfer = ref("")
+    const selectedEvent = ref("")
 
     useMeta({
-      title: 'My tickets'
+      title: "My tickets"
     })
 
     onMounted(async () => {
-      const { method, url } = getMyTicketsEndpoint({ username: store.userData.username })
+      const { method, url } = getMyTicketsEndpoint({
+        username: store.userData.username
+      })
 
       try {
         const response = await ky(url, {
@@ -106,18 +112,25 @@ export default defineComponent({
           }
         }).json<GetMyTicketsReply>()
 
-        eventsList.value.events = (response.events ?? []).sort((a, b) => dayjs(b.time.start).diff(a.time.start))
+        eventsList.value.events = (response.events ?? []).sort((a, b) =>
+          dayjs(b.time.start).diff(a.time.start)
+        )
       } catch (error) {
         // @ts-expect-error error is unknown
         const resp = error?.response
         const json = await resp?.json()
 
         if (resp?.status == null) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
         }
 
         if (resp?.status === 401) {
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
           return
         }
 
@@ -127,7 +140,9 @@ export default defineComponent({
 
     const transferTicket = async (): Promise<void> => {
       if (transferOwnershipButtonRef.value != null) {
-        const { method, url } = postTransferTransactionEndpoint({ transactionId: selectedEvent.value })
+        const { method, url } = postTransferTransactionEndpoint({
+          transactionId: selectedEvent.value
+        })
 
         try {
           await ky(url, {
@@ -141,19 +156,24 @@ export default defineComponent({
           })
 
           transferOwnershipButtonRef.value.click()
-          toast.success('Successfully transferred the ticket')
+          toast.success("Successfully transferred the ticket")
         } catch (error) {
           // @ts-expect-error error could be unknown
           const resp = error?.response
           const json = await resp?.json()
 
           if (resp.status == null) {
-            router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+            router.push({
+              name: "Not Found",
+              params: { pathMatch: route.path.substring(1).split("/") },
+              query: route.query,
+              hash: route.hash
+            })
             return
           }
 
           if (resp.status === 401) {
-            router.push({ name: 'Signin' })
+            router.push({ name: "Signin" })
             return
           }
 

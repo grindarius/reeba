@@ -334,31 +334,29 @@
 </template>
 
 <script lang="ts">
-import { format } from 'd3'
-import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref, watch } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import { format } from "d3"
+import ky from "ky"
+import { defineComponent, onMounted, Ref, ref, watch } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
+import { useToast } from "vue-toastification"
 
 import {
   AdminGetEventDataReply,
   AdminGetEventDataSortByOption
-} from '@reeba/common'
+} from "@reeba/common"
 
 import {
   adminGetEventsDataEndpoint,
   getEventImageEndpoint,
   postManipulateEventEndpoint
-} from '@/api/endpoints'
-import { useAuthStore } from '@/store/use-auth-store'
-import {
-  formatQueryString, formatTimeString
-} from '@/utils'
+} from "@/api/endpoints"
+import { useAuthStore } from "@/store/use-auth-store"
+import { formatQueryString, formatTimeString } from "@/utils"
 
 export default defineComponent({
-  name: 'devtool-events',
-  setup () {
+  name: "devtool-events",
+  setup() {
     const router = useRouter()
     const route = useRoute()
     const authStore = useAuthStore()
@@ -370,21 +368,22 @@ export default defineComponent({
     })
 
     const page = ref(1)
-    const sortOptions: Ref<AdminGetEventDataSortByOption> = ref('event-name-asc')
+    const sortOptions: Ref<AdminGetEventDataSortByOption> =
+      ref("event-name-asc")
     const eventSearchRef: Ref<HTMLInputElement | null> = ref(null)
-    const eventSearch = ref('')
+    const eventSearch = ref("")
 
     useMeta({
-      title: 'Developer tools: Events'
+      title: "Developer tools: Events"
     })
 
     onMounted(async () => {
       await getAdminEvents()
     })
 
-    watch(sortOptions, async (now) => {
+    watch(sortOptions, async now => {
       router.replace({
-        name: 'Developer Events',
+        name: "Developer Events",
         query: {
           ...route.query,
           ...{ sort: now }
@@ -394,7 +393,7 @@ export default defineComponent({
 
     watch(eventSearch, now => {
       router.replace({
-        name: 'Developer Events',
+        name: "Developer Events",
         query: {
           ...route.query,
           ...{ q: now }
@@ -403,9 +402,12 @@ export default defineComponent({
     })
 
     const getAdminEvents = async (): Promise<void> => {
-      const formattedPage = Number(formatQueryString(route.query.page, '1'))
-      const formattedSortOptions = formatQueryString(route.query.sort, 'username-asc')
-      const formattedQ = formatQueryString(route.query.q, '')
+      const formattedPage = Number(formatQueryString(route.query.page, "1"))
+      const formattedSortOptions = formatQueryString(
+        route.query.sort,
+        "username-asc"
+      )
+      const formattedQ = formatQueryString(route.query.q, "")
 
       page.value = formattedPage
       sortOptions.value = formattedSortOptions as AdminGetEventDataSortByOption
@@ -424,9 +426,9 @@ export default defineComponent({
             Authorization: `Bearer ${authStore.userData.token}`
           },
           searchParams: [
-            ['page', page.value],
-            ['sort', sortOptions.value],
-            ['q', eventSearch.value]
+            ["page", page.value],
+            ["sort", sortOptions.value],
+            ["q", eventSearch.value]
           ]
         }).json<AdminGetEventDataReply>()
 
@@ -437,33 +439,46 @@ export default defineComponent({
         const resp = error?.response
 
         if (resp.status == null) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
           return
         }
 
         if (resp.status === 401) {
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
           return
         }
 
         if (resp.status === 403) {
-          router.push({ name: 'Home' })
+          router.push({ name: "Home" })
           return
         }
 
-        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        router.push({
+          name: "Not Found",
+          params: { pathMatch: route.path.substring(1).split("/") },
+          query: route.query,
+          hash: route.hash
+        })
       }
     }
 
     const dropdownClass = (i: number): string => {
       if (eventsList.value.events.length - i < 6) {
-        return 'dropdown dropdown-end dropdown-top'
+        return "dropdown dropdown-end dropdown-top"
       }
 
-      return 'dropdown dropdown-end'
+      return "dropdown dropdown-end"
     }
 
-    const manipulateEvent = async (eventId: string, targetStatus: 'open' | 'closed'): Promise<void> => {
+    const manipulateEvent = async (
+      eventId: string,
+      targetStatus: "open" | "closed"
+    ): Promise<void> => {
       try {
         const { method, url } = postManipulateEventEndpoint({ eventId })
 
@@ -477,7 +492,7 @@ export default defineComponent({
           }
         })
 
-        toast.success('Succesfully updated')
+        toast.success("Succesfully updated")
         setTimeout(() => {
           router.go(0)
         }, 2050)
@@ -487,12 +502,12 @@ export default defineComponent({
         const json = await resp?.json()
 
         if (resp.status === 401) {
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
           return
         }
 
         if (resp.status === 403) {
-          router.push({ name: 'Home' })
+          router.push({ name: "Home" })
           return
         }
 

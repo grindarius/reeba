@@ -122,39 +122,45 @@
 </template>
 
 <script lang="ts">
-import { format } from 'd3'
-import dayjs from 'dayjs'
-import ky from 'ky'
-import QRcodeVue from 'qrcode.vue'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
+import { format } from "d3"
+import dayjs from "dayjs"
+import ky from "ky"
+import QRcodeVue from "qrcode.vue"
+import { defineComponent, onMounted, Ref, ref } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
 
-import { GetTransactionReply, numberToLetters } from '@reeba/common'
+import { GetTransactionReply, numberToLetters } from "@reeba/common"
 
-import { getTransactionEndpoint, getTransactionPDFEndpoint, url } from '@/api/endpoints'
-import { useAuthStore } from '@/store/use-auth-store'
-import { formatTimeString } from '@/utils'
+import {
+  getTransactionEndpoint,
+  getTransactionPDFEndpoint,
+  url
+} from "@/api/endpoints"
+import { useAuthStore } from "@/store/use-auth-store"
+import { formatTimeString } from "@/utils"
 
 export default defineComponent({
-  name: 'receipt',
+  name: "receipt",
   components: {
-    'qrcode-vue': QRcodeVue
+    "qrcode-vue": QRcodeVue
   },
-  setup () {
+  setup() {
     const router = useRouter()
     const route = useRoute()
     const authStore = useAuthStore()
 
     useMeta({
-      title: 'Invoice'
+      title: "Invoice"
     })
 
     const receiptData: Ref<GetTransactionReply | undefined> = ref(undefined)
 
     const getReceiptData = async (): Promise<void> => {
       try {
-        const { method, url } = getTransactionEndpoint({ transactionId: route.params.transactionId as string ?? '' })
+        const { method, url } = getTransactionEndpoint({
+          transactionId: (route.params.transactionId as string) ?? ""
+        })
 
         const response = await ky(url, {
           method,
@@ -169,21 +175,36 @@ export default defineComponent({
         const resp = error?.response
 
         if (resp?.status == null) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
           return
         }
 
         if (resp?.status === 400) {
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
           return
         }
 
         if (resp?.status === 401) {
-          router.push({ name: 'Signin' })
+          router.push({ name: "Signin" })
           return
         }
 
-        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        router.push({
+          name: "Not Found",
+          params: { pathMatch: route.path.substring(1).split("/") },
+          query: route.query,
+          hash: route.hash
+        })
       }
     }
 
@@ -192,8 +213,10 @@ export default defineComponent({
     })
 
     const downloadPDF = async (): Promise<void> => {
-      const { url } = getTransactionPDFEndpoint({ transactionId: route.params.transactionId as string })
-      const newWindow = window.open(url, '_blank', 'noopener')
+      const { url } = getTransactionPDFEndpoint({
+        transactionId: route.params.transactionId as string
+      })
+      const newWindow = window.open(url, "_blank", "noopener")
       if (newWindow != null) {
         newWindow.opener = null
       }

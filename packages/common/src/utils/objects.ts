@@ -54,16 +54,22 @@
  *
  * @see https://stackoverflow.com/a/62765924/12386405
  */
-export const groupBy = <K extends keyof any, T extends object>(items: Array<T>, key: (i: T) => K): Record<K, Array<T>> => {
-  return items.reduce((previous, current) => {
-    const group = key(current)
+export const groupBy = <K extends keyof any, T extends object>(
+  items: Array<T>,
+  key: (i: T) => K
+): Record<K, Array<T>> => {
+  return items.reduce(
+    (previous, current) => {
+      const group = key(current)
 
-    if (previous[group] == null) {
-      previous[group] = []
-    }
+      if (previous[group] == null) {
+        previous[group] = []
+      }
 
-    previous[group].push(current)
-    return previous
-  // eslint-disable-next-line
-  }, {} as Record<K, Array<T>>)
+      previous[group].push(current)
+      return previous
+      // eslint-disable-next-line
+    },
+    {} as Record<K, Array<T>>
+  )
 }

@@ -221,13 +221,19 @@
 </template>
 
 <script lang="ts">
-import ky from 'ky'
-import { defineComponent, onMounted, Ref, ref } from 'vue'
-import { useMeta } from 'vue-meta'
-import { useRoute, useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import ky from "ky"
+import { defineComponent, onMounted, Ref, ref } from "vue"
+import { useMeta } from "vue-meta"
+import { useRoute, useRouter } from "vue-router"
+import { useToast } from "vue-toastification"
 
-import { GetUserFollowersListReply, GetUserFollowingsListReply, GetUserRelatedEventsReply, GetUserReply, PostFollowReply } from '@reeba/common'
+import {
+  GetUserFollowersListReply,
+  GetUserFollowingsListReply,
+  GetUserRelatedEventsReply,
+  GetUserReply,
+  PostFollowReply
+} from "@reeba/common"
 
 import {
   getEventImageEndpoint,
@@ -238,12 +244,12 @@ import {
   getUserRelatedEventsEndpoint,
   patchUserDescriptionEndpoint,
   postFollowEndpoint
-} from '@/api/endpoints'
-import { useAuthStore } from '@/store/use-auth-store'
+} from "@/api/endpoints"
+import { useAuthStore } from "@/store/use-auth-store"
 
 export default defineComponent({
-  name: 'users',
-  setup () {
+  name: "users",
+  setup() {
     const route = useRoute()
     const router = useRouter()
     const authStore = useAuthStore()
@@ -251,13 +257,13 @@ export default defineComponent({
 
     const isEditing = ref(false)
 
-    const descriptionText = ref('')
-    const facebookLink = ref('')
-    const instagramLink = ref('')
-    const twitterLink = ref('')
-    const tiktokLink = ref('')
-    const emailLink = ref('')
-    const websiteLink = ref('')
+    const descriptionText = ref("")
+    const facebookLink = ref("")
+    const instagramLink = ref("")
+    const twitterLink = ref("")
+    const tiktokLink = ref("")
+    const emailLink = ref("")
+    const websiteLink = ref("")
     const followersModalRef: Ref<HTMLInputElement | null> = ref(null)
     const followingsModalRef: Ref<HTMLInputElement | null> = ref(null)
 
@@ -280,22 +286,25 @@ export default defineComponent({
 
     const getUserDataTotal = async (): Promise<void> => {
       try {
-        const { method: getUserMethod, url: getUserUrl } = getUserEndpoint({ username: route.params.username as string })
+        const { method: getUserMethod, url: getUserUrl } = getUserEndpoint({
+          username: route.params.username as string
+        })
 
         const userDataResponse = await ky(getUserUrl, {
           method: getUserMethod,
-          searchParams: [
-            ['u', authStore.userData.username ?? '']
-          ]
+          searchParams: [["u", authStore.userData.username ?? ""]]
         }).json<GetUserReply>()
 
-        const { method: getUserRelatedEventsMethod, url: getUserRelatedEventsUrl } = getUserRelatedEventsEndpoint({ username: route.params.username as string })
+        const {
+          method: getUserRelatedEventsMethod,
+          url: getUserRelatedEventsUrl
+        } = getUserRelatedEventsEndpoint({
+          username: route.params.username as string
+        })
 
         const userRelatedEvents = await ky(getUserRelatedEventsUrl, {
           method: getUserRelatedEventsMethod,
-          searchParams: [
-            ['u', authStore.userData.username ?? '']
-          ]
+          searchParams: [["u", authStore.userData.username ?? ""]]
         }).json<GetUserRelatedEventsReply>()
 
         userData.value = userDataResponse
@@ -315,24 +324,34 @@ export default defineComponent({
         const code = error?.response?.status
 
         if (code == null) {
-          toast.error('Unexpected error')
-          router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+          toast.error("Unexpected error")
+          router.push({
+            name: "Not Found",
+            params: { pathMatch: route.path.substring(1).split("/") },
+            query: route.query,
+            hash: route.hash
+          })
           return
         }
 
-        router.push({ name: 'Not Found', params: { pathMatch: route.path.substring(1).split('/') }, query: route.query, hash: route.hash })
+        router.push({
+          name: "Not Found",
+          params: { pathMatch: route.path.substring(1).split("/") },
+          query: route.query,
+          hash: route.hash
+        })
       }
     }
 
     const getUserFollowersData = async (): Promise<void> => {
       try {
-        const { method, url } = getUserFollowersListEndpoint({ username: route.params.username as string })
+        const { method, url } = getUserFollowersListEndpoint({
+          username: route.params.username as string
+        })
 
         const response = await ky(url, {
           method,
-          searchParams: [
-            ['u', authStore.userData.username ?? '']
-          ]
+          searchParams: [["u", authStore.userData.username ?? ""]]
         }).json<GetUserFollowersListReply>()
 
         followersListResponse.value = response
@@ -341,23 +360,23 @@ export default defineComponent({
         const response = error?.response
 
         if (response?.status === 401) {
-          toast.error('Unauthenticated')
-          router.push({ name: 'Signin ' })
+          toast.error("Unauthenticated")
+          router.push({ name: "Signin " })
         }
 
-        toast.error('Unexpected error')
+        toast.error("Unexpected error")
       }
     }
 
     const getUserFollowingsData = async (): Promise<void> => {
       try {
-        const { method, url } = getUserFollowingsListEndpoint({ username: route.params.username as string })
+        const { method, url } = getUserFollowingsListEndpoint({
+          username: route.params.username as string
+        })
 
         const response = await ky(url, {
           method,
-          searchParams: [
-            ['u', authStore.userData.username ?? '']
-          ]
+          searchParams: [["u", authStore.userData.username ?? ""]]
         }).json<GetUserFollowingsListReply>()
 
         followingsListResponse.value = response
@@ -366,18 +385,18 @@ export default defineComponent({
         const response = error?.response
 
         if (response?.status === 401) {
-          toast.error('Unauthenticated')
-          router.push({ name: 'Signin ' })
+          toast.error("Unauthenticated")
+          router.push({ name: "Signin " })
         }
 
-        toast.error('Unexpected error')
+        toast.error("Unexpected error")
       }
     }
 
     const followUser = async (): Promise<void> => {
       if (!authStore.isAuthenticated) {
-        toast.error('Unauthenticated')
-        router.push({ name: 'Signin' })
+        toast.error("Unauthenticated")
+        router.push({ name: "Signin" })
         return
       }
 
@@ -390,7 +409,7 @@ export default defineComponent({
             Authorization: `Bearer ${authStore.userData.token}`
           },
           json: {
-            anotherUsername: route.params.username as string ?? ''
+            anotherUsername: (route.params.username as string) ?? ""
           }
         }).json<PostFollowReply>()
 
@@ -400,17 +419,19 @@ export default defineComponent({
         const response = error?.response
 
         if (response?.status === 401) {
-          toast.error('Unauthenticated')
-          router.push({ name: 'Signin' })
+          toast.error("Unauthenticated")
+          router.push({ name: "Signin" })
         }
 
-        toast.error('Unexpected error')
+        toast.error("Unexpected error")
       }
     }
 
     const patchUserProfileDescription = async (): Promise<void> => {
       try {
-        const { method, url } = patchUserDescriptionEndpoint({ username: authStore.userData.username })
+        const { method, url } = patchUserDescriptionEndpoint({
+          username: authStore.userData.username
+        })
 
         await ky(url, {
           method,
@@ -444,17 +465,17 @@ export default defineComponent({
         const response = error?.response
 
         if (response?.status === 401) {
-          toast.error('Unauthenticated')
-          router.push({ name: 'Signin' })
+          toast.error("Unauthenticated")
+          router.push({ name: "Signin" })
         }
 
-        toast.error('Unexpected error')
+        toast.error("Unexpected error")
       }
     }
 
     const goToUser = (username: string): void => {
       router.push({
-        name: 'Users',
+        name: "Users",
         params: {
           username
         }
