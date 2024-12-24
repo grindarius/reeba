@@ -9,8 +9,9 @@ import {
 } from "drizzle-orm/pg-core"
 import { CREATED_AT, UPDATED_AT } from "../time.js"
 import { accountRoles } from "./account-roles.js"
-import { eventSchedules } from "./event-datetimes.js"
+import { eventSchedules } from "./event-schedules.js"
 import { eventTicketPrices } from "./event-ticket-prices.js"
+import { eventZoneNames } from "./event-zone-names.js"
 
 export const events = pgTable("events", {
   id: varchar("id", { length: 26 }).notNull().primaryKey(),
@@ -36,5 +37,6 @@ export const events = pgTable("events", {
 export const eventsRelations = relations(events, ({ many }) => ({
   accountRoles: many(accountRoles),
   ticketPrices: many(eventTicketPrices),
-  schedules: many(eventSchedules)
+  schedules: many(eventSchedules),
+  zoneNames: many(eventZoneNames)
 }))
