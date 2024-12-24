@@ -4,7 +4,7 @@ import { createApp } from "vue"
 import VueMdi from "vue-mdijs"
 import { createMetaManager } from "vue-meta"
 import Toast, {
-  PluginOptions as ToastOptions,
+  type PluginOptions as ToastOptions,
   POSITION
 } from "vue-toastification"
 

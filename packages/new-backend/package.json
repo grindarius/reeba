@@ -1,5 +1,16 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@reeba/new-backend",
+  "version": "0.1.0",
   "private": true,
+  "description": "New backend for ReebA rewritten for ease of testing and maintenance.",
+  "type": "module",
+  "exports": "./.output/server/index.mjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grindarius/reeba.git",
+    "directory": "packages/new-backend"
+  },
   "scripts": {
     "build": "nitro build",
     "dev": "nitro dev",
@@ -8,5 +19,12 @@
   },
   "devDependencies": {
     "nitropack": "latest"
+  },
+  "dependencies": {
+    "consola": "^3.3.1",
+    "dayjs": "^1.11.13",
+    "drizzle-orm": "^0.38.2",
+    "postgres": "^3.4.5",
+    "ulidx": "^2.4.1"
   }
 }
