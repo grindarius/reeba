@@ -2,6 +2,7 @@ import { relations } from "drizzle-orm"
 import { numeric, pgTable, varchar } from "drizzle-orm/pg-core"
 import { bytea } from "../bytea.js"
 import { CREATED_AT, UPDATED_AT } from "../time.js"
+import { eventZones } from "./event-zones.js"
 import { events } from "./events.js"
 
 export const eventTicketPrices = pgTable("event_ticket_prices", {
@@ -17,10 +18,11 @@ export const eventTicketPrices = pgTable("event_ticket_prices", {
 
 export const eventTicketPricesRelations = relations(
   eventTicketPrices,
-  ({ one }) => ({
+  ({ one, many }) => ({
     event: one(events, {
       fields: [eventTicketPrices.eventId],
       references: [events.id]
-    })
+    }),
+    zones: many(eventZones)
   })
 )
