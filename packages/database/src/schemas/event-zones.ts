@@ -2,8 +2,9 @@ import { relations } from "drizzle-orm"
 import { pgTable, unique, varchar } from "drizzle-orm/pg-core"
 import { CREATED_AT, UPDATED_AT } from "../time.js"
 import { eventSchedules } from "./event-schedules.js"
-import { eventZoneType } from "./event-zone-type.js"
+import { eventStandingZones } from "./event-standing-zones.js"
 import { eventZoneNames } from "./event-zone-names.js"
+import { eventZoneType } from "./event-zone-type.js"
 
 export const eventZones = pgTable(
   "event_zones",
@@ -35,5 +36,6 @@ export const eventZonesRelations = relations(eventZones, ({ one }) => ({
   zoneName: one(eventZoneNames, {
     fields: [eventZones.eventZoneNameId],
     references: [eventZoneNames.id]
-  })
+  }),
+  standingZone: one(eventStandingZones)
 }))
