@@ -12,6 +12,7 @@ import { CREATED_AT, UPDATED_AT } from "../time.js"
 import { accountRoles } from "./account-roles.js"
 import { accountSocialMedias } from "./account-social-medias.js"
 import { follows } from "./follows.js"
+import { transactions } from "./transactions.js"
 
 export const accounts = pgTable(
   "accounts",
@@ -41,5 +42,6 @@ export const accounts = pgTable(
 export const accountsRelations = relations(accounts, ({ many }) => ({
   accountSocialMedias: many(accountSocialMedias),
   accountRoles: many(accountRoles),
-  followers: many(follows)
+  followers: many(follows),
+  transactions: many(transactions)
 }))

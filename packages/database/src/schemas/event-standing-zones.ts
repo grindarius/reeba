@@ -20,7 +20,7 @@ export const eventStandingZones = pgTable("event_standing_zones", {
   updatedAt: UPDATED_AT
 })
 
-export const eventStandZonesRelations = relations(
+export const eventStandingZonesRelations = relations(
   eventStandingZones,
   ({ one }) => ({
     eventZone: one(eventZones, {
