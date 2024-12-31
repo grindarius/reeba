@@ -312,6 +312,9 @@ importers:
 
   packages/new-backend:
     dependencies:
+      '@reeba/database':
+        specifier: workspace:*
+        version: link:../database
       consola:
         specifier: ^3.3.1
         version: 3.3.1
