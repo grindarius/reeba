@@ -1,4 +1,5 @@
 export * from "./schemas/access-method.js"
+export * from "./schemas/account-refresh-tokens.js"
 export * from "./schemas/account-roles.js"
 export * from "./schemas/account-social-medias.js"
 export * from "./schemas/accounts.js"

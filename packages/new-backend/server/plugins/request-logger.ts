@@ -7,7 +7,11 @@ export default defineNitroPlugin(app => {
     )
   })
 
-  app.hooks.hook("afterResponse", event => {
+  app.hooks.hook('error', error => {
+    logger.info(`error: ${error.name}`)
+  })
+
+  app.hooks.hook("beforeResponse", event => {
     logger.info(
       `response: ${event.method} ${event.path} ${event.node.res.statusCode}`
     )

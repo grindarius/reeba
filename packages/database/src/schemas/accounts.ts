@@ -9,6 +9,7 @@ import {
   varchar
 } from "drizzle-orm/pg-core"
 import { CREATED_AT, UPDATED_AT } from "../time.js"
+import { accountRefreshTokens } from "./account-refresh-tokens.js"
 import { accountRoles } from "./account-roles.js"
 import { accountSocialMedias } from "./account-social-medias.js"
 import { follows } from "./follows.js"
@@ -43,5 +44,6 @@ export const accountsRelations = relations(accounts, ({ many }) => ({
   accountSocialMedias: many(accountSocialMedias),
   accountRoles: many(accountRoles),
   followers: many(follows),
-  transactions: many(transactions)
+  transactions: many(transactions),
+  refreshTokens: many(accountRefreshTokens)
 }))
