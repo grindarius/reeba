@@ -46,8 +46,8 @@ import {
   transactionType,
   transactions,
   transactionsRelations
-} from "@reeba/database"
-import { drizzle } from "drizzle-orm/postgres-js"
+} from '@reeba/database'
+import { drizzle } from 'drizzle-orm/postgres-js'
 
 export function useDrizzle() {
   const pg = usePostgres()

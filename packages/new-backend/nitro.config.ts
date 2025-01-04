@@ -1,7 +1,7 @@
 // https://nitro.unjs.io/config
 export default defineNitroConfig({
-  srcDir: "server",
-  compatibilityDate: "2024-12-23",
+  srcDir: 'server',
+  compatibilityDate: '2024-12-23',
   runtimeConfig: {
     database: {
       user: process.env?.NITRO_POSTGRES_USER,

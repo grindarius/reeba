@@ -1,15 +1,15 @@
-import { accounts } from "@reeba/database"
-import { eq } from "drizzle-orm"
+import { accounts } from '@reeba/database'
+import { eq } from 'drizzle-orm'
 
 export default defineEventHandler({
   handler: async event => {
-    const accountId = getRouterParam(event, "accountId")
+    const accountId = getRouterParam(event, 'accountId')
 
     if (accountId == null) {
       throw createError({
         status: 400,
-        statusMessage: "Bad Request",
-        message: "Parameter should have required property `accountId`."
+        statusMessage: 'Bad Request',
+        message: 'Parameter should have required property `accountId`.'
       })
     }
 

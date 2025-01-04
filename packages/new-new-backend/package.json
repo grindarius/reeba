@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@reeba/new-new-backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "new backend API for ReebA",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grindarius/reeba.git",
+    "directory": "packages/backend"
+  },
+  "author": "ReebA Team",
+  "scripts": {
+    "dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "~1.13",
+    "hono": "~4.6"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.1"
+  }
+}

@@ -1,4 +1,4 @@
-import postgres from "postgres"
+import postgres from 'postgres'
 
 export function usePostgres(): postgres.Sql {
   const config = useRuntimeConfig()

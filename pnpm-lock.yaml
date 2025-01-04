@@ -344,6 +344,19 @@ importers:
         specifier: latest
         version: 2.10.4(drizzle-orm@0.38.2(@types/pg@8.11.10)(@types/react@19.0.2)(pg@8.13.1)(postgres@3.4.5))(encoding@0.1.13)(typescript@5.5.4)
 
+  packages/new-new-backend:
+    dependencies:
+      '@hono/node-server':
+        specifier: ~1.13
+        version: 1.13.7(hono@4.6.15)
+      hono:
+        specifier: ~4.6
+        version: 4.6.15
+    devDependencies:
+      tsx:
+        specifier: ^4.7.1
+        version: 4.19.2
+
   packages/scripts:
     dependencies:
       '@node-rs/argon2':
@@ -1318,6 +1331,12 @@ packages:
 
   '@fastify/static@8.0.3':
     resolution: {integrity: sha512-GHSoOVDIxEYEeVR5l044bRCuAKDErD/+9VE+Z9fnaTRr+DDz0Avrm4kKai1mHbPx6C0U7BVNthjd/gcMquZZUA==}
+
+  '@hono/node-server@1.13.7':
+    resolution: {integrity: sha512-kTfUMsoloVKtRA2fLiGSd9qBddmru9KadNyhJCwgKBxTiNkaAJEwkVN9KV/rS4HtmmNRtUh6P+YpmjRMl0d9vQ==}
+    engines: {node: '>=18.14.1'}
+    peerDependencies:
+      hono: ^4
 
   '@ioredis/commands@1.2.0':
     resolution: {integrity: sha512-Sx1pU8EM64o2BrqNpEO1CNLtKQwyhuXuqyfH7oGKCk+1a33d2r5saW8zNwm3j6BTExtjrv2BxTgzzkMwts6vGg==}
@@ -3498,6 +3517,10 @@ packages:
 
   help-me@4.2.0:
     resolution: {integrity: sha512-TAOnTB8Tz5Dw8penUuzHVrKNKlCIbwwbHnXraNJxPwf8LRtE2HlM84RYuezMFcwOJmoYOCWVDyJ8TQGxn9PgxA==}
+
+  hono@4.6.15:
+    resolution: {integrity: sha512-OiQwvAOAaI2JrABBH69z5rsctHDzFzIKJge0nYXgtzGJ0KftwLWcBXm1upJC23/omNRtnqM0gjRMbtXshPdqhQ==}
+    engines: {node: '>=16.9.0'}
 
   hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
@@ -6007,6 +6030,10 @@ snapshots:
       fastq: 1.17.1
       glob: 11.0.0
 
+  '@hono/node-server@1.13.7(hono@4.6.15)':
+    dependencies:
+      hono: 4.6.15
+
   '@ioredis/commands@1.2.0': {}
 
   '@isaacs/cliui@8.0.2':
@@ -8231,6 +8258,8 @@ snapshots:
     dependencies:
       glob: 8.1.0
       readable-stream: 3.6.2
+
+  hono@4.6.15: {}
 
   hookable@5.5.3: {}
 

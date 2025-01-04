@@ -1,5 +1,5 @@
-import consola from "consola"
+import consola from 'consola'
 
 export function useLogger() {
-  return consola.withTag("nitro")
+  return consola.withTag('nitro')
 }
