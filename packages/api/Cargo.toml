@@ -1,0 +1,28 @@
+[package]
+name = "reeba-backend"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+argon2 = "0.5"
+axum = "0.8"
+deadpool-postgres = "0.14"
+gcloud-sdk = { version = "0.26", features = ["google-rest-storage-v1"] }
+geo-types = { version = "0.7", features = ["serde"] }
+jiff = "0.1"
+paste = "1"
+rust_decimal = { version = "1", features = ["serde-with-float", "serde-with-str", "db-tokio-postgres"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+tokio-postgres = { version = "0.7", features = ["with-serde_json-1", "with-geo-types-0_7", "with-jiff-0_1"] }
+tower = "0.5.2"
+tower-http = "0.6.2"
+tracing = "0.1"
+tracing-appender = "0.2"
+tracing-bunyan-formatter = "0.3"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+ts-rs = "10"
+ulid = { version = "1", features = ["serde"] }
+utoipa = { version = "5", features = ["axum_extras", "time", "decimal", "ulid"] }
+utoipa-swagger-ui = { version = "9", features = ["axum"] }

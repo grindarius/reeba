@@ -33,3 +33,6 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 coverage
 .nyc_output
 .DS_Store
+
+# rust targets
+target/
