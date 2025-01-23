@@ -1,7 +1,6 @@
 use crate::macros::{optional_env, required_env};
 
 required_env!(JWT_SECRET);
-required_env!(ARGON2_PEPPER);
 
 required_env!(POSTGRES_USERNAME);
 required_env!(POSTGRES_PASSWORD);
@@ -9,9 +8,10 @@ required_env!(POSTGRES_HOSTNAME);
 required_env!(POSTGRES_PORT);
 required_env!(POSTGRES_DBNAME);
 required_env!(APP_NAME);
+required_env!(SWAGGER_API_KEY_NAME);
+required_env!(SWAGGER_API_KEY);
 
-optional_env!(API_PORT);
-optional_env!(API_HOST);
+required_env!(API_HOST);
 
 // Denotes whether we're using emulator layer. Can only accept `0` or `1`. Default is `1`.
 optional_env!(STORAGE_EMULATOR_ENABLED);

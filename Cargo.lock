@@ -1833,6 +1833,7 @@ dependencies = [
  "gcloud-sdk",
  "geo-types",
  "jiff",
+ "jsonwebtoken",
  "paste",
  "rust_decimal",
  "serde",
@@ -2748,9 +2749,11 @@ dependencies = [
  "bitflags",
  "bytes",
  "http",
+ "http-body",
  "pin-project-lite",
  "tower-layer",
  "tower-service",
+ "tracing",
 ]
 
 [[package]]
