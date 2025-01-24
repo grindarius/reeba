@@ -2,8 +2,8 @@ use std::sync::{Arc, LazyLock};
 
 use axum::{middleware, routing::get, Router};
 use environment_variables::API_HOST;
+use error::not_found::global_not_found;
 use gcloud_sdk::GoogleRestApi;
-use not_found::global_not_found;
 use openapi::{apidoc::ApiDoc, apikey_middleware::require_apikey_middleware};
 use pool::init_pool;
 use state::SharedState;
@@ -15,7 +15,6 @@ use utoipa_swagger_ui::SwaggerUi;
 mod environment_variables;
 mod error;
 mod macros;
-mod not_found;
 mod openapi;
 mod pool;
 mod routes;

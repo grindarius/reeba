@@ -1,6 +1,6 @@
-import { Static, Type } from "@sinclair/typebox"
+import { type Static, Type } from '@sinclair/typebox'
 
-import { t_user_role } from "./database.js"
+import { t_user_role } from './database.js'
 
 export const signinBodySchema = Type.Object({
   email: Type.String(),
@@ -25,7 +25,7 @@ export const signupBodySchema = Type.Object({
   email: Type.String(),
   password: Type.String(),
   phoneCountryCode: Type.String(),
-  iso31662: Type.String({ default: "" }),
+  iso31662: Type.String({ default: '' }),
   phoneNumber: Type.String()
 })
 export type SignupBody = Static<typeof signupBodySchema>

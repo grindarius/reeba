@@ -5,7 +5,7 @@
   "description": "Common functions for ReebA",
   "type": "module",
   "private": true,
-  "exports": "./src/index.js",
+  "exports": "./src/index.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/grindarius/reeba.git",
