@@ -1,13 +1,20 @@
-use axum::{http::StatusCode, response::IntoResponse, Json};
+use axum::{
+    http::{header, StatusCode},
+    response::IntoResponse,
+    Json,
+};
 use serde::Serialize;
 use utoipa::ToSchema;
 
+/// Any type of error that could have happened during the API execution. Every route handler will
+/// spit this out.
 #[derive(Debug)]
 pub enum HttpError {
     NotFound,
     PasswordDoNotMatch,
 }
 
+/// The body of the error if exists.
 #[derive(Debug, Serialize, ToSchema)]
 pub struct ErrorBody {
     status_code: u16,
@@ -39,7 +46,7 @@ impl IntoResponse for HttpError {
         };
 
         if status == StatusCode::NO_CONTENT {
-            return (status).into_response();
+            return (status, [(header::CONTENT_TYPE, "application/json")]).into_response();
         }
 
         let body = ErrorBody::new(status, message);

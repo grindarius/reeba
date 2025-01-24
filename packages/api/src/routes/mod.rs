@@ -1,3 +1,5 @@
+pub mod auth;
+
 #[utoipa::path(
     get,
     path = "/",
