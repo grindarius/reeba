@@ -5,6 +5,7 @@ use axum::{
     response::IntoResponse,
     Json,
 };
+use deadpool_postgres::PoolError;
 use serde::Serialize;
 use utoipa::ToSchema;
 
@@ -16,7 +17,8 @@ use crate::routes::auth::signup::PasswordVerificationError;
 pub enum HttpError {
     NotFound,
     PasswordDoNotMatch,
-    PasswordError(PasswordVerificationError),
+    PasswordVerificationError(PasswordVerificationError),
+    InternalServerError { reason: String },
 }
 
 impl Display for HttpError {
@@ -29,10 +31,25 @@ impl Display for HttpError {
                 HttpError::PasswordDoNotMatch =>
                     "Your given password does not match with what's inside our database."
                         .to_string(),
-                HttpError::PasswordError(pve) =>
+                HttpError::PasswordVerificationError(pve) =>
                     format!("Password verification error: {}", pve.to_string()),
+                HttpError::InternalServerError { reason } => reason.to_string(),
             }
         )
+    }
+}
+
+impl From<PasswordVerificationError> for HttpError {
+    fn from(value: PasswordVerificationError) -> Self {
+        HttpError::PasswordVerificationError(value)
+    }
+}
+
+impl From<PoolError> for HttpError {
+    fn from(value: PoolError) -> Self {
+        HttpError::InternalServerError {
+            reason: value.to_string(),
+        }
     }
 }
 
@@ -62,7 +79,8 @@ impl IntoResponse for HttpError {
         let status = match self {
             HttpError::NotFound => StatusCode::NO_CONTENT,
             HttpError::PasswordDoNotMatch => StatusCode::BAD_REQUEST,
-            HttpError::PasswordError(_) => StatusCode::BAD_REQUEST,
+            HttpError::PasswordVerificationError(_) => StatusCode::BAD_REQUEST,
+            HttpError::InternalServerError { reason: _ } => StatusCode::INTERNAL_SERVER_ERROR,
         };
 
         if status == StatusCode::NO_CONTENT {
