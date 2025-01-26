@@ -1,7 +1,7 @@
 use std::sync::{Arc, LazyLock};
 
 use axum::{middleware, routing::get, Router};
-use environment_variables::API_HOST;
+use environment_variables::{API_HOST, API_PROTOCOL};
 use error::not_found::global_not_found;
 use gcloud_sdk::GoogleRestApi;
 use openapi::{apidoc::ApiDoc, apikey_middleware::require_apikey_middleware};
@@ -59,9 +59,14 @@ async fn main() {
         .await
         .unwrap();
 
-    tracing::info!("listening on http://{}", listener.local_addr().unwrap());
     tracing::info!(
-        "documentation server started at http://{}/docs",
+        "listening on {}://{}",
+        *API_PROTOCOL,
+        listener.local_addr().unwrap()
+    );
+    tracing::info!(
+        "documentation server started at {}://{}/docs",
+        *API_PROTOCOL,
         listener.local_addr().unwrap()
     );
 

@@ -12,6 +12,7 @@ required_env!(SWAGGER_API_KEY_NAME);
 required_env!(SWAGGER_API_KEY);
 
 required_env!(API_HOST);
+required_env!(API_PROTOCOL);
 
 // Denotes whether we're using emulator layer. Can only accept `0` or `1`. Default is `1`.
 optional_env!(STORAGE_EMULATOR_ENABLED);
