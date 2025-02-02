@@ -1,6 +1,10 @@
 use std::sync::{Arc, LazyLock};
 
-use axum::{middleware, routing::get, Router};
+use axum::{
+    middleware,
+    routing::{get, post},
+    Router,
+};
 use environment_variables::{API_HOST, API_PROTOCOL};
 use error::not_found::global_not_found;
 use gcloud_sdk::GoogleRestApi;
@@ -14,10 +18,12 @@ use utoipa_swagger_ui::SwaggerUi;
 
 mod environment_variables;
 mod error;
+mod extract;
 mod macros;
 mod openapi;
 mod pool;
 mod routes;
+mod services;
 mod state;
 mod telemetry;
 
@@ -37,7 +43,9 @@ async fn main() {
     // App global state setup
     let state = Arc::new(SharedState::new(database_pool, google_cloud_client));
 
-    let routes = Router::new().route("/", get(crate::routes::handler));
+    let routes = Router::new()
+        .route("/", get(crate::routes::handler))
+        .route("/auth/signin", post(crate::routes::auth::signin::handler));
 
     let app = Router::new()
         .merge(SwaggerUi::new("/docs").url("/api-docs/openapi.json", ApiDoc::openapi()))

@@ -4,7 +4,7 @@ use axum::{
     Json,
 };
 
-use super::http_error::ErrorBody;
+use super::ErrorBody;
 
 /// Global path not found error when someone queries an unknown route.
 pub async fn global_not_found(uri: Uri) -> impl IntoResponse {

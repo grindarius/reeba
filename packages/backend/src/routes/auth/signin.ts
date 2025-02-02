@@ -1,21 +1,25 @@
-import { FastifyInstance, FastifyPluginOptions, FastifySchema } from "fastify"
+import type {
+  FastifyInstance,
+  FastifyPluginOptions,
+  FastifySchema
+} from 'fastify'
 
-import { verify } from "@node-rs/argon2"
+import { verify } from '@node-rs/argon2'
 import {
-  SigninBody,
-  SigninBodySchema,
-  SigninReply,
-  SigninReplySchema,
-  users
-} from "@reeba/common"
+  type SigninBody,
+  type SigninReply,
+  signinBodySchema,
+  signinReplySchema,
+  type users
+} from '@reeba/common'
 
-import { ACCESS_TOKEN_EXPIRES_TIME } from "../../constants"
-import argon2Options from "../../constants/argon2"
+import argon2Options from '../../constants/argon2.js'
+import { ACCESS_TOKEN_EXPIRES_TIME } from '../../constants/index.js'
 
 const schema: FastifySchema = {
-  body: SigninBodySchema,
+  body: signinBodySchema,
   response: {
-    200: SigninReplySchema
+    200: signinReplySchema
   }
 }
 
@@ -24,24 +28,24 @@ export default async (
   _: FastifyPluginOptions
 ): Promise<void> => {
   instance.post<{ Body: SigninBody; Reply: SigninReply }>(
-    "/signin",
+    '/signin',
     {
       schema,
       preValidation: (request, reply) => {
         const { email, password } = request.body
 
-        if (email == null || email === "") {
+        if (email == null || email === '') {
           void reply.code(400)
           throw new Error("body should have required property 'email'")
         }
 
-        if (password == null || password === "") {
+        if (password == null || password === '') {
           void reply.code(400)
           throw new Error("body should have required property 'password'")
         }
       },
       config: {
-        name: "Signin"
+        name: 'Signin'
       }
     },
     async (request, reply) => {
@@ -50,16 +54,16 @@ export default async (
       const user = await instance.pg.query<
         Pick<
           users,
-          | "user_username"
-          | "user_email"
-          | "user_role"
-          | "user_verification_status"
-          | "user_password"
-          | "user_deletion_status"
+          | 'user_username'
+          | 'user_email'
+          | 'user_role'
+          | 'user_verification_status'
+          | 'user_password'
+          | 'user_deletion_status'
         >,
-        [users["user_email"]]
+        [users['user_email']]
       >(
-        "select user_username, user_email, user_role, user_verification_status, user_password, user_deletion_status from users where user_email = $1",
+        'select user_username, user_email, user_role, user_verification_status, user_password, user_deletion_status from users where user_email = $1',
         [email]
       )
 
@@ -69,7 +73,7 @@ export default async (
       }
 
       if (user.rows[0].user_deletion_status) {
-        throw new Error("you are banned")
+        throw new Error('you are banned')
       }
 
       const isPasswordValid = await verify(

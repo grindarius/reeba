@@ -1,5 +1,6 @@
 use std::fmt::Display;
 
+use argon2::password_hash;
 use axum::{
     http::{
         header::{self, InvalidHeaderValue},
@@ -13,111 +14,120 @@ use eloquent::error::EloquentError;
 use serde::Serialize;
 use utoipa::ToSchema;
 
-use crate::routes::auth::signup::PasswordIntegrityError;
+use crate::services::password::PasswordIntegrityError;
 
 pub mod not_found;
 
 /// Any type of error that could have happened during the API execution. Every route handler will
 /// spit this out.
 #[derive(Debug)]
-pub enum HttpError {
+pub enum Error {
     NotFound,
-    DuplicateEmail { email: String },
-    DuplicateUsername { username: String },
+    DuplicateEmail(String),
+    DuplicateUsername(String),
     PasswordIntegrityError(PasswordIntegrityError),
     Argon2Error(argon2::Error),
     PasswordHashError(argon2::password_hash::Error),
     PoolError(deadpool_postgres::PoolError),
     SqlConstructionError(eloquent::error::EloquentError),
     TokioPostgresError(tokio_postgres::error::Error),
+    JiffError(jiff::Error),
     InternalServerError { reason: String },
 }
 
-impl Display for HttpError {
+impl Display for Error {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
             "{}",
             match self {
                 Self::NotFound => "".to_string(),
-                Self::DuplicateEmail { email } =>
+                Self::DuplicateEmail(email) =>
                     format!("The email `{}` has already been registered.", email),
-                Self::DuplicateUsername { username } =>
+                Self::DuplicateUsername(username) =>
                     format!("The username `{}` has already been registered.", username),
-                Self::PasswordIntegrityError(pve) =>
-                    format!("Password integrity error: {}", pve.to_string()),
-                Self::Argon2Error(ag2e) => format!("Argon2 error: {}", ag2e.to_string()),
-                Self::PasswordHashError(phe) => format!("Password hash error: {}", phe.to_string()),
-                Self::PoolError(pe) => format!("Database pool error: {}", pe.to_string()),
-                Self::SqlConstructionError(elqe) =>
-                    format!("SQL construction error: {}", elqe.to_string()),
-                Self::TokioPostgresError(tpe) => format!(
-                    "Tokio postgres prepare and query error: {}",
-                    tpe.to_string()
-                ),
+                Self::PasswordIntegrityError(pve) => format!("Password integrity error: {}", pve),
+                Self::Argon2Error(ag2e) => format!("Argon2 error: {}", ag2e),
+                Self::PasswordHashError(phe) => format!("Password hash error: {}", phe),
+                Self::PoolError(pe) => format!("Database pool error: {}", pe),
+                Self::SqlConstructionError(elqe) => format!("SQL construction error: {}", elqe),
+                Self::TokioPostgresError(tpe) =>
+                    format!("Tokio postgres prepare and query error: {}", tpe),
+                Self::JiffError(je) => format!("Jiff error: {}", je),
                 Self::InternalServerError { reason } =>
-                    format!("Unknown internal server error: {}", reason.to_string()),
+                    format!("Unknown internal server error: {}", reason),
             }
         )
     }
 }
 
-impl From<PasswordIntegrityError> for HttpError {
+impl From<PasswordIntegrityError> for Error {
     fn from(value: PasswordIntegrityError) -> Self {
-        HttpError::PasswordIntegrityError(value)
+        Error::PasswordIntegrityError(value)
     }
 }
 
-impl From<EloquentError> for HttpError {
+impl From<EloquentError> for Error {
     fn from(value: EloquentError) -> Self {
-        HttpError::SqlConstructionError(value)
+        Error::SqlConstructionError(value)
     }
 }
 
-impl From<argon2::Error> for HttpError {
+impl From<argon2::Error> for Error {
     fn from(value: argon2::Error) -> Self {
-        HttpError::Argon2Error(value)
+        Error::Argon2Error(value)
     }
 }
 
-impl From<PoolError> for HttpError {
+impl From<PoolError> for Error {
     fn from(value: PoolError) -> Self {
-        HttpError::PoolError(value)
+        Error::PoolError(value)
     }
 }
 
-impl From<argon2::password_hash::Error> for HttpError {
+impl From<argon2::password_hash::Error> for Error {
     fn from(value: argon2::password_hash::Error) -> Self {
-        HttpError::PasswordHashError(value)
+        Error::PasswordHashError(value)
     }
 }
 
-impl From<tokio_postgres::error::Error> for HttpError {
+impl From<tokio_postgres::error::Error> for Error {
     fn from(value: tokio_postgres::error::Error) -> Self {
-        HttpError::TokioPostgresError(value)
+        Error::TokioPostgresError(value)
     }
 }
 
-impl From<InvalidHeaderValue> for HttpError {
+impl From<InvalidHeaderValue> for Error {
     fn from(value: InvalidHeaderValue) -> Self {
-        HttpError::InternalServerError {
+        Error::InternalServerError {
             reason: value.to_string(),
         }
     }
 }
 
-impl IntoResponse for HttpError {
+impl From<jiff::Error> for Error {
+    fn from(value: jiff::Error) -> Self {
+        Error::JiffError(value)
+    }
+}
+
+impl IntoResponse for Error {
     fn into_response(self) -> axum::response::Response {
         let status = match self {
-            HttpError::NotFound => StatusCode::NO_CONTENT,
-            HttpError::PasswordIntegrityError(_)
-            | HttpError::DuplicateEmail { .. }
-            | HttpError::DuplicateUsername { .. } => StatusCode::BAD_REQUEST,
-            HttpError::Argon2Error(_)
-            | HttpError::PoolError(_)
-            | HttpError::SqlConstructionError(_)
-            | HttpError::TokioPostgresError(_)
-            | HttpError::PasswordHashError(_) | HttpError::InternalServerError { .. } => StatusCode::INTERNAL_SERVER_ERROR,
+            Error::NotFound => StatusCode::NO_CONTENT,
+            Error::PasswordIntegrityError(_)
+            | Error::DuplicateEmail(_)
+            | Error::DuplicateUsername(_) => StatusCode::BAD_REQUEST,
+            Error::PasswordHashError(phe) => match phe {
+                password_hash::Error::Password => StatusCode::BAD_REQUEST,
+                _ => StatusCode::INTERNAL_SERVER_ERROR,
+            },
+            Error::Argon2Error(_)
+            | Error::PoolError(_)
+            | Error::SqlConstructionError(_)
+            | Error::TokioPostgresError(_)
+            | Error::JiffError(_)
+            | Error::InternalServerError { .. } => StatusCode::INTERNAL_SERVER_ERROR,
         };
 
         if status == StatusCode::NO_CONTENT {
