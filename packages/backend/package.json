@@ -12,7 +12,7 @@
   },
   "author": "ReebA Team",
   "scripts": {
-    "dev": "node dist/backend/src/server.js",
+    "dev": "tsx ./src/server.ts",
     "build": "tsc -p ./tsconfig.build.json",
     "build-dev": "tsc -p ./tsconfig.build.json && cp ./.env ./dist/backend && cp ./.env.local ./dist/backend",
     "kill-port": "pnpm dlx kill-port 3000",
@@ -26,7 +26,7 @@
     "@reeba/common": "workspace:^1.0.0",
     "@reeba/fastify-check-jwt": "workspace:^1.0.0",
     "@reeba/fastify-local-reverse-geocoder": "workspace:^1.0.0",
-    "bcrypt": "^5.0.1",
+    "bcrypt": "^6.0.0",
     "dayjs": "^1.10.8",
     "dotenv-flow": "^3.2.0",
     "fastify": "^3.27.0",

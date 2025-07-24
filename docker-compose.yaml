@@ -1,0 +1,14 @@
+services:
+  database:
+    image: groonga/pgroonga:4.0.1-alpine-17
+    container_name: reeba-dev-postgres-server
+    ports:
+      - 8965:5432
+    volumes:
+      - reeba-dev-postgres-server-data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+volumes:
+  reeba-dev-postgres-server-data:
