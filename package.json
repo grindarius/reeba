@@ -17,7 +17,6 @@
     "packages/website"
   ],
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "dev:backend": "pnpm build:common && cd packages/backend && cross-env BACKEND_TEST_ENV=false pnpm watch",
     "dev:frontend": "cd packages/frontend && pnpm dev",
     "dev:common": "cd packages/common && pnpm watch",
