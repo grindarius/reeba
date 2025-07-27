@@ -5,6 +5,7 @@
         <img src="@/assets/reeba-logo-2.png" alt="Reeba logo" width="35" class="cursor-pointer">
       </router-link>
     </div>
+
     <div class="navbar-center">
       <div class="form-control">
         <div class="input-group">
@@ -22,6 +23,7 @@
         </div>
       </div>
     </div>
+
     <div class="navbar-end">
       <router-link to="/create" custom v-slot="{ navigate }">
         <button class="hidden mr-6 lg:block btn btn-secondary" @click="navigate">
