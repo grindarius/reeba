@@ -1,17 +1,30 @@
 ---
-import "../styles/global.css";
+import Search from '../components/Search.vue'
+import reebaLogo from '../assets/reeba-logo-2.png'
+import '../styles/global.css'
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
+    <title>ReebA: Ticket booking, redefined</title>
   </head>
   <body>
-    <slot />
+    <nav class="navbar bg-primary">
+      <div class="navbar-start">
+        <a href="/">
+          <img src={reebaLogo.src} alt="ReebA Logo" width="35" class="cursor-pointer" />
+        </a>
+      </div>
+
+      <div class="navbar-center">
+        <Search client:load />
+      </div>
+      <slot />
+    </nav>
   </body>
 </html>
