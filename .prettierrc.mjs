@@ -9,4 +9,10 @@ export default {
       },
     },
   ],
-};
+  semi: false,
+  useTabs: false,
+  singleQuote: true,
+  trailingComma: 'es5',
+  printWidth: 100,
+  endOfLine: 'lf',
+}
