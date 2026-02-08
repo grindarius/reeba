@@ -1,14 +1,23 @@
 services:
   database:
-    image: groonga/pgroonga:4.0.1-alpine-17
+    image: postgres:17.5-alpine3.22
     container_name: reeba-dev-postgres-server
     ports:
       - 8965:5432
     volumes:
-      - reeba-dev-postgres-server-data:/var/lib/postgresql/data/
+      - reeba-dev-postgres-data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
+  search:
+    image: getmeili/meilisearch:v1.15.2
+    container_name: reeba-dev-search-database-server
+    volumes:
+      - reeba-dev-meilisearch-data:/meili_data
+    ports:
+      - 8122:7700
+
 volumes:
-  reeba-dev-postgres-server-data:
+  reeba-dev-postgres-data:
+  reeba-dev-meilisearch-data:

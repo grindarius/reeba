@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "type": "module",
+  "name": "@reeba/database",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Database schema and migrations for Reeba project.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grindarius/reeba.git",
+    "directory": "packages/database"
+  },
+  "author": "ReebA Team",
+  "scripts": {},
+  "dependencies": {
+    "drizzle-orm": "^0.44.3"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.4"
+  }
+}

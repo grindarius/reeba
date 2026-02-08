@@ -14,6 +14,13 @@
     "community"
   ],
   "workspaces": [
+    "packages/backend",
+    "packages/common",
+    "packages/database",
+    "packages/fastify-check-jwt",
+    "packages/fastify-local-reverse-geocoder",
+    "packages/frontend",
+    "packages/scripts",
     "packages/website"
   ],
   "scripts": {
@@ -46,5 +53,8 @@
   },
   "peerDependencies": {
     "typescript": "~5.8"
-  }
+  },
+  "trustedDependencies": [
+    "@parcel/watcher"
+  ]
 }
