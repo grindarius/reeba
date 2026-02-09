@@ -45,13 +45,9 @@
   "homepage": "https://github.com/grindarius/reeba#readme",
   "devDependencies": {
     "@types/bun": "latest",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.3",
-    "prettier": "^3.6.2",
+    "oxfmt": "^0.28.0",
+    "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
-    "tsx": "^4.20.3"
-  },
-  "peerDependencies": {
     "typescript": "~5.8"
   },
   "trustedDependencies": [
