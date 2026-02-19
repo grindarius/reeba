@@ -249,7 +249,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .page-header {
   @apply text-4xl font-semibold text-white;
 }

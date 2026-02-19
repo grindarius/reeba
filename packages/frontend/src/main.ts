@@ -43,7 +43,7 @@ import App from './App.vue'
 import Router from './router'
 
 import 'vue-toastification/dist/index.css'
-import './globals.scss'
+import './globals.css'
 
 VueMdi.add({
   mdiAccountGroup,

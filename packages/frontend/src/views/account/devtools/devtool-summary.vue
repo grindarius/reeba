@@ -201,7 +201,6 @@ import i18nCountries from 'i18n-iso-countries'
 import en from 'i18n-iso-countries/langs/en.json'
 import ky from 'ky'
 import * as topojson from 'topojson-client'
-import { GeometryCollection, Topology } from 'topojson-specification'
 import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue'
 import { useMeta } from 'vue-meta'
 import { useRoute, useRouter } from 'vue-router'
@@ -513,7 +512,7 @@ export default defineComponent({
         .style('visibility', 'hidden')
 
       // @ts-expect-error from how json calculates their type
-      land.value = topojson.feature(countriesJson as Topology, countriesJson.objects.countries as GeometryCollection<{ name: string }>)
+      land.value = topojson.feature(countriesJson, countriesJson.objects.countries)
       updateWorldMap()
     }
 

@@ -297,7 +297,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .prosing {
   @apply max-w-none prose prose-a:no-underline prose-a:text-blue-700 prose-blockquote:not-italic prose-headings:text-black prose-p:text-black prose-strong:text-black prose-em:text-black prose-li:text-black prose-blockquote:border-l-zinc-400 prose-li:marker:text-zinc-400 hover:prose-a:text-blue-500 hover:prose-a:underline;
 }

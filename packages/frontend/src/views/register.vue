@@ -136,7 +136,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .register-page {
   @apply w-full min-h-screen bg-pale-gray;
 }

@@ -176,7 +176,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .hero {
   @apply flex flex-col rounded-lg md:flex-row bg-base-200;
 }

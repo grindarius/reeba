@@ -77,7 +77,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .login-page {
   @apply w-full min-h-screen bg-pale-gray;
 }

@@ -293,7 +293,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .select-seat-page {
   @apply flex justify-center w-full min-h-screen bg-pale-gray;
 }
