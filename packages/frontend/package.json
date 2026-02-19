@@ -27,6 +27,7 @@
     "daisyui": "^2.13.6",
     "dayjs": "^1.10.7",
     "debounce": "^1.2.1",
+    "geojson": "^0.5.0",
     "i18n-iso-countries": "^7.3.0",
     "just-clone": "^5.0.1",
     "ky": "^0.30.0",
@@ -51,13 +52,13 @@
     "@types/markdown-it": "^12.2.3",
     "@types/markdown-it-emoji": "^2.0.2",
     "@types/tinycolor2": "^1.4.3",
-    "@types/topojson-client": "^3.1.0",
+    "@types/topojson-client": "^3.1.5",
     "@vitejs/plugin-vue": "^2.0.0",
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.5",
     "sass": "^1.44.0",
     "tailwindcss": "^3.0.16",
     "vite": "^2.7.8",
-    "vue-tsc": "^0.29.8"
+    "vue-tsc": "^0.33.9"
   }
 }

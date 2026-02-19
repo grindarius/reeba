@@ -499,7 +499,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .event-location {
   @apply mt-1 text-sm font-normal text-white truncate;
 }

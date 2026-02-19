@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .error-page {
   @apply flex flex-row justify-center pb-48 w-full min-h-screen bg-pale-gray;
 }

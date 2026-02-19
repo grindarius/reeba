@@ -88,7 +88,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .all-events-page {
   @apply flex flex-row justify-center bg-pale-gray;
 }

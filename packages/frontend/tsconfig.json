@@ -1,6 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig.json",
   "extends": "../../tsconfig.build.json",
   "compilerOptions": {
+    "skipLibCheck": true,
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
@@ -30,5 +32,8 @@
     "src/**/*.vue",
     "test/**/*.ts",
     "vite.config.ts"
+  ],
+  "exclude": [
+    "./node_modules"
   ]
 }
